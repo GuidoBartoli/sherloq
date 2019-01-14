@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="logo/sherloq.png width="700px" alt="Sherloq" />
+  <img src="logo/sherloq.png" width="600px" alt="Sherloq" />
   <br><b>An open source image forensic toolset</b>
 </p>
 
@@ -72,26 +72,26 @@ Even if the project objective is clear, actually the software is an early protot
 
 # Screenshots
 <p align="center">
-  <img src="screenshots/file.jpg width="700px" alt="File Analysis"/>
+  <img src="screenshots/File.jpg" alt="File Analysis"/>
   <br><b>File Analysis</b>: Metadata, Digest and EXIF
 </p>
 
 <p align="center">
-  <img src="screenshots/color.jpg width="700px" alt="Color Analysis"/>
+  <img src="screenshots/Color.jpg" alt="Color Analysis"/>
   <br><b>Color Analysis</b>: Space Conversion, PCA Projection, Histograms and Statistics
 </p>
 
 <p align="center">
-  <img src="screenshots/visual.jpg width="700px" alt="Visual Inspection"/>
+  <img src="screenshots/Visual.jpg" alt="Visual Inspection"/>
   <br><b>Visual Inspection</b>: Magnifier Loupe, Image Adjustments and Evidence Comparison
 </p>
 
 <p align="center">
-  <img src="screenshots/jpeg.jpg width="700px" alt="JPEG Analysis"/>
+  <img src="screenshots/JPEG.jpg" alt="JPEG Analysis"/>
   <br><b>JPEG Analysis</b>: Quantization Tables, Compression Ghosts and Error Level Analysis
 </p>
 
 <p align="center">
-  <img src="screenshots/lumanoise.jpg width="700px" alt="Luminance/Noise"/>
+  <img src="screenshots/LumaNoise.jpg" alt="Luminance/Noise"/>
   <br><b>Luminance and Noise</b>: Light Gradient, Echo Edge, Min/Max Deviation and SNR Consistency
 </p>
