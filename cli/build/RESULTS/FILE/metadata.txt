@@ -1,0 +1,237 @@
+---- ExifTool ----
+ExifTool Version Number         : 10.10
+---- File ----
+File Name                       : soccer.jpg
+Directory                       : ../../test
+File Size                       : 341 kB
+File Modification Date/Time     : 2016:04:07 16:38:21+02:00
+File Access Date/Time           : 2016:06:03 14:38:19+02:00
+File Inode Change Date/Time     : 2016:05:30 11:02:40+02:00
+File Permissions                : rw-rw-r--
+File Type                       : JPEG
+File Type Extension             : jpg
+MIME Type                       : image/jpeg
+Exif Byte Order                 : Little-endian (Intel, II)
+Current IPTC Digest             : 5745438a39c29c18604d6a760a4286e3
+Image Width                     : 600
+Image Height                    : 639
+Encoding Process                : Baseline DCT, Huffman coding
+Bits Per Sample                 : 8
+Color Components                : 3
+Y Cb Cr Sub Sampling            : YCbCr4:4:4 (1 1)
+---- EXIF ----
+Make                            : NIKON CORPORATION
+Camera Model Name               : NIKON D40X
+Orientation                     : Horizontal (normal)
+X Resolution                    : 240
+Y Resolution                    : 240
+Resolution Unit                 : inches
+Software                        : Adobe Photoshop CS5 Macintosh
+Modify Date                     : 2010:10:31 23:33:15
+Artist                          : Martin Perhiniak
+Exposure Time                   : 1/320
+F Number                        : 4.5
+Exposure Program                : Not Defined
+ISO                             : 200
+Exif Version                    : 0221
+Date/Time Original              : 2008:06:06 16:03:49
+Create Date                     : 2008:06:12 15:34:26
+Shutter Speed Value             : 1/320
+Aperture Value                  : 4.5
+Exposure Compensation           : 0
+Max Aperture Value              : 4.0
+Metering Mode                   : Multi-segment
+Light Source                    : Unknown
+Focal Length                    : 70.0 mm
+Sub Sec Time Original           : 5
+Color Space                     : Uncalibrated
+Exif Image Width                : 600
+Exif Image Height               : 639
+Sensing Method                  : One-chip color area
+File Source                     : Digital Camera
+Scene Type                      : Directly photographed
+CFA Pattern                     : [Green,Blue][Red,Green]
+Custom Rendered                 : Normal
+Exposure Mode                   : Auto
+White Balance                   : Auto
+Digital Zoom Ratio              : 1
+Focal Length In 35mm Format     : 105 mm
+Scene Capture Type              : Standard
+Gain Control                    : None
+Contrast                        : Normal
+Saturation                      : Normal
+Sharpness                       : Normal
+Subject Distance Range          : Unknown
+Compression                     : JPEG (old-style)
+Thumbnail Offset                : 882
+Thumbnail Length                : 7707
+---- ICC_Profile ----
+Profile CMM Type                : ADBE
+Profile Version                 : 2.1.0
+Profile Class                   : Display Device Profile
+Color Space Data                : RGB
+Profile Connection Space        : XYZ
+Profile Date Time               : 1999:06:03 00:00:00
+Profile File Signature          : acsp
+Primary Platform                : Apple Computer Inc.
+CMM Flags                       : Not Embedded, Independent
+Device Manufacturer             : none
+Device Model                    : 
+Device Attributes               : Reflective, Glossy, Positive, Color
+Rendering Intent                : Perceptual
+Connection Space Illuminant     : 0.9642 1 0.82491
+Profile Creator                 : ADBE
+Profile ID                      : 0
+Profile Copyright               : Copyright 1999 Adobe Systems Incorporated
+Profile Description             : Adobe RGB (1998)
+Media White Point               : 0.95045 1 1.08905
+Media Black Point               : 0 0 0
+Red Tone Reproduction Curve     : (Binary data 14 bytes, use -b option to extract)
+Green Tone Reproduction Curve   : (Binary data 14 bytes, use -b option to extract)
+Blue Tone Reproduction Curve    : (Binary data 14 bytes, use -b option to extract)
+Red Matrix Column               : 0.60974 0.31111 0.01947
+Green Matrix Column             : 0.20528 0.62567 0.06087
+Blue Matrix Column              : 0.14919 0.06322 0.74457
+---- APP14 ----
+DCT Encode Version              : 100
+APP14 Flags 0                   : [14]
+APP14 Flags 1                   : (none)
+Color Transform                 : YCbCr
+---- XMP ----
+XMP Toolkit                     : Adobe XMP Core 5.1-c055 1.136881, 2010/06/10-18:11:35
+Creator Tool                    : Adobe Photoshop CS5 Macintosh
+Metadata Date                   : 2010:11:01 00:01:46Z
+Serial Number                   : 6200397
+Lens Info                       : 70-300mm f/4-5.6
+Lens                            : 70.0-300.0 mm f/4.0-5.6
+Image Number                    : 2292
+Raw File Name                   : DSC_0358.dng
+Version                         : 4.4.1
+Color Temperature               : 5300
+Tint                            : +6
+Exposure                        : 0.00
+Shadows                         : 5
+Brightness                      : +50
+Luminance Smoothing             : 0
+Color Noise Reduction           : 25
+Chromatic Aberration R          : 0
+Chromatic Aberration B          : 0
+Vignette Amount                 : 0
+Shadow Tint                     : 0
+Red Hue                         : 0
+Red Saturation                  : 0
+Green Hue                       : 0
+Green Saturation                : 0
+Blue Hue                        : 0
+Blue Saturation                 : 0
+Fill Light                      : 0
+Vibrance                        : 0
+Highlight Recovery              : 0
+Clarity                         : 0
+Defringe                        : 0
+Hue Adjustment Red              : 0
+Hue Adjustment Orange           : 0
+Hue Adjustment Yellow           : 0
+Hue Adjustment Green            : 0
+Hue Adjustment Aqua             : 0
+Hue Adjustment Blue             : 0
+Hue Adjustment Purple           : 0
+Hue Adjustment Magenta          : 0
+Saturation Adjustment Red       : 0
+Saturation Adjustment Orange    : 0
+Saturation Adjustment Yellow    : 0
+Saturation Adjustment Green     : 0
+Saturation Adjustment Aqua      : 0
+Saturation Adjustment Blue      : 0
+Saturation Adjustment Purple    : 0
+Saturation Adjustment Magenta   : 0
+Luminance Adjustment Red        : 0
+Luminance Adjustment Orange     : 0
+Luminance Adjustment Yellow     : 0
+Luminance Adjustment Green      : 0
+Luminance Adjustment Aqua       : 0
+Luminance Adjustment Blue       : 0
+Luminance Adjustment Purple     : 0
+Luminance Adjustment Magenta    : 0
+Split Toning Shadow Hue         : 0
+Split Toning Shadow Saturation  : 0
+Split Toning Highlight Hue      : 0
+Split Toning Highlight Saturation: 0
+Split Toning Balance            : 0
+Parametric Shadows              : 0
+Parametric Darks                : 0
+Parametric Lights               : 0
+Parametric Highlights           : 0
+Parametric Shadow Split         : 25
+Parametric Midtone Split        : 50
+Parametric Highlight Split      : 75
+Sharpen Radius                  : +1.0
+Sharpen Detail                  : 25
+Sharpen Edge Masking            : 0
+Convert To Grayscale            : False
+Tone Curve Name                 : Medium Contrast
+Camera Profile                  : ACR 4.4
+Camera Profile Digest           : 492150338139650F240898AF86A1C246
+Has Settings                    : True
+Has Crop                        : False
+Already Applied                 : True
+Format                          : image/jpeg
+Legacy IPTC Digest              : 5745438A39C29C18604D6A760A4286E3
+Color Mode                      : RGB
+ICC Profile Name                : Adobe RGB (1998)
+Instance ID                     : xmp.iid:E7483AB5F1216811930E9A8F15BC90DB
+Document ID                     : uuid:7E27D59E8238DD1183A7ADC834FBCFF4
+Original Document ID            : uuid:7E27D59E8238DD1183A7ADC834FBCFF4
+Preserved File Name             : episode_16.jpg
+Marked                          : True
+Photometric Interpretation      : RGB
+Samples Per Pixel               : 3
+Date/Time Digitized             : 2008:06:12 15:34:26+01:00
+Tone Curve                      : 0, 0, 32, 22, 64, 56, 128, 128, 192, 196, 255, 255
+Subject                         : episode 16 - cloning
+Creator                         : Martin Perhiniak
+History Action                  : saved, saved, saved, saved, saved, saved, saved, converted, derived, saved
+History Instance ID             : xmp.iid:4716D5480E2068118DBBFD5955C0C52B, xmp.iid:F17F1174072068118A6DDBB9479A98EA, xmp.iid:4C2DB49F282068118A6DF8F88D2C8481, xmp.iid:FDA0B519482068118EF1A09B14A39011, xmp.iid:4D2DB49F282068118A6DF8F88D2C8481, xmp.iid:F97F1174072068118F62B6FAD2A74275, xmp.iid:E6483AB5F1216811930E9A8F15BC90DB, xmp.iid:E7483AB5F1216811930E9A8F15BC90DB
+History When                    : 2010:08:02 02:21:16+01:00, 2010:08:19 10:06:33+01:00, 2010:10:22 15:12:26+01:00, 2010:10:22 15:15:33+01:00, 2010:10:22 15:16:11+01:00, 2010:10:31 22:58:36Z, 2010:10:31 23:33:15Z, 2010:10:31 23:33:15Z
+History Software Agent          : Adobe Photoshop CS5 Macintosh, Adobe Photoshop CS5 Macintosh, Adobe Photoshop CS5 Macintosh, Adobe Photoshop CS5 Macintosh
+History Changed                 : /, /metadata, /metadata, /, /metadata, /metadata, /, /
+History Parameters              : from application/vnd.adobe.photoshop to image/jpeg, converted from application/vnd.adobe.photoshop to image/jpeg
+Derived From Instance ID        : xmp.iid:E6483AB5F1216811930E9A8F15BC90DB
+Derived From Document ID        : uuid:7E27D59E8238DD1183A7ADC834FBCFF4
+Derived From Original Document ID: uuid:7E27D59E8238DD1183A7ADC834FBCFF4
+Flash Fired                     : False
+Flash Return                    : No return detection
+Flash Mode                      : Unknown
+Flash Function                  : False
+Flash Red Eye Mode              : False
+Hierarchical Subject            : Photoshop BASIX video tutorials|episode 16 - cloning
+Creator Work URL                : www.yesimadesigner.com
+---- IPTC ----
+Coded Character Set             : UTF8
+Application Record Version      : 2
+Keywords                        : episode 16 - cloning
+Date Created                    : 2008:06:06
+By-line                         : Martin Perhiniak
+---- Photoshop ----
+IPTC Digest                     : 5745438a39c29c18604d6a760a4286e3
+Displayed Units X               : inches
+Displayed Units Y               : inches
+Global Angle                    : 30
+Global Altitude                 : 30
+Copyright Flag                  : True
+Photoshop Quality               : 12
+Photoshop Format                : Standard
+Progressive Scans               : 3 Scans
+---- Composite ----
+Aperture                        : 4.5
+Flash                           : No Flash
+Image Size                      : 600x639
+Megapixels                      : 0.383
+Scale Factor To 35 mm Equivalent: 1.5
+Shutter Speed                   : 1/320
+Date/Time Original              : 2008:06:06 16:03:49.5
+Circle Of Confusion             : 0.020 mm
+Field Of View                   : 19.5 deg
+Focal Length                    : 70.0 mm (35 mm equivalent: 105.0 mm)
+Hyperfocal Distance             : 54.36 m
+Light Value                     : 11.7

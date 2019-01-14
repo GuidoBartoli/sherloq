@@ -1,0 +1,26 @@
+cmake_minimum_required (VERSION 3.5)
+project (Sherlock)
+
+find_package (OpenCV REQUIRED)
+set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11 -Wall -O3")
+
+add_library (AlgLib
+	alglib/interpolation.cpp
+	alglib/alglibinternal.cpp
+	alglib/diffequations.cpp
+	alglib/linalg.cpp
+	alglib/statistics.cpp
+	alglib/alglibmisc.cpp
+	alglib/fasttransforms.cpp
+	alglib/optimization.cpp
+	alglib/ap.cpp
+	alglib/integration.cpp
+	alglib/solvers.cpp
+	alglib/dataanalysis.cpp
+	alglib/interpolation.cpp
+	alglib/specialfunctions.cpp
+)
+include_directories (alglib)
+
+add_executable (Sherlock src/sherlock.cpp)
+target_link_libraries (Sherlock ${OpenCV_LIBS} AlgLib boost_filesystem boost_system)

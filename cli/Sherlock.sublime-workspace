@@ -1,0 +1,1667 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"fil",
+				"file_name"
+			],
+			[
+				"tag",
+				"tagging"
+			],
+			[
+				"modifi",
+				"modification"
+			],
+			[
+				"e",
+				"end"
+			],
+			[
+				"ta",
+				"tags"
+			],
+			[
+				"to",
+				"token"
+			],
+			[
+				"img",
+				"img_tags"
+			],
+			[
+				"clas",
+				"classes"
+			],
+			[
+				"siz",
+				"size_t"
+			],
+			[
+				"CV",
+				"CV_8UC3"
+			],
+			[
+				"CV_8",
+				"CV_8UC3"
+			],
+			[
+				"FOL",
+				"FOLDER_IN"
+			],
+			[
+				"str",
+				"string"
+			],
+			[
+				"ret",
+				"return"
+			],
+			[
+				"file",
+				"filename"
+			],
+			[
+				"uni",
+				"UNIT"
+			],
+			[
+				"ima",
+				"image"
+			],
+			[
+				"lon",
+				"lon_dir"
+			],
+			[
+				"lat",
+				"lat_dir"
+			],
+			[
+				"maps",
+				"maps_url"
+			],
+			[
+				"W",
+				"W"
+			],
+			[
+				"l",
+				"lat"
+			],
+			[
+				"toke",
+				"token_str"
+			],
+			[
+				"con",
+				"continue"
+			],
+			[
+				"dee",
+				"deleteFile"
+			],
+			[
+				"CV_",
+				"CV_32F"
+			],
+			[
+				"outpu",
+				"output"
+			],
+			[
+				"spli",
+				"splicingDetection2"
+			],
+			[
+				"in",
+				"include"
+			],
+			[
+				"jpe",
+				"jpeg_losses"
+			],
+			[
+				"po",
+				"plot"
+			],
+			[
+				"co",
+				"cols"
+			],
+			[
+				"spl",
+				"spline"
+			],
+			[
+				"thm",
+				"thumb_file"
+			],
+			[
+				"ERR",
+				"ERR_SVM_NOT_FOUND"
+			],
+			[
+				"inp",
+				"input"
+			],
+			[
+				"MAX",
+				"MAX_ERR"
+			],
+			[
+				"com",
+				"computeHistSpl"
+			],
+			[
+				"max",
+				"max_diff"
+			],
+			[
+				"pr",
+				"printf\tprintf …"
+			],
+			[
+				"blo",
+				"block3"
+			],
+			[
+				"outp",
+				"output"
+			],
+			[
+				"bloc",
+				"block2"
+			],
+			[
+				"comp",
+				"computeChanSimil"
+			],
+			[
+				"g",
+				"g"
+			],
+			[
+				"min",
+				"min_err"
+			],
+			[
+				"num",
+				"numeric_limits"
+			],
+			[
+				"err",
+				"errors"
+			],
+			[
+				"erro",
+				"errors1"
+			],
+			[
+				"cha",
+				"channels"
+			],
+			[
+				"MIN",
+				"MIN_LOW"
+			],
+			[
+				"his",
+				"hist_dft"
+			],
+			[
+				"PI",
+				"PINCH_OFF"
+			],
+			[
+				"df",
+				"dft_mag"
+			],
+			[
+				"full",
+				"full"
+			],
+			[
+				"P",
+				"Point3f"
+			],
+			[
+				"rgb_",
+				"rgb_plot"
+			],
+			[
+				"rgb_p",
+				"rgb_plot"
+			],
+			[
+				"hsv",
+				"hsv_plot"
+			],
+			[
+				"re",
+				"red_label"
+			],
+			[
+				"rgb",
+				"rgb_plot"
+			],
+			[
+				"inpu",
+				"input0"
+			],
+			[
+				"Vec",
+				"Vec3f"
+			],
+			[
+				"s",
+				"s"
+			],
+			[
+				"ope",
+				"opencv2"
+			],
+			[
+				"q2",
+				"q2"
+			],
+			[
+				"MI",
+				"MIN_QUALITY"
+			],
+			[
+				"coef",
+				"coeffs_q"
+			],
+			[
+				"coe",
+				"coeffs"
+			],
+			[
+				"c",
+				"coeffs"
+			],
+			[
+				"prn",
+				"printMat"
+			],
+			[
+				"lum",
+				"luma_qt"
+			],
+			[
+				"prin",
+				"printMat"
+			],
+			[
+				"inc",
+				"include"
+			],
+			[
+				"me",
+				"medianBlur"
+			],
+			[
+				"pea",
+				"peak_response"
+			],
+			[
+				"cont",
+				"const"
+			],
+			[
+				"fi",
+				"filename"
+			],
+			[
+				"STR_E",
+				"STR_EXIFTOOL_NOT_FOUND"
+			],
+			[
+				"ERR_",
+				"ERR_NOT_A_JPEG_FILE"
+			],
+			[
+				"thu",
+				"thumb_file"
+			],
+			[
+				"thum",
+				"thumb"
+			],
+			[
+				"Anal",
+				"Analysis"
+			],
+			[
+				"int",
+				"interp"
+			],
+			[
+				"LU",
+				"LUT_COMPRESS"
+			],
+			[
+				"EX",
+				"EXIFTOOL_NOT_FOUND"
+			],
+			[
+				"o",
+				"output"
+			],
+			[
+				"exe",
+				"exec"
+			],
+			[
+				"output_",
+				"output_file"
+			],
+			[
+				"CM",
+				"CMD_EXE"
+			],
+			[
+				"CMF",
+				"CMD_FILE1"
+			],
+			[
+				"out",
+				"output_dir"
+			],
+			[
+				"NU",
+				"NUM_MODES"
+			],
+			[
+				"fe",
+				"feat_vect"
+			],
+			[
+				"NUM",
+				"NUM_DIGITS"
+			],
+			[
+				"BO",
+				"BLOCK_SIZE"
+			],
+			[
+				"ma",
+				"math"
+			],
+			[
+				"BLOCK",
+				"BLOCK_SIZE"
+			],
+			[
+				"BLO",
+				"BLOCK_SIZE"
+			],
+			[
+				"GR",
+				"GROUPS"
+			],
+			[
+				"st",
+				"stddev"
+			],
+			[
+				"cv_",
+				"CV_8U"
+			],
+			[
+				"norm",
+				"normalize"
+			],
+			[
+				"or",
+				"orig_pad"
+			],
+			[
+				"alp",
+				"alpha"
+			],
+			[
+				"ALP",
+				"ALPHA"
+			],
+			[
+				"E",
+				"EM_ERROR"
+			],
+			[
+				"res",
+				"resid"
+			],
+			[
+				"resi",
+				"resid_img"
+			],
+			[
+				"al",
+				"alpha0"
+			],
+			[
+				"ori",
+				"orig_pad"
+			],
+			[
+				"resamp_",
+				"resamp_w"
+			],
+			[
+				"bo",
+				"block_cols"
+			],
+			[
+				"cl",
+				"clone"
+			],
+			[
+				"p",
+				"printMat"
+			],
+			[
+				"EM",
+				"EM_VARIANCE"
+			],
+			[
+				"F",
+				"FILTER_SIZE"
+			],
+			[
+				"prob",
+				"prob_fft"
+			],
+			[
+				"resp",
+				"response"
+			],
+			[
+				"ps",
+				"push_back"
+			],
+			[
+				"p2",
+				"p2"
+			],
+			[
+				"ceo",
+				"coeff_values"
+			],
+			[
+				"MAX_",
+				"MAX_COEFF"
+			],
+			[
+				"mod",
+				"modes_coeffs"
+			],
+			[
+				"moe",
+				"modes_coeffs"
+			],
+			[
+				"NM",
+				"NUM_MODES"
+			],
+			[
+				"DC",
+				"DCT_OFFSET"
+			],
+			[
+				"std",
+				"stddev"
+			]
+		]
+	},
+	"buffers":
+	[
+		{
+			"file": "src/sherlock.cpp",
+			"settings":
+			{
+				"buffer_size": 21902,
+				"encoding": "UTF-8",
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/utility.hpp",
+			"settings":
+			{
+				"buffer_size": 8179,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/test.hpp",
+			"settings":
+			{
+				"buffer_size": 37090,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/jpeg.hpp",
+			"settings":
+			{
+				"buffer_size": 17185,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/clarifai.py",
+			"settings":
+			{
+				"buffer_size": 900,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "CMakeLists.txt",
+			"settings":
+			{
+				"buffer_size": 274,
+				"line_ending": "Unix",
+				"name": "cmake_minimum_required(VERSION 2.8.12)"
+			}
+		},
+		{
+			"file": "src/file.hpp",
+			"settings":
+			{
+				"buffer_size": 4376,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/general.hpp",
+			"settings":
+			{
+				"buffer_size": 717,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/colors.hpp",
+			"settings":
+			{
+				"buffer_size": 17210,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/noise.hpp",
+			"settings":
+			{
+				"buffer_size": 3562,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/tampering.hpp",
+			"settings":
+			{
+				"buffer_size": 21536,
+				"line_ending": "Unix"
+			}
+		},
+		{
+			"file": "src/luminance.hpp",
+			"settings":
+			{
+				"buffer_size": 10971,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 272.0,
+		"last_filter": "mak",
+		"selected_items":
+		[
+			[
+				"mak",
+				"Set Syntax: Makefile"
+			],
+			[
+				"upp",
+				"Convert Case: Upper Case"
+			],
+			[
+				"upper",
+				"Convert Case: Upper Case"
+			],
+			[
+				"matl",
+				"Set Syntax: MATLAB"
+			],
+			[
+				"make",
+				"Set Syntax: Makefile"
+			],
+			[
+				"trail",
+				"Trailing Spaces: Delete Trailing Spaces"
+			],
+			[
+				"Package Control: ",
+				"Package Control: Install Package"
+			],
+			[
+				"trai",
+				"Trailing Spaces: Delete Trailing Spaces"
+			],
+			[
+				"c++",
+				"Set Syntax: C++"
+			],
+			[
+				"tria",
+				"Trailing Spaces: Delete Trailing Spaces"
+			],
+			[
+				"lower",
+				"Convert Case: Lower Case"
+			],
+			[
+				"tra",
+				"Trailing Spaces: Delete Trailing Spaces"
+			],
+			[
+				"pacakge",
+				"Package Control: Install Package"
+			],
+			[
+				"pl",
+				"Package Control: List Packages"
+			],
+			[
+				"low",
+				"Convert Case: Lower Case"
+			],
+			[
+				"lowe",
+				"Convert Case: Lower Case"
+			],
+			[
+				"linter",
+				"SublimeLinter: Toggle Linter"
+			],
+			[
+				"pack",
+				"Package Control: Install Package"
+			],
+			[
+				"nter",
+				"SublimeLinter: Enable Linter"
+			],
+			[
+				"li",
+				"SublimeLinter: Disable Linter"
+			],
+			[
+				"case",
+				"Convert Case: Upper Case"
+			],
+			[
+				"install",
+				"Package Control: Install Package"
+			],
+			[
+				"package control",
+				"Package Control: Install Package"
+			],
+			[
+				"packa",
+				"Package Control: List Packages"
+			]
+		],
+		"width": 449.0
+	},
+	"console":
+	{
+		"height": 139.0,
+		"history":
+		[
+			"import urllib.request,os,hashlib; h = '2915d1851351e5ee549c20394736b442' + '8bc59f460fa1548d1514676163dafc88'; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); by = urllib.request.urlopen( 'http://packagecontrol.io/' + pf.replace(' ', '%20')).read(); dh = hashlib.sha256(by).hexdigest(); print('Error validating download (got %s instead of %s), please try manual install' % (dh, h)) if dh != h else open(os.path.join( ipp, pf), 'wb' ).write(by)"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"expanded_folders":
+	[
+		"/home/bartoli/Dropbox/Progetti/Sherlock/lib/src"
+	],
+	"file_history":
+	[
+		"/home/guido/Dropbox/Progetti/Sherlock/lib/src/general.hpp",
+		"/home/guido/.config/sublime-text-3/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/guido/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
+		"/home/guido/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/home/guido/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/bartoli/Dropbox/Progetti/Sherlock/info/software/image-forensics-master/matlab_toolbox/Util/jpegtbx_1.4/bdctmtx.m",
+		"/home/bartoli/Dropbox/Progetti/Sherlock/info/software/image-forensics-master/matlab_toolbox/Util/jpegtbx_1.4/bdct.m",
+		"/home/bartoli/Dropbox/Progetti/Sherlock/info/software/image-forensics-master/matlab_toolbox/Util/jpegtbx_1.4/vec2im.m",
+		"/home/bartoli/Dropbox/Progetti/Sherlock/info/software/image-forensics-master/matlab_toolbox/Util/jpegtbx_1.4/dequantize.m",
+		"/home/bartoli/Dropbox/Progetti/Sherlock/info/software/image-forensics-master/matlab_toolbox/Algorithms/ADQ2/getJmap.m",
+		"/home/bartoli/Dropbox/Progetti/Sherlock/info/software/image-forensics-master/matlab_toolbox/Algorithms/ADQ2/analyze.m",
+		"/home/bartoli/.config/sublime-text-3/Packages/Default/Preferences.sublime-settings",
+		"/home/bartoli/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/bartoli/Dropbox/Progetti/Sherlock/lib/src/tones.hpp",
+		"/home/bartoli/Dropbox/Progetti/Sherlock/lib/src/utility.hpp",
+		"/home/bartoli/Dropbox/Progetti/Sherlock/lib/src/spline.h",
+		"/home/bartoli/Dropbox/Progetti/Sherlock/lib/build.sh",
+		"/home/bartoli/AgriRobot/home/vision/catkin_ws/src/agri_robot/CMakeLists.txt",
+		"/home/bartoli/Dropbox/Progetti/Sherlock/lib/src/sherlock.cpp",
+		"/home/bartoli/AgriRobot/home/vision/catkin_ws/src/rtabmap_ros/include/rtabmap_ros/MsgConversion.h",
+		"/home/bartoli/AgriRobot/home/vision/catkin_ws/src/agri_robot/src/object_analysis_node.cpp",
+		"/home/bartoli/AgriRobot/home/vision/catkin_ws/src/agri_robot/src/l400_data_node.cpp",
+		"/home/bartoli/Projects/AgriRobot.sublime-project",
+		"/home/vision/Downloads/Sourcer/STEP02.LST",
+		"/home/vision/Downloads/Sourcer/STEP02.SDF",
+		"/home/vision/Libraries/jpeg-9b/jdmarker.c",
+		"/home/vision/Libraries/opencv/samples/cpp/dft.cpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/info/software/Resampling/EMdeteCi.m",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/libsvm/tools/grid.py",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/src/jpeg.hpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/src/utility.hpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/src/test.hpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/diff1.cpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/diff2.cpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/test.txt",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/info/jpegquality.c",
+		"/home/vision/remote_fs/home/vision/catkin_ws/src/agri_robot/CMakeLists.txt",
+		"/home/vision/.config/sublime-text-3/Packages/Default/Default (Linux).sublime-keymap",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/src/sherlock.cpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/src/general.hpp",
+		"/home/vision/Downloads/G1dl1.gif",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/docs/jpegquality.c",
+		"/home/vision/Libraries/jpeg-9b/jcmarker.c",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/jpeg.hpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/colors.hpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/utility.hpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/general.hpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/tampering.hpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/noise.hpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/sherlock.cpp",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/build.sh",
+		"/home/vision/Libraries/jpeg-9b/transupp.c",
+		"/home/vision/Libraries/jpeg-9b/change.log",
+		"/home/vision/Libraries/jpeg-9b/jcparam.c",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/structure.hpp",
+		"/home/vision/Libraries/jpeg-9b/coderules.txt",
+		"/home/vision/Libraries/jpeg-9b/structure.txt",
+		"/home/vision/Libraries/jpeg-9b/usage.txt",
+		"/home/vision/Libraries/jpeg-9b/README",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/test/animal.jpg",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/test/3419931.jpg",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/test/0972207145.jpg",
+		"/home/vision/Libraries/opencv/modules/ml/src/svm.cpp",
+		"/home/vision/catkin_ws/src/agri_robot/launch/analysis_test.launch",
+		"/home/vision/catkin_ws/src/agri_robot/cfg/Duo3dDriver.cfg",
+		"/home/vision/Libraries/jpeg-9b/jmorecfg.h",
+		"/home/vision/catkin_ws/src/agri_robot/src/object_analysis_node.cpp",
+		"/home/vision/.config/sublime-text-3/Packages/User/Default (Linux).sublime-keymap",
+		"/home/vision/remote_fs/home/vision/catkin_ws/src/navigation/motor_serial_driver/src/serial_cmd_vel.cpp",
+		"/home/vision/Desktop/laux_core_scan.xml",
+		"/home/vision/Libraries/jpeg-9b/djpeg.1",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/train_c2.txt",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/train_c1.txt",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/train.txt",
+		"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/train2.xml",
+		"/home/vision/Dropbox/Lavoro/Progetti vari/Sherlock/sherlock.cpp",
+		"/home/vision/Dropbox/Lavoro/Progetti vari/Sherlock/build.sh",
+		"/home/vision/Dropbox/Lavoro/Progetti vari/Sherlock/tampering.hpp",
+		"/home/vision/Dropbox/Lavoro/Progetti vari/Sherlock/noise.hpp",
+		"/home/vision/remote_fs/home/vision/catkin_ws/src/navigation/launch/motor_usb_driver.launch",
+		"/home/vision/remote_fs/home/vision/catkin_ws/src/navigation/motor_usb_driver/src/motor_api.cpp",
+		"/home/vision/remote_fs/home/vision/catkin_ws/src/navigation/motor_usb_driver/src/cfg.cpp",
+		"/home/vision/remote_fs/home/vision/catkin_ws/src/navigation/motor_usb_driver/src/motor_usb_driver_n.cpp",
+		"/home/vision/catkin_ws/src/agri_robot/cfg/ObjectAnalysis.cfg",
+		"/home/vision/catkin_ws/src/agri_robot/src/duo3d_driver_node.cpp",
+		"/home/vision/.config/sublime-text-3/Packages/User/Preferences.sublime-settings",
+		"/home/vision/Libraries/libelas/src/main.cpp",
+		"/home/vision/Libraries/libelas/src/elas.h",
+		"/home/vision/Libraries/libelas/src/elas.cpp",
+		"/home/vision/Downloads/DUO3D/DUOSDK/Samples/C++/Sample-05-Polling/Sample.h",
+		"/home/vision/Downloads/DUO3D/DUOSDK/Samples/C++/Sample-05-Polling/Sample.cpp",
+		"/home/vision/catkin_ws/src/agri_robot/CMakeLists.txt",
+		"/home/vision/Downloads/DUO3D/DUOSDK/Samples/Dense3D/Sample-01-Dense3D/Sample.h",
+		"/home/vision/Downloads/DUO3D/DUOSDK/Samples/Dense3D/Sample-01-Dense3D/Sample.cpp",
+		"/home/vision/catkin_ws/src/agri_robot/src/object_analysis_node_old.cpp",
+		"/home/vision/catkin_ws/src/agri_robot/launch/duo3d_test.launch",
+		"/home/vision/Downloads/rtabmap-master/corelib/src/util2d.cpp",
+		"/home/vision/Downloads/rtabmap-master/corelib/src/CameraThread.cpp",
+		"/home/vision/catkin_ws/src/agri_robot/src/duo3d_driver_node_mutex.cpp",
+		"/home/vision/Downloads/opencv-2.4.11/samples/cpp/stereo_match.cpp",
+		"/home/vision/Downloads/opencv-2.4.11/samples/cpp/stereo_calib.cpp",
+		"/home/vision/catkin_ws/src/agri_robot/src/duo3d_driver_node_direct.cpp",
+		"/home/vision/Downloads/opencv-2.4.11/samples/cpp/intrinsics.yml",
+		"/home/vision/Downloads/opencv-2.4.11/samples/cpp/stereo_calib.xml",
+		"/home/vision/catkin_ws/src/agri_robot/package.xml",
+		"/home/vision/catkin_ws/src/agri_robot/src/duo3d_driver_node_opencv.cpp",
+		"/home/vision/Downloads/DUO3D/DUOSDK/Samples/Dense3D/CMakeLists.txt",
+		"/usr/include/duo/DUOLib.h",
+		"/home/vision/catkin_ws/src/agri_robot/cfg/DuoParams.cfg",
+		"/home/vision/catkin_ws/src/agri_robot/src/shape_analysis_node.cpp",
+		"/home/vision/catkin_ws/src/agri_robot/cfg/Params.cfg",
+		"/home/vision/catkin_ws/src/agri_robot/include/DUOApi.h",
+		"/home/vision/catkin_ws/src/agri_robot/include/DUOCam.h",
+		"/home/vision/catkin_ws/src/agri_robot/src/DUOCam.cpp",
+		"/home/vision/Downloads/DUO3D/DUOSDK/Samples/C++/Sample-02-Images/Sample.cpp",
+		"/home/vision/Downloads/DUO3D/DUOSDK/Samples/C++/CMakeLists.txt",
+		"/home/vision/catkin_ws/src/rtabmap_ros/CMakeLists.txt",
+		"/usr/include/duo/Dense3D.h",
+		"/home/vision/catkin_ws/src/agri_robot/include/Dense3D.h",
+		"/home/vision/catkin_ws/src/agri_robot/include/DUOLib.h",
+		"/home/vision/catkin_ws/src/agri_robot/include/System.h",
+		"/home/vision/Libraries/rtabmap/corelib/include/rtabmap/core/Transform.h",
+		"/home/vision/Libraries/rtabmap/corelib/src/util3d_filtering.cpp",
+		"/home/vision/Libraries/rtabmap/corelib/src/util2d.cpp",
+		"/home/vision/Libraries/rtabmap/corelib/src/util3d.cpp",
+		"/home/vision/Libraries/rtabmap/corelib/include/rtabmap/core/impl/util3d_mapping.hpp",
+		"/home/vision/catkin_ws/src/rtabmap_ros/src/nodelets/obstacles_detection.cpp",
+		"/home/vision/catkin_ws/src/rtabmap_ros/launch/azimut3/az3_mapping_robot_kinect_scan.launch"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 93.0,
+		"where_history":
+		[
+			"",
+			"/home/bartoli/Dropbox/Lavoro/Progetti/Sherloc",
+			"/home/bartoli/Dropbox/Lavoro/Progetti/Sherlock/extra",
+			"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/info/software/image-forensics-master",
+			"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/src",
+			"/home/vision/Dropbox/Lavoro/Progetti/Sherlock",
+			"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/src",
+			"",
+			"/home/vision/Dropbox/Lavoro/Progetti/Sherlock",
+			"/home/vision/Libraries/jpeg-9b",
+			"/home/vision/Dropbox/Lavoro/Progetti/Sherlock/exiftool",
+			"/home/vision/Libraries/jpeg-9b",
+			"/home/vision/Dropbox/Lavoro/Progetti/Sherlock",
+			"/home/vision/Libraries/jpeg-9b",
+			"/home/vision/Dropbox/Lavoro/Progetti/Sherlock",
+			"/home/vision/Libraries/libelas/src",
+			"/home/vision/Downloads/rtabmap-master,/home/vision/Downloads/rtabmap_ros-master",
+			"/home/vision/Downloads/opencv-2.4.11/modules",
+			"/home/vision/Downloads/rtabmap-master,/home/vision/Downloads/rtabmap_ros-master",
+			"/home/vision/catkin_ws/src/agri_robot",
+			"/home/vision/catkin_ws/src/rtabmap_ros,/home/vision/Libraries/rtabmap,/home/vision/catkin_ws/src/agri_robot/src",
+			"/home/vision/catkin_ws/src/rtabmap_ros,/home/vision/Libraries/rtabmap,/home/vision/Downloads/DUO3D/DUOSDK",
+			"/home/vision/catkin_ws/src/rtabmap_ros,/home/vision/Libraries/rtabmap,/home/vision/Downloads/DUO3D/DUOSDK/SDK",
+			"/home/vision/catkin_ws/src/rtabmap_ros,/home/vision/Libraries/rtabmap,/home/vision/Downloads/DUO3D/DUOSDK/SDK/include",
+			"/home/vision/catkin_ws/src/rtabmap_ros,/home/vision/Libraries/rtabmap",
+			"/home/vision/catkin_ws/src/rtabmap_ros",
+			"/home/vision/remote_fs/catkin_ws/src/navigation",
+			"/home/vision/remote_fs/catkin_ws/src/navigation/odometry_fusion",
+			"/home/vision/remote_fs/catkin_ws/src/rtabmap_ros",
+			"/home/vision/remote_fs/Libraries/rtabmap/corelib/src",
+			"/home/vision/remote_fs/catkin_ws/src/rtabmap_ros/src",
+			"/home/vision/remote_fs/catkin_ws/src/rtabmap_ros/src,/home/vision/remote_fs/Libraries/rtabmap",
+			"/home/vision/remote_fs/catkin_ws/src/rtabmap_ros/src",
+			"/home/vision/remote_fs/catkin_ws/src/navigation/motor_usb_driver",
+			"/home/vision/remote_fs/catkin_ws/src/navigation",
+			"/home/vision/remote_fs/catkin_ws/src/rtabmap_ros",
+			"/home/vision/remote_fs/Libraries/rtabmap",
+			"/home/vision/remote_fs/catkin_ws/src/rtabmap_ros,*.cpp",
+			"/home/vision/remote_fs/catkin_ws/src/rtabmap_ros",
+			"<current file>,/home/vision/remote_fs/home/vision/catkin_ws/src/motor_usb_driver/src",
+			"<current file>",
+			""
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": true,
+		"find_history":
+		[
+			"HORIZ_LEN",
+			"-->",
+			"cols",
+			"input",
+			"OPTIONS",
+			"GROUP_NUM",
+			"-g",
+			"_HPP",
+			"GENERAL_HPP",
+			"std",
+			"string",
+			"input",
+			"yellow",
+			"all",
+			"UNIT",
+			"BUFF_LENGTH",
+			"data_file",
+			"std",
+			"filepath",
+			"1024",
+			"unit",
+			"1024",
+			"unit",
+			"(\"---",
+			"------------",
+			"-----------",
+			"----------",
+			"original",
+			"_original",
+			"BLOCK_SIZE",
+			"noise",
+			".. ",
+			"..",
+			"Current",
+			"boost_system",
+			"lat",
+			"lat_d",
+			"string",
+			"double",
+			"lat",
+			"runExifTool",
+			"chroma_q",
+			"luma_q",
+			"tok_iter",
+			"token",
+			"varE",
+			"tamper",
+			"padimage",
+			"dctmap",
+			"padIma",
+			"10",
+			"jpeg_losses",
+			", q2",
+			"jpeg_qualities",
+			"(\".......",
+			"tf(\"...",
+			"\" ",
+			"OPTIO",
+			"Conversion",
+			"BAYER_STEP",
+			"green",
+			"2",
+			"recon",
+			"0",
+			"output",
+			"input",
+			"f",
+			"y",
+			"x",
+			"TONES_HPP",
+			"TEMP_FILE",
+			"TEMP_SUFFIX",
+			"true",
+			"STR_SVM_NOT_FOUND",
+			"STR_TABLES_NOT_FOUND",
+			"STR_NOT_A_JPEG_FILE",
+			"STR_EXIFTOOL_UNKNOWN",
+			"ERR_EXIFTOOL_UNKNOWN",
+			"ERR_TABLES_NOT_FOUND",
+			"ERR_NOT_A_JPEG_FILE",
+			"STR_EXIFTOOL_ERROR",
+			"STR_NOT_IMPLEMENTED",
+			"int ",
+			"ERR_SVM_NOT_FOUND",
+			"EXIFTOOL_EXE",
+			"buildContrastLUT",
+			"angleDistance",
+			"GREEK_PI",
+			"sgn",
+			"padImage",
+			"histDFT",
+			"GREEK_PI",
+			"GROUP",
+			"alglib/",
+			"Sutorial",
+			"agri_robot",
+			"val",
+			"AY",
+			"AX",
+			"gray",
+			"HIST_BINS",
+			"wvlts",
+			"input0",
+			"CUT_OFF",
+			"MAX_ERR",
+			"err",
+			"output2",
+			"channel",
+			"input0",
+			"ERROR_THR",
+			"computeHistErr",
+			"input0",
+			"input",
+			"computeHistErr",
+			"input0",
+			"computeHistErr",
+			"kernel",
+			"input",
+			"constrast",
+			"prob",
+			"DCT_SIZE",
+			"num",
+			"errors",
+			"step",
+			"max0",
+			"size()",
+			"Max",
+			"max"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+			"HORIZ_DIV",
+			"GROUP_LEN",
+			"EXIFTOOL",
+			"qualityEstimation",
+			"sc",
+			"blindCompression",
+			"jpegQualityEstimation",
+			"blindQualityEstimation",
+			"blindEstimation",
+			"blindEvaluation",
+			"blindJPEG",
+			"blindCompression",
+			"jb",
+			"getQTs",
+			"getQT",
+			"getJPEGQT",
+			"1 1:",
+			"obj_min_density",
+			"obj_max_width",
+			"obj_min_width",
+			"obj_max_height",
+			"obj_min_height",
+			"cloud_publisher",
+			"show_params",
+			"depth_factor",
+			"reconfigure",
+			"clstr_max_sz",
+			"clstr_min_sz",
+			"max_disp",
+			"bl",
+			"sad_radius",
+			"extr",
+			"intr",
+			"undistort",
+			"Extrinsics",
+			"Intrinsics",
+			"setParameters",
+			"vert_flip",
+			"horiz_flip",
+			"uniqueness",
+			"disparities",
+			"filter_cap",
+			"window_size",
+			"speckle_size",
+			"value",
+			"tf_listener",
+			"pt",
+			"obj_indices",
+			"depthInfoCallback",
+			"max_clstr_sz",
+			"min_clstr_sz",
+			"clstr_radius",
+			"norm_angle",
+			"pcl::PointXYZ",
+			"voxelized",
+			"cloud",
+			"cloud1",
+			"cloud0",
+			"cloud",
+			"points",
+			"readRange",
+			"a_lim",
+			"wheels_reset",
+			"reset_service",
+			"orientation",
+			"position",
+			"final_pose",
+			"wheels_pose",
+			"new_quat",
+			"new_position",
+			"visual_position",
+			"last_transform",
+			"visual_reset",
+			"furia_baudrate",
+			"laser_baudrate",
+			"wheels_topic",
+			"usb_driver",
+			"serial_driver",
+			"current_pose",
+			"wheels",
+			"filter_type",
+			"furia_rate",
+			"furia_port",
+			"brick_address",
+			"imu_publisher",
+			"publishImu",
+			"publishYaw",
+			"yaw_publisher",
+			"publishOrientation",
+			"publish_rate",
+			"host",
+			"node_private",
+			"node_handle",
+			"brick_rate",
+			"imu_device",
+			"ip_connection",
+			"publish_rate",
+			"brick_uid",
+			"brick_port",
+			"brick_host",
+			"scan_range",
+			"depth_info",
+			"rgb_info",
+			"rgb_topic",
+			"rtabmapviz"
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": false,
+		"whole_word": true,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "src/sherlock.cpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 21902,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								2500,
+								2500
+							]
+						],
+						"settings":
+						{
+							"history_list_is_closing": true,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 810.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 0,
+					"type": "text"
+				},
+				{
+					"buffer": 1,
+					"file": "src/utility.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 8179,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								5568,
+								5568
+							]
+						],
+						"settings":
+						{
+							"history_list_is_closing": true,
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 2520.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 2,
+					"type": "text"
+				},
+				{
+					"buffer": 2,
+					"file": "src/test.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 37090,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								20616,
+								20616
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 8162.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 9,
+					"type": "text"
+				},
+				{
+					"buffer": 3,
+					"file": "src/jpeg.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17185,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								11332,
+								11332
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 572.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 6,
+					"type": "text"
+				},
+				{
+					"buffer": 4,
+					"file": "src/clarifai.py",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 900,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/Python/Python.sublime-syntax",
+							"tab_size": 2,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 5,
+					"type": "text"
+				},
+				{
+					"buffer": 5,
+					"file": "CMakeLists.txt",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 274,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"auto_name": "cmake_minimum_required(VERSION 2.8.12)",
+							"syntax": "Packages/Makefile/Makefile.sublime-syntax",
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 1,
+					"type": "text"
+				}
+			]
+		},
+		{
+			"selected": 1,
+			"sheets":
+			[
+				{
+					"buffer": 6,
+					"file": "src/file.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 4376,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								4356,
+								4356
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 1730.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 4,
+					"type": "text"
+				},
+				{
+					"buffer": 7,
+					"file": "src/general.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 717,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								717,
+								717
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 3,
+					"type": "text"
+				},
+				{
+					"buffer": 8,
+					"file": "src/colors.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 17210,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								14533,
+								14533
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 5625.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 10,
+					"type": "text"
+				},
+				{
+					"buffer": 9,
+					"file": "src/noise.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3562,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								383,
+								383
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 0.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 11,
+					"type": "text"
+				},
+				{
+					"buffer": 10,
+					"file": "src/tampering.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 21536,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								18803,
+								18803
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 7787.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 8,
+					"type": "text"
+				},
+				{
+					"buffer": 11,
+					"file": "src/luminance.hpp",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 10971,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								0,
+								0
+							]
+						],
+						"settings":
+						{
+							"syntax": "Packages/C++/C++.sublime-syntax",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true,
+							"word_wrap": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 917.0,
+						"zoom_level": 1.0
+					},
+					"stack_index": 7,
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 0.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			],
+			[
+				1,
+				0,
+				2,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			0.5,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 309.0
+	},
+	"output.hex_viewer_inspector":
+	{
+		"height": 190.0
+	},
+	"pinned_build_system": "",
+	"project": "Sherlock.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+			[
+				"",
+				"noise.hpp"
+			]
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 392.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 392.0
+	},
+	"selected_group": 1,
+	"settings":
+	{
+	},
+	"show_minimap": false,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 147.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}
