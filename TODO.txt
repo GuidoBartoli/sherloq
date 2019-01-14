@@ -1,0 +1,78 @@
+#INTERFACCIA
+#- Creazione di un help in linea per suggerire workflow e spiegare come usare i vari tool
+#- Descrizione testuale dello strumento sotto le opzioni in basso a destro
+#- Esportazione dell'immagine o dei risultati del singolo strumento
+#+ Scrivere in neretto gli strumenti attivi dentro ToolsTree
+#+ Visualizzare Metadata Extraction ad albero con le categorie invece che a tabella lineare
+#+ Finestra di "About" e "About Qt"
+#- Pannello con le opzioni?
+#- Sostituire gli Slider con gli SpinBox
+#- Provare ad eseguire il processing su un thread separato per non bloccare la GUI
+#+ In MainWindow memorizzare Mat, QImage e il nome del file per non ricaricare sempre l'immagine
+#+ Load File dovrebbe riaprire l'ultima cartella scelta
+#+ Prevedere sia una visione a tabella che ad albero di MetadataWidget
+#- Aggiungere altri tipi di enanchement nella visualizzazione (channel auto contrast)
+#- Facendo doppio click su una cella di MetadataWidget si copia valore in clipboard
+#- Estendere ToolTree in modo che emetta il segnale (i,j) al doppio click sullo strumento invece di QTreeWidgetItem
+#- Togliere tutti #include <QtWidgets> dai ToolWidget
+#- Aggiungere azioni "Close All" e "Close All Except" a MainWindow
+#- Aggiungere la visualizzazione dell'istogramma e il contagocce a singleviewer
+#- Rinominare SingleViewer in ImageViewer
+#- Rinominare Noise Separation in Noise Analysis
+#- Rinominare tutti i [...]Widget in [...]Tool
+#- Addestrare la nuova versione delle SVM per FirstDigitFeatures
+#+ In SingleViewer aggiungere updateOriginal() per evitare il flag showSwitch = false
+#+ In ComparisonWidget aggiungere altre visualizzazioni della differenza
+#- In EchoWidget suddividere il processing perché la modifica di contrast è più veloce
+#- Aggiungere Butteraugli agli indici di Comparison Widget
+#- Ad EnhancedMagnifier aggiungere uno SpinBox per cambiare il percentile di AutoContrast
+#- Aggiungere un checkbox per la scala logaritmica a HistogramWidget
+
+#STRUMENTI
+#- Correggere un bug in Color Space Conversion, il radio button di Grayscale non funziona!
+#- Pensare ad un tool simile ad Amped per identificare il device dalle QT
+#- Usare djpeg di libjpeg per estrarre le QT e HT (jpeg_decompress_struct)
+#- Pensare anche a creare una libreria standalone e la versione a riga di comando
+#- Aggiungere a MetadataWidget il controllo automatico della "signatures"
+#  e dare warning con la criticità (vedi "ghiro/plugins/signatures/default.py")
+#- Verificare che gli istogrammi vengono calcolati correttamente!
+#- Aggiungere a GhostWidget la ricerca locale della doppia compressione
+#  > Per ogni blocco 8x8:
+#    * Shift di -128
+#    * DCT 2D
+#    * Per ogni livello di qualità, calcolare errore di quantizzazione per ogni coefficiente DCT
+#    * Analizzare i minimi locali di ogni blocco per stimare l'ultima quantizzazione
+#    * Settare il valore del blocco uguale al livelo più basso
+#    * Applicare un filtro mediano per ridurre gli outliers
+#- Togliere la dipendenza da AlgLib implementando un algoritmo alternativo alle splines
+#- Pensare anche ad un nuovo tool per la ricostruzione wavelet a vari livelli (http://wavelet2d.sourceforge.net/) [Wavelet Analysis al posto di DCT Value Map]
+#- Aggiungere ad Image Digest la ricerca del dispositivo in base al nome del file Filename Ballistics (es. ^DSCN[0-9]{4}\\.JPG$ --> Nikon Coolpix)
+#+ Creare un QWidget ToolWidget da cui tutti i tool ereditano comportamenti comuni
+#+ ImageViewer migliorato per gestire la visualizzazione sincronizzata di più immagini
+#+ Opzione di ImageViewer che equalizza l'istogramma della porzione visualizzata
+#+ Zoom in ImageViewer solo con la rotella senza CTRL
+#+ Aggiungere l'hash percettiva (http://www.phash.org) ad Image Digest
+#+ Considerare anche gli altri tipi di hash:
+#    http://www.hackerfactor.com/blog/?/archives/432-Looks-Like-It.html
+#    http://www.hackerfactor.com/blog/?/archives/529-Kind-of-Like-That.html
+#+ Creare SingleViewer e MultiViewer!
+#- Nuovo strumento per la creazione della firma PRNU da molte foto dalla stessa macchina
+#+ Aggiungere la ricerca di stringhe dentro Metadata Extraction
+#- Ottimizzare ElaWidget: il ricalcolo avviene solo cambiando Quality e non Scale
+#- Rivedere logica ImageViewer: costruttore vuoto e setImage per aggiornare?
+#+ Creare uno strumento per confrontare due o più immagini
+#- Migliorare il filtraggio dei punti individuati da Clone Detection e raggrupparli
+#- Provare sia BACM che FDF per la doppia compressione locale
+#- Stima SNR con PCA sui blocchi (varianza = autovalore minore della matrice di covarianza)
+#- Scomposizione piramidale gaussiana o con wavelet per visualizzare i livelli di dettaglio
+#- Analisi dell'istogramma per individuare modifiche di contrasto e luminosità
+#- Estrazione delle tabelle di Huffman dal JPEG
+#- Doppia compressione globale con DFT sull'istogramma dei coefficienti DCT
+#- Analisi della coerenza dell'aberrazione cromatica per rilevare tampering locale
+#- Analisi Fine-Grained degli artefatti nella CFA
+#+ Aumentare la precisione della conversione in HSV calcolando H manualmente senza modulo
+#- DCT Map in Amped Authenticate (?)
+#- Neal Krawetz Color Density Distribution (?)
+#- Strumento Color Noise Reduction (?)
+#    http://www.hackerfactor.com/blog/index.php?/archives/759-The-Secret-That-Donald-Trump-Doesnt-Want-You-To-Know.html
+
