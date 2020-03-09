@@ -66,7 +66,7 @@ These are the currently planned functions [*(&ast;&ast;&ast;) = fully implemente
 - __Splicing Detection__: use DCT coefficient statistics for automatic splicing zone detection (&ast;)
 
 # Setup
-The software is written in C++11 using Qt Framework for platform-independent GUI and OpenCV Library for efficient image processing. Other external depencies are [ExifTool](https://www.sno.phy.queensu.ca/~phil/exiftool/) for metadata extraction, [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/) for forgey detection and [AlgLib](http://www.alglib.net/) for histogram manipulation.
+The software is written in C++11 using Qt Framework for platform-independent GUI and OpenCV Library for efficient image processing. Other external depencies are [ExifTool](https://www.sno.phy.queensu.ca/~phil/exiftool/) for metadata extraction, [LIBSVM](https://www.csie.ntu.edu.tw/~cjlin/libsvm/) for forgery detection and [AlgLib](http://www.alglib.net/) for histogram manipulation.
 
 Even if the project objective is clear, actually the software is an early prototype, so some functionalities are still missing (see list above) and it can be run only from Qt Creator under Linux. I put it on Github to track my development progress even during the alpha stage, so expect issues, bugs and installation headaches, however, if you want to take a look around, feel free to contact me if you are experiencing problems in making it run.
 
