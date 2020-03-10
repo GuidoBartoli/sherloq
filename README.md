@@ -25,7 +25,7 @@ These are the currently planned functions [*(&ast;&ast;&ast;) = fully implemente
 
 ## File
 - __Metadata Dump__: gather all metadata information and display security warnings (&ast;&ast;)
-- __EXIF Structure__: dump the physical EXIF structure and display and interactive view (&ast;&ast;&ast;)
+- __EXIF Structure__: dump the physical EXIF structure and display an interactive view (&ast;&ast;&ast;)
 - __Thumbnail Analysis__: if present, extract embedded thumbnail and highlight discrepancies (&ast;&ast;&ast;)
 - __Geolocation Data__: if present, get geographic data and locate them on a world map view (&ast;&ast;&ast;)
 
