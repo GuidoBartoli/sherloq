@@ -1,0 +1,18 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.75
+[File, System, Other] FileName - File Name: ZIP.gz
+[File, System, Other] Directory - Directory: t/images
+[File, System, Other] FileSize - File Size: 71 bytes
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2009:11:05 11:15:47-05:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2019:10:31 14:56:46-04:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2019:10:29 08:21:01-04:00
+[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, File, Other] FileType - File Type: GZIP
+[File, File, Other] FileTypeExtension - File Type Extension: gz
+[File, File, Other] MIMEType - MIME Type: application/x-gzip
+[ZIP, ZIP, Other] 2 - Compression: Deflated
+[ZIP, ZIP, Other] 3 - Flags: FileName, Comment
+[ZIP, ZIP, Time] 4 - Modify Date: 2009:11:05 11:09:24-05:00
+[ZIP, ZIP, Other] 8 - Extra Flags: Maximum Compression
+[ZIP, ZIP, Other] 9 - Operating System: Unix
+[ZIP, ZIP, Other] 10 - Archived File Name: test.txt
+[ZIP, ZIP, Other] 11 - Comment: This is a test comment

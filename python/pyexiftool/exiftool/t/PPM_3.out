@@ -1,0 +1,11 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.75
+[File, System, Other] FileSize - File Size: 219 bytes
+[File, File, Other] FileType - File Type: PPM
+[File, File, Other] FileTypeExtension - File Type Extension: ppm
+[File, File, Other] MIMEType - MIME Type: image/x-portable-pixmap
+[File, File, Image] Comment - Comment: A new comment
+[File, File, Image] ImageWidth - Image Width: 8
+[File, File, Image] ImageHeight - Image Height: 8
+[File, File, Image] MaxVal - Max Val: 255
+[Composite, Composite, Image] Exif::ImageSize - Image Size: 8x8
+[Composite, Composite, Image] Exif::Megapixels - Megapixels: 0.000064

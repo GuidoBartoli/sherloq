@@ -1,0 +1,21 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.75
+[File, System, Other] FileName - File Name: BigTIFF.btf
+[File, System, Other] Directory - Directory: t/images
+[File, System, Other] FileSize - File Size: 384 bytes
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2010:03:16 13:49:45-04:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2019:11:01 10:11:40-04:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2019:10:29 08:21:01-04:00
+[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, File, Other] FileType - File Type: BTF
+[File, File, Other] FileTypeExtension - File Type Extension: btf
+[File, File, Other] MIMEType - MIME Type: image/x-tiff-big
+[EXIF, IFD0, Image] 256 - Image Width: 8
+[EXIF, IFD0, Image] 257 - Image Height: 8
+[EXIF, IFD0, Image] 258 - Bits Per Sample: 8 8 8
+[EXIF, IFD0, Image] 262 - Photometric Interpretation: RGB
+[EXIF, IFD0, Image] 273 - Strip Offsets: 192
+[EXIF, IFD0, Image] 277 - Samples Per Pixel: 3
+[EXIF, IFD0, Image] 278 - Rows Per Strip: 8
+[EXIF, IFD0, Image] 279 - Strip Byte Counts: 192
+[Composite, Composite, Image] Exif::ImageSize - Image Size: 8x8
+[Composite, Composite, Image] Exif::Megapixels - Megapixels: 0.000064

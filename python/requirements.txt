@@ -1,0 +1,5 @@
+numpy==1.18.4
+opencv-contrib-python==4.2.0.34
+PySide2==5.14.2.1
+python-magic==0.4.18
+shiboken2==5.14.2.1

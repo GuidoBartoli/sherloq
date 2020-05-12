@@ -1,0 +1,241 @@
+#------------------------------------------------------------------------------
+# File:         iptcCore.args
+#
+# Description:  ExifTool arguments for IPTC Core and Extension tags
+#
+# Usage:        exiftool -@ iptcCore.args FILE
+#
+# Requires:     ExifTool version 8.44 or later
+#
+# Revisions:    2011/12/28 - P. Harvey Created (IPTC Core version 1.1)
+#               2015/04/21 - PH Updated to IPTC Extension version 1.2
+#               2017/06/02 - PH Updated to IPTC Extension version 1.3
+#               2018/08/20 - PH Updated to IPTC Extension version 1.4
+#
+# References:   http://www.iptc.org/IPTC4XMP/
+#
+# Notes:        Both flattened and structured tags are included
+#------------------------------------------------------------------------------
+
+#
+# dc schema
+#
+
+-XMP-dc:Creator
+-XMP-dc:Description
+-XMP-dc:Rights
+-XMP-dc:Subject
+-XMP-dc:Title
+
+#
+# photoshop schema
+#
+
+-XMP-photoshop:AuthorsPosition
+-XMP-photoshop:CaptionWriter
+-XMP-photoshop:City
+-XMP-photoshop:Country
+-XMP-photoshop:Credit
+-XMP-photoshop:DateCreated
+-XMP-photoshop:Headline
+-XMP-photoshop:Instructions
+-XMP-photoshop:Source
+-XMP-photoshop:State
+-XMP-photoshop:TransmissionReference
+
+#
+# xmp schema
+#
+
+-XMP-xmp:Rating
+
+#
+# xmpRights schema
+#
+
+-XMP-xmpRights:UsageTerms
+-XMP-xmpRights:WebStatement
+
+#
+# Iptc4xmpCore schema
+#
+
+-XMP-iptcCore:CountryCode
+
+# ContactInfo struct
+-XMP-iptcCore:CreatorContactInfo
+-XMP-iptcCore:CreatorAddress
+-XMP-iptcCore:CreatorCity
+-XMP-iptcCore:CreatorCountry
+-XMP-iptcCore:CreatorPostalCode
+-XMP-iptcCore:CreatorRegion
+-XMP-iptcCore:CreatorWorkEmail
+-XMP-iptcCore:CreatorWorkTelephone
+-XMP-iptcCore:CreatorWorkURL
+
+-XMP-iptcCore:IntellectualGenre
+-XMP-iptcCore:Location
+-XMP-iptcCore:Scene
+-XMP-iptcCore:SubjectCode
+
+#
+# Iptc4xmpExt schema
+#
+
+-XMP-iptcExt:AdditionalModelInformation
+
+# CVTermDetails struct
+-XMP-iptcExt:AboutCvTerm
+-XMP-iptcExt:AboutCvTermCvId
+-XMP-iptcExt:AboutCvTermId
+-XMP-iptcExt:AboutCvTermName
+-XMP-iptcExt:AboutCvTermRefinedAbout
+
+# ArtworkOrObjectDetails struct
+-XMP-iptcExt:ArtworkOrObject
+-XMP-iptcExt:ArtworkCopyrightNotice
+-XMP-iptcExt:ArtworkCreator
+-XMP-iptcExt:ArtworkDateCreated
+-XMP-iptcExt:ArtworkSource
+-XMP-iptcExt:ArtworkSourceInventoryNo
+-XMP-iptcExt:ArtworkTitle
+-XMP-iptcExt:ArtworkCopyrightOwnerName
+-XMP-iptcExt:ArtworkCopyrightOwnerID
+-XMP-iptcExt:ArtworkLicensorName
+-XMP-iptcExt:ArtworkLicensorID
+-XMP-iptcExt:ArtworkCreatorID
+-XMP-iptcExt:ArtworkCircaDateCreated
+-XMP-iptcExt:ArtworkStylePeriod
+-XMP-iptcExt:ArtworkSourceInvURL
+-XMP-iptcExt:ArtworkContentDescription
+-XMP-iptcExt:ArtworkContributionDescription
+-XMP-iptcExt:ArtworkPhysicalDescription
+
+-XMP-iptcExt:ControlledVocabularyTerm
+-XMP-iptcExt:DigitalImageGUID
+-XMP-iptcExt:DigitalSourcefileType
+-XMP-iptcExt:DigitalSourceType
+
+# EEREDetails struct
+-XMP-iptcExt:EmbdEncRightsExpr
+-XMP-iptcExt:EmbeddedEncodedRightsExpr
+-XMP-iptcExt:EmbeddedEncodedRightsExprType
+-XMP-iptcExt:EmbeddedEncodedRightsExprLangID
+
+-XMP-iptcExt:Event
+-XMP-iptcExt:IPTCLastEdited
+
+# LEREDetails struct
+-XMP-iptcExt:LinkedEncRightsExpr
+-XMP-iptcExt:LinkedEncodedRightsExpr
+-XMP-iptcExt:LinkedEncodedRightsExprType
+-XMP-iptcExt:LinkedEncodedRightsExprLangID
+
+# LocationDetails struct
+-XMP-iptcExt:LocationCreated
+-XMP-iptcExt:LocationCreatedCity
+-XMP-iptcExt:LocationCreatedCountryCode
+-XMP-iptcExt:LocationCreatedCountryName
+-XMP-iptcExt:LocationCreatedProvinceState
+-XMP-iptcExt:LocationCreatedSublocation
+-XMP-iptcExt:LocationCreatedWorldRegion
+-XMP-iptcExt:LocationCreatedLocationId
+
+# LocationDetails struct
+-XMP-iptcExt:LocationShown
+-XMP-iptcExt:LocationShownCity
+-XMP-iptcExt:LocationShownCountryCode
+-XMP-iptcExt:LocationShownCountryName
+-XMP-iptcExt:LocationShownProvinceState
+-XMP-iptcExt:LocationShownSublocation
+-XMP-iptcExt:LocationShownWorldRegion
+-XMP-iptcExt:LocationShownLocationId
+
+-XMP-iptcExt:MaxAvailHeight
+-XMP-iptcExt:MaxAvailWidth
+-XMP-iptcExt:ModelAge
+-XMP-iptcExt:OrganisationInImageCode
+-XMP-iptcExt:OrganisationInImageName
+-XMP-iptcExt:PersonInImage
+
+# PersonDetails struct
+-XMP-iptcExt:PersonInImageWDetails
+-XMP-iptcExt:PersonInImageId
+-XMP-iptcExt:PersonInImageName
+-XMP-iptcExt:PersonInImageDescription
+# CVTermDetails struct
+#-XMP-iptcExt:PersonInImageCharacteristic
+-XMP-iptcExt:PersonInImageCvTermCvId
+-XMP-iptcExt:PersonInImageCvTermId
+-XMP-iptcExt:PersonInImageCvTermName
+-XMP-iptcExt:PersonInImageCvTermRefinedAbout
+
+# ProductDetails struct
+-XMP-iptcExt:ProductInImage
+-XMP-iptcExt:ProductInImageName
+-XMP-iptcExt:ProductInImageGTIN
+-XMP-iptcExt:ProductInImageDescription
+
+# RegistryEntryDetails struct
+-XMP-iptcExt:RegistryID
+-XMP-iptcExt:RegistryItemID
+-XMP-iptcExt:RegistryOrganisationID
+-XMP-iptcExt:RegistryEntryRole
+
+# Genre struct
+-XMP-iptcExt:Genre
+-XMP-iptcExt:GenreCvId
+-XMP-iptcExt:GenreCvTermId
+-XMP-iptcExt:GenreCvTermName
+-XMP-iptcExt:GenreCvTermRefinedAbout
+
+#
+# plus schema
+#
+
+# CopyrightOwnerDetail struct
+-XMP-plus:CopyrightOwner
+-XMP-plus:CopyrightOwnerID
+-XMP-plus:CopyrightOwnerImageID
+-XMP-plus:CopyrightOwnerName
+
+# ImageCreatorDetail struct
+-XMP-plus:ImageCreator
+-XMP-plus:ImageCreatorID
+-XMP-plus:ImageCreatorImageID
+-XMP-plus:ImageCreatorName
+
+# ImageSupplierDetail struct
+-XMP-plus:ImageSupplier
+-XMP-plus:ImageSupplierID
+-XMP-plus:ImageSupplierImageID
+-XMP-plus:ImageSupplierName
+
+# LicensorDetail struct
+-XMP-plus:Licensor
+-XMP-plus:LicensorCity
+-XMP-plus:LicensorCountry
+-XMP-plus:LicensorEmail
+-XMP-plus:LicensorExtendedAddress
+-XMP-plus:LicensorID
+-XMP-plus:LicensorImageID
+-XMP-plus:LicensorName
+-XMP-plus:LicensorNotes
+-XMP-plus:LicensorPostalCode
+-XMP-plus:LicensorRegion
+-XMP-plus:LicensorStreetAddress
+-XMP-plus:LicensorTelephone1
+-XMP-plus:LicensorTelephone2
+-XMP-plus:LicensorTelephoneType1
+-XMP-plus:LicensorTelephoneType2
+-XMP-plus:LicensorTransactionID
+-XMP-plus:LicensorURL
+
+-XMP-plus:MinorModelAgeDisclosure
+-XMP-plus:ModelReleaseID
+-XMP-plus:ModelReleaseStatus
+-XMP-plus:PLUSVersion
+-XMP-plus:PropertyReleaseID
+-XMP-plus:PropertyReleaseStatus
+
+# end

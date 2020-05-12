@@ -1,0 +1,28 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.75
+[File, System, Other] FileName - File Name: KyoceraRaw.raw
+[File, System, Other] Directory - Directory: t/images
+[File, System, Other] FileSize - File Size: 166 bytes
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2006:02:17 11:59:53-05:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2019:10:31 14:56:16-04:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2019:10:29 08:21:01-04:00
+[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, File, Other] FileType - File Type: RAW
+[File, File, Other] FileTypeExtension - File Type Extension: raw
+[File, File, Other] MIMEType - MIME Type: image/x-raw
+[MakerNotes, KyoceraRaw, Camera] 1 - Firmware Version: Ver. 1.07
+[MakerNotes, KyoceraRaw, Camera] 12 - Model: N DIGITAL
+[MakerNotes, KyoceraRaw, Camera] 25 - Make: KYOCERA
+[MakerNotes, KyoceraRaw, Time] 33 - Date/Time Original: 2005:07:16 18:14:30
+[MakerNotes, KyoceraRaw, Image] 52 - ISO: 100
+[MakerNotes, KyoceraRaw, Image] 56 - Exposure Time: 1/125
+[MakerNotes, KyoceraRaw, Image] 60 - WB RGGB Levels: 84 64 64 86
+[MakerNotes, KyoceraRaw, Image] 88 - F Number: 11
+[MakerNotes, KyoceraRaw, Camera] 104 - Max Aperture: 5.2
+[MakerNotes, KyoceraRaw, Camera] 112 - Focal Length: 55 mm
+[MakerNotes, KyoceraRaw, Camera] 124 - Lens: VS28-80/3.5
+[Composite, Composite, Image] Exif::Aperture - Aperture: 11.3
+[Composite, Composite, Camera] Exif::BlueBalance - Blue Balance: 1.34375
+[Composite, Composite, Camera] Exif::RedBalance - Red Balance: 1.3125
+[Composite, Composite, Image] Exif::ShutterSpeed - Shutter Speed: 1/125
+[Composite, Composite, Camera] Exif::FocalLength35efl - Focal Length: 55.0 mm
+[Composite, Composite, Image] Exif::LightValue - Light Value: 14.0

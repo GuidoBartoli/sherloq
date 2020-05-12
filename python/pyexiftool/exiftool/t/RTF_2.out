@@ -1,0 +1,21 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.75
+[File, System, Other] FileName - File Name: RTF.rtf
+[File, System, Other] Directory - Directory: t/images
+[File, System, Other] FileSize - File Size: 990 bytes
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2010:06:20 06:28:27-04:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2019:10:31 14:56:46-04:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2019:10:29 08:21:01-04:00
+[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, File, Other] FileType - File Type: RTF
+[File, File, Other] FileTypeExtension - File Type Extension: rtf
+[File, File, Other] MIMEType - MIME Type: text/rtf
+[RTF, RTF, Document] title - Title: ExifTool RTF test (with spécîål çhars)
+[RTF, RTF, Time] revtim - Modify Date: 2010:06:19 20:00:00
+[RTF, RTF, Document] subject - Subject: a “subject” in funny quotes
+[RTF, RTF, Document] doccomm - Comments: ストロボ.フラッシュ未発光、強制発光モード(end);another line
+[RTF, RTF, Author] author - Author: an author {with braces}
+[RTF, RTF, Document] company - Company:  a company \with backslashes and leading space\
+[RTF, RTF, Author] copyright - Copyright: © 2010 Phil Harvey
+[RTF, RTF, Document] keywords - Keywords: keyword1, keyword2
+[RTF, RTF, Document] CustomString - Custom String: ABCDEF
+[RTF, RTF, Document] CustomNumber - Custom Number: 123456

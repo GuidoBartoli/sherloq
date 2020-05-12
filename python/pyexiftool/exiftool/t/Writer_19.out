@@ -1,0 +1,36 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.75
+[File, System, Other] FileName - File Name: Writer_19_failed.jpg
+[File, System, Other] Directory - Directory: t
+[File, System, Other] FileSize - File Size: 553 bytes
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2019:11:01 10:15:48-04:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2019:11:01 10:15:48-04:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2019:11:01 10:15:48-04:00
+[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, File, Other] FileType - File Type: JPEG
+[File, File, Other] FileTypeExtension - File Type Extension: jpg
+[File, File, Other] MIMEType - MIME Type: image/jpeg
+[File, File, Image] ExifByteOrder - Exif Byte Order: Little-endian (Intel, II)
+[File, File, Image] CurrentIPTCDigest - Current IPTC Digest: 780195eb135f878e7864b2564f1dfc9a
+[File, File, Image] ImageWidth - Image Width: 8
+[File, File, Image] ImageHeight - Image Height: 8
+[File, File, Image] EncodingProcess - Encoding Process: Baseline DCT, Huffman coding
+[File, File, Image] BitsPerSample - Bits Per Sample: 8
+[File, File, Image] ColorComponents - Color Components: 3
+[File, File, Image] YCbCrSubSampling - Y Cb Cr Sub Sampling: YCbCr4:2:0 (2 2)
+[EXIF, IFD0, Image] 282 - X Resolution: 72
+[EXIF, IFD0, Image] 283 - Y Resolution: 72
+[EXIF, IFD0, Image] 296 - Resolution Unit: inches
+[EXIF, IFD0, Author] 315 - Artist: Phil
+[EXIF, IFD0, Image] 531 - Y Cb Cr Positioning: Centered
+[EXIF, ExifIFD, Author] 315 - Artist: Harvey
+[EXIF, ExifIFD, Image] 34855 - ISO: 25
+[EXIF, ExifIFD, Image] 36864 - Exif Version: 0232
+[EXIF, ExifIFD, Time] 36867 - Date/Time Original: 2006:03:27 16:25:00
+[EXIF, ExifIFD, Image] 37121 - Components Configuration: Y, Cb, Cr, -
+[EXIF, ExifIFD, Image] 40960 - Flashpix Version: 0100
+[EXIF, ExifIFD, Image] 40961 - Color Space: Uncalibrated
+[EXIF, ExifIFD, Camera] 41994 - Sharpness: Hard
+[IPTC, IPTC, Other] 25 - Keywords: one, two
+[IPTC, IPTC, Other] 0 - Application Record Version: 4
+[Composite, Composite, Image] Exif::ImageSize - Image Size: 8x8
+[Composite, Composite, Image] Exif::Megapixels - Megapixels: 0.000064

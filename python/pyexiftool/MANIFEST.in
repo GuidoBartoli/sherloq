@@ -1,0 +1,1 @@
+include README.rst COPYING doc/Makefile doc/conf.py doc/*.rst
