@@ -3,10 +3,12 @@ from subprocess import run, PIPE
 
 from PySide2.QtCore import QUrl
 from PySide2.QtWebEngineWidgets import QWebEngineView
-from PySide2.QtWidgets import QVBoxLayout, QWidget
+from PySide2.QtWidgets import QVBoxLayout
+
+from widget import ToolWidget
 
 
-class StructureWidget(QWidget):
+class StructureWidget(ToolWidget):
     def __init__(self, filename, parent=None):
         super(StructureWidget, self).__init__(parent)
         self.TEMP_FILE = os.path.join(os.getcwd(), 'structure.html')

@@ -88,7 +88,7 @@ sub ProcessCTMD($$$);
 sub ProcessExifInfo($$$);
 sub SwapWords($);
 
-$VERSION = '4.35';
+$VERSION = '4.38';
 
 # Note: Removed 'USM' from 'L' lenses since it is redundant - PH
 # (or is it?  Ref 32 shows 5 non-USM L-type lenses)
@@ -474,8 +474,9 @@ $VERSION = '4.35';
     253.1 => 'Canon EF 70-200mm f/2.8L IS III USM + 2x', #PH (NC)
     # 253.2 => 'Tamron SP 70-200mm f/2.8 Di VC USD G2 (A025) + 2x', #forum9367
     254 => 'Canon EF 100mm f/2.8L Macro IS USM', #42
-    255 => 'Sigma 24-105mm f/4 DG OS HSM | A or Other Sigma Lens', #50
+    255 => 'Sigma 24-105mm f/4 DG OS HSM | A or Other Lens', #50
     255.1 => 'Sigma 180mm f/2.8 EX DG OS HSM APO Macro', #50
+    255.2 => 'Tamron SP 70-200mm f/2.8 Di VC USD', #exiv issue 1202 (A009)
     368 => 'Sigma 14-24mm f/2.8 DG HSM | A or other Sigma Lens', #IB (A018)
     368.1 => 'Sigma 20mm f/1.4 DG HSM | A', #50 (newer firmware)
     368.2 => 'Sigma 50mm f/1.4 DG HSM | A', #50
@@ -486,6 +487,7 @@ $VERSION = '4.35';
     368.7 => 'Sigma 85mm f/1.4 DG HSM | A', #IB (016)
     368.8 => 'Sigma 105mm f/1.4 DG HSM', #IB (A018)
     368.9 => 'Sigma 14-24mm f/2.8 DG HSM', #IB (A018)
+    368.10 => 'Sigma 35mm f/1.4 DG HSM | A', #PH (012)
    '368.10' => 'Sigma 70mm f/2.8 DG Macro', #IB (A018)
     # Note: LensType 488 (0x1e8) is reported as 232 (0xe8) in 7D CameraSettings
     488 => 'Canon EF-S 15-85mm f/3.5-5.6 IS USM', #PH
@@ -532,7 +534,7 @@ $VERSION = '4.35';
     757 => 'Canon EF 400mm f/2.8L IS III USM', #IB
     758 => 'Canon EF 600mm f/4L IS III USM', #IB
 
-    1136 => 'Sigma 24-70mm f/2.8 DG OS HSM | Art 017', #IB
+    1136 => 'Sigma 24-70mm f/2.8 DG OS HSM | A', #IB (017)
     # (STM lenses - 0x10xx)
     4142 => 'Canon EF-S 18-135mm f/3.5-5.6 IS STM',
     4143 => 'Canon EF-M 18-55mm f/3.5-5.6 IS STM or Tamron Lens',
@@ -6675,6 +6677,24 @@ my %ciMaxFocal = (
     25 => { #PH
         Name => 'FlashExposureLock',
         PrintConv => \%offOn,
+    },
+    0x3d => { #IB
+        Name => 'RFLensType',
+        Format => 'int16u',
+        PrintConv => {
+            0 => 'n/a',
+            257 => 'Canon RF 50mm F1.2L USM',
+            258 => 'Canon RF 24-105mm F4L IS USM',
+            259 => 'Canon RF 28-70mm F2L USM',
+            260 => 'Canon RF 35mm F1.8 MACRO IS STM',
+            261 => 'Canon RF 85mm F1.2L USM',
+            262 => 'Canon RF 85mm F1.2L USM DS',
+            263 => 'Canon RF 24-70mm F2.8L IS USM',
+            264 => 'Canon RF 15-35mm F2.8L IS USM',
+            265 => 'Canon RF 24-240mm F4-6.3 IS USM',
+            266 => 'Canon RF 70-200mm F2.8L IS USM',
+            274 => 'Canon RF 24-105mm F4-7.1 IS STM',
+        },
     },
 );
 

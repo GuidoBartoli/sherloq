@@ -46,7 +46,7 @@ use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 use Image::ExifTool::GPS;
 
-$VERSION = '2.45';
+$VERSION = '2.49';
 
 sub ProcessMOV($$;$);
 sub ProcessKeys($$$);
@@ -1628,10 +1628,14 @@ my %eeBox = (
         Avoid => 1,
         Format => 'string', # (necessary to remove the trailing NULL)
     },
-    date => { # (NC)
+    date => {
         Name => 'DateTimeOriginal',
         Description => 'Date/Time Original',
         Groups => { 2 => 'Time' },
+        Notes => q{
+            Apple Photos has been reported to show a crazy date/time for some MP4 files
+            containing this tag
+        }, #forum10690/11125
         Shift => 'Time',
         ValueConv => q{
             require Image::ExifTool::XMP;
@@ -5896,6 +5900,32 @@ my %eeBox = (
     GUID => 'GUID',
     AACR => { Name => 'Unknown_AACR', Unknown => 1 }, # eg: "CR!1T1H1QH6WX7T714G2BMFX3E9MC4S"
     # ausr - 30 bytes (User Alias?)
+    "\xa9xyz" => { #PH (written by Google Photos)
+        Name => 'GPSCoordinates',
+        Groups => { 2 => 'Location' },
+        ValueConv => \&ConvertISO6709,
+        ValueConvInv => \&ConvInvISO6709,
+        PrintConv => \&PrintGPSCoordinates,
+        PrintConvInv => \&PrintInvGPSCoordinates,
+    },
+    # the following tags written by iTunes 12.5.1.21
+    # (ref https://www.ventismedia.com/mantis/view.php?id=14963
+    #  https://community.mp3tag.de/t/x-mp4-new-tag-problems/19488)
+    "\xa9wrk" => 'Work', #PH
+    "\xa9mvn" => 'MovementName', #PH
+    "\xa9mvi" => { #PH
+        Name => 'MovementNumber',
+        Format => 'int16s',
+    },
+    "\xa9mvc" => { #PH
+        Name => 'MovementCount',
+        Format => 'int16s',
+    },
+    shwm => { #PH
+        Name => 'ShowMovement',
+        Format => 'int8s',
+        PrintConv => { 0 => 'No', 1 => 'Yes' },
+    },
 );
 
 # tag decoded from timed face records
@@ -6115,6 +6145,21 @@ my %eeBox = (
     'detected-face.roll-angle' => { Name => 'DetectedFaceRollAngle', Writable => 0 },
     # (fiel)com.apple.quicktime.detected-face.yaw-angle (dtyp=23, float)
     'detected-face.yaw-angle'  => { Name => 'DetectedFaceYawAngle',  Writable => 0 },
+#
+# seen in Apple ProRes RAW file
+#
+    # (mdta)com.apple.proapps.manufacturer (eg. "Sony")
+    # (mdta)com.apple.proapps.exif.{Exif}.FNumber (float, eg. 1.0)
+    # (mdta)org.smpte.rdd18.lens.irisfnumber (eg. "F1.0")
+    # (mdta)com.apple.proapps.exif.{Exif}.ShutterSpeedValue (float, eg. 1.006)
+    # (mdta)org.smpte.rdd18.camera.shutterspeed_angle (eg. "179.2deg")
+    # (mdta)org.smpte.rdd18.camera.neutraldensityfilterwheelsetting (eg. "ND1")
+    # (mdta)org.smpte.rdd18.camera.whitebalance (eg. "4300K")
+    # (mdta)com.apple.proapps.exif.{Exif}.ExposureIndex (float, eg. 4000)
+    # (mdta)org.smpte.rdd18.camera.isosensitivity (eg. "4000")
+    # (mdta)com.apple.proapps.image.{TIFF}.Make (eg. "Atmos")
+    # (mdta)com.apple.proapps.image.{TIFF}.Model (eg. "ShogunInferno")
+    # (mdta)com.apple.proapps.image.{TIFF}.Software (eg. "9.0")
 );
 
 # iTunes info ('----') atoms
@@ -6722,13 +6767,28 @@ my %eeBox = (
         Name => 'SchemeInfo',
         SubDirectory => { TagTable => 'Image::ExifTool::QuickTime::SchemeInfo' },
     },
+    enda => {
+        Name => 'Endianness',
+        Format => 'int16u',
+        PrintConv => {
+            0 => 'Big-endian (Motorola, MM)',
+            1 => 'Little-endian (Intel, II)',
+        },
+    },
     # skcr
-    # enda
 );
 
 %Image::ExifTool::QuickTime::Wave = (
     PROCESS_PROC => \&ProcessMOV,
     frma => 'PurchaseFileFormat',
+    enda => {
+        Name => 'Endianness',
+        Format => 'int16u',
+        PrintConv => {
+            0 => 'Big-endian (Motorola, MM)',
+            1 => 'Little-endian (Intel, II)',
+        },
+    },
     # "ms\0\x11" - 20 bytes
 );
 
@@ -8221,13 +8281,27 @@ sub HandleItemInfo($)
             my ($start, $subTable, $proc);
             my $pos = $$item{Extents}[0][1] + $base;
             if ($name eq 'EXIF' and length $buff >= 4) {
-                my $n = unpack('N', $buff);
-                $start = 4 + $n; # skip "Exif\0\0" header if it exists
-                $subTable = GetTagTable('Image::ExifTool::Exif::Main');
-                if ($$et{HTML_DUMP}) {
-                    $et->HDump($pos, 4, 'Exif header length', "Value: $n");
-                    $et->HDump($pos+4, $start-4, 'Exif header') if $n;
+                if ($buff =~ /^(MM\0\x2a|II\x2a\0)/) {
+                    $et->Warn('Missing Exif header');
+                    $start = 0;
+                } elsif ($buff =~ /^Exif\0\0/) {
+                    # (haven't seen this yet, but it is just a matter of time
+                    #  until someone screws it up like this)
+                    $et->Warn('Missing Exif header size');
+                    $start = 6;
+                } else {
+                    my $n = unpack('N', $buff);
+                    $start = 4 + $n; # skip "Exif\0\0" header if it exists
+                    if ($start > length($buff)) {
+                        $et->Warn('Invalid EXIF header');
+                        next;
+                    }
+                    if ($$et{HTML_DUMP}) {
+                        $et->HDump($pos, 4, 'Exif header length', "Value: $n");
+                        $et->HDump($pos+4, $start-4, 'Exif header') if $n;
+                    }
                 }
+                $subTable = GetTagTable('Image::ExifTool::Exif::Main');
                 $proc = \&Image::ExifTool::ProcessTIFF;
             } else {
                 $start = 0;
@@ -8538,9 +8612,10 @@ sub ProcessKeys($$$)
             $$newInfo{Groups} = $groups ? { %$groups } : { };
             $$newInfo{Groups}{$_} or $$newInfo{Groups}{$_} = $$tagTablePtr{GROUPS}{$_} foreach 0..2;
             $$newInfo{Groups}{1} = 'Keys';
-        } elsif ($tag =~ /^[-\w. ]+$/) {
+        } elsif ($tag =~ /^[-\w. ]+$/ or $tag =~ /\w{4}/) {
             # create info for tags with reasonable id's
             my $name = ucfirst $tag;
+            $name =~ tr/-0-9a-zA-Z_. //dc;
             $name =~ s/[. ]+(.?)/\U$1/g;
             $name =~ s/_([a-z])/_\U$1/g;
             $name =~ s/([a-z])_([A-Z])/$1$2/g;
@@ -8561,7 +8636,7 @@ sub ProcessKeys($$$)
         if ($newInfo) {
             AddTagToTable($itemList, $id, $newInfo);
             $msg or $msg = '';
-            $out and print $out "$$et{INDENT}Added ItemList Tag $id = $tag$msg\n";
+            $out and print $out "$$et{INDENT}Added ItemList Tag $id = ($ns) $tag$msg\n";
         }
         $pos += $len;
         ++$index;
@@ -8953,7 +9028,9 @@ ItemID:         foreach $id (keys %$items) {
                         SetByteOrder('II');
                     }
                     my $oldGroup1 = $$et{SET_GROUP1};
-                    if ($$tagInfo{Name} eq 'Track') {
+                    if ($$tagInfo{SubDirectory} and $$tagInfo{SubDirectory}{TagTable} and
+                        $$tagInfo{SubDirectory}{TagTable} eq 'Image::ExifTool::QuickTime::Track')
+                    {
                         $track or $track = 0;
                         $$et{SET_GROUP1} = 'Track' . (++$track);
                     }

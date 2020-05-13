@@ -12,7 +12,7 @@ meta information extracted from or written to a file.
 =head1 TAG TABLES
 
 The tables listed below give the names of all tags recognized by ExifTool.
-They contain a total of 23357 tags, with 15304 unique tag names.
+They contain a total of 23378 tags, with 15312 unique tag names.
 
 B<Tag ID>, B<Index#> or B<Sequence> is given in the first column of each
 table.  A B<Tag ID> is the computer-readable equivalent of a tag name, and
@@ -3643,7 +3643,6 @@ is to write ImageRegion as a structure with these tags as new fields.
   GPSAltitude                                   rational
   GPSLatitude                                   string
   GPSLongitude                                  string
-  GROUPS                                        string
   Identifier                                    string+
   LocationId                                    string+
   LocationName                                  lang-alt
@@ -6895,6 +6894,7 @@ WB tags for the Canon G9.
      20    FocusDistanceUpper                   int16u
      21    FocusDistanceLower                   int16u
      25    FlashExposureLock                    int16s
+     61    RFLensType                           int16u
 
 =head3 Canon SerialInfo Tags
 
@@ -12217,6 +12217,9 @@ These tags are extracted from encrypted data in images from the D850.
    4029    PhotoShootingMenuBank                int8u & 0x03
    4031    PrimarySlot                          int8u & 0x80
    4152    CustomSettingsD850                   NikonCustom SettingsD850
+  12027    RollAngle                            fixed32u
+  12031    PitchAngle                           fixed32u
+  12035    YawAngle                             fixed32u
 
 =head3 Nikon ShotInfoD5000 Tags
 
@@ -15325,6 +15328,7 @@ These tags are used in Pentax/Asahi cameras.
   0x0080   AspectRatio                          yes
   0x0082   BlurControl                          int8u[4]
   0x0085   HDR                                  int8u[4]
+  0x0087   ShutterType                          int8u
   0x0088   NeutralDensityFilter                 int8u[n]
   0x008b   ISO                                  int32u
   0x0092   IntervalShooting                     int16u[2]
@@ -18946,7 +18950,7 @@ These tags are used in Minolta RAW format (MRW) images.
      16    WB_RBLevelsCloudy                    int16u[2]
      20    WB_RBLevelsCoolWhiteF                int16u[2]
      24    WB_RBLevelsFlash                     int16u[2]
-     28    WB_RBLevelsUnknown?                  int16u[2]
+     28    WB_RBLevelsCustom                    int16u[2]
      32    WB_RBLevelsShade                     int16u[2]
      36    WB_RBLevelsDaylightF                 int16u[2]
      40    WB_RBLevelsDayWhiteF                 int16u[2]
@@ -24256,9 +24260,12 @@ software.
   'APIC-2' PictureType                          no
   'APIC-3' PictureDescription                   no
   'COMM'   Comment                              no
+  'GRP1'   Grouping                             no
   'IPLS'   InvolvedPeople                       no
   'ITNU'   iTunesU?                             no
   'MCDI'   MusicCDIdentifier                    no
+  'MVIN'   MovementNumber                       no
+  'MVNM'   MovementName                         no
   'OWNE'   Ownership                            no
   'PCNT'   PlayCounter                          no
   'PCST'   Podcast?                             no
@@ -24358,8 +24365,11 @@ software.
   'APIC-2' PictureType                          no
   'APIC-3' PictureDescription                   no
   'COMM'   Comment                              no
+  'GRP1'   Grouping                             no
   'ITNU'   iTunesU?                             no
   'MCDI'   MusicCDIdentifier                    no
+  'MVIN'   MovementNumber                       no
+  'MVNM'   MovementName                         no
   'OWNE'   Ownership                            no
   'PCNT'   PlayCounter                          no
   'PCST'   Podcast?                             no
@@ -25093,6 +25103,7 @@ formats of timed GPS metadata from video files.
   RVMI_gReV                                     QuickTime RVMI_gReV
   RVMI_sReV                                     QuickTime RVMI_sReV
   RawGSensor                                    no
+  SampleDateTime                                no
   SampleDuration                                no
   SampleTime                                    no
   Text                                          no
@@ -25461,6 +25472,7 @@ API QuickTimeHandler option may be used to include an 'mdir' Handler box.
   'rldt'       ReleaseDate                      string
   'rtng'       Rating                           int8u
   'sfID'       AppleStoreCountry                int32u
+  'shwm'       ShowMovement                     int8s
   'soaa'       SortAlbumArtist                  string
   'soal'       SortAlbum                        string
   'soar'       SortArtist                       string
@@ -25489,12 +25501,17 @@ API QuickTimeHandler option may be used to include an 'mdir' Handler box.
   "\xa9gen"    Genre                            string
   "\xa9grp"    Grouping                         string
   "\xa9lyr"    Lyrics                           string
+  "\xa9mvc"    MovementCount                    int16s
+  "\xa9mvi"    MovementNumber                   int16s
+  "\xa9mvn"    MovementName                     string
   "\xa9nam"    Title                            string
   "\xa9nrt"    Narrator                         string
   "\xa9pub"    Publisher                        string
   "\xa9too"    Encoder                          string
   "\xa9trk"    Track                            string
+  "\xa9wrk"    Work                             string
   "\xa9wrt"    Composer                         string
+  "\xa9xyz"    GPSCoordinates                   string
 
 =head3 QuickTime iTunesInfo Tags
 
@@ -25852,6 +25869,7 @@ Child atoms found in "sinf" and/or "pinf" atoms.
 
   Tag ID   Tag Name                             Writable
   ------   --------                             --------
+  'enda'   Endianness                           no
   'frma'   OriginalFormat                       no
   'schi'   SchemeInfo                           QuickTime SchemeInfo
   'schm'   SchemeType                           QuickTime SchemeType
@@ -25892,6 +25910,7 @@ Child atoms found in "sinf" and/or "pinf" atoms.
 
   Tag ID   Tag Name                             Writable
   ------   --------                             --------
+  'enda'   Endianness                           no
   'frma'   PurchaseFileFormat                   no
 
 =head3 QuickTime ImageDesc Tags
@@ -28934,6 +28953,7 @@ sub-documents, but the Duration is calculated for the full video.
   'ANMF'               ANMF                     RIFF ANMF
   'CSET'               CharacterSet             RIFF CSET
   'EXIF'               EXIF                     EXIF
+                       UnknownEXIF              no
   'ICCP'               ICC_Profile              ICC_Profile
   'IDIT'               DateTimeOriginal         no
   'JUNK'               OlympusJunk              Olympus AVI
@@ -28941,6 +28961,7 @@ sub-documents, but the Duration is calculated for the full video.
                        RicohJunk                Ricoh AVI
                        PentaxJunk               Pentax Junk
                        PentaxJunk2              Pentax Junk2
+                       LucasJunk                QuickTime Stream
                        TextJunk                 no
   'JUNQ'               OldXMP                   no
   'LIST_INF0'          Info                     RIFF Info
@@ -34380,6 +34401,7 @@ values, may created via the ExifTool configuration file.
                        LensType2
                        LensType3
                        LensFocalLength
+                       RFLensType
   LensID               Nikon:LensIDNumber       no
                        LensFStops
                        MinFocalLength

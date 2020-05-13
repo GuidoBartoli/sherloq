@@ -10,6 +10,8 @@ def mat2img(cvmat):
 
 
 def modify_font(obj, bold=False, italic=False, underline=False, mono=False):
+    if obj is None:
+        return
     if mono:
         font = QFontDatabase.systemFont(QFontDatabase.FixedFont)
     else:

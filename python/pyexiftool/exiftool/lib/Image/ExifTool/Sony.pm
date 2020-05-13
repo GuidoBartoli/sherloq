@@ -34,7 +34,7 @@ use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 use Image::ExifTool::Minolta;
 
-$VERSION = '3.22';
+$VERSION = '3.24';
 
 sub ProcessSRF($$$);
 sub ProcessSR2($$$);
@@ -179,6 +179,7 @@ sub PrintInvLensSpec($;$$);
     49459 => 'Tamron 35mm F2.8 Di III OSD M1:2', #IB (Model F053)
     49460 => 'Tamron 24mm F2.8 Di III OSD M1:2', #JR (Model F051)
     49461 => 'Tamron 20mm F2.8 Di III OSD M1:2', #JR (Model F050)
+    49462 => 'Tamron 70-180mm F2.8 Di III VXD', #JR (Model A056)
 
     49712 => 'Tokina FiRIN 20mm F2 FE AF',       # (firmware Ver.01)
     49713 => 'Tokina FiRIN 100mm F2.8 FE MACRO', # (firmware Ver.01)
@@ -225,13 +226,15 @@ sub PrintInvLensSpec($;$$);
     # 504xx => 'Sigma 18-200mm F3.5-6.3 DC MACRO OS HSM | C + MC-11', # (014)
     # 504xx => 'Sigma 30mm F1.4 DC HSM | A + MC-11', # (013)
 
+    # Note: For Samyang lenses, the "FE" designation isn't written to
+    # EXIF:LensModel, so it isn't included in these strings either - JR/PH
     51504 => 'Samyang AF 50mm F1.4', #IB
     51505 => 'Samyang AF 14mm F2.8 or Samyang AF 35mm F2.8', #forum3833
     51505.1 => 'Samyang AF 35mm F2.8', #PH (also 32794)
     51507 => 'Samyang AF 35mm F1.4', #IB
     51508 => 'Samyang AF 45mm F1.8',
     51510 => 'Samyang AF 18mm F2.8', #JR
-
+    51512 => 'Samyang AF 75mm F1.8', #IB/JR
 );
 
 # ExposureProgram values (ref PH, mainly decoded from A200)

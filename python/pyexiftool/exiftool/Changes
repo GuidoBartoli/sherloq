@@ -7,11 +7,86 @@ RSS feed: https://exiftool.org/rss.xml
 Note: The most recent production release is Version 11.85. (Other versions are
 considered development releases, and are not uploaded to CPAN.)
 
+May 11, 2020 - Version 11.99
+
+  - Added a new Nikon LensID (thanks Mykyta Kozlov)
+  - Added a new Canon LensType
+  - Added a newn PentaxModelID
+  - Decode a few new QuickTime tags
+  - Decode new ID3 Grouping tag
+  - Decode a few more MinoltaRaw tags (thanks LibRaw)
+  - Fixed runtime warning which could occur when reading corrupted RTF files
+  - Fixed another potential pitfall in M2TS Duration calculation
+  - Fixed problem extracting some unknown QuickTime:Keys tags
+  - Fixed problem decoding Nikon D850 orientation tags
+  - Fixed bug where TIFF image data may not be padded to an even number of bytes
+
+May 1, 2020 - Version 11.98
+
+  - Added a new Nikon LensID (thanks Warren Hatch)
+  - Added a new Sony LensType (thanks LibRaw)
+  - Added a new Canon LensType
+  - Patched to extract EXIF with an "Exif\0\0" header from WebP images
+  - Enhanced -efile option and added to the documentation
+  - Minor tweak to -htmlDump output (disallow locking of empty selection)
+  - Fixed problem determining Duration of some M2TS videos
+
+Apr. 27, 2020 - Version 11.97
+
+  - Added experimental -efile option (undocumented)
+  - Decode NMEA GGA sentence from streaming GPS of some dashcam videos
+
+Apr. 24, 2020 - Version 11.96
+
+  - Decode streaming GPS from Lucas LK-7900 Ace AVI videos
+  - Changed new Exit/ExitDir function names to End/EndDir
+  - Fixed inconsistencies when using "-use mwg" together with the -wm option
+
+Apr. 23, 2020 - Version 11.95
+
+  - Added Exit() and ExitDir() functions for use in -if conditions
+  - Enhanced -geotag feature to support a more flexible input CSV file format
+  - Enhanced -if and API Filter options to allow access to ExifTool object via
+    $self
+  - Fixed problem reading HEIC Exif with a missing header
+
+Apr. 17, 2020 - Version 11.94
+
+  - Added support for QuickTime ItemList:GPSCoordinates
+  - Added additional Validate test for overlapping EXIF values
+  - Added a new Sony LensType (thanks Jos Roost)
+  - Added a new Nikon LensID
+  - Decode a few more Nikon tags (thanks Warren Hatch)
+  - Decode Pentax ShutterType
+  - Changed color of locked highlighted selection in -htmlDump output
+  - Fixed problem reading PDF files written by Microsoft Print-to-PDF
+  - Fixed problem where -X output would produce invalid XML for MP4 files
+    containing an HTCTrack
+
+Apr. 3, 2020 - Version 11.93
+
+  - Added new config file to the distribution for writing Pix4D XMP-Camera tags
+    (config_files/pix4d.config)
+  - Added support for the DOSCyrillic (cp866) character set
+  - Added IO::String to the Windows EXE version
+  - Improved identification of Canon RF lenses (thanks LibRaw)
+  - Enhanced -htmlDump output to add "File offset" entry for EXIF tags and
+    ability lock highlighted selection by clicking the mouse
+  - Enhanced -srcfile option to generate OriginalFileName and OriginalDirectory
+    UserParam tags
+  - Patched HEIC writer to add missing pitm box if necessary
+  - Fixed problem adding back EXIF after deleting it from HEIC file
+  - Fixed minor problem with incorrect number of bytes being reported for
+    invalid header in corrupt files
+  - API Changes:
+      - Enhanced UserParam  option to allow parameters to be extracted as if
+        they were normal tags
+
 Mar. 19, 2020 - Version 11.92
 
   - Added a new Nikon LensID (thanks Wolfgang Exler)
   - Decode a few new Leica tags (thanks Tim Gray)
-  - Decode CameraAngles from Samsung Gear 360 videos
+  - Decode AccelerometerData from Samsung Gear 360 videos
   - Fixed a couple of problems decoding timed GPS metadata from NextBase dashcam
     videos
   - Fixed problem where -X option could produce invalid XML when reading

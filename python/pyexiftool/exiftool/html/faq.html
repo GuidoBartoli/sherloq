@@ -44,6 +44,7 @@ ol.index { margin: 0; padding: 0 0 0 2em }
 <li><a href="#Q26">Import from database</a></li>
 <li><a href="#Q27">Windows .BAT file problems</a></li>
 <li><a href="#Q28">Copying a shifted date/time</a></li>
+<li><a href="#Q29">ARGFILE options</a></li>
 </ol>
 </div>
 
@@ -480,16 +481,17 @@ Valid <code>CHARSET</code> values are (with aliases given in brackets, case is
 not significant):
 
 <blockquote><table class=clear>
-<tr><td>UTF8</td><td>(cp65001, UTF&#8209;8)</td><td>Thai</td><td>(cp874)</td></tr>
-<tr><td>Latin</td><td>(cp1252, Latin1)</td><td>MacRoman</td><td>(cp10000, Mac, Roman)</td></tr>
-<tr><td>Latin2</td><td>(cp1250)</td><td>MacLatin2</td><td>(cp10029)</td></tr>
-<tr><td>Cyrillic</td><td>(cp1251,&nbsp;Russian)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>MacCyrillic</td><td>(cp10007)</td></tr>
-<tr><td>Greek</td><td>(cp1253)</td><td>MacGreek</td><td>(cp10006)</td></tr>
-<tr><td>Turkish</td><td>(cp1254)</td><td>MacTurkish</td><td>(cp10081)</td></tr>
-<tr><td>Hebrew</td><td>(cp1255)</td><td>MacRomanian</td><td>(cp10010)</td></tr>
-<tr><td>Arabic</td><td>(cp1256)</td><td>MacIceland</td><td>(cp10079)</td></tr>
-<tr><td>Baltic</td><td>(cp1257)</td><td>MacCroatian</td><td>(cp10082)</td></tr>
-<tr><td>Vietnam</td><td>(cp1258)</td></tr>
+<tr><td>UTF8</td><td>(cp65001, UTF&#8209;8)</td><td>DOSLatinUS</td><td>(cp437)</td></tr>
+<tr><td>Latin</td><td>(cp1252, Latin1)</td><td>DOSLatin1</td><td>(cp850)</td></tr>
+<tr><td>Latin2</td><td>(cp1250)</td><td>DOSCyrillic</td><td>(cp866)</td></tr>
+<tr><td>Cyrillic</td><td>(cp1251,&nbsp;Russian)&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td><td>MacRoman</td><td>(cp10000, Mac, Roman)</td></tr>
+<tr><td>Greek</td><td>(cp1253)</td><td>MacLatin2</td><td>(cp10029)</td></tr>
+<tr><td>Turkish</td><td>(cp1254)</td><td>MacCyrillic</td><td>(cp10007)</td></tr>
+<tr><td>Hebrew</td><td>(cp1255)</td><td>MacGreek</td><td>(cp10006)</td></tr>
+<tr><td>Arabic</td><td>(cp1256)</td><td>MacTurkish</td><td>(cp10081)</td></tr>
+<tr><td>Baltic</td><td>(cp1257)</td><td>MacRomanian</td><td>(cp10010)</td></tr>
+<tr><td>Vietnam</td><td>(cp1258)</td><td>MacIceland</td><td>(cp10079)</td></tr>
+<tr><td>Thai</td><td>(cp874)</td><td>MacCroatian</td><td>(cp10082)</td></tr>
 </table></blockquote>
 
 The <code>-L</code> option is equivalent to "<code>-charset Latin</code>",
@@ -584,7 +586,7 @@ references are converted. When writing, ExifTool always encodes XMP as
 UTF&#8209;8, converting the following 5 characters to XML character references:
 <code>&amp; &lt; &gt; &#39; &quot;</code>. By default no further conversion is
 performed, however the <code>-charset</code> or <code>-L</code> option may be
-used used to convert text to/from a specified external character set when
+used to convert text to/from a specified external character set when
 reading/writing.</blockquote>
 
 <blockquote><a name="png"><b>PNG</b></a>:
@@ -684,7 +686,7 @@ directory then rename it to "<code>.ExifTool_config</code>".
 <blockquote class=lt><b>Note</b>: The config file must be renamed at the
 command line because neither the Windows nor Mac GUI allow a file name to
 begin with a "<code>.</code>".  To do this in Windows, run "cmd.exe" and type
-the following (pressing <i>RETURN</i> at the end of each line):
+the following (pressing <i>ENTER</i> at the end of each line):
 <pre>cd %HOMEPATH%
 rename ExifTool_config .ExifTool_config
 </pre>
@@ -842,9 +844,20 @@ with a command like this:
 <pre>exiftool -f -r -p my.fmt t/images &gt; out.csv
 </pre>
 
-Alternatively, the <code>-p</code> option may be used with a format string instead
-of a file name.  The following command has the same effect as above except that
-the row of headings is not printed (Note: Use single quotes as below on Mac/Linux,
+But note that any values containing commas, quotes or some other special
+characters may mess up the CSV formatting.  If this is a possibility, the
+<code>-api filter</code> option may be added to the command to quote values
+if necessary.  For example:
+
+<pre><span class='blk'># in Windows</span>
+exiftool -api filter="$_ = qq{""$_""} if s/""/""""/g or /(^\s+|\s+$)/ or /[,\n\r]/" ...
+
+<span class='blk'># in Mac/Linux</span>
+exiftool -api filter='$_ = qq{"$_"} if s/"/""/g or /(^\s+|\s+$)/ or /[,\n\r]/' ...</pre>
+
+The <code>-p</code> option argument may also be a format string instead of a
+file name.  The following command has the same effect as above except that the
+row of headings is not printed (Note: Use single quotes as below on Mac/Linux,
 or double quotes instead on Windows):
 
 <pre>exiftool -f -r -p '$filename,$aperture,$iso' t/images &gt; out.csv
@@ -1203,7 +1216,7 @@ change the the Windows console to UTF&#8209;8, follow these steps:
 Start menu and enter "cmd").</li>
 <li>Change the font in the console Properties to any True Type font (eg. "TT
 Lucida Console").</li>
-<li>Type "<code>chcp 65001</code>" then press RETURN at the command prompt.</li>
+<li>Type "<code>chcp 65001</code>" then press ENTER at the command prompt.</li>
 </ol>
 
 The console should now be able to display UTF&#8209;8 characters (cp65001).  But
@@ -1639,7 +1652,7 @@ an empty string, in which case the tag is deleted).</blockquote>
 for more details.</blockquote>
 
 <a name="Q27"></a>
-<p>27. <b>"My ExifTool command doesn't work from a Windows .BAT file."</b></p>
+<p>27. <b>"My ExifTool command doesn't work from a Windows .BAT file"</b></p>
 
 <blockquote>In a Windows .BAT file the "<code>%</code>" character is
 significant, so all "<code>%</code>" characters in ExifTool commands must be
@@ -1687,8 +1700,24 @@ $exifTool->SetNewValuesFromFile($src, 'datetimeoriginal&lt;filemodifydate');
 $exifTool->SetNewValuesFromFile($src, 'datetimeoriginal&lt;${filemodifydate;ShiftTime("-2")}');</pre>
 </blockquote>
 
+<a name="Q29"></a>
+<p>29. <b>"My options don't work in a <code>-@</code> ARGFILE"</b></p>
+
+<blockquote>The ExifTool application has the ability to read options from an
+ARGFILE using the <code>-@</code> option.  The parsing of these arguments is
+different from the command line.  Arguments in this file are separated by
+newline characters instead of spaces.  Also, arguments should not be quoted.
+For example, on the command line you may have:
+
+<pre>-d "%Y:%m:%d %H:%M:%S"</pre>
+
+but in an ARGFILE, this should be
+
+<pre>-d
+%Y:%m:%d %H:%M:%S</pre></blockquote>
+
 <hr>
-<i>Last revised Mar. 6, 2020</i>
+<i>Last revised May 7, 2020</i>
 <p class='lf'><a href="index.html">&lt;-- Back to ExifTool home page</a></p>
 </body>
 </html>

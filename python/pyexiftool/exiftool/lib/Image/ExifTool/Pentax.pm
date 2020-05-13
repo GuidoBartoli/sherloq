@@ -58,7 +58,7 @@ use Image::ExifTool::Exif;
 use Image::ExifTool::GPS;
 use Image::ExifTool::HP;
 
-$VERSION = '3.30';
+$VERSION = '3.32';
 
 sub CryptShutterCount($$);
 sub PrintFilter($$$);
@@ -546,6 +546,7 @@ my %pentaxModelID = (
     0x13222 => 'K-70', #29 (Ricoh)
     0x1322c => 'KP', #29 (Ricoh)
     0x13240 => 'K-1 Mark II', # (Ricoh)
+    0x13290 => 'WG-70', # (Ricoh)
 );
 
 # Pentax city codes - (PH, Optio WP)
@@ -2552,6 +2553,14 @@ my %binaryDataAttrs = (
     },
     # 0x0086 - int8u: 0, 111[Sport,Pet] (Q) - related to Tracking FocusMode?
     # 0x0087 - int8u: 0 (Q)
+    0x0087 => { #PH
+        Name => 'ShutterType',
+        Writable => 'int8u',
+        PrintConv => {
+            0 => 'Normal', # ('Mechanical' if the camera has a mechanical shutter)
+            1 => 'Electronic', # (KP)
+        },
+    },
     0x0088 => { #PH
         Name => 'NeutralDensityFilter',
         Writable => 'int8u',

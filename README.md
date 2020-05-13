@@ -19,7 +19,7 @@ While also including novel algorithms, the 2017 version mainly added a Qt-based 
 
 Fast forward to 2020 when I decided to port everything in Python + PySide2 + OpenCV for a much easier installation and maintenance. This iteration is just begun and I have ported about 15% of the previous code on the new platform, but I think this will be the final "form" of the project (as long as someone does not volunteer to develop a web application!)
 
-I'm happy to share my code and get in contact with anyone interested to improve or test it, but please keep in mind that this repository is *not* intended for distributing a final product, my intent is just to publicly track development, so expect bugs, unpolished code and missing features! ;) 
+I'm happy to share my code and get in contact with anyone interested to improve or test it, but please keep in mind that this repository is *not* intended for distributing a final product, my intent is just to publicly track development, so expect bugs, unpolished code and missing features! ;)
 
 # Install
 Compiling the `cli` or `gui` version can be tricky, since it is old code and tested only on Ubuntu-based distributions, however, if you need assistance to set it up, drop me a line and I will try to look into it (no guarantees!).
@@ -31,51 +31,51 @@ This list contains all functions that **Sherloq** could provide once the beta st
 
 ## General
 - __Original Image__: display the unaltered reference image for visual inspection
-- __Image Digest__: compute various hashes together with extension ballistics
-- __Similarity Search__: use reverse search services for finding similar images on the web
+- __File Digest__: retrieve file information and compute many hashes and ballistics
+- __Similarity Search__: use reverse search services for finding similar images online
 - __Automatic Tagging__: apply deep learning algorithms for automatic picture tagging
 
 ## Metadata
 - __Header Structure__: dump the physical EXIF structure and display an interactive view
-- __Metadata Extraction__: gather all metadata information and display security warnings
-- __Thumbnail Analysis__: if present, extract embedded thumbnail and highlight discrepancies
-- __Geolocation Data__: if present, get geographic data and locate them on a world map view
+- __Metadata Extraction__: scan through file metadata and gather all available information
+- __Thumbnail Analysis__: extract optional embedded thumbnail and compare with original
+- __Geolocation Data__: retrieve optional geo-location data and show it on a world map
 
 ## Inspection
-- __Enhancing Magnifier__: apply local visual enhancements for better identifying forgeries
-- __Image Adjustments__: apply standard adjustments (contrast, brightness, hue, saturation, ...)
-- __Tonal Range Sweep__: interactive tonality range compression for easier artifact detection
-- __Reference Comparison__: synchronized double view to compare reference and evidence images
+- __Enhancing Magnifier__: use various visual enhancement for better identifying forgeries
+- __Reference Comparison__: open a synchronized double view to compare two different pictures
+- __Global Adjustments__: apply standard adjustments (contrast, brightness, hue, saturation)
+- __Range Compression__: compress tonality over different ranges to detect inconsistencies
 
 ## JPEG
 - __Quality Estimation__: extract quantization tables and estimate last saved JPEG quality
-- __Compression Ghosts__: use error residuals to detect multiple compressions at different levels
-- __Double Compression__: exploit First Digit Statistics to discover potential double compression
-- __Error Level Analysis__: identify areas with different compression levels against a fixed quality
+- __Error Level Analysis__: show pixel-level difference against different compression levels
+- __Quantization Ghosts__: Use residuals to detect multiple compressions at different levels
+- __Double Compression__: exploit DCT First-Digit-Statistics to detect double compression
 
 ## Colors
 - __RGB/HSV 3D Plots__: display interactive 2D and 3D plots of RGB and HSV pixel data
-- __Color Space Conversion__: convert image into RGB/HSV/YCbCr/Lab/CMYK color spaces
-- __Principal Component Analysis__: use PCA to project RGB values onto a different vector space
+- __RGB PCA Projection__: use color PCA to project RGB values onto reduced vector spaces
 - __RGB Pixel Statistics__: compute minimum/maximum/average RGB values for every pixel
+- __Color Space Conversion__: convert color channels into RGB/HSV/YCbCr/Lab/CMYK color spaces
 
 ## Tonality
-- __Luminance Gradient__: analyze brightness variations along X/Y axes of the image
-- __Frequency Separation__: extract the finest details of the luminance channel
-- __Echo Edge Filter__: use 2D Laplacian filter to reveal artificial blurred zones
-- __Wavelet Reconstruction__: re-synthesize image varying wavelet coefficient thresholds
+- __Luminance Gradient__: analyze horizontal and vertical brightness variations of the image
+- __Echo Edge Filter__: use derivative filter to reveal artificial out-of-focus zones
+- __Frequency Separation__: estimate high and low frequency components of the luminance channel
+- __Wavelet Reconstruction__: reconstruct image with different wavelet coefficient thresholds
 
 ## Noise
-- __Noise Extraction__: estimate and separate the natural noise component of the image
+- __Noise Extraction__: estimate and visualize gaussian noise components of the image
 - __Min/Max Deviation__: highlight pixels deviating from block-based min/max statistics
 - __SNR Consistency__: evaluate uniformity of signal-to-noise ratio across the image
-- __Noise Segmentation__: cluster uniform noise areas for easier tampering detection
+- __Noise Segmentation__: cluster noise into uniform regions for anomaly detection
 
 ## Tampering
-- __Contrast Enhancement__: analyze histogram inconsistencies caused by enhancements
-- __Clone Detection__: use invariant feature descriptors for copy/rotate clone area detection
-- __Resampling Detection__: analyze 2D pixel interpolation for detecting resampling traces
-- __Splicing Detection__: use DCT coefficient statistics for automatic splicing zone detection
+- __Contrast Enhancement__: analyze color distribuions to detect contrast enhancements
+- __Region Cloning__: use feature descriptors for copy/rotate clone area detection
+- __Image Resampling__: analyze 2D pixel interpolation for detecting resampling traces
+- __Composite Splicing__: exploit DCT statistics for automatic splicing zone detection
 
 # Screenshots
 <p align="center">

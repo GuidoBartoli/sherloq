@@ -62,7 +62,7 @@ use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 use Image::ExifTool::GPS;
 
-$VERSION = '3.80';
+$VERSION = '3.83';
 
 sub LensIDConv($$$);
 sub ProcessNikonAVI($$$);
@@ -297,6 +297,7 @@ sub GetAFPointGrid($$;$);
     'B8 40 2D 44 2C 34 BA 06' => 'AF-S Nikkor 18-35mm f/3.5-4.5G ED',
     'A0 40 2D 74 2C 3C BB 0E' => 'AF-S DX Nikkor 18-140mm f/3.5-5.6G ED VR', #PH
     'A1 54 55 55 0C 0C BC 06' => 'AF-S Nikkor 58mm f/1.4G', #IB
+    'A1 48 6E 8E 24 24 DB 4E' => 'AF-S Nikkor 120-300mm f/2.8E FL ED SR VR', #28
     'A2 40 2D 53 2C 3C BD 0E' => 'AF-S DX Nikkor 18-55mm f/3.5-5.6G VR II',
     'A4 40 2D 8E 2C 40 BF 0E' => 'AF-S DX Nikkor 18-300mm f/3.5-6.3G ED VR',
     'A5 4C 44 44 14 14 C0 06' => 'AF-S Nikkor 35mm f/1.8G ED', #35 ("ED" ref 11)
@@ -544,6 +545,7 @@ sub GetAFPointGrid($$;$);
     '07 46 2B 44 24 30 03 02' => 'Tamron SP AF 17-35mm f/2.8-4 Di LD Aspherical (IF) (A05)',
     'CB 3C 2B 44 24 31 DF 46' => 'Tamron 17-35mm f/2.8-4 Di OSD (A037)', #IB
     '00 53 2B 50 24 24 00 06' => 'Tamron SP AF 17-50mm f/2.8 XR Di II LD Aspherical (IF) (A16)', #PH
+    '7C 54 2B 50 24 24 00 06' => 'Tamron SP AF 17-50mm f/2.8 XR Di II LD Aspherical (IF) (A16)', #PH (https://github.com/Exiv2/exiv2/issues/1155)
     '00 54 2B 50 24 24 00 06' => 'Tamron SP AF 17-50mm f/2.8 XR Di II LD Aspherical (IF) (A16NII)',
     'FB 54 2B 50 24 24 84 06' => 'Tamron SP AF 17-50mm f/2.8 XR Di II LD Aspherical (IF) (A16NII)', #https://exiftool.org/forum/index.php/topic,3787.0.html
     'F3 54 2B 50 24 24 84 0E' => 'Tamron SP AF 17-50mm f/2.8 XR Di II VC LD Aspherical (IF) (B005)',
@@ -651,6 +653,7 @@ sub GetAFPointGrid($$;$);
     '00 40 64 64 2C 2C 00 00' => 'Voigtlander APO-Lanthar 90mm F3.5 SLII Close Focus',
 #
     '00 40 2D 2D 2C 2C 00 00' => 'Carl Zeiss Distagon T* 3.5/18 ZF.2',
+    '00 48 27 27 24 24 00 00' => 'Carl Zeiss Distagon T* 2.8/15 ZF.2', #MykytaKozlov
     '00 48 32 32 24 24 00 00' => 'Carl Zeiss Distagon T* 2.8/21 ZF.2',
     '00 54 38 38 18 18 00 00' => 'Carl Zeiss Distagon T* 2/25 ZF.2',
     '00 54 3C 3C 18 18 00 00' => 'Carl Zeiss Distagon T* 2/28 ZF.2',
@@ -1692,10 +1695,8 @@ my %binaryDataAttrs = (
             SubDirectory => {
                 TagTable => 'Image::ExifTool::Nikon::ShotInfoD850',
                 DecryptStart => 4,
-                # initially only decrypt enough to extract CustomSettingsOffset
-                DecryptLen => 0x58,
-                # then decrypt through to the end of the custom settings
-                DecryptMore => 'Get32u(\$data, 0x58) + 90 + 4',
+                DecryptLen => 0x2efb + 12,
+                DecryptMore => 'Get32u(\$data, 0xa0) + 12',
                 ByteOrder => 'LittleEndian',
             },
         },
@@ -6251,7 +6252,7 @@ my %nikonFocalConversions = (
     #        3 => 'Rotate 180',
     #    },
     #},
-    0x2ea4 => {
+    0x2ea4 => { #PH
         Name => 'NikonMeteringMode',
         Condition => '$$self{Model} =~ /\bD500\b/', # (didn't seem to work for D5, but I need more samples)
         Notes => 'D500 only',
@@ -6628,7 +6629,7 @@ my %nikonFocalConversions = (
     WRITE_PROC => \&Image::ExifTool::Nikon::ProcessNikonEncrypted,
     CHECK_PROC => \&Image::ExifTool::CheckBinaryData,
     VARS => { ID_LABEL => 'Index' },
-    DATAMEMBER => [ 0x04, 0x58, 0x0fbf ],
+    DATAMEMBER => [ 0x04, 0x58, 0xa0, 0x0fbf, 0x2efa ],
     IS_SUBDIR => [ 0x1038 ],
     WRITABLE => 1,
     FIRST_ENTRY => 0,
@@ -6653,6 +6654,14 @@ my %nikonFocalConversions = (
         Writable => 0,
         Hidden => 1,
         RawConv => '$$self{CustomSettingsOffset} = $val || 0x10000000; undef',
+    },
+    0xa0 => {
+        Name => 'OrientationOffset',
+        DataMember => 'OrientationOffset',
+        Format => 'int32u',
+        Writable => 0,
+        Hidden => 1,
+        RawConv => '$$self{OrientationOffset} = $val || 0x10000000; undef',
     },
     0x0791 => {
         Name => 'PhotoShootingMenuBankImageArea',
@@ -6693,7 +6702,42 @@ my %nikonFocalConversions = (
             TagTable => 'Image::ExifTool::NikonCustom::SettingsD850',
         },
     },
-    # note: DecryptLen currently set to 94 bytes after CustomSettingsOffset
+### 0x2efb - OrientationInfo start (D850 firmware 1.01a)
+    0x2efa => {
+        Name => 'Hook1',
+        Hidden => 1,
+        RawConv => 'undef',
+        # account for variable location of OrientationInfo data
+        Hook => '$varSize = $$self{OrientationOffset} - 0x2efb',
+    },
+    0x2efb => { #28
+        Name => 'RollAngle',
+        Format => 'fixed32u',
+        Notes => 'converted to degrees of clockwise camera roll',
+        ValueConv => '$val <= 180 ? $val : $val - 360',
+        ValueConvInv => '$val >= 0 ? $val : $val + 360',
+        PrintConv => 'sprintf("%.1f", $val)',
+        PrintConvInv => '$val',
+    },
+    0x2eff => { #28
+        Name => 'PitchAngle',
+        Format => 'fixed32u',
+        Notes => 'converted to degrees of upward camera tilt',
+        ValueConv => '$val <= 180 ? $val : $val - 360',
+        ValueConvInv => '$val >= 0 ? $val : $val + 360',
+        PrintConv => 'sprintf("%.1f", $val)',
+        PrintConvInv => '$val',
+    },
+    0x2f03 => { #28
+        Name => 'YawAngle',
+        Format => 'fixed32u',
+        Notes => 'the camera yaw angle when shooting in portrait orientation',
+        ValueConv => '$val <= 180 ? $val : $val - 360',
+        ValueConvInv => '$val >= 0 ? $val : $val + 360',
+        PrintConv => 'sprintf("%.1f", $val)',
+        PrintConvInv => '$val',
+    },
+    # note: DecryptLen currently set to 0x2f07
 );
 # shot information for the D4 firmware 1.00g (ref PH)
 %Image::ExifTool::Nikon::ShotInfoD4 = (

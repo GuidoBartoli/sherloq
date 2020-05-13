@@ -1,7 +1,6 @@
 import cv2 as cv
 import numpy as np
 from PySide2.QtWidgets import (
-    QWidget,
     QSpinBox,
     QCheckBox,
     QHBoxLayout,
@@ -10,9 +9,10 @@ from PySide2.QtWidgets import (
 
 from utility import create_lut
 from viewer import ImageViewer
+from widget import ToolWidget
 
 
-class GradientWidget(QWidget):
+class GradientWidget(ToolWidget):
     def __init__(self, image, parent=None):
         super(GradientWidget, self).__init__(parent)
         self.intensity_spin = QSpinBox()

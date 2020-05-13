@@ -29,11 +29,12 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.54';
+$VERSION = '1.56';
 
 sub ConvertTimecode($);
 sub ProcessSGLT($$$);
 sub ProcessSLLT($$$);
+sub ProcessLucas($$$);
 
 # recognized RIFF variants
 my %riffType = (
@@ -434,6 +435,14 @@ my %code2charset = (
             SubDirectory => { TagTable => 'Image::ExifTool::Pentax::Junk2' },
         },
         {
+            Name => 'LucasJunk', # (Lucas LK-7900 Ace)
+            Condition => '$$valPt =~ /^0G(DA|PS)/',
+            SubDirectory => {
+                TagTable => 'Image::ExifTool::QuickTime::Stream',
+                ProcessProc => \&ProcessLucas,
+            },
+        },
+        {
             Name => 'TextJunk',
             # try to interpret unknown junk as an ASCII string
             RawConv => '$val =~ /^([^\0-\x1f\x7f-\xff]+)\0*$/ ? $1 : undef',
@@ -476,14 +485,26 @@ my %code2charset = (
 #
 # WebP-specific tags
 #
-    EXIF => { # (WebP)
+    EXIF => [{ # (WebP)
         Name => 'EXIF',
+        Condition => '$$valPt =~ /^(II\x2a\0|MM\0\x2a)/',
         Notes => 'WebP files',
         SubDirectory => {
             TagTable => 'Image::ExifTool::Exif::Main',
             ProcessProc => \&Image::ExifTool::ProcessTIFF,
         },
-    },
+    },{ # (WebP) - have also seen with "Exif\0\0" header - PH
+        Name => 'EXIF',
+        Condition => '$$valPt =~ /^Exif\0\0(II\x2a\0|MM\0\x2a)/',
+        SubDirectory => {
+            TagTable => 'Image::ExifTool::Exif::Main',
+            ProcessProc => \&Image::ExifTool::ProcessTIFF,
+            Start => 6,
+        },
+    },{
+        Name => 'UnknownEXIF',
+        Binary => 1,
+    }],
    'XMP ' => { #14 (WebP)
         Name => 'XMP',
         Notes => 'WebP files',
@@ -1614,6 +1635,105 @@ sub ProcessSLLT($$$)
             $et->Warn('Use ExtractEmbedded option to extract timed GPS', 3);
             last;
         }
+    }
+    delete $$et{SET_GROUP0};
+    delete $$et{SET_GROUP1};
+    $$et{DOC_NUM} = 0;
+    return 1;
+}
+
+#------------------------------------------------------------------------------
+# Process Lucas streaming GPS information (Lucas LK-7900 Ace) (ref PH)
+# Inputs: 0) ExifTool ref, 1) dirInfo ref, 2) tag table ref
+# Returns: 1 on success
+sub ProcessLucas($$$)
+{
+    my ($et, $dirInfo, $tagTbl) = @_;
+    my $dataPt = $$dirInfo{DataPt};
+    my $dataLen = length $$dataPt;
+
+    unless ($et->Options('ExtractEmbedded')) {
+        $et->Warn('Use ExtractEmbedded option to extract timed GPS', 3);
+        return 1;
+    }
+    my %recLen = (  # record lengths (not including 4-byte ID)
+        '0GDA' => 24,
+        '0GPS' => 48,
+    );
+    my ($date,$time,$lat,$lon,$alt,$spd,$sat,$dop,$ew,$ns);
+    $$et{SET_GROUP0} = $$et{SET_GROUP1} = 'RIFF';
+    while ($$dataPt =~ /(0GDA|0GPS)/g) {
+        my ($rec, $pos) = ($1, pos $$dataPt);
+        $pos + $recLen{$rec} > $dataLen and $et->Warn("Truncated $1 record"), last;
+        $$et{DOC_NUM} = ++$$et{DOC_COUNT};
+        # records start with int64u sample date/time in ms since 1970
+        $et->HandleTag($tagTbl, SampleDateTime => Get64u($dataPt, $pos) / 1000);
+        if ($rec eq '0GPS') {
+            my $len = Get32u($dataPt, $pos+8);
+            my $endPos = $pos + $recLen{$rec} + $len;
+            $endPos > $dataLen and $et->Warn('Truncated 0GPS record'), last;
+            my $buff = substr($$dataPt, $pos+$recLen{$rec}, $len);
+            while ($buff =~ /\$(GC|GA),(\d+),/g) {
+                my $p = pos $buff;
+                $time = $2;
+                if ($1 eq 'GC') {
+                    #     time   date   dist    ? sat dop alt  A
+                    # $GC,052350,180914,0000955,1,08,1.1,0017,,A*45\x0d\x0a\0
+                    if ($buff =~ /\G(\d+),\d*,\d*,(\d+),([-\d.]+),(\d+),\d*,A/g) {
+                        ($date,$sat,$dop,$alt) = ($1,$2,$3,$4);
+                    }
+                } else {
+                    #     time   A lat       lon        spd N W
+                    # $GA,052351,A,0949.6626,07635.4439,049,N,E,*4C\x0d\x0a\0
+                    if ($buff =~ /\GA,([\d.]+),([\d.]+),(\d+),([NS]),([EW])/g) {
+                        ($lat,$lon,$spd,$ns,$ew) = ($1,$2,$3,$4,$5,$6);
+                        # lat/long are in DDDMM.MMMM format
+                        my $deg = int($lat / 100);
+                        $lat = $deg + ($lat - $deg * 100) / 60;
+                        $deg = int($lon / 100);
+                        $lon = $deg + ($lon - $deg * 100) / 60;
+                        $lat *= -1 if $ns eq 'S';
+                        $lon *= -1 if $ew eq 'W';
+                    }
+                }
+                # look ahead to next NMEA-like sentence, and store the fix
+                # now only if the next sentence is not at the same time
+                if ($buff !~ /\$(GC|GA),$time,/g) {
+                    pos($$dataPt) = $endPos;
+                    if ($$dataPt !~ /\$(GC|GA),(\d+)/ or $1 ne $time) {
+                        $time =~ s/(\d{2})(\d{2})(\d{2})/$1:$2:$3Z/;
+                        if ($date) {
+                            $date =~ s/(\d{2})(\d{2})(\d{2})/20$3:$2:$1/;
+                            $et->HandleTag($tagTbl, GPSDateTime => "$date $time");
+                        } else {
+                            $et->HandleTag($tagTbl, GPSTimeStamp => $time);
+                        }
+                        if (defined $lat) {
+                            $et->HandleTag($tagTbl, GPSLatitude => $lat);
+                            $et->HandleTag($tagTbl, GPSLongitude => $lon);
+                            $et->HandleTag($tagTbl, GPSSpeed => $spd);
+                        }
+                        if (defined $alt) {
+                            $et->HandleTag($tagTbl, GPSAltitude => $alt);
+                            $et->HandleTag($tagTbl, GPSSatellites => $sat);
+                            $et->HandleTag($tagTbl, GPSDOP => $dop);
+                        }
+                        undef $lat;
+                        undef $alt;
+                    }
+                }
+                pos($buff) = $p;
+            }
+            $pos += $len;
+        } else { # this is an accelerometer (0GDA) record
+            # record has 4 more int32s values (the last is always 57 or 58 --
+            # maybe related to sample time in ms? -- not extracted)
+            my @acc = unpack('x'.($pos+8).'V3', $$dataPt);
+            # change to signed integer and divide by 256
+            map { $_ = $_ - 4294967296 if $_ >= 0x80000000; $_ /= 256 } @acc;
+            $et->HandleTag($tagTbl, Accelerometer => "@acc");
+        }
+        pos($$dataPt) = $pos + $recLen{$rec};
     }
     delete $$et{SET_GROUP0};
     delete $$et{SET_GROUP1};

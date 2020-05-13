@@ -56,7 +56,7 @@ use vars qw($VERSION $AUTOLOAD @formatSize @formatName %formatNumber %intFormat
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::MakerNotes;
 
-$VERSION = '4.29';
+$VERSION = '4.30';
 
 sub ProcessExif($$$);
 sub WriteExif($$$);
@@ -4728,6 +4728,7 @@ my %subSecConv = (
             9 => 'LensType2',
             10 => 'LensType3',
             11 => 'LensFocalLength', # (for Pentax to check for converter)
+            12 => 'RFLensType',
         },
         Notes => q{
             attempt to identify the actual lens from all lenses with a given LensType.
@@ -4755,6 +4756,12 @@ my %subSecConv = (
                    $prt[0] = $prt[10];
                 }
                 $pcv = $$self{TAG_INFO}{LensType2}{PrintConv};
+            }
+            # use Canon RFLensType if available
+            if ($val[12]) {
+                $val[0] = $val[12];
+                $prt[0] = $prt[12];
+                $pcv = $$self{TAG_INFO}{RFLensType}{PrintConv};
             }
             my $lens = Image::ExifTool::Exif::PrintLensID($self, $prt[0], $pcv, $prt[8], @val);
             # check for use of lens converter (Pentax K-3)
@@ -5816,7 +5823,7 @@ sub ProcessExif($$$)
     $$et{Compression} = $$et{SubfileType} = '';
 
     # loop through all entries in an EXIF directory (IFD)
-    my ($index, $valEnd, $offList, $offHash, $mapFmt);
+    my ($index, $valEnd, $offList, $offHash, $mapFmt, @valPos);
     $mapFmt = $$tagTablePtr{VARS}{MAP_FORMAT} if $$tagTablePtr{VARS};
 
     my ($warnCount, $lastID) = (0, -1);
@@ -5876,17 +5883,23 @@ sub ProcessExif($$$)
             }
             $valuePtr = Get32u($dataPt, $valuePtr);
             if ($validate and not $inMakerNotes) {
-                $et->Warn(sprintf('Odd offset for %s %s',$dir,TagName($tagID,$tagInfo)), 1) if $valuePtr & 0x01;
+                my $tagName = TagName($tagID, $tagInfo);
+                $et->Warn("Odd offset for $dir $tagName", 1) if $valuePtr & 0x01;
                 if ($valuePtr < 8 || ($valuePtr + $size > length($$dataPt) and
                                       $valuePtr + $size > $$et{VALUE}{FileSize}))
                 {
-                    $et->Warn(sprintf('Invalid offset for %s %s',$dir,TagName($tagID,$tagInfo)));
+                    $et->Warn("Invalid offset for $dir $tagName");
                     ++$warnCount;
                     next;
                 }
                 if ($valuePtr + $size > $dirStart + $dataPos and $valuePtr < $dirEnd + $dataPos + 4) {
-                    $et->Warn(sprintf('Value for %s %s overlaps IFD', $dir, TagName($tagID,$tagInfo)));
+                    $et->Warn("Value for $dir $tagName overlaps IFD");
                 }
+                foreach (@valPos) {
+                    next if $$_[0] >= $valuePtr + $size or $$_[0] + $$_[1] <= $valuePtr;
+                    $et->Warn("Value for $dir $tagName overlaps $$_[2]");
+                }
+                push @valPos, [ $valuePtr, $size, $tagName ];
             }
             # fix valuePtr if necessary
             if ($$dirInfo{FixOffsets}) {
@@ -6162,6 +6175,9 @@ sub ProcessExif($$$)
                         my $sign = $actPt < $offPt ? '-' : '';
                         $tip .= sprintf("Offset base: ${sign}0x%.4x\n", abs($actPt - $offPt));
                         $style = 'F' if $style eq 'H';  # purple for different offsets
+                    }
+                    if ($$et{EXIF_POS} and not $$et{BASE_FUDGE}) {
+                        $tip .= sprintf("File offset:   0x%.4x\n", $actPt + $$et{EXIF_POS})
                     }
                     $colName = "<span class=$style>$tagName</span>";
                     $colName .= ' <span class=V>(odd)</span>' if $offPt & 0x01;

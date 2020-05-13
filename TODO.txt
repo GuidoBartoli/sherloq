@@ -1,32 +1,14 @@
-#INTERFACCIA
-#- Creazione di un help in linea per suggerire workflow e spiegare come usare i vari tool
-#- Descrizione testuale dello strumento sotto le opzioni in basso a destro
-#- Esportazione dell'immagine o dei risultati del singolo strumento
-#+ Scrivere in neretto gli strumenti attivi dentro ToolsTree
-#+ Visualizzare Metadata Extraction ad albero con le categorie invece che a tabella lineare
-#+ Finestra di "About" e "About Qt"
-#- Pannello con le opzioni?
-#- Sostituire gli Slider con gli SpinBox
-#- Provare ad eseguire il processing su un thread separato per non bloccare la GUI
-#+ In MainWindow memorizzare Mat, QImage e il nome del file per non ricaricare sempre l'immagine
-#+ Load File dovrebbe riaprire l'ultima cartella scelta
-#+ Prevedere sia una visione a tabella che ad albero di MetadataWidget
-#- Aggiungere altri tipi di enanchement nella visualizzazione (channel auto contrast)
-#- Facendo doppio click su una cella di MetadataWidget si copia valore in clipboard
-#- Estendere ToolTree in modo che emetta il segnale (i,j) al doppio click sullo strumento invece di QTreeWidgetItem
-#- Togliere tutti #include <QtWidgets> dai ToolWidget
-#- Aggiungere azioni "Close All" e "Close All Except" a MainWindow
-#- Aggiungere la visualizzazione dell'istogramma e il contagocce a singleviewer
-#- Rinominare SingleViewer in ImageViewer
-#- Rinominare Noise Separation in Noise Analysis
-#- Rinominare tutti i [...]Widget in [...]Tool
-#- Addestrare la nuova versione delle SVM per FirstDigitFeatures
-#+ In SingleViewer aggiungere updateOriginal() per evitare il flag showSwitch = false
-#+ In ComparisonWidget aggiungere altre visualizzazioni della differenza
-#- In EchoWidget suddividere il processing perché la modifica di contrast è più veloce
-#- Aggiungere Butteraugli agli indici di Comparison Widget
-#- Ad EnhancedMagnifier aggiungere uno SpinBox per cambiare il percentile di AutoContrast
-#- Aggiungere un checkbox per la scala logaritmica a HistogramWidget
+NUOVA VERSIONE PYTHON
+- Visualizzare nella status bar i tempi di esecuzione degli algoritmi
+- Quando una finestra viene chiusa evitare di distruggere il widget per non ricalcolare il risultato
+- Creazione di un help in linea per suggerire workflow e spiegare come usare i vari tool (DockWidget laterale a sinistra?)
+- Aggiungere azione "Close All Except" per chiudere le altre finestre
+- Addestrare la nuova versione delle SVM per FirstDigitFeatures
+- In ComparisonWidget aggiungere altre visualizzazioni della differenza
+- In EchoWidget suddividere il processing perché la modifica di contrast è più veloce
+- Aggiungere Butteraugli agli indici di Comparison Widget
+- Ad EnhancedMagnifier aggiungere uno SpinBox per cambiare il percentile di AutoContrast
+- Aggiungere un checkbox per la scala logaritmica a HistogramWidget
 
 #STRUMENTI
 #- Correggere un bug in Color Space Conversion, il radio button di Grayscale non funziona!

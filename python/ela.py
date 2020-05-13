@@ -1,7 +1,6 @@
 import cv2 as cv
 from PySide2.QtCore import Qt
 from PySide2.QtWidgets import (
-    QWidget,
     QPushButton,
     QVBoxLayout,
     QHBoxLayout,
@@ -11,9 +10,10 @@ from PySide2.QtWidgets import (
 
 from utility import compress_jpeg
 from viewer import ImageViewer
+from widget import ToolWidget
 
 
-class ElaWidget(QWidget):
+class ElaWidget(ToolWidget):
     def __init__(self, image, parent=None):
         super(ElaWidget, self).__init__(parent)
 
@@ -40,23 +40,21 @@ class ElaWidget(QWidget):
         self.default()
         self.process()
 
-        vert_layout = QVBoxLayout()
-        vert_layout.addLayout(params_layout)
-        vert_layout.addWidget(self.ela_viewer)
-        self.setLayout(vert_layout)
+        layout = QVBoxLayout()
+        layout.addLayout(params_layout)
+        layout.addWidget(self.ela_viewer)
+        self.setLayout(layout)
         self.quality_slider.valueChanged.connect(self.process)
         self.scale_spin.valueChanged.connect(self.process)
         self.default_button.clicked.connect(self.default)
 
     def process(self):
-        self.ela_viewer.update_processed(self.compute())
-        self.quality_label.setText('{}%'.format(self.quality_slider.value()))
-
-    def compute(self):
         quality = self.quality_slider.value()
         scale = self.scale_spin.value()
         compressed = compress_jpeg(self.image, quality)
-        return cv.convertScaleAbs(cv.subtract(compressed, self.image), None, scale)
+        ela = cv.convertScaleAbs(cv.subtract(compressed, self.image), None, scale)
+        self.ela_viewer.update_processed(ela)
+        self.quality_label.setText('{}%'.format(self.quality_slider.value()))
 
     def default(self):
         self.quality_slider.setValue(75)
