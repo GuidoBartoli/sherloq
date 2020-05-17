@@ -182,7 +182,7 @@ class ImageViewer(QWidget):
         else:
             self.view = DynamicView(self.processed)
 
-        view_label = QLabel(self.tr('View:'))
+        # view_label = QLabel(self.tr('View:'))
         self.original_radio = QRadioButton(self.tr('Original'))
         self.original_radio.setToolTip(self.tr('Show the original image for comparison'))
         self.process_radio = QRadioButton(self.tr('Processed'))
@@ -199,7 +199,7 @@ class ImageViewer(QWidget):
 
         tool_layout = QHBoxLayout()
         if processed is not None:
-            tool_layout.addWidget(view_label)
+            # tool_layout.addWidget(view_label)
             tool_layout.addWidget(self.original_radio)
             tool_layout.addWidget(self.process_radio)
             tool_layout.addStretch()
@@ -208,12 +208,12 @@ class ImageViewer(QWidget):
         # tool_layout.addWidget(full_button)
         # tool_layout.addWidget(fit_button)
         tool_layout.addStretch()
+        tool_layout.addWidget(size_label)
         if processed is not None:
             tool_layout.addWidget(export_button)
             self.original_radio.setChecked(False)
             self.process_radio.setChecked(True)
             self.toggle_mode(False)
-        tool_layout.addWidget(size_label)
 
         vert_layout = QVBoxLayout()
         if title is not None:

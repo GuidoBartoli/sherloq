@@ -4,7 +4,7 @@ from PySide2.QtCore import Qt
 from PySide2.QtWidgets import QVBoxLayout, QProgressDialog
 
 from viewer import ImageViewer
-from widget import ToolWidget
+from tools import ToolWidget
 
 
 class GhostsWidget(ToolWidget):

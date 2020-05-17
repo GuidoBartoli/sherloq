@@ -13,21 +13,21 @@ While many commercial solutions have unaffordable prices and are reserved to law
 I strongly believe that *security-by-obscurity* is the wrong way to offer any kind of forensic service (i.e. "Using this proprietary software I guarantee you that this photo *is* pristine... and you have to trust me!"). Instead, following the open-source philosophy, everyone should be able to try various techniques on their own, gain knowledge and share it to the community... even better if they contribute with code improvements! :)
 
 # History
-The first version was written in 2015 using C++11 to build a command line utility with many options, but soon it turned to be too complicated and not much interactive. That version is contained in the "cli" folder and can be compiled with CMake after installing OpenCV, Boost and AlgLib libraries. This first proof of concept offered about 80% of planned features (see below).
+The first version was written in 2015 using C++11 to build a command line utility with many options, but soon it turned to be too cumbersome and not much interactive. That version is contained in the "cli" folder and can be compiled with CMake after installing OpenCV, Boost and AlgLib libraries. This first proof of concept offered about 80% of planned features (see below for the full list).
 
-While also including novel algorithms, the 2017 version mainly added a Qt-based multi-window GUI to provide a better user experience. Multiple analyses could be shown on screen and a fast zoom/scroll  viewer was implemented for easier image navigation. This project is contained in the "gui" folder and can be compiled with Qt Creator with Qt 5 and OpenCV 3 and covered about 75% of planned features (see below).
+While also including novel algorithms, the 2017 version mainly added a Qt-based multi-window GUI to provide a better user experience. Multiple analyses could be shown on screen and a fast zoom/scroll  viewer was implemented for easier image navigation. This project is contained in the "gui" folder and can be compiled with Qt Creator with Qt 5 and OpenCV 3 and covered about 75% of planned features (see below for the full list).
 
 Fast forward to 2020 when I decided to port everything in Python + PySide2 + OpenCV for a much easier installation and maintenance. This iteration is just begun and I have ported about 15% of the previous code on the new platform, but I think this will be the final "form" of the project (as long as someone does not volunteer to develop a web application!)
 
-I'm happy to share my code and get in contact with anyone interested to improve or test it, but please keep in mind that this repository is *not* intended for distributing a final product, my intent is just to publicly track development, so expect bugs, unpolished code and missing features! ;)
+I'm happy to share my code and get in contact with anyone interested to improve or test it, but please keep in mind that this repository is *not* intended for distributing a final product, my aim is just to publicly track development, so expect bugs, unpolished code and missing features! ;)
 
 # Install
-Compiling the `cli` or `gui` version can be tricky, since it is old code and tested only on Ubuntu-based distributions, however, if you need assistance to set it up, drop me a line and I will try to look into it (no guarantees!).
+Compiling the `cli` or `gui` version can be *tricky*, since it is old code and tested only on Ubuntu-based distributions, however, if you need assistance to set it up, drop me a line and I will try to look into it (no guarantees!).
 
 To run the Python version, just create a virtual environment and execute `pip install -r requirements.txt` from inside the `python` folder, then `python sherloq.py`.
 
 # Features
-This list contains all functions that **Sherloq** could provide once the beta stage is reached.
+This list contains the functions that the toolkit could provide once the beta stage is reached.
 
 ## General
 - __Original Image__: display the unaltered reference image for visual inspection
@@ -78,6 +78,7 @@ This list contains all functions that **Sherloq** could provide once the beta st
 - __Composite Splicing__: exploit DCT statistics for automatic splicing zone detection
 
 # Screenshots
+Here are some screenshots from the C++ Qt GUI:
 <p align="center">
   <img src="screenshots/File.jpg" alt="File Analysis"/>
   <br><b>File Analysis</b>: Metadata, Digest and EXIF

@@ -9,7 +9,7 @@ from PySide2.QtWidgets import (
 
 from utility import create_lut
 from viewer import ImageViewer
-from widget import ToolWidget
+from tools import ToolWidget
 
 
 class GradientWidget(ToolWidget):
@@ -24,7 +24,7 @@ class GradientWidget(ToolWidget):
         self.abs_check = QCheckBox(self.tr('Absolute'))
 
         horiz_layout = QHBoxLayout()
-        horiz_layout.addWidget(QLabel(self.tr('Intensity')))
+        horiz_layout.addWidget(QLabel(self.tr('Intensity:')))
         horiz_layout.addWidget(self.intensity_spin)
         horiz_layout.addWidget(self.invert_check)
         horiz_layout.addWidget(self.abs_check)

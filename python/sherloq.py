@@ -1,4 +1,5 @@
 import sys
+import os
 
 import cv2 as cv
 from PySide2.QtCore import Qt, QSettings, QFileInfo
@@ -31,13 +32,14 @@ class MainWindow(QMainWindow):
         QApplication.setApplicationName('Sherloq')
         QApplication.setOrganizationName('Guido Bartoli')
         QApplication.setOrganizationDomain('www.guidobartoli.com')
-        QApplication.setApplicationVersion('0.16')
-        self.setWindowTitle('{} v{}'.format(QApplication.applicationName(), QApplication.applicationVersion()))
+        QApplication.setApplicationVersion(ToolTree().version)
+        QApplication.setWindowIcon(QIcon('icons/sherloq_white.png'))
+        self.setWindowTitle('{} {}'.format(QApplication.applicationName(), QApplication.applicationVersion()))
         self.mdi_area = QMdiArea()
         self.setCentralWidget(self.mdi_area)
-        modify_font(self.statusBar(), bold=True)
         self.filename = None
         self.image = None
+        modify_font(self.statusBar(), bold=True)
 
         tree_dock = QDockWidget(self.tr('TOOLS'), self)
         tree_dock.setObjectName('tree_dock')
@@ -91,19 +93,19 @@ class MainWindow(QMainWindow):
         next_action.setObjectName('next_action')
         next_action.setIcon(QIcon('icons/next.svg'))
 
-        self.tile_action = QAction(self.tr('&Tile'), self)
-        self.tile_action.setToolTip(self.tr('Arrange windows into non-overlapping views'))
-        self.tile_action.setShortcut(QKeySequence(Qt.Key_F11))
-        self.tile_action.triggered.connect(self.mdi_area.tileSubWindows)
-        self.tile_action.setObjectName('tile_action')
-        self.tile_action.setIcon(QIcon('icons/tile.svg'))
+        tile_action = QAction(self.tr('&Tile'), self)
+        tile_action.setToolTip(self.tr('Arrange windows into non-overlapping views'))
+        tile_action.setShortcut(QKeySequence(Qt.Key_F11))
+        tile_action.triggered.connect(self.mdi_area.tileSubWindows)
+        tile_action.setObjectName('tile_action')
+        tile_action.setIcon(QIcon('icons/tile.svg'))
 
-        self.cascade_action = QAction(self.tr('&Cascade'), self)
-        self.cascade_action.setToolTip(self.tr('Arrange windows into overlapping views'))
-        self.cascade_action.setShortcut(QKeySequence(Qt.Key_F12))
-        self.cascade_action.triggered.connect(self.mdi_area.cascadeSubWindows)
-        self.cascade_action.setObjectName('cascade_action')
-        self.cascade_action.setIcon(QIcon('icons/cascade.svg'))
+        cascade_action = QAction(self.tr('&Cascade'), self)
+        cascade_action.setToolTip(self.tr('Arrange windows into overlapping views'))
+        cascade_action.setShortcut(QKeySequence(Qt.Key_F12))
+        cascade_action.triggered.connect(self.mdi_area.cascadeSubWindows)
+        cascade_action.setObjectName('cascade_action')
+        cascade_action.setIcon(QIcon('icons/cascade.svg'))
 
         close_action = QAction(self.tr('Close &All'), self)
         close_action.setToolTip(self.tr('Close all open tool windows'))
@@ -124,22 +126,22 @@ class MainWindow(QMainWindow):
         about_qt_action.triggered.connect(QApplication.aboutQt)
         about_qt_action.setIcon(QIcon('icons/Qt.svg'))
 
-        file_menu = self.menuBar().addMenu(self.tr("&File"))
+        file_menu = self.menuBar().addMenu(self.tr('File'))
         file_menu.addAction(load_action)
         file_menu.addAction(quit_action)
 
-        window_menu = self.menuBar().addMenu(self.tr("&Window"))
+        window_menu = self.menuBar().addMenu(self.tr('&Window'))
         window_menu.addAction(tree_action)
         window_menu.addAction(tabbed_action)
         window_menu.addSeparator()
-        window_menu.addAction(self.tile_action)
-        window_menu.addAction(self.cascade_action)
+        window_menu.addAction(tile_action)
+        window_menu.addAction(cascade_action)
         window_menu.addSeparator()
         window_menu.addAction(prev_action)
         window_menu.addAction(next_action)
         window_menu.addAction(close_action)
 
-        help_menu = self.menuBar().addMenu(self.tr("&Help"))
+        help_menu = self.menuBar().addMenu(self.tr('&Help'))
         help_menu.addAction(about_action)
         help_menu.addAction(about_qt_action)
 
@@ -151,8 +153,8 @@ class MainWindow(QMainWindow):
         main_toolbar.addAction(prev_action)
         main_toolbar.addAction(next_action)
         main_toolbar.addSeparator()
-        main_toolbar.addAction(self.tile_action)
-        main_toolbar.addAction(self.cascade_action)
+        main_toolbar.addAction(tile_action)
+        main_toolbar.addAction(cascade_action)
         main_toolbar.addAction(tabbed_action)
         main_toolbar.addAction(close_action)
         main_toolbar.setObjectName('main_toolbar')
@@ -163,12 +165,17 @@ class MainWindow(QMainWindow):
         self.restoreState(settings.value('state'))
         settings.endGroup()
 
-        self.tree_widget.setEnabled(False)
         prev_action.setEnabled(False)
         next_action.setEnabled(False)
-        self.tile_action.setEnabled(False)
-        self.cascade_action.setEnabled(False)
+        tile_action.setEnabled(False)
+        cascade_action.setEnabled(False)
         close_action.setEnabled(False)
+        tabbed_action.setEnabled(False)
+        self.tree_widget.setEnabled(False)
+        try:
+            os.remove('structure.html', )
+        except OSError:
+            pass
         self.show_message(self.tr('Ready'))
 
     def closeEvent(self, event):
@@ -183,7 +190,7 @@ class MainWindow(QMainWindow):
         settings = QSettings()
         self.filename = QFileDialog.getOpenFileName(
             self, self.tr('Load image'), settings.value('load_folder'),
-            self.tr("Supported images (*.jpg *.jpeg *.png *.tif *.tiff)"))[0]
+            self.tr('Supported formats (*.jpg *.jpeg *.jpe *.jp2 *.png *.tif *.tiff, *.bmp)'))[0]
         if not self.filename:
             return
         image = cv.imread(self.filename, cv.IMREAD_COLOR)
@@ -192,29 +199,30 @@ class MainWindow(QMainWindow):
             return
         if image.shape[2] > 3:
             QMessageBox.warning(self, self.tr('Warning'), self.tr('Embedded alpha channel discarded'))
-            image.convertTo(image, cv.COLOR_BGRA2BGR)
+            image = cv.cvtColor(image, cv.COLOR_BGRA2BGR)
         self.image = image
 
         path = QFileInfo(self.filename).absolutePath()
         name = QFileInfo(self.filename).fileName()
-        settings.setValue("load_folder", path)
+        settings.setValue('load_folder', path)
         self.findChild(ToolTree, 'tree_widget').setEnabled(True)
         self.findChild(QAction, 'prev_action').setEnabled(True)
         self.findChild(QAction, 'next_action').setEnabled(True)
         self.findChild(QAction, 'tile_action').setEnabled(True)
         self.findChild(QAction, 'cascade_action').setEnabled(True)
         self.findChild(QAction, 'close_action').setEnabled(True)
-        self.setWindowTitle('[{}] - {} v{}'.format(
+        self.findChild(QAction, 'tabbed_action').setEnabled(True)
+        self.setWindowTitle('[{}] - {} {}'.format(
             name, QApplication.applicationName(), QApplication.applicationVersion()))
-        self.statusBar().showMessage(self.tr('Image "{}" successfully loaded'.format(name)))
+        self.show_message(self.tr('Image "{}" successfully loaded'.format(name)))
 
-        # FIXME: disable_bold della chiusura viene chiamato DOPO open_tool e nell'albero la voce non diventa neretto
+        # FIXME: disable_bold della chiusura viene chiamato DOPO open_tool e nell'albero la voce NON diventa neretto
         self.mdi_area.closeAllSubWindows()
         self.open_tool(self.tree_widget.topLevelItem(0).child(0), 0)
+        # modify_font(self.tree_widget.topLevelItem(0).child(0), bold=True)
 
     def open_tool(self, item, _):
-        enabled = item.data(0, Qt.UserRole)
-        if not enabled:
+        if not item.data(0, Qt.UserRole):
             return
         group = item.data(0, Qt.UserRole + 1)
         tool = item.data(0, Qt.UserRole + 2)
@@ -249,47 +257,49 @@ class MainWindow(QMainWindow):
             else:
                 return
         elif group == 6:
-            # if tool == 0:
-            #     tool_widget = NoiseWidget(self.image)
-            if tool == 1:
+            if tool == 0:
+                tool_widget = NoiseWidget(self.image)
+            elif tool == 1:
                 tool_widget = MinMaxWidget(self.image)
         else:
             return
-        tool_widget.message_to_show.connect(self.show_message)
+        tool_widget.info_message.connect(self.show_message)
 
         sub_window = QMdiSubWindow()
         sub_window.setWidget(tool_widget)
         sub_window.setWindowTitle(item.text(0))
         sub_window.setAttribute(Qt.WA_DeleteOnClose)
+        sub_window.setWindowIcon(QIcon('icons/{}.svg'.format(group)))
         self.mdi_area.addSubWindow(sub_window)
         sub_window.show()
         sub_window.destroyed.connect(self.disable_bold)
-        self.tree_widget.set_bold(item.text(0), bold_enabled=True)
+        self.tree_widget.set_bold(item.text(0), enabled=True)
 
     def disable_bold(self, item):
-        self.tree_widget.set_bold(item.windowTitle(), bold_enabled=False)
+        self.tree_widget.set_bold(item.windowTitle(), enabled=False)
 
     def toggle_view(self, tabbed):
         if tabbed:
             self.mdi_area.setViewMode(QMdiArea.TabbedView)
             self.mdi_area.setTabsClosable(True)
             self.mdi_area.setTabsMovable(True)
-            self.tile_action.setEnabled(False)
-            self.cascade_action.setEnabled(False)
+            self.findChild(QAction, 'tile_action').setEnabled(False)
+            self.findChild(QAction, 'cascade_action').setEnabled(False)
         else:
             self.mdi_area.setViewMode(QMdiArea.SubWindowView)
-            self.tile_action.setEnabled(True)
-            self.cascade_action.setEnabled(True)
+            self.findChild(QAction, 'tile_action').setEnabled(True)
+            self.findChild(QAction, 'cascade_action').setEnabled(True)
 
     def show_about(self):
-        message = '<h2>{} v{}</h2>'.format(QApplication.applicationName(), QApplication.applicationVersion())
+        message = '<h2>{} {}</h2>'.format(QApplication.applicationName(), QApplication.applicationVersion())
         message += '<h3>A digital image forensic toolkit</h3>'
-        message += '<p>{} (<a href="{}">{}</a>)</p>'.format(
-            QApplication.organizationName(), QApplication.organizationDomain(), QApplication.organizationDomain())
+        message += '<p>author: <a href="{}">{}</a></p>'.format(
+            QApplication.organizationDomain(), QApplication.organizationName())
+        message += '<p>source: <a href="https://github.com/GuidoBartoli/sherloq">GitHub repository</a></p>'
         QMessageBox.about(self, self.tr('About'), message)
 
     def show_message(self, message):
-        self.statusBar().showMessage(message)
+        self.statusBar().showMessage(message, 10000)
 
 
 if __name__ == '__main__':
