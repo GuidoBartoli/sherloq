@@ -21,8 +21,9 @@ class ToolTree(QTreeWidget):
         group_names = []
         tool_names = []
         tool_infos = []
-        tool_progress = []
+        tool_progress = []  # 0 = da fare, 1 = iniziato, 2 = funzionante, 3 = completo
 
+        # [0]
         group_names.append(self.tr('[General]'))
         tool_names.append([self.tr('Original Image'),
                            self.tr('File Digest'),
@@ -34,6 +35,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Apply deep learning algorithms for automatic picture tagging')])
         tool_progress.extend([3, 2, 0, 0])
 
+        # [1]
         group_names.append(self.tr('[Metadata]'))
         tool_names.append([self.tr('Header Structure'),
                            self.tr('Metadata Extraction'),
@@ -43,8 +45,9 @@ class ToolTree(QTreeWidget):
                            self.tr('Scan through file metadata and gather all available information'),
                            self.tr('Extract optional embedded thumbnail and compare with original'),
                            self.tr('Retrieve optional geo-location data and show it on a world map')])
-        tool_progress.extend([3, 2, 0, 0])
+        tool_progress.extend([3, 3, 0, 0])
 
+        # [2]
         group_names.append(self.tr('[Inspection]'))
         tool_names.append([self.tr('Enhancing Magnifier'),
                            self.tr('Reference Comparison'),
@@ -54,8 +57,9 @@ class ToolTree(QTreeWidget):
                            self.tr('Open a synchronized double view to compare two different pictures'),
                            self.tr('Apply standard adjustments (contrast, brightness, hue, saturation)'),
                            self.tr('Compress tonality over different ranges to detect inconsistencies')])
-        tool_progress.extend([0, 0, 0, 0])
+        tool_progress.extend([0, 0, 2, 0])
 
+        # [3]
         group_names.append(self.tr('[JPEG]'))
         tool_names.append([self.tr('Quality Estimation'),
                            self.tr('Error Level Analysis'),
@@ -67,6 +71,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Exploit DCT First-Digit-Statistics to detect double compression')])
         tool_progress.extend([0, 3, 0, 0])
 
+        # [4]
         group_names.append(self.tr('[Colors]'))
         tool_names.append([self.tr('RGB/HSV 3D Plots'),
                            self.tr('RGB PCA Projection'),
@@ -76,8 +81,9 @@ class ToolTree(QTreeWidget):
                            self.tr('Use color PCA to project RGB values onto reduced vector spaces'),
                            self.tr('Compute Minimum/Maximum/Average RGB values for every pixel'),
                            self.tr('Convert color channels into RGB/HSV/YCbCr/Lab/CMYK color spaces')])
-        tool_progress.extend([0, 0, 0, 0])
+        tool_progress.extend([0, 1, 0, 0])
 
+        # [5]
         group_names.append(self.tr('[Tonality]'))
         tool_names.append([self.tr('Luminance Gradient'),
                            self.tr('Echo Edge Filter'),
@@ -87,8 +93,9 @@ class ToolTree(QTreeWidget):
                            self.tr('Use derivative filter to reveal artificial out-of-focus zones'),
                            self.tr('Estimate high and low frequency components of the luminance channel'),
                            self.tr('Reconstruct image with different wavelet coefficient thresholds')])
-        tool_progress.extend([2, 0, 0, 0])
+        tool_progress.extend([2, 3, 0, 0])
 
+        # [6]
         group_names.append(self.tr('[Noise]'))
         tool_names.append([self.tr('Noise Estimation'),
                            self.tr('Min/Max Deviation'),
@@ -98,8 +105,9 @@ class ToolTree(QTreeWidget):
                            self.tr('Highlight pixels deviating from block-based min/max statistics'),
                            self.tr('Evaluate uniformity of signal-to-noise ratio across the image'),
                            self.tr('Cluster noise into uniform regions for anomaly detection')])
-        tool_progress.extend([3, 2, 0, 0])
+        tool_progress.extend([3, 3, 0, 0])
 
+        # [7]
         group_names.append(self.tr('[Tampering]'))
         tool_names.append([self.tr('Contrast Enhancement'),
                            self.tr('Region Cloning'),

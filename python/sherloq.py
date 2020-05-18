@@ -15,10 +15,13 @@ from PySide2.QtWidgets import (
     QFileDialog)
 
 from digest import DigestWidget
+from pca import PcaWidget
 from ela import ElaWidget
 from noise import NoiseWidget
 from gradient import GradientWidget
+from echo import EchoWidget
 from metadata import MetadataWidget
+from adjust import AdjustWidget
 from minmax import MinMaxWidget
 from original import OriginalWidget
 from structure import StructureWidget
@@ -218,8 +221,7 @@ class MainWindow(QMainWindow):
 
         # FIXME: disable_bold della chiusura viene chiamato DOPO open_tool e nell'albero la voce NON diventa neretto
         self.mdi_area.closeAllSubWindows()
-        self.open_tool(self.tree_widget.topLevelItem(0).child(0), 0)
-        # modify_font(self.tree_widget.topLevelItem(0).child(0), bold=True)
+        self.open_tool(self.tree_widget.topLevelItem(0).child(0), None)
 
     def open_tool(self, item, _):
         if not item.data(0, Qt.UserRole):
@@ -246,14 +248,26 @@ class MainWindow(QMainWindow):
                 tool_widget = MetadataWidget(self.filename)
             else:
                 return
+        elif group == 2:
+            if tool == 2:
+                tool_widget = AdjustWidget(self.image)
+            else:
+                return
         elif group == 3:
             if tool == 1:
                 tool_widget = ElaWidget(self.image)
             else:
                 return
+        elif group == 4:
+            if tool == 1:
+                tool_widget = PcaWidget(self.image)
+            else:
+                return
         elif group == 5:
             if tool == 0:
                 tool_widget = GradientWidget(self.image)
+            elif tool == 1:
+                tool_widget = EchoWidget(self.image)
             else:
                 return
         elif group == 6:
@@ -263,6 +277,7 @@ class MainWindow(QMainWindow):
                 tool_widget = MinMaxWidget(self.image)
         else:
             return
+        # FIXME: Aggiungere un metodo init e dopo fare il connect, sennò i messaggi del costruttore non si vedono
         tool_widget.info_message.connect(self.show_message)
 
         sub_window = QMdiSubWindow()
@@ -271,7 +286,7 @@ class MainWindow(QMainWindow):
         sub_window.setAttribute(Qt.WA_DeleteOnClose)
         sub_window.setWindowIcon(QIcon('icons/{}.svg'.format(group)))
         self.mdi_area.addSubWindow(sub_window)
-        sub_window.show()
+        sub_window.showMaximized()
         sub_window.destroyed.connect(self.disable_bold)
         self.tree_widget.set_bold(item.text(0), enabled=True)
 

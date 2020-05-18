@@ -38,13 +38,13 @@ class ElaWidget(ToolWidget):
         params_layout.addWidget(default_button)
 
         self.image = image
-        self.ela_viewer = ImageViewer(self.image, self.image, None)
+        self.viewer = ImageViewer(self.image, self.image)
         self.default()
         self.process()
 
         main_layout = QVBoxLayout()
         main_layout.addLayout(params_layout)
-        main_layout.addWidget(self.ela_viewer)
+        main_layout.addWidget(self.viewer)
         self.setLayout(main_layout)
 
         self.quality_spin.valueChanged.connect(self.process)
@@ -64,7 +64,7 @@ class ElaWidget(ToolWidget):
         else:
             b, g, r = cv.split(cv.absdiff(compressed, self.image))
             ela = cv.merge((cv.equalizeHist(b), cv.equalizeHist(g), cv.equalizeHist(r)))
-        self.ela_viewer.update_processed(ela)
+        self.viewer.update_processed(ela)
         self.info_message.emit(self.tr('Error Level Analysis = {}'.format(elapsed_time(start))))
 
     def default(self):

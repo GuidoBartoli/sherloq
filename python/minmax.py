@@ -89,7 +89,7 @@ class MinMaxWidget(ToolWidget):
                     minval, maxval, _, _ = cv.minMaxLoc(window, mask)
                     if original[i, j] < minval:
                         low[i, j] = True
-                    if original[i, j] > maxval:
+                    elif original[i, j] > maxval:
                         high[i, j] = True
                     counter += 1
             progress.setValue(original.size)
@@ -116,4 +116,4 @@ class MinMaxWidget(ToolWidget):
             minmax[high] = [255, 255, 255]
 
         self.viewer.update_processed(minmax)
-        self.info_message.emit(self.tr('Min/max deviation = {}'.format(elapsed_time(start))))
+        self.info_message.emit(self.tr('Min/Max Deviation = {}'.format(elapsed_time(start))))

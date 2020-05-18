@@ -69,3 +69,14 @@ def elapsed_time(start, ms=True):
     if ms:
         return '{} ms'.format(int(np.round(elapsed*1000)))
     return '{:.2f} sec'.format(elapsed)
+
+
+def signed_value(value):
+    return '{}{}'.format('+' if value > 0 else '', value)
+
+
+def normalize_mat(matrix, to_bgr=False):
+    norm = cv.normalize(matrix, None, 0, 255, cv.NORM_MINMAX).astype(np.uint8)
+    if not to_bgr:
+        return norm
+    return cv.cvtColor(norm, cv.COLOR_GRAY2BGR)

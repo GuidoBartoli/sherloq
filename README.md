@@ -15,16 +15,16 @@ I strongly believe that *security-by-obscurity* is the wrong way to offer any 
 # History
 The first version was written in 2015 using C++11 to build a command line utility with many options, but soon it turned to be too cumbersome and not much interactive. That version is contained in the "cli" folder and can be compiled with CMake after installing OpenCV, Boost and AlgLib libraries. This first proof of concept offered about 80% of planned features (see below for the full list).
 
-While also including novel algorithms, the 2017 version mainly added a Qt-based multi-window GUI to provide a better user experience. Multiple analyses could be shown on screen and a fast zoom/scroll  viewer was implemented for easier image navigation. This project is contained in the "gui" folder and can be compiled with Qt Creator with Qt 5 and OpenCV 3 and covered about 75% of planned features (see below for the full list).
+While also including novel algorithms, the 2017 version mainly added a Qt-based multi-window GUI to provide a better user experience. Multiple analyses could be shown on screen and a fast zoom/scroll  viewer was implemented for easier image navigation. This project is contained in the "gui" folder and can be compiled with Qt Creator with Qt 5 and OpenCV 3 and covered about 70% of planned features (see below for the full list).
 
-Fast forward to 2020 when I decided to port everything in Python + PySide2 + OpenCV for a much easier installation and maintenance. This iteration is just begun and I have ported about 15% of the previous code on the new platform, but I think this will be the final "form" of the project (as long as someone does not volunteer to develop a web application!)
+Fast forward to 2020 when I decided to port everything in Python + PySide2 + OpenCV for a much easier installation and maintenance. This iteration is just begun and I have ported about 30% of the previous code on the new platform, but I think this will be the final "form" of the project (as long as someone does not volunteer to develop a web application!).
 
 I'm happy to share my code and get in contact with anyone interested to improve or test it, but please keep in mind that this repository is *not* intended for distributing a final product, my aim is just to publicly track development, so expect bugs, unpolished code and missing features! ;)
 
 # Install
-Compiling the `cli` or `gui` version can be *tricky*, since it is old code and tested only on Ubuntu-based distributions, however, if you need assistance to set it up, drop me a line and I will try to look into it (no guarantees!).
+To run the Python version, just create a Python 3 virtual environment and execute `pip install -r requirements.txt` from inside the `python` folder, then `python sherloq.py`.
 
-To run the Python version, just create a virtual environment and execute `pip install -r requirements.txt` from inside the `python` folder, then `python sherloq.py`.
+Compiling the `cli` or `gui` version can be *tricky*, since it is old code and tested only on Ubuntu-based distributions. When everything will be functional in Python it will be very likely removed, however, if you need assistance to set it up, drop me a line and I will try to look into it (no guarantees!).
 
 # Features
 This list contains the functions that the toolkit could provide once the beta stage is reached.
@@ -103,3 +103,6 @@ Here are some screenshots from the C++ Qt GUI:
   <img src="screenshots/LumaNoise.jpg" alt="Luminance/Noise"/>
   <br><b>Luminance and Noise</b>: Light Gradient, Echo Edge, Min/Max Deviation and SNR Consistency
 </p>
+
+# Bibliography
+- Black Hat Briefings DC. (2008) A Picture's Worth: Digital Image Analysis and Forensics [White paper]. Washington, DC. Retrieved from http://blackhat.com/presentations/bh-dc-08/Krawetz/Whitepaper/bh-dc-08-krawetz-WP.pdf

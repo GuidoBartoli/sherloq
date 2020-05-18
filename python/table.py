@@ -28,7 +28,7 @@ from utility import modify_font
 
 
 class TableWidget(QWidget):
-    def __init__(self, table, headers, bold=True, tooltips=None, parent=None):
+    def __init__(self, table, headers, bold=True, mono=True, tooltips=None, parent=None):
         super(TableWidget, self).__init__(parent)
 
         self.table_widget = QTableWidget(len(table), len(table[0]))
@@ -38,8 +38,7 @@ class TableWidget(QWidget):
                     self.table_widget.setItem(i, j, QTableWidgetItem(item))
                     if tooltips is not None:
                         self.table_widget.setToolTip(tooltips[i][j])
-                    if bold and j == 0:
-                        modify_font(self.table_widget.item(i, j), bold=True)
+                    modify_font(self.table_widget.item(i, j), bold=bold and j == 0, mono=mono)
 
         self.table_headers = headers
         self.table_widget.setHorizontalHeaderLabels(self.table_headers)
@@ -59,6 +58,7 @@ class TableWidget(QWidget):
         clear_button = QToolButton()
         clear_button.setIcon(QIcon('icons/clear.svg'))
         clear_button.setShortcut(QKeySequence.DeleteCompleteLine)
+        clear_button.setToolTip(self.tr('Clear search pattern'))
         clear_button.clicked.connect(self.search_edit.clear)
         search_layout.addWidget(clear_button)
 

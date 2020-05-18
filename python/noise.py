@@ -113,8 +113,7 @@ class NoiseWidget(ToolWidget):
                 if grayscale:
                     result = cv.equalizeHist(noise)
                 else:
-                    b, g, r = cv.split(noise)
-                    result = cv.merge((cv.equalizeHist(b), cv.equalizeHist(g), cv.equalizeHist(r)))
+                    result = cv.merge([cv.equalizeHist(c) for c in cv.split(noise)])
             else:
                 self.levels_spin.setEnabled(True)
                 high = self.levels_spin.value()
