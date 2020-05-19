@@ -1,5 +1,5 @@
-import sys
 import os
+import sys
 
 import cv2 as cv
 from PySide2.QtCore import Qt, QSettings, QFileInfo
@@ -14,16 +14,18 @@ from PySide2.QtWidgets import (
     QMessageBox,
     QFileDialog)
 
-from digest import DigestWidget
-from pca import PcaWidget
-from ela import ElaWidget
-from noise import NoiseWidget
-from gradient import GradientWidget
-from echo import EchoWidget
-from metadata import MetadataWidget
 from adjust import AdjustWidget
+from digest import DigestWidget
+from echo import EchoWidget
+from ela import ElaWidget
+from gradient import GradientWidget
+from metadata import MetadataWidget
 from minmax import MinMaxWidget
+from noise import NoiseWidget
 from original import OriginalWidget
+from pca import PcaWidget
+from space import SpaceWidget
+from stats import StatsWidget
 from structure import StructureWidget
 from tools import ToolTree
 from utility import modify_font
@@ -122,7 +124,7 @@ class MainWindow(QMainWindow):
         about_action.setShortcut(QKeySequence.HelpContents)
         about_action.triggered.connect(self.show_about)
         about_action.setObjectName('about_action')
-        about_action.setIcon(QIcon('icons/about.svg'))
+        about_action.setIcon(QIcon('icons/sherloq_alpha.png'))
 
         about_qt_action = QAction(self.tr('About &Qt'), self)
         about_qt_action.setToolTip(self.tr('Display informations about the Qt Framework'))
@@ -261,6 +263,10 @@ class MainWindow(QMainWindow):
         elif group == 4:
             if tool == 1:
                 tool_widget = PcaWidget(self.image)
+            elif tool == 2:
+                tool_widget = StatsWidget(self.image)
+            elif tool == 3:
+                tool_widget = SpaceWidget(self.image)
             else:
                 return
         elif group == 5:
@@ -279,6 +285,7 @@ class MainWindow(QMainWindow):
             return
         # FIXME: Aggiungere un metodo init e dopo fare il connect, sennò i messaggi del costruttore non si vedono
         tool_widget.info_message.connect(self.show_message)
+        tool_widget.help_clicked.connect(self.show_help)
 
         sub_window = QMdiSubWindow()
         sub_window.setWidget(tool_widget)
@@ -315,6 +322,10 @@ class MainWindow(QMainWindow):
 
     def show_message(self, message):
         self.statusBar().showMessage(message, 10000)
+
+    def show_help(self, tool):
+        self.show_message('help from {}'.format(tool))
+        pass
 
 
 if __name__ == '__main__':

@@ -44,8 +44,8 @@ class TableWidget(QWidget):
         self.table_widget.setHorizontalHeaderLabels(self.table_headers)
         self.table_widget.setSelectionMode(QAbstractItemView.SingleSelection)
         self.table_widget.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.table_widget.setAlternatingRowColors(True)
         self.table_widget.resizeColumnsToContents()
+        self.table_widget.setAlternatingRowColors(True)
         self.table_widget.itemDoubleClicked.connect(self.copy)
 
         search_layout = QHBoxLayout()

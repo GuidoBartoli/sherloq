@@ -24,6 +24,26 @@ I'm happy to share my code and get in contact with anyone interested to improve 
 # Install
 To run the Python version, just create a Python 3 virtual environment and execute `pip install -r requirements.txt` from inside the `python` folder, then `python sherloq.py`.
 
+These are my suggested steps to create a virtual environment on Ubuntu-based distributions:
+
+```
+Install package manager
+$ sudo apt install python3-distutils python3-dev subversion
+$ wget https://bootstrap.pypa.io/get-pip.py
+$ sudo python3 get-pip.py
+
+Enable virtual environments
+$ sudo pip install virtualenv virtualenvwrapper
+$ echo -e "\n# Python Virtual Environments" >> ~/.bashrc
+$ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc
+$ echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bashrc
+$ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
+$ source ~/.bashrc
+
+Create virtual environment
+$ mkvirtualenv dev -p python3
+```
+
 Compiling the `cli` or `gui` version can be *tricky*, since it is old code and tested only on Ubuntu-based distributions. When everything will be functional in Python it will be very likely removed, however, if you need assistance to set it up, drop me a line and I will try to look into it (no guarantees!).
 
 # Features

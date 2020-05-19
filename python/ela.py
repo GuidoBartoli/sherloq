@@ -23,18 +23,22 @@ class ElaWidget(ToolWidget):
         self.quality_spin = QSpinBox()
         self.quality_spin.setRange(0, 100)
         self.quality_spin.setSuffix(self.tr(' %'))
+        self.quality_spin.valueChanged.connect(self.process)
         params_layout.addWidget(self.quality_spin)
 
         params_layout.addWidget(QLabel(self.tr('Scale:')))
         self.scale_spin = QSpinBox()
         self.scale_spin.setRange(1, 100)
+        self.scale_spin.valueChanged.connect(self.process)
         params_layout.addWidget(self.scale_spin)
 
         self.equalize_check = QCheckBox(self.tr('Equalized'))
+        self.equalize_check.stateChanged.connect(self.process)
         params_layout.addWidget(self.equalize_check)
 
         params_layout.addStretch()
         default_button = QPushButton(self.tr('Default'))
+        default_button.clicked.connect(self.default)
         params_layout.addWidget(default_button)
 
         self.image = image
@@ -46,11 +50,6 @@ class ElaWidget(ToolWidget):
         main_layout.addLayout(params_layout)
         main_layout.addWidget(self.viewer)
         self.setLayout(main_layout)
-
-        self.quality_spin.valueChanged.connect(self.process)
-        self.scale_spin.valueChanged.connect(self.process)
-        self.equalize_check.stateChanged.connect(self.process)
-        default_button.clicked.connect(self.default)
 
     def process(self):
         equalize = self.equalize_check.isChecked()

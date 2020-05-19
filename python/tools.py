@@ -10,6 +10,7 @@ from utility import modify_font
 
 class ToolWidget(QWidget):
     info_message = Signal(str)
+    help_clicked = Signal(str)
 
     def __init__(self, parent=None):
         super(ToolWidget, self).__init__(parent)
@@ -81,7 +82,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Use color PCA to project RGB values onto reduced vector spaces'),
                            self.tr('Compute Minimum/Maximum/Average RGB values for every pixel'),
                            self.tr('Convert color channels into RGB/HSV/YCbCr/Lab/CMYK color spaces')])
-        tool_progress.extend([0, 1, 0, 0])
+        tool_progress.extend([0, 2, 1, 2])
 
         # [5]
         group_names.append(self.tr('[Tonality]'))

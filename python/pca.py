@@ -41,7 +41,7 @@ class PcaWidget(ToolWidget):
         self.cross_radio.toggled.connect(self.show)
         params_layout.addWidget(self.cross_radio)
 
-        self.process_button = QPushButton(self.tr('Proces'))
+        self.process_button = QPushButton(self.tr('Process'))
         self.process_button.setToolTip(self.tr('Start PCA processing (WARNING: this can take a while!)'))
         self.process_button.clicked.connect(self.process)
         params_layout.addWidget(self.process_button)
@@ -69,6 +69,7 @@ class PcaWidget(ToolWidget):
             r = q + v * y[d]
             distance = np.zeros((rows, cols), dtype=np.float64)
             cross = np.zeros((rows, cols, dims), dtype=np.float64)
+            # TODO: Provare a vettorizzare le operazioni per maggiore velocità
             for i in range(rows):
                 for j in range(cols):
                     p = self.image[i, j]
