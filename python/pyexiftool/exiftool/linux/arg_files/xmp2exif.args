@@ -1,0 +1,49 @@
+#------------------------------------------------------------------------------
+# File:         xmp2exif.args
+#
+# Description:  Tag name translations for converting XMP to EXIF
+#
+# Usage:        exiftool -tagsFromFile SRCFILE -@ xmp2exif.args DSTFILE
+#
+# Requires:     ExifTool version 10.96 or later
+#
+# Revisions:    2009/01/20 - P. Harvey Created
+#               2011/06/22 - PH Copy flash information via Composite:Flash
+#               2013/06/12 - PH Additions for the Exif 2.3 for XMP spec
+#               2015/01/12 - PH Avoid copying from non-standard namespaces
+#               2016/09/26 - PH Write Composite SubSec tags
+#               2018/05/07 - PH Added support for GPSDestXxxRef tags
+#
+# References:   http://www.metadataworkinggroup.org/specs/
+#
+# Notes:     1) The first three arguments copy the bulk of the EXIF and GPS
+#               information, and the remaining arguments handle the tags
+#               which have different names and/or formats in XMP and EXIF.
+#
+#            2) These arguments will not delete existing EXIF tags which are
+#               missing from the XMP.  The EXIF tags should be deleted
+#               beforehand if required.
+#------------------------------------------------------------------------------
+-EXIF:all < XMP-exif:all
+-EXIF:all < XMP-exifEX:all
+-EXIF:all < XMP-tiff:all
+-EXIF:ImageDescription < XMP-dc:Description
+-EXIF:DateTimeOriginal < XMP-photoshop:DateCreated
+# the following 3 SubSec tags also write/delete the corresponding EXIF
+# SubSecTime and OffsetTime tags as appropriate
+-Composite:SubSecDateTimeOriginal < XMP-photoshop:DateCreated
+-Composite:SubSecCreateDate < XMP-xmp:CreateDate
+-Composite:SubSecModifyDate < XMP-xmp:ModifyDate
+-EXIF:Software < -XMP-xmp:CreatorTool
+-EXIF:Copyright < XMP-dc:Rights
+-EXIF:Artist < XMP-dc:Creator
+# XMP flash information is translated by the Composite Flash tag
+-EXIF:Flash < Composite:Flash
+# generate GPS tags which have been combined into other XMP tags
+-GPS:GPSLatitudeRef < Composite:GPSLatitudeRef
+-GPS:GPSLongitudeRef < Composite:GPSLongitudeRef
+-GPS:GPSDestLatitudeRef < Composite:GPSDestLatitudeRef
+-GPS:GPSDestLongitudeRef < Composite:GPSDestLongitudeRef
+-GPS:GPSDatestamp < XMP-exif:GPSDateTime
+-GPS:GPSTimestamp < XMP-exif:GPSDateTime
+# end

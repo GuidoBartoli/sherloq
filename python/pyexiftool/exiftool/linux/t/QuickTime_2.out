@@ -1,0 +1,133 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.81
+[File, System, Other] FileName - File Name: QuickTime.mov
+[File, System, Other] Directory - Directory: t/images
+[File, System, Other] FileSize - File Size: 3.8 kB
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2019:03:22 12:13:41-04:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2019:12:18 11:12:55-05:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2019:12:17 10:26:28-05:00
+[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, File, Other] FileType - File Type: MOV
+[File, File, Other] FileTypeExtension - File Type Extension: mov
+[File, File, Other] MIMEType - MIME Type: video/quicktime
+[QuickTime, QuickTime, Video] 0 - Movie Header Version: 0
+[QuickTime, QuickTime, Time] 1 - Create Date: 2005:08:11 14:03:54
+[QuickTime, QuickTime, Time] 2 - Modify Date: 2010:07:30 15:43:59
+[QuickTime, QuickTime, Video] 3 - Time Scale: 600
+[QuickTime, QuickTime, Video] 4 - Duration: 4.97 s
+[QuickTime, QuickTime, Video] 5 - Preferred Rate: 1
+[QuickTime, QuickTime, Video] 6 - Preferred Volume: 99.61%
+[QuickTime, QuickTime, Video] 9 - Matrix Structure: 1 0 0 0 1 0 0 0 1
+[QuickTime, QuickTime, Video] 18 - Preview Time: 0 s
+[QuickTime, QuickTime, Video] 19 - Preview Duration: 0 s
+[QuickTime, QuickTime, Video] 20 - Poster Time: 0 s
+[QuickTime, QuickTime, Video] 21 - Selection Time: 0 s
+[QuickTime, QuickTime, Video] 22 - Selection Duration: 0 s
+[QuickTime, QuickTime, Video] 23 - Current Time: 0 s
+[QuickTime, QuickTime, Video] 24 - Next Track ID: 3
+[QuickTime, Track1, Video] 0 - Track Header Version: 0
+[QuickTime, Track1, Time] 1 - Track Create Date: 2005:08:11 14:03:54
+[QuickTime, Track1, Time] 2 - Track Modify Date: 2005:08:11 14:03:54
+[QuickTime, Track1, Video] 3 - Track ID: 1
+[QuickTime, Track1, Video] 5 - Track Duration: 4.97 s
+[QuickTime, Track1, Video] 8 - Track Layer: 0
+[QuickTime, Track1, Video] 9 - Track Volume: 0.00%
+[QuickTime, Track1, Video] 10 - Matrix Structure: 1 0 0 0 1 0 0 0 1
+[QuickTime, Track1, Video] 19 - Image Width: 320
+[QuickTime, Track1, Video] 20 - Image Height: 240
+[QuickTime, Track1, Video] clef - Clean Aperture Dimensions: 320x240
+[QuickTime, Track1, Video] prof - Production Aperture Dimensions: 320x240
+[QuickTime, Track1, Video] enof - Encoded Pixels Dimensions: 320x240
+[QuickTime, Track1, Video] 0 - Media Header Version: 0
+[QuickTime, Track1, Time] 1 - Media Create Date: 2005:08:11 14:03:54
+[QuickTime, Track1, Time] 2 - Media Modify Date: 2005:08:11 14:03:54
+[QuickTime, Track1, Video] 3 - Media Time Scale: 600
+[QuickTime, Track1, Video] 4 - Media Duration: 4.97 s
+[QuickTime, Track1, Video] 4 - Handler Class: Media Handler
+[QuickTime, Track1, Video] 8 - Handler Type: Video Track
+[QuickTime, Track1, Video] 12 - Handler Vendor ID: Pentax
+[QuickTime, Track1, Video] 2 - Graphics Mode: ditherCopy
+[QuickTime, Track1, Video] 3 - Op Color: 32768 32768 32768
+[QuickTime, Track1, Video] 4 - Handler Class: Data Handler
+[QuickTime, Track1, Video] 8 - Handler Type: Alias Data
+[QuickTime, Track1, Video] 12 - Handler Vendor ID: Pentax
+[QuickTime, Track1, Image] 2 - Compressor ID: jpeg
+[QuickTime, Track1, Image] 10 - Vendor ID: Pentax
+[QuickTime, Track1, Image] 16 - Source Image Width: 320
+[QuickTime, Track1, Image] 17 - Source Image Height: 240
+[QuickTime, Track1, Image] 18 - X Resolution: 72
+[QuickTime, Track1, Image] 20 - Y Resolution: 72
+[QuickTime, Track1, Image] 25 - Compressor Name: Photo - JPEG
+[QuickTime, Track1, Image] 41 - Bit Depth: 24
+[QuickTime, Track1, Video] stts - Video Frame Rate: 30
+[QuickTime, Track2, Video] 0 - Track Header Version: 0
+[QuickTime, Track2, Time] 1 - Track Create Date: 2005:08:11 14:03:54
+[QuickTime, Track2, Time] 2 - Track Modify Date: 2005:08:11 14:03:54
+[QuickTime, Track2, Video] 3 - Track ID: 2
+[QuickTime, Track2, Video] 5 - Track Duration: 4.96 s
+[QuickTime, Track2, Video] 8 - Track Layer: 0
+[QuickTime, Track2, Video] 9 - Track Volume: 100.00%
+[QuickTime, Track2, Video] 10 - Matrix Structure: 1 0 0 0 1 0 0 0 1
+[QuickTime, Track2, Video] 0 - Media Header Version: 0
+[QuickTime, Track2, Time] 1 - Media Create Date: 2005:08:11 14:03:54
+[QuickTime, Track2, Time] 2 - Media Modify Date: 2005:08:11 14:03:54
+[QuickTime, Track2, Video] 3 - Media Time Scale: 7875
+[QuickTime, Track2, Video] 4 - Media Duration: 4.97 s
+[QuickTime, Track2, Video] 4 - Handler Class: Media Handler
+[QuickTime, Track2, Video] 8 - Handler Type: Audio Track
+[QuickTime, Track2, Video] 12 - Handler Vendor ID: Pentax
+[QuickTime, Track2, Audio] 2 - Balance: 0
+[QuickTime, Track2, Video] 4 - Handler Class: Data Handler
+[QuickTime, Track2, Video] 8 - Handler Type: Alias Data
+[QuickTime, Track2, Video] 12 - Handler Vendor ID: Pentax
+[QuickTime, Track2, Audio] 4 - Audio Format: raw 
+[QuickTime, Track2, Audio] 24 - Audio Channels: 1
+[QuickTime, Track2, Audio] 26 - Audio Bits Per Sample: 8
+[QuickTime, Track2, Audio] 32 - Audio Sample Rate: 7875
+[QuickTime, QuickTime, Video] 8 - Handler Type: Metadata Tags
+[QuickTime, Keys, Other] 1.1 - Album: √•lbum
+[QuickTime, Keys, Other] 1.2 - Artist: √•rtist
+[QuickTime, Keys, Other] 1.3 - Comment: √ß√∏mm√©nts
+[QuickTime, UserData, Video] ©fmt - Format: Digital Camera
+[QuickTime, UserData, Video] ©inf - Information: PENTAX DIGITAL CAMERA                            
+[QuickTime, UserData, Video] ©alb - Album: √•lbum
+[QuickTime, UserData, Video] ©ART - Artist: √•rtist
+[QuickTime, UserData, Video] ©cmt - Comment: √ß√∏mm√©nts
+[QuickTime, UserData, Video] ©com - Composer: c√∏mp√∏s√©r
+[QuickTime, UserData, Video] ©gen - Genre: Genr√©
+[QuickTime, QuickTime, Video] 8 - Handler Type: Metadata
+[QuickTime, QuickTime, Video] 12 - Handler Vendor ID: Apple
+[QuickTime, ItemList, Audio] ©lyr - Lyrics: These are lyrics
+[QuickTime, ItemList, Preview] covr - Cover Art: (Binary data 251 bytes)
+[QuickTime, ItemList, Audio] ©ART - Artist: √•rtist
+[QuickTime, ItemList, Author] aART - Album Artist: √•lb√ºm √•rt√Æst
+[QuickTime, ItemList, Audio] ©wrt - Composer: c√∏mp√∏s√©r
+[QuickTime, ItemList, Audio] ©alb - Album: √•lbum
+[QuickTime, ItemList, Audio] ©grp - Grouping: gr√∏uping
+[QuickTime, ItemList, Audio] ©gen - Genre: Genr√©
+[QuickTime, ItemList, Audio] trkn - Track Number: 1 of 2
+[QuickTime, ItemList, Audio] disk - Disk Number: 3 of 4
+[QuickTime, ItemList, Time] ©day - Content Create Date: 2010
+[QuickTime, ItemList, Audio] ©cmt - Comment: √ß√∏mm√©nts
+[QuickTime, ItemList, Audio] tmpo - Beats Per Minute: 128
+[QuickTime, QuickTime, Video] mdat-size - Media Data Size: 0
+[QuickTime, QuickTime, Video] mdat-offset - Media Data Offset: 3871
+[MakerNotes, Pentax, Camera] 0 - Make: PENTAX DIGITAL CAMERA
+[MakerNotes, Pentax, Camera] 38 - Exposure Time: 1/38
+[MakerNotes, Pentax, Camera] 42 - F Number: 4.0
+[MakerNotes, Pentax, Camera] 50 - Exposure Compensation: 0
+[MakerNotes, Pentax, Camera] 68 - White Balance: Auto
+[MakerNotes, Pentax, Camera] 72 - Focal Length: 18.9 mm
+[MakerNotes, Pentax, Camera] 175 - ISO: 50
+[XMP, XMP-x, Document] xmptk - XMP Toolkit: Adobe XMP Core 4.1-c036 46.277092, Fri Feb 23 2007 14:16:18        
+[XMP, XMP-xmpDM, Image] altTapeName - Alt Tape Name: An Alternate Scene Name
+[XMP, XMP-xmpDM, Image] album - Album: No Album
+[XMP, XMP-xmp, Time] MetadataDate - Metadata Date: 2008:09:12 11:17:39-04:00
+[XMP, XMP-dc, Author] creator - Creator: Phil Harvey
+[Composite, Composite, Image] Exif::Aperture - Aperture: 4.0
+[Composite, Composite, Image] Exif::ImageSize - Image Size: 320x240
+[Composite, Composite, Image] Exif::Megapixels - Megapixels: 0.077
+[Composite, Composite, Image] Exif::ShutterSpeed - Shutter Speed: 1/38
+[Composite, Composite, Video] QuickTime::AvgBitrate - Avg Bitrate: 0 bps
+[Composite, Composite, Video] QuickTime::Rotation - Rotation: 0
+[Composite, Composite, Camera] Exif::FocalLength35efl - Focal Length: 18.9 mm
+[Composite, Composite, Image] Exif::LightValue - Light Value: 10.3

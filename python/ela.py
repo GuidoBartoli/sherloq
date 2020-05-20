@@ -10,7 +10,8 @@ from PySide2.QtWidgets import (
     QLabel)
 
 from tools import ToolWidget
-from utility import compress_jpeg, elapsed_time
+from utility import elapsed_time
+from jpeg import compress_jpeg
 from viewer import ImageViewer
 
 

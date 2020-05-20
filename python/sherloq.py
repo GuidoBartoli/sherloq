@@ -23,6 +23,7 @@ from metadata import MetadataWidget
 from minmax import MinMaxWidget
 from noise import NoiseWidget
 from original import OriginalWidget
+from quality import QualityWidget
 from pca import PcaWidget
 from space import SpaceWidget
 from stats import StatsWidget
@@ -119,6 +120,20 @@ class MainWindow(QMainWindow):
         close_action.setObjectName('close_action')
         close_action.setIcon(QIcon('icons/close.svg'))
 
+        full_action = QAction(self.tr('Full screen'), self)
+        full_action.setToolTip(self.tr('Enter full screen mode'))
+        full_action.setShortcut(QKeySequence.FullScreen)
+        full_action.triggered.connect(self.showFullScreen)
+        full_action.setObjectName('full_action')
+        full_action.setIcon(QIcon('icons/full.svg'))
+
+        normal_action = QAction(self.tr('Normal view'), self)
+        full_action.setToolTip(self.tr('Switch to normal screen mode'))
+        normal_action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_F12))
+        normal_action.triggered.connect(self.showNormal)
+        normal_action.setObjectName('normal_action')
+        normal_action.setIcon(QIcon('icons/normal.svg'))
+
         about_action = QAction(self.tr('&About...'), self)
         about_action.setToolTip(self.tr('Display informations about this program'))
         about_action.setShortcut(QKeySequence.HelpContents)
@@ -145,6 +160,9 @@ class MainWindow(QMainWindow):
         window_menu.addAction(prev_action)
         window_menu.addAction(next_action)
         window_menu.addAction(close_action)
+        window_menu.addSeparator()
+        window_menu.addAction(full_action)
+        window_menu.addAction(normal_action)
 
         help_menu = self.menuBar().addMenu(self.tr('&Help'))
         help_menu.addAction(about_action)
@@ -162,6 +180,9 @@ class MainWindow(QMainWindow):
         main_toolbar.addAction(cascade_action)
         main_toolbar.addAction(tabbed_action)
         main_toolbar.addAction(close_action)
+        main_toolbar.addSeparator()
+        main_toolbar.addAction(normal_action)
+        main_toolbar.addAction(full_action)
         main_toolbar.setObjectName('main_toolbar')
 
         settings = QSettings()
@@ -177,10 +198,6 @@ class MainWindow(QMainWindow):
         close_action.setEnabled(False)
         tabbed_action.setEnabled(False)
         self.tree_widget.setEnabled(False)
-        try:
-            os.remove('structure.html', )
-        except OSError:
-            pass
         self.show_message(self.tr('Ready'))
 
     def closeEvent(self, event):
@@ -232,6 +249,7 @@ class MainWindow(QMainWindow):
         tool = item.data(0, Qt.UserRole + 2)
         for sub_window in self.mdi_area.subWindowList():
             if sub_window.windowTitle() == item.text(0):
+                sub_window.setWindowState(Qt.WindowActive)
                 sub_window.setFocus()
                 return
 
@@ -256,7 +274,9 @@ class MainWindow(QMainWindow):
             else:
                 return
         elif group == 3:
-            if tool == 1:
+            if tool == 0:
+                tool_widget = QualityWidget(self.filename)
+            elif tool == 1:
                 tool_widget = ElaWidget(self.image)
             else:
                 return
@@ -293,7 +313,7 @@ class MainWindow(QMainWindow):
         sub_window.setAttribute(Qt.WA_DeleteOnClose)
         sub_window.setWindowIcon(QIcon('icons/{}.svg'.format(group)))
         self.mdi_area.addSubWindow(sub_window)
-        sub_window.showMaximized()
+        sub_window.show()
         sub_window.destroyed.connect(self.disable_bold)
         self.tree_widget.set_bold(item.text(0), enabled=True)
 

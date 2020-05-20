@@ -1,0 +1,96 @@
+[QuickTime, QuickTime, Video] 0 - Movie Header Version: 0
+[QuickTime, QuickTime, Time] 1 - Create Date: 2005:08:11 14:03:54
+[QuickTime, QuickTime, Time] 2 - Modify Date: 2010:07:30 15:43:59
+[QuickTime, QuickTime, Video] 3 - Time Scale: 600
+[QuickTime, QuickTime, Video] 4 - Duration: 4.97 s
+[QuickTime, QuickTime, Video] 5 - Preferred Rate: 1
+[QuickTime, QuickTime, Video] 6 - Preferred Volume: 99.61%
+[QuickTime, QuickTime, Video] 9 - Matrix Structure: 1 0 0 0 1 0 0 0 1
+[QuickTime, QuickTime, Video] 18 - Preview Time: 0 s
+[QuickTime, QuickTime, Video] 19 - Preview Duration: 0 s
+[QuickTime, QuickTime, Video] 20 - Poster Time: 0 s
+[QuickTime, QuickTime, Video] 21 - Selection Time: 0 s
+[QuickTime, QuickTime, Video] 22 - Selection Duration: 0 s
+[QuickTime, QuickTime, Video] 23 - Current Time: 0 s
+[QuickTime, QuickTime, Video] 24 - Next Track ID: 3
+[QuickTime, Track1, Video] 0 - Track Header Version: 0
+[QuickTime, Track1, Time] 1 - Track Create Date: 2005:08:11 14:03:54
+[QuickTime, Track1, Time] 2 - Track Modify Date: 2005:08:11 14:03:54
+[QuickTime, Track1, Video] 3 - Track ID: 1
+[QuickTime, Track1, Video] 5 - Track Duration: 4.97 s
+[QuickTime, Track1, Video] 8 - Track Layer: 0
+[QuickTime, Track1, Video] 9 - Track Volume: 0.00%
+[QuickTime, Track1, Video] 10 - Matrix Structure: 1 0 0 0 1 0 0 0 1
+[QuickTime, Track1, Video] 19 - Image Width: 320
+[QuickTime, Track1, Video] 20 - Image Height: 240
+[QuickTime, Track1, Video] clef - Clean Aperture Dimensions: 320x240
+[QuickTime, Track1, Video] prof - Production Aperture Dimensions: 320x240
+[QuickTime, Track1, Video] enof - Encoded Pixels Dimensions: 320x240
+[QuickTime, Track1, Video] edts - Unknown edts: (Binary data 28 bytes)
+[QuickTime, Track1, Video] 0 - Media Header Version: 0
+[QuickTime, Track1, Time] 1 - Media Create Date: 2005:08:11 14:03:54
+[QuickTime, Track1, Time] 2 - Media Modify Date: 2005:08:11 14:03:54
+[QuickTime, Track1, Video] 3 - Media Time Scale: 600
+[QuickTime, Track1, Video] 4 - Media Duration: 4.97 s
+[QuickTime, Track1, Video] 4 - Handler Class: Media Handler
+[QuickTime, Track1, Video] 8 - Handler Type: Video Track
+[QuickTime, Track1, Video] 12 - Handler Vendor ID: Pentax
+[QuickTime, Track1, Video] 2 - Graphics Mode: ditherCopy
+[QuickTime, Track1, Video] 3 - Op Color: 32768 32768 32768
+[QuickTime, Track1, Video] 4 - Handler Class: Data Handler
+[QuickTime, Track1, Video] 8 - Handler Type: Alias Data
+[QuickTime, Track1, Video] 12 - Handler Vendor ID: Pentax
+[QuickTime, Track1, Other] alis - Unknown alis: (Binary data 4 bytes)
+[QuickTime, Track1, Image] 2 - Compressor ID: jpeg
+[QuickTime, Track1, Image] 10 - Vendor ID: Pentax
+[QuickTime, Track1, Image] 16 - Source Image Width: 320
+[QuickTime, Track1, Image] 17 - Source Image Height: 240
+[QuickTime, Track1, Image] 18 - X Resolution: 72
+[QuickTime, Track1, Image] 20 - Y Resolution: 72
+[QuickTime, Track1, Image] 25 - Compressor Name: Photo - JPEG
+[QuickTime, Track1, Image] 41 - Bit Depth: 24
+[QuickTime, Track1, Video] stts - Video Frame Rate: 30
+[QuickTime, Track1, Video] stsc - Sample To Chunk: (Binary data 32 bytes)
+[QuickTime, Track1, Video] stsz - Sample Sizes: (Binary data 608 bytes)
+[QuickTime, Track1, Video] stco - Chunk Offset: (Binary data 28 bytes)
+[QuickTime, Track2, Video] 0 - Track Header Version: 0
+[QuickTime, Track2, Time] 1 - Track Create Date: 2005:08:11 14:03:54
+[QuickTime, Track2, Time] 2 - Track Modify Date: 2005:08:11 14:03:54
+[QuickTime, Track2, Video] 3 - Track ID: 2
+[QuickTime, Track2, Video] 5 - Track Duration: 4.96 s
+[QuickTime, Track2, Video] 8 - Track Layer: 0
+[QuickTime, Track2, Video] 9 - Track Volume: 100.00%
+[QuickTime, Track2, Video] 10 - Matrix Structure: 1 0 0 0 1 0 0 0 1
+[QuickTime, Track2, Video] edts - Unknown edts: (Binary data 28 bytes)
+[QuickTime, Track2, Video] 0 - Media Header Version: 0
+[QuickTime, Track2, Time] 1 - Media Create Date: 2005:08:11 14:03:54
+[QuickTime, Track2, Time] 2 - Media Modify Date: 2005:08:11 14:03:54
+[QuickTime, Track2, Video] 3 - Media Time Scale: 7875
+[QuickTime, Track2, Video] 4 - Media Duration: 4.97 s
+[QuickTime, Track2, Video] 4 - Handler Class: Media Handler
+[QuickTime, Track2, Video] 8 - Handler Type: Audio Track
+[QuickTime, Track2, Video] 12 - Handler Vendor ID: Pentax
+[QuickTime, Track2, Audio] 2 - Balance: 0
+[QuickTime, Track2, Video] 4 - Handler Class: Data Handler
+[QuickTime, Track2, Video] 8 - Handler Type: Alias Data
+[QuickTime, Track2, Video] 12 - Handler Vendor ID: Pentax
+[QuickTime, Track2, Other] alis - Unknown alis: (Binary data 4 bytes)
+[QuickTime, Track2, Audio] 4 - Audio Format: raw 
+[QuickTime, Track2, Audio] 24 - Audio Channels: 1
+[QuickTime, Track2, Audio] 26 - Audio Bits Per Sample: 8
+[QuickTime, Track2, Audio] 32 - Audio Sample Rate: 7875
+[QuickTime, Track2, Video] stts - Time To Sample Table: (Binary data 16 bytes)
+[QuickTime, Track2, Video] stsc - Sample To Chunk: (Binary data 32 bytes)
+[QuickTime, Track2, Video] stsz - Sample Sizes: (Binary data 12 bytes)
+[QuickTime, Track2, Video] stco - Chunk Offset: (Binary data 28 bytes)
+[QuickTime, QuickTime, Video] 8 - Handler Type: Metadata Tags
+[QuickTime, Keys, Other] 1.1 - Director: dir
+[QuickTime, QuickTime, Video] 8 - Handler Type: Metadata
+[QuickTime, QuickTime, Video] 12 - Handler Vendor ID: Apple
+[QuickTime, ItemList, Audio] ©ART - Artist: me
+[QuickTime, UserData, Video] ©arg - Arranger: arr
+[QuickTime, QuickTime, Video] mdat-size - Media Data Size: 0
+[QuickTime, QuickTime, Video] mdat-offset - Media Data Offset: 4830
+[QuickTime, QuickTime, Video] mdat - Media Data: (Binary data 0 bytes)
+[XMP, XMP-x, Document] xmptk - XMP Toolkit: Image::ExifTool 11.81
+[XMP, XMP-tiff, Author] Artist - Artist: me

@@ -1,0 +1,24 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.75
+[File, System, Other] FileName - File Name: BMP.bmp
+[File, System, Other] Directory - Directory: t/images
+[File, System, Other] FileSize - File Size: 1142 bytes
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2005:11:14 14:47:21-05:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2019:11:01 10:11:40-04:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2019:10:29 08:21:01-04:00
+[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, File, Other] FileType - File Type: BMP
+[File, File, Other] FileTypeExtension - File Type Extension: bmp
+[File, File, Other] MIMEType - MIME Type: image/bmp
+[File, File, Image] 0 - BMP Version: Windows V3
+[File, File, Image] 4 - Image Width: 8
+[File, File, Image] 8 - Image Height: 8
+[File, File, Image] 12 - Planes: 1
+[File, File, Image] 14 - Bit Depth: 8
+[File, File, Image] 16 - Compression: None
+[File, File, Image] 20 - Image Length: 64
+[File, File, Image] 24 - Pixels Per Meter X: 2835
+[File, File, Image] 28 - Pixels Per Meter Y: 2835
+[File, File, Image] 32 - Num Colors: 256
+[File, File, Image] 36 - Num Important Colors: 256
+[Composite, Composite, Image] Exif::ImageSize - Image Size: 8x8
+[Composite, Composite, Image] Exif::Megapixels - Megapixels: 0.000064

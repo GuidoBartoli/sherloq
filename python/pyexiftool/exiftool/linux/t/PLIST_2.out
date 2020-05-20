@@ -1,0 +1,21 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.75
+[File, System, Other] FileName - File Name: PLIST-xml.plist
+[File, System, Other] Directory - Directory: t/images
+[File, System, Other] FileSize - File Size: 795 bytes
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2013:02:22 08:21:12-05:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2019:10:31 14:56:46-04:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2019:10:29 08:21:01-04:00
+[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, File, Other] FileType - File Type: PLIST
+[File, File, Other] FileTypeExtension - File Type Extension: plist
+[File, File, Other] MIMEType - MIME Type: application/xml
+[PLIST, XML, Document] TestArray - Test Array: one, two, three
+[PLIST, XML, Document] TestBoolean - Test Boolean: True
+[PLIST, XML, Document] TestData - Test Data: (Binary data 12 bytes)
+[PLIST, XML, Time] TestDate - Test Date: 2013:02:22 12:49:10Z
+[PLIST, XML, Document] TestDict/Author - Test Dict Author: Phil
+[PLIST, XML, Time] TestDict/When - Test Dict When: 2000:01:02 08:04:05Z
+[PLIST, XML, Document] TestInteger - Test Integer: 256
+[PLIST, XML, Document] TestReal - Test Real: 1.4
+[PLIST, XML, Document] TestString - Test String: ExifTool PLIST test
+[PLIST, XML, Document] TestUnicode - Test Unicode: ExîfTöøl PLIST tést

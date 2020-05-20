@@ -28,13 +28,13 @@ class ToolTree(QTreeWidget):
         group_names.append(self.tr('[General]'))
         tool_names.append([self.tr('Original Image'),
                            self.tr('File Digest'),
-                           self.tr('Similarity Search'),
-                           self.tr('Automatic Tagging')])
+                           self.tr('Hexadecimal Viewer'),
+                           self.tr('Similarity Search')])
         tool_infos.append([self.tr('Display the unaltered reference image for visual inspection'),
                            self.tr('Retrieve file information and compute many hashes and ballistics'),
-                           self.tr('Use reverse search services for finding similar images online'),
+                           self.tr('Open an hexadecimal editor to show raw byte values from file'),
                            self.tr('Apply deep learning algorithms for automatic picture tagging')])
-        tool_progress.extend([3, 2, 0, 0])
+        tool_progress.extend([3, 3, 0, 0])
 
         # [1]
         group_names.append(self.tr('[Metadata]'))
@@ -70,7 +70,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Show pixel-level difference against different compression levels'),
                            self.tr('Use residuals to detect multiple compressions at different levels'),
                            self.tr('Exploit DCT First-Digit-Statistics to detect double compression')])
-        tool_progress.extend([0, 3, 0, 0])
+        tool_progress.extend([3, 3, 0, 0])
 
         # [4]
         group_names.append(self.tr('[Colors]'))
@@ -82,7 +82,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Use color PCA to project RGB values onto reduced vector spaces'),
                            self.tr('Compute Minimum/Maximum/Average RGB values for every pixel'),
                            self.tr('Convert color channels into RGB/HSV/YCbCr/Lab/CMYK color spaces')])
-        tool_progress.extend([0, 2, 1, 2])
+        tool_progress.extend([0, 2, 3, 2])
 
         # [5]
         group_names.append(self.tr('[Tonality]'))
@@ -106,7 +106,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Highlight pixels deviating from block-based min/max statistics'),
                            self.tr('Evaluate uniformity of signal-to-noise ratio across the image'),
                            self.tr('Cluster noise into uniform regions for anomaly detection')])
-        tool_progress.extend([3, 3, 0, 0])
+        tool_progress.extend([3, 2, 0, 0])
 
         # [7]
         group_names.append(self.tr('[Tampering]'))

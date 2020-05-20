@@ -1,0 +1,40 @@
+#------------------------------------------------------------------------------
+# File:         gpx_wpt.fmt
+#
+# Description:  Example ExifTool print format file to generate GPX waypoints
+#               with pictures
+#
+# Usage:        exiftool -p gpx_wpt.fmt -ee FILE [...] > out.gpx
+#
+# Requires:     ExifTool version 10.49 or later
+#
+# Revisions:    2010/03/13 - Peter Grimm created
+#               2018/01/04 - PH Added IF to be sure position exists
+#               2018/01/06 - PH Use DateFmt function instead of -d option
+#               2019/10/24 - PH Preserve sub-seconds in GPSDateTime value
+#
+# Notes:     1) Input file(s) must contain GPSLatitude and GPSLongitude.
+#            2) The -ee option is to extract the full track from video files.
+#            3) The -fileOrder option may be used to control the order of the
+#               generated track points when processing multiple files.
+#------------------------------------------------------------------------------
+#[HEAD]<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+#[HEAD]<gpx version="1.1"
+#[HEAD] creator="ExifTool $ExifToolVersion"
+#[HEAD] xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+#[HEAD] xmlns="http://www.topografix.com/GPX/1/1"
+#[HEAD] xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd">
+#[IF]  $gpslatitude $gpslongitude
+#[BODY]<wpt lat="$gpslatitude#" lon="$gpslongitude#">
+#[BODY]  <ele>$gpsaltitude#</ele>
+#[BODY]  <time>${gpsdatetime#;my ($ss)=/\.\d+/g;DateFmt("%Y-%m-%dT%H:%M:%SZ");s/Z/${ss}Z/ if $ss}</time>
+#[BODY]  <name>$filename</name>
+#[BODY]  <link href="$directory/$filename"/>
+#[BODY]  <sym>Scenic Area</sym>
+#[BODY]  <extensions>
+#[BODY]    <gpxx:WaypointExtension xmlns:gpxx="http://www.garmin.com/xmlschemas/GpxExtensions/v3">
+#[BODY]      <gpxx:DisplayMode>SymbolAndName</gpxx:DisplayMode>
+#[BODY]    </gpxx:WaypointExtension>
+#[BODY]  </extensions>
+#[BODY]</wpt>
+#[TAIL]</gpx>

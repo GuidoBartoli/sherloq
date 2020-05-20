@@ -1,0 +1,37 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.75
+[File, System, Other] FileName - File Name: Font.pfm
+[File, System, Other] Directory - Directory: t/images
+[File, System, Other] FileSize - File Size: 240 bytes
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2010:01:18 14:10:30-05:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2019:10:31 14:56:16-04:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2019:10:29 08:21:01-04:00
+[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, File, Other] FileType - File Type: PFM
+[File, File, Other] FileTypeExtension - File Type Extension: pfm
+[File, File, Other] MIMEType - MIME Type: application/x-font-type1
+[Font, Font, Document] 0 - PFM Version: 1.00
+[Font, Font, Author] 6 - Copyright: Copyright URW Software, Copyright 1992 by URW
+[Font, Font, Document] 66 - Font Type: 129
+[Font, Font, Document] 68 - Point Size: 10
+[Font, Font, Document] 70 - Y Resolution: 300
+[Font, Font, Document] 72 - X Resolution: 300
+[Font, Font, Document] 74 - Ascent: 700
+[Font, Font, Document] 76 - Internal Leading: 0
+[Font, Font, Document] 78 - External Leading: 0
+[Font, Font, Document] 80 - Italic: 0
+[Font, Font, Document] 81 - Underline: 0
+[Font, Font, Document] 82 - Strikeout: 0
+[Font, Font, Document] 83 - Weight: 600
+[Font, Font, Document] 85 - Character Set: 0
+[Font, Font, Document] 86 - Pix Width: 0
+[Font, Font, Document] 88 - Pix Height: 0
+[Font, Font, Document] 90 - Pitch And Family: 1
+[Font, Font, Document] 91 - Avg Width: 578
+[Font, Font, Document] 93 - Max Width: 1092
+[Font, Font, Document] 95 - First Char: 32
+[Font, Font, Document] 96 - Last Char: 255
+[Font, Font, Document] 97 - Default Char: 32
+[Font, Font, Document] 98 - Break Char: 0
+[Font, Font, Document] 99 - Width Bytes: 0
+[Font, Font, Document] fontname - Font Name: URWGroT
+[Font, Font, Document] postfont - PostScript Font Name: URWGroteskT-Bold

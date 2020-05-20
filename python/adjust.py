@@ -24,7 +24,7 @@ class AdjustWidget(ToolWidget):
 
         params_layout = QGridLayout()
         params_layout.addWidget(QLabel(self.tr('Brightness:')), 0, 0)
-        self.bright_slider = ParamSlider([-255, +255], [1, 8], 16)
+        self.bright_slider = ParamSlider([-255, +255], [1, 8], 16, 0)
         self.bright_slider.valueChanged.connect(self.process)
         params_layout.addWidget(self.bright_slider, 0, 1)
         self.bright_label = QLabel()
@@ -32,7 +32,7 @@ class AdjustWidget(ToolWidget):
         params_layout.addWidget(self.bright_label, 0, 2)
 
         params_layout.addWidget(QLabel(self.tr('Saturation:')), 1, 0)
-        self.sat_slider = ParamSlider([-255, +255], [1, 8], 16)
+        self.sat_slider = ParamSlider([-255, +255], [1, 8], 16, 0)
         self.sat_slider.valueChanged.connect(self.process)
         params_layout.addWidget(self.sat_slider, 1, 1)
         self.sat_label = QLabel()
@@ -40,7 +40,7 @@ class AdjustWidget(ToolWidget):
         params_layout.addWidget(self.sat_label, 1, 2)
 
         params_layout.addWidget(QLabel(self.tr('Hue:')), 2, 0)
-        self.hue_slider = ParamSlider([0, 180], [1, 5], 10)
+        self.hue_slider = ParamSlider([0, 180], [1, 5], 10, 0)
         self.hue_slider.valueChanged.connect(self.process)
         params_layout.addWidget(self.hue_slider, 2, 1)
         self.hue_label = QLabel()
@@ -48,7 +48,7 @@ class AdjustWidget(ToolWidget):
         params_layout.addWidget(self.hue_label, 2, 2)
 
         params_layout.addWidget(QLabel(self.tr('Gamma:')), 0, 3)
-        self.gamma_slider = ParamSlider([0, 50], [1, 5], 10)
+        self.gamma_slider = ParamSlider([1, 50], [1, 1], 10, 10)
         self.gamma_slider.setValue(10)
         self.gamma_slider.valueChanged.connect(self.process)
         params_layout.addWidget(self.gamma_slider, 0, 4)
@@ -57,7 +57,7 @@ class AdjustWidget(ToolWidget):
         params_layout.addWidget(self.gamma_label, 0, 5)
 
         params_layout.addWidget(QLabel(self.tr('Shadows:')), 1, 3)
-        self.shadow_slider = ParamSlider([-100, +100], [1, 10], 10)
+        self.shadow_slider = ParamSlider([-100, +100], [1, 10], 10, 0)
         self.shadow_slider.valueChanged.connect(self.process)
         params_layout.addWidget(self.shadow_slider, 1, 4)
         self.shadow_label = QLabel()
@@ -65,7 +65,7 @@ class AdjustWidget(ToolWidget):
         params_layout.addWidget(self.shadow_label, 1, 5)
 
         params_layout.addWidget(QLabel(self.tr('Highlights:')), 2, 3)
-        self.high_slider = ParamSlider([-100, +100], [1, 10], 10)
+        self.high_slider = ParamSlider([-100, +100], [1, 10], 10, 0)
         self.high_slider.valueChanged.connect(self.process)
         params_layout.addWidget(self.high_slider, 2, 4)
         self.high_label = QLabel()
@@ -94,7 +94,8 @@ class AdjustWidget(ToolWidget):
         hist_view.setRenderHint(QPainter.Antialiasing)
         top_layout = QHBoxLayout()
         top_layout.addLayout(params_layout)
-        top_layout.addWidget(hist_view)
+        top_layout.addStretch()
+        # top_layout.addWidget(hist_view)
 
         self.image = image
         self.viewer = ImageViewer(self.image, self.image)
@@ -162,29 +163,29 @@ class AdjustWidget(ToolWidget):
             result = cv.bitwise_not(result)
         self.viewer.update_processed(result)
 
-        self.hist_chart.removeAllSeries()
-        hist_line = QtCharts.QLineSeries()
-        base_line = QtCharts.QLineSeries()
-        gray = cv.cvtColor(result, cv.COLOR_BGR2GRAY)
-        for i, h in enumerate([int(h[0]) for h in cv.calcHist([gray], [0], None, [256], [0, 256])]):
-            hist_line.append(i, h)
-            base_line.append(i, 0)
-        hist_line.setPen(QPen(Qt.white))
-        hist_area = QtCharts.QAreaSeries(hist_line, base_line)
-        color = QColor(Qt.lightGray)
-        color.setAlpha(128)
-        hist_area.setBrush(color)
-        hist_area.setPen(QPen(Qt.white))
-
-        self.hist_chart.addSeries(hist_line)
-        self.hist_chart.createDefaultAxes()
-        self.hist_chart.axisX().setRange(0, 255)
-        self.hist_chart.axisX().setTitleText(self.tr('level'))
-        self.hist_chart.axisX().setTickCount(5)
-        self.hist_chart.axisX().setMinorTickCount(1)
-        self.hist_chart.axisX().setLabelFormat('%d')
-        # self.hist_chart.axisY().setRange(0, 100)
-        self.hist_chart.axisY().setTitleText(self.tr('count'))
+        # self.hist_chart.removeAllSeries()
+        # hist_line = QtCharts.QLineSeries()
+        # base_line = QtCharts.QLineSeries()
+        # gray = cv.cvtColor(result, cv.COLOR_BGR2GRAY)
+        # for i, h in enumerate([int(h[0]) for h in cv.calcHist([gray], [0], None, [256], [0, 256])]):
+        #     hist_line.append(i, h)
+        #     base_line.append(i, 0)
+        # hist_line.setPen(QPen(Qt.white))
+        # hist_area = QtCharts.QAreaSeries(hist_line, base_line)
+        # color = QColor(Qt.lightGray)
+        # color.setAlpha(128)
+        # hist_area.setBrush(color)
+        # hist_area.setPen(QPen(Qt.white))
+        #
+        # self.hist_chart.addSeries(hist_line)
+        # self.hist_chart.createDefaultAxes()
+        # self.hist_chart.axisX().setRange(0, 255)
+        # self.hist_chart.axisX().setTitleText(self.tr('level'))
+        # self.hist_chart.axisX().setTickCount(5)
+        # self.hist_chart.axisX().setMinorTickCount(1)
+        # self.hist_chart.axisX().setLabelFormat('%d')
+        # # self.hist_chart.axisY().setRange(0, 100)
+        # self.hist_chart.axisY().setTitleText(self.tr('count'))
 
     def reset(self):
         self.bright_slider.setValue(0)

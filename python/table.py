@@ -28,17 +28,19 @@ from utility import modify_font
 
 
 class TableWidget(QWidget):
-    def __init__(self, table, headers, bold=True, mono=True, tooltips=None, parent=None):
+    def __init__(self, table, headers, bold=True, mono=True, tooltips=None, align=False, search=True, parent=None):
         super(TableWidget, self).__init__(parent)
 
         self.table_widget = QTableWidget(len(table), len(table[0]))
         for i, row in enumerate(table):
             for j, item in enumerate(row):
                 if item is not None:
-                    self.table_widget.setItem(i, j, QTableWidgetItem(item))
+                    self.table_widget.setItem(i, j, QTableWidgetItem(str(item)))
                     if tooltips is not None:
                         self.table_widget.setToolTip(tooltips[i][j])
                     modify_font(self.table_widget.item(i, j), bold=bold and j == 0, mono=mono)
+                    if align:
+                        self.table_widget.item(i, j).setTextAlignment(Qt.AlignRight)
 
         self.table_headers = headers
         self.table_widget.setHorizontalHeaderLabels(self.table_headers)
@@ -108,7 +110,8 @@ class TableWidget(QWidget):
 
         main_layout = QVBoxLayout()
         main_layout.addWidget(self.table_widget)
-        main_layout.addLayout(search_layout)
+        if search:
+            main_layout.addLayout(search_layout)
         self.setLayout(main_layout)
 
     def start(self):

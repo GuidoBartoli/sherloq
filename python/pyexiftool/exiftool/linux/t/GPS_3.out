@@ -1,0 +1,98 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.75
+[File, System, Other] FileName - File Name: GPS_3_failed.jpg
+[File, System, Other] Directory - Directory: t
+[File, System, Other] FileSize - File Size: 2.1 kB
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2019:11:01 10:15:26-04:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2019:11:01 10:15:26-04:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2019:11:01 10:15:26-04:00
+[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, File, Other] FileType - File Type: JPEG
+[File, File, Other] FileTypeExtension - File Type Extension: jpg
+[File, File, Other] MIMEType - MIME Type: image/jpeg
+[File, File, Image] ExifByteOrder - Exif Byte Order: Little-endian (Intel, II)
+[File, File, Image] CurrentIPTCDigest - Current IPTC Digest: 09f7f522cf163e96cf778a81de1a9c2b
+[File, File, Image] ImageWidth - Image Width: 120
+[File, File, Image] ImageHeight - Image Height: 80
+[File, File, Image] EncodingProcess - Encoding Process: Baseline DCT, Huffman coding
+[File, File, Image] BitsPerSample - Bits Per Sample: 8
+[File, File, Image] ColorComponents - Color Components: 3
+[File, File, Image] YCbCrSubSampling - Y Cb Cr Sub Sampling: YCbCr4:2:0 (2 2)
+[EXIF, IFD0, Image] 270 - Image Description: Communications
+[EXIF, IFD0, Camera] 271 - Make: FUJIFILM
+[EXIF, IFD0, Camera] 272 - Camera Model Name: FinePixS1Pro
+[EXIF, IFD0, Image] 274 - Orientation: Horizontal (normal)
+[EXIF, IFD0, Image] 282 - X Resolution: 300
+[EXIF, IFD0, Image] 283 - Y Resolution: 300
+[EXIF, IFD0, Image] 296 - Resolution Unit: inches
+[EXIF, IFD0, Image] 305 - Software: Adobe Photoshop 7.0
+[EXIF, IFD0, Time] 306 - Modify Date: 2002:07:19 13:28:10
+[EXIF, IFD0, Author] 315 - Artist: Ian Britton
+[EXIF, IFD0, Image] 531 - Y Cb Cr Positioning: Co-sited
+[EXIF, IFD0, Image] 532 - Reference Black White: 0 255 128 255 128 255
+[EXIF, IFD0, Author] 33432 - Copyright: ian Britton - FreeFoto.com
+[EXIF, ExifIFD, Image] 33437 - F Number: 0.64
+[EXIF, ExifIFD, Camera] 34850 - Exposure Program: Shutter speed priority AE
+[EXIF, ExifIFD, Image] 34855 - ISO: 0
+[EXIF, ExifIFD, Image] 36864 - Exif Version: 0200
+[EXIF, ExifIFD, Time] 36867 - Date/Time Original: 2002:07:13 15:58:28
+[EXIF, ExifIFD, Time] 36868 - Create Date: 2002:07:13 15:58:28
+[EXIF, ExifIFD, Image] 37121 - Components Configuration: Y, Cb, Cr, -
+[EXIF, ExifIFD, Image] 37377 - Shutter Speed Value: 1/724
+[EXIF, ExifIFD, Image] 37378 - Aperture Value: 16.0
+[EXIF, ExifIFD, Image] 37379 - Brightness Value: 0.26015625
+[EXIF, ExifIFD, Image] 37380 - Exposure Compensation: -0.65
+[EXIF, ExifIFD, Camera] 37383 - Metering Mode: Multi-segment
+[EXIF, ExifIFD, Camera] 37385 - Flash: No Flash
+[EXIF, ExifIFD, Camera] 37386 - Focal Length: 0.0 mm
+[EXIF, ExifIFD, Image] 40960 - Flashpix Version: 0100
+[EXIF, ExifIFD, Image] 40961 - Color Space: sRGB
+[EXIF, ExifIFD, Image] 40962 - Exif Image Width: 2400
+[EXIF, ExifIFD, Image] 40963 - Exif Image Height: 1600
+[EXIF, ExifIFD, Camera] 41486 - Focal Plane X Resolution: 12.05078125
+[EXIF, ExifIFD, Camera] 41487 - Focal Plane Y Resolution: 12.05078125
+[EXIF, ExifIFD, Camera] 41488 - Focal Plane Resolution Unit: inches
+[EXIF, ExifIFD, Camera] 41495 - Sensing Method: One-chip color area
+[EXIF, ExifIFD, Image] 41728 - File Source: Unknown (0)
+[EXIF, ExifIFD, Image] 41729 - Scene Type: Unknown (0)
+[EXIF, GPS, Location] 0 - GPS Version ID: 2.0.0.0
+[EXIF, GPS, Location] 1 - GPS Latitude Ref: South
+[EXIF, GPS, Location] 2 - GPS Latitude: 12 deg 21' 23.34"
+[EXIF, GPS, Location] 3 - GPS Longitude Ref: West
+[EXIF, GPS, Location] 4 - GPS Longitude: 1 deg 54' 51.00"
+[EXIF, GPS, Time] 7 - GPS Time Stamp: 00:16:10.55
+[EXIF, GPS, Location] 18 - GPS Map Datum: WGS84
+[EXIF, GPS, Time] 29 - GPS Date Stamp: 2007:03:03
+[EXIF, IFD1, Image] 259 - Compression: JPEG (old-style)
+[EXIF, IFD1, Image] 282 - X Resolution: 72
+[EXIF, IFD1, Image] 283 - Y Resolution: 72
+[EXIF, IFD1, Image] 296 - Resolution Unit: inches
+[EXIF, IFD1, Image] 513 - Thumbnail Offset: 1074
+[EXIF, IFD1, Image] 514 - Thumbnail Length: 28
+[EXIF, IFD1, Preview] Exif::ThumbnailImage - Thumbnail Image: (Binary data 28 bytes)
+[IPTC, IPTC, Other] 0 - Application Record Version: 2
+[IPTC, IPTC, Other] 120 - Caption-Abstract: Communications
+[IPTC, IPTC, Author] 122 - Writer-Editor: Ian Britton
+[IPTC, IPTC, Other] 105 - Headline: Communications
+[IPTC, IPTC, Author] 80 - By-line: Ian Britton
+[IPTC, IPTC, Author] 85 - By-line Title: Photographer
+[IPTC, IPTC, Author] 110 - Credit: Ian Britton
+[IPTC, IPTC, Author] 115 - Source: FreeFoto.com
+[IPTC, IPTC, Other] 5 - Object Name: Communications
+[IPTC, IPTC, Time] 55 - Date Created: 2002:06:20
+[IPTC, IPTC, Location] 90 - City:  
+[IPTC, IPTC, Location] 95 - Province-State:  
+[IPTC, IPTC, Location] 101 - Country-Primary Location Name: United Kingdom
+[IPTC, IPTC, Other] 15 - Category: BUS
+[IPTC, IPTC, Other] 20 - Supplemental Categories: Communications
+[IPTC, IPTC, Other] 10 - Urgency: 5 (normal urgency)
+[IPTC, IPTC, Other] 25 - Keywords: Communications
+[IPTC, IPTC, Author] 116 - Copyright Notice: ian Britton - FreeFoto.com
+[Composite, Composite, Image] Exif::Aperture - Aperture: 0.64
+[Composite, Composite, Image] Exif::ImageSize - Image Size: 120x80
+[Composite, Composite, Image] Exif::Megapixels - Megapixels: 0.010
+[Composite, Composite, Image] Exif::ShutterSpeed - Shutter Speed: 1/724
+[Composite, Composite, Time] GPS::GPSDateTime - GPS Date/Time: 2007:03:03 00:16:10.55Z
+[Composite, Composite, Location] GPS::GPSLatitude - GPS Latitude: 12 deg 21' 23.34" S
+[Composite, Composite, Location] GPS::GPSLongitude - GPS Longitude: 1 deg 54' 51.00" W
+[Composite, Composite, Camera] Exif::FocalLength35efl - Focal Length: 0.0 mm
+[Composite, Composite, Location] Exif::GPSPosition - GPS Position: 12 deg 21' 23.34" S, 1 deg 54' 51.00" W

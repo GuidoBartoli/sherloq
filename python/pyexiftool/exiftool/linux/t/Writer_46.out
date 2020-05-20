@@ -1,0 +1,118 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.88
+[File, System, Other] FileName - File Name: Writer_46_failed.jpg
+[File, System, Other] Directory - Directory: t
+[File, System, Other] FileSize - File Size: 10 kB
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2020:02:20 09:18:40-05:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2020:02:20 09:18:40-05:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2020:02:20 09:18:40-05:00
+[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, File, Other] FileType - File Type: JPEG
+[File, File, Other] FileTypeExtension - File Type Extension: jpg
+[File, File, Other] MIMEType - MIME Type: image/jpeg
+[File, File, Image] ExifByteOrder - Exif Byte Order: Big-endian (Motorola, MM)
+[File, File, Image] CurrentIPTCDigest - Current IPTC Digest: ec5278e5f2548e4ce57e1814f3413714
+[File, File, Image] ImageWidth - Image Width: 8
+[File, File, Image] ImageHeight - Image Height: 8
+[File, File, Image] EncodingProcess - Encoding Process: Baseline DCT, Huffman coding
+[File, File, Image] BitsPerSample - Bits Per Sample: 8
+[File, File, Image] ColorComponents - Color Components: 3
+[File, File, Image] YCbCrSubSampling - Y Cb Cr Sub Sampling: YCbCr4:2:0 (2 2)
+[EXIF, IFD0, Image] 282 - X Resolution: 72
+[EXIF, IFD0, Image] 283 - Y Resolution: 72
+[EXIF, IFD0, Image] 296 - Resolution Unit: inches
+[EXIF, IFD0, Author] 315 - Artist: 7
+[EXIF, IFD0, Image] 531 - Y Cb Cr Positioning: Centered
+[EXIF, ExifIFD, Image] 36864 - Exif Version: 0232
+[EXIF, ExifIFD, Image] 37121 - Components Configuration: Y, Cb, Cr, -
+[EXIF, ExifIFD, Image] 37378 - Aperture Value: 7.0
+[EXIF, ExifIFD, Image] 37888 - Ambient Temperature: 7 C
+[EXIF, ExifIFD, Image] 37892 - Acceleration: 7
+[EXIF, ExifIFD, Image] 40960 - Flashpix Version: 0100
+[EXIF, ExifIFD, Image] 40961 - Color Space: Uncalibrated
+[IPTC, IPTC, Other] 120 - ARM Identifier: 7
+[IPTC, IPTC, Other] 122 - ARM Version: 7
+[IPTC, IPTC, Other] 0 - Envelope Record Version: 4
+[IPTC, IPTC, Other] 0 - Application Record Version: 7
+[IPTC, IPTC, Other] 151 - Audio Sampling Rate: 000007
+[IPTC, IPTC, Other] 152 - Audio Sampling Resolution: 07
+[IPTC, IPTC, Other] 153 - Audio Duration: 000007
+[IPTC, IPTC, Other] 154 - Audio Outcue: 7
+[XMP, XMP-x, Document] xmptk - XMP Toolkit: Image::ExifTool 11.88
+[XMP, XMP-Device, Camera] AppInfoApplication - App Info Application: 7
+[XMP, XMP-Device, Camera] AppInfoItemURI - App Info Item URI: 7
+[XMP, XMP-Device, Camera] AppInfoVersion - App Info Version: 7
+[XMP, XMP-GAudio, Audio] Data - Audio Data: (Binary data 1 bytes)
+[XMP, XMP-GAudio, Audio] Mime - Audio Mime Type: 7
+[XMP, XMP-getty, Image] AssetID - Asset ID: 7
+[XMP, XMP-iptcExt, Author] AboutCvTermCvId - About Cv Term Cv Id: 7
+[XMP, XMP-iptcExt, Author] AboutCvTermCvTermId - About Cv Term Id: 7
+[XMP, XMP-iptcExt, Author] AboutCvTermCvTermName - About Cv Term Name: 7
+[XMP, XMP-iptcExt, Author] AboutCvTermCvTermRefinedAbout - About Cv Term Refined About: 7
+[XMP, XMP-iptcExt, Author] AddlModelInfo - Additional Model Information: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOContentDescription - Artwork Content Description: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOContributionDescription - Artwork Contribution Description: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOCopyrightNotice - Artwork Copyright Notice: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOCreator - Artwork Creator: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOCreatorId - Artwork Creator ID: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOCurrentCopyrightOwnerId - Artwork Copyright Owner ID: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOCurrentCopyrightOwnerName - Artwork Copyright Owner Name: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOCurrentLicensorId - Artwork Licensor ID: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOCurrentLicensorName - Artwork Licensor Name: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOPhysicalDescription - Artwork Physical Description: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOSource - Artwork Source: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOSourceInvNo - Artwork Source Inventory No: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOSourceInvURL - Artwork Source Inv URL: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOStylePeriod - Artwork Style Period: 7
+[XMP, XMP-iptcExt, Author] ArtworkOrObjectAOTitle - Artwork Title: 7
+[XMP, XMP-iptcExt, Audio] audioBitRate - Audio Bitrate: 7
+[XMP, XMP-iptcExt, Audio] audioBitsPerSample - Audio Bits Per Sample: 7
+[XMP, XMP-iptcExt, Audio] audioChannelCount - Audio Channel Count: 7
+[XMP, XMP-aas, Image] AffineA - Affine A: 7
+[XMP, XMP-aas, Image] AffineB - Affine B: 7
+[XMP, XMP-aas, Image] AffineC - Affine C: 7
+[XMP, XMP-aas, Image] AffineD - Affine D: 7
+[XMP, XMP-aas, Image] AffineX - Affine X: 7
+[XMP, XMP-aas, Image] AffineY - Affine Y: 7
+[XMP, XMP-apple-fi, Image] AngleInfoRoll - Angle Info Roll: 7
+[XMP, XMP-apple-fi, Image] AngleInfoYaw - Angle Info Yaw: 7
+[XMP, XMP-aux, Camera] ApproximateFocusDistance - Approximate Focus Distance: 7
+[XMP, XMP-cc, Author] attributionName - Attribution Name: 7
+[XMP, XMP-cc, Author] attributionURL - Attribution URL: 7
+[XMP, XMP-creatorAtom, Image] aeProjectLinkCompositionID - Ae Project Link Composition ID: 7
+[XMP, XMP-creatorAtom, Image] aeProjectLinkFullPath - Ae Project Link Full Path: 7
+[XMP, XMP-creatorAtom, Image] aeProjectLinkRenderOutputModuleIndex - Ae Project Link Render Output Module Index: 7
+[XMP, XMP-creatorAtom, Image] aeProjectLinkRenderQueueItemID - Ae Project Link Render Queue Item ID: 7
+[XMP, XMP-creatorAtom, Image] aeProjectLinkRenderTimeStamp - Ae Project Link Render Time Stamp: 7
+[XMP, XMP-drone-dji, Location] AbsoluteAltitude - Absolute Altitude: 7
+[XMP, XMP-extensis, Image] Approved - Approved: True
+[XMP, XMP-extensis, Image] ApprovedBy - Approved By: 7
+[XMP, XMP-ics, Image] AppVersion - App Version: 7
+[XMP, XMP-pdf, Author] Author - Author: 7
+[XMP, XMP-photoshop, Author] AuthorsPosition - Authors Position: 7
+[XMP, XMP-prism, Document] academicField - Academic Field: 7
+[XMP, XMP-prism, Document] aggregateIssueNumber - Aggregate Issue Number: 7
+[XMP, XMP-prism, Document] aggregationType - Aggregation Type: 7
+[XMP, XMP-prism, Document] alternateTitleA-lang - Alternate Title A-lang: 7
+[XMP, XMP-prism, Document] alternateTitleA-platform - Alternate Title A-platform: 7
+[XMP, XMP-prism, Document] alternateTitleText - Alternate Title Text: 7
+[XMP, XMP-pur, Document] agreement - Agreement: 7
+[XMP, XMP-xmp, Image] Advisory - Advisory: 7
+[XMP, XMP-xmpDM, Image] absPeakAudioFilePath - Abs Peak Audio File Path: 7
+[XMP, XMP-xmpDM, Image] album - Album: 7
+[XMP, XMP-xmpDM, Image] altTapeName - Alt Tape Name: 7
+[XMP, XMP-xmpDM, Image] altTimecodeTimeValue - Alt Timecode Time Value: 7
+[XMP, XMP-xmpDM, Image] altTimecodeValue - Alt Timecode Value: 7
+[XMP, XMP-xmpDM, Image] audioChannelType - Audio Channel Type: 7.1
+[XMP, XMP-xmpDM, Image] audioCompressor - Audio Compressor: 7
+[XMP, XMP-xmpDM, Image] audioSampleRate - Audio Sample Rate: 7
+[XMP, XMP-crs, Image] AlreadyApplied - Already Applied: True
+[XMP, XMP-crs, Image] AutoBrightness - Auto Brightness: True
+[XMP, XMP-crs, Image] AutoContrast - Auto Contrast: True
+[XMP, XMP-crs, Image] AutoExposure - Auto Exposure: True
+[XMP, XMP-crs, Image] AutoLateralCA - Auto Lateral CA: 7
+[XMP, XMP-crs, Image] AutoShadows - Auto Shadows: True
+[XMP, XMP-crs, Image] AutoTone - Auto Tone: True
+[XMP, XMP-crs, Image] AutoWhiteVersion - Auto White Version: 7
+[Composite, Composite, Image] Exif::Aperture - Aperture: 7.0
+[Composite, Composite, Image] Exif::ImageSize - Image Size: 8x8
+[Composite, Composite, Image] Exif::Megapixels - Megapixels: 0.000064

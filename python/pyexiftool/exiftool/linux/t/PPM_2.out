@@ -1,0 +1,17 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.75
+[File, System, Other] FileName - File Name: PPM.ppm
+[File, System, Other] Directory - Directory: t/images
+[File, System, Other] FileSize - File Size: 223 bytes
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2005:11:14 14:47:21-05:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2019:10:31 14:56:20-04:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2019:10:29 08:21:01-04:00
+[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, File, Other] FileType - File Type: PPM
+[File, File, Other] FileTypeExtension - File Type Extension: ppm
+[File, File, Other] MIMEType - MIME Type: image/x-portable-pixmap
+[File, File, Image] Comment - Comment: ExifTool PPM test
+[File, File, Image] ImageWidth - Image Width: 8
+[File, File, Image] ImageHeight - Image Height: 8
+[File, File, Image] MaxVal - Max Val: 255
+[Composite, Composite, Image] Exif::ImageSize - Image Size: 8x8
+[Composite, Composite, Image] Exif::Megapixels - Megapixels: 0.000064

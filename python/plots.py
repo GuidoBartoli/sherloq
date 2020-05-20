@@ -11,7 +11,7 @@ from PySide2.QtWidgets import (
 from PySide2.QtCore import Qt
 from PySide2.QtCharts.QtCharts import QScatterSeries
 
-from utility import compress_jpeg
+from jpeg import compress_jpeg
 from viewer import ImageViewer
 
 

@@ -1,0 +1,71 @@
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.75
+[File, System, Other] FileName - File Name: Canon.jpg
+[File, System, Other] Directory - Directory: t/images
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2006:10:03 15:10:31-04:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2019:11:01 10:15:22-04:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2019:10:29 08:21:01-04:00
+[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, File, Other] FileType - File Type: JPEG
+[File, File, Other] FileTypeExtension - File Type Extension: jpg
+[File, File, Other] MIMEType - MIME Type: image/jpeg
+[File, File, Image] ExifByteOrder - Exif Byte Order: Little-endian (Intel, II)
+[File, File, Image] EncodingProcess - Encoding Process: Baseline DCT, Huffman coding
+[File, File, Image] BitsPerSample - Bits Per Sample: 8
+[File, File, Image] ColorComponents - Color Components: 3
+[File, File, Image] YCbCrSubSampling - Y Cb Cr Sub Sampling: YCbCr4:2:0 (2 2)
+[EXIF, IFD0, Camera] 272 - Camera Model Name: Canon EOS DIGITAL REBEL
+[EXIF, IFD0, Image] 274 - Orientation: Horizontal (normal)
+[EXIF, IFD0, Image] 296 - Resolution Unit: inches
+[EXIF, IFD0, Time] 306 - Modify Date: 2003:12:04 06:46:52
+[EXIF, IFD0, Image] 531 - Y Cb Cr Positioning: Centered
+[EXIF, ExifIFD, Image] 33434 - Exposure Time: 4
+[EXIF, ExifIFD, Image] 33437 - F Number: 14.0
+[EXIF, ExifIFD, Image] 34855 - ISO: 100
+[EXIF, ExifIFD, Image] 36864 - Exif Version: 0221
+[EXIF, ExifIFD, Time] 36867 - Date/Time Original: 2003:12:04 06:46:52
+[EXIF, ExifIFD, Time] 36868 - Create Date: 2003:12:04 06:46:52
+[EXIF, ExifIFD, Image] 37121 - Components Configuration: Y, Cb, Cr, -
+[EXIF, ExifIFD, Image] 37122 - Compressed Bits Per Pixel: 9
+[EXIF, ExifIFD, Image] 37377 - Shutter Speed Value: 0
+[EXIF, ExifIFD, Image] 37378 - Aperture Value: 14.0
+[EXIF, ExifIFD, Image] 37380 - Exposure Compensation: 0
+[EXIF, ExifIFD, Camera] 37381 - Max Aperture Value: 4.5
+[EXIF, ExifIFD, Camera] 37383 - Metering Mode: Average
+[EXIF, ExifIFD, Camera] 37385 - Flash: No Flash
+[EXIF, ExifIFD, Camera] 37386 - Focal Length: 34.0 mm
+[EXIF, ExifIFD, Image] 37510 - User Comment: 
+[EXIF, ExifIFD, Image] 40960 - Flashpix Version: 0100
+[EXIF, ExifIFD, Image] 40961 - Color Space: sRGB
+[EXIF, ExifIFD, Image] 40962 - Exif Image Width: 160
+[EXIF, ExifIFD, Image] 40963 - Exif Image Height: 120
+[EXIF, InteropIFD, Image] 1 - Interoperability Index: THM - DCF thumbnail file
+[EXIF, InteropIFD, Image] 2 - Interoperability Version: 0100
+[EXIF, InteropIFD, Image] 4097 - Related Image Width: 3072
+[EXIF, InteropIFD, Image] 4098 - Related Image Height: 2048
+[EXIF, ExifIFD, Camera] 41488 - Focal Plane Resolution Unit: inches
+[EXIF, ExifIFD, Camera] 41495 - Sensing Method: One-chip color area
+[EXIF, ExifIFD, Image] 41728 - File Source: Digital Camera
+[EXIF, ExifIFD, Image] 41985 - Custom Rendered: Normal
+[EXIF, ExifIFD, Camera] 41986 - Exposure Mode: Manual
+[EXIF, ExifIFD, Camera] 41987 - White Balance: Auto
+[EXIF, ExifIFD, Camera] 41990 - Scene Capture Type: Standard
+[Composite, Composite, Camera] Canon::DriveMode - Drive Mode: Continuous Shooting
+[Composite, Composite, Camera] Canon::ISO - ISO: 100
+[Composite, Composite, Camera] Canon::Lens - Lens: 18.0 - 55.0 mm
+[Composite, Composite, Camera] Canon::ShootingMode - Shooting Mode: Bulb
+[Composite, Composite, Camera] Canon::WB_RGGBLevels - WB RGGB Levels: 1719 832 831 990
+[Composite, Composite, Image] Exif::Aperture - Aperture: 14.0
+[Composite, Composite, Image] Exif::ImageSize - Image Size: 8x8
+[Composite, Composite, Camera] Exif::LensID - Lens ID: Unknown 18-55mm
+[Composite, Composite, Image] Exif::Megapixels - Megapixels: 0.000064
+[Composite, Composite, Camera] Exif::ScaleFactor35efl - Scale Factor To 35 mm Equivalent: 1.6
+[Composite, Composite, Image] Exif::ShutterSpeed - Shutter Speed: 4
+[Composite, Composite, Camera] Canon::Lens35efl - Lens: 18.0 - 55.0 mm (35 mm equivalent: 28.6 - 87.4 mm)
+[Composite, Composite, Camera] Exif::BlueBalance - Blue Balance: 1.190619
+[Composite, Composite, Camera] Exif::CircleOfConfusion - Circle Of Confusion: 0.019 mm
+[Composite, Composite, Image] Exif::DOF - Depth Of Field: inf (4.31 m - inf)
+[Composite, Composite, Image] Exif::FOV - Field Of View: 36.9 deg
+[Composite, Composite, Camera] Exif::FocalLength35efl - Focal Length: 34.0 mm (35 mm equivalent: 54.0 mm)
+[Composite, Composite, Camera] Exif::HyperfocalDistance - Hyperfocal Distance: 4.37 m
+[Composite, Composite, Image] Exif::LightValue - Light Value: 5.6
+[Composite, Composite, Camera] Exif::RedBalance - Red Balance: 2.067348

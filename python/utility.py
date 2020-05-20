@@ -1,4 +1,5 @@
 from time import time
+import sys
 
 import cv2 as cv
 import numpy as np
@@ -44,11 +45,6 @@ def human_size(total, binary=False, suffix='B'):
     return '%.1f %s%s' % (total, units[-1], suffix)
 
 
-def compress_jpeg(image, quality):
-    _, buffer = cv.imencode('.jpg', image, [cv.IMWRITE_JPEG_QUALITY, quality])
-    return cv.imdecode(buffer, cv.IMREAD_COLOR)
-
-
 def create_lut(low, high):
     if low >= 0:
         p1 = (+low, 0)
@@ -80,3 +76,13 @@ def normalize_mat(matrix, to_bgr=False):
     if not to_bgr:
         return norm
     return cv.cvtColor(norm, cv.COLOR_GRAY2BGR)
+
+
+def get_exiftool():
+    if sys.platform.startswith('linux'):
+        return 'pyexiftool/exiftool/linux/exiftool'
+    if sys.platform.startswith('win32'):
+        return 'pyexiftool/exiftool/win/exiftool(-k).exe'
+    if sys.platform.startswith('darwin'):
+        return 'exiftool'
+    return None
