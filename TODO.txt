@@ -1,60 +1,28 @@
-NUOVA VERSIONE PYTHON
-- Visualizzare nella status bar i tempi di esecuzione degli algoritmi
-- Quando una finestra viene chiusa evitare di distruggere il widget per non ricalcolare il risultato
+- Convertire ParamSlier in un QWdiget che contiene anche la QLabel collegata al valore corrente
+- Importazione GIF (https://stackoverflow.com/questions/48163539/how-to-read-gif-from-url-using-opencv-python)
+- Terminare widget con istogramma
+- Migliorare utility.mat2img() per fargli gestire immagini a singolo canale con cv.COLOR_GRAY2BGR
 - Creazione di un help in linea per suggerire workflow e spiegare come usare i vari tool (DockWidget laterale a sinistra?)
+- Ricavare modello fotocamera da tabelle di quantizzazione, PRNU, nome del file o metadata
+- Quando una finestra viene chiusa evitare di distruggere il widget per non ricalcolare il risultato
 - Aggiungere azione "Close All Except" per chiudere le altre finestre
 - Addestrare la nuova versione delle SVM per FirstDigitFeatures
 - In ComparisonWidget aggiungere altre visualizzazioni della differenza
 - In EchoWidget suddividere il processing perché la modifica di contrast è più veloce
 - Aggiungere Butteraugli agli indici di Comparison Widget
+- Calcolo entropia e dell'energia dell'immagine (https://answers.opencv.org/question/180503/energy-computation-of-dct-of-image/)
 - Ad EnhancedMagnifier aggiungere uno SpinBox per cambiare il percentile di AutoContrast
 - Aggiungere un checkbox per la scala logaritmica a HistogramWidget
-
-#STRUMENTI
-#- Correggere un bug in Color Space Conversion, il radio button di Grayscale non funziona!
-#- Pensare ad un tool simile ad Amped per identificare il device dalle QT
-#- Usare djpeg di libjpeg per estrarre le QT e HT (jpeg_decompress_struct)
-#- Pensare anche a creare una libreria standalone e la versione a riga di comando
-#- Aggiungere a MetadataWidget il controllo automatico della "signatures"
-#  e dare warning con la criticità (vedi "ghiro/plugins/signatures/default.py")
-#- Verificare che gli istogrammi vengono calcolati correttamente!
-#- Aggiungere a GhostWidget la ricerca locale della doppia compressione
-#  > Per ogni blocco 8x8:
-#    * Shift di -128
-#    * DCT 2D
-#    * Per ogni livello di qualità, calcolare errore di quantizzazione per ogni coefficiente DCT
-#    * Analizzare i minimi locali di ogni blocco per stimare l'ultima quantizzazione
-#    * Settare il valore del blocco uguale al livelo più basso
-#    * Applicare un filtro mediano per ridurre gli outliers
-#- Togliere la dipendenza da AlgLib implementando un algoritmo alternativo alle splines
-#- Pensare anche ad un nuovo tool per la ricostruzione wavelet a vari livelli (http://wavelet2d.sourceforge.net/) [Wavelet Analysis al posto di DCT Value Map]
-#- Aggiungere ad Image Digest la ricerca del dispositivo in base al nome del file Filename Ballistics (es. ^DSCN[0-9]{4}\\.JPG$ --> Nikon Coolpix)
-#+ Creare un QWidget ToolWidget da cui tutti i tool ereditano comportamenti comuni
-#+ ImageViewer migliorato per gestire la visualizzazione sincronizzata di più immagini
-#+ Opzione di ImageViewer che equalizza l'istogramma della porzione visualizzata
-#+ Zoom in ImageViewer solo con la rotella senza CTRL
-#+ Aggiungere l'hash percettiva (http://www.phash.org) ad Image Digest
-#+ Considerare anche gli altri tipi di hash:
-#    http://www.hackerfactor.com/blog/?/archives/432-Looks-Like-It.html
-#    http://www.hackerfactor.com/blog/?/archives/529-Kind-of-Like-That.html
-#+ Creare SingleViewer e MultiViewer!
-#- Nuovo strumento per la creazione della firma PRNU da molte foto dalla stessa macchina
-#+ Aggiungere la ricerca di stringhe dentro Metadata Extraction
-#- Ottimizzare ElaWidget: il ricalcolo avviene solo cambiando Quality e non Scale
-#- Rivedere logica ImageViewer: costruttore vuoto e setImage per aggiornare?
-#+ Creare uno strumento per confrontare due o più immagini
-#- Migliorare il filtraggio dei punti individuati da Clone Detection e raggrupparli
-#- Provare sia BACM che FDF per la doppia compressione locale
-#- Stima SNR con PCA sui blocchi (varianza = autovalore minore della matrice di covarianza)
-#- Scomposizione piramidale gaussiana o con wavelet per visualizzare i livelli di dettaglio
-#- Analisi dell'istogramma per individuare modifiche di contrasto e luminosità
-#- Estrazione delle tabelle di Huffman dal JPEG
-#- Doppia compressione globale con DFT sull'istogramma dei coefficienti DCT
-#- Analisi della coerenza dell'aberrazione cromatica per rilevare tampering locale
-#- Analisi Fine-Grained degli artefatti nella CFA
-#+ Aumentare la precisione della conversione in HSV calcolando H manualmente senza modulo
-#- DCT Map in Amped Authenticate (?)
-#- Neal Krawetz Color Density Distribution (?)
-#- Strumento Color Noise Reduction (?)
-#    http://www.hackerfactor.com/blog/index.php?/archives/759-The-Secret-That-Donald-Trump-Doesnt-Want-You-To-Know.html
-
+- Aggiungere a GhostWidget la ricerca locale della doppia compressione
+  > Per ogni blocco 8x8:
+    * Shift di -128
+    * DCT 2D
+    * Per ogni livello di qualità, calcolare errore di quantizzazione per ogni coefficiente DCT
+    * Analizzare i minimi locali di ogni blocco per stimare l'ultima quantizzazione
+    * Settare il valore del blocco uguale al livelo più basso
+    * Applicare un filtro mediano per ridurre gli outliers
+- Ottimizzare ElaWidget: il ricalcolo avviene solo cambiando Quality e non Scale    
+- Velocizzare PCA con vettorizzazione Numpy
+- Estrazione delle tabelle di Huffman dal JPEG
+- Algoritmo demosaicing artifact di Hacker Factor
+- Strumento Color Noise Reduction (http://www.hackerfactor.com/blog/index.php?/archives/759-The-Secret-That-Donald-Trump-Doesnt-Want-You-To-Know.html)

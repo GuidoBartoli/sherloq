@@ -78,7 +78,7 @@ def normalize_mat(matrix, to_bgr=False):
     return cv.cvtColor(norm, cv.COLOR_GRAY2BGR)
 
 
-def get_exiftool():
+def exiftool_exe():
     if sys.platform.startswith('linux'):
         return 'pyexiftool/exiftool/linux/exiftool'
     if sys.platform.startswith('win32'):

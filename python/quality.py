@@ -1,21 +1,22 @@
 import subprocess
-import subprocess
 from shutil import copyfile
 
+import cv2 as cv
 import numpy as np
-from PySide2.QtCore import QTemporaryFile
+from PySide2.QtCore import QTemporaryFile, Qt
+from PySide2.QtGui import QColor
 from PySide2.QtWidgets import (
-    QSizePolicy,
-    QPlainTextEdit,
     QLabel,
+    QVBoxLayout,
     QGridLayout,
+    QTableWidget,
+    QTableWidgetItem,
+    QAbstractItemView,
     QMessageBox)
-from tabulate import tabulate
 
 from jpeg import TABLE_SIZE, ZIG_ZAG, DCT_SIZE, get_tables
 from tools import ToolWidget
-from utility import modify_font, get_exiftool
-from table import TableWidget
+from utility import modify_font, exiftool_exe
 
 
 class QualityWidget(ToolWidget):
@@ -33,18 +34,18 @@ class QualityWidget(ToolWidget):
         LUMA_IDX = 0
         CHROMA_IDX = 1
 
+        luma = np.zeros((DCT_SIZE, DCT_SIZE), dtype=int)
+        chroma = np.zeros((DCT_SIZE, DCT_SIZE), dtype=int)
         temp_file = QTemporaryFile()
         if temp_file.open():
             copyfile(filename, temp_file.fileName())
-            subprocess.run([get_exiftool(), '-all=', '-overwrite_original', temp_file.fileName()],
+            subprocess.run([exiftool_exe(), '-all=', '-overwrite_original', temp_file.fileName()],
                            stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
-            luma = np.zeros((DCT_SIZE, DCT_SIZE), dtype=int)
-            chroma = np.zeros((DCT_SIZE, DCT_SIZE), dtype=int)
             found = False
             with open(temp_file.fileName(), 'rb') as file:
                 first = file.read(1)
                 if first not in [MRK, SOI]:
-                    QMessageBox.warning(self, self.tr('Warning'), self.tr('File is not a JPEG image!'))
+                    self.show_error(self.tr('File is not a JPEG image!'))
                     return
                 while True:
                     if not self.find_next(file, [MRK, DQT, PAD]):
@@ -73,7 +74,7 @@ class QualityWidget(ToolWidget):
                         else:
                             found = True
         if not found:
-            QMessageBox.warning(self, self.tr('Warning'), self.tr('Unable to find JPEG tables!'))
+            self.show_error(self.tr('Unable to find JPEG tables!'))
             return
 
         tables = np.concatenate((luma[:, :, np.newaxis], chroma[:, :, np.newaxis]), axis=2)
@@ -86,35 +87,43 @@ class QualityWidget(ToolWidget):
         profile = [np.mean(np.abs(tables - get_tables(q))) for q in range(100)]
         quality = np.argmin(profile)
 
-        # headers = [str(i) for i in range(DCT_SIZE)]
-        # luma_widget = TableWidget(luma.tolist(), headers, bold=False, align=True, search=False)
-
-        luma_text = QPlainTextEdit()
-        modify_font(luma_text, mono=True)
-        luma_text.setReadOnly(True)
-        luma_text.appendPlainText(self.tr('Luminance QT (level = {:.2f}%)\n'.format(levels[0])))
-        luma_text.appendPlainText(tabulate(luma, tablefmt='plain'))
-
-        chroma_text = QPlainTextEdit()
-        chroma_text.setReadOnly(True)
-        modify_font(chroma_text, mono=True)
-        chroma_text.appendPlainText(self.tr('Chrominance QT (level = {:.2f}%)\n'.format(levels[1])))
-        chroma_text.appendPlainText(tabulate(chroma, tablefmt='plain'))
+        luma_label = QLabel(self.tr('Luminance Quantization Table (level = {:.2f}%)\n'.format(levels[0])))
+        luma_label.setAlignment(Qt.AlignCenter)
+        modify_font(luma_label, underline=True)
+        luma_table = self.create_table(luma)
+        chroma_label = QLabel(self.tr('Chrominance Quantization Table (level = {:.2f}%)\n'.format(levels[1])))
+        chroma_label.setAlignment(Qt.AlignCenter)
+        modify_font(chroma_label, underline=True)
+        chroma_table = self.create_table(chroma)
 
         quality_label = QLabel(self.tr('Estimated JPEG quality (last save) = {}%'.format(quality)))
         modify_font(quality_label, bold=True)
-        deviation_label = QLabel(self.tr('(deviation from standard tables = {:.2f})'.format(profile[quality])))
+        deviation_label = QLabel(self.tr('(average deviation from standard tables = {:.2f})'.format(profile[quality])))
         modify_font(deviation_label, italic=True)
+        deviation_label.setAlignment(Qt.AlignRight)
 
         main_layout = QGridLayout()
-        main_layout.addWidget(luma_text, 0, 0)
-        main_layout.addWidget(chroma_text, 0, 1)
-        main_layout.addWidget(quality_label, 1, 0)
-        main_layout.addWidget(deviation_label, 1, 1)
+        main_layout.addWidget(luma_label, 0, 0)
+        main_layout.addWidget(luma_table, 1, 0)
+        main_layout.addWidget(chroma_label, 0, 1)
+        main_layout.addWidget(chroma_table, 1, 1)
+        main_layout.addWidget(quality_label, 2, 0)
+        main_layout.addWidget(deviation_label, 2, 1)
         self.setLayout(main_layout)
-        self.setMinimumSize(590, 270)
+        self.setMinimumSize(890, 270)
 
-    def find_next(self, file, markers):
+    def show_error(self, message):
+        error_label = QLabel(message)
+        modify_font(error_label, bold=True)
+        error_label.setStyleSheet('color: #FF0000')
+        error_label.setAlignment(Qt.AlignCenter)
+        main_layout = QVBoxLayout()
+        main_layout.addWidget(error_label)
+        self.setLayout(main_layout)
+
+
+    @staticmethod
+    def find_next(file, markers):
         while True:
             for m in markers:
                 b = file.read(1)
@@ -124,3 +133,24 @@ class QualityWidget(ToolWidget):
                     break
             else:
                 return True
+
+    @staticmethod
+    def create_table(matrix):
+        table_widget = QTableWidget(DCT_SIZE, DCT_SIZE)
+        hsv = np.array([[[0, 192, 255]]], dtype=np.uint8)
+        maximum = np.max(matrix)
+        for i in range(DCT_SIZE):
+            for j in range(DCT_SIZE):
+                value = matrix[i, j]
+                item = QTableWidgetItem(str(value))
+                item.setTextAlignment(Qt.AlignCenter)
+                hsv[0, 0, 0] = 64 - 64 * (value / maximum)
+                rgb = cv.cvtColor(hsv.astype(np.uint8), cv.COLOR_HSV2RGB)
+                item.setBackgroundColor(QColor(rgb[0, 0, 0], rgb[0, 0, 1], rgb[0, 0, 2]))
+                table_widget.setItem(i, j, item)
+        table_widget.resizeRowsToContents()
+        table_widget.resizeColumnsToContents()
+        table_widget.setEditTriggers(QAbstractItemView.NoEditTriggers)
+        table_widget.setSelectionMode(QAbstractItemView.SingleSelection)
+        modify_font(table_widget, mono=True)
+        return table_widget

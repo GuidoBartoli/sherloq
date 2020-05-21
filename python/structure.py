@@ -6,7 +6,7 @@ from PySide2.QtWidgets import QVBoxLayout
 
 from tools import ToolWidget
 import os
-from utility import get_exiftool
+from utility import exiftool_exe
 
 
 class StructureWidget(ToolWidget):
@@ -15,7 +15,7 @@ class StructureWidget(ToolWidget):
         self.temp_dir = QTemporaryDir()
         if self.temp_dir.isValid():
             temp_file = os.path.join(self.temp_dir.path(), 'structure.html')
-            p = run([get_exiftool(), '-htmldump0', filename], stdout=PIPE)
+            p = run([exiftool_exe(), '-htmldump0', filename], stdout=PIPE)
             with open(temp_file, 'w') as file:
                 file.write(p.stdout.decode('utf-8'))
             web_view = QWebEngineView()

@@ -15,38 +15,39 @@ from tools import ToolWidget
 class GradientWidget(ToolWidget):
     def __init__(self, image, parent=None):
         super(GradientWidget, self).__init__(parent)
-        self.intensity_spin = QSpinBox()
-        self.intensity_spin.setRange(-1, 16)
-        self.intensity_spin.setSuffix(self.tr(' levels'))
-        self.intensity_spin.setSpecialValueText(self.tr('Equalized'))
-        self.intensity_spin.setValue(-1)
+        self.levels_spin = QSpinBox()
+        self.levels_spin.setRange(-1, 16)
+        self.levels_spin.setSpecialValueText(self.tr('Auto'))
+        self.levels_spin.setValue(-1)
         self.invert_check = QCheckBox(self.tr('Invert'))
         self.abs_check = QCheckBox(self.tr('Absolute'))
-
-        horiz_layout = QHBoxLayout()
-        horiz_layout.addWidget(QLabel(self.tr('Intensity:')))
-        horiz_layout.addWidget(self.intensity_spin)
-        horiz_layout.addWidget(self.invert_check)
-        horiz_layout.addWidget(self.abs_check)
-        horiz_layout.addStretch()
 
         self.grad_viewer = ImageViewer(image, image)
         self.image = image
         self.process()
-        vert_layout = QVBoxLayout()
-        vert_layout.addLayout(horiz_layout)
-        vert_layout.addWidget(self.grad_viewer)
-        self.setLayout(vert_layout)
 
-        self.intensity_spin.valueChanged.connect(self.process)
+        self.levels_spin.valueChanged.connect(self.process)
         self.invert_check.toggled.connect(self.process)
         self.abs_check.toggled.connect(self.process)
 
+        top_layout = QHBoxLayout()
+        top_layout.addWidget(QLabel(self.tr('Levels:')))
+        top_layout.addWidget(self.levels_spin)
+        top_layout.addWidget(self.invert_check)
+        top_layout.addWidget(self.abs_check)
+        top_layout.addStretch()
+
+        main_layout = QVBoxLayout()
+        main_layout.addLayout(top_layout)
+        main_layout.addWidget(self.grad_viewer)
+
+        self.setLayout(main_layout)
+
     def process(self):
-        intensity = self.intensity_spin.value()
+        intensity = self.levels_spin.value()
         invert = self.invert_check.isChecked()
         absolute = self.abs_check.isChecked()
-        self.intensity_spin.setEnabled(not absolute)
+        self.levels_spin.setEnabled(not absolute)
         self.invert_check.setEnabled(not absolute)
 
         gray = cv.cvtColor(self.image, cv.COLOR_BGR2GRAY)
@@ -72,7 +73,7 @@ class GradientWidget(ToolWidget):
         grad_y = grad_y.astype(np.uint8)
 
         if intensity >= 0 and not absolute:
-            max_intensity = self.intensity_spin.maximum()
+            max_intensity = self.levels_spin.maximum()
             low = 127 - (max_intensity - intensity)
             high = 127 + (max_intensity - intensity)
             lut_xy = create_lut(low, high)

@@ -20,7 +20,7 @@ class EchoWidget(ToolWidget):
         params_layout = QHBoxLayout()
         params_layout.addWidget(QLabel(self.tr('Radius:')))
         self.radius_spin = QSpinBox()
-        self.radius_spin.setRange(1, 50)
+        self.radius_spin.setRange(1, 15)
         self.radius_spin.setSuffix(self.tr(' px'))
         self.radius_spin.setValue(2)
         self.radius_spin.valueChanged.connect(self.process)

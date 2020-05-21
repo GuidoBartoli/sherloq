@@ -3,7 +3,7 @@ from PySide2.QtWidgets import QVBoxLayout
 from pyexiftool import exiftool
 from table import TableWidget
 from tools import ToolWidget
-from utility import get_exiftool
+from utility import exiftool_exe
 
 
 class MetadataWidget(ToolWidget):
@@ -11,7 +11,7 @@ class MetadataWidget(ToolWidget):
         super(MetadataWidget, self).__init__(parent)
         table = []
         last = None
-        with exiftool.ExifTool(get_exiftool()) as et:
+        with exiftool.ExifTool(exiftool_exe()) as et:
             metadata = et.get_metadata(filename)
             for tag, value in metadata.items():
                 ignore = ['SourceFile', 'ExifTool:ExifTool', 'File:FileName', 'File:Directory',

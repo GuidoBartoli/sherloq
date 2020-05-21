@@ -1,4 +1,3 @@
-import os
 import sys
 
 import cv2 as cv
@@ -17,17 +16,21 @@ from PySide2.QtWidgets import (
 from adjust import AdjustWidget
 from digest import DigestWidget
 from echo import EchoWidget
+from editor import EditorWidget
 from ela import ElaWidget
+from fourier import FourierWidget
 from gradient import GradientWidget
+from location import LocationWidget
 from metadata import MetadataWidget
 from minmax import MinMaxWidget
 from noise import NoiseWidget
 from original import OriginalWidget
-from quality import QualityWidget
 from pca import PcaWidget
+from quality import QualityWidget
 from space import SpaceWidget
 from stats import StatsWidget
 from structure import StructureWidget
+from thumbnail import ThumbWidget
 from tools import ToolTree
 from utility import modify_font
 
@@ -180,9 +183,9 @@ class MainWindow(QMainWindow):
         main_toolbar.addAction(cascade_action)
         main_toolbar.addAction(tabbed_action)
         main_toolbar.addAction(close_action)
-        main_toolbar.addSeparator()
-        main_toolbar.addAction(normal_action)
-        main_toolbar.addAction(full_action)
+        # main_toolbar.addSeparator()
+        # main_toolbar.addAction(normal_action)
+        # main_toolbar.addAction(full_action)
         main_toolbar.setObjectName('main_toolbar')
 
         settings = QSettings()
@@ -259,6 +262,8 @@ class MainWindow(QMainWindow):
                 tool_widget = OriginalWidget(self.image)
             elif tool == 1:
                 tool_widget = DigestWidget(self.filename, self.image)
+            elif tool == 2:
+                tool_widget = EditorWidget()
             else:
                 return
         elif group == 1:
@@ -266,11 +271,17 @@ class MainWindow(QMainWindow):
                 tool_widget = StructureWidget(self.filename)
             elif tool == 1:
                 tool_widget = MetadataWidget(self.filename)
+            elif tool == 2:
+                tool_widget = ThumbWidget(self.filename, self.image)
+            elif tool == 3:
+                tool_widget = LocationWidget(self.filename)
             else:
                 return
         elif group == 2:
             if tool == 2:
                 tool_widget = AdjustWidget(self.image)
+            elif tool == 3:
+                tool_widget = FourierWidget(self.image)
             else:
                 return
         elif group == 3:
@@ -310,6 +321,7 @@ class MainWindow(QMainWindow):
         sub_window = QMdiSubWindow()
         sub_window.setWidget(tool_widget)
         sub_window.setWindowTitle(item.text(0))
+        sub_window.setObjectName(item.text(0))
         sub_window.setAttribute(Qt.WA_DeleteOnClose)
         sub_window.setWindowIcon(QIcon('icons/{}.svg'.format(group)))
         self.mdi_area.addSubWindow(sub_window)
@@ -325,12 +337,10 @@ class MainWindow(QMainWindow):
             self.mdi_area.setViewMode(QMdiArea.TabbedView)
             self.mdi_area.setTabsClosable(True)
             self.mdi_area.setTabsMovable(True)
-            self.findChild(QAction, 'tile_action').setEnabled(False)
-            self.findChild(QAction, 'cascade_action').setEnabled(False)
         else:
             self.mdi_area.setViewMode(QMdiArea.SubWindowView)
-            self.findChild(QAction, 'tile_action').setEnabled(True)
-            self.findChild(QAction, 'cascade_action').setEnabled(True)
+        self.findChild(QAction, 'tile_action').setEnabled(not tabbed)
+        self.findChild(QAction, 'cascade_action').setEnabled(not tabbed)
 
     def show_about(self):
         message = '<h2>{} {}</h2>'.format(QApplication.applicationName(), QApplication.applicationVersion())

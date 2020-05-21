@@ -2,8 +2,10 @@ from PySide2.QtCore import Qt, Signal
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import (
     QTreeWidget,
+    QHBoxLayout,
+    QLabel,
     QTreeWidgetItem,
-    QWidget)
+    QWidget, QSlider)
 
 from utility import modify_font
 
@@ -28,13 +30,13 @@ class ToolTree(QTreeWidget):
         group_names.append(self.tr('[General]'))
         tool_names.append([self.tr('Original Image'),
                            self.tr('File Digest'),
-                           self.tr('Hexadecimal Viewer'),
-                           self.tr('Similarity Search')])
+                           self.tr('Hex Editor'),
+                           self.tr('Similar Search')])
         tool_infos.append([self.tr('Display the unaltered reference image for visual inspection'),
                            self.tr('Retrieve file information and compute many hashes and ballistics'),
                            self.tr('Open an hexadecimal editor to show raw byte values from file'),
-                           self.tr('Apply deep learning algorithms for automatic picture tagging')])
-        tool_progress.extend([3, 3, 0, 0])
+                           self.tr('Use online search services to find visually similar images')])
+        tool_progress.extend([3, 3, 3, 0])
 
         # [1]
         group_names.append(self.tr('[Metadata]'))
@@ -46,53 +48,53 @@ class ToolTree(QTreeWidget):
                            self.tr('Scan through file metadata and gather all available information'),
                            self.tr('Extract optional embedded thumbnail and compare with original'),
                            self.tr('Retrieve optional geo-location data and show it on a world map')])
-        tool_progress.extend([3, 3, 0, 0])
+        tool_progress.extend([3, 3, 3, 2])
 
         # [2]
         group_names.append(self.tr('[Inspection]'))
         tool_names.append([self.tr('Enhancing Magnifier'),
                            self.tr('Reference Comparison'),
                            self.tr('Global Adjustments'),
-                           self.tr('Range Compression')])
-        tool_infos.append([self.tr('Use various visual enhancement for better identifying forgeries'),
+                           self.tr('Fourier Transform')])
+        tool_infos.append([self.tr('Use a loupe with visual enhancement for better identifying forgeries'),
                            self.tr('Open a synchronized double view to compare two different pictures'),
                            self.tr('Apply standard adjustments (contrast, brightness, hue, saturation)'),
-                           self.tr('Compress tonality over different ranges to detect inconsistencies')])
-        tool_progress.extend([0, 0, 2, 0])
+                           self.tr('Compute amplitude and phase components of the 2D Fourier Transform')])
+        tool_progress.extend([0, 0, 2, 3])
 
         # [3]
         group_names.append(self.tr('[JPEG]'))
         tool_names.append([self.tr('Quality Estimation'),
                            self.tr('Error Level Analysis'),
-                           self.tr('Quantization Ghosts'),
-                           self.tr('Double Compression')])
+                           self.tr('Multiple Compression'),
+                           self.tr('DCT Dimples Map')])
         tool_infos.append([self.tr('Extract quantization tables and estimate last saved JPEG quality'),
                            self.tr('Show pixel-level difference against different compression levels'),
                            self.tr('Use residuals to detect multiple compressions at different levels'),
-                           self.tr('Exploit DCT First-Digit-Statistics to detect double compression')])
+                           self.tr('Analyze periodic quantization artifacts to detect manipulations')])
         tool_progress.extend([3, 3, 0, 0])
 
         # [4]
         group_names.append(self.tr('[Colors]'))
         tool_names.append([self.tr('RGB/HSV 3D Plots'),
-                           self.tr('RGB PCA Projection'),
-                           self.tr('RGB Pixel Statistics'),
-                           self.tr('Color Space Conversion')])
+                           self.tr('PCA Projection'),
+                           self.tr('Pixel Statistics'),
+                           self.tr('Space Conversion')])
         tool_infos.append([self.tr('Display interactive 2D and 3D plots of RGB and HSV pixel data'),
                            self.tr('Use color PCA to project RGB values onto reduced vector spaces'),
-                           self.tr('Compute Minimum/Maximum/Average RGB values for every pixel'),
-                           self.tr('Convert color channels into RGB/HSV/YCbCr/Lab/CMYK color spaces')])
+                           self.tr('Compute minimum/maximum/average RGB values for every pixel'),
+                           self.tr('Convert color channels into RGB/HSV/YCbCr/Lab/Luv/CMYK spaces')])
         tool_progress.extend([0, 2, 3, 2])
 
         # [5]
         group_names.append(self.tr('[Tonality]'))
         tool_names.append([self.tr('Luminance Gradient'),
                            self.tr('Echo Edge Filter'),
-                           self.tr('Frequency Separation'),
-                           self.tr('Wavelet Reconstruction')])
-        tool_infos.append([self.tr('Analyze horizontal and vertical brightness variations of the image'),
-                           self.tr('Use derivative filter to reveal artificial out-of-focus zones'),
-                           self.tr('Estimate high and low frequency components of the luminance channel'),
+                           self.tr('Correlation Plot'),
+                           self.tr('Wavelet Threshold')])
+        tool_infos.append([self.tr('Analyze horizontal/vertical brightness variations across the image'),
+                           self.tr('Use derivative filters to reveal artificial out-of-focus zones'),
+                           self.tr('Exploit correlation patterns among neighboring pixels'),
                            self.tr('Reconstruct image with different wavelet coefficient thresholds')])
         tool_progress.extend([2, 3, 0, 0])
 
@@ -101,11 +103,11 @@ class ToolTree(QTreeWidget):
         tool_names.append([self.tr('Noise Estimation'),
                            self.tr('Min/Max Deviation'),
                            self.tr('SNR Consistency'),
-                           self.tr('Noise Segmentation')])
+                           self.tr('Frequency Separation')])
         tool_infos.append([self.tr('Estimate and visualize gaussian noise components of the image'),
                            self.tr('Highlight pixels deviating from block-based min/max statistics'),
                            self.tr('Evaluate uniformity of signal-to-noise ratio across the image'),
-                           self.tr('Cluster noise into uniform regions for anomaly detection')])
+                           self.tr('Estimate high/low frequency components of the luminance channel')])
         tool_progress.extend([3, 2, 0, 0])
 
         # [7]
@@ -150,3 +152,41 @@ class ToolTree(QTreeWidget):
         items = self.findItems(tool, Qt.MatchFixedString | Qt.MatchRecursive)
         if items:
             modify_font(items[0], bold=enabled)
+
+
+class ParamSlider(QWidget):
+    value_changed = Signal(int)
+
+    def __init__(self, interval, step, ticks, reset=0, suffix='', parent=None):
+        super(ParamSlider, self).__init__(parent)
+
+        self.slider = QSlider(Qt.Horizontal)
+        self.slider.setRange(interval[0], interval[1])
+        self.slider.setTickPosition(QSlider.TicksBelow)
+        self.slider.setTickInterval((interval[1] - interval[0] + 1) / ticks)
+        self.slider.setSingleStep(1)
+        # self.slider.setPageStep(step)
+        self.slider.setPageStep(1)
+        self.slider.setValue(reset)
+        self.slider.mouseDoubleClickEvent = self.double_click
+        self.label = QLabel()
+        modify_font(self.label, bold=True)
+        self.suffix = suffix
+        self.reset = reset
+        self.sync(reset)
+        self.slider.valueChanged.connect(self.sync)
+
+        layout = QHBoxLayout()
+        layout.addWidget(self.slider)
+        layout.addWidget(self.label)
+        self.setLayout(layout)
+
+    def double_click(self, _):
+        self.slider.setValue(self.reset)
+
+    def sync(self, value):
+        self.label.setText('{}{}'.format(value, self.suffix))
+        self.value_changed.emit(value)
+
+    def value(self):
+        return self.slider.value()
