@@ -9,7 +9,7 @@ from PySide2.QtWidgets import (
     QSpinBox)
 
 from tools import ToolWidget
-from utility import normalize_mat, modify_font
+from utility import normalize_mat
 from viewer import ImageViewer
 
 

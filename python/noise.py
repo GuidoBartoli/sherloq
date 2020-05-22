@@ -34,7 +34,7 @@ class NoiseWidget(ToolWidget):
         self.levels_spin = QSpinBox()
         self.levels_spin.setRange(-1, 255)
         self.levels_spin.setSpecialValueText(self.tr('Auto'))
-        self.levels_spin.setValue(-1)
+        self.levels_spin.setValue(32)
 
         self.equalize_check = QCheckBox(self.tr('Equalized'))
         self.gray_check = QCheckBox(self.tr('Grayscale'))

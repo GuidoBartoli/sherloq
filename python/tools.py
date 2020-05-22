@@ -72,7 +72,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Show pixel-level difference against different compression levels'),
                            self.tr('Use residuals to detect multiple compressions at different levels'),
                            self.tr('Analyze periodic quantization artifacts to detect manipulations')])
-        tool_progress.extend([3, 3, 0, 0])
+        tool_progress.extend([2, 3, 0, 0])
 
         # [4]
         group_names.append(self.tr('[Colors]'))
@@ -102,13 +102,13 @@ class ToolTree(QTreeWidget):
         group_names.append(self.tr('[Noise]'))
         tool_names.append([self.tr('Noise Estimation'),
                            self.tr('Min/Max Deviation'),
-                           self.tr('SNR Consistency'),
+                           self.tr('Image Bit Planes'),
                            self.tr('Frequency Separation')])
         tool_infos.append([self.tr('Estimate and visualize gaussian noise components of the image'),
                            self.tr('Highlight pixels deviating from block-based min/max statistics'),
-                           self.tr('Evaluate uniformity of signal-to-noise ratio across the image'),
+                           self.tr('Visualize bit planes values to find different noise patterns'),
                            self.tr('Estimate high/low frequency components of the luminance channel')])
-        tool_progress.extend([3, 2, 0, 0])
+        tool_progress.extend([3, 2, 3, 0])
 
         # [7]
         group_names.append(self.tr('[Tampering]'))

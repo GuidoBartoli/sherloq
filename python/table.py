@@ -60,7 +60,7 @@ class TableWidget(QWidget):
         clear_button = QToolButton()
         clear_button.setIcon(QIcon('icons/clear.svg'))
         clear_button.setShortcut(QKeySequence.DeleteCompleteLine)
-        clear_button.setToolTip(self.tr('Clear search pattern'))
+        clear_button.setToolTip(self.tr('Clear pattern'))
         clear_button.clicked.connect(self.search_edit.clear)
         search_layout.addWidget(clear_button)
 

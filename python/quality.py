@@ -11,8 +11,7 @@ from PySide2.QtWidgets import (
     QGridLayout,
     QTableWidget,
     QTableWidgetItem,
-    QAbstractItemView,
-    QMessageBox)
+    QAbstractItemView)
 
 from jpeg import TABLE_SIZE, ZIG_ZAG, DCT_SIZE, get_tables
 from tools import ToolWidget
@@ -26,6 +25,7 @@ class QualityWidget(ToolWidget):
         MRK = b'\xFF'
         SOI = b'\xD8'
         DQT = b'\xDB'
+        # DHT = b'\xC4'
         MSK = b'\x0F'
         PAD = b'\x00'
 
@@ -81,10 +81,11 @@ class QualityWidget(ToolWidget):
         levels = [0, 0]
         for i in range(2):
             table = tables[:, :, i]
-            mean = np.mean(table) * TABLE_SIZE
-            mean = (mean - table[0, 0]) / (TABLE_SIZE - 1)
+            mean = (np.mean(table) * TABLE_SIZE - table[0, 0]) / (TABLE_SIZE - 1)
             levels[i] = (1 - mean / 255) * 100
-        profile = [np.mean(np.abs(tables - get_tables(q))) for q in range(100)]
+            if levels[i] > 99.6:
+                levels[i] = 100
+        profile = [np.mean(np.abs(tables - get_tables(q))) for q in range(101)]
         quality = np.argmin(profile)
 
         luma_label = QLabel(self.tr('Luminance Quantization Table (level = {:.2f}%)\n'.format(levels[0])))

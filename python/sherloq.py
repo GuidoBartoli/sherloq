@@ -16,6 +16,7 @@ from PySide2.QtWidgets import (
 from adjust import AdjustWidget
 from digest import DigestWidget
 from echo import EchoWidget
+from planes import PlanesWidget
 from editor import EditorWidget
 from ela import ElaWidget
 from fourier import FourierWidget
@@ -312,6 +313,8 @@ class MainWindow(QMainWindow):
                 tool_widget = NoiseWidget(self.image)
             elif tool == 1:
                 tool_widget = MinMaxWidget(self.image)
+            elif tool == 2:
+                tool_widget = PlanesWidget(self.image)
         else:
             return
         # FIXME: Aggiungere un metodo init e dopo fare il connect, sennò i messaggi del costruttore non si vedono

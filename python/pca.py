@@ -63,22 +63,22 @@ class PcaWidget(ToolWidget):
         self.components = []
         rows, cols, dims = self.image.shape
         bgr = np.reshape(self.image, (rows * cols, dims)).astype(np.float64)
-        q = np.empty((0))
-        q, x, y = cv.PCACompute2(bgr, q)
+        mean = np.empty((0))
+        mean, eivec, eival = cv.PCACompute2(bgr, mean)
         progress = QProgressDialog(self.tr('RGB PCA Projection...'), self.tr('Cancel'), 0, self.image.size, self)
         progress.canceled.connect(self.stop)
         progress.setWindowModality(Qt.WindowModal)
         counter = 0
         for d in range(dims):
-            v = x[d]
-            r = q + v * y[d]
+            v = eivec[d]
+            r = mean + v * eival[d]
             distance = np.zeros((rows, cols), dtype=np.float64)
             cross = np.zeros((rows, cols, dims), dtype=np.float64)
             # TODO: Provare a vettorizzare le operazioni per maggiore velocità
             for i in range(rows):
                 for j in range(cols):
                     p = self.image[i, j]
-                    distance[i, j] = cv.norm(np.cross(p - q, p - r)) / cv.norm(r - q)
+                    distance[i, j] = cv.norm(np.cross(p - mean, p - r)) / cv.norm(r - mean)
                     cross[i, j] = np.cross(p, v)
                     counter += 1
                     progress.setValue(counter)

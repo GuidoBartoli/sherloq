@@ -1,4 +1,0 @@
-/home/guido/Dropbox/Progetti/Sherlock/lib/build/CMakeFiles/edit_cache.dir
-/home/guido/Dropbox/Progetti/Sherlock/lib/build/CMakeFiles/rebuild_cache.dir
-/home/guido/Dropbox/Progetti/Sherlock/lib/build/CMakeFiles/Sherlock.dir
-/home/guido/Dropbox/Progetti/Sherlock/lib/build/CMakeFiles/AlgLib.dir

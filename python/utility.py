@@ -8,6 +8,8 @@ from PySide2.QtWidgets import QTreeWidgetItem
 
 
 def mat2img(cvmat):
+    if len(cvmat.shape) == 2:
+        cvmat = cv.cvtColor(cvmat, cv.COLOR_GRAY2BGR)
     height, width, channels = cvmat.shape
     return QImage(cvmat.data, width, height, 3 * width, QImage.Format_BGR888)
 
