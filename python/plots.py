@@ -1,18 +1,6 @@
-import cv2 as cv
-from PySide2.QtWidgets import (
-    QWidget,
-    QPushButton,
-    QTextEdit,
-    QVBoxLayout,
-    QHBoxLayout,
-    QSpinBox,
-    QSlider,
-    QLabel)
-from PySide2.QtCore import Qt
 from PySide2.QtCharts.QtCharts import QScatterSeries
-
-from jpeg import compress_jpeg
-from viewer import ImageViewer
+from PySide2.QtWidgets import (
+    QWidget)
 
 
 class PlotsWidget(QWidget):

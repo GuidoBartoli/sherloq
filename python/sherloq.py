@@ -15,8 +15,8 @@ from PySide2.QtWidgets import (
 
 from adjust import AdjustWidget
 from digest import DigestWidget
+from reverse import ReverseWidget
 from echo import EchoWidget
-from planes import PlanesWidget
 from editor import EditorWidget
 from ela import ElaWidget
 from fourier import FourierWidget
@@ -24,9 +24,11 @@ from gradient import GradientWidget
 from location import LocationWidget
 from metadata import MetadataWidget
 from minmax import MinMaxWidget
+from multiple import MultipleWidget
 from noise import NoiseWidget
 from original import OriginalWidget
 from pca import PcaWidget
+from planes import PlanesWidget
 from quality import QualityWidget
 from space import SpaceWidget
 from stats import StatsWidget
@@ -216,7 +218,7 @@ class MainWindow(QMainWindow):
         settings = QSettings()
         self.filename = QFileDialog.getOpenFileName(
             self, self.tr('Load image'), settings.value('load_folder'),
-            self.tr('Supported formats (*.jpg *.jpeg *.jpe *.jp2 *.png *.tif *.tiff, *.bmp)'))[0]
+            self.tr('Supported formats (*.jpg *.jpeg *.jpe *.jp2 *.png *.tif *.tiff, *.bmp, *.gif)'))[0]
         if not self.filename:
             return
         image = cv.imread(self.filename, cv.IMREAD_COLOR)
@@ -265,6 +267,8 @@ class MainWindow(QMainWindow):
                 tool_widget = DigestWidget(self.filename, self.image)
             elif tool == 2:
                 tool_widget = EditorWidget()
+            elif tool == 3:
+                tool_widget = ReverseWidget()
             else:
                 return
         elif group == 1:
@@ -290,6 +294,8 @@ class MainWindow(QMainWindow):
                 tool_widget = QualityWidget(self.filename)
             elif tool == 1:
                 tool_widget = ElaWidget(self.image)
+            elif tool == 2:
+                tool_widget = MultipleWidget(self.image)
             else:
                 return
         elif group == 4:

@@ -10,7 +10,7 @@ from PySide2.QtWidgets import (
     QComboBox)
 
 from tools import ToolWidget, ParamSlider
-from utility import create_lut, signed_value, modify_font
+from utility import create_lut
 from viewer import ImageViewer
 
 
@@ -140,10 +140,8 @@ class AdjustWidget(ToolWidget):
         if threshold < 255:
             if threshold == 0:
                 gray = cv.cvtColor(result, cv.COLOR_BGR2GRAY)
-                threshold, result = cv.threshold(gray, 0, 255, cv.THRESH_OTSU)
-                result = cv.cvtColor(result, cv.COLOR_GRAY2BGR)
-            else:
-                _, result = cv.threshold(result, threshold, 255, cv.THRESH_BINARY)
+                threshold, _ = cv.threshold(gray, 0, 255, cv.THRESH_OTSU)
+            _, result = cv.threshold(result, threshold, 255, cv.THRESH_BINARY)
         if invert:
             result = cv.bitwise_not(result)
         self.viewer.update_processed(result)

@@ -2,15 +2,13 @@ import cv2 as cv
 import numpy as np
 from PySide2.QtWidgets import (
     QHBoxLayout,
-    QRadioButton,
-    QCheckBox,
-QComboBox,
+    QComboBox,
     QLabel,
     QVBoxLayout,
     QSpinBox)
 
 from tools import ToolWidget
-from utility import normalize_mat, modify_font
+from utility import normalize_mat
 from viewer import ImageViewer
 
 

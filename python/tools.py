@@ -31,12 +31,12 @@ class ToolTree(QTreeWidget):
         tool_names.append([self.tr('Original Image'),
                            self.tr('File Digest'),
                            self.tr('Hex Editor'),
-                           self.tr('Similar Search')])
+                           self.tr('Reverse Search')])
         tool_infos.append([self.tr('Display the unaltered reference image for visual inspection'),
                            self.tr('Retrieve file information and compute many hashes and ballistics'),
-                           self.tr('Open an hexadecimal editor to show raw byte values from file'),
+                           self.tr('Open an external hexadecimal editor to show and edit raw bytes'),
                            self.tr('Use online search services to find visually similar images')])
-        tool_progress.extend([3, 3, 3, 0])
+        tool_progress.extend([3, 3, 2, 2])
 
         # [1]
         group_names.append(self.tr('[Metadata]'))
@@ -72,11 +72,11 @@ class ToolTree(QTreeWidget):
                            self.tr('Show pixel-level difference against different compression levels'),
                            self.tr('Use residuals to detect multiple compressions at different levels'),
                            self.tr('Analyze periodic quantization artifacts to detect manipulations')])
-        tool_progress.extend([2, 3, 0, 0])
+        tool_progress.extend([2, 3, 1, 0])
 
         # [4]
         group_names.append(self.tr('[Colors]'))
-        tool_names.append([self.tr('RGB/HSV 3D Plots'),
+        tool_names.append([self.tr('RGB/HSV Plots'),
                            self.tr('PCA Projection'),
                            self.tr('Pixel Statistics'),
                            self.tr('Space Conversion')])
@@ -94,7 +94,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Wavelet Threshold')])
         tool_infos.append([self.tr('Analyze horizontal/vertical brightness variations across the image'),
                            self.tr('Use derivative filters to reveal artificial out-of-focus zones'),
-                           self.tr('Exploit correlation patterns among neighboring pixels'),
+                           self.tr('Exploit spatial correlation patterns among neighboring pixels'),
                            self.tr('Reconstruct image with different wavelet coefficient thresholds')])
         tool_progress.extend([2, 3, 0, 0])
 

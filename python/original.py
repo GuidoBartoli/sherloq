@@ -1,7 +1,7 @@
-from PySide2.QtWidgets import QWidget, QVBoxLayout
+from PySide2.QtWidgets import QVBoxLayout
 
-from viewer import ImageViewer
 from tools import ToolWidget
+from viewer import ImageViewer
 
 
 class OriginalWidget(ToolWidget):

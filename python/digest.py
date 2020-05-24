@@ -2,7 +2,6 @@ import os
 
 import cv2 as cv
 import magic
-from table import TableWidget
 from PySide2.QtCore import (
     QFileInfo,
     QLocale,
@@ -10,15 +9,12 @@ from PySide2.QtCore import (
     QIODevice,
     QCryptographicHash)
 from PySide2.QtWidgets import (
-    QApplication,
-    QAbstractItemView,
     QVBoxLayout,
-    QTableWidgetItem,
-    QTableWidget,
     QMessageBox)
 
-from utility import modify_font, human_size
+from table import TableWidget
 from tools import ToolWidget
+from utility import human_size
 
 
 class DigestWidget(ToolWidget):

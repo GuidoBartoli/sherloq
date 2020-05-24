@@ -3,7 +3,6 @@ from time import time
 import cv2 as cv
 import numpy as np
 from PySide2.QtWidgets import (
-    QProgressDialog,
     QVBoxLayout,
     QHBoxLayout,
     QComboBox,
@@ -124,6 +123,7 @@ class MinMaxWidget(ToolWidget):
             if maximum <= 2:
                 minmax[:, :, 2 - maximum] += high
             else:
+                # FIXME: minmax ha un solo canale quando si sceglie black come colore
                 minmax += high
             minmax = normalize_mat(minmax)
             self.info_message.emit(self.tr('Min/Max Filter = {}'.format(elapsed_time(start))))

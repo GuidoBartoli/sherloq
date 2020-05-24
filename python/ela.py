@@ -9,9 +9,9 @@ from PySide2.QtWidgets import (
     QSpinBox,
     QLabel)
 
+from jpeg import compress_jpeg
 from tools import ToolWidget
 from utility import elapsed_time
-from jpeg import compress_jpeg
 from viewer import ImageViewer
 
 

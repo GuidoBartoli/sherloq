@@ -14,9 +14,9 @@ ZIG_ZAG = [
     [6, 5], [7, 4], [7, 5], [6, 6], [5, 7], [6, 7], [7, 6], [7, 7]]
 
 
-def compress_jpeg(image, quality):
+def compress_jpeg(image, quality, color=True):
     _, buffer = cv.imencode('.jpg', image, [cv.IMWRITE_JPEG_QUALITY, quality])
-    return cv.imdecode(buffer, cv.IMREAD_COLOR)
+    return cv.imdecode(buffer, cv.IMREAD_COLOR if color else cv.IMREAD_GRAYSCALE)
 
 
 def get_tables(quality):

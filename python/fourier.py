@@ -31,7 +31,6 @@ class FourierWidget(ToolWidget):
         self.dct_radio.toggled.connect(self.process)
         self.thr_spin.valueChanged.connect(self.process)
         self.filter_check.stateChanged.connect(self.process)
-        self.last_radio = self.ampl_radio
 
         gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
         rows, cols = gray.shape
@@ -49,6 +48,7 @@ class FourierWidget(ToolWidget):
         self.process()
 
         top_layout = QHBoxLayout()
+        top_layout.addWidget(QLabel(self.tr('Coefficients:')))
         top_layout.addWidget(self.ampl_radio)
         top_layout.addWidget(self.phase_radio)
         top_layout.addWidget(self.dct_radio)
