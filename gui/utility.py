@@ -1,10 +1,12 @@
+import os
 import sys
 from time import time
 
 import cv2 as cv
 import numpy as np
+from PySide2.QtCore import QSettings, QFileInfo
 from PySide2.QtGui import QImage, QFontDatabase
-from PySide2.QtWidgets import QTreeWidgetItem
+from PySide2.QtWidgets import QTreeWidgetItem, QFileDialog, QMessageBox
 
 
 def mat2img(cvmat):
@@ -60,6 +62,31 @@ def create_lut(low, high):
     return np.clip(np.array(lut), 0, 255).astype(np.uint8)
 
 
+def compute_hist(channel, normalize=False):
+    hist = np.array([h[0] for h in cv.calcHist([channel], [0], None, [256], [0, 256])])
+    if not normalize:
+        return hist.astype(int)
+    return hist / channel.size
+
+
+def auto_lut(image, centile):
+    hist = compute_hist(image, normalize=True)
+    low_sum = high_sum = 0
+    low = 0
+    high = 255
+    for i, h in enumerate(hist):
+        low_sum += h
+        if low_sum >= centile:
+            low = i
+            break
+    for i, h in enumerate(np.flip(hist)):
+        high_sum += h
+        if high_sum >= centile:
+            high = i
+            break
+    return create_lut(low, high)
+
+
 def elapsed_time(start, ms=True):
     elapsed = time() - start
     if ms:
@@ -69,6 +96,28 @@ def elapsed_time(start, ms=True):
 
 def signed_value(value):
     return '{}{}'.format('+' if value > 0 else '', value)
+
+
+def load_image(parent):
+    settings = QSettings()
+    filename = QFileDialog.getOpenFileName(
+        parent, parent.tr('Load image'), settings.value('load_folder'),
+        parent.tr('Supported formats (*.jpg *.jpeg *.jpe *.jp2 *.png *.tif *.tiff, *.bmp)'))[0]
+    if not filename:
+        return None, None
+    image = cv.imread(filename, cv.IMREAD_COLOR)
+    if image is None:
+        QMessageBox.critical(parent, parent.tr('Error'), parent.tr('Unable to load image!'))
+        return None, None
+    if image.shape[2] > 3:
+        QMessageBox.warning(parent, parent.tr('Warning'), parent.tr('Alpha channel discarded'))
+        image = cv.cvtColor(image, cv.COLOR_BGRA2BGR)
+    settings.setValue('load_folder', QFileInfo(filename).absolutePath())
+    return filename, os.path.basename(filename), image
+
+
+def desaturate(image):
+    return cv.cvtColor(cv.cvtColor(image, cv.COLOR_BGR2GRAY), cv.COLOR_GRAY2BGR)
 
 
 def normalize_mat(matrix, to_bgr=False):

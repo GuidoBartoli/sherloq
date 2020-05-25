@@ -107,7 +107,7 @@ class AdjustWidget(ToolWidget):
                 s = cv.add(s, saturation)
             if brightness != 0:
                 v = cv.add(v, brightness)
-            result = cv.cvtColor(cv.merge((h, s, v)), cv.COLOR_HSV2BGR)
+            result = cv.cvtColor(cv.merge([h, s, v]), cv.COLOR_HSV2BGR)
         if gamma != 0:
             inverse = 1 / gamma
             lut = np.array([((i / 255) ** inverse) * 255 for i in np.arange(0, 256)]).astype(np.uint8)
@@ -136,7 +136,7 @@ class AdjustWidget(ToolWidget):
                 elif equalize == 5:
                     clip = 40
                 v = cv.createCLAHE(clip).apply(v)
-            result = cv.cvtColor(cv.merge((h, s, v)), cv.COLOR_HSV2BGR)
+            result = cv.cvtColor(cv.merge([h, s, v]), cv.COLOR_HSV2BGR)
         if threshold < 255:
             if threshold == 0:
                 gray = cv.cvtColor(result, cv.COLOR_BGR2GRAY)

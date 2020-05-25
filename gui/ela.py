@@ -62,8 +62,7 @@ class ElaWidget(ToolWidget):
         if not equalize:
             ela = cv.convertScaleAbs(cv.subtract(compressed, self.image), None, scale)
         else:
-            b, g, r = cv.split(cv.absdiff(compressed, self.image))
-            ela = cv.merge((cv.equalizeHist(b), cv.equalizeHist(g), cv.equalizeHist(r)))
+            ela = cv.merge([cv.equalizeHist(c) for c in cv.split(cv.absdiff(compressed, self.image))])
         self.viewer.update_processed(ela)
         self.info_message.emit(self.tr('Error Level Analysis = {}'.format(elapsed_time(start))))
 

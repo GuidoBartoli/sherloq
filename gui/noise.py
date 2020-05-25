@@ -33,11 +33,10 @@ class NoiseWidget(ToolWidget):
         self.sigma_spin.setValue(3)
 
         self.levels_spin = QSpinBox()
-        self.levels_spin.setRange(-1, 255)
-        self.levels_spin.setSpecialValueText(self.tr('Auto'))
+        self.levels_spin.setRange(0, 255)
+        self.levels_spin.setSpecialValueText(self.tr('Equalized'))
         self.levels_spin.setValue(32)
 
-        self.equalize_check = QCheckBox(self.tr('Equalized'))
         self.gray_check = QCheckBox(self.tr('Grayscale'))
         self.denoised_check = QCheckBox(self.tr('Denoised'))
 
@@ -54,7 +53,6 @@ class NoiseWidget(ToolWidget):
         params_layout.addWidget(self.sigma_spin)
         params_layout.addWidget(QLabel(self.tr('Levels:')))
         params_layout.addWidget(self.levels_spin)
-        params_layout.addWidget(self.equalize_check)
         params_layout.addWidget(self.gray_check)
         params_layout.addWidget(self.denoised_check)
         params_layout.addStretch()
@@ -68,7 +66,6 @@ class NoiseWidget(ToolWidget):
         self.radius_spin.valueChanged.connect(self.process)
         self.sigma_spin.valueChanged.connect(self.process)
         self.levels_spin.valueChanged.connect(self.process)
-        self.equalize_check.stateChanged.connect(self.process)
         self.gray_check.stateChanged.connect(self.process)
         self.denoised_check.stateChanged.connect(self.process)
 
@@ -105,27 +102,18 @@ class NoiseWidget(ToolWidget):
 
         if self.denoised_check.isChecked():
             self.levels_spin.setEnabled(False)
-            self.equalize_check.setEnabled(False)
             result = denoised
         else:
             self.levels_spin.setEnabled(True)
-            self.equalize_check.setEnabled(True)
             noise = cv.absdiff(original, denoised)
-            if self.equalize_check.isChecked():
-                self.levels_spin.setEnabled(False)
+            levels = self.levels_spin.value()
+            if levels == 0:
                 if grayscale:
                     result = cv.equalizeHist(noise)
                 else:
                     result = cv.merge([cv.equalizeHist(c) for c in cv.split(noise)])
             else:
-                self.levels_spin.setEnabled(True)
-                high = self.levels_spin.value()
-                if high == -1:
-                    noise = cv.normalize(noise, None, 0, 255, cv.NORM_MINMAX)
-                else:
-                    high = max(1, high)
-                    noise = cv.LUT(noise, create_lut(0, 255 - high))
-                result = noise
+                result = cv.LUT(noise, create_lut(0, 255 - levels))
         if grayscale:
             result = cv.cvtColor(result, cv.COLOR_GRAY2BGR)
         self.viewer.update_processed(result)

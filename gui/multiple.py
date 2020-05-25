@@ -1,20 +1,13 @@
-from time import time
-import numpy as np
 import cv2 as cv
 from PySide2.QtCharts import QtCharts
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QPainter
 from PySide2.QtWidgets import (
     QVBoxLayout,
-    QHBoxLayout,
-    QCheckBox,
-    QRadioButton,
-    QProgressDialog,
-    QWidget)
+    QProgressDialog)
 
-from tools import ToolWidget
 from jpeg import compress_jpeg
-from utility import modify_font, elapsed_time
+from tools import ToolWidget
 
 
 class MultipleWidget(ToolWidget):

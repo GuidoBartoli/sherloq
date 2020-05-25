@@ -60,7 +60,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Open a synchronized double view to compare two different pictures'),
                            self.tr('Apply standard adjustments (contrast, brightness, hue, saturation)'),
                            self.tr('Compute amplitude and phase components of the 2D Fourier Transform')])
-        tool_progress.extend([0, 0, 2, 3])
+        tool_progress.extend([2, 2, 2, 3])
 
         # [3]
         group_names.append(self.tr('[JPEG]'))

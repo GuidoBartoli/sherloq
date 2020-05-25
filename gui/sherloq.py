@@ -1,7 +1,6 @@
 import sys
 
-import cv2 as cv
-from PySide2.QtCore import Qt, QSettings, QFileInfo
+from PySide2.QtCore import Qt, QSettings
 from PySide2.QtGui import QKeySequence, QIcon
 from PySide2.QtWidgets import (
     QApplication,
@@ -10,18 +9,18 @@ from PySide2.QtWidgets import (
     QMdiSubWindow,
     QDockWidget,
     QAction,
-    QMessageBox,
-    QFileDialog)
+    QMessageBox)
 
 from adjust import AdjustWidget
+from comparison import ComparisonWidget
 from digest import DigestWidget
-from reverse import ReverseWidget
 from echo import EchoWidget
 from editor import EditorWidget
 from ela import ElaWidget
 from fourier import FourierWidget
 from gradient import GradientWidget
 from location import LocationWidget
+from magnifier import MagnifierWidget
 from metadata import MetadataWidget
 from minmax import MinMaxWidget
 from multiple import MultipleWidget
@@ -30,12 +29,13 @@ from original import OriginalWidget
 from pca import PcaWidget
 from planes import PlanesWidget
 from quality import QualityWidget
+from reverse import ReverseWidget
 from space import SpaceWidget
 from stats import StatsWidget
 from structure import StructureWidget
 from thumbnail import ThumbWidget
 from tools import ToolTree
-from utility import modify_font
+from utility import modify_font, load_image
 
 
 class MainWindow(QMainWindow):
@@ -215,24 +215,9 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).closeEvent(event)
 
     def load_file(self):
-        settings = QSettings()
-        self.filename = QFileDialog.getOpenFileName(
-            self, self.tr('Load image'), settings.value('load_folder'),
-            self.tr('Supported formats (*.jpg *.jpeg *.jpe *.jp2 *.png *.tif *.tiff, *.bmp, *.gif)'))[0]
-        if not self.filename:
+        self.filename, basename, self.image = load_image(self)
+        if self.filename is None:
             return
-        image = cv.imread(self.filename, cv.IMREAD_COLOR)
-        if image is None:
-            QMessageBox.critical(self, self.tr('Error'), self.tr('Unable to load image!'))
-            return
-        if image.shape[2] > 3:
-            QMessageBox.warning(self, self.tr('Warning'), self.tr('Embedded alpha channel discarded'))
-            image = cv.cvtColor(image, cv.COLOR_BGRA2BGR)
-        self.image = image
-
-        path = QFileInfo(self.filename).absolutePath()
-        name = QFileInfo(self.filename).fileName()
-        settings.setValue('load_folder', path)
         self.findChild(ToolTree, 'tree_widget').setEnabled(True)
         self.findChild(QAction, 'prev_action').setEnabled(True)
         self.findChild(QAction, 'next_action').setEnabled(True)
@@ -241,8 +226,8 @@ class MainWindow(QMainWindow):
         self.findChild(QAction, 'close_action').setEnabled(True)
         self.findChild(QAction, 'tabbed_action').setEnabled(True)
         self.setWindowTitle('[{}] - {} {}'.format(
-            name, QApplication.applicationName(), QApplication.applicationVersion()))
-        self.show_message(self.tr('Image "{}" successfully loaded'.format(name)))
+            basename, QApplication.applicationName(), QApplication.applicationVersion()))
+        self.show_message(self.tr('Image "{}" successfully loaded'.format(basename)))
 
         # FIXME: disable_bold della chiusura viene chiamato DOPO open_tool e nell'albero la voce NON diventa neretto
         self.mdi_area.closeAllSubWindows()
@@ -283,7 +268,11 @@ class MainWindow(QMainWindow):
             else:
                 return
         elif group == 2:
-            if tool == 2:
+            if tool == 0:
+                tool_widget = MagnifierWidget(self.image)
+            elif tool == 1:
+                tool_widget = ComparisonWidget(self.image)
+            elif tool == 2:
                 tool_widget = AdjustWidget(self.image)
             elif tool == 3:
                 tool_widget = FourierWidget(self.image)
