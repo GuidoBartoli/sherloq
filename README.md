@@ -25,7 +25,7 @@ I'm happy to share my code and get in contact with anyone interested to improve 
 This list contains the functions that **Sherloq** will provide once the beta stage is reached.
 
 ## Interface
-- Modern Qt-based GUI with multiple tool window display
+- Modern Qt-based GUI with multiple tool window management
 - Import Bitmaps, JPEG, PNG, WebP, PGM, PFM, TIFF, GIF formats
 - Highly responsive image viewer with panning and zooming
 - Real-time image histogram with channel selection
@@ -109,7 +109,8 @@ Here are some screenshots from the previous C++ Qt GUI:
 </p>
 
 # Install
-1) Create a Python 3 virtual environment (these are my suggested steps on Ubuntu-based distributions):
+1) Clone repository content into a local folder
+1) Create a Python 3 virtual environment (these are *Linux* instructions, for *Windows* you can follow [this guide](https://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows/), while [this guide](https://opensource.com/article/19/6/python-virtual-environments-mac) is for *MacOS*):
 
 ```
 Install package manager
@@ -125,13 +126,13 @@ $ echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bashrc
 $ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
 $ source ~/.bashrc
 
-Create an switch to virtual environment
+Create virtual environment and switch
 $ mkvirtualenv sq -p python3
 $ workon sq
 ```
 
-2. Go to `python` folder and execute `pip install -r requirements.txt`
-2. Launch GUI with `python sherloq.py`
+3. Go to `gui` folder and execute `pip install -r requirements.txt`
+3. Launch GUI with `python sherloq.py`
 
 # Bibliography
 - Black Hat Briefings DC. (2008) A Picture's Worth: Digital Image Analysis and Forensics [White paper]. Washington, DC. Retrieved from http://blackhat.com/presentations/bh-dc-08/Krawetz/Whitepaper/bh-dc-08-krawetz-WP.pdf
