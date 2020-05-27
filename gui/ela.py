@@ -11,7 +11,7 @@ from PySide2.QtWidgets import (
 
 from jpeg import compress_jpeg
 from tools import ToolWidget
-from utility import elapsed_time
+from utility import elapsed_time, equalize_image
 from viewer import ImageViewer
 
 
@@ -62,7 +62,7 @@ class ElaWidget(ToolWidget):
         if not equalize:
             ela = cv.convertScaleAbs(cv.subtract(compressed, self.image), None, scale)
         else:
-            ela = cv.merge([cv.equalizeHist(c) for c in cv.split(cv.absdiff(compressed, self.image))])
+            ela = equalize_image(cv.absdiff(compressed, self.image))
         self.viewer.update_processed(ela)
         self.info_message.emit(self.tr('Error Level Analysis = {}'.format(elapsed_time(start))))
 

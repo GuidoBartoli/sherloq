@@ -81,10 +81,9 @@ class DynamicView(QGraphicsView):
         QGraphicsView.mousePressEvent(self, event)
 
     def mouseMoveEvent(self, event):
+        QGraphicsView.mouseMoveEvent(self, event)
         if self.mouse_pressed:
             self.notify_change()
-        QGraphicsView.mouseMoveEvent(self, event)
-        # FIXME: L'evento dev'essere inoltrato prima o dopo il controllo?
 
     def mouseReleaseEvent(self, event):
         if event.button() == Qt.LeftButton:
@@ -217,10 +216,12 @@ class ImageViewer(QWidget):
 
         vert_layout = QVBoxLayout()
         if title is not None:
-            title_label = QLabel(title)
-            modify_font(title_label, bold=True)
-            title_label.setAlignment(Qt.AlignCenter)
-            vert_layout.addWidget(title_label)
+            self.title_label = QLabel(title)
+            modify_font(self.title_label, bold=True)
+            self.title_label.setAlignment(Qt.AlignCenter)
+            vert_layout.addWidget(self.title_label)
+        else:
+            self.title_label = None
         vert_layout.addWidget(self.view)
         vert_layout.addLayout(tool_layout)
         self.setLayout(vert_layout)
@@ -281,3 +282,7 @@ class ImageViewer(QWidget):
         if not filename.endswith('.png'):
             filename += '.png'
         cv.imwrite(filename, self.processed)
+
+    def set_title(self, title):
+        if self.title_label is not None:
+            self.title_label.setText(title)

@@ -60,7 +60,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Open a synchronized double view to compare two different pictures'),
                            self.tr('Apply standard adjustments (contrast, brightness, hue, saturation)'),
                            self.tr('Compute amplitude and phase components of the 2D Fourier Transform')])
-        tool_progress.extend([2, 2, 2, 3])
+        tool_progress.extend([3, 3, 2, 3])
 
         # [3]
         group_names.append(self.tr('[JPEG]'))
@@ -84,7 +84,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Use color PCA to project RGB values onto reduced vector spaces'),
                            self.tr('Compute minimum/maximum/average RGB values for every pixel'),
                            self.tr('Convert color channels into RGB/HSV/YCbCr/Lab/Luv/CMYK spaces')])
-        tool_progress.extend([0, 2, 3, 2])
+        tool_progress.extend([0, 3, 3, 3])
 
         # [5]
         group_names.append(self.tr('[Tonality]'))
@@ -108,7 +108,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Highlight pixels deviating from block-based min/max statistics'),
                            self.tr('Visualize bit planes values to find different noise patterns'),
                            self.tr('Estimate high/low frequency components of the luminance channel')])
-        tool_progress.extend([3, 2, 3, 0])
+        tool_progress.extend([3, 3, 3, 0])
 
         # [7]
         group_names.append(self.tr('[Tampering]'))

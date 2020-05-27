@@ -2,11 +2,13 @@ from time import time
 
 import cv2 as cv
 import numpy as np
+from PySide2.QtCore import Qt
 from PySide2.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QComboBox,
     QSpinBox,
+    QProgressDialog,
     QLabel)
 
 from tools import ToolWidget
@@ -99,7 +101,13 @@ class MinMaxWidget(ToolWidget):
         patches = patches.reshape((-1, kernel, kernel))
         mask = np.full((kernel, kernel), 255, dtype=np.uint8)
         mask[border, border] = 0
-        output = np.array([self.minmax_dev(patch, mask) for patch in patches]).reshape(shape[:-2])
+        progress = QProgressDialog(self.tr('Computing deviation...'), None, 0, shape[0]*shape[1]-1, self)
+        progress.setWindowModality(Qt.WindowModal)
+        blocks = [0]*shape[0]*shape[1]
+        for i, patch in enumerate(patches):
+            blocks[i] = self.minmax_dev(patch, mask)
+            progress.setValue(i)
+        output = np.array(blocks).reshape(shape[:-2])
         output = cv.copyMakeBorder(output, border, border, border, border, cv.BORDER_CONSTANT)
         self.low = output == -1
         self.high = output == +1
@@ -114,17 +122,18 @@ class MinMaxWidget(ToolWidget):
         if radius > 0:
             start = time()
             radius += 2
-            low = self.blk_filter(self.low, radius)
-            high = self.blk_filter(self.high, radius)
-            if minimum <= 2:
-                minmax[:, :, 2 - minimum] = low
-            else:
-                minmax = low
-            if maximum <= 2:
-                minmax[:, :, 2 - maximum] += high
-            else:
-                # FIXME: minmax ha un solo canale quando si sceglie black come colore
-                minmax += high
+            if minimum < 4:
+                low = self.blk_filter(self.low, radius)
+                if minimum <= 2:
+                    minmax[:, :, 2 - minimum] = low
+                else:
+                    minmax = np.repeat(low[:, :, np.newaxis], 3, axis=2)
+            if maximum < 4:
+                high = self.blk_filter(self.high, radius)
+                if maximum <= 2:
+                    minmax[:, :, 2 - maximum] += high
+                else:
+                    minmax += np.repeat(high[:, :, np.newaxis], 3, axis=2)
             minmax = normalize_mat(minmax)
             self.info_message.emit(self.tr('Min/Max Filter = {}'.format(elapsed_time(start))))
         else:

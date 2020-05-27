@@ -205,7 +205,6 @@ class TableWidget(QWidget):
             writer = csv.writer(file)
             writer.writerow(self.table_headers)
             writer.writerows(table)
-        self.info_message.emit(self.tr('Table contents exported to disk'))
 
     def copy(self, item):
         QApplication.clipboard().setText(item.text())

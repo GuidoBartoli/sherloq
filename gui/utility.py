@@ -98,17 +98,21 @@ def signed_value(value):
     return '{}{}'.format('+' if value > 0 else '', value)
 
 
+def equalize_image(image):
+    return cv.merge([cv.equalizeHist(c) for c in cv.split(image)])
+
+
 def load_image(parent):
     settings = QSettings()
     filename = QFileDialog.getOpenFileName(
         parent, parent.tr('Load image'), settings.value('load_folder'),
         parent.tr('Supported formats (*.jpg *.jpeg *.jpe *.jp2 *.png *.tif *.tiff, *.bmp)'))[0]
     if not filename:
-        return None, None
+        return None, None, None
     image = cv.imread(filename, cv.IMREAD_COLOR)
     if image is None:
         QMessageBox.critical(parent, parent.tr('Error'), parent.tr('Unable to load image!'))
-        return None, None
+        return None, None, None
     if image.shape[2] > 3:
         QMessageBox.warning(parent, parent.tr('Warning'), parent.tr('Alpha channel discarded'))
         image = cv.cvtColor(image, cv.COLOR_BGRA2BGR)
@@ -134,4 +138,24 @@ def exiftool_exe():
         return 'pyexiftool/exiftool/win/exiftool(-k).exe'
     if sys.platform.startswith('darwin'):
         return 'exiftool'
+    return None
+
+
+def butter_exe():
+    if sys.platform.startswith('linux'):
+        return 'butteraugli/linux/butteraugli'
+    if sys.platform.startswith('win32'):
+        return None
+    if sys.platform.startswith('darwin'):
+        return None
+    return None
+
+
+def ssimul_exe():
+    if sys.platform.startswith('linux'):
+        return 'ssimulacra/linux/ssimulacra'
+    if sys.platform.startswith('win32'):
+        return None
+    if sys.platform.startswith('darwin'):
+        return None
     return None

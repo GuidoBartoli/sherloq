@@ -62,12 +62,19 @@ class MainWindow(QMainWindow):
         self.tree_widget.itemDoubleClicked.connect(self.open_tool)
         tree_dock.setWidget(self.tree_widget)
 
-        tree_action = tree_dock.toggleViewAction()
-        tree_action.setToolTip(self.tr('Toggle toolset visibility'))
-        tree_action.setText(self.tr('Show tools'))
-        tree_action.setShortcut(QKeySequence(Qt.Key_Tab))
-        tree_action.setObjectName('tree_action')
-        tree_action.setIcon(QIcon('icons/tools.svg'))
+        tools_action = tree_dock.toggleViewAction()
+        tools_action.setText(self.tr('Show tools'))
+        tools_action.setToolTip(self.tr('Toggle toolset visibility'))
+        tools_action.setShortcut(QKeySequence(Qt.Key_Tab))
+        tools_action.setObjectName('tools_action')
+        tools_action.setIcon(QIcon('icons/tools.svg'))
+
+        hist_action = QAction(self.tr('Histogram'))
+        hist_action.setToolTip(self.tr('Toggle histogram visibility'))
+        hist_action.setShortcut(QKeySequence(Qt.Key_F2))
+        hist_action.setObjectName('hist_action')
+        hist_action.setIcon(QIcon('icons/hist.svg'))
+        hist_action.setCheckable(True)
 
         load_action = QAction(self.tr('&Load image...'), self)
         load_action.setToolTip(self.tr('Choose an image to analyze'))
@@ -157,14 +164,15 @@ class MainWindow(QMainWindow):
         file_menu.addAction(quit_action)
 
         window_menu = self.menuBar().addMenu(self.tr('&Window'))
-        window_menu.addAction(tree_action)
-        window_menu.addAction(tabbed_action)
-        window_menu.addSeparator()
-        window_menu.addAction(tile_action)
-        window_menu.addAction(cascade_action)
+        window_menu.addAction(tools_action)
+        window_menu.addAction(hist_action)
         window_menu.addSeparator()
         window_menu.addAction(prev_action)
         window_menu.addAction(next_action)
+        window_menu.addSeparator()
+        window_menu.addAction(tabbed_action)
+        window_menu.addAction(tile_action)
+        window_menu.addAction(cascade_action)
         window_menu.addAction(close_action)
         window_menu.addSeparator()
         window_menu.addAction(full_action)
@@ -177,7 +185,9 @@ class MainWindow(QMainWindow):
         main_toolbar = self.addToolBar(self.tr('&Toolbar'))
         main_toolbar.setToolButtonStyle(Qt.ToolButtonTextBesideIcon)
         main_toolbar.addAction(load_action)
-        main_toolbar.addAction(tree_action)
+        main_toolbar.addSeparator()
+        main_toolbar.addAction(tools_action)
+        main_toolbar.addAction(hist_action)
         main_toolbar.addSeparator()
         main_toolbar.addAction(prev_action)
         main_toolbar.addAction(next_action)
@@ -215,9 +225,11 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).closeEvent(event)
 
     def load_file(self):
-        self.filename, basename, self.image = load_image(self)
-        if self.filename is None:
+        filename, basename, image = load_image(self)
+        if filename is None:
             return
+        self.filename = filename
+        self.image = image
         self.findChild(ToolTree, 'tree_widget').setEnabled(True)
         self.findChild(QAction, 'prev_action').setEnabled(True)
         self.findChild(QAction, 'next_action').setEnabled(True)
@@ -271,7 +283,7 @@ class MainWindow(QMainWindow):
             if tool == 0:
                 tool_widget = MagnifierWidget(self.image)
             elif tool == 1:
-                tool_widget = ComparisonWidget(self.image)
+                tool_widget = ComparisonWidget(self.filename, self.image)
             elif tool == 2:
                 tool_widget = AdjustWidget(self.image)
             elif tool == 3:
