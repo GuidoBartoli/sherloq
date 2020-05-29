@@ -110,7 +110,7 @@ class ComparisonWidget(ToolWidget):
             'SSIM is used to compare the local patterns of pixel intensities between \n'
             ' the reference and fused images. The range varies between -1 to 1. \n'
             'The value 1 indicates the reference and fused images are similar.'))
-        self.table_widget.setItem(8, 0, QTableWidgetItem(self.tr('MSSIM')))
+        self.table_widget.setItem(8, 0, QTableWidgetItem(self.tr('MS-SSIM')))
         self.table_widget.setItem(8, 2, QTableWidgetItem(QIcon('icons/high.svg'), '(1)'))
         self.table_widget.item(8, 0).setToolTip(self.tr('Multiscale version of SSIM.'))
         self.table_widget.setItem(9, 0, QTableWidgetItem(self.tr('RASE')))

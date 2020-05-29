@@ -28,6 +28,7 @@ from noise import NoiseWidget
 from original import OriginalWidget
 from pca import PcaWidget
 from planes import PlanesWidget
+from plots import PlotsWidget
 from quality import QualityWidget
 from reverse import ReverseWidget
 from space import SpaceWidget
@@ -300,7 +301,9 @@ class MainWindow(QMainWindow):
             else:
                 return
         elif group == 4:
-            if tool == 1:
+            if tool == 0:
+                tool_widget = PlotsWidget(self.image)
+            elif tool == 1:
                 tool_widget = PcaWidget(self.image)
             elif tool == 2:
                 tool_widget = StatsWidget(self.image)

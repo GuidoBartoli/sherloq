@@ -1,4 +1,8 @@
-- In File Digest aggiungere tooltips con descrizioni alle ImageHash
+- In RGB/HSV Plots sincronizzare la posizione del mouse nel grafico con l'evidenziazione dei colori corrispondenti nell'immagine e viceversa
+- Visualizzare le progress bar nella status bar della MainWindow
+- Aggiungere un pulsante in MinMaxWidget per eseguire il processing ed eventualmente interromperlo
+- Provare ad usare QGroupBox per rendere automaticamente esclusivi i QRadioButton
+- In File Digest aggiungere tooltips con descrizioni delle ImageHash
 - In ComparisonWidget aggiungere anche FSIM (https://github.com/weizhou-geek/Image-Quality-Assessment-Benchmark)
 - In ImageViewer gestire anche zoom superiori al 100%
 - In JPEG Quality Estimation aggiungere l'estrazione delle tabelle di Huffman (la sequenza di byte da cercare è [0xFF 0xC4 0x00]). Fare riferimento a jpegparse.zip nella cartella software
@@ -26,7 +30,5 @@
     * Settare il valore del blocco uguale al livelo più basso
     * Applicare un filtro mediano per ridurre gli outliers
 - Ottimizzare ElaWidget: il ricalcolo avviene solo cambiando Quality e non Scale    
-- Velocizzare PCA con vettorizzazione Numpy
-- Estrazione delle tabelle di Huffman dal JPEG
-- Algoritmo demosaicing artifact di Hacker Factor
+- Algoritmo Demosaicing Artifacts (?) di Hacker Factor
 - Strumento Color Noise Reduction (http://www.hackerfactor.com/blog/index.php?/archives/759-The-Secret-That-Donald-Trump-Doesnt-Want-You-To-Know.html)
