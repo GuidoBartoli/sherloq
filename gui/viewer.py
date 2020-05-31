@@ -3,6 +3,7 @@ import math
 import cv2 as cv
 import numpy as np
 from PySide2.QtCore import (
+    QSettings,
     Qt,
     Signal,
     QRect,
@@ -276,7 +277,9 @@ class ImageViewer(QWidget):
             self.view.set_image(self.processed)
 
     def export_image(self):
-        filename = QFileDialog.getSaveFileName(self, self.tr('Export image...'), None, self.tr('PNG images (*.png)'))[0]
+        settings = QSettings()
+        filename = QFileDialog.getSaveFileName(self, self.tr('Export image...'), settings.value('save_folder'),
+                                               self.tr('PNG images (*.png)'))[0]
         if not filename:
             return
         if not filename.endswith('.png'):

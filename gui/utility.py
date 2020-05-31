@@ -62,11 +62,11 @@ def create_lut(low, high):
     return np.clip(np.array(lut), 0, 255).astype(np.uint8)
 
 
-def compute_hist(channel, normalize=False):
-    hist = np.array([h[0] for h in cv.calcHist([channel], [0], None, [256], [0, 256])])
+def compute_hist(image, normalize=False):
+    hist = np.array([h[0] for h in cv.calcHist([image], [0], None, [256], [0, 256])])
     if not normalize:
         return hist.astype(int)
-    return hist / channel.size
+    return hist / image.size
 
 
 def auto_lut(image, centile):
@@ -102,17 +102,31 @@ def equalize_image(image):
     return cv.merge([cv.equalizeHist(c) for c in cv.split(image)])
 
 
-def load_image(parent):
+def load_image(parent, filename=None):
+    nothing = [None] * 3
     settings = QSettings()
-    filename = QFileDialog.getOpenFileName(
-        parent, parent.tr('Load image'), settings.value('load_folder'),
-        parent.tr('Supported formats (*.jpg *.jpeg *.jpe *.jp2 *.png *.tif *.tiff, *.bmp)'))[0]
-    if not filename:
-        return None, None, None
-    image = cv.imread(filename, cv.IMREAD_COLOR)
+    if filename is None:
+        filename = QFileDialog.getOpenFileName(
+            parent, parent.tr('Load image'), settings.value('load_folder'),
+            parent.tr('Supported formats (*.jpg *.jpeg *.jpe *.jp2 *.png *.tif *.tiff, *.bmp, *.gif)'))[0]
+        if not filename:
+            return nothing
+    if filename.endswith('.gif'):
+        capture = cv.VideoCapture(filename)
+        frames = int(capture.get(cv.CAP_PROP_FRAME_COUNT))
+        if frames > 1:
+            QMessageBox.warning(parent, parent.tr('Warning'), parent.tr('Animated GIF: importing first frame'))
+        result, image = capture.read()
+        if not result:
+            QMessageBox.critical(parent, parent.tr('Error'), parent.tr('Unable to decode GIF!'))
+            return nothing
+        if len(image.shape) == 2:
+            image = cv.cvtColor(image, cv.COLOR_GRAY2BGR)
+    else:
+        image = cv.imread(filename, cv.IMREAD_COLOR)
     if image is None:
         QMessageBox.critical(parent, parent.tr('Error'), parent.tr('Unable to load image!'))
-        return None, None, None
+        return nothing
     if image.shape[2] > 3:
         QMessageBox.warning(parent, parent.tr('Warning'), parent.tr('Alpha channel discarded'))
         image = cv.cvtColor(image, cv.COLOR_BGRA2BGR)

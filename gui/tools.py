@@ -12,7 +12,6 @@ from utility import modify_font
 
 class ToolWidget(QWidget):
     info_message = Signal(str)
-    help_clicked = Signal(str)
 
     def __init__(self, parent=None):
         super(ToolWidget, self).__init__(parent)
@@ -54,13 +53,13 @@ class ToolTree(QTreeWidget):
         group_names.append(self.tr('[Inspection]'))
         tool_names.append([self.tr('Enhancing Magnifier'),
                            self.tr('Reference Comparison'),
-                           self.tr('Global Adjustments'),
-                           self.tr('Fourier Transform')])
+                           self.tr('Image Histogram'),
+                           self.tr('Global Adjustments')])
         tool_infos.append([self.tr('Use a loupe with visual enhancement for better identifying forgeries'),
                            self.tr('Open a synchronized double view to compare two different pictures'),
-                           self.tr('Apply standard adjustments (contrast, brightness, hue, saturation)'),
-                           self.tr('Compute amplitude and phase components of the 2D Fourier Transform')])
-        tool_progress.extend([3, 3, 2, 3])
+                           self.tr('Display independent channel and composite interactive image histogram'),
+                           self.tr('Apply standard adjustments (contrast, brightness, hue, saturation)')])
+        tool_progress.extend([3, 3, 1, 2])
 
         # [3]
         group_names.append(self.tr('[JPEG]'))
@@ -77,13 +76,13 @@ class ToolTree(QTreeWidget):
         # [4]
         group_names.append(self.tr('[Colors]'))
         tool_names.append([self.tr('RGB/HSV 2D Plot'),
-                           self.tr('PCA Projection'),
-                           self.tr('Pixel Statistics'),
-                           self.tr('Space Conversion')])
-        tool_infos.append([self.tr('Display interactive 2D and 3D plots of RGB and HSV pixel data'),
-                           self.tr('Use color PCA to project RGB values onto reduced vector spaces'),
+                           self.tr('RGB Statistics'),
+                           self.tr('Space Conversion'),
+                           self.tr('PCA Projection')])
+        tool_infos.append([self.tr('Display an interactive 2D plots of RGB and HSV pixel values'),
                            self.tr('Compute minimum/maximum/average RGB values for every pixel'),
-                           self.tr('Convert color channels into RGB/HSV/YCbCr/Lab/Luv/CMYK spaces')])
+                           self.tr('Convert RGB channels into HSV/YCbCr/Lab/Luv/CMYK/Gray spaces'),
+                           self.tr('Use color PCA to project RGB values into reduced dimensions')])
         tool_progress.extend([2, 3, 3, 3])
 
         # [5]
@@ -91,7 +90,7 @@ class ToolTree(QTreeWidget):
         tool_names.append([self.tr('Luminance Gradient'),
                            self.tr('Echo Edge Filter'),
                            self.tr('Correlation Plot'),
-                           self.tr('Wavelet Threshold')])
+                           self.tr('Wavelet Reconstruct')])
         tool_infos.append([self.tr('Analyze horizontal/vertical brightness variations across the image'),
                            self.tr('Use derivative filters to reveal artificial out-of-focus zones'),
                            self.tr('Exploit spatial correlation patterns among neighboring pixels'),
@@ -108,7 +107,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Highlight pixels deviating from block-based min/max statistics'),
                            self.tr('Visualize bit planes values to find different noise patterns'),
                            self.tr('Estimate high/low frequency components of the luminance channel')])
-        tool_progress.extend([3, 3, 3, 0])
+        tool_progress.extend([3, 3, 3, 1])
 
         # [7]
         group_names.append(self.tr('[Tampering]'))

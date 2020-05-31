@@ -1,3 +1,8 @@
+- Se viene caricata una GIF animata, visualizzare un dialog per scegliere il frame da importare
+- Rivedere PCA ed aggiungere le altre 3 modalità di Forensically
+- Rivedere Gradient e verificare che l'output sia uguale a Forensically
+- Agli indici di Comparison aggiungere anche i coefficienti di correlazione dei due istogrammi usando cv.compareHist()
+- Ricontrollare che Thumbnail Analysis centri correttamente l'anteprima rispetto all'immagine
 - In RGB/HSV Plots sincronizzare la posizione del mouse nel grafico con l'evidenziazione dei colori corrispondenti nell'immagine e viceversa
 - Visualizzare le progress bar nella status bar della MainWindow
 - Aggiungere un pulsante in MinMaxWidget per eseguire il processing ed eventualmente interromperlo

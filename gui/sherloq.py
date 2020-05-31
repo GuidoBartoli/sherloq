@@ -1,3 +1,4 @@
+import os
 import sys
 
 from PySide2.QtCore import Qt, QSettings
@@ -17,8 +18,9 @@ from digest import DigestWidget
 from echo import EchoWidget
 from editor import EditorWidget
 from ela import ElaWidget
-from fourier import FourierWidget
+from frequency import FrequencyWidget
 from gradient import GradientWidget
+from histogram import HistWidget
 from location import LocationWidget
 from magnifier import MagnifierWidget
 from metadata import MetadataWidget
@@ -70,22 +72,22 @@ class MainWindow(QMainWindow):
         tools_action.setObjectName('tools_action')
         tools_action.setIcon(QIcon('icons/tools.svg'))
 
-        hist_action = QAction(self.tr('Histogram'))
-        hist_action.setToolTip(self.tr('Toggle histogram visibility'))
-        hist_action.setShortcut(QKeySequence(Qt.Key_F2))
-        hist_action.setObjectName('hist_action')
-        hist_action.setIcon(QIcon('icons/hist.svg'))
-        hist_action.setCheckable(True)
+        help_action = QAction(self.tr('Show help'), self)
+        help_action.setToolTip(self.tr('Toggle online help'))
+        help_action.setShortcut(QKeySequence.HelpContents)
+        help_action.setObjectName('help_action')
+        help_action.setIcon(QIcon('icons/help.svg'))
+        help_action.setCheckable(True)
 
         load_action = QAction(self.tr('&Load image...'), self)
-        load_action.setToolTip(self.tr('Choose an image to analyze'))
+        load_action.setToolTip(self.tr('Load an image to analyze'))
         load_action.setShortcut(QKeySequence.Open)
         load_action.triggered.connect(self.load_file)
         load_action.setObjectName('load_action')
         load_action.setIcon(QIcon('icons/load.svg'))
 
         quit_action = QAction(self.tr('&Quit'), self)
-        quit_action.setToolTip(self.tr('Exit from the program'))
+        quit_action.setToolTip(self.tr('Exit from Sherloq'))
         quit_action.setShortcut(QKeySequence.Quit)
         quit_action.triggered.connect(self.close)
         quit_action.setObjectName('quit_action')
@@ -149,37 +151,48 @@ class MainWindow(QMainWindow):
         normal_action.setIcon(QIcon('icons/normal.svg'))
 
         about_action = QAction(self.tr('&About...'), self)
-        about_action.setToolTip(self.tr('Display informations about this program'))
-        about_action.setShortcut(QKeySequence.HelpContents)
+        about_action.setToolTip(self.tr('Information about this program'))
         about_action.triggered.connect(self.show_about)
         about_action.setObjectName('about_action')
         about_action.setIcon(QIcon('icons/sherloq_alpha.png'))
 
         about_qt_action = QAction(self.tr('About &Qt'), self)
-        about_qt_action.setToolTip(self.tr('Display informations about the Qt Framework'))
+        about_qt_action.setToolTip(self.tr('Information about the Qt Framework'))
         about_qt_action.triggered.connect(QApplication.aboutQt)
         about_qt_action.setIcon(QIcon('icons/Qt.svg'))
 
-        file_menu = self.menuBar().addMenu(self.tr('File'))
+        file_menu = self.menuBar().addMenu(self.tr('&File'))
         file_menu.addAction(load_action)
+        file_menu.addSeparator()
+        self.recent_actions = [None]*5
+        for i in range(len(self.recent_actions)):
+            self.recent_actions[i] = QAction(self)
+            self.recent_actions[i].setVisible(False)
+            self.recent_actions[i].triggered.connect(self.open_recent)
+            file_menu.addAction(self.recent_actions[i])
+        file_menu.addSeparator()
         file_menu.addAction(quit_action)
 
+        view_menu = self.menuBar().addMenu(self.tr('&View'))
+        view_menu.addAction(tools_action)
+        view_menu.addAction(help_action)
+        view_menu.addSeparator()
+        view_menu.addAction(full_action)
+        view_menu.addAction(normal_action)
+
         window_menu = self.menuBar().addMenu(self.tr('&Window'))
-        window_menu.addAction(tools_action)
-        window_menu.addAction(hist_action)
-        window_menu.addSeparator()
         window_menu.addAction(prev_action)
         window_menu.addAction(next_action)
         window_menu.addSeparator()
-        window_menu.addAction(tabbed_action)
         window_menu.addAction(tile_action)
         window_menu.addAction(cascade_action)
-        window_menu.addAction(close_action)
+        window_menu.addAction(tabbed_action)
         window_menu.addSeparator()
-        window_menu.addAction(full_action)
-        window_menu.addAction(normal_action)
+        window_menu.addAction(close_action)
 
         help_menu = self.menuBar().addMenu(self.tr('&Help'))
+        help_menu.addAction(help_action)
+        help_menu.addSeparator()
         help_menu.addAction(about_action)
         help_menu.addAction(about_qt_action)
 
@@ -188,7 +201,7 @@ class MainWindow(QMainWindow):
         main_toolbar.addAction(load_action)
         main_toolbar.addSeparator()
         main_toolbar.addAction(tools_action)
-        main_toolbar.addAction(hist_action)
+        main_toolbar.addAction(help_action)
         main_toolbar.addSeparator()
         main_toolbar.addAction(prev_action)
         main_toolbar.addAction(next_action)
@@ -196,16 +209,21 @@ class MainWindow(QMainWindow):
         main_toolbar.addAction(tile_action)
         main_toolbar.addAction(cascade_action)
         main_toolbar.addAction(tabbed_action)
-        main_toolbar.addAction(close_action)
+        # main_toolbar.addAction(close_action)
         # main_toolbar.addSeparator()
         # main_toolbar.addAction(normal_action)
         # main_toolbar.addAction(full_action)
+        main_toolbar.setAllowedAreas(Qt.TopToolBarArea | Qt.BottomToolBarArea)
         main_toolbar.setObjectName('main_toolbar')
 
         settings = QSettings()
         settings.beginGroup('main_window')
         self.restoreGeometry(settings.value('geometry'))
         self.restoreState(settings.value('state'))
+        self.recent_files = settings.value('recent_files')
+        if self.recent_files is None:
+            self.recent_files = []
+        self.update_recent()
         settings.endGroup()
 
         prev_action.setEnabled(False)
@@ -222,13 +240,30 @@ class MainWindow(QMainWindow):
         settings.beginGroup('main_window')
         settings.setValue('geometry', self.saveGeometry())
         settings.setValue('state', self.saveState())
+        settings.setValue('recent_files', self.recent_files)
         settings.endGroup()
         super(MainWindow, self).closeEvent(event)
 
-    def load_file(self):
-        filename, basename, image = load_image(self)
-        if filename is None:
+    def update_recent(self):
+        if not self.recent_files:
             return
+        self.recent_files = [f for f in self.recent_files if os.path.isfile(f)]
+        for i in range(len(self.recent_actions)):
+            if i < len(self.recent_files):
+                text = '&{} {}'.format(i + 1, os.path.basename(self.recent_files[i]))
+                self.recent_actions[i].setText(text)
+                self.recent_actions[i].setData(self.recent_files[i])
+                self.recent_actions[i].setVisible(True)
+            else:
+                self.recent_actions[i].setVisible(False)
+
+    def open_recent(self):
+        action = self.sender()
+        if action:
+            filename, basename, image = load_image(self, action.data())
+            self.initialize(filename, basename, image)
+
+    def initialize(self, filename, basename, image):
         self.filename = filename
         self.image = image
         self.findChild(ToolTree, 'tree_widget').setEnabled(True)
@@ -240,11 +275,20 @@ class MainWindow(QMainWindow):
         self.findChild(QAction, 'tabbed_action').setEnabled(True)
         self.setWindowTitle('[{}] - {} {}'.format(
             basename, QApplication.applicationName(), QApplication.applicationVersion()))
+        if filename not in self.recent_files:
+            self.recent_files.insert(0, filename)
+            self.update_recent()
         self.show_message(self.tr('Image "{}" successfully loaded'.format(basename)))
 
         # FIXME: disable_bold della chiusura viene chiamato DOPO open_tool e nell'albero la voce NON diventa neretto
         self.mdi_area.closeAllSubWindows()
         self.open_tool(self.tree_widget.topLevelItem(0).child(0), None)
+
+    def load_file(self):
+        filename, basename, image = load_image(self)
+        if filename is None:
+            return
+        self.initialize(filename, basename, image)
 
     def open_tool(self, item, _):
         if not item.data(0, Qt.UserRole):
@@ -286,9 +330,9 @@ class MainWindow(QMainWindow):
             elif tool == 1:
                 tool_widget = ComparisonWidget(self.filename, self.image)
             elif tool == 2:
-                tool_widget = AdjustWidget(self.image)
+                tool_widget = HistWidget(self.image)
             elif tool == 3:
-                tool_widget = FourierWidget(self.image)
+                tool_widget = AdjustWidget(self.image)
             else:
                 return
         elif group == 3:
@@ -304,11 +348,11 @@ class MainWindow(QMainWindow):
             if tool == 0:
                 tool_widget = PlotsWidget(self.image)
             elif tool == 1:
-                tool_widget = PcaWidget(self.image)
-            elif tool == 2:
                 tool_widget = StatsWidget(self.image)
-            elif tool == 3:
+            elif tool == 2:
                 tool_widget = SpaceWidget(self.image)
+            elif tool == 3:
+                tool_widget = PcaWidget(self.image)
             else:
                 return
         elif group == 5:
@@ -325,11 +369,13 @@ class MainWindow(QMainWindow):
                 tool_widget = MinMaxWidget(self.image)
             elif tool == 2:
                 tool_widget = PlanesWidget(self.image)
+            elif tool == 3:
+                tool_widget = FrequencyWidget(self.image)
         else:
             return
-        # FIXME: Aggiungere un metodo init e dopo fare il connect, sennò i messaggi del costruttore non si vedono
+
+        # FIXME: Aggiungere un metodo init e dopo fare il connect, sennò i messaggi inviati nel costruttore non si vedono
         tool_widget.info_message.connect(self.show_message)
-        tool_widget.help_clicked.connect(self.show_help)
 
         sub_window = QMdiSubWindow()
         sub_window.setWidget(tool_widget)
@@ -365,10 +411,6 @@ class MainWindow(QMainWindow):
 
     def show_message(self, message):
         self.statusBar().showMessage(message, 10000)
-
-    def show_help(self, tool):
-        self.show_message('help from {}'.format(tool))
-        pass
 
 
 if __name__ == '__main__':

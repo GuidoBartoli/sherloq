@@ -25,10 +25,10 @@ class PlotsWidget(ToolWidget):
         choices = ['Red', 'Green', 'Blue', 'Hue', 'Saturation', 'Value']
         self.xaxis_combo = QComboBox()
         self.xaxis_combo.addItems(choices)
-        self.xaxis_combo.setCurrentIndex(0)
+        self.xaxis_combo.setCurrentIndex(3)
         self.yaxis_combo = QComboBox()
         self.yaxis_combo.addItems(choices)
-        self.yaxis_combo.setCurrentIndex(1)
+        self.yaxis_combo.setCurrentIndex(4)
         self.sampling_spin = QSpinBox()
         levels = int(np.log2(min(image.shape[:-1])))
         self.sampling_spin.setRange(0, levels)

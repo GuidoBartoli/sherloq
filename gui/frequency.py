@@ -13,9 +13,9 @@ from utility import normalize_mat
 from viewer import ImageViewer
 
 
-class FourierWidget(ToolWidget):
+class FrequencyWidget(ToolWidget):
     def __init__(self, image, parent=None):
-        super(FourierWidget, self).__init__(parent)
+        super(FrequencyWidget, self).__init__(parent)
 
         self.ampl_radio = QRadioButton(self.tr('Amplitude'))
         self.phase_radio = QRadioButton(self.tr('Phase'))
@@ -23,6 +23,7 @@ class FourierWidget(ToolWidget):
         self.last_radio = self.ampl_radio
         self.thr_spin = QSpinBox()
         self.thr_spin.setRange(0, 255)
+        self.thr_spin.setSpecialValueText(self.tr('Off'))
         self.ratio_label = QLabel()
         self.filter_check = QCheckBox(self.tr('Filter'))
 
