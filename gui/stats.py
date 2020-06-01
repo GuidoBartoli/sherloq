@@ -56,9 +56,9 @@ class StatsWidget(ToolWidget):
         self.viewer = ImageViewer(self.image, self.image)
         self.process()
 
-        self.min_radio.toggled.connect(self.process)
-        self.avg_radio.toggled.connect(self.process)
-        self.max_radio.toggled.connect(self.process)
+        self.min_radio.clicked.connect(self.process)
+        self.avg_radio.clicked.connect(self.process)
+        self.max_radio.clicked.connect(self.process)
         self.incl_check.stateChanged.connect(self.process)
 
         params_layout = QHBoxLayout()

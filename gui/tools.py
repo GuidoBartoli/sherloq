@@ -2,10 +2,8 @@ from PySide2.QtCore import Qt, Signal
 from PySide2.QtGui import QIcon
 from PySide2.QtWidgets import (
     QTreeWidget,
-    QHBoxLayout,
-    QLabel,
     QTreeWidgetItem,
-    QWidget, QSlider)
+    QWidget)
 
 from utility import modify_font
 
@@ -59,7 +57,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Open a synchronized double view to compare two different pictures'),
                            self.tr('Display independent channel and composite interactive image histogram'),
                            self.tr('Apply standard adjustments (contrast, brightness, hue, saturation)')])
-        tool_progress.extend([3, 3, 1, 2])
+        tool_progress.extend([3, 3, 2, 2])
 
         # [3]
         group_names.append(self.tr('[JPEG]'))
@@ -76,7 +74,7 @@ class ToolTree(QTreeWidget):
         # [4]
         group_names.append(self.tr('[Colors]'))
         tool_names.append([self.tr('RGB/HSV 2D Plot'),
-                           self.tr('RGB Statistics'),
+                           self.tr('Pixel Statistics'),
                            self.tr('Space Conversion'),
                            self.tr('PCA Projection')])
         tool_infos.append([self.tr('Display an interactive 2D plots of RGB and HSV pixel values'),
@@ -153,39 +151,3 @@ class ToolTree(QTreeWidget):
             modify_font(items[0], bold=enabled)
 
 
-class ParamSlider(QWidget):
-    value_changed = Signal(int)
-
-    def __init__(self, interval, step, ticks, reset=0, suffix='', parent=None):
-        super(ParamSlider, self).__init__(parent)
-
-        self.slider = QSlider(Qt.Horizontal)
-        self.slider.setRange(interval[0], interval[1])
-        self.slider.setTickPosition(QSlider.TicksBelow)
-        self.slider.setTickInterval((interval[1] - interval[0] + 1) / ticks)
-        self.slider.setSingleStep(1)
-        # self.slider.setPageStep(step)
-        self.slider.setPageStep(1)
-        self.slider.setValue(reset)
-        self.slider.mouseDoubleClickEvent = self.double_click
-        self.label = QLabel()
-        modify_font(self.label, bold=True)
-        self.suffix = suffix
-        self.reset = reset
-        self.sync(reset)
-        self.slider.valueChanged.connect(self.sync)
-
-        layout = QHBoxLayout()
-        layout.addWidget(self.slider)
-        layout.addWidget(self.label)
-        self.setLayout(layout)
-
-    def double_click(self, _):
-        self.slider.setValue(self.reset)
-
-    def sync(self, value):
-        self.label.setText('{}{}'.format(value, self.suffix))
-        self.value_changed.emit(value)
-
-    def value(self):
-        return self.slider.value()

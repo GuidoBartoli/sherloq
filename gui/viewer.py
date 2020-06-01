@@ -28,7 +28,7 @@ from utility import mat2img, modify_font
 
 
 class DynamicView(QGraphicsView):
-    view_changed = Signal(QRect, float, int, int)
+    viewChanged = Signal(QRect, float, int, int)
 
     def __init__(self, image, parent=None):
         super(DynamicView, self).__init__(parent)
@@ -106,11 +106,12 @@ class DynamicView(QGraphicsView):
             self.change_zoom(-1)
 
     def resizeEvent(self, event):
-        QGraphicsView.resizeEvent(self, event)
+        # FIXME: Se la finestra viene massimizzata, il valore di fit_scale non si aggiorna
         if self.matrix().m11() <= self.fit_scale:
             self.zoom_fit()
         else:
             self.notify_change()
+        QGraphicsView.resizeEvent(self, event)
 
     def change_zoom(self, direction):
         level = math.log2(self.matrix().m11())
@@ -123,7 +124,9 @@ class DynamicView(QGraphicsView):
             scaling = self.fit_scale
             self.next_fit = False
         elif scaling > 1:
-            scaling = 1
+            # scaling = 1
+            if scaling > 4:
+                scaling = 4
             self.next_fit = True
         self.set_scaling(scaling)
         self.notify_change()
@@ -148,7 +151,7 @@ class DynamicView(QGraphicsView):
         horiz_scroll = self.horizontalScrollBar().value()
         vert_scroll = self.verticalScrollBar().value()
         zoom_factor = self.matrix().m11()
-        self.view_changed.emit(scene_rect, zoom_factor, horiz_scroll, vert_scroll)
+        self.viewChanged.emit(scene_rect, zoom_factor, horiz_scroll, vert_scroll)
 
     def get_rect(self):
         top_left = self.mapToScene(0, 0).toPoint()
@@ -167,7 +170,7 @@ class DynamicView(QGraphicsView):
 
 
 class ImageViewer(QWidget):
-    view_changed = Signal(QRect, float, int, int)
+    viewChanged = Signal(QRect, float, int, int)
 
     def __init__(self, original, processed, title=None, parent=None):
         super(ImageViewer, self).__init__(parent)
@@ -231,7 +234,7 @@ class ImageViewer(QWidget):
         fit_button.clicked.connect(self.view.zoom_fit)
         full_button.clicked.connect(self.view.zoom_full)
         export_button.clicked.connect(self.export_image)
-        self.view.view_changed.connect(self.forward_changed)
+        self.view.viewChanged.connect(self.forward_changed)
 
         # view_label.setVisible(processed is not None)
         # self.original_radio.setVisible(processed is not None)
@@ -257,7 +260,7 @@ class ImageViewer(QWidget):
     def forward_changed(self, rect, scaling, horizontal, vertical):
         self.zoom_label.setText('{:.2f}%'.format(scaling*100))
         modify_font(self.zoom_label, scaling == 1)
-        self.view_changed.emit(rect, scaling, horizontal, vertical)
+        self.viewChanged.emit(rect, scaling, horizontal, vertical)
 
     def get_rect(self):
         return self.view.get_rect()

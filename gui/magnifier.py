@@ -32,12 +32,12 @@ class MagnifierWidget(ToolWidget):
         self.viewer = ImageViewer(self.image, self.image)
         self.change()
 
-        self.viewer.view_changed.connect(self.process)
-        self.equalize_radio.toggled.connect(self.change)
-        self.contrast_radio.toggled.connect(self.change)
+        self.viewer.viewChanged.connect(self.process)
+        self.equalize_radio.clicked.connect(self.change)
+        self.contrast_radio.clicked.connect(self.change)
         self.centile_spin.valueChanged.connect(self.change)
         self.channel_check.stateChanged.connect(self.change)
-        self.retinex_radio.toggled.connect(self.change)
+        self.retinex_radio.clicked.connect(self.change)
 
         top_layout = QHBoxLayout()
         top_layout.addWidget(QLabel(self.tr('Enhancement:')))

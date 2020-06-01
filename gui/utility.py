@@ -4,9 +4,16 @@ from time import time
 
 import cv2 as cv
 import numpy as np
-from PySide2.QtCore import QSettings, QFileInfo
+from PySide2.QtCore import QSettings, QFileInfo, Signal, Qt
 from PySide2.QtGui import QImage, QFontDatabase
-from PySide2.QtWidgets import QTreeWidgetItem, QFileDialog, QMessageBox
+from PySide2.QtWidgets import (
+    QTreeWidgetItem,
+    QFileDialog,
+    QMessageBox,
+    QWidget,
+    QSlider,
+    QSpinBox,
+    QHBoxLayout)
 
 
 def mat2img(cvmat):
@@ -173,3 +180,52 @@ def ssimul_exe():
     if sys.platform.startswith('darwin'):
         return None
     return None
+
+
+class ParamSlider(QWidget):
+    valueChanged = Signal(int)
+
+    def __init__(self, interval, ticks=10, reset=0, suffix=None, parent=None):
+        super(ParamSlider, self).__init__(parent)
+
+        self.slider = QSlider(Qt.Horizontal)
+        self.slider.setRange(interval[0], interval[1])
+        self.slider.setTickPosition(QSlider.TicksBelow)
+        self.slider.setTickInterval((interval[1] - interval[0] + 1) / ticks)
+        self.slider.setSingleStep(1)
+        self.slider.setPageStep(1)
+        self.slider.setValue(reset)
+        self.slider.mouseDoubleClickEvent = self.doubleClicked
+
+        self.spin = QSpinBox()
+        self.spin.setRange(interval[0], interval[1])
+        self.spin.setValue(reset)
+        self.spin.setSuffix(suffix)
+        self.spin.setFixedWidth(50)
+
+        self.reset = reset
+        self.slider.valueChanged.connect(self.spin.setValue)
+        self.spin.valueChanged.connect(self.spin.setValue)
+        self.slider.valueChanged.connect(self.valueChanged)
+
+        layout = QHBoxLayout()
+        layout.addWidget(self.slider)
+        layout.addWidget(self.spin)
+        self.setLayout(layout)
+
+    def doubleClicked(self, _):
+        self.slider.setValue(self.reset)
+        self.spin.setValue(self.reset)
+
+    def value(self):
+        return self.slider.value()
+
+    def setValue(self, value):
+        self.spin.setValue(value)
+        self.slider.setValue(value)
+        self.valueChanged.emit(value)
+
+    def sync(self):
+        self.spin.setValue(self.slider.value())
+        self.slider.setValue(self.spin.value())
+        self.valueChanged.emit(self.slider.value())

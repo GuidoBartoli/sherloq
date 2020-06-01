@@ -7,10 +7,11 @@ from PySide2.QtWidgets import (
     QGridLayout,
     QCheckBox,
     QPushButton,
+    QGroupBox,
     QComboBox)
 
-from tools import ToolWidget, ParamSlider
-from utility import create_lut
+from tools import ToolWidget
+from utility import create_lut, ParamSlider
 from viewer import ImageViewer
 
 
@@ -18,35 +19,35 @@ class AdjustWidget(ToolWidget):
     def __init__(self, image, parent=None):
         super(AdjustWidget, self).__init__(parent)
 
-        self.bright_slider = ParamSlider([-255, +255], 8, 16, 0)
-        self.sat_slider = ParamSlider([-255, +255], 8, 16, 0)
-        self.hue_slider = ParamSlider([0, 180], 5, 10, 0, '°')
-        self.gamma_slider = ParamSlider([1, 50], 1, 10, 10)
-        self.shadow_slider = ParamSlider([-100, +100], 2, 10, 0, '%')
-        self.high_slider = ParamSlider([-100, +100], 2, 10, 0, '%')
-        self.sweep_slider = ParamSlider([0, 255], 2, 8, 127)
-        self.width_slider = ParamSlider([0, 255], 2, 8, 255)
-        self.thr_slider = ParamSlider([0, 255], 1, 16, 255)
+        self.bright_slider = ParamSlider([-255, +255], 16, 0)
+        self.sat_slider = ParamSlider([-255, +255], 16, 0)
+        self.hue_slider = ParamSlider([0, 180], 10, 0, '°')
+        self.gamma_slider = ParamSlider([1, 50], 10, 10)
+        self.shadow_slider = ParamSlider([-100, +100], 10, 0, '%')
+        self.high_slider = ParamSlider([-100, +100], 10, 0, '%')
+        self.sweep_slider = ParamSlider([0, 255], 8, 127)
+        self.width_slider = ParamSlider([0, 255], 8, 255)
+        self.thr_slider = ParamSlider([0, 255], 16, 255)
         self.equalize_combo = QComboBox()
         self.equalize_combo.addItems(
             [self.tr('No equalization'), self.tr('Histogram EQ'), self.tr('Weak CLAHE'),
              self.tr('Medium CLAHE'), self.tr('Strong CLAHE'), self.tr('Extreme CLAHE')])
-        self.invert_check = QCheckBox(self.tr('Invert'))
+        self.invert_check = QCheckBox(self.tr('Invert values'))
         self.reset_button = QPushButton(self.tr('Reset'))
 
         self.image = image
         self.viewer = ImageViewer(self.image, self.image)
         self.process()
 
-        self.bright_slider.value_changed.connect(self.process)
-        self.sat_slider.value_changed.connect(self.process)
-        self.hue_slider.value_changed.connect(self.process)
-        self.gamma_slider.value_changed.connect(self.process)
-        self.shadow_slider.value_changed.connect(self.process)
-        self.high_slider.value_changed.connect(self.process)
-        self.sweep_slider.value_changed.connect(self.process)
-        self.width_slider.value_changed.connect(self.process)
-        self.thr_slider.value_changed.connect(self.process)
+        self.bright_slider.valueChanged.connect(self.process)
+        self.sat_slider.valueChanged.connect(self.process)
+        self.hue_slider.valueChanged.connect(self.process)
+        self.gamma_slider.valueChanged.connect(self.process)
+        self.shadow_slider.valueChanged.connect(self.process)
+        self.high_slider.valueChanged.connect(self.process)
+        self.sweep_slider.valueChanged.connect(self.process)
+        self.width_slider.valueChanged.connect(self.process)
+        self.thr_slider.valueChanged.connect(self.process)
         self.equalize_combo.currentIndexChanged.connect(self.process)
         self.invert_check.stateChanged.connect(self.process)
         self.reset_button.clicked.connect(self.reset)

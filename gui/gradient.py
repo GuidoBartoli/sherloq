@@ -27,8 +27,8 @@ class GradientWidget(ToolWidget):
         self.process()
 
         self.levels_spin.valueChanged.connect(self.process)
-        self.invert_check.toggled.connect(self.process)
-        self.abs_check.toggled.connect(self.process)
+        self.invert_check.stateChanged.connect(self.process)
+        self.abs_check.stateChanged.connect(self.process)
 
         top_layout = QHBoxLayout()
         top_layout.addWidget(QLabel(self.tr('Levels:')))

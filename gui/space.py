@@ -104,23 +104,23 @@ class SpaceWidget(ToolWidget):
         self.luv_combo.addItem(self.tr('Chroma U'))
         self.luv_combo.addItem(self.tr('Chroma V'))
 
-        self.rgb_radio.toggled.connect(self.process)
+        self.rgb_radio.clicked.connect(self.process)
         self.rgb_combo.currentIndexChanged.connect(self.process)
-        self.cmyk_radio.toggled.connect(self.process)
+        self.cmyk_radio.clicked.connect(self.process)
         self.cmyk_combo.currentIndexChanged.connect(self.process)
-        self.gray_radio.toggled.connect(self.process)
+        self.gray_radio.clicked.connect(self.process)
         self.gray_combo.currentIndexChanged.connect(self.process)
-        self.hsv_radio.toggled.connect(self.process)
+        self.hsv_radio.clicked.connect(self.process)
         self.hsv_combo.currentIndexChanged.connect(self.process)
-        self.hls_radio.toggled.connect(self.process)
+        self.hls_radio.clicked.connect(self.process)
         self.hls_combo.currentIndexChanged.connect(self.process)
-        self.ycrcb_radio.toggled.connect(self.process)
+        self.ycrcb_radio.clicked.connect(self.process)
         self.ycrcb_combo.currentIndexChanged.connect(self.process)
-        self.xyz_radio.toggled.connect(self.process)
+        self.xyz_radio.clicked.connect(self.process)
         self.xyz_combo.currentIndexChanged.connect(self.process)
-        self.lab_radio.toggled.connect(self.process)
+        self.lab_radio.clicked.connect(self.process)
         self.lab_combo.currentIndexChanged.connect(self.process)
-        self.luv_radio.toggled.connect(self.process)
+        self.luv_radio.clicked.connect(self.process)
         self.luv_combo.currentIndexChanged.connect(self.process)
 
         self.viewer = ImageViewer(image, image)
@@ -184,7 +184,7 @@ class SpaceWidget(ToolWidget):
             self.last_radio = self.lab_radio
         else:
             self.last_radio.setChecked(True)
-
+            return
         modify_font(self.rgb_radio, bold=False)
         modify_font(self.cmyk_radio, bold=False)
         modify_font(self.gray_radio, bold=False)

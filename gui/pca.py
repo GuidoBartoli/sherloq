@@ -69,8 +69,8 @@ class PcaWidget(ToolWidget):
         self.process()
 
         self.comp_combo.currentIndexChanged.connect(self.process)
-        self.distvect_radio.toggled.connect(self.process)
-        self.cross_radio.toggled.connect(self.process)
+        self.distvect_radio.clicked.connect(self.process)
+        self.cross_radio.clicked.connect(self.process)
 
         top_layout = QHBoxLayout()
         top_layout.addWidget(QLabel(self.tr('Component:')))

@@ -27,9 +27,9 @@ class FrequencyWidget(ToolWidget):
         self.ratio_label = QLabel()
         self.filter_check = QCheckBox(self.tr('Filter'))
 
-        self.ampl_radio.toggled.connect(self.process)
-        self.phase_radio.toggled.connect(self.process)
-        self.dct_radio.toggled.connect(self.process)
+        self.ampl_radio.clicked.connect(self.process)
+        self.phase_radio.clicked.connect(self.process)
+        self.dct_radio.clicked.connect(self.process)
         self.thr_spin.valueChanged.connect(self.process)
         self.filter_check.stateChanged.connect(self.process)
 

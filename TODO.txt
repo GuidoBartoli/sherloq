@@ -1,3 +1,5 @@
+- Cambiare i segnali dei QRadioButton da toggled() a clicked() per evitare che gli slot vengano eseguiti due volte (una per "on" e un'altra per "off")
+- In ImageViewer aggiungere la visualizzazione in tempo reale dei valori RGB dove passa il mouse
 - Se viene caricata una GIF animata, visualizzare un dialog per scegliere il frame da importare
 - Rivedere PCA ed aggiungere le altre 3 modalità di Forensically
 - Rivedere Gradient e verificare che l'output sia uguale a Forensically

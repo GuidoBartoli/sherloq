@@ -23,7 +23,6 @@ class MinMaxWidget(ToolWidget):
         self.chan_combo = QComboBox()
         self.chan_combo.addItems(
             [self.tr('Luminance'), self.tr('Red'), self.tr('Green'), self.tr('Blue'), self.tr('RGB Norm')])
-
         colors = [self.tr('Red'), self.tr('Green'), self.tr('Blue'), self.tr('White'), self.tr('Black')]
 
         self.min_combo = QComboBox()

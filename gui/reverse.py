@@ -29,11 +29,11 @@ class ReverseWidget(ToolWidget):
         self.web_view = QWebEngineView()
         self.choose()
 
-        self.tineye_radio.toggled.connect(self.choose)
-        self.google_radio.toggled.connect(self.choose)
-        self.bing_radio.toggled.connect(self.choose)
-        self.root_radio.toggled.connect(self.choose)
-        self.karma_radio.toggled.connect(self.choose)
+        self.tineye_radio.clicked.connect(self.choose)
+        self.google_radio.clicked.connect(self.choose)
+        self.bing_radio.clicked.connect(self.choose)
+        self.root_radio.clicked.connect(self.choose)
+        self.karma_radio.clicked.connect(self.choose)
 
         top_layout = QHBoxLayout()
         top_layout.addWidget(QLabel(self.tr('Search engine:')))
