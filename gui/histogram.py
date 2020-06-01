@@ -3,12 +3,14 @@ import numpy as np
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QColor
 from PySide2.QtWidgets import (
+    QSizePolicy,
     QVBoxLayout,
     QHBoxLayout,
     QLabel,
     QCheckBox,
     QTableWidget,
     QGridLayout,
+    QSplitter,
     QSpinBox,
     QTableWidgetItem,
     QAbstractItemView,
@@ -60,10 +62,10 @@ class HistWidget(ToolWidget):
 
         self.table_widget = QTableWidget(8, 2)
         self.table_widget.setHorizontalHeaderLabels([self.tr('Property'), self.tr('Value')])
-        self.table_widget.setItem(0, 0, QTableWidgetItem(self.tr('Least common')))
-        self.table_widget.setItem(1, 0, QTableWidgetItem(self.tr('Average level')))
-        self.table_widget.setItem(2, 0, QTableWidgetItem(self.tr('Median level')))
-        self.table_widget.setItem(3, 0, QTableWidgetItem(self.tr('Commonest')))
+        self.table_widget.setItem(0, 0, QTableWidgetItem(self.tr('Least frequent')))
+        self.table_widget.setItem(1, 0, QTableWidgetItem(self.tr('Most frequent')))
+        self.table_widget.setItem(2, 0, QTableWidgetItem(self.tr('Average level')))
+        self.table_widget.setItem(3, 0, QTableWidgetItem(self.tr('Median level')))
         self.table_widget.setItem(4, 0, QTableWidgetItem(self.tr('Deviation')))
         self.table_widget.setItem(5, 0, QTableWidgetItem(self.tr('Pixel count')))
         self.table_widget.setItem(6, 0, QTableWidgetItem(self.tr('Percentile')))
@@ -77,6 +79,7 @@ class HistWidget(ToolWidget):
 
         figure = Figure()
         plot_canvas = FigureCanvas(figure)
+        plot_canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.axes = plot_canvas.figure.subplots()
         self.redraw()
         figure.set_tight_layout(True)
@@ -157,6 +160,10 @@ class HistWidget(ToolWidget):
             self.table_widget.setEnabled(False)
             self.start_slider.setEnabled(False)
             self.end_slider.setEnabled(False)
+            for i in range(self.table_widget.rowCount()):
+                if self.table_widget.item(i, 1) is not None:
+                    self.table_widget.item(i, 1).setText('')
+                    self.table_widget.item(i, 1).setBackgroundColor(QColor('white'))
         else:
             self.table_widget.setEnabled(True)
             self.start_slider.setEnabled(True)
@@ -165,20 +172,18 @@ class HistWidget(ToolWidget):
             end = self.end_slider.value()
             if end <= start:
                 end = start + 1
-                self.end_slider.setValue(end)
             elif start >= end:
                 start = end - 1
-                self.start_slider.setValue(start)
             total = np.sum(y)
             x = x[start:end+1]
             y = y[start:end+1]
             count = np.sum(y)
             if count != 0:
-                argmin = np.argmin(y)
-                argmax = np.argmax(y)
-                mean = np.round(np.sum(x * y) / count, 2)
+                argmin = np.argmin(y) + start
+                argmax = np.argmax(y) + start
+                mean = np.round(np.sum(x * y) / count, 2) + start
                 stddev = np.round(np.sqrt(np.sum(((x - mean)**2) * y) / count), 2)
-                median = np.argmax(np.cumsum(y) > count / 2)
+                median = np.argmax(np.cumsum(y) > count / 2) + start
                 percent = np.round(count / total * 100, 2)
                 y = y / np.max(y)
                 sweep = len(y)
@@ -193,9 +198,9 @@ class HistWidget(ToolWidget):
             else:
                 argmin = argmax = mean = stddev = median = percent = smooth = 0
             self.table_widget.setItem(0, 1, QTableWidgetItem(str(argmin)))
-            self.table_widget.setItem(3, 1, QTableWidgetItem(str(argmax)))
-            self.table_widget.setItem(1, 1, QTableWidgetItem(str(mean)))
-            self.table_widget.setItem(2, 1, QTableWidgetItem(str(median)))
+            self.table_widget.setItem(1, 1, QTableWidgetItem(str(argmax)))
+            self.table_widget.setItem(2, 1, QTableWidgetItem(str(mean)))
+            self.table_widget.setItem(3, 1, QTableWidgetItem(str(median)))
             self.table_widget.setItem(4, 1, QTableWidgetItem(str(stddev)))
             self.table_widget.setItem(5, 1, QTableWidgetItem(str(count)))
             self.table_widget.setItem(6, 1, QTableWidgetItem(str(percent) + '%'))

@@ -18,6 +18,7 @@ class FrequencyWidget(ToolWidget):
         super(FrequencyWidget, self).__init__(parent)
 
         self.ampl_radio = QRadioButton(self.tr('Amplitude'))
+        self.ampl_radio.setChecked(True)
         self.phase_radio = QRadioButton(self.tr('Phase'))
         self.dct_radio = QRadioButton(self.tr('DCT Map'))
         self.last_radio = self.ampl_radio

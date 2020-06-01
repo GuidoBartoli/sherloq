@@ -205,7 +205,7 @@ class ParamSlider(QWidget):
 
         self.reset = reset
         self.slider.valueChanged.connect(self.spin.setValue)
-        self.spin.valueChanged.connect(self.spin.setValue)
+        self.spin.valueChanged.connect(self.slider.setValue)
         self.slider.valueChanged.connect(self.valueChanged)
 
         layout = QHBoxLayout()
