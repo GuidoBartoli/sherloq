@@ -17,7 +17,7 @@ The first version was written in 2015 using C++11 to build a command line utilit
 
 While also including novel algorithms, the 2017 version mainly added a Qt-based multi-window GUI to provide a better user experience. Multiple analyses could be shown on screen and a fast zoom/scroll  viewer was implemented for easier image navigation. That project could be compiled with Qt Creator with Qt 5 and OpenCV 3 and covered about 70% of planned features (see below for the full list).
 
-Fast forward to 2020 when I decided to port everything in Python + PySide2 + OpenCV for a much easier installation and development. While iteration is just begun and I have ported about 50% of the previous code on the new platform, I think this will be the final "form" of the project (as long as someone does not volunteer up to develop a nice web application!).
+Fast forward to 2020 when I decided to port everything in Python + PySide2 + OpenCV for a much easier installation and development. While iteration is just begun and I have ported about 60% of the previous code on the new platform, I think this will be the final "form" of the project (as long as someone does not volunteer up to develop a nice web application!).
 
 I'm happy to share my code and get in contact with anyone interested to improve or test it, but please keep in mind that this repository is *not* intended for distributing a final product, my aim is just to publicly track development of an *unpretentious educational tool*, so expect bugs, unpolished code and missing features! ;)
 
@@ -47,33 +47,33 @@ This list contains the functions that **Sherloq** will provide once the beta sta
 ## Inspection
 - __Enhancing Magnifier__: use various visual enhancement for better identifying forgeries
 - __Reference Comparison__: open a synchronized double view to compare two different pictures
+- __Image Histogram__: display independent channel or composite interactive image histogram
 - __Global Adjustments__: apply standard adjustments (contrast, brightness, hue, saturation)
-- __Fourier Transform__: compute amplitude and phase components of the 2D Fourier Transform
 
 ## JPEG
 - __Quality Estimation__: extract quantization tables and estimate last saved JPEG quality
 - __Error Level Analysis__: show pixel-level difference against different compression levels
 - __Multiple Compression__: use residuals to detect multiple compressions at different levels
-- __DCT Dimples Map__: 
+- __DCT Dimples Map__: analyze periodic quantization artifacts to detect manipulations
 
 
 ## Colors
-- __RGB/HSV 3D Plots__: display interactive 2D and 3D plots of RGB and HSV pixel data
-- __PCA Projection__: use color PCA to project RGB values onto reduced vector spaces
+- __RGB/HSV 2D Plots__: display an interactive 2D plots of RGB and HSV pixel values
 - __Pixel Statistics__: compute minimum/maximum/average RGB values for every pixel
-- __Space Conversion__: convert color channels into RGB/HSV/YCbCr/Lab/Luv/CMYK spaces
+- __Space Conversion__: convert color channels into HSV/YCbCr/Lab/Luv/CMYK/Gray spaces
+- __PCA Projection__: use color PCA to project RGB values into reduced dimensions
 
 ## Tonality
 - __Luminance Gradient__: analyze horizontal and vertical brightness variations of the image
 - __Echo Edge Filter__: use derivative filter to reveal artificial out-of-focus zones
 - __Correlation Plot__: exploit spatial correlation patterns among neighboring pixels
-- __Wavelet Reconstruction__: reconstruct image with different wavelet coefficient thresholds
+- __Wavelet Reconstruct__: reconstruct image with different wavelet coefficient thresholds
 
 ## Noise
 - __Noise Extraction__: estimate and visualize gaussian noise components of the image
 - __Min/Max Deviation__: highlight pixels deviating from block-based min/max statistics
 - __Image Bit Planes__: visualize bit planes values to find different noise patterns
-- __Frequency Separation__: estimate high/low frequency components of the luminance channel
+- __Frequency Separation__: divide image luminance into high/low frequency components
 
 ## Tampering
 - __Contrast Enhancement__: analyze color distribuions to detect contrast enhancements

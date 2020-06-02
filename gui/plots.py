@@ -1,5 +1,6 @@
-import cv2 as cv
 from time import time
+
+import cv2 as cv
 import numpy as np
 from PySide2.QtWidgets import (
     QSpinBox,

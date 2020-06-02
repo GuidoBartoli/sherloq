@@ -64,6 +64,7 @@ class PcaWidget(ToolWidget):
         # table_widget.resizeColumnsToContents()
         table_widget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         table_widget.setSelectionMode(QAbstractItemView.SingleSelection)
+        table_widget.setMaximumHeight(190)
 
         self.viewer = ImageViewer(self.image, self.image, None)
         self.process()

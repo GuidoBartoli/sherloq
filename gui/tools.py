@@ -55,7 +55,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Global Adjustments')])
         tool_infos.append([self.tr('Use a loupe with visual enhancement for better identifying forgeries'),
                            self.tr('Open a synchronized double view to compare two different pictures'),
-                           self.tr('Display independent channel and composite interactive image histogram'),
+                           self.tr('Display independent channel or composite interactive image histogram'),
                            self.tr('Apply standard adjustments (contrast, brightness, hue, saturation)')])
         tool_progress.extend([3, 3, 2, 2])
 
@@ -93,7 +93,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Use derivative filters to reveal artificial out-of-focus zones'),
                            self.tr('Exploit spatial correlation patterns among neighboring pixels'),
                            self.tr('Reconstruct image with different wavelet coefficient thresholds')])
-        tool_progress.extend([2, 3, 0, 0])
+        tool_progress.extend([3, 3, 0, 0])
 
         # [6]
         group_names.append(self.tr('[Noise]'))
@@ -104,7 +104,7 @@ class ToolTree(QTreeWidget):
         tool_infos.append([self.tr('Estimate and visualize gaussian noise components of the image'),
                            self.tr('Highlight pixels deviating from block-based min/max statistics'),
                            self.tr('Visualize bit planes values to find different noise patterns'),
-                           self.tr('Estimate high/low frequency components of the luminance channel')])
+                           self.tr('Divide image luminance into high/low frequency components')])
         tool_progress.extend([3, 3, 3, 1])
 
         # [7]

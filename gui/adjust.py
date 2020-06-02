@@ -7,7 +7,6 @@ from PySide2.QtWidgets import (
     QGridLayout,
     QCheckBox,
     QPushButton,
-    QGroupBox,
     QComboBox)
 
 from tools import ToolWidget

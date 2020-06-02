@@ -7,6 +7,7 @@ import numpy as np
 from PySide2.QtCore import QSettings, QFileInfo, Signal, Qt
 from PySide2.QtGui import QImage, QFontDatabase
 from PySide2.QtWidgets import (
+    QLabel,
     QTreeWidgetItem,
     QFileDialog,
     QMessageBox,
@@ -185,7 +186,7 @@ def ssimul_exe():
 class ParamSlider(QWidget):
     valueChanged = Signal(int)
 
-    def __init__(self, interval, ticks=10, reset=0, suffix=None, parent=None):
+    def __init__(self, interval, ticks=10, reset=0, suffix=None, label=None, bold=False, parent=None):
         super(ParamSlider, self).__init__(parent)
 
         self.slider = QSlider(Qt.Horizontal)
@@ -209,9 +210,14 @@ class ParamSlider(QWidget):
         self.slider.valueChanged.connect(self.valueChanged)
 
         layout = QHBoxLayout()
+        if label is not None:
+            lab = QLabel(label)
+            modify_font(lab, bold=bold)
+            layout.addWidget(lab)
         layout.addWidget(self.slider)
         layout.addWidget(self.spin)
         self.setLayout(layout)
+        self.setMaximumWidth(200)
 
     def doubleClicked(self, _):
         self.slider.setValue(self.reset)
