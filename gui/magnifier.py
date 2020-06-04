@@ -45,7 +45,7 @@ class MagnifierWidget(ToolWidget):
         top_layout.addWidget(self.contrast_radio)
         top_layout.addWidget(self.centile_spin)
         top_layout.addWidget(self.channel_check)
-        top_layout.addWidget(self.retinex_radio)
+        # top_layout.addWidget(self.retinex_radio)
         top_layout.addStretch()
 
         main_layout = QVBoxLayout()

@@ -1,3 +1,5 @@
+from time import time
+
 import cv2 as cv
 import numpy as np
 from PySide2.QtWidgets import (
@@ -9,7 +11,7 @@ from PySide2.QtWidgets import (
     QLabel)
 
 from tools import ToolWidget
-from utility import create_lut, normalize_mat, equalize_image
+from utility import create_lut, normalize_mat, equalize_image, elapsed_time
 from viewer import ImageViewer
 
 
@@ -17,15 +19,18 @@ class GradientWidget(ToolWidget):
     def __init__(self, image, parent=None):
         super(GradientWidget, self).__init__(parent)
         self.intensity_spin = QSpinBox()
-        self.intensity_spin.setRange(0, 127)
-        self.intensity_spin.setValue(90)
+        self.intensity_spin.setRange(0, 100)
+        self.intensity_spin.setSingleStep(5)
+        self.intensity_spin.setValue(80)
+        self.intensity_spin.setSuffix(self.tr(' %'))
         self.blue_combo = QComboBox()
-        self.blue_combo.addItems([self.tr('None'), self.tr('Flat'), self.tr('Norm')])
+        self.blue_combo.addItems([self.tr('None'), self.tr('Flat'), self.tr('Abs'), self.tr('Norm')])
         self.invert_check = QCheckBox(self.tr('Invert'))
         self.equalize_check = QCheckBox(self.tr('Equalize'))
 
         self.grad_viewer = ImageViewer(image, image)
         self.image = image
+        self.dx, self.dy = cv.spatialGradient(cv.cvtColor(self.image, cv.COLOR_BGR2GRAY))
         self.process()
 
         self.intensity_spin.valueChanged.connect(self.process)
@@ -49,21 +54,28 @@ class GradientWidget(ToolWidget):
         self.setLayout(main_layout)
 
     def process(self):
-        intensity = self.intensity_spin.value()
+        start = time()
+        intensity = int(self.intensity_spin.value() / 100 * 127)
         invert = self.invert_check.isChecked()
         equalize = self.equalize_check.isChecked()
         blue_mode = self.blue_combo.currentIndex()
-        dx, dy = cv.spatialGradient(cv.cvtColor(self.image, cv.COLOR_BGR2GRAY))
         if invert:
-            dx = -dx
-            dy = -dy
-        red = ((dx.astype(np.float32) / np.max(np.abs(dx)) * 127) + 127).astype(np.uint8)
-        green = ((dy.astype(np.float32) / np.max(np.abs(dy)) * 127) + 127).astype(np.uint8)
+            dx = (-self.dx).astype(np.float32)
+            dy = (-self.dy).astype(np.float32)
+        else:
+            dx = (+self.dx).astype(np.float32)
+            dy = (+self.dy).astype(np.float32)
+        dx_abs = np.abs(dx)
+        dy_abs = np.abs(dy)
+        red = ((dx / np.max(dx_abs) * 127) + 127).astype(np.uint8)
+        green = ((dy / np.max(dy_abs) * 127) + 127).astype(np.uint8)
         if blue_mode == 0:
             blue = np.zeros_like(red)
         elif blue_mode == 1:
             blue = np.full_like(red, 255)
         elif blue_mode == 2:
+            blue = normalize_mat(dx_abs + dy_abs)
+        elif blue_mode == 3:
             blue = normalize_mat(np.linalg.norm(cv.merge((red, green)), axis=2))
         else:
             blue = None
@@ -73,3 +85,4 @@ class GradientWidget(ToolWidget):
         if equalize:
             gradient = equalize_image(gradient)
         self.grad_viewer.update_processed(gradient)
+        self.info_message.emit(self.tr('Luminance Gradient = {}'.format(elapsed_time(start))))

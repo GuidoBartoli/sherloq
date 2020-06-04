@@ -9,6 +9,7 @@ from PySide2.QtCore import (
     QRect,
     QRectF)
 from PySide2.QtGui import (
+    QIcon,
     QPainter,
     QMatrix,
     QPixmap,
@@ -172,7 +173,7 @@ class DynamicView(QGraphicsView):
 class ImageViewer(QWidget):
     viewChanged = Signal(QRect, float, int, int)
 
-    def __init__(self, original, processed, title=None, parent=None):
+    def __init__(self, original, processed, title=None, parent=None, export=False):
         super(ImageViewer, self).__init__(parent)
         if original is None and processed is None:
             raise ValueError(self.tr('ImageViewer.__init__: Empty image received'))
@@ -198,22 +199,25 @@ class ImageViewer(QWidget):
         height, width, _ = self.original.shape
         size_label = QLabel(self.tr('[{}x{} px]'.format(height, width)))
         export_button = QToolButton()
-        export_button.setText(self.tr('Export...'))
+        export_button.setToolTip(self.tr('Export current image to PNG'))
+        # export_button.setText(self.tr('Export...'))
+        export_button.setIcon(QIcon('icons/export.svg'))
 
         tool_layout = QHBoxLayout()
-        if processed is not None:
-            # tool_layout.addWidget(view_label)
-            tool_layout.addWidget(self.original_radio)
-            tool_layout.addWidget(self.process_radio)
-            tool_layout.addStretch()
         tool_layout.addWidget(QLabel(self.tr('Zoom:')))
         tool_layout.addWidget(self.zoom_label)
         # tool_layout.addWidget(full_button)
         # tool_layout.addWidget(fit_button)
         tool_layout.addStretch()
-        tool_layout.addWidget(size_label)
         if processed is not None:
+            # tool_layout.addWidget(view_label)
+            tool_layout.addWidget(self.original_radio)
+            tool_layout.addWidget(self.process_radio)
+            tool_layout.addStretch()
+        tool_layout.addWidget(size_label)
+        if export or processed is not None:
             tool_layout.addWidget(export_button)
+        if processed is not None:
             self.original_radio.setChecked(False)
             self.process_radio.setChecked(True)
             self.toggle_mode(False)
@@ -287,7 +291,7 @@ class ImageViewer(QWidget):
             return
         if not filename.endswith('.png'):
             filename += '.png'
-        cv.imwrite(filename, self.processed)
+        cv.imwrite(filename, self.processed if self.processed is not None else self.original)
 
     def set_title(self, title):
         if self.title_label is not None:

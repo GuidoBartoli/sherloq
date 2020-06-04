@@ -8,6 +8,7 @@ from PySide2.QtGui import QColor
 from PySide2.QtWidgets import (
     QLabel,
     QVBoxLayout,
+    QHBoxLayout,
     QGridLayout,
     QTableWidget,
     QTableWidgetItem,
@@ -83,9 +84,10 @@ class QualityWidget(ToolWidget):
             table = tables[:, :, i]
             mean = (np.mean(table) * TABLE_SIZE - table[0, 0]) / (TABLE_SIZE - 1)
             levels[i] = (1 - mean / 255) * 100
+            # FIXME: per non fare questo controllo, forse sopra bisogna dividere solo per TABLE_SIZE
             if levels[i] > 99.6:
                 levels[i] = 100
-        profile = [np.mean(np.abs(tables - get_tables(q))) for q in range(101)]
+        profile = [np.mean(cv.absdiff(tables, get_tables(q))) for q in range(101)]
         quality = np.argmin(profile)
 
         luma_label = QLabel(self.tr('Luminance Quantization Table (level = {:.2f}%)\n'.format(levels[0])))
@@ -99,17 +101,32 @@ class QualityWidget(ToolWidget):
 
         quality_label = QLabel(self.tr('Estimated JPEG quality (last save) = {}%'.format(quality)))
         modify_font(quality_label, bold=True)
-        deviation_label = QLabel(self.tr('(average deviation from standard tables = {:.2f})'.format(profile[quality])))
+        deviation = profile[quality]
+        deviation_label = QLabel(self.tr('(average deviation from standard tables: {:.2f})'.format(deviation)))
         modify_font(deviation_label, italic=True)
+        if deviation < 0.5:
+            color = '4cff4c'
+        elif deviation < 1:
+            color = 'ffff4c'
+        elif deviation < 1.5:
+            color = 'ffa64c'
+        else:
+            color = 'ff4c4c'
+        deviation_label.setStyleSheet('background-color: #{}'.format(color))
         deviation_label.setAlignment(Qt.AlignRight)
 
-        main_layout = QGridLayout()
-        main_layout.addWidget(luma_label, 0, 0)
-        main_layout.addWidget(luma_table, 1, 0)
-        main_layout.addWidget(chroma_label, 0, 1)
-        main_layout.addWidget(chroma_table, 1, 1)
-        main_layout.addWidget(quality_label, 2, 0)
-        main_layout.addWidget(deviation_label, 2, 1)
+        center_layout = QGridLayout()
+        center_layout.addWidget(luma_label, 0, 0)
+        center_layout.addWidget(luma_table, 1, 0)
+        center_layout.addWidget(chroma_label, 0, 1)
+        center_layout.addWidget(chroma_table, 1, 1)
+        bottom_layout = QHBoxLayout()
+        bottom_layout.addWidget(quality_label)
+        bottom_layout.addStretch()
+        bottom_layout.addWidget(deviation_label)
+        main_layout = QVBoxLayout()
+        main_layout.addLayout(center_layout)
+        main_layout.addLayout(bottom_layout)
         self.setLayout(main_layout)
         self.setMinimumSize(890, 270)
 

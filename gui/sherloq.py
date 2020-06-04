@@ -78,6 +78,7 @@ class MainWindow(QMainWindow):
         help_action.setObjectName('help_action')
         help_action.setIcon(QIcon('icons/help.svg'))
         help_action.setCheckable(True)
+        help_action.setEnabled(False)
 
         load_action = QAction(self.tr('&Load image...'), self)
         load_action.setToolTip(self.tr('Load an image to analyze'))
@@ -136,19 +137,19 @@ class MainWindow(QMainWindow):
         close_action.setObjectName('close_action')
         close_action.setIcon(QIcon('icons/close.svg'))
 
-        full_action = QAction(self.tr('Full screen'), self)
-        full_action.setToolTip(self.tr('Enter full screen mode'))
-        full_action.setShortcut(QKeySequence.FullScreen)
-        full_action.triggered.connect(self.showFullScreen)
-        full_action.setObjectName('full_action')
-        full_action.setIcon(QIcon('icons/full.svg'))
+        self.full_action = QAction(self.tr('Full screen'), self)
+        self.full_action.setToolTip(self.tr('Switch to full screen mode'))
+        self.full_action.setShortcut(QKeySequence.FullScreen)
+        self.full_action.triggered.connect(self.change_view)
+        self.full_action.setObjectName('full_action')
+        self.full_action.setIcon(QIcon('icons/full.svg'))
 
-        normal_action = QAction(self.tr('Normal view'), self)
-        full_action.setToolTip(self.tr('Switch to normal screen mode'))
-        normal_action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_F12))
-        normal_action.triggered.connect(self.showNormal)
-        normal_action.setObjectName('normal_action')
-        normal_action.setIcon(QIcon('icons/normal.svg'))
+        self.normal_action = QAction(self.tr('Normal view'), self)
+        self.normal_action.setToolTip(self.tr('Back to normal view mode'))
+        self.normal_action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_F12))
+        self.normal_action.triggered.connect(self.change_view)
+        self.normal_action.setObjectName('normal_action')
+        self.normal_action.setIcon(QIcon('icons/normal.svg'))
 
         about_action = QAction(self.tr('&About...'), self)
         about_action.setToolTip(self.tr('Information about this program'))
@@ -177,8 +178,8 @@ class MainWindow(QMainWindow):
         view_menu.addAction(tools_action)
         view_menu.addAction(help_action)
         view_menu.addSeparator()
-        view_menu.addAction(full_action)
-        view_menu.addAction(normal_action)
+        view_menu.addAction(self.full_action)
+        view_menu.addAction(self.normal_action)
 
         window_menu = self.menuBar().addMenu(self.tr('&Window'))
         window_menu.addAction(prev_action)
@@ -209,10 +210,10 @@ class MainWindow(QMainWindow):
         main_toolbar.addAction(tile_action)
         main_toolbar.addAction(cascade_action)
         main_toolbar.addAction(tabbed_action)
-        # main_toolbar.addAction(close_action)
+        main_toolbar.addAction(close_action)
         # main_toolbar.addSeparator()
-        # main_toolbar.addAction(normal_action)
-        # main_toolbar.addAction(full_action)
+        # main_toolbar.addAction(self.normal_action)
+        # main_toolbar.addAction(self.full_action)
         main_toolbar.setAllowedAreas(Qt.TopToolBarArea | Qt.BottomToolBarArea)
         main_toolbar.setObjectName('main_toolbar')
 
@@ -233,7 +234,20 @@ class MainWindow(QMainWindow):
         close_action.setEnabled(False)
         tabbed_action.setEnabled(False)
         self.tree_widget.setEnabled(False)
+        self.showNormal()
+        self.normal_action.setEnabled(False)
         self.show_message(self.tr('Ready'))
+
+    def change_view(self):
+        if self.isFullScreen():
+            self.showNormal()
+            self.showMaximized()
+            self.full_action.setEnabled(True)
+            self.normal_action.setEnabled(False)
+        else:
+            self.showFullScreen()
+            self.full_action.setEnabled(False)
+            self.normal_action.setEnabled(True)
 
     def closeEvent(self, event):
         settings = QSettings()

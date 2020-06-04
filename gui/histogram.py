@@ -78,7 +78,6 @@ class HistWidget(ToolWidget):
 
         figure = Figure()
         plot_canvas = FigureCanvas(figure)
-        # plot_canvas.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Preferred)
         self.axes = plot_canvas.figure.subplots()
         self.redraw()
         figure.set_tight_layout(True)
@@ -98,11 +97,13 @@ class HistWidget(ToolWidget):
         center_layout.addLayout(right_layout)
 
         bottom_layout = QHBoxLayout()
+        bottom_layout.addWidget(QLabel(self.tr('Channel:')))
         bottom_layout.addWidget(self.rgb_radio)
         bottom_layout.addWidget(self.red_radio)
         bottom_layout.addWidget(self.green_radio)
         bottom_layout.addWidget(self.blue_radio)
         bottom_layout.addWidget(self.value_radio)
+        bottom_layout.addStretch()
         bottom_layout.addWidget(self.log_check)
         bottom_layout.addWidget(self.grid_check)
         bottom_layout.addStretch()
@@ -130,22 +131,22 @@ class HistWidget(ToolWidget):
         y = None
         if value:
             y = self.hist[3]
-            self.axes.step(x, y, 'k')
-            self.axes.fill_between(x, y, alpha=alpha, facecolor='k', step='pre')
+            self.axes.step(x, y, 'k', where='mid')
+            self.axes.fill_between(x, y, alpha=alpha, facecolor='k', step='mid')
         else:
             # TODO: Ottimizzare facendo un ciclo senza ripetere le istruzioni
             if red or rgb:
                 y = self.hist[0]
-                self.axes.step(x, y, 'r')
-                self.axes.fill_between(x, y, alpha=alpha, facecolor='r', step='pre')
+                self.axes.step(x, y, 'r', where='mid')
+                self.axes.fill_between(x, y, alpha=alpha, facecolor='r', step='mid')
             if green or rgb:
                 y = self.hist[1]
-                self.axes.step(x, y, 'g')
-                self.axes.fill_between(x, y, alpha=alpha, facecolor='g', step='pre')
+                self.axes.step(x, y, 'g', where='mid')
+                self.axes.fill_between(x, y, alpha=alpha, facecolor='g', step='mid')
             if blue or rgb:
                 y = self.hist[2]
-                self.axes.step(x, y, 'b')
-                self.axes.fill_between(x, y, alpha=alpha, facecolor='b', step='pre')
+                self.axes.step(x, y, 'b', where='mid')
+                self.axes.fill_between(x, y, alpha=alpha, facecolor='b', step='mid')
         if log:
             self.axes.set_yscale('log')
             self.axes.set_ylim(bottom=1)

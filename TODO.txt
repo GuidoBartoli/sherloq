@@ -1,33 +1,25 @@
-- Cambiare i segnali dei QRadioButton da toggled() a clicked() per evitare che gli slot vengano eseguiti due volte (una per "on" e un'altra per "off")
+- In Frequency Split se si modifica il filtro, evitare di ricalcolare la DFT inversa
 - In ImageViewer aggiungere la visualizzazione in tempo reale dei valori RGB dove passa il mouse
 - Se viene caricata una GIF animata, visualizzare un dialog per scegliere il frame da importare
 - Rivedere PCA ed aggiungere le altre 3 modalità di Forensically
-- Rivedere Gradient e verificare che l'output sia uguale a Forensically
 - Agli indici di Comparison aggiungere anche i coefficienti di correlazione dei due istogrammi usando cv.compareHist()
 - Ricontrollare che Thumbnail Analysis centri correttamente l'anteprima rispetto all'immagine
 - In RGB/HSV Plots sincronizzare la posizione del mouse nel grafico con l'evidenziazione dei colori corrispondenti nell'immagine e viceversa
 - Visualizzare le progress bar nella status bar della MainWindow
-- Aggiungere un pulsante in MinMaxWidget per eseguire il processing ed eventualmente interromperlo
 - Provare ad usare QGroupBox per rendere automaticamente esclusivi i QRadioButton
 - In File Digest aggiungere tooltips con descrizioni delle ImageHash
 - In ComparisonWidget aggiungere anche FSIM (https://github.com/weizhou-geek/Image-Quality-Assessment-Benchmark)
 - In ImageViewer gestire anche zoom superiori al 100%
 - In JPEG Quality Estimation aggiungere l'estrazione delle tabelle di Huffman (la sequenza di byte da cercare è [0xFF 0xC4 0x00]). Fare riferimento a jpegparse.zip nella cartella software
 - Rivedere tutto il codice per valutare dove è possibile utilizzare np.view() che elimina le copie delle matrici con astype()
-- Creare un QDockWidget nella MainWindow che riceve dai ToolWidget un segnale con l'immagine corrente e visualizza gli istogrammi in tempo reale
-- Convertire ParamSlier in un QWidget che contiene anche la QLabel collegata al valore corrente
-- Importazione GIF (https://stackoverflow.com/questions/48163539/how-to-read-gif-from-url-using-opencv-python)
-- Creazione di un help in linea per suggerire workflow e spiegare come usare i vari tool (DockWidget laterale a sinistra?)
+- Creazione di un help in linea per suggerire workflow e spiegare come usare i vari tool (DockWidget laterale a destra?)
 - Ricavare modello fotocamera da tabelle di quantizzazione, PRNU, nome del file o metadata
 - Quando una finestra viene chiusa evitare di distruggere il widget per non ricalcolare il risultato
 - Aggiungere azione "Close All Except" per chiudere le altre finestre
 - Addestrare la nuova versione delle SVM per FirstDigitFeatures
-- In ComparisonWidget aggiungere altre visualizzazioni della differenza
 - In EchoWidget suddividere il processing perché la modifica di contrast è più veloce
-- Aggiungere Butteraugli agli indici di Comparison Widget
 - Calcolo entropia e dell'energia dell'immagine (https://answers.opencv.org/question/180503/energy-computation-of-dct-of-image/)
 - Ad EnhancedMagnifier aggiungere uno SpinBox per cambiare il percentile di AutoContrast
-- Aggiungere un checkbox per la scala logaritmica a HistogramWidget
 - Aggiungere a GhostWidget la ricerca locale della doppia compressione
   > Per ogni blocco 8x8:
     * Shift di -128

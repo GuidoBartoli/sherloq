@@ -81,14 +81,14 @@ class ToolTree(QTreeWidget):
                            self.tr('Compute minimum/maximum/average RGB values for every pixel'),
                            self.tr('Convert RGB channels into HSV/YCbCr/Lab/Luv/CMYK/Gray spaces'),
                            self.tr('Use color PCA to project RGB values into reduced dimensions')])
-        tool_progress.extend([2, 3, 3, 3])
+        tool_progress.extend([2, 3, 3, 2])
 
         # [5]
         group_names.append(self.tr('[Tonality]'))
         tool_names.append([self.tr('Luminance Gradient'),
                            self.tr('Echo Edge Filter'),
                            self.tr('Correlation Plot'),
-                           self.tr('Wavelet Reconstruct')])
+                           self.tr('Wavelet Analysis')])
         tool_infos.append([self.tr('Analyze horizontal/vertical brightness variations across the image'),
                            self.tr('Use derivative filters to reveal artificial out-of-focus zones'),
                            self.tr('Exploit spatial correlation patterns among neighboring pixels'),
@@ -100,12 +100,12 @@ class ToolTree(QTreeWidget):
         tool_names.append([self.tr('Noise Estimation'),
                            self.tr('Min/Max Deviation'),
                            self.tr('Image Bit Planes'),
-                           self.tr('Frequency Separation')])
+                           self.tr('Frequency Split')])
         tool_infos.append([self.tr('Estimate and visualize gaussian noise components of the image'),
                            self.tr('Highlight pixels deviating from block-based min/max statistics'),
                            self.tr('Visualize bit planes values to find different noise patterns'),
                            self.tr('Divide image luminance into high/low frequency components')])
-        tool_progress.extend([3, 3, 3, 1])
+        tool_progress.extend([3, 3, 3, 3])
 
         # [7]
         group_names.append(self.tr('[Tampering]'))

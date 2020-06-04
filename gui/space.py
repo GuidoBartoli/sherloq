@@ -100,7 +100,7 @@ class SpaceWidget(ToolWidget):
 
         self.luv_radio = QRadioButton(self.tr('CIE Luv'))
         self.luv_combo = QComboBox()
-        self.luv_combo.addItem(self.tr('Lightness'))
+        self.luv_combo.addItem(self.tr('Luminosity'))
         self.luv_combo.addItem(self.tr('Chroma U'))
         self.luv_combo.addItem(self.tr('Chroma V'))
 

@@ -53,13 +53,14 @@ class ElaWidget(ToolWidget):
         self.setLayout(main_layout)
 
     def process(self):
-        equalize = self.equalize_check.isChecked()
-        self.scale_spin.setEnabled(not equalize)
         start = time()
         quality = self.quality_spin.value()
         scale = self.scale_spin.value()
+        equalize = self.equalize_check.isChecked()
+        self.scale_spin.setEnabled(not equalize)
         compressed = compress_jpeg(self.image, quality)
         if not equalize:
+            # TODO: Provare a replicare il risultato di FotoForensic dove si vedono di più i blocchi JPEG
             ela = cv.convertScaleAbs(cv.subtract(compressed, self.image), None, scale)
         else:
             ela = equalize_image(cv.absdiff(compressed, self.image))

@@ -17,7 +17,7 @@ The first version was written in 2015 using C++11 to build a command line utilit
 
 While also including novel algorithms, the 2017 version mainly added a Qt-based multi-window GUI to provide a better user experience. Multiple analyses could be shown on screen and a fast zoom/scroll  viewer was implemented for easier image navigation. That project could be compiled with Qt Creator with Qt 5 and OpenCV 3 and covered about 70% of planned features (see below for the full list).
 
-Fast forward to 2020 when I decided to port everything in Python + PySide2 + OpenCV for a much easier installation and development. While iteration is just begun and I have ported about 60% of the previous code on the new platform, I think this will be the final "form" of the project (as long as someone does not volunteer up to develop a nice web application!).
+Fast forward to 2020 when I decided to port everything in Python + PySide2 + OpenCV for a much easier installation and development. While iteration is just begun and I have ported about 70% of the previous code on the new platform, I think this will be the final "form" of the project (as long as someone does not volunteer up to develop a nice web application!).
 
 I'm happy to share my code and get in contact with anyone interested to improve or test it, but please keep in mind that this repository is *not* intended for distributing a final product, my aim is just to publicly track development of an *unpretentious educational tool*, so expect bugs, unpolished code and missing features! ;)
 
@@ -26,56 +26,57 @@ This list contains the functions that **Sherloq** will provide once the beta sta
 
 ## Interface
 - Modern Qt-based GUI with multiple tool window management
-- Import Bitmaps, JPEG, PNG, WebP, PGM, PFM, TIFF, GIF formats
+- Import BMP, JPEG, PNG, WebP, PGM, PFM, TIFF and GIF formats
 - Highly responsive image viewer with panning and zooming
-- Real-time image histogram with channel selection
 - Contextual help with current tool explanation
 - Export both visual and textual tool outputs
 
-## General
+## Tools
+
+### General
 - __Original Image__: display the unaltered reference image for visual inspection
 - __File Digest__: retrieve file information and compute many hashes and ballistics
 - __Hex Editor__: open an external hexadecimal editor to show and edit raw bytes
 - __Similar Search__: use online search services to find visually similar images
 
-## Metadata
+### Metadata
 - __Header Structure__: dump the physical EXIF structure and display an interactive view
 - __Metadata Extraction__: scan through file metadata and gather all available information
 - __Thumbnail Analysis__: extract optional embedded thumbnail and compare with original
 - __Geolocation Data__: retrieve optional geo-location data and show it on a world map
 
-## Inspection
+### Inspection
 - __Enhancing Magnifier__: use various visual enhancement for better identifying forgeries
 - __Reference Comparison__: open a synchronized double view to compare two different pictures
 - __Image Histogram__: display independent channel or composite interactive image histogram
 - __Global Adjustments__: apply standard adjustments (contrast, brightness, hue, saturation)
 
-## JPEG
+### JPEG
 - __Quality Estimation__: extract quantization tables and estimate last saved JPEG quality
 - __Error Level Analysis__: show pixel-level difference against different compression levels
 - __Multiple Compression__: use residuals to detect multiple compressions at different levels
 - __DCT Dimples Map__: analyze periodic quantization artifacts to detect manipulations
 
 
-## Colors
+### Colors
 - __RGB/HSV 2D Plots__: display an interactive 2D plots of RGB and HSV pixel values
 - __Pixel Statistics__: compute minimum/maximum/average RGB values for every pixel
 - __Space Conversion__: convert color channels into HSV/YCbCr/Lab/Luv/CMYK/Gray spaces
 - __PCA Projection__: use color PCA to project RGB values into reduced dimensions
 
-## Tonality
+### Tonality
 - __Luminance Gradient__: analyze horizontal and vertical brightness variations of the image
 - __Echo Edge Filter__: use derivative filter to reveal artificial out-of-focus zones
 - __Correlation Plot__: exploit spatial correlation patterns among neighboring pixels
 - __Wavelet Reconstruct__: reconstruct image with different wavelet coefficient thresholds
 
-## Noise
+### Noise
 - __Noise Extraction__: estimate and visualize gaussian noise components of the image
 - __Min/Max Deviation__: highlight pixels deviating from block-based min/max statistics
 - __Image Bit Planes__: visualize bit planes values to find different noise patterns
 - __Frequency Separation__: divide image luminance into high/low frequency components
 
-## Tampering
+### Tampering
 - __Contrast Enhancement__: analyze color distribuions to detect contrast enhancements
 - __Region Cloning__: use feature descriptors for copy/rotate clone area detection
 - __Image Resampling__: analyze 2D pixel interpolation for detecting resampling traces

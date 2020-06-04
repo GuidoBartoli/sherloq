@@ -1,15 +1,16 @@
+from time import time
+
 import cv2 as cv
 import numpy as np
 from PySide2.QtWidgets import (
     QHBoxLayout,
-    QRadioButton,
-    QCheckBox,
     QLabel,
     QVBoxLayout,
+    QGridLayout,
     QSpinBox)
 
 from tools import ToolWidget
-from utility import normalize_mat
+from utility import normalize_mat, elapsed_time, modify_font
 from viewer import ImageViewer
 
 
@@ -17,74 +18,111 @@ class FrequencyWidget(ToolWidget):
     def __init__(self, image, parent=None):
         super(FrequencyWidget, self).__init__(parent)
 
-        self.ampl_radio = QRadioButton(self.tr('Amplitude'))
-        self.ampl_radio.setChecked(True)
-        self.phase_radio = QRadioButton(self.tr('Phase'))
-        self.dct_radio = QRadioButton(self.tr('DCT Map'))
-        self.last_radio = self.ampl_radio
+        self.split_spin = QSpinBox()
+        self.split_spin.setRange(0, 100)
+        self.split_spin.setValue(15)
+        self.split_spin.setSuffix(self.tr(' %'))
+
+        self.smooth_spin = QSpinBox()
+        self.smooth_spin.setRange(0, 100)
+        self.smooth_spin.setValue(25)
+        self.smooth_spin.setSuffix(self.tr(' %'))
+        self.smooth_spin.setSpecialValueText(self.tr('Off'))
+
         self.thr_spin = QSpinBox()
-        self.thr_spin.setRange(0, 255)
+        self.thr_spin.setRange(0, 100)
+        self.thr_spin.setValue(0)
+        self.thr_spin.setSuffix(self.tr(' %'))
         self.thr_spin.setSpecialValueText(self.tr('Off'))
-        self.ratio_label = QLabel()
-        self.filter_check = QCheckBox(self.tr('Filter'))
 
-        self.ampl_radio.clicked.connect(self.process)
-        self.phase_radio.clicked.connect(self.process)
-        self.dct_radio.clicked.connect(self.process)
+        self.zero_label = QLabel()
+        modify_font(self.zero_label, italic=True)
+
+        self.filter_spin = QSpinBox()
+        self.filter_spin.setRange(0, 15)
+        self.filter_spin.setValue(0)
+        self.filter_spin.setSuffix(self.tr(' px'))
+        self.filter_spin.setSpecialValueText(self.tr('Off'))
+
+        self.split_spin.valueChanged.connect(self.process)
+        self.smooth_spin.valueChanged.connect(self.process)
         self.thr_spin.valueChanged.connect(self.process)
-        self.filter_check.stateChanged.connect(self.process)
+        self.filter_spin.valueChanged.connect(self.process)
 
-        gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+        self.image = image
+        gray = cv.cvtColor(self.image, cv.COLOR_BGR2GRAY)
         rows, cols = gray.shape
         height = cv.getOptimalDFTSize(rows)
         width = cv.getOptimalDFTSize(cols)
-        padded = cv.copyMakeBorder(gray, 0, height - rows, 0, width - cols, cv.BORDER_CONSTANT).astype(np.float32)
-        planes = cv.merge([padded, np.zeros_like(padded)])
-        dft = cv.split(np.fft.fftshift(cv.dft(planes)))
-        mag, phase = cv.cartToPolar(dft[0], dft[1])
-        dct = cv.dct(padded)
-        self.result = [normalize_mat(img) for img in [cv.log(mag), phase, cv.log(dct)]]
+        padded = cv.copyMakeBorder(gray, 0, height - rows, 0, width - cols, cv.BORDER_CONSTANT)
+        self.dft = np.fft.fftshift(cv.dft(padded.astype(np.float32), flags=cv.DFT_COMPLEX_OUTPUT))
+        self.magnitude, self.phase = cv.cartToPolar(self.dft[:, :, 0], self.dft[:, :, 1])
+        self.magnitude = cv.normalize(cv.log(self.magnitude), None, 0, 255, cv.NORM_MINMAX)
+        self.phase = cv.normalize(self.phase, None, 0, 255, cv.NORM_MINMAX)
 
-        self.image = image
-        self.viewer = ImageViewer(self.image, None)
+        self.low_viewer = ImageViewer(self.image, self.image, self.tr('Low frequency'), export=True)
+        self.high_viewer = ImageViewer(self.image, self.image, self.tr('High frequency'), export=True)
+        self.mag_viewer = ImageViewer(self.image, None, self.tr('DFT Magnitude'), export=True)
+        self.phase_viewer = ImageViewer(self.image, None, self.tr('DFT Phase'), export=True)
         self.process()
 
         top_layout = QHBoxLayout()
-        top_layout.addWidget(QLabel(self.tr('Coefficients:')))
-        top_layout.addWidget(self.ampl_radio)
-        top_layout.addWidget(self.phase_radio)
-        top_layout.addWidget(self.dct_radio)
-        top_layout.addWidget(self.filter_check)
-        top_layout.addStretch()
+        top_layout.addWidget(QLabel(self.tr('Separation:')))
+        top_layout.addWidget(self.split_spin)
+        top_layout.addWidget(QLabel(self.tr('Smooth:')))
+        top_layout.addWidget(self.smooth_spin)
         top_layout.addWidget(QLabel(self.tr('Threshold:')))
         top_layout.addWidget(self.thr_spin)
-        top_layout.addWidget(self.ratio_label)
+        top_layout.addWidget(QLabel(self.tr('Filter:')))
+        top_layout.addWidget(self.filter_spin)
+        top_layout.addWidget(self.zero_label)
+        top_layout.addStretch()
+
+        center_layout = QGridLayout()
+        center_layout.addWidget(self.low_viewer, 0, 0)
+        center_layout.addWidget(self.high_viewer, 0, 1)
+        center_layout.addWidget(self.mag_viewer, 1, 0)
+        center_layout.addWidget(self.phase_viewer, 1, 1)
 
         main_layout = QVBoxLayout()
         main_layout.addLayout(top_layout)
-        main_layout.addWidget(self.viewer)
+        main_layout.addLayout(center_layout)
         self.setLayout(main_layout)
 
     def process(self):
-        if self.ampl_radio.isChecked():
-            output = self.result[0]
-            self.last_radio = self.ampl_radio
-        elif self.phase_radio.isChecked():
-            output = self.result[1]
-            self.last_radio = self.phase_radio
-        elif self.dct_radio.isChecked():
-            output = self.result[2]
-            self.last_radio = self.dct_radio
-        else:
-            self.last_radio.setChecked(True)
-            return
-        if self.filter_check.isChecked():
-            output = cv.medianBlur(output, 3)
-        thr = self.thr_spin.value()
-        if thr > 0:
-            _, output = cv.threshold(output, thr, 0, cv.THRESH_TOZERO)
-            zeros = (1.0 - cv.countNonZero(output) / output.size) * 100
+        start = time()
+        rows, cols, _ = self.dft.shape
+        mask = np.zeros((rows, cols), np.float32)
+        half = np.sqrt(rows**2 + cols**2) / 2
+        radius = int(half * self.split_spin.value() / 100)
+        mask = cv.circle(mask, (cols // 2, rows // 2), radius, 1, cv.FILLED)
+        kernel = 2 * int(half * self.smooth_spin.value() / 100) + 1
+        mask = cv.GaussianBlur(mask, (kernel, kernel), 0)
+        mask /= np.max(mask)
+        threshold = int(self.thr_spin.value() / 100 * 255)
+        if threshold > 0:
+            mask[self.magnitude < threshold] = 0
+            zeros = (mask.size - np.count_nonzero(mask)) / mask.size * 100
         else:
             zeros = 0
-        self.ratio_label.setText('(masked = {:.1f}%)'.format(zeros))
-        self.viewer.update_original(cv.cvtColor(output, cv.COLOR_GRAY2BGR))
+        self.zero_label.setText(self.tr('(zeroed coefficients = {:.2f}%)').format(zeros))
+        mask2 = np.repeat(mask[:, :, np.newaxis], 2, axis=2)
+
+        rows0, cols0, _ = self.image.shape
+        low = cv.idft(np.fft.ifftshift(self.dft * mask2), flags=cv.DFT_SCALE)
+        low = normalize_mat(cv.magnitude(low[:, :, 0], low[:, :, 1])[:rows0, :cols0], to_bgr=True)
+        self.low_viewer.update_processed(low)
+        high = cv.idft(np.fft.ifftshift(self.dft * (1 - mask2)), flags=cv.DFT_SCALE)
+        high = normalize_mat(cv.magnitude(high[:, :, 0], high[:, :, 1]), to_bgr=True)
+        self.high_viewer.update_processed(np.copy(high[:self.image.shape[0], :self.image.shape[1]]))
+
+        magnitude = (self.magnitude * mask).astype(np.uint8)
+        phase = (self.phase * mask).astype(np.uint8)
+        kernel = 2*self.filter_spin.value() + 1
+        if kernel >= 3:
+            magnitude = cv.GaussianBlur(magnitude, (kernel, kernel), 0)
+            phase = cv.GaussianBlur(phase, (kernel, kernel), 0)
+            # phase = cv.medianBlur(phase, kernel)
+        self.mag_viewer.update_original(cv.cvtColor(magnitude, cv.COLOR_GRAY2BGR))
+        self.phase_viewer.update_original(cv.cvtColor(phase, cv.COLOR_GRAY2BGR))
+        self.info_message.emit(self.tr('Frequency Split = {}'.format(elapsed_time(start))))
