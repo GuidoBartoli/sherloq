@@ -1,3 +1,4 @@
+- Studiare la funzione Hidden Pixels di FotoForensics
 - In Frequency Split se si modifica il filtro, evitare di ricalcolare la DFT inversa
 - In ImageViewer aggiungere la visualizzazione in tempo reale dei valori RGB dove passa il mouse
 - Se viene caricata una GIF animata, visualizzare un dialog per scegliere il frame da importare

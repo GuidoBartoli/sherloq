@@ -26,11 +26,12 @@ class AdjustWidget(ToolWidget):
         self.high_slider = ParamSlider([-100, +100], 10, 0, '%')
         self.sweep_slider = ParamSlider([0, 255], 8, 127)
         self.width_slider = ParamSlider([0, 255], 8, 255)
-        self.thr_slider = ParamSlider([0, 255], 16, 255)
+        self.sharpen_slider = ParamSlider([0, 100], 10, 0, '%')
+        self.thr_slider = ParamSlider([0, 255], 16, 255, special=self.tr('Auto'))
         self.equalize_combo = QComboBox()
         self.equalize_combo.addItems(
-            [self.tr('No equalization'), self.tr('Histogram EQ'), self.tr('Weak CLAHE'),
-             self.tr('Medium CLAHE'), self.tr('Strong CLAHE'), self.tr('Extreme CLAHE')])
+            [self.tr('No EQ'), self.tr('Hist EQ'), self.tr('CLAHE L1'),
+             self.tr('CLAHE L2'), self.tr('CLAHE L3'), self.tr('CLAHE L4')])
         self.invert_check = QCheckBox(self.tr('Invert values'))
         self.reset_button = QPushButton(self.tr('Reset'))
 
@@ -47,6 +48,7 @@ class AdjustWidget(ToolWidget):
         self.sweep_slider.valueChanged.connect(self.process)
         self.width_slider.valueChanged.connect(self.process)
         self.thr_slider.valueChanged.connect(self.process)
+        self.sharpen_slider.valueChanged.connect(self.process)
         self.equalize_combo.currentIndexChanged.connect(self.process)
         self.invert_check.stateChanged.connect(self.process)
         self.reset_button.clicked.connect(self.reset)
@@ -55,24 +57,27 @@ class AdjustWidget(ToolWidget):
         params_layout.addWidget(QLabel(self.tr('Brightness')), 0, 0)
         params_layout.addWidget(QLabel(self.tr('Saturation')), 1, 0)
         params_layout.addWidget(QLabel(self.tr('Hue')), 2, 0)
+        params_layout.addWidget(QLabel(self.tr('Gamma')), 3, 0)
         params_layout.addWidget(self.bright_slider, 0, 1)
         params_layout.addWidget(self.sat_slider, 1, 1)
         params_layout.addWidget(self.hue_slider, 2, 1)
-        params_layout.addWidget(QLabel(self.tr('Gamma')), 0, 2)
-        params_layout.addWidget(QLabel(self.tr('Shadows')), 1, 2)
-        params_layout.addWidget(QLabel(self.tr('Highlights')), 2, 2)
-        params_layout.addWidget(self.gamma_slider, 0, 3)
-        params_layout.addWidget(self.shadow_slider, 1, 3)
-        params_layout.addWidget(self.high_slider, 2, 3)
-        params_layout.addWidget(QLabel(self.tr('Sweep')), 0, 4)
-        params_layout.addWidget(QLabel(self.tr('Width')), 1, 4)
-        params_layout.addWidget(QLabel(self.tr('Threshold')), 2, 4)
-        params_layout.addWidget(self.sweep_slider, 0, 5)
-        params_layout.addWidget(self.width_slider, 1, 5)
-        params_layout.addWidget(self.thr_slider, 2, 5)
-        params_layout.addWidget(self.equalize_combo, 0, 6)
-        params_layout.addWidget(self.invert_check, 1, 6)
-        params_layout.addWidget(self.reset_button, 2, 6)
+        params_layout.addWidget(self.gamma_slider, 3, 1)
+        params_layout.addWidget(QLabel(self.tr('Shadows')), 0, 2)
+        params_layout.addWidget(QLabel(self.tr('Highlights')), 1, 2)
+        params_layout.addWidget(QLabel(self.tr('Sweep')), 2, 2)
+        params_layout.addWidget(QLabel(self.tr('Width')), 3, 2)
+        params_layout.addWidget(self.shadow_slider, 0, 3)
+        params_layout.addWidget(self.high_slider, 1, 3)
+        params_layout.addWidget(self.sweep_slider, 2, 3)
+        params_layout.addWidget(self.width_slider, 3, 3)
+        params_layout.addWidget(QLabel(self.tr('Sharpen')), 0, 4)
+        params_layout.addWidget(self.sharpen_slider, 0, 5)
+        params_layout.addWidget(QLabel(self.tr('Threshold')), 1, 4)
+        params_layout.addWidget(self.thr_slider, 1, 5)
+        params_layout.addWidget(self.equalize_combo, 2, 4)
+        params_layout.addWidget(self.invert_check, 2, 5)
+        params_layout.addWidget(self.reset_button, 3, 4, 1, 2)
+
         top_layout = QHBoxLayout()
         top_layout.addLayout(params_layout)
         top_layout.addStretch()
@@ -94,8 +99,13 @@ class AdjustWidget(ToolWidget):
         sweep = self.sweep_slider.value()
         width = self.width_slider.value()
         threshold = self.thr_slider.value()
+        sharpen = self.sharpen_slider.value()
 
         result = np.copy(self.image)
+        if sharpen > 0:
+            kernel = 2 * sharpen + 1
+            gaussian = cv.GaussianBlur(result, (kernel, kernel), 0)
+            result = cv.addWeighted(result, 1.5, gaussian, -0.5, 0)
         if brightness != 0 or saturation != 0 or hue != 0:
             h, s, v = cv.split(cv.cvtColor(result, cv.COLOR_BGR2HSV))
             if hue != 0:
@@ -130,11 +140,11 @@ class AdjustWidget(ToolWidget):
                 if equalize == 2:
                     clip = 2
                 elif equalize == 3:
-                    clip = 10
+                    clip = 5
                 elif equalize == 4:
-                    clip = 20
+                    clip = 10
                 elif equalize == 5:
-                    clip = 40
+                    clip = 20
                 v = cv.createCLAHE(clip).apply(v)
             result = cv.cvtColor(cv.merge([h, s, v]), cv.COLOR_HSV2BGR)
         if threshold < 255:
@@ -147,11 +157,15 @@ class AdjustWidget(ToolWidget):
         self.viewer.update_processed(result)
 
     def reset(self):
-        self.bright_slider.setValue(0)
-        self.sat_slider.setValue(0)
-        self.hue_slider.setValue(0)
-        self.gamma_slider.setValue(10)
-        self.shadow_slider.setValue(0)
-        self.high_slider.setValue(0)
+        self.bright_slider.reset_value()
+        self.sat_slider.reset_value()
+        self.hue_slider.reset_value()
+        self.gamma_slider.reset_value()
+        self.shadow_slider.reset_value()
+        self.high_slider.reset_value()
+        self.sweep_slider.reset_value()
+        self.width_slider.reset_value()
+        self.sharpen_slider.reset_value()
+        self.thr_slider.reset_value()
         self.equalize_combo.setCurrentIndex(0)
         self.invert_check.setChecked(False)

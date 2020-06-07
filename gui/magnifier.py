@@ -9,7 +9,7 @@ from PySide2.QtWidgets import (
     QCheckBox)
 
 from tools import ToolWidget
-from utility import auto_lut, equalize_image
+from utility import auto_lut, equalize_img
 from viewer import ImageViewer
 
 
@@ -60,7 +60,7 @@ class MagnifierWidget(ToolWidget):
         x2 = rect.right()
         roi = self.image[y1:y2, x1:x2]
         if self.equalize_radio.isChecked():
-            roi = equalize_image(roi)
+            roi = equalize_img(roi)
             self.last_radio = self.equalize_radio
         elif self.contrast_radio.isChecked():
             centile = self.centile_spin.value() / 200

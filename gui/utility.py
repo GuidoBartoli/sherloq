@@ -106,8 +106,12 @@ def signed_value(value):
     return '{}{}'.format('+' if value > 0 else '', value)
 
 
-def equalize_image(image):
+def equalize_img(image):
     return cv.merge([cv.equalizeHist(c) for c in cv.split(image)])
+
+
+def norm_img(image):
+    return cv.merge([norm_mat(c) for c in cv.split(image)])
 
 
 def load_image(parent, filename=None):
@@ -146,7 +150,7 @@ def desaturate(image):
     return cv.cvtColor(cv.cvtColor(image, cv.COLOR_BGR2GRAY), cv.COLOR_GRAY2BGR)
 
 
-def normalize_mat(matrix, to_bgr=False):
+def norm_mat(matrix, to_bgr=False):
     norm = cv.normalize(matrix, None, 0, 255, cv.NORM_MINMAX).astype(np.uint8)
     if not to_bgr:
         return norm
@@ -186,7 +190,7 @@ def ssimul_exe():
 class ParamSlider(QWidget):
     valueChanged = Signal(int)
 
-    def __init__(self, interval, ticks=10, reset=0, suffix=None, label=None, bold=False, parent=None):
+    def __init__(self, interval, ticks=10, reset=0, suffix=None, label=None, bold=False, special=None, parent=None):
         super(ParamSlider, self).__init__(parent)
 
         self.slider = QSlider(Qt.Horizontal)
@@ -202,7 +206,8 @@ class ParamSlider(QWidget):
         self.spin.setRange(interval[0], interval[1])
         self.spin.setValue(reset)
         self.spin.setSuffix(suffix)
-        self.spin.setFixedWidth(50)
+        self.spin.setFixedWidth(55)
+        self.spin.setSpecialValueText(special)
 
         self.reset = reset
         self.slider.valueChanged.connect(self.spin.setValue)
@@ -220,6 +225,9 @@ class ParamSlider(QWidget):
         self.setMaximumWidth(200)
 
     def doubleClicked(self, _):
+        self.reset_value()
+
+    def reset_value(self):
         self.slider.setValue(self.reset)
         self.spin.setValue(self.reset)
 

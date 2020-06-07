@@ -57,7 +57,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Open a synchronized double view to compare two different pictures'),
                            self.tr('Display independent channel or composite interactive image histogram'),
                            self.tr('Apply standard adjustments (contrast, brightness, hue, saturation)')])
-        tool_progress.extend([3, 3, 2, 2])
+        tool_progress.extend([3, 3, 2, 3])
 
         # [3]
         group_names.append(self.tr('[JPEG]'))
@@ -76,12 +76,12 @@ class ToolTree(QTreeWidget):
         tool_names.append([self.tr('RGB/HSV 2D Plot'),
                            self.tr('Pixel Statistics'),
                            self.tr('Space Conversion'),
-                           self.tr('PCA Projection')])
+                           self.tr('PCA Decomposition')])
         tool_infos.append([self.tr('Display an interactive 2D plots of RGB and HSV pixel values'),
                            self.tr('Compute minimum/maximum/average RGB values for every pixel'),
                            self.tr('Convert RGB channels into HSV/YCbCr/Lab/Luv/CMYK/Gray spaces'),
                            self.tr('Use color PCA to project RGB values into reduced dimensions')])
-        tool_progress.extend([2, 3, 3, 2])
+        tool_progress.extend([2, 3, 3, 3])
 
         # [5]
         group_names.append(self.tr('[Tonality]'))
@@ -99,7 +99,7 @@ class ToolTree(QTreeWidget):
         group_names.append(self.tr('[Noise]'))
         tool_names.append([self.tr('Noise Estimation'),
                            self.tr('Min/Max Deviation'),
-                           self.tr('Image Bit Planes'),
+                           self.tr('Bit Plane Values'),
                            self.tr('Frequency Split')])
         tool_infos.append([self.tr('Estimate and visualize gaussian noise components of the image'),
                            self.tr('Highlight pixels deviating from block-based min/max statistics'),
@@ -113,7 +113,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Region Cloning'),
                            self.tr('Image Resampling'),
                            self.tr('Composite Splicing')])
-        tool_infos.append([self.tr('Analyze color distribuions to detect contrast enhancements'),
+        tool_infos.append([self.tr('Analyze color distributions to detect contrast enhancements'),
                            self.tr('Use feature descriptors for copy/rotate clone area detection'),
                            self.tr('Analyze 2D pixel interpolation for detecting resampling traces'),
                            self.tr('Exploit DCT statistics for automatic splicing zone detection')])

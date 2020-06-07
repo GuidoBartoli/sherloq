@@ -10,7 +10,7 @@ from PySide2.QtWidgets import (
     QSpinBox)
 
 from tools import ToolWidget
-from utility import create_lut, elapsed_time, equalize_image
+from utility import create_lut, elapsed_time, equalize_img
 from viewer import ImageViewer
 
 
@@ -111,7 +111,7 @@ class NoiseWidget(ToolWidget):
                 if grayscale:
                     result = cv.equalizeHist(noise)
                 else:
-                    result = equalize_image(noise)
+                    result = equalize_img(noise)
             else:
                 result = cv.LUT(noise, create_lut(0, 255 - levels))
         if grayscale:

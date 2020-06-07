@@ -8,7 +8,7 @@ from PySide2.QtWidgets import (
     QSpinBox)
 
 from tools import ToolWidget
-from utility import normalize_mat
+from utility import norm_mat
 from viewer import ImageViewer
 
 
@@ -58,7 +58,7 @@ class PlanesWidget(ToolWidget):
         else:
             img = self.image[:, :, 3 - channel]
 
-        self.planes = [normalize_mat(cv.bitwise_and(np.full_like(img, 2**b), img), to_bgr=True) for b in range(8)]
+        self.planes = [norm_mat(cv.bitwise_and(np.full_like(img, 2 ** b), img), to_bgr=True) for b in range(8)]
 
         # rows, cols = img.shape
         # bits = 8

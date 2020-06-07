@@ -11,7 +11,7 @@ from PySide2.QtWidgets import (
     QLabel)
 
 from tools import ToolWidget
-from utility import create_lut, normalize_mat, equalize_image, elapsed_time
+from utility import create_lut, norm_mat, equalize_img, elapsed_time
 from viewer import ImageViewer
 
 
@@ -74,15 +74,15 @@ class GradientWidget(ToolWidget):
         elif blue_mode == 1:
             blue = np.full_like(red, 255)
         elif blue_mode == 2:
-            blue = normalize_mat(dx_abs + dy_abs)
+            blue = norm_mat(dx_abs + dy_abs)
         elif blue_mode == 3:
-            blue = normalize_mat(np.linalg.norm(cv.merge((red, green)), axis=2))
+            blue = norm_mat(np.linalg.norm(cv.merge((red, green)), axis=2))
         else:
             blue = None
         gradient = cv.merge([blue, green, red])
         if intensity > 0:
             gradient = cv.LUT(gradient, create_lut(intensity, intensity))
         if equalize:
-            gradient = equalize_image(gradient)
+            gradient = equalize_img(gradient)
         self.grad_viewer.update_processed(gradient)
         self.info_message.emit(self.tr('Luminance Gradient = {}'.format(elapsed_time(start))))

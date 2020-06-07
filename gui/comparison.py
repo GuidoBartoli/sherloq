@@ -22,8 +22,8 @@ from PySide2.QtWidgets import (
 
 from tools import ToolWidget
 from utility import (
-    normalize_mat,
-    equalize_image,
+    norm_mat,
+    equalize_img,
     modify_font,
     load_image,
     desaturate,
@@ -200,7 +200,7 @@ class ComparisonWidget(ToolWidget):
             return
         self.reference = reference
         self.reference_viewer.set_title(self.tr('Reference: {}'.format(basename)))
-        self.difference = normalize_mat(cv.absdiff(self.evidence, self.reference))
+        self.difference = norm_mat(cv.absdiff(self.evidence, self.reference))
 
         self.comp_label.setEnabled(True)
         self.normal_radio.setEnabled(True)
@@ -241,7 +241,7 @@ class ComparisonWidget(ToolWidget):
             self.last_radio.setChecked(True)
             return
         if self.equal_check.isChecked():
-            result = equalize_image(result)
+            result = equalize_img(result)
         if self.gray_check.isChecked():
             result = desaturate(result)
         self.reference_viewer.update_original(result)
@@ -381,7 +381,7 @@ class ComparisonWidget(ToolWidget):
         t1 *= t2
         ssim_map = cv.divide(t3, t1)
         ssim = cv.mean(ssim_map)[0]
-        return ssim, 255 - normalize_mat(ssim_map, to_bgr=True)
+        return ssim, 255 - norm_mat(ssim_map, to_bgr=True)
 
     @staticmethod
     def corr(x, y):

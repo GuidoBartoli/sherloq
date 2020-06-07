@@ -10,7 +10,7 @@ from PySide2.QtWidgets import (
     QSpinBox)
 
 from tools import ToolWidget
-from utility import normalize_mat, elapsed_time, modify_font
+from utility import norm_mat, elapsed_time, modify_font
 from viewer import ImageViewer
 
 
@@ -110,10 +110,10 @@ class FrequencyWidget(ToolWidget):
 
         rows0, cols0, _ = self.image.shape
         low = cv.idft(np.fft.ifftshift(self.dft * mask2), flags=cv.DFT_SCALE)
-        low = normalize_mat(cv.magnitude(low[:, :, 0], low[:, :, 1])[:rows0, :cols0], to_bgr=True)
+        low = norm_mat(cv.magnitude(low[:, :, 0], low[:, :, 1])[:rows0, :cols0], to_bgr=True)
         self.low_viewer.update_processed(low)
         high = cv.idft(np.fft.ifftshift(self.dft * (1 - mask2)), flags=cv.DFT_SCALE)
-        high = normalize_mat(cv.magnitude(high[:, :, 0], high[:, :, 1]), to_bgr=True)
+        high = norm_mat(cv.magnitude(high[:, :, 0], high[:, :, 1]), to_bgr=True)
         self.high_viewer.update_processed(np.copy(high[:self.image.shape[0], :self.image.shape[1]]))
 
         magnitude = (self.magnitude * mask).astype(np.uint8)

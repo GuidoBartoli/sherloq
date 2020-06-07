@@ -13,7 +13,7 @@ from PySide2.QtWidgets import (
     QLabel)
 
 from tools import ToolWidget
-from utility import elapsed_time, normalize_mat
+from utility import elapsed_time, norm_mat
 from viewer import ImageViewer
 
 
@@ -157,7 +157,7 @@ class MinMaxWidget(ToolWidget):
                     minmax[:, :, 2 - maximum] += high
                 else:
                     minmax += np.repeat(high[:, :, np.newaxis], 3, axis=2)
-            minmax = normalize_mat(minmax)
+            minmax = norm_mat(minmax)
             self.info_message.emit(self.tr('Min/Max Filter = {}'.format(elapsed_time(start))))
         else:
             if minimum == 0:
