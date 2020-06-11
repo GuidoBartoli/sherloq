@@ -28,8 +28,8 @@ class GradientWidget(ToolWidget):
         self.invert_check = QCheckBox(self.tr('Invert'))
         self.equalize_check = QCheckBox(self.tr('Equalize'))
 
-        self.grad_viewer = ImageViewer(image, image)
         self.image = image
+        self.viewer = ImageViewer(self.image, self.image)
         self.dx, self.dy = cv.spatialGradient(cv.cvtColor(self.image, cv.COLOR_BGR2GRAY))
         self.process()
 
@@ -49,7 +49,7 @@ class GradientWidget(ToolWidget):
 
         main_layout = QVBoxLayout()
         main_layout.addLayout(top_layout)
-        main_layout.addWidget(self.grad_viewer)
+        main_layout.addWidget(self.viewer)
 
         self.setLayout(main_layout)
 
@@ -84,5 +84,5 @@ class GradientWidget(ToolWidget):
             gradient = cv.LUT(gradient, create_lut(intensity, intensity))
         if equalize:
             gradient = equalize_img(gradient)
-        self.grad_viewer.update_processed(gradient)
+        self.viewer.update_processed(gradient)
         self.info_message.emit(self.tr('Luminance Gradient = {}'.format(elapsed_time(start))))

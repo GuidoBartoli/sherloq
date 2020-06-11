@@ -93,7 +93,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Use derivative filters to reveal artificial out-of-focus zones'),
                            self.tr('Exploit spatial correlation patterns among neighboring pixels'),
                            self.tr('Reconstruct image with different wavelet coefficient thresholds')])
-        tool_progress.extend([3, 3, 0, 0])
+        tool_progress.extend([3, 3, 0, 2])
 
         # [6]
         group_names.append(self.tr('[Noise]'))

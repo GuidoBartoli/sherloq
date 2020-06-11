@@ -114,6 +114,10 @@ def norm_img(image):
     return cv.merge([norm_mat(c) for c in cv.split(image)])
 
 
+def bgr_to_gray3(image):
+    return cv.cvtColor(cv.cvtColor(image, cv.COLOR_BGR2GRAY), cv.COLOR_GRAY2BGR)
+
+
 def load_image(parent, filename=None):
     nothing = [None] * 3
     settings = QSettings()

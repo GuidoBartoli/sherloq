@@ -1,6 +1,5 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtCore import Qt
 from PySide2.QtGui import QColor
 from PySide2.QtWidgets import (
     QVBoxLayout,
@@ -29,6 +28,7 @@ class HistWidget(ToolWidget):
         self.green_radio = QRadioButton(self.tr('Green'))
         self.blue_radio = QRadioButton(self.tr('Blue'))
         self.value_radio = QRadioButton(self.tr('Value'))
+        self.smooth_check = QCheckBox(self.tr('Smooth line'))
         self.log_check = QCheckBox(self.tr('Log scale'))
         self.grid_check = QCheckBox(self.tr('Show grid'))
         self.marker_check = QCheckBox(self.tr('Show markers'))
@@ -41,24 +41,22 @@ class HistWidget(ToolWidget):
         self.hist = [compute_hist(c) for c in channels]
         rows, cols, chans = image.shape
         pixels = rows * cols
-        unique = np.unique(np.reshape(image, (pixels, chans)), axis=0).shape[0]
-        unique_ratio = unique / pixels * 100
-        unique_label = QLabel(self.tr(
-            'total pixels = {}, unique colors = {} ({:.2f}%) '.format(pixels, unique, unique_ratio)))
-        modify_font(unique_label, italic=True)
+        unique_colors = np.unique(np.reshape(image, (pixels, chans)), axis=0).shape[0]
+        unique_ratio = unique_colors / pixels * 100
 
         self.rgb_radio.clicked.connect(self.redraw)
         self.red_radio.clicked.connect(self.redraw)
         self.green_radio.clicked.connect(self.redraw)
         self.blue_radio.clicked.connect(self.redraw)
         self.value_radio.clicked.connect(self.redraw)
+        self.smooth_check.stateChanged.connect(self.redraw)
         self.log_check.stateChanged.connect(self.redraw)
         self.grid_check.stateChanged.connect(self.redraw)
         self.marker_check.stateChanged.connect(self.redraw)
         self.start_slider.valueChanged.connect(self.redraw)
         self.end_slider.valueChanged.connect(self.redraw)
 
-        self.table_widget = QTableWidget(8, 2)
+        self.table_widget = QTableWidget(12, 2)
         self.table_widget.setHorizontalHeaderLabels([self.tr('Property'), self.tr('Value')])
         self.table_widget.setItem(0, 0, QTableWidgetItem(self.tr('Least frequent')))
         self.table_widget.setItem(1, 0, QTableWidgetItem(self.tr('Most frequent')))
@@ -67,14 +65,20 @@ class HistWidget(ToolWidget):
         self.table_widget.setItem(4, 0, QTableWidgetItem(self.tr('Deviation')))
         self.table_widget.setItem(5, 0, QTableWidgetItem(self.tr('Pixel count')))
         self.table_widget.setItem(6, 0, QTableWidgetItem(self.tr('Percentile')))
-        self.table_widget.setItem(7, 0, QTableWidgetItem(self.tr('Smoothness')))
+        self.table_widget.setItem(7, 0, QTableWidgetItem(self.tr('Nonzero range')))
+        self.table_widget.setItem(8, 0, QTableWidgetItem(self.tr('Empty bins')))
+        self.table_widget.setItem(9, 0, QTableWidgetItem(self.tr('Smoothness')))
+        self.table_widget.setItem(10, 0, QTableWidgetItem(self.tr('Unique colors')))
+        self.table_widget.setItem(10, 1, QTableWidgetItem(str(unique_colors)))
+        self.table_widget.setItem(11, 0, QTableWidgetItem(self.tr('Unique ratio')))
+        self.table_widget.setItem(11, 1, QTableWidgetItem(str(np.round(unique_ratio, 2)) + '%'))
         for i in range(self.table_widget.rowCount()):
             modify_font(self.table_widget.item(i, 0), bold=True)
         self.table_widget.setSelectionMode(QAbstractItemView.SingleSelection)
         self.table_widget.setEditTriggers(QAbstractItemView.NoEditTriggers)
-        self.table_widget.resizeColumnsToContents()
         self.table_widget.setAlternatingRowColors(True)
         self.table_widget.setMaximumWidth(200)
+        self.table_widget.resizeColumnsToContents()
 
         figure = Figure()
         plot_canvas = FigureCanvas(figure)
@@ -83,12 +87,11 @@ class HistWidget(ToolWidget):
         figure.set_tight_layout(True)
 
         right_layout = QVBoxLayout()
-        table_label = QLabel(self.tr('Range properties'))
-        modify_font(table_label, bold=True)
-        table_label.setAlignment(Qt.AlignCenter)
-        right_layout.addWidget(table_label)
+        # table_label = QLabel(self.tr('Range properties'))
+        # modify_font(table_label, bold=True)
+        # table_label.setAlignment(Qt.AlignCenter)
+        # right_layout.addWidget(table_label)
         right_layout.addWidget(self.table_widget)
-        right_layout.addWidget(self.marker_check)
         right_layout.addWidget(self.start_slider)
         right_layout.addWidget(self.end_slider)
 
@@ -104,10 +107,10 @@ class HistWidget(ToolWidget):
         bottom_layout.addWidget(self.blue_radio)
         bottom_layout.addWidget(self.value_radio)
         bottom_layout.addStretch()
+        bottom_layout.addWidget(self.smooth_check)
         bottom_layout.addWidget(self.log_check)
         bottom_layout.addWidget(self.grid_check)
-        bottom_layout.addStretch()
-        bottom_layout.addWidget(unique_label)
+        bottom_layout.addWidget(self.marker_check)
 
         main_layout = QVBoxLayout()
         main_layout.addLayout(center_layout)
@@ -122,6 +125,7 @@ class HistWidget(ToolWidget):
         green = self.green_radio.isChecked()
         blue = self.blue_radio.isChecked()
         value = self.value_radio.isChecked()
+        smooth = self.smooth_check.isChecked()
         grid = self.grid_check.isChecked()
         log = self.log_check.isChecked()
         try:
@@ -131,31 +135,44 @@ class HistWidget(ToolWidget):
         y = None
         if value:
             y = self.hist[3]
-            self.axes.step(x, y, 'k', where='mid')
-            self.axes.fill_between(x, y, alpha=alpha, facecolor='k', step='mid')
+            if smooth:
+                self.axes.plot(x, y, 'k')
+            else:
+                self.axes.step(x, y, 'k')  # , where='pre')
+            self.axes.fill_between(x, y, alpha=alpha, facecolor='k')  # , step='pre')
         else:
             # TODO: Ottimizzare facendo un ciclo senza ripetere le istruzioni
+            step = None if smooth else 'pre'
             if red or rgb:
                 y = self.hist[0]
-                self.axes.step(x, y, 'r', where='mid')
-                self.axes.fill_between(x, y, alpha=alpha, facecolor='r', step='mid')
+                if smooth:
+                    self.axes.plot(x, y, 'r')
+                else:
+                    self.axes.step(x, y, 'r', where='pre')
+                self.axes.fill_between(x, y, alpha=alpha, facecolor='r', step=step)
             if green or rgb:
                 y = self.hist[1]
-                self.axes.step(x, y, 'g', where='mid')
-                self.axes.fill_between(x, y, alpha=alpha, facecolor='g', step='mid')
+                if smooth:
+                    self.axes.plot(x, y, 'g')
+                else:
+                    self.axes.step(x, y, 'g', where='pre')
+                self.axes.fill_between(x, y, alpha=alpha, facecolor='g', step=step)
             if blue or rgb:
                 y = self.hist[2]
-                self.axes.step(x, y, 'b', where='mid')
-                self.axes.fill_between(x, y, alpha=alpha, facecolor='b', step='mid')
+                if smooth:
+                    self.axes.plot(x, y, 'b')
+                else:
+                    self.axes.step(x, y, 'b', where='pre')
+                self.axes.fill_between(x, y, alpha=alpha, facecolor='b', step=step)
         if log:
             self.axes.set_yscale('log')
             self.axes.set_ylim(bottom=1)
         else:
             self.axes.set_yscale('linear')
             self.axes.set_ylim(bottom=0)
-        self.axes.set_xlim([-1, 256])
-        self.axes.set_xlabel(self.tr('intensity value'))
-        self.axes.set_ylabel(self.tr('pixel count'))
+        self.axes.set_xlim([0, 255])
+        self.axes.set_xlabel(self.tr('intensity'))
+        self.axes.set_ylabel(self.tr('count'))
         self.axes.set_xticks([0, 64, 128, 192, 255])
         self.axes.grid(grid, which='both')
 
@@ -164,7 +181,7 @@ class HistWidget(ToolWidget):
             self.marker_check.setEnabled(False)
             self.start_slider.setEnabled(False)
             self.end_slider.setEnabled(False)
-            for i in range(self.table_widget.rowCount()):
+            for i in range(self.table_widget.rowCount() - 2):
                 if self.table_widget.item(i, 1) is not None:
                     self.table_widget.item(i, 1).setText('')
                     self.table_widget.item(i, 1).setBackgroundColor(QColor('white'))
@@ -190,6 +207,8 @@ class HistWidget(ToolWidget):
                 stddev = np.round(np.sqrt(np.sum(((x - mean)**2) * y) / count), 2)
                 median = np.argmax(np.cumsum(y) > count / 2) + start
                 percent = np.round(count / total * 100, 2)
+                empty = 256 - np.count_nonzero(y)
+                nonzero = [np.nonzero(y)[0][0] + start, np.nonzero(y)[0][-1] + start]
                 y = y / np.max(y)
                 sweep = len(y)
                 smooth = 0
@@ -204,8 +223,9 @@ class HistWidget(ToolWidget):
                     self.axes.axvline(argmin, linestyle='--', color='m')
                     self.axes.axvline(mean, linestyle='-', color='m')
                     self.axes.axvline(argmax, linestyle='-.', color='m')
+                    self.axes.axvline(median, linestyle=':', color='m')
             else:
-                argmin = argmax = mean = stddev = median = percent = smooth = 0
+                argmin = argmax = mean = stddev = median = percent = smooth = empty = nonzero = 0
             self.table_widget.setItem(0, 1, QTableWidgetItem(str(argmin)))
             self.table_widget.setItem(1, 1, QTableWidgetItem(str(argmax)))
             self.table_widget.setItem(2, 1, QTableWidgetItem(str(mean)))
@@ -213,15 +233,17 @@ class HistWidget(ToolWidget):
             self.table_widget.setItem(4, 1, QTableWidgetItem(str(stddev)))
             self.table_widget.setItem(5, 1, QTableWidgetItem(str(count)))
             self.table_widget.setItem(6, 1, QTableWidgetItem(str(percent) + '%'))
-            self.table_widget.setItem(7, 1, QTableWidgetItem(str(smooth) + '%'))
+            self.table_widget.setItem(7, 1, QTableWidgetItem(str(nonzero)))
+            self.table_widget.setItem(8, 1, QTableWidgetItem(str(empty)))
+            self.table_widget.setItem(9, 1, QTableWidgetItem(str(smooth) + '%'))
             if smooth <= 80:
-                self.table_widget.item(7, 1).setBackgroundColor(QColor.fromHsv(0, 96, 255))
+                self.table_widget.item(9, 1).setBackgroundColor(QColor.fromHsv(0, 96, 255))
             elif smooth <= 90:
-                self.table_widget.item(7, 1).setBackgroundColor(QColor.fromHsv(30, 96, 255))
+                self.table_widget.item(9, 1).setBackgroundColor(QColor.fromHsv(30, 96, 255))
             elif smooth <= 95:
-                self.table_widget.item(7, 1).setBackgroundColor(QColor.fromHsv(60, 96, 255))
+                self.table_widget.item(9, 1).setBackgroundColor(QColor.fromHsv(60, 96, 255))
             else:
-                self.table_widget.item(7, 1).setBackgroundColor(QColor.fromHsv(90, 96, 255))
+                self.table_widget.item(9, 1).setBackgroundColor(QColor.fromHsv(90, 96, 255))
             self.table_widget.resizeColumnsToContents()
             if start != 0 or end != 255:
                 self.axes.axvline(start, linestyle=':', color='k')

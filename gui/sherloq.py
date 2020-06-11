@@ -39,6 +39,7 @@ from structure import StructureWidget
 from thumbnail import ThumbWidget
 from tools import ToolTree
 from utility import modify_font, load_image
+from wavelets import WaveletWidget
 
 
 class MainWindow(QMainWindow):
@@ -374,6 +375,8 @@ class MainWindow(QMainWindow):
                 tool_widget = GradientWidget(self.image)
             elif tool == 1:
                 tool_widget = EchoWidget(self.image)
+            elif tool == 3:
+                tool_widget = WaveletWidget(self.image)
             else:
                 return
         elif group == 6:
