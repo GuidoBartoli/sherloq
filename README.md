@@ -15,9 +15,9 @@ I strongly believe that *security-by-obscurity* is the wrong way to offer any 
 # History
 The first version was written in 2015 using C++11 to build a command line utility with many options, but soon it turned to be too cumbersome and not much interactive. That version could be compiled with CMake after installing OpenCV, Boost and AlgLib libraries. This first proof of concept offered about 80% of planned features (see below for the full list).
 
-While also including novel algorithms, the 2017 version mainly added a Qt-based multi-window GUI to provide a better user experience. Multiple analyses could be shown on screen and a fast zoom/scroll  viewer was implemented for easier image navigation. That project could be compiled with Qt Creator with Qt 5 and OpenCV 3 and covered about 70% of planned features (see below for the full list).
+While also including novel algorithms, the 2017 version mainly added a Qt-based multi-window GUI to provide a better user experience. Multiple analyses could be shown on screen and a fast zoom/scroll  viewer was implemented for easier image navigation. That project could be compiled with Qt Creator with Qt 5 and OpenCV 3 and covered about 70% of planned features.
 
-Fast forward to 2020 when I decided to port everything in Python + PySide2 + OpenCV for a much easier installation and development. While iteration is just begun and I have ported about 70% of the previous code on the new platform, I think this will be the final "form" of the project (as long as someone does not volunteer up to develop a nice web application!).
+Fast forward to 2020 when I decided to port everything in Python (PySide2 + Matplotlib + OpenCV) for easier development and deployment. While this iteration is just begun and I have yet to port all the previous code on the new platform, I think this will be the final "form" of the project (as long as someone does not volunteer up to develop a nice web application!).
 
 I'm happy to share my code and get in contact with anyone interested to improve or test it, but please keep in mind that this repository is *not* intended for distributing a final product, my aim is just to publicly track development of an *unpretentious educational tool*, so expect bugs, unpolished code and missing features! ;)
 
@@ -28,6 +28,7 @@ This list contains the functions that **Sherloq** will provide once the beta sta
 - Modern Qt-based GUI with multiple tool window management
 - Import BMP, JPEG, PNG, WebP, PGM, PFM, TIFF and GIF formats
 - Highly responsive image viewer with panning and zooming
+- Many state-of-the-art algorithms to try out in real-time
 - Contextual help with current tool explanation
 - Export both visual and textual tool outputs
 

@@ -73,7 +73,7 @@ class ToolTree(QTreeWidget):
 
         # [4]
         group_names.append(self.tr('[Colors]'))
-        tool_names.append([self.tr('RGB/HSV 2D Plot'),
+        tool_names.append([self.tr('RGB/HSV Plots'),
                            self.tr('Pixel Statistics'),
                            self.tr('Space Conversion'),
                            self.tr('PCA Decomposition')])
@@ -81,7 +81,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Compute minimum/maximum/average RGB values for every pixel'),
                            self.tr('Convert RGB channels into HSV/YCbCr/Lab/Luv/CMYK/Gray spaces'),
                            self.tr('Use color PCA to project RGB values into reduced dimensions')])
-        tool_progress.extend([2, 3, 3, 3])
+        tool_progress.extend([3, 3, 3, 3])
 
         # [5]
         group_names.append(self.tr('[Tonality]'))

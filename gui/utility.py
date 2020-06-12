@@ -5,7 +5,7 @@ from time import time
 import cv2 as cv
 import numpy as np
 from PySide2.QtCore import QSettings, QFileInfo, Signal, Qt
-from PySide2.QtGui import QImage, QFontDatabase
+from PySide2.QtGui import QImage, QFontDatabase, QColor
 from PySide2.QtWidgets import (
     QLabel,
     QTreeWidgetItem,
@@ -20,6 +20,18 @@ from PySide2.QtWidgets import (
 def mat2img(cvmat):
     height, width, channels = cvmat.shape
     return QImage(cvmat.data, width, height, 3 * width, QImage.Format_BGR888)
+
+
+def color_by_value(item, value, splits):
+    if value < splits[0]:
+        hue = 0
+    elif value < splits[1]:
+        hue = 30
+    elif value < splits[2]:
+        hue = 60
+    else:
+        hue = 90
+    item.setBackgroundColor(QColor.fromHsv(hue, 96, 255))
 
 
 def modify_font(obj, bold=False, italic=False, underline=False, mono=False):
@@ -112,6 +124,14 @@ def equalize_img(image):
 
 def norm_img(image):
     return cv.merge([norm_mat(c) for c in cv.split(image)])
+
+
+def clip_value(value, minv=None, maxv=None):
+    if minv is not None:
+        value = max(value, minv)
+    if maxv is not None:
+        value = min(value, maxv)
+    return value
 
 
 def bgr_to_gray3(image):

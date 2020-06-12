@@ -16,7 +16,7 @@ from PySide2.QtWidgets import (
 
 from jpeg import TABLE_SIZE, ZIG_ZAG, DCT_SIZE, get_tables
 from tools import ToolWidget
-from utility import modify_font, exiftool_exe
+from utility import modify_font, exiftool_exe, clip_value, zero_cross
 
 
 class QualityWidget(ToolWidget):
@@ -78,17 +78,23 @@ class QualityWidget(ToolWidget):
             self.show_error(self.tr('Unable to find JPEG tables!'))
             return
 
-        tables = np.concatenate((luma[:, :, np.newaxis], chroma[:, :, np.newaxis]), axis=2)
-        levels = [0, 0]
-        for i in range(2):
-            table = tables[:, :, i]
-            mean = (np.mean(table) * TABLE_SIZE - table[0, 0]) / (TABLE_SIZE - 1)
-            levels[i] = (1 - mean / 255) * 100
-            # FIXME: per non fare questo controllo, forse sopra bisogna dividere solo per TABLE_SIZE
-            if levels[i] > 99.6:
-                levels[i] = 100
-        profile = [np.mean(cv.absdiff(tables, get_tables(q))) for q in range(101)]
-        quality = np.argmin(profile)
+        levels = [(1 - (np.mean(t.ravel()[1:]) - 1) / 254) * 100 for t in [luma, chroma]]
+        distance = np.zeros(101)
+        for q in range(101):
+            lu, ch = cv.split(get_tables(q))
+            lu_diff = np.mean(cv.absdiff(luma, lu))
+            ch_diff = np.mean(cv.absdiff(chroma, ch))
+            distance[q] = (lu_diff + 2 * ch_diff) / 3
+        closest = np.argmin(distance)
+        deviation = distance[closest]
+        if deviation == 0:
+            quality = closest
+            message = '(standard tables)'
+        else:
+            quality = int(np.round(closest - deviation))
+            message = '(estimated with deviation = {:.4f})'.format(deviation)
+        quality_label = QLabel(self.tr('Last save JPEG quality: {}% {}'.format(quality, message)))
+        modify_font(quality_label, bold=True)
 
         luma_label = QLabel(self.tr('Luminance Quantization Table (level = {:.2f}%)\n'.format(levels[0])))
         luma_label.setAlignment(Qt.AlignCenter)
@@ -99,22 +105,6 @@ class QualityWidget(ToolWidget):
         modify_font(chroma_label, underline=True)
         chroma_table = self.create_table(chroma)
 
-        quality_label = QLabel(self.tr('Estimated JPEG quality (last save) = {}%'.format(quality)))
-        modify_font(quality_label, bold=True)
-        deviation = profile[quality]
-        deviation_label = QLabel(self.tr('(average deviation from standard tables: {:.2f})'.format(deviation)))
-        modify_font(deviation_label, italic=True)
-        if deviation < 0.5:
-            color = '4cff4c'
-        elif deviation < 1:
-            color = 'ffff4c'
-        elif deviation < 1.5:
-            color = 'ffa64c'
-        else:
-            color = 'ff4c4c'
-        deviation_label.setStyleSheet('background-color: #{}'.format(color))
-        deviation_label.setAlignment(Qt.AlignRight)
-
         center_layout = QGridLayout()
         center_layout.addWidget(luma_label, 0, 0)
         center_layout.addWidget(luma_table, 1, 0)
@@ -123,7 +113,6 @@ class QualityWidget(ToolWidget):
         bottom_layout = QHBoxLayout()
         bottom_layout.addWidget(quality_label)
         bottom_layout.addStretch()
-        bottom_layout.addWidget(deviation_label)
         main_layout = QVBoxLayout()
         main_layout.addLayout(center_layout)
         main_layout.addLayout(bottom_layout)
@@ -138,7 +127,6 @@ class QualityWidget(ToolWidget):
         main_layout = QVBoxLayout()
         main_layout.addWidget(error_label)
         self.setLayout(main_layout)
-
 
     @staticmethod
     def find_next(file, markers):
@@ -156,13 +144,13 @@ class QualityWidget(ToolWidget):
     def create_table(matrix):
         table_widget = QTableWidget(DCT_SIZE, DCT_SIZE)
         hsv = np.array([[[0, 192, 255]]], dtype=np.uint8)
-        maximum = np.max(matrix)
+        maximum = clip_value(np.max(matrix) - 1, minv=1)
         for i in range(DCT_SIZE):
             for j in range(DCT_SIZE):
                 value = matrix[i, j]
                 item = QTableWidgetItem(str(value))
                 item.setTextAlignment(Qt.AlignCenter)
-                hsv[0, 0, 0] = 64 - 64 * (value / maximum)
+                hsv[0, 0, 0] = 64 - 64 * ((value - 1) / maximum)
                 rgb = cv.cvtColor(hsv.astype(np.uint8), cv.COLOR_HSV2RGB)
                 item.setBackgroundColor(QColor(rgb[0, 0, 0], rgb[0, 0, 1], rgb[0, 0, 2]))
                 table_widget.setItem(i, j, item)

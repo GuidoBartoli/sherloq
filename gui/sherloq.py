@@ -43,6 +43,8 @@ from wavelets import WaveletWidget
 
 
 class MainWindow(QMainWindow):
+    max_recent = 5
+
     def __init__(self, parent=None):
         super(MainWindow, self).__init__(parent)
         QApplication.setApplicationName('Sherloq')
@@ -166,7 +168,7 @@ class MainWindow(QMainWindow):
         file_menu = self.menuBar().addMenu(self.tr('&File'))
         file_menu.addAction(load_action)
         file_menu.addSeparator()
-        self.recent_actions = [None]*5
+        self.recent_actions = [None]*self.max_recent
         for i in range(len(self.recent_actions)):
             self.recent_actions[i] = QAction(self)
             self.recent_actions[i].setVisible(False)
@@ -292,6 +294,8 @@ class MainWindow(QMainWindow):
             basename, QApplication.applicationName(), QApplication.applicationVersion()))
         if filename not in self.recent_files:
             self.recent_files.insert(0, filename)
+            if len(self.recent_files) > self.max_recent:
+                self.recent_files = self.recent_files[:self.max_recent]
             self.update_recent()
         self.show_message(self.tr('Image "{}" successfully loaded'.format(basename)))
 

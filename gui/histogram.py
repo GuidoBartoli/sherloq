@@ -14,7 +14,7 @@ from matplotlib.backends.backend_qt5agg import FigureCanvas
 from matplotlib.figure import Figure
 
 from tools import ToolWidget
-from utility import compute_hist, modify_font, ParamSlider
+from utility import compute_hist, modify_font, ParamSlider, color_by_value
 
 
 class HistWidget(ToolWidget):
@@ -41,8 +41,8 @@ class HistWidget(ToolWidget):
         self.hist = [compute_hist(c) for c in channels]
         rows, cols, chans = image.shape
         pixels = rows * cols
-        unique_colors = np.unique(np.reshape(image, (pixels, chans)), axis=0).shape[0]
-        unique_ratio = unique_colors / pixels * 100
+        self.unique_colors = np.unique(np.reshape(image, (pixels, chans)), axis=0).shape[0]
+        self.unique_ratio = np.round(self.unique_colors / pixels * 100, 2)
 
         self.rgb_radio.clicked.connect(self.redraw)
         self.red_radio.clicked.connect(self.redraw)
@@ -56,7 +56,7 @@ class HistWidget(ToolWidget):
         self.start_slider.valueChanged.connect(self.redraw)
         self.end_slider.valueChanged.connect(self.redraw)
 
-        self.table_widget = QTableWidget(12, 2)
+        self.table_widget = QTableWidget(13, 2)
         self.table_widget.setHorizontalHeaderLabels([self.tr('Property'), self.tr('Value')])
         self.table_widget.setItem(0, 0, QTableWidgetItem(self.tr('Least frequent')))
         self.table_widget.setItem(1, 0, QTableWidgetItem(self.tr('Most frequent')))
@@ -67,11 +67,10 @@ class HistWidget(ToolWidget):
         self.table_widget.setItem(6, 0, QTableWidgetItem(self.tr('Percentile')))
         self.table_widget.setItem(7, 0, QTableWidgetItem(self.tr('Nonzero range')))
         self.table_widget.setItem(8, 0, QTableWidgetItem(self.tr('Empty bins')))
-        self.table_widget.setItem(9, 0, QTableWidgetItem(self.tr('Smoothness')))
-        self.table_widget.setItem(10, 0, QTableWidgetItem(self.tr('Unique colors')))
-        self.table_widget.setItem(10, 1, QTableWidgetItem(str(unique_colors)))
-        self.table_widget.setItem(11, 0, QTableWidgetItem(self.tr('Unique ratio')))
-        self.table_widget.setItem(11, 1, QTableWidgetItem(str(np.round(unique_ratio, 2)) + '%'))
+        self.table_widget.setItem(9, 0, QTableWidgetItem(self.tr('Unique colors')))
+        self.table_widget.setItem(10, 0, QTableWidgetItem(self.tr('Unique ratio')))
+        self.table_widget.setItem(11, 0, QTableWidgetItem(self.tr('Smoothness')))
+        self.table_widget.setItem(12, 0, QTableWidgetItem(self.tr('Fullness')))
         for i in range(self.table_widget.rowCount()):
             modify_font(self.table_widget.item(i, 0), bold=True)
         self.table_widget.setSelectionMode(QAbstractItemView.SingleSelection)
@@ -125,7 +124,7 @@ class HistWidget(ToolWidget):
         green = self.green_radio.isChecked()
         blue = self.blue_radio.isChecked()
         value = self.value_radio.isChecked()
-        smooth = self.smooth_check.isChecked()
+        smoothness = self.smooth_check.isChecked()
         grid = self.grid_check.isChecked()
         log = self.log_check.isChecked()
         try:
@@ -133,33 +132,33 @@ class HistWidget(ToolWidget):
         except RecursionError:
             return
         y = None
+        step = None if smoothness else 'pre'
         if value:
             y = self.hist[3]
-            if smooth:
+            if smoothness:
                 self.axes.plot(x, y, 'k')
             else:
-                self.axes.step(x, y, 'k')  # , where='pre')
-            self.axes.fill_between(x, y, alpha=alpha, facecolor='k')  # , step='pre')
+                self.axes.step(x, y, 'k', where='pre')
+            self.axes.fill_between(x, y, alpha=alpha, facecolor='k', step=step)
         else:
             # TODO: Ottimizzare facendo un ciclo senza ripetere le istruzioni
-            step = None if smooth else 'pre'
             if red or rgb:
                 y = self.hist[0]
-                if smooth:
+                if smoothness:
                     self.axes.plot(x, y, 'r')
                 else:
                     self.axes.step(x, y, 'r', where='pre')
                 self.axes.fill_between(x, y, alpha=alpha, facecolor='r', step=step)
             if green or rgb:
                 y = self.hist[1]
-                if smooth:
+                if smoothness:
                     self.axes.plot(x, y, 'g')
                 else:
                     self.axes.step(x, y, 'g', where='pre')
                 self.axes.fill_between(x, y, alpha=alpha, facecolor='g', step=step)
             if blue or rgb:
                 y = self.hist[2]
-                if smooth:
+                if smoothness:
                     self.axes.plot(x, y, 'b')
                 else:
                     self.axes.step(x, y, 'b', where='pre')
@@ -181,7 +180,7 @@ class HistWidget(ToolWidget):
             self.marker_check.setEnabled(False)
             self.start_slider.setEnabled(False)
             self.end_slider.setEnabled(False)
-            for i in range(self.table_widget.rowCount() - 2):
+            for i in range(self.table_widget.rowCount()):
                 if self.table_widget.item(i, 1) is not None:
                     self.table_widget.item(i, 1).setText('')
                     self.table_widget.item(i, 1).setBackgroundColor(QColor('white'))
@@ -207,25 +206,27 @@ class HistWidget(ToolWidget):
                 stddev = np.round(np.sqrt(np.sum(((x - mean)**2) * y) / count), 2)
                 median = np.argmax(np.cumsum(y) > count / 2) + start
                 percent = np.round(count / total * 100, 2)
-                empty = 256 - np.count_nonzero(y)
+                empty = len(x) - np.count_nonzero(y)
                 nonzero = [np.nonzero(y)[0][0] + start, np.nonzero(y)[0][-1] + start]
+                fullness = np.round(count / (255 * np.max(y)) * 100, 2)
                 y = y / np.max(y)
                 sweep = len(y)
-                smooth = 0
+                smoothness = 0
                 if sweep > 2:
                     for i in range(1, sweep - 1):
                         h0 = y[i - 1]
                         h1 = y[i]
                         h2 = y[i + 1]
-                        smooth += abs((h0 + h2) / 2 - h1)
-                    smooth = np.round((1 - (smooth / (sweep - 2))) * 100, 2)
+                        smoothness += abs((h0 + h2) / 2 - h1)
+                    smoothness = np.round((1 - (smoothness / (sweep - 2))) * 100, 2)
                 if self.marker_check.isChecked():
                     self.axes.axvline(argmin, linestyle='--', color='m')
                     self.axes.axvline(mean, linestyle='-', color='m')
                     self.axes.axvline(argmax, linestyle='-.', color='m')
                     self.axes.axvline(median, linestyle=':', color='m')
             else:
-                argmin = argmax = mean = stddev = median = percent = smooth = empty = nonzero = 0
+                argmin = argmax = mean = stddev = median = percent = smoothness = empty = nonzero = fullness = 0
+
             self.table_widget.setItem(0, 1, QTableWidgetItem(str(argmin)))
             self.table_widget.setItem(1, 1, QTableWidgetItem(str(argmax)))
             self.table_widget.setItem(2, 1, QTableWidgetItem(str(mean)))
@@ -235,15 +236,13 @@ class HistWidget(ToolWidget):
             self.table_widget.setItem(6, 1, QTableWidgetItem(str(percent) + '%'))
             self.table_widget.setItem(7, 1, QTableWidgetItem(str(nonzero)))
             self.table_widget.setItem(8, 1, QTableWidgetItem(str(empty)))
-            self.table_widget.setItem(9, 1, QTableWidgetItem(str(smooth) + '%'))
-            if smooth <= 80:
-                self.table_widget.item(9, 1).setBackgroundColor(QColor.fromHsv(0, 96, 255))
-            elif smooth <= 90:
-                self.table_widget.item(9, 1).setBackgroundColor(QColor.fromHsv(30, 96, 255))
-            elif smooth <= 95:
-                self.table_widget.item(9, 1).setBackgroundColor(QColor.fromHsv(60, 96, 255))
-            else:
-                self.table_widget.item(9, 1).setBackgroundColor(QColor.fromHsv(90, 96, 255))
+            self.table_widget.setItem(9, 1, QTableWidgetItem(str(self.unique_colors)))
+            self.table_widget.setItem(10, 1, QTableWidgetItem(str(self.unique_ratio) + '%'))
+            color_by_value(self.table_widget.item(10, 1), self.unique_ratio, [25, 50, 75])
+            self.table_widget.setItem(11, 1, QTableWidgetItem(str(smoothness) + '%'))
+            color_by_value(self.table_widget.item(11, 1), smoothness, [80, 90, 95])
+            self.table_widget.setItem(12, 1, QTableWidgetItem(str(fullness) + '%'))
+            color_by_value(self.table_widget.item(12, 1), fullness, [5, 10, 20])
             self.table_widget.resizeColumnsToContents()
             if start != 0 or end != 255:
                 self.axes.axvline(start, linestyle=':', color='k')
