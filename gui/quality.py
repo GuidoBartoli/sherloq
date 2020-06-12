@@ -16,7 +16,7 @@ from PySide2.QtWidgets import (
 
 from jpeg import TABLE_SIZE, ZIG_ZAG, DCT_SIZE, get_tables
 from tools import ToolWidget
-from utility import modify_font, exiftool_exe, clip_value, zero_cross
+from utility import modify_font, exiftool_exe, clip_value
 
 
 class QualityWidget(ToolWidget):
