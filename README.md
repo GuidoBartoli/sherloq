@@ -22,7 +22,7 @@ Fast forward to 2020 when I decided to port everything in Python (PySide2 + Matp
 I'm happy to share my code and get in contact with anyone interested to improve or test it, but please keep in mind that this repository is *not* intended for distributing a final product, my aim is just to publicly track development of an *unpretentious educational tool*, so expect bugs, unpolished code and missing features! ;)
 
 # Features
-This list contains the functions that **Sherloq** will provide once the beta stage is reached.
+This list contains the functions that **Sherloq** will hopefully provide once the beta stage is reached.
 
 ## Interface
 - Modern Qt-based GUI with multiple tool window management
@@ -111,8 +111,8 @@ Here are some screenshots from the previous C++ Qt GUI:
 </p>
 
 # Install
-1) Clone repository content into a local folder
-1) Create a Python 3 virtual environment (these are *Linux* instructions, for *Windows* you can follow [this guide](https://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows/), while [this guide](https://opensource.com/article/19/6/python-virtual-environments-mac) is for *MacOS*):
+1. Clone repository content into a local folder
+1. Create a Python 3 virtual environment (below there are *Linux* instructions, but for *Windows* you can follow [this guide](https://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows/), while [this guide](https://opensource.com/article/19/6/python-virtual-environments-mac) is for *MacOS*):
 
 ```
 Install package manager
@@ -120,21 +120,18 @@ $ sudo apt install python3-distutils python3-dev subversion
 $ wget https://bootstrap.pypa.io/get-pip.py
 $ sudo python3 get-pip.py
 
-Enable virtual environments
+Setup virtual environments
 $ sudo pip install virtualenv virtualenvwrapper
 $ echo -e "\n# Python Virtual Environments" >> ~/.bashrc
 $ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc
 $ echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bashrc
 $ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
 $ source ~/.bashrc
-
-Create virtual environment and switch
 $ mkvirtualenv sq -p python3
-$ workon sq
 ```
 
-3. Go to `gui` folder and execute `pip install -r requirements.txt`
-3. Launch GUI with `python sherloq.py`
+3. Change current directory to the `gui` folder and execute `pip install -r requirements.txt`
+3. Launch the program with `python sherloq.py`
 
 # Bibliography
 - Black Hat Briefings DC. (2008) A Picture's Worth: Digital Image Analysis and Forensics [White paper]. Washington, DC. Retrieved from http://blackhat.com/presentations/bh-dc-08/Krawetz/Whitepaper/bh-dc-08-krawetz-WP.pdf

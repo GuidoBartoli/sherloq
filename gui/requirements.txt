@@ -1,6 +1,6 @@
 lxml
 matplotlib
-opencv-contrib-python
+opencv-contrib-python-nonfree
 pip-chill
 pyside2
 python-magic

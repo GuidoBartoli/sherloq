@@ -57,7 +57,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Open a synchronized double view to compare two different pictures'),
                            self.tr('Display independent channel or composite interactive image histogram'),
                            self.tr('Apply standard adjustments (contrast, brightness, hue, saturation)')])
-        tool_progress.extend([3, 3, 2, 3])
+        tool_progress.extend([3, 3, 3, 3])
 
         # [3]
         group_names.append(self.tr('[JPEG]'))
@@ -93,7 +93,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Use derivative filters to reveal artificial out-of-focus zones'),
                            self.tr('Exploit spatial correlation patterns among neighboring pixels'),
                            self.tr('Reconstruct image with different wavelet coefficient thresholds')])
-        tool_progress.extend([3, 3, 0, 2])
+        tool_progress.extend([3, 3, 0, 3])
 
         # [6]
         group_names.append(self.tr('[Noise]'))

@@ -4,7 +4,7 @@ from time import time
 
 import cv2 as cv
 import numpy as np
-from PySide2.QtCore import QSettings, QFileInfo, Signal, Qt
+from PySide2.QtCore import QSettings, QFileInfo, Signal, Qt, QMimeDatabase
 from PySide2.QtGui import QImage, QFontDatabase, QColor
 from PySide2.QtWidgets import (
     QLabel,
@@ -91,19 +91,24 @@ def compute_hist(image, normalize=False):
 
 def auto_lut(image, centile):
     hist = compute_hist(image, normalize=True)
-    low_sum = high_sum = 0
-    low = 0
-    high = 255
-    for i, h in enumerate(hist):
-        low_sum += h
-        if low_sum >= centile:
-            low = i
-            break
-    for i, h in enumerate(np.flip(hist)):
-        high_sum += h
-        if high_sum >= centile:
-            high = i
-            break
+    if centile == 0:
+        nonzero = np.nonzero(hist)[0]
+        low = nonzero[0]
+        high = nonzero[-1]
+    else:
+        low_sum = high_sum = 0
+        low = 0
+        high = 255
+        for i, h in enumerate(hist):
+            low_sum += h
+            if low_sum >= centile:
+                low = i
+                break
+        for i, h in enumerate(np.flip(hist)):
+            high_sum += h
+            if high_sum >= centile:
+                high = i
+                break
     return create_lut(low, high)
 
 
@@ -142,10 +147,22 @@ def load_image(parent, filename=None):
     nothing = [None] * 3
     settings = QSettings()
     if filename is None:
-        filename = QFileDialog.getOpenFileName(
-            parent, parent.tr('Load image'), settings.value('load_folder'),
-            parent.tr('Supported formats (*.jpg *.jpeg *.jpe *.jp2 *.png *.tif *.tiff, *.bmp, *.gif)'))[0]
-        if not filename:
+        dialog = QFileDialog(parent, parent.tr('Load image'), settings.value('load_folder'))
+        dialog.setOption(QFileDialog.DontUseNativeDialog, True)
+        dialog.setFileMode(QFileDialog.ExistingFile)
+        dialog.setViewMode(QFileDialog.Detail)
+        mime_filters = ["image/jpeg", "image/png", "image/tiff", "image/gif", "image/bmp",
+                        "image/webp", "image/x-portable-pixmap", "image/x-portable-graymap"]
+        mime_db = QMimeDatabase()
+        mime_patterns = [mime_db.mimeTypeForName(mime).globPatterns() for mime in mime_filters]
+        all_formats = 'Supported formats ({})'.format(' '.join([item for sub in mime_patterns for item in sub]))
+        dialog.setMimeTypeFilters(mime_filters)
+        name_filters = dialog.nameFilters()
+        dialog.setNameFilters(name_filters + [all_formats])
+        dialog.selectNameFilter(all_formats)
+        if dialog.exec_():
+            filename = dialog.selectedFiles()[0]
+        else:
             return nothing
     if filename.endswith('.gif'):
         capture = cv.VideoCapture(filename)
@@ -246,7 +263,6 @@ class ParamSlider(QWidget):
         layout.addWidget(self.slider)
         layout.addWidget(self.spin)
         self.setLayout(layout)
-        self.setMaximumWidth(200)
 
     def doubleClicked(self, _):
         self.reset_value()

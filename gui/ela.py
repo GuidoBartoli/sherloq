@@ -1,6 +1,7 @@
 from time import time
 
 import cv2 as cv
+import numpy as np
 from PySide2.QtWidgets import (
     QPushButton,
     QVBoxLayout,
@@ -11,7 +12,7 @@ from PySide2.QtWidgets import (
 
 from jpeg import compress_jpeg
 from tools import ToolWidget
-from utility import elapsed_time, equalize_img
+from utility import elapsed_time, equalize_img, auto_lut, desaturate, create_lut
 from viewer import ImageViewer
 
 
@@ -22,34 +23,39 @@ class ElaWidget(ToolWidget):
         self.quality_spin = QSpinBox()
         self.quality_spin.setRange(0, 100)
         self.quality_spin.setSuffix(self.tr(' %'))
-
         self.scale_spin = QSpinBox()
         self.scale_spin.setRange(1, 100)
-
+        self.scale_spin.setSuffix(' %')
+        self.contrast_spin = QSpinBox()
+        self.contrast_spin.setRange(0, 100)
+        self.contrast_spin.setSuffix(' %')
         self.equalize_check = QCheckBox(self.tr('Equalized'))
         self.gray_check = QCheckBox(self.tr('Grayscale'))
         default_button = QPushButton(self.tr('Default'))
-
-        self.quality_spin.valueChanged.connect(self.process)
-        self.scale_spin.valueChanged.connect(self.process)
-        self.equalize_check.stateChanged.connect(self.process)
-        self.gray_check.stateChanged.connect(self.process)
-        default_button.clicked.connect(self.default)
 
         params_layout = QHBoxLayout()
         params_layout.addWidget(QLabel(self.tr('Quality:')))
         params_layout.addWidget(self.quality_spin)
         params_layout.addWidget(QLabel(self.tr('Scale:')))
         params_layout.addWidget(self.scale_spin)
+        params_layout.addWidget(QLabel(self.tr('Contrast:')))
+        params_layout.addWidget(self.contrast_spin)
         params_layout.addWidget(self.equalize_check)
         params_layout.addWidget(self.gray_check)
         params_layout.addWidget(default_button)
         params_layout.addStretch()
 
         self.image = image
+        self.original = image.astype(np.float32) / 255
         self.viewer = ImageViewer(self.image, self.image)
         self.default()
-        self.process()
+
+        self.quality_spin.valueChanged.connect(self.process)
+        self.scale_spin.valueChanged.connect(self.process)
+        self.contrast_spin.valueChanged.connect(self.process)
+        self.equalize_check.stateChanged.connect(self.process)
+        self.gray_check.stateChanged.connect(self.process)
+        default_button.clicked.connect(self.default)
 
         main_layout = QVBoxLayout()
         main_layout.addLayout(params_layout)
@@ -59,21 +65,30 @@ class ElaWidget(ToolWidget):
     def process(self):
         start = time()
         quality = self.quality_spin.value()
-        scale = self.scale_spin.value()
+        scale = self.scale_spin.value() / 20
+        contrast = int(self.contrast_spin.value() / 100 * 255)
         equalize = self.equalize_check.isChecked()
         grayscale = self.gray_check.isChecked()
         self.scale_spin.setEnabled(not equalize)
-        compressed = compress_jpeg(self.image, quality)
-        if not equalize:
-            # TODO: Provare a replicare il risultato di FotoForensic dove si vedono di più i blocchi JPEG
-            ela = cv.convertScaleAbs(cv.subtract(compressed, self.image), None, scale)
+        self.contrast_spin.setEnabled(not equalize)
+        compressed = compress_jpeg(self.image, quality).astype(np.float32) / 255
+        difference = cv.absdiff(self.original, compressed)
+        if equalize:
+            ela = equalize_img((difference * 255).astype(np.uint8))
         else:
-            ela = equalize_img(cv.absdiff(compressed, self.image))
+            ela = cv.convertScaleAbs(cv.sqrt(difference) * 255, None, scale)
+            ela = cv.LUT(ela, create_lut(contrast, contrast))
         if grayscale:
-            ela = cv.cvtColor(cv.cvtColor(ela, cv.COLOR_BGR2GRAY), cv.COLOR_GRAY2BGR)
+            ela = desaturate(ela)
         self.viewer.update_processed(ela)
         self.info_message.emit(self.tr('Error Level Analysis = {}'.format(elapsed_time(start))))
 
     def default(self):
+        self.blockSignals(True)
+        self.equalize_check.setChecked(False)
+        self.gray_check.setChecked(False)
         self.quality_spin.setValue(75)
-        self.scale_spin.setValue(20)
+        self.scale_spin.setValue(60)
+        self.contrast_spin.setValue(15)
+        self.process()
+        self.blockSignals(False)

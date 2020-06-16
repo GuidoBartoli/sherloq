@@ -37,7 +37,7 @@ class AdjustWidget(ToolWidget):
 
         self.image = image
         self.viewer = ImageViewer(self.image, self.image)
-        self.process()
+        self.reset()
 
         self.bright_slider.valueChanged.connect(self.process)
         self.sat_slider.valueChanged.connect(self.process)
@@ -78,12 +78,8 @@ class AdjustWidget(ToolWidget):
         params_layout.addWidget(self.invert_check, 2, 5)
         params_layout.addWidget(self.reset_button, 3, 4, 1, 2)
 
-        top_layout = QHBoxLayout()
-        top_layout.addLayout(params_layout)
-        top_layout.addStretch()
-
         main_layout = QVBoxLayout()
-        main_layout.addLayout(top_layout)
+        main_layout.addLayout(params_layout)
         main_layout.addWidget(self.viewer)
         self.setLayout(main_layout)
 
@@ -99,7 +95,7 @@ class AdjustWidget(ToolWidget):
         sweep = self.sweep_slider.value()
         width = self.width_slider.value()
         threshold = self.thr_slider.value()
-        sharpen = self.sharpen_slider.value()
+        sharpen = self.sharpen_slider.value() // 4
 
         result = np.copy(self.image)
         if sharpen > 0:
@@ -157,6 +153,7 @@ class AdjustWidget(ToolWidget):
         self.viewer.update_processed(result)
 
     def reset(self):
+        self.blockSignals(True)
         self.bright_slider.reset_value()
         self.sat_slider.reset_value()
         self.hue_slider.reset_value()
@@ -169,3 +166,5 @@ class AdjustWidget(ToolWidget):
         self.thr_slider.reset_value()
         self.equalize_combo.setCurrentIndex(0)
         self.invert_check.setChecked(False)
+        self.blockSignals(False)
+        self.process()

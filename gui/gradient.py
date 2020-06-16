@@ -21,10 +21,11 @@ class GradientWidget(ToolWidget):
         self.intensity_spin = QSpinBox()
         self.intensity_spin.setRange(0, 100)
         self.intensity_spin.setSingleStep(5)
-        self.intensity_spin.setValue(80)
+        self.intensity_spin.setValue(95)
         self.intensity_spin.setSuffix(self.tr(' %'))
         self.blue_combo = QComboBox()
         self.blue_combo.addItems([self.tr('None'), self.tr('Flat'), self.tr('Abs'), self.tr('Norm')])
+        self.blue_combo.setCurrentIndex(2)
         self.invert_check = QCheckBox(self.tr('Invert'))
         self.equalize_check = QCheckBox(self.tr('Equalize'))
 
@@ -58,6 +59,7 @@ class GradientWidget(ToolWidget):
         intensity = int(self.intensity_spin.value() / 100 * 127)
         invert = self.invert_check.isChecked()
         equalize = self.equalize_check.isChecked()
+        self.intensity_spin.setEnabled(not equalize)
         blue_mode = self.blue_combo.currentIndex()
         if invert:
             dx = (-self.dx).astype(np.float32)
@@ -80,9 +82,9 @@ class GradientWidget(ToolWidget):
         else:
             blue = None
         gradient = cv.merge([blue, green, red])
-        if intensity > 0:
-            gradient = cv.LUT(gradient, create_lut(intensity, intensity))
         if equalize:
             gradient = equalize_img(gradient)
+        elif intensity > 0:
+            gradient = cv.LUT(gradient, create_lut(intensity, intensity))
         self.viewer.update_processed(gradient)
         self.info_message.emit(self.tr('Luminance Gradient = {}'.format(elapsed_time(start))))

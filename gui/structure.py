@@ -23,4 +23,4 @@ class StructureWidget(ToolWidget):
             layout = QVBoxLayout()
             layout.addWidget(web_view)
             self.setLayout(layout)
-            self.setMinimumWidth(870)
+            self.setMinimumWidth(750)

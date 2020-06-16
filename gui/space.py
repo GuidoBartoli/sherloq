@@ -36,7 +36,7 @@ class SpaceWidget(ToolWidget):
         self.hsv = self.hsv.astype(np.uint8)
         self.hls = cv.cvtColor(scaled, cv.COLOR_BGR2HLS) * 255
         self.hls[:, :, 0] /= 360
-        self.hls = self.hsv.astype(np.uint8)
+        self.hls = self.hls.astype(np.uint8)
 
         self.cmyk = np.zeros((rows, cols, 4))
         k = np.repeat(np.amin(1 - scaled, axis=2)[:, :, np.newaxis], repeats=3, axis=2)

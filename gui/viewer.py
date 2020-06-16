@@ -258,7 +258,7 @@ class ImageViewer(QWidget):
         self.original = image
         self.toggle_mode(True)
 
-    def change_view(self, rect, scaling, horizontal, vertical):
+    def changeView(self, rect, scaling, horizontal, vertical):
         self.view.change_view(rect, scaling, horizontal, vertical)
 
     def forward_changed(self, rect, scaling, horizontal, vertical):

@@ -1,4 +1,5 @@
 import os
+import re
 
 import cv2 as cv
 import magic
@@ -15,6 +16,12 @@ from PySide2.QtWidgets import (
 from table import TableWidget
 from tools import ToolWidget
 from utility import human_size
+
+
+def ballistics(filename):
+    if re.match('^DSCN[0-9]{4}\\.JPG$', filename) is not None:
+        return 'Nikon Coolpix camera'
+    return 'Unknown source or manually renamed'
 
 
 class DigestWidget(ToolWidget):
@@ -35,6 +42,7 @@ class DigestWidget(ToolWidget):
         table.append([None, self.tr('Last access'), file_info.lastRead().toLocalTime().toString()])
         table.append([None, self.tr('Last modified'), file_info.lastModified().toLocalTime().toString()])
         table.append([None, self.tr('Metadata changed'), file_info.metadataChangeTime().toLocalTime().toString()])
+        table.append([None, self.tr('Name ballistics'), ballistics(file_info.fileName())])
 
         file = QFile(filename)
         if not file.open(QIODevice.ReadOnly):

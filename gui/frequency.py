@@ -66,6 +66,11 @@ class FrequencyWidget(ToolWidget):
         self.phase_viewer = ImageViewer(self.image, None, self.tr('DFT Phase'), export=True)
         self.process()
 
+        self.low_viewer.viewChanged.connect(self.high_viewer.changeView)
+        self.high_viewer.viewChanged.connect(self.low_viewer.changeView)
+        self.mag_viewer.viewChanged.connect(self.phase_viewer.changeView)
+        self.phase_viewer.viewChanged.connect(self.mag_viewer.changeView)
+
         top_layout = QHBoxLayout()
         top_layout.addWidget(QLabel(self.tr('Separation:')))
         top_layout.addWidget(self.split_spin)

@@ -60,9 +60,13 @@ class MagnifierWidget(ToolWidget):
         x2 = rect.right()
         roi = self.image[y1:y2, x1:x2]
         if self.equalize_radio.isChecked():
+            self.centile_spin.setEnabled(False)
+            self.channel_check.setEnabled(False)
             roi = equalize_img(roi)
             self.last_radio = self.equalize_radio
         elif self.contrast_radio.isChecked():
+            self.centile_spin.setEnabled(True)
+            self.channel_check.setEnabled(True)
             centile = self.centile_spin.value() / 200
             if self.channel_check.isChecked():
                 roi = cv.merge([cv.LUT(c, auto_lut(c, centile)) for c in cv.split(roi)])

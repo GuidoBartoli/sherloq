@@ -54,7 +54,7 @@ class ComparisonWidget(ToolWidget):
         self.evidence_viewer = ImageViewer(self.evidence, None, self.tr('Evidence: {}'.format(basename)))
         self.reference_viewer = ImageViewer(np.full_like(self.evidence, 127), None, self.tr('Reference'))
 
-        self.table_widget = QTableWidget(15, 3)
+        self.table_widget = QTableWidget(21, 3)
         self.table_widget.setHorizontalHeaderLabels([self.tr('Metric'), self.tr('Value'), self.tr('Better')])
         self.table_widget.setItem(0, 0, QTableWidgetItem(self.tr('RMSE')))
         self.table_widget.setItem(0, 2, QTableWidgetItem(QIcon('icons/low.svg'), '(0)'))
@@ -132,12 +132,31 @@ class ComparisonWidget(ToolWidget):
         self.table_widget.setItem(14, 0, QTableWidgetItem(self.tr('Butteraugli')))
         self.table_widget.setItem(14, 2, QTableWidgetItem(QIcon('icons/low.svg'), '(0)'))
         self.table_widget.item(14, 0).setToolTip(self.tr('Estimate psychovisual error'))
+        self.table_widget.setItem(15, 0, QTableWidgetItem(self.tr('Correlation')))
+        self.table_widget.setItem(15, 2, QTableWidgetItem(QIcon('icons/high.svg'), '(1)'))
+        self.table_widget.item(15, 0).setToolTip(self.tr('Histogram correlation'))
+        self.table_widget.setItem(16, 0, QTableWidgetItem(self.tr('Chi-Square')))
+        self.table_widget.setItem(16, 2, QTableWidgetItem(QIcon('icons/low.svg'), '(0)'))
+        self.table_widget.item(16, 0).setToolTip(self.tr('Histogram Chi-Square'))
+        self.table_widget.setItem(17, 0, QTableWidgetItem(self.tr('Chi-Square 2')))
+        self.table_widget.setItem(17, 2, QTableWidgetItem(QIcon('icons/low.svg'), '(0)'))
+        self.table_widget.item(17, 0).setToolTip(self.tr('Alternative Chi-Square'))
+        self.table_widget.setItem(18, 0, QTableWidgetItem(self.tr('Intersection')))
+        self.table_widget.setItem(18, 2, QTableWidgetItem(QIcon('icons/high.svg'), '(+' + u'\u221e' + ')'))
+        self.table_widget.item(18, 0).setToolTip(self.tr('Histogram intersection'))
+        self.table_widget.setItem(19, 0, QTableWidgetItem(self.tr('Hellinger')))
+        self.table_widget.setItem(19, 2, QTableWidgetItem(QIcon('icons/low.svg'), '(0)'))
+        self.table_widget.item(19, 0).setToolTip(self.tr('Histogram Hellinger distance'))
+        self.table_widget.setItem(20, 0, QTableWidgetItem(self.tr('Divergence')))
+        self.table_widget.setItem(20, 2, QTableWidgetItem(QIcon('icons/low.svg'), '(0)'))
+        self.table_widget.item(20, 0).setToolTip(self.tr('Kullback-Leibler divergence'))
 
         for i in range(self.table_widget.rowCount()):
             modify_font(self.table_widget.item(i, 0), bold=True)
         self.table_widget.setSelectionMode(QAbstractItemView.SingleSelection)
         self.table_widget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         self.table_widget.resizeColumnsToContents()
+        self.table_widget.setMaximumWidth(250)
         self.table_widget.setAlternatingRowColors(True)
         self.stopped = False
 
@@ -158,8 +177,8 @@ class ComparisonWidget(ToolWidget):
         self.gray_check.stateChanged.connect(self.change)
         self.equal_check.stateChanged.connect(self.change)
         self.ssim_radio.clicked.connect(self.change)
-        self.evidence_viewer.viewChanged.connect(self.reference_viewer.change_view)
-        self.reference_viewer.viewChanged.connect(self.evidence_viewer.change_view)
+        self.evidence_viewer.viewChanged.connect(self.reference_viewer.changeView)
+        self.reference_viewer.viewChanged.connect(self.evidence_viewer.changeView)
         self.metric_button.clicked.connect(self.metrics)
 
         top_layout = QHBoxLayout()
@@ -314,25 +333,61 @@ class ComparisonWidget(ToolWidget):
             return
         butter, self.butter_map = self.butter(img1, img2)
         progress.setValue(15)
+        if self.stopped:
+            return
 
-        self.table_widget.setItem(0, 1, QTableWidgetItem('{:.4f}'.format(rmse)))
+        sizes = [256, 256, 256]
+        ranges = [0, 256] * 3
+        channels = [0, 1, 2]
+        hist1 = cv.calcHist([self.evidence], channels, None, sizes, ranges)
+        hist2 = cv.calcHist([self.reference], channels, None, sizes, ranges)
+        correlation = cv.compareHist(hist1, hist2, cv.HISTCMP_CORREL)
+        progress.setValue(16)
+        if self.stopped:
+            return
+        chi_square = cv.compareHist(hist1, hist2, cv.HISTCMP_CHISQR)
+        progress.setValue(17)
+        if self.stopped:
+            return
+        chi_square2 = cv.compareHist(hist1, hist2, cv.HISTCMP_CHISQR_ALT)
+        progress.setValue(18)
+        if self.stopped:
+            return
+        intersection = cv.compareHist(hist1, hist2, cv.HISTCMP_INTERSECT)
+        progress.setValue(19)
+        if self.stopped:
+            return
+        hellinger = cv.compareHist(hist1, hist2, cv.HISTCMP_HELLINGER)
+        progress.setValue(20)
+        if self.stopped:
+            return
+        divergence = cv.compareHist(hist1, hist2, cv.HISTCMP_KL_DIV)
+        progress.setValue(21)
+
+        self.table_widget.setItem(0, 1, QTableWidgetItem('{:.2f}'.format(rmse)))
         self.table_widget.setItem(1, 1, QTableWidgetItem('{:.4f}'.format(sam)))
-        self.table_widget.setItem(2, 1, QTableWidgetItem('{:.4f}'.format(ergas)))
+        self.table_widget.setItem(2, 1, QTableWidgetItem('{:.2f}'.format(ergas)))
         self.table_widget.setItem(3, 1, QTableWidgetItem('{:.4f}'.format(mb)))
-        self.table_widget.setItem(4, 1, QTableWidgetItem('{:.4f}'.format(pfe)))
+        self.table_widget.setItem(4, 1, QTableWidgetItem('{:.2f}'.format(pfe)))
         if psnr > 0:
-            self.table_widget.setItem(5, 1, QTableWidgetItem('{:.4f} dB'.format(psnr)))
+            self.table_widget.setItem(5, 1, QTableWidgetItem('{:.2f} dB'.format(psnr)))
         else:
             self.table_widget.setItem(5, 1, QTableWidgetItem('+' + u'\u221e' + ' dB'))
-        self.table_widget.setItem(6, 1, QTableWidgetItem('{:.4f}'.format(psnrb)))
+        self.table_widget.setItem(6, 1, QTableWidgetItem('{:.2f}'.format(psnrb)))
         self.table_widget.setItem(7, 1, QTableWidgetItem('{:.4f}'.format(ssim)))
         self.table_widget.setItem(8, 1, QTableWidgetItem('{:.4f}'.format(mssim)))
-        self.table_widget.setItem(9, 1, QTableWidgetItem('{:.4f}'.format(rase)))
+        self.table_widget.setItem(9, 1, QTableWidgetItem('{:.2f}'.format(rase)))
         self.table_widget.setItem(10, 1, QTableWidgetItem('{:.4f}'.format(scc)))
         self.table_widget.setItem(11, 1, QTableWidgetItem('{:.4f}'.format(uqi)))
         self.table_widget.setItem(12, 1, QTableWidgetItem('{:.4f}'.format(vifp)))
         self.table_widget.setItem(13, 1, QTableWidgetItem('{:.4f}'.format(ssimul)))
-        self.table_widget.setItem(14, 1, QTableWidgetItem('{:.4f}'.format(butter)))
+        self.table_widget.setItem(14, 1, QTableWidgetItem('{:.2f}'.format(butter)))
+        self.table_widget.setItem(15, 1, QTableWidgetItem('{:.2f}'.format(correlation)))
+        self.table_widget.setItem(16, 1, QTableWidgetItem('{:.2f}'.format(chi_square)))
+        self.table_widget.setItem(17, 1, QTableWidgetItem('{:.2f}'.format(chi_square2)))
+        self.table_widget.setItem(18, 1, QTableWidgetItem('{:.2f}'.format(intersection)))
+        self.table_widget.setItem(19, 1, QTableWidgetItem('{:.2f}'.format(hellinger)))
+        self.table_widget.setItem(20, 1, QTableWidgetItem('{:.2f}'.format(divergence)))
         self.table_widget.resizeColumnsToContents()
         self.table_widget.setEnabled(True)
         self.metric_button.setEnabled(False)

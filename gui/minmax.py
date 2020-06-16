@@ -144,7 +144,7 @@ class MinMaxWidget(ToolWidget):
         radius = self.filter_spin.value()
         if radius > 0:
             start = time()
-            radius += 2
+            radius += 3
             if minimum < 4:
                 low = self.blk_filter(self.low, radius)
                 if minimum <= 2:
