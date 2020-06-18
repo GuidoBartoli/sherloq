@@ -28,8 +28,8 @@ This list contains the functions that **Sherloq** will hopefully provide once th
 - Modern Qt-based GUI with multiple tool window management
 - Import BMP, JPEG, PNG, WebP, PGM, PFM, TIFF and GIF formats
 - Highly responsive image viewer with panning and zooming
-- Many state-of-the-art algorithms to try out in real-time
-- Contextual help with current tool explanation
+- Many state-of-the-art algorithms to try out interactively
+- Extensive online help with tool explanations and tutorials
 - Export both visual and textual tool outputs
 
 ## Tools

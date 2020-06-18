@@ -14,6 +14,7 @@ from PySide2.QtWidgets import (
 
 from adjust import AdjustWidget
 from comparison import ComparisonWidget
+from contrast import ContrastWidget
 from digest import DigestWidget
 from echo import EchoWidget
 from editor import EditorWidget
@@ -35,7 +36,7 @@ from quality import QualityWidget
 from reverse import ReverseWidget
 from space import SpaceWidget
 from stats import StatsWidget
-from structure import StructureWidget
+from header import HeaderWidget
 from thumbnail import ThumbWidget
 from tools import ToolTree
 from utility import modify_font, load_image
@@ -334,7 +335,7 @@ class MainWindow(QMainWindow):
                 return
         elif group == 1:
             if tool == 0:
-                tool_widget = StructureWidget(self.filename)
+                tool_widget = HeaderWidget(self.filename)
             elif tool == 1:
                 tool_widget = MetadataWidget(self.filename)
             elif tool == 2:
@@ -392,6 +393,13 @@ class MainWindow(QMainWindow):
                 tool_widget = PlanesWidget(self.image)
             elif tool == 3:
                 tool_widget = FrequencyWidget(self.image)
+            else:
+                return
+        elif group == 7:
+            if tool == 0:
+                tool_widget = ContrastWidget(self.image, self)
+            else:
+                return
         else:
             return
 

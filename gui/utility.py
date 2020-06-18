@@ -83,10 +83,8 @@ def create_lut(low, high):
 
 
 def compute_hist(image, normalize=False):
-    hist = np.array([h[0] for h in cv.calcHist([image], [0], None, [256], [0, 256])])
-    if not normalize:
-        return hist.astype(int)
-    return hist / image.size
+    hist = np.array([h[0] for h in cv.calcHist([image], [0], None, [256], [0, 256])], int)
+    return hist / image.size if normalize else hist
 
 
 def auto_lut(image, centile):

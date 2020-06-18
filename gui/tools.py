@@ -117,7 +117,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Use feature descriptors for copy/rotate clone area detection'),
                            self.tr('Analyze 2D pixel interpolation for detecting resampling traces'),
                            self.tr('Exploit DCT statistics for automatic splicing zone detection')])
-        tool_progress.extend([0, 0, 0, 0])
+        tool_progress.extend([2, 0, 0, 0])
 
         count = 0
         for i, group in enumerate(group_names):

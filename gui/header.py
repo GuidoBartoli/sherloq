@@ -9,9 +9,9 @@ from tools import ToolWidget
 from utility import exiftool_exe
 
 
-class StructureWidget(ToolWidget):
+class HeaderWidget(ToolWidget):
     def __init__(self, filename, parent=None):
-        super(StructureWidget, self).__init__(parent)
+        super(HeaderWidget, self).__init__(parent)
         self.temp_dir = QTemporaryDir()
         if self.temp_dir.isValid():
             temp_file = os.path.join(self.temp_dir.path(), 'structure.html')
@@ -23,4 +23,4 @@ class StructureWidget(ToolWidget):
             layout = QVBoxLayout()
             layout.addWidget(web_view)
             self.setLayout(layout)
-            self.setMinimumWidth(750)
+            self.setMinimumWidth(875)

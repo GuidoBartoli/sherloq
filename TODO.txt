@@ -1,6 +1,5 @@
 - Nuovo gruppo Various con altre cose (Median Filtering, ...)?
 - Studiare la funzione Hidden Pixels di FotoForensics
-- Aggiungere "Supported formats" alla scelta dei tipi di file da caricare (https://stackoverflow.com/questions/46392460/qfiledialog-combine-mime-type-filters-to-all-formats)
 - In Frequency Split se si modifica il filtro, evitare di ricalcolare la DFT inversa
 - In ImageViewer aggiungere la visualizzazione in tempo reale dei valori RGB dove passa il mouse
 - Se viene caricata una GIF animata, visualizzare un dialog per scegliere il frame da importare
@@ -13,7 +12,7 @@
 - In ComparisonWidget aggiungere anche FSIM (https://github.com/weizhou-geek/Image-Quality-Assessment-Benchmark)
 - In JPEG Quality Estimation aggiungere l'estrazione delle tabelle di Huffman (la sequenza di byte da cercare è [0xFF 0xC4 0x00]). Fare riferimento a jpegparse.zip nella cartella software
 - Rivedere tutto il codice per valutare dove è possibile utilizzare np.view() che elimina le copie delle matrici con astype()
-- Creazione di un help in linea per suggerire workflow e spiegare come usare i vari tool (DockWidget laterale?)
+- Creazione di un help in linea per suggerire workflow e spiegare come usare i vari tool (DockWidget laterale?) (https://www.walletfox.com/course/qhelpengineexample.php)
 - Ricavare modello fotocamera da tabelle di quantizzazione, PRNU, nome del file o metadata
 - Quando una finestra viene chiusa evitare di distruggere il widget per non ricalcolare il risultato
 - Aggiungere azione "Close All Except" per chiudere le altre finestre
