@@ -19,17 +19,17 @@ class TestExifTool(unittest.TestCase):
     def test_termination_cm(self):
         # Test correct subprocess start and termination when using
         # self.et as a context manager
-        self.assertFalse(self.et.running)
+        self.assertFalse(self.et.canceled)
         self.assertRaises(ValueError, self.et.execute)
         with self.et:
-            self.assertTrue(self.et.running)
+            self.assertTrue(self.et.canceled)
             with warnings.catch_warnings(record=True) as w:
                 self.et.start()
                 self.assertEquals(len(w), 1)
                 self.assertTrue(issubclass(w[0].category, UserWarning))
             self.process = self.et._process
             self.assertEqual(self.process.poll(), None)
-        self.assertFalse(self.et.running)
+        self.assertFalse(self.et.canceled)
         self.assertNotEqual(self.process.poll(), None)
     def test_termination_explicit(self):
         # Test correct subprocess start and termination when

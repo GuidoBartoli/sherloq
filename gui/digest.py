@@ -89,4 +89,4 @@ class DigestWidget(ToolWidget):
         main_layout = QVBoxLayout()
         main_layout.addWidget(table_widget)
         self.setLayout(main_layout)
-        self.setMinimumSize(620, 520)
+        self.setMinimumSize(660, 520)

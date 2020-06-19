@@ -30,82 +30,82 @@ class ToolTree(QTreeWidget):
                            self.tr('Hex Editor'),
                            self.tr('Reverse Search')])
         tool_infos.append([self.tr('Display the unaltered reference image for visual inspection'),
-                           self.tr('Retrieve file information and compute many hashes and ballistics'),
+                           self.tr('Retrieve physical file information, crypto and perceptual hashes'),
                            self.tr('Open an external hexadecimal editor to show and edit raw bytes'),
-                           self.tr('Use online search services to find visually similar images')])
+                           self.tr('Browse online search services to find visually similar images')])
         tool_progress.extend([3, 3, 2, 2])
 
         # [1]
         group_names.append(self.tr('[Metadata]'))
         tool_names.append([self.tr('Header Structure'),
-                           self.tr('Metadata Extraction'),
+                           self.tr('EXIF Extraction'),
                            self.tr('Thumbnail Analysis'),
                            self.tr('Geolocation data')])
-        tool_infos.append([self.tr('Dump the physical EXIF structure and display an interactive view'),
+        tool_infos.append([self.tr('Dump the file header structure and display an interactive view'),
                            self.tr('Scan through file metadata and gather all available information'),
                            self.tr('Extract optional embedded thumbnail and compare with original'),
-                           self.tr('Retrieve optional geo-location data and show it on a world map')])
+                           self.tr('Retrieve optional geolocation data and show on a world map')])
         tool_progress.extend([3, 3, 3, 2])
 
         # [2]
         group_names.append(self.tr('[Inspection]'))
         tool_names.append([self.tr('Enhancing Magnifier'),
-                           self.tr('Reference Comparison'),
-                           self.tr('Image Histogram'),
-                           self.tr('Global Adjustments')])
-        tool_infos.append([self.tr('Use a loupe with visual enhancement for better identifying forgeries'),
-                           self.tr('Open a synchronized double view to compare two different pictures'),
-                           self.tr('Display independent channel or composite interactive image histogram'),
-                           self.tr('Apply standard adjustments (contrast, brightness, hue, saturation)')])
+                           self.tr('Channel Histogram'),
+                           self.tr('Global Adjustments'),
+                           self.tr('Reference Comparison')])
+        tool_infos.append([self.tr('A magnifying glass with enhancements for better identifying forgeries'),
+                           self.tr('Display single channel or composite RGB interactive histogram'),
+                           self.tr('Apply standard image adjustments (brightness, hue, saturation, ...)'),
+                           self.tr('Open a synchronized double view for comparison with another picture')])
         tool_progress.extend([3, 3, 3, 3])
 
         # [3]
-        group_names.append(self.tr('[JPEG]'))
-        tool_names.append([self.tr('Quality Estimation'),
-                           self.tr('Error Level Analysis'),
-                           self.tr('Multiple Compression'),
-                           self.tr('DCT Dimples Map')])
-        tool_infos.append([self.tr('Extract quantization tables and estimate last saved JPEG quality'),
-                           self.tr('Show pixel-level difference against different compression levels'),
-                           self.tr('Use residuals to detect multiple compressions at different levels'),
-                           self.tr('Analyze periodic quantization artifacts to detect manipulations')])
-        tool_progress.extend([2, 3, 1, 0])
+        group_names.append(self.tr('[Detail]'))
+        tool_names.append([self.tr('Luminance Gradient'),
+                           self.tr('Echo Edge Filter'),
+                           self.tr('Wavelet Threshold'),
+                           self.tr('Correlation Plot')])
+        tool_infos.append([self.tr('Analyze horizontal/vertical brightness variations across the image'),
+                           self.tr('Use derivative filters to reveal artificial out-of-focus zones'),
+                           self.tr('Reconstruct image with different wavelet coefficient thresholds'),
+                           self.tr('Exploit spatial correlation patterns among neighboring pixels')])
+        tool_progress.extend([3, 3, 3, 0])
 
         # [4]
         group_names.append(self.tr('[Colors]'))
         tool_names.append([self.tr('RGB/HSV Plots'),
-                           self.tr('Pixel Statistics'),
                            self.tr('Space Conversion'),
-                           self.tr('PCA Decomposition')])
-        tool_infos.append([self.tr('Display an interactive 2D plots of RGB and HSV pixel values'),
-                           self.tr('Compute minimum/maximum/average RGB values for every pixel'),
+                           self.tr('PCA Projection'),
+                           self.tr('Pixel Statistics')])
+        tool_infos.append([self.tr('Display interactive 2D and 3D plots of RGB and HSV pixel values'),
                            self.tr('Convert RGB channels into HSV/YCbCr/Lab/Luv/CMYK/Gray spaces'),
-                           self.tr('Use color PCA to project RGB values into reduced dimensions')])
+                           self.tr('Use color PCA to project pixel values into different axes'),
+                           self.tr('Compute minimum/maximum/average RGB values for every pixel')])
         tool_progress.extend([3, 3, 3, 3])
 
         # [5]
-        group_names.append(self.tr('[Tonality]'))
-        tool_names.append([self.tr('Luminance Gradient'),
-                           self.tr('Echo Edge Filter'),
-                           self.tr('Correlation Plot'),
-                           self.tr('Wavelet Analysis')])
-        tool_infos.append([self.tr('Analyze horizontal/vertical brightness variations across the image'),
-                           self.tr('Use derivative filters to reveal artificial out-of-focus zones'),
-                           self.tr('Exploit spatial correlation patterns among neighboring pixels'),
-                           self.tr('Reconstruct image with different wavelet coefficient thresholds')])
-        tool_progress.extend([3, 3, 0, 3])
-
-        # [6]
         group_names.append(self.tr('[Noise]'))
         tool_names.append([self.tr('Noise Estimation'),
                            self.tr('Min/Max Deviation'),
-                           self.tr('Bit Plane Values'),
-                           self.tr('Frequency Split')])
-        tool_infos.append([self.tr('Estimate and visualize gaussian noise components of the image'),
+                           self.tr('Frequency Split'),
+                           self.tr('Bit Plane Values')])
+        tool_infos.append([self.tr('Estimate different kind of noise components of the image'),
                            self.tr('Highlight pixels deviating from block-based min/max statistics'),
-                           self.tr('Visualize bit planes values to find different noise patterns'),
-                           self.tr('Divide image luminance into high/low frequency components')])
+                           self.tr('Split image luminance into high/low frequency components'),
+                           self.tr('Show individual bit planes to find inconsistent noise patterns')])
         tool_progress.extend([3, 3, 3, 3])
+
+        # [6]
+        group_names.append(self.tr('[JPEG]'))
+        tool_names.append([self.tr('Error Level Analysis'),
+                           self.tr('Quality Estimation'),
+                           self.tr('Multiple Compression'),
+                           self.tr('DCT Dimples Map')])
+        tool_infos.append([self.tr('Show pixel-level difference against a fixed compression level'),
+                           self.tr('Extract quantization tables and estimate last saved JPEG quality'),
+                           self.tr('Use residuals to detect multiple compressions at different levels'),
+                           self.tr('Analyze periodic quantization artifacts left by different devices')])
+        tool_progress.extend([3, 3, 1, 0])
 
         # [7]
         group_names.append(self.tr('[Tampering]'))
@@ -118,6 +118,18 @@ class ToolTree(QTreeWidget):
                            self.tr('Analyze 2D pixel interpolation for detecting resampling traces'),
                            self.tr('Exploit DCT statistics for automatic splicing zone detection')])
         tool_progress.extend([2, 0, 0, 0])
+
+        # [8]
+        group_names.append(self.tr('[Various]'))
+        tool_names.append([self.tr('Median Filtering'),
+                           self.tr('Illuminant Map'),
+                           self.tr('Hidden Pixels'),
+                           self.tr('Stereogram Solver')])
+        tool_infos.append([self.tr('Detect processing traces left by nonlinear median filtering'),
+                           self.tr('Estimate light direction in '),
+                           self.tr('Undisplayed pixels hidden inside unaligned or transparent JPEG'),
+                           self.tr('Decoding of the 3D image concealed inside an autostereogram')])
+        tool_progress.extend([0, 0, 0, 0])
 
         count = 0
         for i, group in enumerate(group_names):

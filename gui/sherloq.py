@@ -19,12 +19,12 @@ from digest import DigestWidget
 from echo import EchoWidget
 from editor import EditorWidget
 from ela import ElaWidget
+from exif import ExifWidget
 from frequency import FrequencyWidget
 from gradient import GradientWidget
 from histogram import HistWidget
 from location import LocationWidget
 from magnifier import MagnifierWidget
-from metadata import MetadataWidget
 from minmax import MinMaxWidget
 from multiple import MultipleWidget
 from noise import NoiseWidget
@@ -33,6 +33,7 @@ from pca import PcaWidget
 from planes import PlanesWidget
 from plots import PlotsWidget
 from quality import QualityWidget
+from resampling import ResamplingWidget
 from reverse import ReverseWidget
 from space import SpaceWidget
 from stats import StatsWidget
@@ -321,7 +322,6 @@ class MainWindow(QMainWindow):
                 sub_window.setFocus()
                 return
 
-        tool_widget = None
         if group == 0:
             if tool == 0:
                 tool_widget = OriginalWidget(self.image)
@@ -337,7 +337,7 @@ class MainWindow(QMainWindow):
             if tool == 0:
                 tool_widget = HeaderWidget(self.filename)
             elif tool == 1:
-                tool_widget = MetadataWidget(self.filename)
+                tool_widget = ExifWidget(self.filename)
             elif tool == 2:
                 tool_widget = ThumbWidget(self.filename, self.image)
             elif tool == 3:
@@ -348,56 +348,58 @@ class MainWindow(QMainWindow):
             if tool == 0:
                 tool_widget = MagnifierWidget(self.image)
             elif tool == 1:
-                tool_widget = ComparisonWidget(self.filename, self.image)
-            elif tool == 2:
                 tool_widget = HistWidget(self.image)
-            elif tool == 3:
+            elif tool == 2:
                 tool_widget = AdjustWidget(self.image)
+            elif tool == 3:
+                tool_widget = ComparisonWidget(self.filename, self.image)
             else:
                 return
         elif group == 3:
             if tool == 0:
-                tool_widget = QualityWidget(self.filename)
+                tool_widget = GradientWidget(self.image)
             elif tool == 1:
-                tool_widget = ElaWidget(self.image)
+                tool_widget = EchoWidget(self.image)
             elif tool == 2:
-                tool_widget = MultipleWidget(self.image)
+                tool_widget = WaveletWidget(self.image)
             else:
                 return
         elif group == 4:
             if tool == 0:
                 tool_widget = PlotsWidget(self.image)
             elif tool == 1:
-                tool_widget = StatsWidget(self.image)
-            elif tool == 2:
                 tool_widget = SpaceWidget(self.image)
-            elif tool == 3:
+            elif tool == 2:
                 tool_widget = PcaWidget(self.image)
+            elif tool == 3:
+                tool_widget = StatsWidget(self.image)
             else:
                 return
         elif group == 5:
-            if tool == 0:
-                tool_widget = GradientWidget(self.image)
-            elif tool == 1:
-                tool_widget = EchoWidget(self.image)
-            elif tool == 3:
-                tool_widget = WaveletWidget(self.image)
-            else:
-                return
-        elif group == 6:
             if tool == 0:
                 tool_widget = NoiseWidget(self.image)
             elif tool == 1:
                 tool_widget = MinMaxWidget(self.image)
             elif tool == 2:
-                tool_widget = PlanesWidget(self.image)
-            elif tool == 3:
                 tool_widget = FrequencyWidget(self.image)
+            elif tool == 3:
+                tool_widget = PlanesWidget(self.image)
+            else:
+                return
+        elif group == 6:
+            if tool == 0:
+                tool_widget = ElaWidget(self.image)
+            elif tool == 1:
+                tool_widget = QualityWidget(self.filename)
+            elif tool == 2:
+                tool_widget = MultipleWidget(self.image)
             else:
                 return
         elif group == 7:
             if tool == 0:
-                tool_widget = ContrastWidget(self.image, self)
+                tool_widget = ContrastWidget(self.image)
+            elif tool == 2:
+                tool_widget = ResamplingWidget(self.image)
             else:
                 return
         else:
@@ -445,5 +447,5 @@ class MainWindow(QMainWindow):
 if __name__ == '__main__':
     application = QApplication(sys.argv)
     mainwindow = MainWindow()
-    mainwindow.show()
     sys.exit(application.exec_())
+    mainwindow.show()
