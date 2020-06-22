@@ -124,12 +124,12 @@ class ToolTree(QTreeWidget):
         tool_names.append([self.tr('Median Filtering'),
                            self.tr('Illuminant Map'),
                            self.tr('Hidden Pixels'),
-                           self.tr('Stereogram Solver')])
+                           self.tr('Stereogram Decoder')])
         tool_infos.append([self.tr('Detect processing traces left by nonlinear median filtering'),
                            self.tr('Estimate light direction in '),
                            self.tr('Undisplayed pixels hidden inside unaligned or transparent JPEG'),
                            self.tr('Decoding of the 3D image concealed inside an autostereogram')])
-        tool_progress.extend([0, 0, 0, 0])
+        tool_progress.extend([0, 0, 0, 3])
 
         count = 0
         for i, group in enumerate(group_names):

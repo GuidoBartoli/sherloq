@@ -19,8 +19,14 @@ from utility import human_size
 
 
 def ballistics(filename):
-    if re.match('^DSCN[0-9]{4}\\.JPG$', filename) is not None:
-        return 'Nikon Coolpix camera'
+    table = [['^DSCN[0-9]{4}\\.JPG$', 'Nikon Coolpix camera'],
+             ['^DSC_[0-9]{4}\\.JPG$', 'Nikon digital camera'],
+             ['^FUJI[0-9]{4}\\.JPG$', 'Fujifilm digital camera'],
+             ['^IMG_[0-9]{4}\\.JPG$', 'Canon DSLR or iPhone camera'],
+             ['^PIC[0-9]{5}\\.JPG$', 'Olympus D-600L camera']]
+    for entry in table:
+        if re.match(entry[0], filename, re.IGNORECASE) is not None:
+            return entry[1]
     return 'Unknown source or manually renamed'
 
 
@@ -89,4 +95,4 @@ class DigestWidget(ToolWidget):
         main_layout = QVBoxLayout()
         main_layout.addWidget(table_widget)
         self.setLayout(main_layout)
-        self.setMinimumSize(660, 520)
+        self.setMinimumSize(700, 520)

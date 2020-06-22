@@ -37,6 +37,7 @@ from resampling import ResamplingWidget
 from reverse import ReverseWidget
 from space import SpaceWidget
 from stats import StatsWidget
+from stereogram import StereoWidget
 from header import HeaderWidget
 from thumbnail import ThumbWidget
 from tools import ToolTree
@@ -400,6 +401,11 @@ class MainWindow(QMainWindow):
                 tool_widget = ContrastWidget(self.image)
             elif tool == 2:
                 tool_widget = ResamplingWidget(self.image)
+            else:
+                return
+        elif group == 8:
+            if tool == 3:
+                tool_widget = StereoWidget(self.image)
             else:
                 return
         else:
