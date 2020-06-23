@@ -112,7 +112,7 @@ Here are some screenshots from the previous C++ Qt GUI:
 
 # Install
 1. Clone repository content into a local folder
-1. Create a Python 3 virtual environment (below there are *Linux* instructions, but for *Windows* you can follow [this guide](https://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows/), while [this guide](https://opensource.com/article/19/6/python-virtual-environments-mac) is for *MacOS*):
+1. Create a Python 3 virtual environment (below there are *Linux* instructions, but for *Windows* you can follow [this guide](https://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows/), while [this guide](https://dev.to/micuffaro/easy-workflow-for-switching-python-virtual-environments-with-zsh-19lc) is for *MacOS*):
 
 ```
 Install package manager
