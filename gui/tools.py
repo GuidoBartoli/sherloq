@@ -38,7 +38,7 @@ class ToolTree(QTreeWidget):
         # [1]
         group_names.append(self.tr('[Metadata]'))
         tool_names.append([self.tr('Header Structure'),
-                           self.tr('EXIF Extraction'),
+                           self.tr('EXIF Dump'),
                            self.tr('Thumbnail Analysis'),
                            self.tr('Geolocation data')])
         tool_infos.append([self.tr('Dump the file header structure and display an interactive view'),
@@ -117,7 +117,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Use feature descriptors for copy/rotate clone area detection'),
                            self.tr('Analyze 2D pixel interpolation for detecting resampling traces'),
                            self.tr('Exploit DCT statistics for automatic splicing zone detection')])
-        tool_progress.extend([2, 0, 0, 0])
+        tool_progress.extend([3, 1, 0, 0])
 
         # [8]
         group_names.append(self.tr('[Various]'))

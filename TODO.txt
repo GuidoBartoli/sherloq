@@ -1,5 +1,5 @@
-- Nuovo gruppo Various con altre cose (Median Filtering, ...)?
-- Studiare la funzione Hidden Pixels di FotoForensics
+- Sostituire Hidden Pixels con PRNU Extraction?
+- Usare le features SPAM per rilevare il filtraggio con la mediana (http://dde.binghamton.edu/download/feature_extractors/download/spam686.m)
 - In Frequency Split se si modifica il filtro, evitare di ricalcolare la DFT inversa
 - In ImageViewer aggiungere la visualizzazione in tempo reale dei valori RGB dove passa il mouse
 - Se viene caricata una GIF animata, visualizzare un dialog per scegliere il frame da importare

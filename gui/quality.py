@@ -140,7 +140,7 @@ class QualityWidget(ToolWidget):
     @staticmethod
     def create_table(matrix):
         table_widget = QTableWidget(DCT_SIZE, DCT_SIZE)
-        hsv = np.array([[[0, 192, 255]]], dtype=np.uint8)
+        hsv = np.array([[[0, 192, 255]]])
         maximum = clip_value(np.max(matrix) - 1, minv=1)
         for i in range(DCT_SIZE):
             for j in range(DCT_SIZE):

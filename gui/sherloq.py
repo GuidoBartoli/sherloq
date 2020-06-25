@@ -13,6 +13,7 @@ from PySide2.QtWidgets import (
     QMessageBox)
 
 from adjust import AdjustWidget
+from cloning import CloningWidget
 from comparison import ComparisonWidget
 from contrast import ContrastWidget
 from digest import DigestWidget
@@ -230,6 +231,8 @@ class MainWindow(QMainWindow):
         self.recent_files = settings.value('recent_files')
         if self.recent_files is None:
             self.recent_files = []
+        elif not isinstance(self.recent_files, list):
+            self.recent_files = [self.recent_files]
         self.update_recent()
         settings.endGroup()
 
@@ -399,8 +402,11 @@ class MainWindow(QMainWindow):
         elif group == 7:
             if tool == 0:
                 tool_widget = ContrastWidget(self.image)
+            elif tool == 1:
+                tool_widget = CloningWidget(self.image)
             elif tool == 2:
-                tool_widget = ResamplingWidget(self.image)
+                # tool_widget = ResamplingWidget(self.image)
+                pass
             else:
                 return
         elif group == 8:
