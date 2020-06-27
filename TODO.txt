@@ -1,12 +1,12 @@
-- Sostituire Hidden Pixels con PRNU Extraction?
+- Aggiungere una modalità mediata su finestre per il calcolo dell'ELA? (come articolo di Farid)
+- Pensare ad impiegare funzioni accelerate con CUDA se presente GPU
 - Usare le features SPAM per rilevare il filtraggio con la mediana (http://dde.binghamton.edu/download/feature_extractors/download/spam686.m)
 - In Frequency Split se si modifica il filtro, evitare di ricalcolare la DFT inversa
 - In ImageViewer aggiungere la visualizzazione in tempo reale dei valori RGB dove passa il mouse
 - Se viene caricata una GIF animata, visualizzare un dialog per scegliere il frame da importare
-- Agli indici di Comparison aggiungere anche i coefficienti di correlazione dei due istogrammi usando cv.compareHist()
 - Ricontrollare che Thumbnail Analysis centri correttamente l'anteprima rispetto all'immagine
 - In RGB/HSV Plots sincronizzare la posizione del mouse nel grafico con l'evidenziazione dei colori corrispondenti nell'immagine e viceversa
-- Visualizzare le progress bar nella status bar della MainWindow
+- Visualizzare le progress bar nella status bar della MainWindow invece che come ProgressDialog
 - Provare ad usare QGroupBox per rendere automaticamente esclusivi i QRadioButton
 - In File Digest aggiungere tooltips con descrizioni delle ImageHash
 - In ComparisonWidget aggiungere anche FSIM (https://github.com/weizhou-geek/Image-Quality-Assessment-Benchmark)
@@ -19,14 +19,6 @@
 - Addestrare la nuova versione delle SVM per FirstDigitFeatures
 - In EchoWidget suddividere il processing perché la modifica di contrast è più veloce
 - Calcolo entropia e dell'energia dell'immagine (https://answers.opencv.org/question/180503/energy-computation-of-dct-of-image/)
-- Aggiungere a GhostWidget la ricerca locale della doppia compressione
-  > Per ogni blocco 8x8:
-    * Shift di -128
-    * DCT 2D
-    * Per ogni livello di qualità, calcolare errore di quantizzazione per ogni coefficiente DCT
-    * Analizzare i minimi locali di ogni blocco per stimare l'ultima quantizzazione
-    * Settare il valore del blocco uguale al livelo più basso
-    * Applicare un filtro mediano per ridurre gli outliers
 - Ottimizzare ElaWidget: il ricalcolo avviene solo cambiando Quality e non Scale    
 - Algoritmo Demosaicing Artifacts (?) di Hacker Factor
 - Strumento Color Noise Reduction (http://www.hackerfactor.com/blog/index.php?/archives/759-The-Secret-That-Donald-Trump-Doesnt-Want-You-To-Know.html)

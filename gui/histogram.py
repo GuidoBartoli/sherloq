@@ -130,7 +130,7 @@ class HistWidget(ToolWidget):
         green = self.green_radio.isChecked()
         blue = self.blue_radio.isChecked()
         value = self.value_radio.isChecked()
-        smooth = self.smooth_check.isChecked()
+        smoothness = self.smooth_check.isChecked()
         grid = self.grid_check.isChecked()
         log = self.log_check.isChecked()
         try:
@@ -138,10 +138,10 @@ class HistWidget(ToolWidget):
         except RecursionError:
             return
         y = None
-        step = None if smooth else 'mid'
+        step = None if smoothness else 'mid'
         if value:
             y = self.hist[3]
-            if smooth:
+            if smoothness:
                 self.axes.plot(x, y, 'k')
             else:
                 self.axes.step(x, y, 'k', where='mid')
@@ -149,21 +149,21 @@ class HistWidget(ToolWidget):
         else:
             if red or rgb:
                 y = self.hist[0]
-                if smooth:
+                if smoothness:
                     self.axes.plot(x, y, 'r')
                 else:
                     self.axes.step(x, y, 'r', where='mid')
                 self.axes.fill_between(x, y, alpha=alpha, facecolor='r', step=step)
             if green or rgb:
                 y = self.hist[1]
-                if smooth:
+                if smoothness:
                     self.axes.plot(x, y, 'g')
                 else:
                     self.axes.step(x, y, 'g', where='mid')
                 self.axes.fill_between(x, y, alpha=alpha, facecolor='g', step=step)
             if blue or rgb:
                 y = self.hist[2]
-                if smooth:
+                if smoothness:
                     self.axes.plot(x, y, 'b')
                 else:
                     self.axes.step(x, y, 'b', where='mid')
@@ -216,21 +216,20 @@ class HistWidget(ToolWidget):
                 fullness = np.round(count / (255 * np.max(y)) * 100, 2)
                 y = y / np.max(y)
                 sweep = len(y)
-                smooth = 0
-                if sweep > 2:
-                    for i in range(1, sweep - 1):
-                        h0 = y[i - 1]
-                        h1 = y[i]
-                        h2 = y[i + 1]
-                        smooth += abs((h0 + h2) / 2 - h1)
-                    smooth = np.round((1 - (smooth / (sweep - 2))) * 100, 2)
+                smoothness = 0
+                if sweep >= 5:
+                    for i in range(2, sweep - 2):
+                        yl = 2 * y[i - 1] - y[i - 2]
+                        yr = 2 * y[i + 1] - y[i + 2]
+                        smoothness += abs(y[i] - (yl + yr) / 2)
+                    smoothness = np.round((1 - (smoothness / (sweep - 2))) * 100, 2)
                 if self.marker_check.isChecked():
                     self.axes.axvline(argmin, linestyle='--', color='m')
                     self.axes.axvline(mean, linestyle='-', color='m')
                     self.axes.axvline(argmax, linestyle='-.', color='m')
                     self.axes.axvline(median, linestyle=':', color='m')
             else:
-                argmin = argmax = mean = stddev = median = percent = smooth = empty = nonzero = fullness = 0
+                argmin = argmax = mean = stddev = median = percent = smoothness = empty = nonzero = fullness = 0
 
             self.table_widget.setItem(0, 1, QTableWidgetItem(str(argmin)))
             self.table_widget.setItem(1, 1, QTableWidgetItem(str(argmax)))
@@ -244,8 +243,8 @@ class HistWidget(ToolWidget):
             self.table_widget.setItem(9, 1, QTableWidgetItem(str(self.unique_colors)))
             self.table_widget.setItem(10, 1, QTableWidgetItem(str(self.unique_ratio) + '%'))
             color_by_value(self.table_widget.item(10, 1), self.unique_ratio, [25, 50, 75])
-            self.table_widget.setItem(11, 1, QTableWidgetItem(str(smooth) + '%'))
-            color_by_value(self.table_widget.item(11, 1), smooth, [80, 90, 95])
+            self.table_widget.setItem(11, 1, QTableWidgetItem(str(smoothness) + '%'))
+            color_by_value(self.table_widget.item(11, 1), smoothness, [80, 90, 95])
             self.table_widget.setItem(12, 1, QTableWidgetItem(str(fullness) + '%'))
             color_by_value(self.table_widget.item(12, 1), fullness, [5, 10, 20])
             self.table_widget.resizeColumnsToContents()

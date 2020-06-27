@@ -36,52 +36,57 @@ This list contains the functions that **Sherloq** will hopefully provide once th
 
 ### General
 - __Original Image__: display the unaltered reference image for visual inspection
-- __File Digest__: retrieve file information and compute many hashes and ballistics
+- __File Digest__: retrieve physical file information, crypto and perceptual hashes
 - __Hex Editor__: open an external hexadecimal editor to show and edit raw bytes
-- __Similar Search__: use online search services to find visually similar images
+- __Similar Search__: browse online search services to find visually similar images
 
 ### Metadata
-- __Header Structure__: dump the physical EXIF structure and display an interactive view
-- __Metadata Extraction__: scan through file metadata and gather all available information
+- __Header Structure__: dump the file header structure and display an interactive view
+- __EXIF Full Dump__: scan through file metadata and gather all available information
 - __Thumbnail Analysis__: extract optional embedded thumbnail and compare with original
-- __Geolocation Data__: retrieve optional geo-location data and show it on a world map
+- __Geolocation Data__: retrieve optional geolocation data and show it on a world map
 
 ### Inspection
-- __Enhancing Magnifier__: use various visual enhancement for better identifying forgeries
-- __Reference Comparison__: open a synchronized double view to compare two different pictures
-- __Image Histogram__: display independent channel or composite interactive image histogram
-- __Global Adjustments__: apply standard adjustments (contrast, brightness, hue, saturation)
+- __Enhancing Magnifier__: magnifying glass with enhancements for better identifying forgeries
+- __Channel Histogram__: display single color channels or RGB composite interactive histogram
+- __Global Adjustments__: apply standard image adjustments (brightness, hue, saturation, ...)
+- __Reference Comparison__: open a synchronized double view for comparison with another picture
 
-### JPEG
-- __Quality Estimation__: extract quantization tables and estimate last saved JPEG quality
-- __Error Level Analysis__: show pixel-level difference against different compression levels
-- __Multiple Compression__: use residuals to detect multiple compressions at different levels
-- __DCT Dimples Map__: analyze periodic quantization artifacts to detect manipulations
-
+### Detail
+- __Luminance Gradient__: analyze horizontal/vertical brightness variations across the image
+- __Echo Edge Filter__: use derivative filters to reveal artificial out-of-focus regions
+- __Wavelet Threshold__: reconstruct image with different wavelet coefficient thresholds
+- __Correlation Plot__: exploit spatial correlation patterns among neighboring pixels
 
 ### Colors
-- __RGB/HSV 2D Plots__: display an interactive 2D plots of RGB and HSV pixel values
+- __RGB/HSV Plots__: display interactive 2D and 3D plots of RGB and HSV pixel values
+- __Space Conversion__: convert RGB channels into HSV/YCbCr/Lab/Luv/CMYK/Gray spaces
+- __PCA Projection__: use color PCA to project pixel onto most salient components
 - __Pixel Statistics__: compute minimum/maximum/average RGB values for every pixel
-- __Space Conversion__: convert color channels into HSV/YCbCr/Lab/Luv/CMYK/Gray spaces
-- __PCA Projection__: use color PCA to project RGB values into reduced dimensions
-
-### Tonality
-- __Luminance Gradient__: analyze horizontal and vertical brightness variations of the image
-- __Echo Edge Filter__: use derivative filter to reveal artificial out-of-focus zones
-- __Correlation Plot__: exploit spatial correlation patterns among neighboring pixels
-- __Wavelet Reconstruct__: reconstruct image with different wavelet coefficient thresholds
 
 ### Noise
-- __Noise Extraction__: estimate and visualize gaussian noise components of the image
+- __Noise Estimation__: estimate different kind of noise components of the image
 - __Min/Max Deviation__: highlight pixels deviating from block-based min/max statistics
-- __Image Bit Planes__: visualize bit planes values to find different noise patterns
-- __Frequency Separation__: divide image luminance into high/low frequency components
+- __Frequency Split__: split image luminance into high and low frequency components
+- __Bit Planes Values__: show individual bit planes to find inconsistent noise patterns
+
+### JPEG
+- __Error Level Analysis__: show pixel-level difference against fixed compression levels
+- __Quality Estimation__: extract quantization tables and estimate last saved JPEG quality
+- __Multiple Compression__: use residuals to detect multiple compressions at different levels
+- __DCT Dimples Map__: analyze periodic quantization artifacts introduced by devices
 
 ### Tampering
 - __Contrast Enhancement__: analyze color distribuions to detect contrast enhancements
-- __Region Cloning__: use feature descriptors for copy/rotate clone area detection
-- __Image Resampling__: analyze 2D pixel interpolation for detecting resampling traces
+- __Copy-Move Forgery__: use invariant feature descriptors for cloned area detection
+- __Image Resampling__: estimate 2D pixel interpolation for detecting resampling traces
 - __Composite Splicing__: exploit DCT statistics for automatic splicing zone detection
+
+### Various
+- __Median Filtering__: detect processing traces left by nonlinear median filtering
+- __Illuminant Map__: estimate scene local light direction on estimated 3D surfaces
+- __PRNU Identification__: exploit sensor pattern noise introduced by different cameras
+- __Stereogram Decoder__: decode 3D images concealed inside crossed-eye autostereograms
 
 # Screenshots
 Here are some screenshots from the previous C++ Qt GUI:
@@ -132,7 +137,7 @@ $ mkvirtualenv sq -p python3
 
 3. Change current directory to the `gui` folder and execute `pip install -r requirements.txt`
 3. Launch the program with `python sherloq.py`
-3. The software has been tested and correctly works on Ubuntu 18.04 with *Python 3.6*
+3. The software has been tested and correctly works on Ubuntu 18.04 with **Python 3.6**
 
 # Bibliography
 - Black Hat Briefings DC. (2008) A Picture's Worth: Digital Image Analysis and Forensics [White paper]. Washington, DC. Retrieved from http://blackhat.com/presentations/bh-dc-08/Krawetz/Whitepaper/bh-dc-08-krawetz-WP.pdf
