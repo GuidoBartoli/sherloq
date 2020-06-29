@@ -22,13 +22,16 @@ class EchoWidget(ToolWidget):
         self.radius_spin.setRange(1, 15)
         self.radius_spin.setSuffix(self.tr(' px'))
         self.radius_spin.setValue(2)
+        self.radius_spin.setToolTip(self.tr('Laplacian filter radius'))
 
         self.contrast_spin = QSpinBox()
         self.contrast_spin.setRange(0, 100)
         self.contrast_spin.setSuffix(self.tr(' %'))
         self.contrast_spin.setValue(85)
+        self.contrast_spin.setToolTip(self.tr('Output tonality compression'))
 
         self.gray_check = QCheckBox(self.tr('Grayscale'))
+        self.gray_check.setToolTip(self.tr('Desaturated output mode'))
 
         self.image = image
         self.viewer = ImageViewer(self.image, self.image, None)

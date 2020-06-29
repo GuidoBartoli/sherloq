@@ -114,7 +114,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Image Resampling'),
                            self.tr('Composite Splicing')])
         tool_infos.append([self.tr('Analyze color distributions to detect contrast enhancements'),
-                           self.tr('Use invariant feature descriptors for cloned area detection'),
+                           self.tr('Use invariant feature descriptors to detect cloned regions'),
                            self.tr('Estimate 2D pixel interpolation for detecting resampling traces'),
                            self.tr('Exploit DCT statistics for automatic splicing zone detection')])
         tool_progress.extend([3, 3, 0, 0])

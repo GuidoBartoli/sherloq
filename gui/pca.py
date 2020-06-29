@@ -23,13 +23,17 @@ class PcaWidget(ToolWidget):
         self.component_combo = QComboBox()
         self.component_combo.addItems([self.tr('#{}'.format(i + 1)) for i in range(3)])
         self.distance_radio = QRadioButton(self.tr('Distance'))
+        self.distance_radio.setToolTip(self.tr('Distance from the closest point on selected component'))
         self.project_radio = QRadioButton(self.tr('Projection'))
-        # self.closest_radio = QRadioButton(self.tr('Closest point'))
+        self.project_radio.setToolTip(self.tr('Projection onto the selected principal component'))
         self.crossprod_radio = QRadioButton(self.tr('Cross product'))
+        self.crossprod_radio.setToolTip(self.tr('Cross product between input and selected component'))
         self.distance_radio.setChecked(True)
         self.last_radio = self.distance_radio
         self.invert_check = QCheckBox(self.tr('Invert'))
+        self.invert_check.setToolTip(self.tr('Output bitwise complement'))
         self.equalize_check = QCheckBox(self.tr('Equalize'))
+        self.equalize_check.setToolTip(self.tr('Apply histogram equalization'))
 
         rows, cols, chans = image.shape
         x = np.reshape(image, (rows * cols, chans)).astype(np.float32)

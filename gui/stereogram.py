@@ -44,15 +44,19 @@ class StereoWidget(ToolWidget):
         flow = cv.calcOpticalFlowFarneback(a, b, None, 0.5, 5, 15, 5, 5, 1.2, cv.OPTFLOW_FARNEBACK_GAUSSIAN)[:, :, 0]
         self.depth = gray_to_bgr(norm_mat(flow))
         flow = np.repeat(cv.normalize(flow, None, 0, 1, cv.NORM_MINMAX)[:, :, np.newaxis], 3, axis=2)
-        self.shaded = (self.pattern.astype(np.float32) * flow).astype(np.uint8)
-
+        self.shaded = cv.normalize(self.pattern.astype(np.float32)*flow, None, 0, 255, cv.NORM_MINMAX).astype(np.uint8)
         self.viewer = ImageViewer(self.pattern, None, export=True)
 
         self.pattern_radio = QRadioButton(self.tr('Pattern'))
         self.pattern_radio.setChecked(True)
+        self.pattern_radio.setToolTip(self.tr('Difference between raw and aligned image'))
         self.silhouette_radio = QRadioButton(self.tr('Silhouette'))
+        self.silhouette_radio.setToolTip(self.tr('Apply threshold to discovered pattern'))
         self.depth_radio = QRadioButton(self.tr('Depth'))
+        self.depth_radio.setToolTip(self.tr('Estimate 3D depth using optical flow'))
         self.shaded_radio = QRadioButton(self.tr('Shaded'))
+        self.shaded_radio.setToolTip(self.tr('Combine pattern and depth information'))
+
         self.silhouette_radio.clicked.connect(self.process)
         self.pattern_radio.clicked.connect(self.process)
         self.depth_radio.clicked.connect(self.process)

@@ -16,10 +16,14 @@ class StatsWidget(ToolWidget):
         super(StatsWidget, self).__init__(parent)
 
         self.min_radio = QRadioButton(self.tr('Minimum'))
+        self.min_radio.setToolTip(self.tr('RGB channel with smallest value'))
         self.min_radio.setChecked(True)
         self.avg_radio = QRadioButton(self.tr('Average'))
+        self.avg_radio.setToolTip(self.tr('RGB channel with average value'))
         self.max_radio = QRadioButton(self.tr('Maximum'))
+        self.max_radio.setToolTip(self.tr('RGB channel with largest value'))
         self.incl_check = QCheckBox(self.tr('Inclusive'))
+        self.incl_check.setToolTip(self.tr('Use not strict inequalities'))
 
         self.image = image
         b, g, r = cv.split(self.image)

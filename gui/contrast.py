@@ -21,11 +21,14 @@ class ContrastWidget(ToolWidget):
         self.algo_combo = QComboBox()
         self.algo_combo.addItems(
             [self.tr('Histogram Error'), self.tr('Channel Similarity'), self.tr('Joint probability')])
+        self.algo_combo.setToolTip(self.tr('Joint Probability merges Histogram Error and Channel Similarity'))
         self.algo_combo.setCurrentIndex(2)
         self.block_combo = QComboBox()
         self.block_combo.addItems(['32', '64', '128', '256'])
         self.block_combo.setCurrentIndex(1)
+        self.block_combo.setToolTip(self.tr('Square size of analyzed blocks'))
         self.process_button = QPushButton(self.tr('Process'))
+        self.process_button.setToolTip(self.tr('Perform contrast enhancement analysis'))
 
         top_layout = QHBoxLayout()
         top_layout.addWidget(QLabel(self.tr('Algorithm:')))

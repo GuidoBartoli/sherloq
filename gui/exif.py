@@ -21,6 +21,7 @@ class ExifWidget(ToolWidget):
                 if not value or any(t in tag for t in ignore):
                     continue
                 value = str(value).replace(', use -b option to extract', '')
+                value = value.replace('Binary data ', 'Binary data: ')
                 group, desc = tag.split(':')
                 if last is None or group != last:
                     table.append([group, desc, value])

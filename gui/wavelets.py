@@ -20,8 +20,7 @@ class WaveletWidget(ToolWidget):
 
         self.family_combo = QComboBox()
         self.family_combo.addItems(
-            [self.tr('Haar'), self.tr('Daubechies'), self.tr('Symlets'),
-             self.tr('Coiflets'), self.tr('Biorthogonal')])
+            [self.tr('Daubechies'), self.tr('Symlets'), self.tr('Coiflets'), self.tr('Biorthogonal')])
         self.wavelet_combo = QComboBox()
         self.wavelet_combo.setMinimumWidth(70)
         self.threshold_spin = QSpinBox()
@@ -29,8 +28,7 @@ class WaveletWidget(ToolWidget):
         self.threshold_spin.setSuffix('%')
         self.mode_combo = QComboBox()
         self.mode_combo.addItems(
-            [self.tr('Soft'), self.tr('Hard'), self.tr('Garrote'),
-             self.tr('Greater'), self.tr('Less')])
+            [self.tr('Soft'), self.tr('Hard'), self.tr('Garrote'), self.tr('Greater'), self.tr('Less')])
         self.level_spin = QSpinBox()
 
         self.image = image
@@ -66,12 +64,10 @@ class WaveletWidget(ToolWidget):
         self.wavelet_combo.clear()
         family = self.family_combo.currentIndex()
         if family == 0:
-            self.wavelet_combo.addItems(['haar'])
-        elif family == 1:
             self.wavelet_combo.addItems(['db{}'.format(i) for i in range(1, 21)])
-        elif family == 2:
+        elif family == 1:
             self.wavelet_combo.addItems(['sym{}'.format(i) for i in range(2, 21)])
-        elif family == 3:
+        elif family == 2:
             self.wavelet_combo.addItems(['coif{}'.format(i) for i in range(1, 6)])
         else:
             types = ['1.1', '1.3', '1.5', '2.2', '2.4', '2.6', '2.8',

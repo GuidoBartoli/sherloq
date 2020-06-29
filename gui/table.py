@@ -105,6 +105,7 @@ class TableWidget(QWidget):
 
         export_button = QToolButton()
         export_button.setText(self.tr('Export...'))
+        export_button.setToolTip(self.tr('Save table content to CSV format'))
         export_button.clicked.connect(self.export)
         search_layout.addWidget(export_button)
 

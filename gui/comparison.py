@@ -36,17 +36,24 @@ class ComparisonWidget(ToolWidget):
     def __init__(self, filename, image, parent=None):
         super(ComparisonWidget, self).__init__(parent)
 
-        load_button = QPushButton(self.tr('Load reference...'))
+        load_button = QPushButton(self.tr('Load reference image...'))
         self.comp_label = QLabel(self.tr('Comparison:'))
         self.normal_radio = QRadioButton(self.tr('Normal'))
+        self.normal_radio.setToolTip(self.tr('Show reference (raw pixels)'))
         self.normal_radio.setChecked(True)
-        self.diff_radio = QRadioButton(self.tr('Difference'))
+        self.difference_radio = QRadioButton(self.tr('Difference'))
+        self.difference_radio.setToolTip(self.tr('Show evidence/reference difference'))
         self.ssim_radio = QRadioButton(self.tr('SSIM Map'))
+        self.ssim_radio.setToolTip(self.tr('Structure similarity quality map'))
         self.butter_radio = QRadioButton(self.tr('Butteraugli'))
+        self.butter_radio.setToolTip(self.tr('Butteraugli spatial changes heatmap'))
         self.gray_check = QCheckBox(self.tr('Grayscale'))
-        self.equal_check = QCheckBox(self.tr('Equalized'))
+        self.gray_check.setToolTip(self.tr('Show desaturated output'))
+        self.equalize_check = QCheckBox(self.tr('Equalized'))
+        self.equalize_check.setToolTip(self.tr('Apply histogram equalization'))
         self.last_radio = self.normal_radio
         self.metric_button = QPushButton(self.tr('Compute'))
+        self.metric_button.setToolTip(self.tr('Image quality assessment metrics'))
 
         self.evidence = image
         self.reference = self.difference = self.ssim_map = self.butter_map = None
@@ -162,20 +169,20 @@ class ComparisonWidget(ToolWidget):
 
         self.comp_label.setEnabled(False)
         self.normal_radio.setEnabled(False)
-        self.diff_radio.setEnabled(False)
+        self.difference_radio.setEnabled(False)
         self.ssim_radio.setEnabled(False)
         self.butter_radio.setEnabled(False)
         self.gray_check.setEnabled(False)
-        self.equal_check.setEnabled(False)
+        self.equalize_check.setEnabled(False)
         self.metric_button.setEnabled(False)
         self.table_widget.setEnabled(False)
 
         load_button.clicked.connect(self.load)
         self.normal_radio.clicked.connect(self.change)
-        self.diff_radio.clicked.connect(self.change)
+        self.difference_radio.clicked.connect(self.change)
         self.butter_radio.clicked.connect(self.change)
         self.gray_check.stateChanged.connect(self.change)
-        self.equal_check.stateChanged.connect(self.change)
+        self.equalize_check.stateChanged.connect(self.change)
         self.ssim_radio.clicked.connect(self.change)
         self.evidence_viewer.viewChanged.connect(self.reference_viewer.changeView)
         self.reference_viewer.viewChanged.connect(self.evidence_viewer.changeView)
@@ -186,11 +193,11 @@ class ComparisonWidget(ToolWidget):
         top_layout.addStretch()
         top_layout.addWidget(self.comp_label)
         top_layout.addWidget(self.normal_radio)
-        top_layout.addWidget(self.diff_radio)
+        top_layout.addWidget(self.difference_radio)
         top_layout.addWidget(self.ssim_radio)
         top_layout.addWidget(self.butter_radio)
         top_layout.addWidget(self.gray_check)
-        top_layout.addWidget(self.equal_check)
+        top_layout.addWidget(self.equalize_check)
 
         metric_layout = QVBoxLayout()
         index_label = QLabel(self.tr('Image Quality Assessment'))
@@ -223,11 +230,11 @@ class ComparisonWidget(ToolWidget):
 
         self.comp_label.setEnabled(True)
         self.normal_radio.setEnabled(True)
-        self.diff_radio.setEnabled(True)
+        self.difference_radio.setEnabled(True)
         self.ssim_radio.setEnabled(False)
         self.butter_radio.setEnabled(False)
         self.gray_check.setEnabled(True)
-        self.equal_check.setEnabled(True)
+        self.equalize_check.setEnabled(True)
         self.metric_button.setEnabled(True)
         for i in range(self.table_widget.rowCount()):
             self.table_widget.setItem(i, 1, QTableWidgetItem())
@@ -239,27 +246,27 @@ class ComparisonWidget(ToolWidget):
         if self.normal_radio.isChecked():
             result = self.reference
             self.gray_check.setEnabled(False)
-            self.equal_check.setEnabled(False)
+            self.equalize_check.setEnabled(False)
             self.last_radio = self.normal_radio
-        elif self.diff_radio.isChecked():
+        elif self.difference_radio.isChecked():
             result = self.difference
             self.gray_check.setEnabled(True)
-            self.equal_check.setEnabled(True)
-            self.last_radio = self.diff_radio
+            self.equalize_check.setEnabled(True)
+            self.last_radio = self.difference_radio
         elif self.ssim_radio.isChecked():
             result = self.ssim_map
             self.gray_check.setEnabled(False)
-            self.equal_check.setEnabled(True)
+            self.equalize_check.setEnabled(True)
             self.last_radio = self.ssim_radio
         elif self.butter_radio.isChecked():
             result = self.butter_map
             self.gray_check.setEnabled(True)
-            self.equal_check.setEnabled(False)
+            self.equalize_check.setEnabled(False)
             self.last_radio = self.butter_radio
         else:
             self.last_radio.setChecked(True)
             return
-        if self.equal_check.isChecked():
+        if self.equalize_check.isChecked():
             result = equalize_img(result)
         if self.gray_check.isChecked():
             result = desaturate(result)

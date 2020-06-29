@@ -1,7 +1,6 @@
 import cv2 as cv
 import numpy as np
 from PySide2.QtWidgets import (
-    QHBoxLayout,
     QVBoxLayout,
     QLabel,
     QGridLayout,
@@ -32,7 +31,9 @@ class AdjustWidget(ToolWidget):
         self.equalize_combo.addItems(
             [self.tr('No EQ'), self.tr('Hist EQ'), self.tr('CLAHE L1'),
              self.tr('CLAHE L2'), self.tr('CLAHE L3'), self.tr('CLAHE L4')])
+        self.equalize_combo.setToolTip(self.tr('Histogram equalization mode'))
         self.invert_check = QCheckBox(self.tr('Invert values'))
+        self.invert_check.setToolTip(self.tr('Apply bitwise complement'))
         self.reset_button = QPushButton(self.tr('Reset'))
 
         self.image = image

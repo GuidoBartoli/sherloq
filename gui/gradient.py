@@ -20,14 +20,17 @@ class GradientWidget(ToolWidget):
         super(GradientWidget, self).__init__(parent)
         self.intensity_spin = QSpinBox()
         self.intensity_spin.setRange(0, 100)
-        self.intensity_spin.setSingleStep(5)
         self.intensity_spin.setValue(95)
         self.intensity_spin.setSuffix(self.tr(' %'))
+        self.intensity_spin.setToolTip(self.tr('Tonality compression amount'))
         self.blue_combo = QComboBox()
         self.blue_combo.addItems([self.tr('None'), self.tr('Flat'), self.tr('Abs'), self.tr('Norm')])
         self.blue_combo.setCurrentIndex(2)
+        self.blue_combo.setToolTip(self.tr('Blue component inclusion mode'))
         self.invert_check = QCheckBox(self.tr('Invert'))
+        self.invert_check.setToolTip(self.tr('Reverse lighting direction'))
         self.equalize_check = QCheckBox(self.tr('Equalize'))
+        self.equalize_check.setToolTip(self.tr('Apply histogram equalization'))
 
         self.image = image
         self.viewer = ImageViewer(self.image, self.image)
