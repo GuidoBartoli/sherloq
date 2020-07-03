@@ -21,7 +21,7 @@ class ToolTree(QTreeWidget):
         group_names = []
         tool_names = []
         tool_infos = []
-        tool_progress = []  # 0 = da fare, 1 = iniziato, 2 = funzionante, 3 = completo
+        tool_progress = []  # 0 = da fare, 1 = debug, 2 = funzionante, 3 = completo
 
         # [0]
         group_names.append(self.tr('[General]'))
@@ -155,7 +155,7 @@ class ToolTree(QTreeWidget):
         self.setColumnCount(1)
         self.header().setVisible(False)
         self.setMaximumWidth(300)
-        self.version = '{:.2f}a'.format(sum(tool_progress) / (count * 3))
+        self.version = '{:.2f}a'.format(sum(tool_progress) / 100)
 
     def set_bold(self, tool, enabled):
         items = self.findItems(tool, Qt.MatchFixedString | Qt.MatchRecursive)

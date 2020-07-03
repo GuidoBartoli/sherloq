@@ -88,3 +88,5 @@ class SplicingWidget(ToolWidget):
             modify_font(self.map_button, bold=False, italic=False)
             self.map_button.setCheckable(True)
         self.map_button.setChecked(True)
+        self.noise_viewer.viewChanged.connect(self.map_viewer.changeView)
+        self.map_viewer.viewChanged.connect(self.noise_viewer.changeView)
