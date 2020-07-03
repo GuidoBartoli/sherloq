@@ -306,7 +306,11 @@ class ComparisonWidget(ToolWidget):
         progress.setValue(6)
         if self.stopped:
             return
-        psnrb = sewar.psnrb(img1, img2)
+        try:
+            psnrb = sewar.psnrb(img1, img2)
+        except NameError:
+            # FIXME: C'è un bug in psnrb (https://github.com/andrewekhalel/sewar/issues/17)
+            psnrb = 0
         progress.setValue(7)
         if self.stopped:
             return

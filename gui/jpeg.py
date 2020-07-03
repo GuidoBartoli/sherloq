@@ -14,9 +14,20 @@ ZIG_ZAG = [
     [6, 5], [7, 4], [7, 5], [6, 6], [5, 7], [6, 7], [7, 6], [7, 7]]
 
 
-def compress_jpeg(image, quality, color=True):
+def compress_img(image, quality, color=True):
     _, buffer = cv.imencode('.jpg', image, [cv.IMWRITE_JPEG_QUALITY, quality])
     return cv.imdecode(buffer, cv.IMREAD_COLOR if color else cv.IMREAD_GRAYSCALE)
+
+
+def get_curve(image, q_range=range(0, 101)):
+    image0 = cv.cvtColor(image, cv.COLOR_BGR2GRAY) if len(image.shape) > 2 else image
+    c = [cv.mean(cv.absdiff(compress_img(image0, q, False), image0))[0] for q in q_range]
+    return cv.normalize(np.array(c), None, 0, 1, cv.NORM_MINMAX).flatten()
+
+
+def estimate_qf(image, start=0):
+    curve = get_curve(image, range(start, 101))
+    return start + np.argmin(curve)
 
 
 def get_tables(quality):

@@ -37,6 +37,7 @@ from quality import QualityWidget
 from resampling import ResamplingWidget
 from reverse import ReverseWidget
 from space import SpaceWidget
+from splicing import SplicingWidget
 from stats import StatsWidget
 from stereogram import StereoWidget
 from header import HeaderWidget
@@ -405,8 +406,7 @@ class MainWindow(QMainWindow):
             elif tool == 1:
                 tool_widget = CloningWidget(self.image)
             elif tool == 2:
-                # tool_widget = ResamplingWidget(self.image)
-                pass
+                tool_widget = SplicingWidget(self.image)
             else:
                 return
         elif group == 8:

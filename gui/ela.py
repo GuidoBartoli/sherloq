@@ -10,7 +10,7 @@ from PySide2.QtWidgets import (
     QSpinBox,
     QLabel)
 
-from jpeg import compress_jpeg
+from jpeg import compress_img
 from tools import ToolWidget
 from utility import elapsed_time, equalize_img, auto_lut, desaturate, create_lut
 from viewer import ImageViewer
@@ -77,7 +77,7 @@ class ElaWidget(ToolWidget):
         grayscale = self.gray_check.isChecked()
         self.scale_spin.setEnabled(not equalize)
         self.contrast_spin.setEnabled(not equalize)
-        compressed = compress_jpeg(self.image, quality).astype(np.float32) / 255
+        compressed = compress_img(self.image, quality).astype(np.float32) / 255
         difference = cv.absdiff(self.original, compressed)
         if equalize:
             ela = equalize_img((difference * 255).astype(np.uint8))

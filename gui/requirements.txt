@@ -1,9 +1,11 @@
+concurrent-iterator
 lxml
-matplotlib
 opencv-contrib-python
-pip-chill
+pandas
 pyside2
 python-magic
-pywavelets
+scikit-image
+scikit-learn
 sewar
 tabulate
+tensorflow==1.2.1

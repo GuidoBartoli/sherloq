@@ -85,11 +85,11 @@ class ToolTree(QTreeWidget):
 
         # [5]
         group_names.append(self.tr('[Noise]'))
-        tool_names.append([self.tr('Noise Estimation'),
+        tool_names.append([self.tr('Noise Separation'),
                            self.tr('Min/Max Deviation'),
                            self.tr('Frequency Split'),
                            self.tr('Bit Plane Values')])
-        tool_infos.append([self.tr('Estimate different kind of noise components of the image'),
+        tool_infos.append([self.tr('Estimate and extract different kind of image noise components'),
                            self.tr('Highlight pixels deviating from block-based min/max statistics'),
                            self.tr('Split image luminance into high and low frequency components'),
                            self.tr('Show individual bit planes to find inconsistent noise patterns')])
@@ -111,13 +111,13 @@ class ToolTree(QTreeWidget):
         group_names.append(self.tr('[Tampering]'))
         tool_names.append([self.tr('Contrast Enhancement'),
                            self.tr('Copy-Move Forgery'),
-                           self.tr('Image Resampling'),
-                           self.tr('Composite Splicing')])
+                           self.tr('Composite Splicing'),
+                           self.tr('Image Resampling')])
         tool_infos.append([self.tr('Analyze color distributions to detect contrast enhancements'),
                            self.tr('Use invariant feature descriptors to detect cloned regions'),
-                           self.tr('Estimate 2D pixel interpolation for detecting resampling traces'),
-                           self.tr('Exploit DCT statistics for automatic splicing zone detection')])
-        tool_progress.extend([3, 3, 0, 0])
+                           self.tr('Exploit DCT statistics for automatic splicing zone detection'),
+                           self.tr('Estimate 2D pixel interpolation for detecting resampling traces')])
+        tool_progress.extend([3, 3, 3, 0])
 
         # [8]
         group_names.append(self.tr('[Various]'))
