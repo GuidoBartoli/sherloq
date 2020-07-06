@@ -47,7 +47,7 @@ class ThumbWidget(ToolWidget):
             #     padded = cv.resize(padded, thumb.shape, interpolation=cv.INTER_AREA)
             # diff = cv.cvtColor(cv.absdiff(thumb, padded), cv.COLOR_BGR2GRAY)
 
-            viewer = ImageViewer(thumb, diff)
+            viewer = ImageViewer(resized, diff)
             layout = QVBoxLayout()
             layout.addWidget(viewer)
             self.setLayout(layout)

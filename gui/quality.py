@@ -8,7 +8,6 @@ from PySide2.QtGui import QColor
 from PySide2.QtWidgets import (
     QLabel,
     QVBoxLayout,
-    QHBoxLayout,
     QGridLayout,
     QTableWidget,
     QTableWidgetItem,
@@ -92,7 +91,7 @@ class QualityWidget(ToolWidget):
             message = '(standard tables)'
         else:
             quality = int(np.round(closest - deviation))
-            message = '(estimated with deviation = {:.4f})'.format(deviation)
+            message = '(deviation from standard = {:.4f})'.format(deviation)
         quality_label = QLabel(self.tr('Last saved JPEG quality: {}% {}'.format(quality, message)))
         modify_font(quality_label, bold=True)
 

@@ -23,4 +23,4 @@ class HeaderWidget(ToolWidget):
             layout = QVBoxLayout()
             layout.addWidget(web_view)
             self.setLayout(layout)
-            self.setMinimumWidth(875)
+            self.setMinimumWidth(900)

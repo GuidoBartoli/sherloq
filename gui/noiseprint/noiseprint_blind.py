@@ -23,10 +23,12 @@ def noiseprint_blind_file(filename, model_name='net'):
     try:
         img, mode = imread2f(filename, channel=1)
     except:
+        # print('Error opening image')
         return -1, -1, -1e10, None, None, None, None, None, None
 
     try:
         QF = jpeg_qtableinv(filename)
+        # print('QF=', QF)
     except:
         QF = 200
 

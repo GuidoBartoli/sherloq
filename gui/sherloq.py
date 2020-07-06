@@ -23,6 +23,7 @@ from ela import ElaWidget
 from exif import ExifWidget
 from frequency import FrequencyWidget
 from gradient import GradientWidget
+from header import HeaderWidget
 from histogram import HistWidget
 from location import LocationWidget
 from magnifier import MagnifierWidget
@@ -34,13 +35,11 @@ from pca import PcaWidget
 from planes import PlanesWidget
 from plots import PlotsWidget
 from quality import QualityWidget
-from resampling import ResamplingWidget
 from reverse import ReverseWidget
 from space import SpaceWidget
 from splicing import SplicingWidget
 from stats import StatsWidget
 from stereogram import StereoWidget
-from header import HeaderWidget
 from thumbnail import ThumbWidget
 from tools import ToolTree
 from utility import modify_font, load_image

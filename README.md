@@ -26,11 +26,11 @@ This list contains the functions that **Sherloq** will hopefully provide once th
 
 ## Interface
 - Modern Qt-based GUI with multiple tool window management
-- Import BMP, JPEG, PNG, WebP, PGM, PFM, TIFF and GIF formats
-- Highly responsive image viewer with panning and zooming
+- Support for many formats (BMP, JPEG, PNG, WebP, PGM, PFM, TIFF, GIF)
+- Highly responsive image viewer with real-time panning and zooming
 - Many state-of-the-art algorithms to try out interactively
 - Extensive online help with tool explanations and tutorials
-- Export both visual and textual tool outputs
+- Export both visual and textual analysis results
 
 ## Tools
 
@@ -65,7 +65,7 @@ This list contains the functions that **Sherloq** will hopefully provide once th
 - __Pixel Statistics__: compute minimum/maximum/average RGB values for every pixel
 
 ### Noise
-- __Noise Estimation__: estimate different kind of noise components of the image
+- __Noise Separation__: estimate and extract different kind of image noise components
 - __Min/Max Deviation__: highlight pixels deviating from block-based min/max statistics
 - __Frequency Split__: split image luminance into high and low frequency components
 - __Bit Planes Values__: show individual bit planes to find inconsistent noise patterns
@@ -79,8 +79,8 @@ This list contains the functions that **Sherloq** will hopefully provide once th
 ### Tampering
 - __Contrast Enhancement__: analyze color distribuions to detect contrast enhancements
 - __Copy-Move Forgery__: use invariant feature descriptors for cloned area detection
-- __Image Resampling__: estimate 2D pixel interpolation for detecting resampling traces
 - __Composite Splicing__: exploit DCT statistics for automatic splicing zone detection
+- __Image Resampling__: estimate 2D pixel interpolation for detecting resampling traces
 
 ### Various
 - __Median Filtering__: detect processing traces left by nonlinear median filtering
@@ -89,7 +89,7 @@ This list contains the functions that **Sherloq** will hopefully provide once th
 - __Stereogram Decoder__: decode 3D images concealed inside crossed-eye autostereograms
 
 # Screenshots
-Here are some screenshots from the previous C++ Qt GUI:
+Here are some screenshots from the previous C++ Qt GUI (to be updated with the new version):
 <p align="center">
   <img src="screenshots/File.jpg" alt="File Analysis"/>
   <br><b>File Analysis</b>: Metadata, Digest and EXIF
@@ -115,10 +115,9 @@ Here are some screenshots from the previous C++ Qt GUI:
   <br><b>Luminance and Noise</b>: Light Gradient, Echo Edge, Min/Max Deviation and SNR Consistency
 </p>
 
-# Install
-1. Clone repository content into a local folder
-1. Create a Python 3 virtual environment (below there are *Linux* instructions, but for *Windows* you can follow [this guide](https://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows/), while [this guide](https://dev.to/micuffaro/easy-workflow-for-switching-python-virtual-environments-with-zsh-19lc) is for *MacOS*):
+# Installation
 
+## Linux
 ```
 Install package manager
 $ sudo apt install python3-distutils python3-dev subversion
@@ -135,9 +134,34 @@ $ source ~/.bashrc
 $ mkvirtualenv sq -p python3
 ```
 
-3. Change current directory to the `gui` folder and execute `pip install -r requirements.txt`
-3. Launch the program with `python sherloq.py`
-3. The software has been tested and correctly works on Ubuntu 18.04 with **Python 3.6**
+## MacOS
+```
+1) Open Terminal and enter "python3" to install the interpreter and other command line tools
+2) Once installed, proceed similarly to Linux installation:
+   $ wget https://bootstrap.pypa.io/get-pip.py
+   $ sudo python3 get-pip.py
+   $ sudo pip install virtualenv virtualenvwrapper
+   $ echo -e "\n# Python Virtual Environments" >> ~/.bash_profile
+   $ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bash_profile
+   $ echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bash_profile
+   $ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bash_profile
+   $ source ~/.bash_profile
+3) $ mkvirtualenv sq -p python3
+```
+
+## Windows
+You can follow [this guide](https://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows/) (the *Flask* installation is optional).
+
+## Linux, MacOS, Windows
+1. ## Linux, MacOS, Windows
+1. Clone repository content into a local folder
+1. Change current directory to the `gui` folder inside `sherloq`
+1. Execute `pip install -r requirements.txt`
+1. Launch the program with `python sherloq.py`
 
 # Bibliography
-- Black Hat Briefings DC. (2008) A Picture's Worth: Digital Image Analysis and Forensics [White paper]. Washington, DC. Retrieved from http://blackhat.com/presentations/bh-dc-08/Krawetz/Whitepaper/bh-dc-08-krawetz-WP.pdf
+- Black Hat Briefings DC. (2008) "A Picture's Worth: Digital Image Analysis and Forensics" [White paper]. Washington, DC. Retrieved from http://blackhat.com/presentations/bh-dc-08/Krawetz/Whitepaper/bh-dc-08-krawetz-WP.pdf
+- "Noiseprint: a CNN-based camera model fingerprint" (Davide Cozzolino, Luisa Verdoliva)
+- "Exposing Digital Forgeries by Detecting Traces of Re-sampling" (Alin C. Popescu and Hany Farid)
+- "Two Improved Forensic Methods of Detecting Contrast Enhancement in Digital Images" (Xufeng Lin, Xingjie Wei and Chang-Tsun Li)
+

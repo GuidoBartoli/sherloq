@@ -1,11 +1,5 @@
 import os
 from time import time
-import warnings
-os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
-warnings.simplefilter(action='ignore', category=FutureWarning)
-from noiseprint.noiseprint import genNoiseprint
-from noiseprint.noiseprint_blind import noiseprint_blind_post
-from noiseprint.noiseprint_blind import genMappUint8
 
 import cv2 as cv
 import numpy as np
@@ -16,9 +10,13 @@ from PySide2.QtWidgets import (
     QMessageBox)
 
 from jpeg import estimate_qf
+os.environ['TF_CPP_MIN_LOG_LEVEL'] = '3'
+from noiseprint.noiseprint import genNoiseprint
+from noiseprint.noiseprint_blind import genMappUint8
+from noiseprint.noiseprint_blind import noiseprint_blind_post
 from tools import ToolWidget
+from utility import modify_font, norm_mat, gray_to_bgr
 from viewer import ImageViewer
-from utility import modify_font, norm_mat
 
 
 class SplicingWidget(ToolWidget):

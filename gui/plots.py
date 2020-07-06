@@ -12,7 +12,6 @@ from PySide2.QtWidgets import (
     QVBoxLayout,
     QDoubleSpinBox,
     QGridLayout,
-    QPushButton,
     QTabWidget)
 from matplotlib.backends.backend_qt5agg import (
     FigureCanvas,

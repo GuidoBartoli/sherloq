@@ -12,7 +12,7 @@ from PySide2.QtWidgets import (
 
 from jpeg import compress_img
 from tools import ToolWidget
-from utility import elapsed_time, equalize_img, auto_lut, desaturate, create_lut
+from utility import elapsed_time, equalize_img, desaturate, create_lut
 from viewer import ImageViewer
 
 

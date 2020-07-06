@@ -1,13 +1,7 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import (
-    QVBoxLayout,
-    QProgressDialog)
 
 from tools import ToolWidget
-from utility import compute_hist
-from viewer import ImageViewer
 
 
 class ResamplingWidget(ToolWidget):

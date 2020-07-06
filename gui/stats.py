@@ -18,6 +18,7 @@ class StatsWidget(ToolWidget):
         self.min_radio = QRadioButton(self.tr('Minimum'))
         self.min_radio.setToolTip(self.tr('RGB channel with smallest value'))
         self.min_radio.setChecked(True)
+        self.last_radio = self.min_radio
         self.avg_radio = QRadioButton(self.tr('Average'))
         self.avg_radio.setToolTip(self.tr('RGB channel with average value'))
         self.max_radio = QRadioButton(self.tr('Maximum'))
@@ -82,10 +83,14 @@ class StatsWidget(ToolWidget):
         inclusive = self.incl_check.isChecked()
         if self.min_radio.isChecked():
             result = self.minimum[1 if inclusive else 0]
+            self.last_radio = self.min_radio
         elif self.max_radio.isChecked():
             result = self.maximum[1 if inclusive else 0]
+            self.last_radio = self.max_radio
         elif self.avg_radio.isChecked():
             result = self.average[1 if inclusive else 0]
+            self.last_radio = self.avg_radio
         else:
+            self.last_radio.setChecked(True)
             return
         self.viewer.update_processed(result)
