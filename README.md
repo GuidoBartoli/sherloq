@@ -153,7 +153,6 @@ $ mkvirtualenv sq -p python3
 You can follow [this guide](https://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows/) (the *Flask* installation is optional).
 
 ## Linux, MacOS, Windows
-1. ## Linux, MacOS, Windows
 1. Clone repository content into a local folder
 1. Change current directory to the `gui` folder inside `sherloq`
 1. Execute `pip install -r requirements.txt`
