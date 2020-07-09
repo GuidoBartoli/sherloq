@@ -59,18 +59,18 @@ class FullConvNet(object):
       params_shape = [x.get_shape()[-1]]
       moving_mean = tf.get_variable(
         'moving_mean', params_shape, tf.float32,
-        initializer=tf.constant_initializer(0.0, dtype=tf.float32),
+        initializer=tf.constant_initializer(0.0),
         trainable=False)
       moving_variance = tf.get_variable(
         'moving_variance', params_shape, tf.float32,
-        initializer=tf.constant_initializer(self._bnorm_init_var, dtype=tf.float32),
+        initializer=tf.constant_initializer(self._bnorm_init_var),
         trainable=False)
       self.variables_list.append(moving_mean)
       self.variables_list.append(moving_variance)
 
       gamma = tf.get_variable(
         'gamma', params_shape, tf.float32,
-        initializer=tf.random_normal_initializer(stddev=self._bnorm_init_gamma, dtype=tf.float32))
+        initializer=tf.random_normal_initializer(stddev=self._bnorm_init_gamma))
       self.variables_list.append(gamma)
       self.trainable_list.append(gamma)
 
@@ -94,7 +94,7 @@ class FullConvNet(object):
       params_shape = [x.get_shape()[-1]]
       beta = tf.get_variable(
         'beta', params_shape, tf.float32,
-        initializer=tf.constant_initializer(0.0, dtype=tf.float32))
+        initializer=tf.constant_initializer(0.0))
       self.variables_list.append(beta)
       self.trainable_list.append(beta)
       y = x + beta
@@ -108,7 +108,7 @@ class FullConvNet(object):
       kernel = tf.get_variable(
         'weights', [filter_size, filter_size, in_filters, out_filters],
         tf.float32, initializer=tf.random_normal_initializer(
-          stddev=np.sqrt(2.0 / n), dtype=tf.float32))
+          stddev=np.sqrt(2.0 / n)))
       self.variables_list.append(kernel)
       self.trainable_list.append(kernel)
       self.decay_list.append(kernel)

@@ -34,13 +34,13 @@ def getParams(ordResid, symTranspose, q, T, ordCooc, mapper, strides):
     
     if isinstance(mapper,dict):
         numFeat = mapper['num']
-    elif mapper is 'SignSym':
+    elif mapper == 'SignSym':
         mapper = spam_m.getSignSymMapper(ordCooc, n)
         numFeat = mapper['num']
-    elif mapper is 'Sign':
+    elif mapper == 'Sign':
         mapper = spam_m.getSignMapper(ordCooc,n)
         numFeat = mapper['num']
-    elif mapper is 'Idem':
+    elif mapper == 'Idem':
         mapper = []
         numFeat = (n ** ordCooc)
     else:

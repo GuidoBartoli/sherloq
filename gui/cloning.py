@@ -5,7 +5,8 @@ import cv2 as cv
 import numpy as np
 from PySide2.QtCore import Qt, QCoreApplication
 from PySide2.QtWidgets import (
-    QPushButton,
+    QToolButton,
+    QMessageBox,
     QSpinBox,
     QCheckBox,
     QComboBox,
@@ -15,7 +16,7 @@ from PySide2.QtWidgets import (
     QProgressDialog)
 
 from tools import ToolWidget
-from utility import elapsed_time, modify_font
+from utility import elapsed_time, modify_font, load_image
 from viewer import ImageViewer
 
 
@@ -48,14 +49,24 @@ class CloningWidget(ToolWidget):
         self.cluster_spin.setToolTip(self.tr('Minimum number of keypoints to create a new cluster'))
         self.nolines_check = QCheckBox(self.tr('Hide lines'))
         self.nolines_check.setToolTip(self.tr('Disable match line drawing'))
-        self.process_button = QPushButton(self.tr('Process'))
+        self.process_button = QToolButton()
+        self.process_button.setText(self.tr('Process'))
         self.process_button.setToolTip(self.tr('Perform automatic detection'))
-        self.status_label = QLabel(self.tr('[Press "Process" button to search for cloned regions]'))
+        modify_font(self.process_button, bold=True)
+        self.status_label = QLabel()
+        self.mask_label = QLabel()
+        self.mask_button = QToolButton()
+        self.mask_button.setText(self.tr('Load mask...'))
+        self.mask_button.setToolTip(self.tr('Load an image to be used as mask'))
+        self.onoff_button = QToolButton()
+        self.onoff_button.setText(self.tr('OFF'))
+        self.onoff_button.setCheckable(True)
+        self.onoff_button.setToolTip(self.tr('Toggle keypoint detection mask'))
 
         self.image = image
         self.viewer = ImageViewer(self.image, self.image)
         self.gray = cv.cvtColor(self.image, cv.COLOR_BGR2GRAY)
-        self.keypoints = self.kpts = self.desc = self.matches = self.clusters = None
+        self.total = self.kpts = self.desc = self.matches = self.clusters = self.mask = None
         self.canceled = False
 
         self.detector_combo.currentIndexChanged.connect(self.update_detector)
@@ -65,6 +76,9 @@ class CloningWidget(ToolWidget):
         self.cluster_spin.valueChanged.connect(self.update_cluster)
         self.nolines_check.stateChanged.connect(self.process)
         self.process_button.clicked.connect(self.process)
+        self.mask_button.clicked.connect(self.load_mask)
+        self.onoff_button.toggled.connect(self.toggle_mask)
+        self.onoff_button.setEnabled(False)
 
         top_layout = QHBoxLayout()
         top_layout.addWidget(QLabel(self.tr('Detector:')))
@@ -78,17 +92,47 @@ class CloningWidget(ToolWidget):
         top_layout.addWidget(QLabel(self.tr('Cluster:')))
         top_layout.addWidget(self.cluster_spin)
         top_layout.addWidget(self.nolines_check)
-        top_layout.addWidget(self.process_button)
         top_layout.addStretch()
+
+        bottom_layout = QHBoxLayout()
+        bottom_layout.addWidget(self.process_button)
+        bottom_layout.addWidget(self.status_label)
+        bottom_layout.addStretch()
+        # bottom_layout.addWidget(self.mask_label)
+        bottom_layout.addWidget(self.mask_button)
+        bottom_layout.addWidget(self.onoff_button)
 
         main_layout = QVBoxLayout()
         main_layout.addLayout(top_layout)
-        main_layout.addWidget(self.status_label)
+        main_layout.addLayout(bottom_layout)
         main_layout.addWidget(self.viewer)
         self.setLayout(main_layout)
 
+    def toggle_mask(self, checked):
+        self.onoff_button.setText('ON' if checked else 'OFF')
+        if checked:
+            self.viewer.update_processed(cv.merge([c * self.mask for c in cv.split(self.image)]))
+        else:
+            self.viewer.update_processed(self.image)
+        self.update_detector()
+
+    def load_mask(self):
+        filename, basename, mask = load_image(self)
+        if filename is None:
+            return
+        if self.image.shape[:-1] != mask.shape[:-1]:
+            QMessageBox.critical(self, self.tr('Error'), self.tr('Image and mask must have the same size!'))
+            return
+        _, self.mask = cv.threshold(cv.cvtColor(mask, cv.COLOR_BGR2GRAY), 0, 1, cv.THRESH_BINARY)
+        self.onoff_button.setEnabled(True)
+        self.onoff_button.setChecked(True)
+        # self.mask_label.setText(self.tr('({})'.format(basename)))
+        self.mask_button.setText(basename)
+        # self.update_detector()
+
     def update_detector(self):
-        self.keypoints = self.kpts = self.desc = self.matches = self.clusters = None
+        self.total = self.kpts = self.desc = self.matches = self.clusters = None
+        self.status_label.setText('')
         self.process_button.setEnabled(True)
 
     def update_matching(self):
@@ -101,7 +145,7 @@ class CloningWidget(ToolWidget):
 
     def cancel(self):
         self.canceled = True
-        self.keypoints = self.kpts = self.desc = self.matches = self.clusters = None
+        self.reset()
         self.status_label.setText(self.tr('Processing interrupted!'))
         modify_font(self.status_label, bold=False, italic=False)
 
@@ -125,8 +169,9 @@ class CloningWidget(ToolWidget):
                 detector = cv.AKAZE_create()
             else:
                 return
-            self.kpts, self.desc = detector.detectAndCompute(self.gray, None)
-            self.keypoints = len(self.kpts)
+            mask = self.mask if self.onoff_button.isChecked() else None
+            self.kpts, self.desc = detector.detectAndCompute(self.gray, mask)
+            self.total = len(self.kpts)
             responses = np.array([k.response for k in self.kpts])
             strongest = (cv.normalize(responses, None, 0, 100, cv.NORM_MINMAX) >= response).flatten()
             self.kpts = list(compress(self.kpts, strongest))
@@ -188,6 +233,7 @@ class CloningWidget(ToolWidget):
                     self.canceled = False
                     return
             progress.setValue(total)
+            progress.close()
 
         output = np.copy(self.image)
         hsv = np.zeros((1, 1, 3))
@@ -232,5 +278,5 @@ class CloningWidget(ToolWidget):
         modify_font(self.status_label, italic=False, bold=True)
         self.status_label.setText(
             self.tr('Keypoints: {} --> Filtered: {} --> Matches: {} --> Clusters: {} --> Regions: {}'.format(
-                self.keypoints, len(self.kpts), len(self.matches), len(self.clusters), regions)))
+                self.total, len(self.kpts), len(self.matches), len(self.clusters), regions)))
         self.info_message.emit(self.tr('Copy-Move Forgery = {}'.format(elapsed_time(start))))
