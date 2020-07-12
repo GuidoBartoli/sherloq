@@ -1,12 +1,13 @@
+astor
 concurrent-iterator
+keras-applications
 lxml
 opencv-contrib-python-headless
 pandas
 pyside2
 python-magic
-scipy==1.4.1
 scikit-image
 scikit-learn
 sewar
-tabulate
 tensorflow
+xgboost

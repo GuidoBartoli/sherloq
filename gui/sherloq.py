@@ -27,6 +27,7 @@ from header import HeaderWidget
 from histogram import HistWidget
 from location import LocationWidget
 from magnifier import MagnifierWidget
+# from median import MedianWidget
 from minmax import MinMaxWidget
 from multiple import MultipleWidget
 from noise import NoiseWidget
@@ -409,6 +410,8 @@ class MainWindow(QMainWindow):
             else:
                 return
         elif group == 8:
+            # if tool == 0:
+            #     tool_widget = MedianWidget(self.image)
             if tool == 3:
                 tool_widget = StereoWidget(self.image)
             else:
@@ -416,7 +419,7 @@ class MainWindow(QMainWindow):
         else:
             return
 
-        # FIXME: Aggiungere un metodo init e dopo fare il connect, sennò i messaggi inviati nel costruttore non si vedono
+        # FIXME: Aggiungere un metodo init e dopo fare il connect, sennò i messaggi inviati nel costruttore non arrivano
         tool_widget.info_message.connect(self.show_message)
 
         sub_window = QMdiSubWindow()

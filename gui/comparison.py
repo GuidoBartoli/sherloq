@@ -52,7 +52,7 @@ class ComparisonWidget(ToolWidget):
         self.equalize_check = QCheckBox(self.tr('Equalized'))
         self.equalize_check.setToolTip(self.tr('Apply histogram equalization'))
         self.last_radio = self.normal_radio
-        self.metric_button = QPushButton(self.tr('Compute'))
+        self.metric_button = QPushButton(self.tr('Compute metrics'))
         self.metric_button.setToolTip(self.tr('Image quality assessment metrics'))
 
         self.evidence = image

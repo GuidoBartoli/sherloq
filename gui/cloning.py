@@ -1,4 +1,5 @@
 from itertools import compress
+from os.path import splitext
 from time import time
 
 import cv2 as cv
@@ -98,7 +99,6 @@ class CloningWidget(ToolWidget):
         bottom_layout.addWidget(self.process_button)
         bottom_layout.addWidget(self.status_label)
         bottom_layout.addStretch()
-        # bottom_layout.addWidget(self.mask_label)
         bottom_layout.addWidget(self.mask_button)
         bottom_layout.addWidget(self.onoff_button)
 
@@ -126,9 +126,8 @@ class CloningWidget(ToolWidget):
         _, self.mask = cv.threshold(cv.cvtColor(mask, cv.COLOR_BGR2GRAY), 0, 1, cv.THRESH_BINARY)
         self.onoff_button.setEnabled(True)
         self.onoff_button.setChecked(True)
-        # self.mask_label.setText(self.tr('({})'.format(basename)))
-        self.mask_button.setText(basename)
-        # self.update_detector()
+        self.mask_button.setText('"{}"'.format(splitext(basename)[0]))
+        self.mask_button.setToolTip(self.tr('Current detection mask image'))
 
     def update_detector(self):
         self.total = self.kpts = self.desc = self.matches = self.clusters = None
@@ -145,7 +144,7 @@ class CloningWidget(ToolWidget):
 
     def cancel(self):
         self.canceled = True
-        self.reset()
+        self.total = self.kpts = self.desc = self.matches = self.clusters = None
         self.status_label.setText(self.tr('Processing interrupted!'))
         modify_font(self.status_label, bold=False, italic=False)
 
@@ -233,7 +232,6 @@ class CloningWidget(ToolWidget):
                     self.canceled = False
                     return
             progress.setValue(total)
-            progress.close()
 
         output = np.copy(self.image)
         hsv = np.zeros((1, 1, 3))

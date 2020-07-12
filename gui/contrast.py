@@ -26,7 +26,7 @@ class ContrastWidget(ToolWidget):
         self.block_combo = QComboBox()
         self.block_combo.addItems(['32', '64', '128', '256'])
         self.block_combo.setCurrentIndex(1)
-        self.block_combo.setToolTip(self.tr('Square size of analyzed blocks'))
+        self.block_combo.setToolTip(self.tr('Size of analyzed blocks'))
         self.process_button = QPushButton(self.tr('Process'))
         self.process_button.setToolTip(self.tr('Perform contrast enhancement analysis'))
 
