@@ -309,7 +309,7 @@ class ComparisonWidget(ToolWidget):
         try:
             psnrb = sewar.psnrb(img1, img2)
         except NameError:
-            # FIXME: C'è un bug in psnrb (https://github.com/andrewekhalel/sewar/issues/17)
+            # FIXME: C'\`e un bug in psnrb (https://github.com/andrewekhalel/sewar/issues/17)
             psnrb = 0
         progress.setValue(7)
         if self.stopped:
