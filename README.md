@@ -136,7 +136,7 @@ $ mkvirtualenv sq -p python3
 
 ## MacOS
 ```
-1) Open Terminal and enter "python3" to install the interpreter and other command line tools
+1) Open Terminal and enter `python3 --version` to install the interpreter and other command line tools
 2) Once installed, proceed similarly to Linux installation:
    $ wget https://bootstrap.pypa.io/get-pip.py
    $ sudo python3 get-pip.py
