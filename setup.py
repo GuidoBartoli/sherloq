@@ -30,7 +30,7 @@ setuptools.setup(
     ],
     classifiers= [
         "Programming Language :: Python :: 3",
-        "License :: OSI Approved :: MIT License",
+        "License :: OSI Approved :: GPLv3 License",
         "Operating System :: OS Independent",
     ],
     entry_points = {
