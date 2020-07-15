@@ -129,8 +129,10 @@ $ pip install --user sherloq
 ```
 1) Open Terminal and enter `python3 --version` to install the interpreter and other command line tools
 2) Once installed, proceed similarly to Linux installation:
+   $ brew install wget
    $ git --version
    $ wget https://bootstrap.pypa.io/get-pip.py
+   $ sudo python3 get-pip.py
    $ git clone https://github.com/GuidoBartoli/sherloq.git
    $ pip install --user sherloq
 ```
