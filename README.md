@@ -158,6 +158,16 @@ You can follow [this guide](https://timmyreilly.azurewebsites.net/python-pip-vir
 1. Execute `pip install -r requirements.txt`
 1. Launch the program with `python sherloq.py`
 
+## Instructions for Conda
+1. Download and install [Anaconda](https://www.anaconda.com/products/individual) (one can also install miniconda, no GUI but is smaller)
+1. Open a console to create a Python environment (on Windows one must start a Conda Console or `sth` from the Start menu):
+`conda create --copy -n sherloq python` [enter *Yes* when it prompts]
+1. After install ends, type in the same console `conda activate sherloq` to activate the env. Don't close the console.
+1. Download and unpack the Sherloq repo from the GitHub page
+1. Go to `sherloq/gui` folder and run `pip install -r requirements.txt` (make sure that the conda env is still on)
+1. Instal library: `sudo apt-get install libxcb-xinerama0`
+1. Launch the application: `python sherloq.py`
+
 # Bibliography
 - Black Hat Briefings DC. (2008) "A Picture's Worth: Digital Image Analysis and Forensics" [White paper]. Washington, DC. Retrieved from http://blackhat.com/presentations/bh-dc-08/Krawetz/Whitepaper/bh-dc-08-krawetz-WP.pdf
 - "Noiseprint: a CNN-based camera model fingerprint" (Davide Cozzolino, Luisa Verdoliva)
