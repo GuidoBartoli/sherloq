@@ -190,30 +190,43 @@ class CloningWidget(ToolWidget):
             self.clusters = []
             total = len(self.matches)
             min_dist = distance * np.min(self.gray.shape) / 2
+            kpts_a = np.array([p.pt for p in self.kpts])
+            ds = np.linalg.norm([
+                kpts_a[m.queryIdx] - kpts_a[m.trainIdx]
+                for m in self.matches
+            ], axis=1)
+
+            self.matches = [m for i, m in enumerate(self.matches) if ds[i] > min_dist]
+
+            total = len(self.matches)
             progress = QProgressDialog(self.tr('Clustering matches...'), self.tr('Cancel'), 0, total, self)
             progress.canceled.connect(self.cancel)
             progress.setWindowModality(Qt.WindowModal)
+
             for i in range(total):
                 match0 = self.matches[i]
+                d0 = ds[i]
+
                 query0 = match0.queryIdx
                 train0 = match0.trainIdx
                 group = [match0]
-                a0 = np.array(self.kpts[query0].pt)
-                b0 = np.array(self.kpts[train0].pt)
-                d0 = np.linalg.norm(a0 - b0)
-                if d0 < min_dist:
-                    continue
+
                 for j in range(i + 1, total):
                     match1 = self.matches[j]
                     query1 = match1.queryIdx
                     train1 = match1.trainIdx
                     if query1 == train0 and train1 == query0:
                         continue
+                    d1 = ds[j]
+                    if np.abs(d0 - d1) > min_dist:
+                        continue
+
+                    a0 = np.array(self.kpts[query0].pt)
+                    b0 = np.array(self.kpts[train0].pt)
+
                     a1 = np.array(self.kpts[query1].pt)
                     b1 = np.array(self.kpts[train1].pt)
-                    d1 = np.linalg.norm(a1 - b1)
-                    if d1 < min_dist or np.abs(d0 - d1) > min_dist:
-                        continue
+
                     aa = np.linalg.norm(a0 - a1)
                     bb = np.linalg.norm(b0 - b1)
                     ab = np.linalg.norm(a0 - b1)
