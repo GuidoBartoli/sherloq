@@ -120,6 +120,8 @@ Here are some screenshots from the previous C++ Qt GUI (to be updated with the n
 ## Linux
 ```
 Install with pip
+$ Make sure you have git installed
+$ git clone https://github.com/GuidoBartoli/sherloq.git
 $ pip install --user sherloq
 ```
 
@@ -127,7 +129,9 @@ $ pip install --user sherloq
 ```
 1) Open Terminal and enter `python3 --version` to install the interpreter and other command line tools
 2) Once installed, proceed similarly to Linux installation:
+   $ git --version
    $ wget https://bootstrap.pypa.io/get-pip.py
+   $ git clone https://github.com/GuidoBartoli/sherloq.git
    $ pip install --user sherloq
 ```
 
