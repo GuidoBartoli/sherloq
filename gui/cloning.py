@@ -231,13 +231,20 @@ class CloningWidget(ToolWidget):
                     bb = np.linalg.norm(b0 - b1)
                     ab = np.linalg.norm(a0 - b1)
                     ba = np.linalg.norm(b0 - a1)
-                    smallest = np.partition(np.array([aa, bb, ab, ba]), 1)[:2]
-                    if np.all(np.logical_and(smallest > 0, smallest < min_dist)):
-                        for g in group:
-                            if g.queryIdx == train1 and g.trainIdx == query1:
-                                break
-                        else:
-                            group.append(match1)
+
+                    if 0 < aa < min_dist and 0 < bb < min_dist:
+                        pass
+                    elif 0 < ab < min_dist and 0 < ba < min_dist:
+                        pass
+                    else:
+                        continue
+
+                    for g in group:
+                        if g.queryIdx == train1 and g.trainIdx == query1:
+                            break
+                    else:
+                        group.append(match1)
+
                 if len(group) >= cluster:
                     self.clusters.append(group)
                 progress.setValue(i)
