@@ -419,7 +419,7 @@ class MainWindow(QMainWindow):
         else:
             return
 
-        # FIXME: Aggiungere un metodo init e dopo fare il connect, sennò i messaggi inviati nel costruttore non arrivano
+        # FIXME: Aggiungere un metodo init e dopo fare il connect, senn\`o i messaggi inviati nel costruttore non arrivano
         tool_widget.info_message.connect(self.show_message)
 
         sub_window = QMdiSubWindow()
