@@ -128,7 +128,8 @@ $ pip install --user sherloq
 ## MacOS
 ```
 1) Open Terminal and enter `python3 --version` to install the interpreter and other command line tools
-2) Once installed, proceed similarly to Linux installation:
+2) Once installed, proceed similarly to Linux installation. Only run the first step if the `brew` command does not exist:
+   $ bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install.sh)"
    $ brew install wget
    $ git --version
    $ wget https://bootstrap.pypa.io/get-pip.py
