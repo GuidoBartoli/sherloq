@@ -189,25 +189,18 @@ class CloningWidget(ToolWidget):
             self.clusters = []
         elif self.clusters is None:
             self.clusters = []
-            total = len(self.matches)
             min_dist = distance * np.min(self.gray.shape) / 2
             kpts_a = np.array([p.pt for p in self.kpts])
-            ds = np.linalg.norm([
-                kpts_a[m.queryIdx] - kpts_a[m.trainIdx]
-                for m in self.matches
-            ], axis=1)
-
+            ds = np.linalg.norm([kpts_a[m.queryIdx] - kpts_a[m.trainIdx] for m in self.matches], axis=1)
             self.matches = [m for i, m in enumerate(self.matches) if ds[i] > min_dist]
 
             total = len(self.matches)
             progress = QProgressDialog(self.tr('Clustering matches...'), self.tr('Cancel'), 0, total, self)
             progress.canceled.connect(self.cancel)
             progress.setWindowModality(Qt.WindowModal)
-
             for i in range(total):
                 match0 = self.matches[i]
                 d0 = ds[i]
-
                 query0 = match0.queryIdx
                 train0 = match0.trainIdx
                 group = [match0]
@@ -224,7 +217,6 @@ class CloningWidget(ToolWidget):
 
                     a0 = np.array(self.kpts[query0].pt)
                     b0 = np.array(self.kpts[train0].pt)
-
                     a1 = np.array(self.kpts[query1].pt)
                     b1 = np.array(self.kpts[train1].pt)
 
@@ -233,13 +225,8 @@ class CloningWidget(ToolWidget):
                     ab = np.linalg.norm(a0 - b1)
                     ba = np.linalg.norm(b0 - a1)
 
-                    if 0 < aa < min_dist and 0 < bb < min_dist:
-                        pass
-                    elif 0 < ab < min_dist and 0 < ba < min_dist:
-                        pass
-                    else:
+                    if not (0 < aa < min_dist and 0 < bb < min_dist or 0 < ab < min_dist and 0 < ba < min_dist):
                         continue
-
                     for g in group:
                         if g.queryIdx == train1 and g.trainIdx == query1:
                             break
