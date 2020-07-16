@@ -27,7 +27,7 @@ from header import HeaderWidget
 from histogram import HistWidget
 from location import LocationWidget
 from magnifier import MagnifierWidget
-# from median import MedianWidget
+from median import MedianWidget
 from minmax import MinMaxWidget
 from multiple import MultipleWidget
 from noise import NoiseWidget

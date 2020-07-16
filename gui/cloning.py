@@ -144,7 +144,6 @@ class CloningWidget(ToolWidget):
 
     def cancel(self):
         self.canceled = True
-        self.total = self.kpts = self.desc = self.matches = self.clusters = None
         self.status_label.setText(self.tr('Processing interrupted!'))
         modify_font(self.status_label, bold=False, italic=False)
 
@@ -186,7 +185,9 @@ class CloningWidget(ToolWidget):
             self.matches = [item for sublist in self.matches for item in sublist]
             self.matches = [m for m in self.matches if m.queryIdx != m.trainIdx]
 
-        if self.clusters is None:
+        if not self.matches:
+            self.clusters = []
+        elif self.clusters is None:
             self.clusters = []
             total = len(self.matches)
             min_dist = distance * np.min(self.gray.shape) / 2
@@ -230,8 +231,9 @@ class CloningWidget(ToolWidget):
                 progress.setValue(i)
                 if self.canceled:
                     self.canceled = False
+                    self.update_detector()
                     return
-            progress.setValue(total)
+            progress.close()
 
         output = np.copy(self.image)
         hsv = np.zeros((1, 1, 3))
