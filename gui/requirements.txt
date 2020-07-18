@@ -1,3 +1,4 @@
+tensorflow
 astor
 concurrent-iterator
 keras-applications
@@ -9,5 +10,4 @@ python-magic
 scikit-image
 scikit-learn
 sewar
-tensorflow
 xgboost

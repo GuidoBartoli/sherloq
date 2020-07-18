@@ -22,7 +22,7 @@ from utility import modify_font, norm_mat, gray_to_bgr
 from viewer import ImageViewer
 
 
-def ssim(a, b, maximum=1):
+def ssim(a, b, maximum=255):
     c1 = (0.01 * maximum) ** 2
     c2 = (0.03 * maximum) ** 2
     k = (11, 11)
@@ -49,18 +49,19 @@ def ssim(a, b, maximum=1):
 
 
 def get_metrics(pristine, distorted, normalized=False, extended=False):
-    m = np.zeros(8 if not extended else 16)
+    # Matrix precomputation
     x0 = pristine.astype(np.float64)
-    if normalized:
-        x0 /= 255
-    x2 = np.sum(np.square(x0))
-    xs = np.sum(x0)
     y0 = distorted.astype(np.float64)
     if normalized:
+        x0 /= 255
         y0 /= 255
+    x2 = np.sum(np.square(x0))
     y2 = np.sum(np.square(y0))
+    xs = np.sum(x0)
     e = x0 - y0
     maximum = 255 if not normalized else 1
+    # Feature vector initialization
+    m = np.zeros(8 if not extended else 16)
     # Mean Square Error (MSE)
     m[0] = np.mean(np.square(e))
     # Peak to Signal Noise Ratio (PSNR)
@@ -76,7 +77,7 @@ def get_metrics(pristine, distorted, normalized=False, extended=False):
     # Normalized Absolute Error (NAE)
     m[6] = np.sum(np.abs(e)) / xs if xs > 0 else -1
     # Structural Similarity (SSIM)
-    m[7] = ssim(x0, y0, 255 if not normalized else 1)
+    m[7] = ssim(x0, y0, maximum)
     if extended:
         pass
     return m
@@ -85,14 +86,14 @@ def get_metrics(pristine, distorted, normalized=False, extended=False):
 def get_features(image, windows=4, levels=4, normalized=True, extended=False):
     metrics = 8 if not extended else 16
     f = np.zeros(windows * levels * metrics)
-    i = 0
+    index = 0
     for w in range(windows):
         k = 2 * (w + 1) + 1
         previous = image
         for _ in range(levels):
             filtered = cv.medianBlur(previous, k)
-            f[i:i+metrics] = get_metrics(previous, filtered, normalized, extended)
-            i += metrics
+            f[index:index+metrics] = get_metrics(previous, filtered, normalized, extended)
+            index += metrics
             previous = filtered
     return f
 
@@ -108,12 +109,14 @@ class MedianWidget(ToolWidget):
         self.multi_check = QCheckBox(self.tr('Multi-scale'))
         self.multi_check.setChecked(True)
         self.process_button = QPushButton(self.tr('Process'))
+        self.prob_label = QLabel()
 
         top_layout = QHBoxLayout()
         top_layout.addWidget(QLabel(self.tr('Block size:')))
         top_layout.addWidget(self.block_combo)
-        top_layout.addWidget(self.multi_check)
+        # top_layout.addWidget(self.multi_check)
         top_layout.addWidget(self.process_button)
+        top_layout.addWidget(self.prob_label)
         top_layout.addStretch()
 
         self.image = image
@@ -142,10 +145,11 @@ class MedianWidget(ToolWidget):
         rows, cols = padded.shape
         prob = np.zeros(((rows // block) + 1, (cols // block) + 1))
 
-        if self.multi_check.isChecked():
-            model = load('models/median_multi.mdl')
-        else:
-            model = load('models/median_single.mdl')
+        # if self.multi_check.isChecked():
+        #     model = load('models/median_multi.mdl')
+        # else:
+        #     model = load('models/median_single.mdl')
+        model = load('models/fpmw_block.mdl')
         columns = model._features_count
         if columns == 8:
             levels = 1
@@ -163,20 +167,28 @@ class MedianWidget(ToolWidget):
             return
         limit = model.best_ntree_limit if hasattr(model, 'best_ntree_limit') else None
 
-        features = np.reshape(get_features(self.gray, levels, windows), (1, columns))
-        p = model.predict_proba(features, ntree_limit=limit)[0, 1]
-        self.info_message.emit('Filtered probability = {:.2f}%'.format(p * 100))
+        if not self.prob_label.text():
+            self.prob_label.setText(self.tr('Processing, please wait...'))
+            modify_font(self.prob_label, italic=True)
+            QCoreApplication.processEvents()
+            features = np.reshape(get_features(self.gray, levels, windows), (1, columns))
+            p = model.predict_proba(features, ntree_limit=limit)[0, 1]
+            self.prob_label.setText(self.tr('Filtering probability (whole image) = {:.2f}%'.format(p * 100)))
+            modify_font(self.prob_label, italic=False, bold=True)
+            QCoreApplication.processEvents()
 
         progress = QProgressDialog(self.tr('Detecting median filter...'), self.tr('Cancel'), 0, prob.size, self)
         progress.canceled.connect(self.cancel)
         progress.setWindowModality(Qt.WindowModal)
-
         p = 0
         for i in range(0, rows, block):
             for j in range(0, cols, block):
                 roi = padded[i:i+block, j:j+block]
-                x = np.reshape(get_features(roi, levels, windows), (1, columns))
-                prob[i // block, j // block] = model.predict_proba(x, ntree_limit=limit)[0, 1]
+                if np.var(roi) < 5:
+                    prob[i // block, j // block] = 0
+                else:
+                    x = np.reshape(get_features(roi, levels, windows), (1, columns))
+                    prob[i // block, j // block] = model.predict_proba(x, ntree_limit=limit)[0, 1]
                 if self.canceled:
                     self.canceled = False
                     progress.close()

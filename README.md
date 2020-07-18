@@ -8,7 +8,7 @@
 
 **Sherloq** is a personal research project about implementing a fully integrated environment for digital image forensics. It is not meant as an automatic tool that decide if an image is forged or not (that tool probably will never exist...), but as a companion in experimenting with various algorithms found in the latest research papers and workshops.
 
-While many commercial solutions have unaffordable prices and are reserved to law enforcement and government agencies only, this toolset aims to be a powerful and extensible framework as a starting point for anyone interested in state-of-the-art forensic algorithms.
+While many commercial solutions have high retail prices and often reserved to law enforcement and government agencies only, this toolset aims to be a both an extensible framework and a starting point for anyone interested in making experiments in this particular application of digital signal processing.
 
 I strongly believe that *security-by-obscurity* is the wrong way to offer any kind of forensic service (i.e. "Using this proprietary software I guarantee you that this photo *is* pristine... and you have to trust me!"). Following the open-source philosophy, everyone should be able to try various techniques on their own, gain knowledge and share it to the community... even better if they contribute with code improvements! :)
 
@@ -22,11 +22,11 @@ Fast forward to 2020 when I decided to port everything in Python (PySide2 + Matp
 I'm happy to share my code and get in contact with anyone interested to improve or test it, but please keep in mind that this repository is *not* intended for distributing a final product, my aim is just to publicly track development of an *unpretentious educational tool*, so expect bugs, unpolished code and missing features! ;)
 
 # Features
-This list contains the functions that **Sherloq** will hopefully provide once the beta stage is reached.
+This list contains the functions that **Sherloq** will (hopefully!) provide once the beta stage is reached.
 
 ## Interface
 - Modern Qt-based GUI with multiple tool window management
-- Support for many formats (BMP, JPEG, PNG, WebP, PGM, PFM, TIFF, GIF)
+- Support for many formats (JPEG, PNG, TIFF, BMP, WebP, PGM, PFM, GIF)
 - Highly responsive image viewer with real-time panning and zooming
 - Many state-of-the-art algorithms to try out interactively
 - Extensive online help with tool explanations and tutorials
@@ -73,11 +73,11 @@ This list contains the functions that **Sherloq** will hopefully provide once th
 ### JPEG
 - __Error Level Analysis__: show pixel-level difference against fixed compression levels
 - __Quality Estimation__: extract quantization tables and estimate last saved JPEG quality
-- __Multiple Compression__: use residuals to detect multiple compressions at different levels
+- __Multiple Compression__: use residuals to detect multiple compression at different levels
 - __DCT Dimples Map__: analyze periodic quantization artifacts introduced by devices
 
 ### Tampering
-- __Contrast Enhancement__: analyze color distribuions to detect contrast enhancements
+- __Contrast Enhancement__: analyze color distribution to detect contrast enhancements
 - __Copy-Move Forgery__: use invariant feature descriptors for cloned area detection
 - __Composite Splicing__: exploit DCT statistics for automatic splicing zone detection
 - __Image Resampling__: estimate 2D pixel interpolation for detecting resampling traces
@@ -87,6 +87,7 @@ This list contains the functions that **Sherloq** will hopefully provide once th
 - __Illuminant Map__: estimate scene local light direction on estimated 3D surfaces
 - __PRNU Identification__: exploit sensor pattern noise introduced by different cameras
 - __Stereogram Decoder__: decode 3D images concealed inside crossed-eye autostereograms
+
 
 # Screenshots
 Here are some screenshots from the previous C++ Qt GUI (to be updated with the new version):
@@ -117,10 +118,12 @@ Here are some screenshots from the previous C++ Qt GUI (to be updated with the n
 
 # Installation
 
-## Linux
+## Create virtual environment
+
+### Linux
 ```
 Install package manager
-$ sudo apt install python3-distutils python3-dev subversion
+$ sudo apt install python3-distutils python3-dev python3-testresources subversion
 $ wget https://bootstrap.pypa.io/get-pip.py
 $ sudo python3 get-pip.py
 
@@ -134,7 +137,7 @@ $ source ~/.bashrc
 $ mkvirtualenv sq -p python3
 ```
 
-## MacOS
+### MacOS
 ```
 1) Open Terminal and enter `python3 --version` to install the interpreter and other command line tools
 2) Once installed, proceed similarly to Linux installation:
@@ -149,24 +152,22 @@ $ mkvirtualenv sq -p python3
 3) $ mkvirtualenv sq -p python3
 ```
 
-## Windows
+### Windows
 You can follow [this guide](https://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows/) (the *Flask* installation is optional).
 
-## Linux, MacOS, Windows
-1. Clone repository content into a local folder
+### Conda
+1. Download and install [Anaconda](https://www.anaconda.com/products/individual) (one can also install miniconda, no GUI but is smaller)
+1. Install Xinerama library: `sudo apt-get install libxcb-xinerama0`
+1. Open a console to create a Python environment (on Windows one must start a Conda Console or `sth` from the Start menu):
+`conda create --copy -n sherloq python` [enter *Yes* when it prompts]
+1. After install ends, type in the same console `conda activate sherloq` to activate the env and leave the console open
+
+## Launch program
+1. Clone the repository content into a local folder
 1. Change current directory to the `gui` folder inside `sherloq`
 1. Execute `pip install -r requirements.txt`
 1. Launch the program with `python sherloq.py`
 
-## Instructions for Conda
-1. Download and install [Anaconda](https://www.anaconda.com/products/individual) (one can also install miniconda, no GUI but is smaller)
-1. Open a console to create a Python environment (on Windows one must start a Conda Console or `sth` from the Start menu):
-`conda create --copy -n sherloq python` [enter *Yes* when it prompts]
-1. After install ends, type in the same console `conda activate sherloq` to activate the env. Don't close the console.
-1. Download and unpack the Sherloq repo from the GitHub page
-1. Go to `sherloq/gui` folder and run `pip install -r requirements.txt` (make sure that the conda env is still on)
-1. Instal library: `sudo apt-get install libxcb-xinerama0`
-1. Launch the application: `python sherloq.py`
 
 # Bibliography
 - Black Hat Briefings DC. (2008) "A Picture's Worth: Digital Image Analysis and Forensics" [White paper]. Washington, DC. Retrieved from http://blackhat.com/presentations/bh-dc-08/Krawetz/Whitepaper/bh-dc-08-krawetz-WP.pdf
