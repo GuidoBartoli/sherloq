@@ -121,7 +121,7 @@ class CloningWidget(ToolWidget):
         if filename is None:
             return
         if self.image.shape[:-1] != mask.shape[:-1]:
-            QMessageBox.critical(self, self.tr('Error'), self.tr('Image and mask must have the same size!'))
+            QMessageBox.critical(self, self.tr('Error'), self.tr('Both image and mask must have the same size!'))
             return
         _, self.mask = cv.threshold(cv.cvtColor(mask, cv.COLOR_BGR2GRAY), 0, 1, cv.THRESH_BINARY)
         self.onoff_button.setEnabled(True)
@@ -149,6 +149,7 @@ class CloningWidget(ToolWidget):
 
     def process(self):
         start = time()
+        self.canceled = False
         self.status_label.setText(self.tr('Processing, please wait...'))
         algorithm = self.detector_combo.currentIndex()
         response = 100 - self.response_spin.value()
@@ -237,7 +238,6 @@ class CloningWidget(ToolWidget):
                     self.clusters.append(group)
                 progress.setValue(i)
                 if self.canceled:
-                    self.canceled = False
                     self.update_detector()
                     return
             progress.close()

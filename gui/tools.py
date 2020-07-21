@@ -64,12 +64,12 @@ class ToolTree(QTreeWidget):
         tool_names.append([self.tr('Luminance Gradient'),
                            self.tr('Echo Edge Filter'),
                            self.tr('Wavelet Threshold'),
-                           self.tr('Correlation Plot')])
+                           self.tr('Frequency Split')])
         tool_infos.append([self.tr('Analyze horizontal/vertical brightness variations across the image'),
                            self.tr('Use derivative filters to reveal artificial out-of-focus regions'),
                            self.tr('Reconstruct image with different wavelet coefficient thresholds'),
-                           self.tr('Exploit spatial correlation patterns among neighboring pixels')])
-        tool_progress.extend([3, 3, 3, 0])
+                           self.tr('Divide image luminance into high and low frequency components')])
+        tool_progress.extend([3, 3, 3, 3])
 
         # [4]
         group_names.append(self.tr('[Colors]'))
@@ -87,22 +87,22 @@ class ToolTree(QTreeWidget):
         group_names.append(self.tr('[Noise]'))
         tool_names.append([self.tr('Noise Separation'),
                            self.tr('Min/Max Deviation'),
-                           self.tr('Frequency Split'),
-                           self.tr('Bit Plane Values')])
+                           self.tr('Bit Plane Values'),
+                           self.tr('PRNU Identification'),])
         tool_infos.append([self.tr('Estimate and extract different kind of image noise components'),
                            self.tr('Highlight pixels deviating from block-based min/max statistics'),
-                           self.tr('Split image luminance into high and low frequency components'),
-                           self.tr('Show individual bit planes to find inconsistent noise patterns')])
-        tool_progress.extend([3, 3, 3, 3])
+                           self.tr('Show individual bit planes to find inconsistent noise patterns'),
+                           self.tr('Exploit sensor pattern noise introduced by different cameras')])
+        tool_progress.extend([3, 3, 3, 0])
 
         # [6]
         group_names.append(self.tr('[JPEG]'))
-        tool_names.append([self.tr('Error Level Analysis'),
-                           self.tr('Quality Estimation'),
+        tool_names.append([self.tr('Quality Estimation'),
+                           self.tr('Error Level Analysis'),
                            self.tr('Multiple Compression'),
                            self.tr('DCT Dimples Map')])
-        tool_infos.append([self.tr('Show pixel-level difference against fixed compression levels'),
-                           self.tr('Extract quantization tables and estimate last saved JPEG quality'),
+        tool_infos.append([self.tr('Extract quantization tables and estimate last saved JPEG quality'),
+                           self.tr('Show pixel-wise differences against a fixed compression level'),
                            self.tr('Use residuals to detect multiple compressions at different levels'),
                            self.tr('Analyze periodic quantization artifacts introduced by devices')])
         tool_progress.extend([3, 3, 1, 0])
@@ -117,19 +117,19 @@ class ToolTree(QTreeWidget):
                            self.tr('Use invariant feature descriptors to detect cloned regions'),
                            self.tr('Exploit DCT statistics for automatic splicing zone detection'),
                            self.tr('Estimate 2D pixel interpolation for detecting resampling traces')])
-        tool_progress.extend([3, 3, 3, 0])
+        tool_progress.extend([3, 2, 3, 0])
 
         # [8]
         group_names.append(self.tr('[Various]'))
         tool_names.append([self.tr('Median Filtering'),
                            self.tr('Illuminant Map'),
-                           self.tr('PRNU Identification'),
+                           self.tr('Correlation Plot'),
                            self.tr('Stereogram Decoder')])
-        tool_infos.append([self.tr('Detect processing traces left by nonlinear median filtering'),
+        tool_infos.append([self.tr('Detect nonlinear processing traces left by median filtering'),
                            self.tr('Estimate scene local light direction on estimated 3D surfaces'),
-                           self.tr('Exploit sensor pattern noise introduced by different cameras'),
+                           self.tr('Show spatial correlation patterns among neighboring pixels'),
                            self.tr('Decode 3D images concealed inside crossed-eye autostereograms')])
-        tool_progress.extend([0, 0, 0, 3])
+        tool_progress.extend([2, 0, 0, 3])
 
         count = 0
         for i, group in enumerate(group_names):

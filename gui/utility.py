@@ -153,8 +153,8 @@ def load_image(parent, filename=None):
         dialog.setOption(QFileDialog.DontUseNativeDialog, True)
         dialog.setFileMode(QFileDialog.ExistingFile)
         dialog.setViewMode(QFileDialog.Detail)
-        mime_filters = ["image/jpeg", "image/png", "image/tiff", "image/gif", "image/bmp",
-                        "image/webp", "image/x-portable-pixmap", "image/x-portable-graymap", "image/x-portable-bitmap"]
+        mime_filters = ["image/jpeg", "image/png", "image/tiff", "image/gif", "image/bmp", "image/webp",
+                        "image/x-portable-pixmap", "image/x-portable-graymap", "image/x-portable-bitmap"]
         mime_db = QMimeDatabase()
         mime_patterns = [mime_db.mimeTypeForName(mime).globPatterns() for mime in mime_filters]
         all_formats = 'Supported formats ({})'.format(' '.join([item for sub in mime_patterns for item in sub]))

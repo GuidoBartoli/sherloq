@@ -6,7 +6,7 @@ from PySide2.QtWidgets import (
     QVBoxLayout,
     QProgressDialog)
 
-from jpeg import compress_img
+from jpeg import compress_jpg
 from tools import ToolWidget
 
 
@@ -20,7 +20,7 @@ class MultipleWidget(ToolWidget):
         loss_series = QtCharts.QLineSeries()
         gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
         for q in range(max_q):
-            loss = cv.mean(cv.absdiff(compress_img(gray, q, color=False), gray))
+            loss = cv.mean(cv.absdiff(compress_jpg(gray, q, color=False), gray))
             loss_series.append(q, loss[0])
             progress.setValue(q)
         progress.setValue(max_q)

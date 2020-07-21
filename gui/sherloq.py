@@ -367,6 +367,8 @@ class MainWindow(QMainWindow):
                 tool_widget = EchoWidget(self.image)
             elif tool == 2:
                 tool_widget = WaveletWidget(self.image)
+            elif tool == 3:
+                tool_widget = FrequencyWidget(self.image)
             else:
                 return
         elif group == 4:
@@ -386,16 +388,14 @@ class MainWindow(QMainWindow):
             elif tool == 1:
                 tool_widget = MinMaxWidget(self.image)
             elif tool == 2:
-                tool_widget = FrequencyWidget(self.image)
-            elif tool == 3:
                 tool_widget = PlanesWidget(self.image)
             else:
                 return
         elif group == 6:
             if tool == 0:
-                tool_widget = ElaWidget(self.image)
-            elif tool == 1:
                 tool_widget = QualityWidget(self.filename)
+            elif tool == 1:
+                tool_widget = ElaWidget(self.image)
             elif tool == 2:
                 tool_widget = MultipleWidget(self.image)
             else:
@@ -410,9 +410,9 @@ class MainWindow(QMainWindow):
             else:
                 return
         elif group == 8:
-            # if tool == 0:
-            #     tool_widget = MedianWidget(self.image)
-            if tool == 3:
+            if tool == 0:
+                tool_widget = MedianWidget(self.image)
+            elif tool == 3:
                 tool_widget = StereoWidget(self.image)
             else:
                 return
