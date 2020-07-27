@@ -132,7 +132,7 @@ class MedianWidget(ToolWidget):
         self.setLayout(main_layout)
 
     def prepare(self):
-        modelfile = 'models/median_{}.mdl'.format(self.block)
+        modelfile = 'models/median_b{}.mdl'.format(self.block)
         try:
             model = load(modelfile)
         except FileNotFoundError:

@@ -19,15 +19,16 @@ def compress_jpg(image, quality, color=True):
     return cv.imdecode(buffer, cv.IMREAD_COLOR if color else cv.IMREAD_GRAYSCALE)
 
 
-def get_curve(image, q_range=range(0, 101)):
-    image0 = cv.cvtColor(image, cv.COLOR_BGR2GRAY) if len(image.shape) > 2 else image
-    c = [cv.mean(cv.absdiff(compress_jpg(image0, q, False), image0))[0] for q in q_range]
-    return cv.normalize(np.array(c), None, 0, 1, cv.NORM_MINMAX).flatten()
+def loss_curve(image, qualities=tuple(range(1, 101)), normalize=True):
+    x = cv.cvtColor(image, cv.COLOR_BGR2GRAY) if len(image.shape) > 2 else image
+    c = np.array([cv.mean(cv.absdiff(compress_jpg(x, q, False), x))[0] for q in qualities])
+    if normalize:
+        c = cv.normalize(c, None, 0, 1, cv.NORM_MINMAX).flatten()
+    return c
 
 
-def estimate_qf(image, start=0):
-    curve = get_curve(image, range(start, 101))
-    return start + np.argmin(curve)
+def estimate_qf(image):
+    return np.argmin(loss_curve(image))
 
 
 def get_tables(quality):
@@ -49,10 +50,11 @@ def get_tables(quality):
          [99,  99,  99,  99,  99,  99,  99,  99],
          [99,  99,  99,  99,  99,  99,  99,  99],
          [99,  99,  99,  99,  99,  99,  99,  99]])
-    tables = np.concatenate((luma[:, :, np.newaxis], chroma[:, :, np.newaxis]), axis=2)
     quality = np.clip(quality, 1, 100)
     if quality < 50:
         quality = 5000 / quality
     else:
         quality = 200 - quality * 2
-    return np.clip((tables * quality + 50) / 100, 1, 255).astype(int)
+    tables = np.concatenate((luma[:, :, np.newaxis], chroma[:, :, np.newaxis]), axis=2)
+    tables = (tables * quality + 50) / 100
+    return np.clip(tables, 1, 255).astype(int)

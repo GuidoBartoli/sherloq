@@ -46,10 +46,7 @@ class PlotsWidget(ToolWidget):
         self.size_spin.setRange(1, 10)
         self.size_spin.setValue(1)
         self.size_spin.setSuffix(self.tr(' pt'))
-        self.style_combo = QComboBox()
         self.markers = [',', '.', 'o', '8', 's', 'p', 'P', '*', 'h', 'H', 'X', 'D']
-        self.style_combo.addItems(
-            ['pixel', 'point', 'circle', 'octa', 'square', 'penta', 'plus', 'star', 'hexa1', 'hexa2', 'cross', 'diamond'])
         self.alpha_spin = QDoubleSpinBox()
         self.alpha_spin.setRange(0, 1)
         self.alpha_spin.setDecimals(2)
@@ -102,7 +99,6 @@ class PlotsWidget(ToolWidget):
         self.zaxis_combo.currentIndexChanged.connect(self.redraw)
         self.sampling_spin.valueChanged.connect(self.redraw)
         self.size_spin.valueChanged.connect(self.redraw)
-        self.style_combo.currentIndexChanged.connect(self.redraw)
         self.alpha_spin.valueChanged.connect(self.redraw)
         self.colors_check.stateChanged.connect(self.redraw)
         self.grid_check.stateChanged.connect(self.redraw)
@@ -120,8 +116,6 @@ class PlotsWidget(ToolWidget):
         params_layout.addWidget(self.sampling_spin, 0, 3)
         params_layout.addWidget(QLabel(self.tr('Point size:')), 1, 2)
         params_layout.addWidget(self.size_spin, 1, 3)
-        # params_layout.addWidget(QLabel(self.tr('Point style:')), 2, 2)
-        # params_layout.addWidget(self.style_combo, 3, 4)
         params_layout.addWidget(QLabel(self.tr('Point alpha:')), 2, 2)
         params_layout.addWidget(self.alpha_spin, 2, 3)
         params_layout.addWidget(self.colors_check, 0, 4)

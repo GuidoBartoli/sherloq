@@ -100,12 +100,12 @@ class ToolTree(QTreeWidget):
         tool_names.append([self.tr('Quality Estimation'),
                            self.tr('Error Level Analysis'),
                            self.tr('Multiple Compression'),
-                           self.tr('DCT Dimples Map')])
+                           self.tr('JPEG Ghost Maps')])
         tool_infos.append([self.tr('Extract quantization tables and estimate last saved JPEG quality'),
                            self.tr('Show pixel-wise differences against a fixed compression level'),
-                           self.tr('Use residuals to detect multiple compressions at different levels'),
-                           self.tr('Analyze periodic quantization artifacts introduced by devices')])
-        tool_progress.extend([3, 3, 1, 0])
+                           self.tr('Use a First Digit Features model to detect multiple compressions'),
+                           self.tr('Highlight traces of different compressions in difference images')])
+        tool_progress.extend([3, 3, 0, 0])
 
         # [7]
         group_names.append(self.tr('[Tampering]'))

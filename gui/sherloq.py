@@ -323,7 +323,6 @@ class MainWindow(QMainWindow):
         tool = item.data(0, Qt.UserRole + 2)
         for sub_window in self.mdi_area.subWindowList():
             if sub_window.windowTitle() == item.text(0):
-                sub_window.setWindowState(Qt.WindowActive)
                 sub_window.setFocus()
                 return
 
@@ -393,7 +392,7 @@ class MainWindow(QMainWindow):
                 return
         elif group == 6:
             if tool == 0:
-                tool_widget = QualityWidget(self.filename)
+                tool_widget = QualityWidget(self.filename, self.image)
             elif tool == 1:
                 tool_widget = ElaWidget(self.image)
             elif tool == 2:

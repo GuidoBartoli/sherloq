@@ -21,7 +21,7 @@ class ElaWidget(ToolWidget):
         super(ElaWidget, self).__init__(parent)
 
         self.quality_spin = QSpinBox()
-        self.quality_spin.setRange(0, 100)
+        self.quality_spin.setRange(1, 100)
         self.quality_spin.setSuffix(self.tr(' %'))
         self.quality_spin.setToolTip(self.tr('JPEG reference quality level'))
         self.scale_spin = QSpinBox()
