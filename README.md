@@ -56,7 +56,7 @@ This list contains the functions that **Sherloq** will (hopefully!) provide once
 - __Luminance Gradient__: analyze horizontal/vertical brightness variations across the image
 - __Echo Edge Filter__: use derivative filters to reveal artificial out-of-focus regions
 - __Wavelet Threshold__: reconstruct image with different wavelet coefficient thresholds
-- __Correlation Plot__: exploit spatial correlation patterns among neighboring pixels
+- __Frequency Split__: split image luminance into high and low frequency components
 
 ### Colors
 - __RGB/HSV Plots__: display interactive 2D and 3D plots of RGB and HSV pixel values
@@ -67,14 +67,14 @@ This list contains the functions that **Sherloq** will (hopefully!) provide once
 ### Noise
 - __Noise Separation__: estimate and extract different kind of image noise components
 - __Min/Max Deviation__: highlight pixels deviating from block-based min/max statistics
-- __Frequency Split__: split image luminance into high and low frequency components
 - __Bit Planes Values__: show individual bit planes to find inconsistent noise patterns
+- __PRNU Identification__: exploit sensor pattern noise introduced by different cameras
 
 ### JPEG
-- __Error Level Analysis__: show pixel-level difference against fixed compression levels
 - __Quality Estimation__: extract quantization tables and estimate last saved JPEG quality
-- __Multiple Compression__: use residuals to detect multiple compression at different levels
-- __DCT Dimples Map__: analyze periodic quantization artifacts introduced by devices
+- __Error Level Analysis__: show pixel-level difference against fixed compression levels
+- __Multiple Compression__: use a First Digit Features model to detect multiple compressions
+- __JPEG Ghost Map__: highlight traces of different compression levels in difference images
 
 ### Tampering
 - __Contrast Enhancement__: analyze color distribution to detect contrast enhancements
@@ -85,7 +85,7 @@ This list contains the functions that **Sherloq** will (hopefully!) provide once
 ### Various
 - __Median Filtering__: detect processing traces left by nonlinear median filtering
 - __Illuminant Map__: estimate scene local light direction on estimated 3D surfaces
-- __PRNU Identification__: exploit sensor pattern noise introduced by different cameras
+- __Correlation Plot__: exploit spatial correlation patterns among neighboring pixels
 - __Stereogram Decoder__: decode 3D images concealed inside crossed-eye autostereograms
 
 
