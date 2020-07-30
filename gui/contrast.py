@@ -10,7 +10,7 @@ from PySide2.QtWidgets import (
     QProgressDialog)
 
 from tools import ToolWidget
-from utility import compute_hist, gray_to_bgr
+from utility import compute_hist, gray_to_bgr, pad_image
 from viewer import ImageViewer
 
 
@@ -77,7 +77,7 @@ class ContrastWidget(ToolWidget):
     def process(self):
         rows0, cols0, _ = self.image.shape
         block = int(self.block_combo.currentText())
-        color = cv.copyMakeBorder(self.image, 0, rows0 % block, 0, cols0 % block, cv.BORDER_CONSTANT)
+        color = pad_image(self.image, block)
         gray = cv.cvtColor(color, cv.COLOR_BGR2GRAY)
         rows, cols = gray.shape
 

@@ -12,7 +12,7 @@ from PySide2.QtWidgets import (
 
 from jpeg import compress_jpg
 from tools import ToolWidget
-from utility import elapsed_time, equalize_img, desaturate, create_lut
+from utility import elapsed_time, desaturate, create_lut
 from viewer import ImageViewer
 
 
@@ -53,10 +53,11 @@ class ElaWidget(ToolWidget):
 
         self.image = image
         self.original = image.astype(np.float32) / 255
+        self.compressed = None
         self.viewer = ImageViewer(self.image, self.image)
         self.default()
 
-        self.quality_spin.valueChanged.connect(self.process)
+        self.quality_spin.valueChanged.connect(self.preprocess)
         self.scale_spin.valueChanged.connect(self.process)
         self.contrast_spin.valueChanged.connect(self.process)
         self.linear_check.stateChanged.connect(self.process)
@@ -68,21 +69,22 @@ class ElaWidget(ToolWidget):
         main_layout.addWidget(self.viewer)
         self.setLayout(main_layout)
 
+    def preprocess(self):
+        quality = self.quality_spin.value()
+        self.compressed = compress_jpg(self.image, quality)
+        self.process()
+
     def process(self):
         start = time()
-        quality = self.quality_spin.value()
         scale = self.scale_spin.value()
         contrast = int(self.contrast_spin.value() / 100 * 128)
         linear = self.linear_check.isChecked()
         grayscale = self.gray_check.isChecked()
-        # self.scale_spin.setEnabled(not equalize)
-        # self.contrast_spin.setEnabled(not equalize)
-        compressed = compress_jpg(self.image, quality)
         if not linear:
-            difference = cv.absdiff(self.original, compressed.astype(np.float32) / 255)
+            difference = cv.absdiff(self.original, self.compressed.astype(np.float32) / 255)
             ela = cv.convertScaleAbs(cv.sqrt(difference) * 255, None, scale / 20)
         else:
-            ela = cv.convertScaleAbs(cv.subtract(compressed, self.image), None, scale)
+            ela = cv.convertScaleAbs(cv.subtract(self.compressed, self.image), None, scale)
         ela = cv.LUT(ela, create_lut(contrast, contrast))
         if grayscale:
             ela = desaturate(ela)
@@ -96,5 +98,5 @@ class ElaWidget(ToolWidget):
         self.quality_spin.setValue(75)
         self.scale_spin.setValue(50)
         self.contrast_spin.setValue(25)
-        self.process()
         self.blockSignals(False)
+        self.preprocess()

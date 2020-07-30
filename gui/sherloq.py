@@ -297,7 +297,7 @@ class MainWindow(QMainWindow):
         self.findChild(QAction, 'cascade_action').setEnabled(True)
         self.findChild(QAction, 'close_action').setEnabled(True)
         self.findChild(QAction, 'tabbed_action').setEnabled(True)
-        self.setWindowTitle('[{}] - {} {}'.format(
+        self.setWindowTitle('({}) - {} {}'.format(
             basename, QApplication.applicationName(), QApplication.applicationVersion()))
         if filename not in self.recent_files:
             self.recent_files.insert(0, filename)
@@ -395,8 +395,8 @@ class MainWindow(QMainWindow):
                 tool_widget = QualityWidget(self.filename, self.image)
             elif tool == 1:
                 tool_widget = ElaWidget(self.image)
-            elif tool == 2:
-                tool_widget = MultipleWidget(self.image)
+            # elif tool == 2:
+            #     tool_widget = MultipleWidget(self.image)
             else:
                 return
         elif group == 7:

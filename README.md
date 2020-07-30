@@ -26,7 +26,7 @@ This list contains the functions that **Sherloq** will (hopefully!) provide once
 
 ## Interface
 - Modern Qt-based GUI with multiple tool window management
-- Support for many formats (JPEG, PNG, TIFF, BMP, WebP, PGM, PFM, GIF)
+- Support for many formats (JPEG, PNG, TIFF, BMP, WebP, PGM, PFM, GIF and various RAW types)
 - Highly responsive image viewer with real-time panning and zooming
 - Many state-of-the-art algorithms to try out interactively
 - Extensive online help with tool explanations and tutorials
@@ -85,7 +85,7 @@ This list contains the functions that **Sherloq** will (hopefully!) provide once
 ### Various
 - __Median Filtering__: detect processing traces left by nonlinear median filtering
 - __Illuminant Map__: estimate scene local light direction on estimated 3D surfaces
-- __Correlation Plot__: exploit spatial correlation patterns among neighboring pixels
+- __Dead/Hot Pixels__: detect and correct dead/hot pixels caused by sensor imperfections
 - __Stereogram Decoder__: decode 3D images concealed inside crossed-eye autostereograms
 
 

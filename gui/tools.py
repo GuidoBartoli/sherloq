@@ -123,11 +123,11 @@ class ToolTree(QTreeWidget):
         group_names.append(self.tr('[Various]'))
         tool_names.append([self.tr('Median Filtering'),
                            self.tr('Illuminant Map'),
-                           self.tr('Correlation Plot'),
+                           self.tr('Dead/Hot Pixels'),
                            self.tr('Stereogram Decoder')])
         tool_infos.append([self.tr('Detect nonlinear processing traces left by median filtering'),
                            self.tr('Estimate scene local light direction on estimated 3D surfaces'),
-                           self.tr('Show spatial correlation patterns among neighboring pixels'),
+                           self.tr('Detect and correct dead/hot pixels caused by sensor imperfections'),
                            self.tr('Decode 3D images concealed inside crossed-eye autostereograms')])
         tool_progress.extend([2, 0, 0, 3])
 

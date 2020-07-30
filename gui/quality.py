@@ -28,8 +28,9 @@ class QualityWidget(ToolWidget):
 
         x = np.arange(1, 101)
         y = loss_curve(image)
-        qm = np.argmin(y[:-2]) + 1
-        if qm == 98:
+        tail = 5
+        qm = np.argmin(y[:-tail]) + 1
+        if qm == 100 - tail:
             qm = 100
 
         figure = Figure()
@@ -37,11 +38,14 @@ class QualityWidget(ToolWidget):
         axes = canvas.figure.subplots()
         axes.plot(x, y * 100, label='compression loss')
         axes.fill_between(x, y * 100, alpha=0.2)
+        axes.axvline(qm, linestyle=':', color='k', label='min error (q = {})'.format(qm))
+        xt = axes.get_xticks()
+        xt = np.append(xt, 1)
+        axes.set_xticks(xt)
         axes.set_xlim([1, 100])
         axes.set_ylim([0, 100])
-        axes.axvline(qm, linestyle=':', color='k', label='min error (q = {}%)'.format(qm))
-        axes.set_xlabel(self.tr('quality (%)'))
-        axes.set_ylabel(self.tr('error (%)'))
+        axes.set_xlabel(self.tr('JPEG quality (%)'))
+        axes.set_ylabel(self.tr('average error (%)'))
         axes.grid(True, which='both')
         axes.legend(loc='upper center')
         axes.figure.canvas.draw()
@@ -119,7 +123,7 @@ class QualityWidget(ToolWidget):
                 message = '(standard tables)'
             else:
                 quality = int(np.round(closest - deviation))
-                message = '(deviation from standard = {:.4f})'.format(deviation)
+                message = '(deviation from standard tables = {:.4f})'.format(deviation)
             if quality == 0:
                 quality = 1
             quality_label = QLabel(self.tr('[JPEG FORMAT] Last saved quality: {}% {}'.format(quality, message)))
@@ -159,7 +163,8 @@ class QualityWidget(ToolWidget):
                 # else:
                 #     p = (1 - 2 * p) * 100
                 #     output = self.tr('Compressed image (p = {:.2f}%) ---> Estimated JPEG quality = {}%'.format(p, qm))
-                message = self.tr('[LOSSLESS FORMAT] Estimated JPEG quality = {:.1f}%'.format(qp))
+                message = self.tr('[LOSSLESS FORMAT] Estimated last saved quality = {:.1f}%{}'.format(
+                    qp, '' if qp <= 99 else ' (uncompressed)'))
                 if qp == 100:
                     message += ' (uncompressed)'
                 prob_label = QLabel(message)

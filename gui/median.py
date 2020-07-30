@@ -14,7 +14,7 @@ from PySide2.QtWidgets import (
 from joblib import load
 
 from tools import ToolWidget
-from utility import modify_font
+from utility import modify_font, pad_image
 from viewer import ImageViewer
 
 
@@ -98,9 +98,11 @@ class MedianWidget(ToolWidget):
         self.variance_spin.setValue(10)
         self.threshold_spin = QDoubleSpinBox()
         self.threshold_spin.setRange(0, 1)
-        self.threshold_spin.setValue(0.47)
+        self.threshold_spin.setValue(0.45)
         self.threshold_spin.setSingleStep(0.01)
         self.showprob_check = QCheckBox(self.tr('Probability map'))
+        self.filter_check = QCheckBox(self.tr('Speckle filter'))
+        self.filter_check.setChecked(True)
         self.process_button = QPushButton(self.tr('Process'))
         self.avgprob_label = QLabel(self.tr('Press "Process" to start'))
 
@@ -110,8 +112,9 @@ class MedianWidget(ToolWidget):
         top_layout.addWidget(QLabel(self.tr('Threshold:')))
         top_layout.addWidget(self.threshold_spin)
         top_layout.addWidget(self.showprob_check)
+        top_layout.addWidget(self.filter_check)
         top_layout.addWidget(self.process_button)
-        top_layout.addWidget(self.avgprob_label)
+        # top_layout.addWidget(self.avgprob_label)
         top_layout.addStretch()
 
         self.image = image
@@ -125,6 +128,7 @@ class MedianWidget(ToolWidget):
         self.variance_spin.valueChanged.connect(self.process)
         self.threshold_spin.valueChanged.connect(self.process)
         self.showprob_check.stateChanged.connect(self.process)
+        self.filter_check.stateChanged.connect(self.process)
 
         main_layout = QVBoxLayout()
         main_layout.addLayout(top_layout)
@@ -156,9 +160,7 @@ class MedianWidget(ToolWidget):
             QMessageBox.critical(self, self.tr('Error'), self.tr('Unknown model format!'))
             return
 
-        rows0, cols0 = self.gray.shape
-        padded = cv.copyMakeBorder(
-            self.gray, 0, self.block - rows0 % self.block, 0, self.block - cols0 % self.block, cv.BORDER_CONSTANT)
+        padded = pad_image(self.gray, self.block)
         rows, cols = padded.shape
         self.prob = np.zeros(((rows // self.block) + 1, (cols // self.block) + 1))
         self.var = np.zeros_like(self.prob)
@@ -166,6 +168,7 @@ class MedianWidget(ToolWidget):
         progress.canceled.connect(self.cancel)
         progress.setWindowModality(Qt.WindowModal)
         k = 0
+        self.canceled = False
         for i in range(0, rows, self.block):
             for j in range(0, cols, self.block):
                 roi = padded[i:i + self.block, j:j + self.block]
@@ -176,7 +179,7 @@ class MedianWidget(ToolWidget):
                 self.var[ib, jb] = np.var(roi)
                 self.prob[ib, jb] = y
                 if self.canceled:
-                    self.canceled = False
+                    self.prob = self.var = None
                     progress.close()
                     return
                 progress.setValue(k)
@@ -191,23 +194,27 @@ class MedianWidget(ToolWidget):
         if self.prob is None:
             return
         mask = self.var < self.variance_spin.value()
+        if self.filter_check.isChecked():
+            prob = cv.medianBlur(self.prob.astype(np.float32), 3)
+        else:
+            prob = self.prob.astype(np.float32)
         if self.showprob_check.isChecked():
-            output = np.repeat(self.prob[:, :, np.newaxis], 3, axis=2)
+            output = np.repeat(prob[:, :, np.newaxis], 3, axis=2)
             output[mask] = 0
         else:
             thr = self.threshold_spin.value()
-            output = np.zeros((self.prob.shape[0], self.prob.shape[1], 3))
+            output = np.zeros((prob.shape[0], prob.shape[1], 3))
             blue, green, red = cv.split(output)
             blue[mask] = 1
-            green[self.prob < thr] = 1
+            green[prob < thr] = 1
             green[mask] = 0
-            red[self.prob >= thr] = 1
+            red[prob >= thr] = 1
             red[mask] = 0
             output = cv.merge((blue, green, red))
         output = cv.convertScaleAbs(output, None, 255)
         output = cv.resize(output, None, None, self.block, self.block, cv.INTER_LINEAR)
         self.viewer.update_processed(np.copy(output[:self.image.shape[0], :self.image.shape[1]]))
-        avgprob = cv.mean(self.prob, 1 - mask.astype(np.uint8))[0] * 100
-        self.avgprob_label.setText(self.tr('Average P = {:.2f}%'.format(avgprob)))
+        avgprob = cv.mean(prob, 1 - mask.astype(np.uint8))[0] * 100
+        self.avgprob_label.setText(self.tr('Average = {:.2f}%'.format(avgprob)))
         modify_font(self.avgprob_label, italic=False, bold=True)
         self.process_button.setEnabled(False)

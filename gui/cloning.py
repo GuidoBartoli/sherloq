@@ -174,6 +174,13 @@ class CloningWidget(ToolWidget):
             responses = np.array([k.response for k in self.kpts])
             strongest = (cv.normalize(responses, None, 0, 100, cv.NORM_MINMAX) >= response).flatten()
             self.kpts = list(compress(self.kpts, strongest))
+            if len(self.kpts) > 30000:
+                QMessageBox.warning(self, self.tr('Warning'), self.tr(
+                    'Too many keypoints found ({}), please reduce response value'.format(self.total)))
+                self.kpts = self.desc = None
+                self.total = 0
+                self.status_label.setText('')
+                return
             self.desc = self.desc[strongest]
 
         if self.matches is None:

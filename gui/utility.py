@@ -1,5 +1,6 @@
 import os
 import sys
+import rawpy
 from time import time
 
 import cv2 as cv
@@ -51,6 +52,23 @@ def modify_font(obj, bold=False, italic=False, underline=False, mono=False):
         obj.setFont(0, font)
     else:
         obj.setFont(font)
+
+
+def pad_image(image, bsize, reflect=False):
+    rows, cols = image.shape[:2]
+    top = left = 0
+    bottom = bsize - rows % bsize
+    right = bsize - cols % bsize
+    border = cv.BORDER_CONSTANT if not reflect else cv.BORDER_REFLECT_101
+    padded = cv.copyMakeBorder(image, top, bottom, left, right, border)
+    return padded
+
+
+def shift_image(image, bsize):
+    rows, cols = image.shape[:2]
+    shifted = np.zeros_like(image)
+    shifted[:rows-bsize, :cols-bsize] = image[bsize:, bsize:]
+    return shifted
 
 
 def human_size(total, binary=False, suffix='B'):
@@ -148,16 +166,20 @@ def gray_to_bgr(image):
 def load_image(parent, filename=None):
     nothing = [None] * 3
     settings = QSettings()
+    mime_filters = ['image/jpeg', 'image/png', 'image/tiff', 'image/gif', 'image/bmp', 'image/webp',
+                    'image/x-portable-pixmap', 'image/x-portable-graymap', 'image/x-portable-bitmap',
+                    'image/x-nikon-nef', 'image/x-fuji-raf', 'image/x-canon-cr2', 'image/x-adobe-dng',
+                    'image/x-sony-arw', 'image/x-kodak-dcr', 'image/x-minolta-mrw', 'image/x-pentax-pef',
+                    'image/x-canon-crw', 'image/x-sony-sr2', 'image/x-olympus-orf', 'image/x-panasonic-raw']
+    mime_db = QMimeDatabase()
+    mime_patterns = [mime_db.mimeTypeForName(mime).globPatterns() for mime in mime_filters]
+    all_formats = 'Supported formats ({})'.format(' '.join([item for sub in mime_patterns for item in sub]))
+    raw_exts = [p[0][-3:] for p in mime_patterns][-12:]
     if filename is None:
         dialog = QFileDialog(parent, parent.tr('Load image'), settings.value('load_folder'))
         dialog.setOption(QFileDialog.DontUseNativeDialog, True)
         dialog.setFileMode(QFileDialog.ExistingFile)
         dialog.setViewMode(QFileDialog.Detail)
-        mime_filters = ["image/jpeg", "image/png", "image/tiff", "image/gif", "image/bmp", "image/webp",
-                        "image/x-portable-pixmap", "image/x-portable-graymap", "image/x-portable-bitmap"]
-        mime_db = QMimeDatabase()
-        mime_patterns = [mime_db.mimeTypeForName(mime).globPatterns() for mime in mime_filters]
-        all_formats = 'Supported formats ({})'.format(' '.join([item for sub in mime_patterns for item in sub]))
         dialog.setMimeTypeFilters(mime_filters)
         name_filters = dialog.nameFilters()
         dialog.setNameFilters(name_filters + [all_formats])
@@ -166,7 +188,11 @@ def load_image(parent, filename=None):
             filename = dialog.selectedFiles()[0]
         else:
             return nothing
-    if filename.endswith('.gif'):
+    ext = os.path.splitext(filename)[1][1:].lower()
+    if ext in raw_exts:
+        with rawpy.imread(filename) as raw:
+            image = cv.cvtColor(raw.postprocess(use_auto_wb=True), cv.COLOR_RGB2BGR)
+    elif ext == 'gif':
         capture = cv.VideoCapture(filename)
         frames = int(capture.get(cv.CAP_PROP_FRAME_COUNT))
         if frames > 1:

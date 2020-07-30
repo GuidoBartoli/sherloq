@@ -199,7 +199,7 @@ class ImageViewer(QWidget):
         height, width, _ = self.original.shape
         size_label = QLabel(self.tr('[{}x{} px]'.format(height, width)))
         export_button = QToolButton()
-        export_button.setToolTip(self.tr('Export current image to PNG'))
+        export_button.setToolTip(self.tr('Export processed image'))
         # export_button.setText(self.tr('Export...'))
         export_button.setIcon(QIcon('icons/export.svg'))
 

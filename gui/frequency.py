@@ -47,7 +47,7 @@ class FrequencyWidget(ToolWidget):
         self.split_spin.valueChanged.connect(self.process)
         self.smooth_spin.valueChanged.connect(self.process)
         self.thr_spin.valueChanged.connect(self.process)
-        self.filter_spin.valueChanged.connect(self.process)
+        self.filter_spin.valueChanged.connect(self.postprocess)
 
         self.image = image
         gray = cv.cvtColor(self.image, cv.COLOR_BGR2GRAY)
@@ -56,9 +56,10 @@ class FrequencyWidget(ToolWidget):
         width = cv.getOptimalDFTSize(cols)
         padded = cv.copyMakeBorder(gray, 0, height - rows, 0, width - cols, cv.BORDER_CONSTANT)
         self.dft = np.fft.fftshift(cv.dft(padded.astype(np.float32), flags=cv.DFT_COMPLEX_OUTPUT))
-        self.magnitude, self.phase = cv.cartToPolar(self.dft[:, :, 0], self.dft[:, :, 1])
-        self.magnitude = cv.normalize(cv.log(self.magnitude), None, 0, 255, cv.NORM_MINMAX)
-        self.phase = cv.normalize(self.phase, None, 0, 255, cv.NORM_MINMAX)
+        self.magnitude0, self.phase0 = cv.cartToPolar(self.dft[:, :, 0], self.dft[:, :, 1])
+        self.magnitude0 = cv.normalize(cv.log(self.magnitude0), None, 0, 255, cv.NORM_MINMAX)
+        self.phase0 = cv.normalize(self.phase0, None, 0, 255, cv.NORM_MINMAX)
+        self.magnitude = self.phase = None
 
         self.low_viewer = ImageViewer(self.image, self.image, self.tr('Low frequency'), export=True)
         self.high_viewer = ImageViewer(self.image, self.image, self.tr('High frequency'), export=True)
@@ -106,7 +107,7 @@ class FrequencyWidget(ToolWidget):
         mask /= np.max(mask)
         threshold = int(self.thr_spin.value() / 100 * 255)
         if threshold > 0:
-            mask[self.magnitude < threshold] = 0
+            mask[self.magnitude0 < threshold] = 0
             zeros = (mask.size - np.count_nonzero(mask)) / mask.size * 100
         else:
             zeros = 0
@@ -120,14 +121,19 @@ class FrequencyWidget(ToolWidget):
         high = cv.idft(np.fft.ifftshift(self.dft * (1 - mask2)), flags=cv.DFT_SCALE)
         high = norm_mat(cv.magnitude(high[:, :, 0], high[:, :, 1]), to_bgr=True)
         self.high_viewer.update_processed(np.copy(high[:self.image.shape[0], :self.image.shape[1]]))
+        self.magnitude = (self.magnitude0 * mask).astype(np.uint8)
+        self.phase = (self.phase0 * mask).astype(np.uint8)
+        self.postprocess()
+        self.info_message.emit(self.tr('Frequency Split = {}'.format(elapsed_time(start))))
 
-        magnitude = (self.magnitude * mask).astype(np.uint8)
-        phase = (self.phase * mask).astype(np.uint8)
-        kernel = 2*self.filter_spin.value() + 1
+    def postprocess(self):
+        kernel = 2 * self.filter_spin.value() + 1
         if kernel >= 3:
-            magnitude = cv.GaussianBlur(magnitude, (kernel, kernel), 0)
-            phase = cv.GaussianBlur(phase, (kernel, kernel), 0)
-            # phase = cv.medianBlur(phase, kernel)
+            magnitude = cv.GaussianBlur(self.magnitude, (kernel, kernel), 0)
+            phase = cv.GaussianBlur(self.phase, (kernel, kernel), 0)
+            # phase = cv.medianBlur(self.phase, kernel)
+        else:
+            magnitude = self.magnitude
+            phase = self.phase
         self.mag_viewer.update_original(cv.cvtColor(magnitude, cv.COLOR_GRAY2BGR))
         self.phase_viewer.update_original(cv.cvtColor(phase, cv.COLOR_GRAY2BGR))
-        self.info_message.emit(self.tr('Frequency Split = {}'.format(elapsed_time(start))))
