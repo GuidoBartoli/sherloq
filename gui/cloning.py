@@ -48,6 +48,8 @@ class CloningWidget(ToolWidget):
         self.cluster_spin.setRange(1, 20)
         self.cluster_spin.setValue(5)
         self.cluster_spin.setToolTip(self.tr('Minimum number of keypoints to create a new cluster'))
+        self.kpts_check = QCheckBox(self.tr('Show keypoints'))
+        self.kpts_check.setToolTip(self.tr('Show keypoint coverage'))
         self.nolines_check = QCheckBox(self.tr('Hide lines'))
         self.nolines_check.setToolTip(self.tr('Disable match line drawing'))
         self.process_button = QToolButton()
@@ -76,6 +78,7 @@ class CloningWidget(ToolWidget):
         self.distance_spin.valueChanged.connect(self.update_cluster)
         self.cluster_spin.valueChanged.connect(self.update_cluster)
         self.nolines_check.stateChanged.connect(self.process)
+        self.kpts_check.stateChanged.connect(self.process)
         self.process_button.clicked.connect(self.process)
         self.mask_button.clicked.connect(self.load_mask)
         self.onoff_button.toggled.connect(self.toggle_mask)
@@ -93,6 +96,7 @@ class CloningWidget(ToolWidget):
         top_layout.addWidget(QLabel(self.tr('Cluster:')))
         top_layout.addWidget(self.cluster_spin)
         top_layout.addWidget(self.nolines_check)
+        top_layout.addWidget(self.kpts_check)
         top_layout.addStretch()
 
         bottom_layout = QHBoxLayout()
@@ -252,6 +256,12 @@ class CloningWidget(ToolWidget):
         output = np.copy(self.image)
         hsv = np.zeros((1, 1, 3))
         nolines = self.nolines_check.isChecked()
+        show_kpts = self.kpts_check.isChecked()
+
+        if show_kpts:
+            for kpt in self.kpts:
+                cv.circle(output, (int(kpt.pt[0]), int(kpt.pt[1])), 2, (250, 227, 72))
+
         angles = []
         for c in self.clusters:
             for m in c:
