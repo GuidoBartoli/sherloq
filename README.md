@@ -118,16 +118,16 @@ Here are some screenshots from the previous C++ Qt GUI (to be updated with the n
 
 # Installation
 
-## Create virtual environment
+## (1/2) Create virtual environment
 
 ### Linux
 ```
-Install package manager
 $ sudo apt install python3-distutils python3-dev python3-testresources subversion
 $ wget https://bootstrap.pypa.io/get-pip.py
 $ sudo python3 get-pip.py
+```
 
-Setup virtual environments
+```
 $ sudo pip install virtualenv virtualenvwrapper
 $ echo -e "\n# Python Virtual Environments" >> ~/.bashrc
 $ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc
@@ -153,25 +153,34 @@ $ mkvirtualenv sq -p python3
 ```
 
 ### Windows
-You can follow [this guide](https://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows/) (the *Flask* installation is optional).
+1. Download latest *Python* setup package from [official site](https://www.python.org/downloads/)
+1. Install ensuring that "Add Python to PATH" and "PIP installation" are enabled
+1. Open *Command Prompt* and enter the following commands:
+```
+> pip install virtualenv virtualenvwrapper-win
+> mkvirtualenv sq
+```
+(other information about virtual environments can be found [here](https://timmyreilly.azurewebsites.net/python-pip-virtualenv-installation-on-windows/)
 
 ### Conda
 1. Download and install [Anaconda](https://www.anaconda.com/products/individual) (one can also install miniconda, no GUI but is smaller)
 1. Install Xinerama library: `sudo apt-get install libxcb-xinerama0`
 1. Open a console to create a Python environment (on Windows one must start a Conda Console or `sth` from the Start menu):
 `conda create --copy -n sherloq python` [enter *Yes* when it prompts]
-1. After install ends, type in the same console `conda activate sherloq` to activate the env and leave the console open
+1. After install ends, type in the same console `conda activate sherloq` to activate the environment 
 
-## Launch program
+## (2/2) Launch program
 1. Clone the repository content into a local folder
 1. Change current directory to the `gui` folder inside `sherloq`
-1. Execute `pip install -r requirements.txt`
-1. Launch the program with `python sherloq.py`
+1. Execute `pip install -r requirements.txt` to install required packages
+1. Launch the GUI with `python sherloq.py`
 
+# Update
+When a new version is released, update the local working copy using Git, SVN or manually downloading from this repository and update the packages in the virtual environment following [this guide](https://www.activestate.com/resources/quick-reads/how-to-update-all-python-packages/) (if necessary).
 
 # Bibliography
-- Black Hat Briefings DC. (2008) "A Picture's Worth: Digital Image Analysis and Forensics" [White paper]. Washington, DC. Retrieved from http://blackhat.com/presentations/bh-dc-08/Krawetz/Whitepaper/bh-dc-08-krawetz-WP.pdf
-- "Noiseprint: a CNN-based camera model fingerprint" (Davide Cozzolino, Luisa Verdoliva)
-- "Exposing Digital Forgeries by Detecting Traces of Re-sampling" (Alin C. Popescu and Hany Farid)
-- "Two Improved Forensic Methods of Detecting Contrast Enhancement in Digital Images" (Xufeng Lin, Xingjie Wei and Chang-Tsun Li)
+- Black Hat Briefings DC. (2008) "A Picture's Worth: Digital Image Analysis and Forensics" [[paper](http://blackhat.com/presentations/bh-dc-08/Krawetz/Whitepaper/bh-dc-08-krawetz-WP.pdf)]
+- "Noiseprint: a CNN-based camera model fingerprint" (Davide Cozzolino, Luisa Verdoliva) [[website](http://www.grip.unina.it/research/83-multimedia_forensics/107-noiseprint.html)]
+- "Exposing Digital Forgeries by Detecting Traces of Re-sampling" (Alin C. Popescu and Hany Farid) [[paper](https://farid.berkeley.edu/downloads/publications/sp05.pdf)]
+- "Two Improved Forensic Methods of Detecting Contrast Enhancement in Digital Images" (Xufeng Lin, Xingjie Wei and Chang-Tsun Li) [[paper](https://d1wqtxts1xzle7.cloudfront.net/45863267/Two_Improved_Forensic_Methods_of_Detecti20160522-6998-1xf1cu.pdf?1463954131=&response-content-disposition=inline%3B+filename%3DTwo_improved_forensic_methods_of_detecti.pdf&Expires=1598306603&Signature=dYuKum8UF2NJS~2Jz2pFObtzdjKfYIcYD4GksLVNN0izhm2k10TVPV~UHKS0DbMLXKaurZPq7uvG~qQwQwwF4JKbY0zoCqZI-p9KZsEMYhlRJrYM8nNQL0V7sHMTLd3aYjNLWup~-i1RzJcJdRqzjU9doGxRJvHdsX6tbwIxNRq3JiYyldaXei4xJSJAbX7EoUOut2uh~jsPnsAbDOIrYpwUhebut-XsN2c5MXargD2UhKxZ3Ifwo4hJvz8Bl2sPys~E8P6vDlqOeEHoeByZms6JQON97EGsCTT5GYF98rQLDbqj0NroYE2zDMGcu9IUp8VV1Fotqci1G6eELTXx6w__&Key-Pair-Id=APKAJLOHF5GGSLRBV4ZA)]
 
