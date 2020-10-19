@@ -64,6 +64,20 @@ class TableWidget(QWidget):
         clear_button.clicked.connect(self.search_edit.clear)
         search_layout.addWidget(clear_button)
 
+        prev_button = QToolButton()
+        prev_button.setIcon(QIcon('icons/up.svg'))
+        prev_button.setShortcut(QKeySequence.FindPrevious)
+        prev_button.clicked.connect(self.previous)
+        prev_button.setToolTip(self.tr('Previous occurence'))
+        search_layout.addWidget(prev_button)
+
+        next_button = QToolButton()
+        next_button.setIcon(QIcon('icons/down.svg'))
+        next_button.setShortcut(QKeySequence.FindNext)
+        next_button.clicked.connect(self.next)
+        next_button.setToolTip(self.tr('Next occurence'))
+        search_layout.addWidget(next_button)
+
         self.case_button = QToolButton()
         self.case_button.setText(self.tr('Aa'))
         self.case_button.setCheckable(True)
@@ -84,20 +98,6 @@ class TableWidget(QWidget):
         self.regex_button.toggled.connect(self.start)
         self.regex_button.setToolTip(self.tr('Regular expression'))
         search_layout.addWidget(self.regex_button)
-
-        prev_button = QToolButton()
-        prev_button.setIcon(QIcon('icons/up.svg'))
-        prev_button.setShortcut(QKeySequence.FindPrevious)
-        prev_button.clicked.connect(self.previous)
-        prev_button.setToolTip(self.tr('Previous occurence'))
-        search_layout.addWidget(prev_button)
-
-        next_button = QToolButton()
-        next_button.setIcon(QIcon('icons/down.svg'))
-        next_button.setShortcut(QKeySequence.FindNext)
-        next_button.clicked.connect(self.next)
-        next_button.setToolTip(self.tr('Next occurence'))
-        search_layout.addWidget(next_button)
 
         self.matches_label = QLabel()
         search_layout.addWidget(self.matches_label)

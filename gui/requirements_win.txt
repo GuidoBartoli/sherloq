@@ -7,6 +7,7 @@ opencv-contrib-python-headless
 pandas
 pyside2
 python-magic
+python-magic-bin
 rawpy
 scikit-image
 scikit-learn

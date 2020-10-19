@@ -78,7 +78,6 @@ class QualityWidget(ToolWidget):
                 with open(temp_file.fileName(), 'rb') as file:
                     first = file.read(1)
                     if first not in [MRK, SOI]:
-                        # self.show_error(self.tr('File is not a JPEG image!'))
                         raise ValueError(self.tr('File is not a JPEG image!'))
                     while True:
                         if not self.find_next(file, [MRK, DQT, PAD]):

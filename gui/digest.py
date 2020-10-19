@@ -37,7 +37,7 @@ class DigestWidget(ToolWidget):
         table = []
 
         file_info = QFileInfo(filename)
-        table.append([self.tr('File'), self.tr('File name'), file_info.fileName()])
+        table.append([self.tr('PhysicalFile'), self.tr('File name'), file_info.fileName()])
         table.append([None, self.tr('Parent folder'), str(file_info.dir().absolutePath())])
         table.append([None, self.tr('MIME type'), magic.from_file(filename, mime=True)])
         table.append([None, self.tr('File size'), '{} bytes ({})'.format(

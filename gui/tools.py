@@ -103,7 +103,7 @@ class ToolTree(QTreeWidget):
                            self.tr('JPEG Ghost Maps')])
         tool_infos.append([self.tr('Extract quantization tables and estimate last saved JPEG quality'),
                            self.tr('Show pixel-wise differences against a fixed compression level'),
-                           self.tr('Use a First Digit Features model to detect multiple compressions'),
+                           self.tr('Use a machine learning model to detect multiple compression'),
                            self.tr('Highlight traces of different compressions in difference images')])
         tool_progress.extend([3, 3, 0, 0])
 
@@ -127,7 +127,7 @@ class ToolTree(QTreeWidget):
                            self.tr('Stereogram Decoder')])
         tool_infos.append([self.tr('Detect nonlinear processing traces left by median filtering'),
                            self.tr('Estimate scene local light direction on estimated 3D surfaces'),
-                           self.tr('Detect and correct dead/hot pixels caused by sensor imperfections'),
+                           self.tr('Detect and fix dead/hot pixels caused by sensor imperfections'),
                            self.tr('Decode 3D images concealed inside crossed-eye autostereograms')])
         tool_progress.extend([2, 0, 0, 3])
 
