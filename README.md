@@ -12,6 +12,13 @@ While many commercial solutions have high retail prices and often reserved to la
 
 I strongly believe that *security-by-obscurity* is the wrong way to offer any kind of forensic service (i.e. "Using this proprietary software I guarantee you that this photo *is* pristine... and you have to trust me!"). Following the open-source philosophy, everyone should be able to try various techniques on their own, gain knowledge and share it to the community... even better if they contribute with code improvements! :)
 
+- [History](https://github.com/GuidoBartoli/sherloq#historry)
+- [Features](https://github.com/GuidoBartoli/sherloq#features)
+- [Screenshots](https://github.com/GuidoBartoli/sherloq#screenshots)
+- [Installation](https://github.com/GuidoBartoli/sherloq#installation)
+- [Updates](https://github.com/GuidoBartoli/sherloq#updates)
+- [Bibliography](https://github.com/GuidoBartoli/sherloq#bibliography)
+
 # History
 The first version was written in 2015 using C++11 to build a command line utility with many options, but soon it turned to be too cumbersome and not much interactive. That version could be compiled with CMake after installing OpenCV, Boost and AlgLib libraries. This first proof of concept offered about 80% of planned features (see below for the full list).
 
@@ -118,6 +125,8 @@ Here are some screenshots from the previous C++ Qt GUI (to be updated with the n
 
 # Installation
 
+For more information about Python Virtual Environments, you can read [here](https://realpython.com/python-virtual-environments-a-primer/) or [here](https://chriswarrick.com/blog/2018/09/04/python-virtual-environments/).
+
 ## [1/2] Virtual environment
 
 ### Linux
@@ -175,7 +184,7 @@ $ mkvirtualenv sq -p python3
 1. Launch the GUI with `python sherloq.py`
 
 # Updates
-When a new version is released, update the local working copy using Git, SVN or manually downloading from this repository and update the packages in the virtual environment following [this guide](https://www.activestate.com/resources/quick-reads/how-to-update-all-python-packages/) (if necessary).
+When a new version is released, update the local working copy using Git, SVN or manually downloading from this repository and (if necessary) update the packages in the virtual environment following [this guide](https://www.activestate.com/resources/quick-reads/how-to-update-all-python-packages/).
 
 # Bibliography
 - "A Picture's Worth: Digital Image Analysis and Forensics" (Neal Krawetz) [[paper](http://blackhat.com/presentations/bh-dc-08/Krawetz/Whitepaper/bh-dc-08-krawetz-WP.pdf)]
