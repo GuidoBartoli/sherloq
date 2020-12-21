@@ -29,7 +29,7 @@ Fast forward to 2020 when I decided to port everything in Python (PySide2 + Matp
 I'm happy to share my code and get in contact with anyone interested to improve or test it, but please keep in mind that this repository is *not* intended for distributing a final product, my aim is just to publicly track development of an *unpretentious educational tool*, so expect bugs, unpolished code and missing features! ;)
 
 # Features
-This list contains the functions that **Sherloq** will (hopefully!) provide once the beta stage is reached.
+This list contains the functions that the toolkit will (hopefully) provide once the beta stage is reached.
 
 ## Interface
 - Modern Qt-based GUI with multiple tool window management
@@ -147,9 +147,10 @@ $ mkvirtualenv sq -p python3
 ```
 
 ### MacOS
-```
+
 1) Open Terminal and enter `python3 --version` to install the interpreter and other command line tools
 2) Once installed, proceed similarly to Linux installation:
+```
    $ wget https://bootstrap.pypa.io/get-pip.py
    $ sudo python3 get-pip.py
    $ sudo pip install virtualenv virtualenvwrapper
@@ -158,7 +159,15 @@ $ mkvirtualenv sq -p python3
    $ echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bash_profile
    $ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bash_profile
    $ source ~/.bash_profile
-3) $ mkvirtualenv sq -p python3
+```
+3) Create a new Python 3 virtual environment:
+```
+$ mkvirtualenv sq -p python3
+```
+4) Install `libmagic` via `brew` (thanks to @thmsl):
+```
+   $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+   $ brew install libmagic
 ```
 
 ### Windows
