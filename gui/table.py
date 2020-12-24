@@ -1,15 +1,7 @@
 import csv
 
-from PySide2.QtCore import (
-    Qt,
-    QRect,
-    QRegularExpression,
-    QSettings,
-    QFileInfo)
-from PySide2.QtGui import (
-    QIcon,
-    QKeySequence,
-    QCursor)
+from PySide2.QtCore import Qt, QRect, QRegularExpression, QSettings, QFileInfo
+from PySide2.QtGui import QIcon, QKeySequence, QCursor
 from PySide2.QtWidgets import (
     QToolTip,
     QApplication,
@@ -22,7 +14,8 @@ from PySide2.QtWidgets import (
     QLabel,
     QLineEdit,
     QToolButton,
-    QWidget)
+    QWidget,
+)
 
 from utility import modify_font
 
@@ -51,52 +44,52 @@ class TableWidget(QWidget):
         self.table_widget.itemDoubleClicked.connect(self.copy)
 
         search_layout = QHBoxLayout()
-        search_layout.addWidget(QLabel(self.tr('Search:')))
+        search_layout.addWidget(QLabel(self.tr("Search:")))
         self.search_edit = QLineEdit()
         self.search_edit.textChanged.connect(self.start)
         self.search_edit.returnPressed.connect(self.next)
         search_layout.addWidget(self.search_edit)
 
         clear_button = QToolButton()
-        clear_button.setIcon(QIcon('icons/clear.svg'))
+        clear_button.setIcon(QIcon("icons/clear.svg"))
         clear_button.setShortcut(QKeySequence.DeleteCompleteLine)
-        clear_button.setToolTip(self.tr('Clear pattern'))
+        clear_button.setToolTip(self.tr("Clear pattern"))
         clear_button.clicked.connect(self.search_edit.clear)
         search_layout.addWidget(clear_button)
 
         prev_button = QToolButton()
-        prev_button.setIcon(QIcon('icons/up.svg'))
+        prev_button.setIcon(QIcon("icons/up.svg"))
         prev_button.setShortcut(QKeySequence.FindPrevious)
         prev_button.clicked.connect(self.previous)
-        prev_button.setToolTip(self.tr('Previous occurence'))
+        prev_button.setToolTip(self.tr("Previous occurence"))
         search_layout.addWidget(prev_button)
 
         next_button = QToolButton()
-        next_button.setIcon(QIcon('icons/down.svg'))
+        next_button.setIcon(QIcon("icons/down.svg"))
         next_button.setShortcut(QKeySequence.FindNext)
         next_button.clicked.connect(self.next)
-        next_button.setToolTip(self.tr('Next occurence'))
+        next_button.setToolTip(self.tr("Next occurence"))
         search_layout.addWidget(next_button)
 
         self.case_button = QToolButton()
-        self.case_button.setText(self.tr('Aa'))
+        self.case_button.setText(self.tr("Aa"))
         self.case_button.setCheckable(True)
         self.case_button.toggled.connect(self.start)
-        self.case_button.setToolTip(self.tr('Case sensitive'))
+        self.case_button.setToolTip(self.tr("Case sensitive"))
         search_layout.addWidget(self.case_button)
 
         self.word_button = QToolButton()
-        self.word_button.setText(self.tr('W'))
+        self.word_button.setText(self.tr("W"))
         self.word_button.setCheckable(True)
         self.word_button.toggled.connect(self.start)
-        self.word_button.setToolTip(self.tr('Whole words'))
+        self.word_button.setToolTip(self.tr("Whole words"))
         search_layout.addWidget(self.word_button)
 
         self.regex_button = QToolButton()
-        self.regex_button.setText(self.tr('.*'))
+        self.regex_button.setText(self.tr(".*"))
         self.regex_button.setCheckable(True)
         self.regex_button.toggled.connect(self.start)
-        self.regex_button.setToolTip(self.tr('Regular expression'))
+        self.regex_button.setToolTip(self.tr("Regular expression"))
         search_layout.addWidget(self.regex_button)
 
         self.matches_label = QLabel()
@@ -104,8 +97,8 @@ class TableWidget(QWidget):
         search_layout.addStretch()
 
         export_button = QToolButton()
-        export_button.setText(self.tr('Export...'))
-        export_button.setToolTip(self.tr('Save table content to CSV format'))
+        export_button.setText(self.tr("Export..."))
+        export_button.setToolTip(self.tr("Save table content to CSV format"))
         export_button.clicked.connect(self.export)
         search_layout.addWidget(export_button)
 
@@ -163,8 +156,9 @@ class TableWidget(QWidget):
                             match = pattern in text
                     if match and pattern:
                         self.table_widget.item(i, j).setBackground(Qt.yellow)
-                        if (direction > 0 and (i > row or i == row and j > col)) or \
-                                (direction < 0 and (i < row or i == row and j < col)):
+                        if (direction > 0 and (i > row or i == row and j > col)) or (
+                            direction < 0 and (i < row or i == row and j < col)
+                        ):
                             self.table_widget.setCurrentCell(i, j)
                             index = matches
                         matches += 1
@@ -174,25 +168,26 @@ class TableWidget(QWidget):
             self.matches_label.setVisible(True)
             if matches > 0:
                 match = matches - index if direction > 0 else index + 1
-                self.matches_label.setText(self.tr('match #{}/{}'.format(match, matches)))
-                self.matches_label.setStyleSheet('color: #000000')
+                self.matches_label.setText(self.tr(f"match #{match}/{matches}"))
+                self.matches_label.setStyleSheet("color: #000000")
                 modify_font(self.matches_label, bold=True)
             else:
-                self.matches_label.setText(self.tr('not found!'))
-                self.matches_label.setStyleSheet('color: #FF0000')
+                self.matches_label.setText(self.tr("not found!"))
+                self.matches_label.setStyleSheet("color: #FF0000")
                 modify_font(self.matches_label, italic=True)
         else:
-            self.matches_label.setText('')
+            self.matches_label.setText("")
 
     def export(self):
         settings = QSettings()
         filename = QFileDialog.getSaveFileName(
-            self, self.tr('Export metadata'), settings.value('save_folder'), self.tr('CSV files (*.csv)'))[0]
+            self, self.tr("Export metadata"), settings.value("save_folder"), self.tr("CSV files (*.csv)")
+        )[0]
         if not filename:
             return
-        if not filename.endswith('.csv'):
-            filename += '.csv'
-        settings.setValue('save_folder', QFileInfo(filename).absolutePath())
+        if not filename.endswith(".csv"):
+            filename += ".csv"
+        settings.setValue("save_folder", QFileInfo(filename).absolutePath())
 
         rows = self.table_widget.rowCount()
         cols = self.table_widget.columnCount()
@@ -202,11 +197,11 @@ class TableWidget(QWidget):
                 item = self.table_widget.item(i, j)
                 if item is not None:
                     table[i][j] = item.text()
-        with open(filename, 'w') as file:
+        with open(filename, "w") as file:
             writer = csv.writer(file)
             writer.writerow(self.table_headers)
             writer.writerows(table)
 
     def copy(self, item):
         QApplication.clipboard().setText(item.text())
-        QToolTip.showText(QCursor.pos(), self.tr('Cell contents copied to clipboard'), self, QRect(), 3000)
+        QToolTip.showText(QCursor.pos(), self.tr("Cell contents copied to clipboard"), self, QRect(), 3000)

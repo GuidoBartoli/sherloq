@@ -1,11 +1,6 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtWidgets import (
-    QVBoxLayout,
-    QHBoxLayout,
-    QCheckBox,
-    QLabel,
-    QRadioButton)
+from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout, QCheckBox, QLabel, QRadioButton
 
 from tools import ToolWidget
 from viewer import ImageViewer
@@ -15,16 +10,16 @@ class StatsWidget(ToolWidget):
     def __init__(self, image, parent=None):
         super(StatsWidget, self).__init__(parent)
 
-        self.min_radio = QRadioButton(self.tr('Minimum'))
-        self.min_radio.setToolTip(self.tr('RGB channel with smallest value'))
+        self.min_radio = QRadioButton(self.tr("Minimum"))
+        self.min_radio.setToolTip(self.tr("RGB channel with smallest value"))
         self.min_radio.setChecked(True)
         self.last_radio = self.min_radio
-        self.avg_radio = QRadioButton(self.tr('Average'))
-        self.avg_radio.setToolTip(self.tr('RGB channel with average value'))
-        self.max_radio = QRadioButton(self.tr('Maximum'))
-        self.max_radio.setToolTip(self.tr('RGB channel with largest value'))
-        self.incl_check = QCheckBox(self.tr('Inclusive'))
-        self.incl_check.setToolTip(self.tr('Use not strict inequalities'))
+        self.avg_radio = QRadioButton(self.tr("Average"))
+        self.avg_radio.setToolTip(self.tr("RGB channel with average value"))
+        self.max_radio = QRadioButton(self.tr("Maximum"))
+        self.max_radio.setToolTip(self.tr("RGB channel with largest value"))
+        self.incl_check = QCheckBox(self.tr("Inclusive"))
+        self.incl_check.setToolTip(self.tr("Use not strict inequalities"))
 
         self.image = image
         b, g, r = cv.split(self.image)
@@ -67,7 +62,7 @@ class StatsWidget(ToolWidget):
         self.incl_check.stateChanged.connect(self.process)
 
         params_layout = QHBoxLayout()
-        params_layout.addWidget(QLabel(self.tr('Mode:')))
+        params_layout.addWidget(QLabel(self.tr("Mode:")))
         params_layout.addWidget(self.min_radio)
         params_layout.addWidget(self.avg_radio)
         params_layout.addWidget(self.max_radio)

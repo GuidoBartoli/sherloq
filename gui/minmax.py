@@ -3,14 +3,7 @@ from time import time
 import cv2 as cv
 import numpy as np
 from PySide2.QtCore import Qt
-from PySide2.QtWidgets import (
-    QVBoxLayout,
-    QHBoxLayout,
-    QComboBox,
-    QSpinBox,
-    QPushButton,
-    QProgressDialog,
-    QLabel)
+from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout, QComboBox, QSpinBox, QPushButton, QProgressDialog, QLabel
 
 from tools import ToolWidget
 from utility import elapsed_time, norm_mat
@@ -23,9 +16,10 @@ class MinMaxWidget(ToolWidget):
 
         self.chan_combo = QComboBox()
         self.chan_combo.addItems(
-            [self.tr('Luminance'), self.tr('Red'), self.tr('Green'), self.tr('Blue'), self.tr('RGB Norm')])
-        colors = [self.tr('Red'), self.tr('Green'), self.tr('Blue'), self.tr('White'), self.tr('Black')]
-        self.process_button = QPushButton(self.tr('Process'))
+            [self.tr("Luminance"), self.tr("Red"), self.tr("Green"), self.tr("Blue"), self.tr("RGB Norm")]
+        )
+        colors = [self.tr("Red"), self.tr("Green"), self.tr("Blue"), self.tr("White"), self.tr("Black")]
+        self.process_button = QPushButton(self.tr("Process"))
 
         self.min_combo = QComboBox()
         self.min_combo.addItems(colors)
@@ -37,7 +31,7 @@ class MinMaxWidget(ToolWidget):
 
         self.filter_spin = QSpinBox()
         self.filter_spin.setRange(0, 5)
-        self.filter_spin.setSpecialValueText(self.tr('Off'))
+        self.filter_spin.setSpecialValueText(self.tr("Off"))
 
         self.image = image
         self.viewer = ImageViewer(self.image, self.image)
@@ -52,14 +46,14 @@ class MinMaxWidget(ToolWidget):
         self.filter_spin.valueChanged.connect(self.process)
 
         top_layout = QHBoxLayout()
-        top_layout.addWidget(QLabel(self.tr('Channel:')))
+        top_layout.addWidget(QLabel(self.tr("Channel:")))
         top_layout.addWidget(self.chan_combo)
         top_layout.addWidget(self.process_button)
-        top_layout.addWidget(QLabel(self.tr('Minimum:')))
+        top_layout.addWidget(QLabel(self.tr("Minimum:")))
         top_layout.addWidget(self.min_combo)
-        top_layout.addWidget(QLabel(self.tr('Maximum:')))
+        top_layout.addWidget(QLabel(self.tr("Maximum:")))
         top_layout.addWidget(self.max_combo)
-        top_layout.addWidget(QLabel(self.tr('Filter:')))
+        top_layout.addWidget(QLabel(self.tr("Filter:")))
         top_layout.addWidget(self.filter_spin)
         top_layout.addStretch()
         main_layout = QVBoxLayout()
@@ -81,10 +75,12 @@ class MinMaxWidget(ToolWidget):
     def blk_filter(img, radius):
         result = np.zeros_like(img, np.float32)
         rows, cols = result.shape
-        block = 2*radius + 1
+        block = 2 * radius + 1
         for i in range(radius, rows, block):
             for j in range(radius, cols, block):
-                result[i-radius:i+radius+1, j-radius:j+radius+1] = np.std(img[i-radius:i+radius+1, j-radius:j+radius+1])
+                result[i - radius : i + radius + 1, j - radius : j + radius + 1] = np.std(
+                    img[i - radius : i + radius + 1, j - radius : j + radius + 1]
+                )
         return cv.normalize(result, None, 0, 127, cv.NORM_MINMAX, cv.CV_8UC1)
 
     def change(self):
@@ -113,10 +109,11 @@ class MinMaxWidget(ToolWidget):
         mask = np.full((kernel, kernel), 255, dtype=np.uint8)
         mask[border, border] = 0
         progress = QProgressDialog(
-            self.tr('Computing deviation...'), self.tr('Cancel'), 0, shape[0]*shape[1]-1, self)
+            self.tr("Computing deviation..."), self.tr("Cancel"), 0, shape[0] * shape[1] - 1, self
+        )
         progress.canceled.connect(self.cancel)
         progress.setWindowModality(Qt.WindowModal)
-        blocks = [0]*shape[0]*shape[1]
+        blocks = [0] * shape[0] * shape[1]
         for i, patch in enumerate(patches):
             blocks[i] = self.minmax_dev(patch, mask)
             progress.setValue(i)
@@ -132,7 +129,7 @@ class MinMaxWidget(ToolWidget):
         self.filter_spin.setEnabled(True)
         self.process_button.setEnabled(False)
         self.process()
-        self.info_message.emit(self.tr('Min/Max Deviation = {}'.format(elapsed_time(start))))
+        self.info_message.emit(self.tr(f"Min/Max Deviation = {elapsed_time(start)}"))
 
     def cancel(self):
         self.stopped = True
@@ -158,7 +155,7 @@ class MinMaxWidget(ToolWidget):
                 else:
                     minmax += np.repeat(high[:, :, np.newaxis], 3, axis=2)
             minmax = norm_mat(minmax)
-            self.info_message.emit(self.tr('Min/Max Filter = {}'.format(elapsed_time(start))))
+            self.info_message.emit(self.tr(f"Min/Max Filter = {elapsed_time(start)}"))
         else:
             if minimum == 0:
                 minmax[self.low] = [0, 0, 255]

@@ -10,7 +10,8 @@ from PySide2.QtWidgets import (
     QPushButton,
     QVBoxLayout,
     QProgressDialog,
-    QCheckBox)
+    QCheckBox,
+)
 from joblib import load
 
 from tools import ToolWidget
@@ -83,7 +84,7 @@ def get_features(image, windows, levels):
         previous = image
         for _ in range(levels):
             filtered = cv.medianBlur(previous, k)
-            f[index:index+metrics] = get_metrics(previous, filtered)
+            f[index : index + metrics] = get_metrics(previous, filtered)
             index += metrics
             previous = filtered
     return f
@@ -100,16 +101,16 @@ class MedianWidget(ToolWidget):
         self.threshold_spin.setRange(0, 1)
         self.threshold_spin.setValue(0.45)
         self.threshold_spin.setSingleStep(0.01)
-        self.showprob_check = QCheckBox(self.tr('Probability map'))
-        self.filter_check = QCheckBox(self.tr('Speckle filter'))
+        self.showprob_check = QCheckBox(self.tr("Probability map"))
+        self.filter_check = QCheckBox(self.tr("Speckle filter"))
         self.filter_check.setChecked(True)
-        self.process_button = QPushButton(self.tr('Process'))
+        self.process_button = QPushButton(self.tr("Process"))
         self.avgprob_label = QLabel(self.tr('Press "Process" to start'))
 
         top_layout = QHBoxLayout()
-        top_layout.addWidget(QLabel(self.tr('Min variance:')))
+        top_layout.addWidget(QLabel(self.tr("Min variance:")))
         top_layout.addWidget(self.variance_spin)
-        top_layout.addWidget(QLabel(self.tr('Threshold:')))
+        top_layout.addWidget(QLabel(self.tr("Threshold:")))
         top_layout.addWidget(self.threshold_spin)
         top_layout.addWidget(self.showprob_check)
         top_layout.addWidget(self.filter_check)
@@ -136,13 +137,13 @@ class MedianWidget(ToolWidget):
         self.setLayout(main_layout)
 
     def prepare(self):
-        modelfile = 'models/median_b{}.mdl'.format(self.block)
+        modelfile = f"models/median_b{self.block}.mdl"
         try:
             model = load(modelfile)
         except FileNotFoundError:
-            QMessageBox.critical(self, self.tr('Error'), self.tr('Model not found ("{}")!'.format(modelfile)))
+            QMessageBox.critical(self, self.tr("Error"), self.tr(f'Model not found ("{modelfile}")!'))
             return
-        limit = model.best_ntree_limit if hasattr(model, 'best_ntree_limit') else None
+        limit = model.best_ntree_limit if hasattr(model, "best_ntree_limit") else None
         columns = model._features_count
         if columns == 8:
             levels = 1
@@ -157,21 +158,21 @@ class MedianWidget(ToolWidget):
             levels = 4
             windows = 4
         else:
-            QMessageBox.critical(self, self.tr('Error'), self.tr('Unknown model format!'))
+            QMessageBox.critical(self, self.tr("Error"), self.tr("Unknown model format!"))
             return
 
         padded = pad_image(self.gray, self.block)
         rows, cols = padded.shape
         self.prob = np.zeros(((rows // self.block) + 1, (cols // self.block) + 1))
         self.var = np.zeros_like(self.prob)
-        progress = QProgressDialog(self.tr('Detecting median filter...'), self.tr('Cancel'), 0, self.prob.size, self)
+        progress = QProgressDialog(self.tr("Detecting median filter..."), self.tr("Cancel"), 0, self.prob.size, self)
         progress.canceled.connect(self.cancel)
         progress.setWindowModality(Qt.WindowModal)
         k = 0
         self.canceled = False
         for i in range(0, rows, self.block):
             for j in range(0, cols, self.block):
-                roi = padded[i:i + self.block, j:j + self.block]
+                roi = padded[i : i + self.block, j : j + self.block]
                 x = np.reshape(get_features(roi, levels, windows), (1, columns))
                 y = model.predict_proba(x, ntree_limit=limit)[0, 1]
                 ib = i // self.block
@@ -213,8 +214,8 @@ class MedianWidget(ToolWidget):
             output = cv.merge((blue, green, red))
         output = cv.convertScaleAbs(output, None, 255)
         output = cv.resize(output, None, None, self.block, self.block, cv.INTER_LINEAR)
-        self.viewer.update_processed(np.copy(output[:self.image.shape[0], :self.image.shape[1]]))
+        self.viewer.update_processed(np.copy(output[: self.image.shape[0], : self.image.shape[1]]))
         avgprob = cv.mean(prob, 1 - mask.astype(np.uint8))[0] * 100
-        self.avgprob_label.setText(self.tr('Average = {:.2f}%'.format(avgprob)))
+        self.avgprob_label.setText(self.tr(f"Average = {avgprob:.2f}%"))
         modify_font(self.avgprob_label, italic=False, bold=True)
         self.process_button.setEnabled(False)

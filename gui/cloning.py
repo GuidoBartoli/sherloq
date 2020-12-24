@@ -14,7 +14,8 @@ from PySide2.QtWidgets import (
     QLabel,
     QHBoxLayout,
     QVBoxLayout,
-    QProgressDialog)
+    QProgressDialog,
+)
 
 from tools import ToolWidget
 from utility import elapsed_time, modify_font, load_image
@@ -26,45 +27,45 @@ class CloningWidget(ToolWidget):
         super(CloningWidget, self).__init__(parent)
 
         self.detector_combo = QComboBox()
-        self.detector_combo.addItems([self.tr('BRISK'), self.tr('ORB'), self.tr('AKAZE')])
+        self.detector_combo.addItems([self.tr("BRISK"), self.tr("ORB"), self.tr("AKAZE")])
         self.detector_combo.setCurrentIndex(0)
-        self.detector_combo.setToolTip(self.tr('Algorithm used for localization and description'))
+        self.detector_combo.setToolTip(self.tr("Algorithm used for localization and description"))
         self.response_spin = QSpinBox()
         self.response_spin.setRange(0, 100)
-        self.response_spin.setSuffix(self.tr('%'))
+        self.response_spin.setSuffix(self.tr("%"))
         self.response_spin.setValue(90)
-        self.response_spin.setToolTip(self.tr('Maximum keypoint response to perform matching'))
+        self.response_spin.setToolTip(self.tr("Maximum keypoint response to perform matching"))
         self.matching_spin = QSpinBox()
         self.matching_spin.setRange(1, 100)
-        self.matching_spin.setSuffix(self.tr('%'))
+        self.matching_spin.setSuffix(self.tr("%"))
         self.matching_spin.setValue(20)
-        self.matching_spin.setToolTip(self.tr('Maximum metric difference to accept matching'))
+        self.matching_spin.setToolTip(self.tr("Maximum metric difference to accept matching"))
         self.distance_spin = QSpinBox()
         self.distance_spin.setRange(1, 100)
-        self.distance_spin.setSuffix(self.tr('%'))
+        self.distance_spin.setSuffix(self.tr("%"))
         self.distance_spin.setValue(15)
-        self.distance_spin.setToolTip(self.tr('Maximum distance between matches in the same cluster'))
+        self.distance_spin.setToolTip(self.tr("Maximum distance between matches in the same cluster"))
         self.cluster_spin = QSpinBox()
         self.cluster_spin.setRange(1, 20)
         self.cluster_spin.setValue(5)
-        self.cluster_spin.setToolTip(self.tr('Minimum number of keypoints to create a new cluster'))
-        self.kpts_check = QCheckBox(self.tr('Show keypoints'))
-        self.kpts_check.setToolTip(self.tr('Show keypoint coverage'))
-        self.nolines_check = QCheckBox(self.tr('Hide lines'))
-        self.nolines_check.setToolTip(self.tr('Disable match line drawing'))
+        self.cluster_spin.setToolTip(self.tr("Minimum number of keypoints to create a new cluster"))
+        self.kpts_check = QCheckBox(self.tr("Show keypoints"))
+        self.kpts_check.setToolTip(self.tr("Show keypoint coverage"))
+        self.nolines_check = QCheckBox(self.tr("Hide lines"))
+        self.nolines_check.setToolTip(self.tr("Disable match line drawing"))
         self.process_button = QToolButton()
-        self.process_button.setText(self.tr('Process'))
-        self.process_button.setToolTip(self.tr('Perform automatic detection'))
+        self.process_button.setText(self.tr("Process"))
+        self.process_button.setToolTip(self.tr("Perform automatic detection"))
         modify_font(self.process_button, bold=True)
         self.status_label = QLabel()
         self.mask_label = QLabel()
         self.mask_button = QToolButton()
-        self.mask_button.setText(self.tr('Load mask...'))
-        self.mask_button.setToolTip(self.tr('Load an image to be used as mask'))
+        self.mask_button.setText(self.tr("Load mask..."))
+        self.mask_button.setToolTip(self.tr("Load an image to be used as mask"))
         self.onoff_button = QToolButton()
-        self.onoff_button.setText(self.tr('OFF'))
+        self.onoff_button.setText(self.tr("OFF"))
         self.onoff_button.setCheckable(True)
-        self.onoff_button.setToolTip(self.tr('Toggle keypoint detection mask'))
+        self.onoff_button.setToolTip(self.tr("Toggle keypoint detection mask"))
 
         self.image = image
         self.viewer = ImageViewer(self.image, self.image)
@@ -85,15 +86,15 @@ class CloningWidget(ToolWidget):
         self.onoff_button.setEnabled(False)
 
         top_layout = QHBoxLayout()
-        top_layout.addWidget(QLabel(self.tr('Detector:')))
+        top_layout.addWidget(QLabel(self.tr("Detector:")))
         top_layout.addWidget(self.detector_combo)
-        top_layout.addWidget(QLabel(self.tr('Response:')))
+        top_layout.addWidget(QLabel(self.tr("Response:")))
         top_layout.addWidget(self.response_spin)
-        top_layout.addWidget(QLabel(self.tr('Matching:')))
+        top_layout.addWidget(QLabel(self.tr("Matching:")))
         top_layout.addWidget(self.matching_spin)
-        top_layout.addWidget(QLabel(self.tr('Distance:')))
+        top_layout.addWidget(QLabel(self.tr("Distance:")))
         top_layout.addWidget(self.distance_spin)
-        top_layout.addWidget(QLabel(self.tr('Cluster:')))
+        top_layout.addWidget(QLabel(self.tr("Cluster:")))
         top_layout.addWidget(self.cluster_spin)
         top_layout.addWidget(self.nolines_check)
         top_layout.addWidget(self.kpts_check)
@@ -113,7 +114,7 @@ class CloningWidget(ToolWidget):
         self.setLayout(main_layout)
 
     def toggle_mask(self, checked):
-        self.onoff_button.setText('ON' if checked else 'OFF')
+        self.onoff_button.setText("ON" if checked else "OFF")
         if checked:
             self.viewer.update_processed(cv.merge([c * self.mask for c in cv.split(self.image)]))
         else:
@@ -125,17 +126,17 @@ class CloningWidget(ToolWidget):
         if filename is None:
             return
         if self.image.shape[:-1] != mask.shape[:-1]:
-            QMessageBox.critical(self, self.tr('Error'), self.tr('Both image and mask must have the same size!'))
+            QMessageBox.critical(self, self.tr("Error"), self.tr("Both image and mask must have the same size!"))
             return
         _, self.mask = cv.threshold(cv.cvtColor(mask, cv.COLOR_BGR2GRAY), 0, 1, cv.THRESH_BINARY)
         self.onoff_button.setEnabled(True)
         self.onoff_button.setChecked(True)
-        self.mask_button.setText('"{}"'.format(splitext(basename)[0]))
-        self.mask_button.setToolTip(self.tr('Current detection mask image'))
+        self.mask_button.setText(f'"{splitext(basename)[0]}"')
+        self.mask_button.setToolTip(self.tr("Current detection mask image"))
 
     def update_detector(self):
         self.total = self.kpts = self.desc = self.matches = self.clusters = None
-        self.status_label.setText('')
+        self.status_label.setText("")
         self.process_button.setEnabled(True)
 
     def update_matching(self):
@@ -148,13 +149,13 @@ class CloningWidget(ToolWidget):
 
     def cancel(self):
         self.canceled = True
-        self.status_label.setText(self.tr('Processing interrupted!'))
+        self.status_label.setText(self.tr("Processing interrupted!"))
         modify_font(self.status_label, bold=False, italic=False)
 
     def process(self):
         start = time()
         self.canceled = False
-        self.status_label.setText(self.tr('Processing, please wait...'))
+        self.status_label.setText(self.tr("Processing, please wait..."))
         algorithm = self.detector_combo.currentIndex()
         response = 100 - self.response_spin.value()
         matching = self.matching_spin.value() / 100 * 255
@@ -179,11 +180,14 @@ class CloningWidget(ToolWidget):
             strongest = (cv.normalize(responses, None, 0, 100, cv.NORM_MINMAX) >= response).flatten()
             self.kpts = list(compress(self.kpts, strongest))
             if len(self.kpts) > 30000:
-                QMessageBox.warning(self, self.tr('Warning'), self.tr(
-                    'Too many keypoints found ({}), please reduce response value'.format(self.total)))
+                QMessageBox.warning(
+                    self,
+                    self.tr("Warning"),
+                    self.tr(f"Too many keypoints found ({self.total}), please reduce response value"),
+                )
                 self.kpts = self.desc = None
                 self.total = 0
-                self.status_label.setText('')
+                self.status_label.setText("")
                 return
             self.desc = self.desc[strongest]
 
@@ -191,7 +195,7 @@ class CloningWidget(ToolWidget):
             matcher = cv.BFMatcher_create(cv.NORM_HAMMING, True)
             self.matches = matcher.radiusMatch(self.desc, self.desc, matching)
             if self.matches is None:
-                self.status_label.setText(self.tr('No keypoint match found with current settings'))
+                self.status_label.setText(self.tr("No keypoint match found with current settings"))
                 modify_font(self.status_label, italic=False, bold=True)
                 return
             self.matches = [item for sublist in self.matches for item in sublist]
@@ -207,7 +211,7 @@ class CloningWidget(ToolWidget):
             self.matches = [m for i, m in enumerate(self.matches) if ds[i] > min_dist]
 
             total = len(self.matches)
-            progress = QProgressDialog(self.tr('Clustering matches...'), self.tr('Cancel'), 0, total, self)
+            progress = QProgressDialog(self.tr("Clustering matches..."), self.tr("Cancel"), 0, total, self)
             progress.canceled.connect(self.cancel)
             progress.setWindowModality(Qt.WindowModal)
             for i in range(total):
@@ -301,6 +305,10 @@ class CloningWidget(ToolWidget):
         self.process_button.setEnabled(False)
         modify_font(self.status_label, italic=False, bold=True)
         self.status_label.setText(
-            self.tr('Keypoints: {} --> Filtered: {} --> Matches: {} --> Clusters: {} --> Regions: {}'.format(
-                self.total, len(self.kpts), len(self.matches), len(self.clusters), regions)))
-        self.info_message.emit(self.tr('Copy-Move Forgery = {}'.format(elapsed_time(start))))
+            self.tr(
+                "Keypoints: {} --> Filtered: {} --> Matches: {} --> Clusters: {} --> Regions: {}".format(
+                    self.total, len(self.kpts), len(self.matches), len(self.clusters), regions
+                )
+            )
+        )
+        self.info_message.emit(self.tr(f"Copy-Move Forgery = {elapsed_time(start)}"))

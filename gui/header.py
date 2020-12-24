@@ -14,12 +14,12 @@ class HeaderWidget(ToolWidget):
         super(HeaderWidget, self).__init__(parent)
         self.temp_dir = QTemporaryDir()
         if self.temp_dir.isValid():
-            temp_file = os.path.join(self.temp_dir.path(), 'structure.html')
-            p = run([exiftool_exe(), '-htmldump0', filename], stdout=PIPE)
-            with open(temp_file, 'w') as file:
-                file.write(p.stdout.decode('utf-8'))
+            temp_file = os.path.join(self.temp_dir.path(), "structure.html")
+            p = run([exiftool_exe(), "-htmldump0", filename], stdout=PIPE)
+            with open(temp_file, "w") as file:
+                file.write(p.stdout.decode("utf-8"))
             web_view = QWebEngineView()
-            web_view.load(QUrl('file://' + temp_file))
+            web_view.load(QUrl("file://" + temp_file))
             layout = QVBoxLayout()
             layout.addWidget(web_view)
             self.setLayout(layout)

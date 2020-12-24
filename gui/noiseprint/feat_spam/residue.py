@@ -13,44 +13,47 @@
 import numpy as np
 from .mapping import getCombinations
 
+
 def getFiltersResidue(res):
     try:
-       if not(isinstance(res,basestring)): res = str(res)
-    except: 
-       if not(isinstance(res,str)): res = str(res)
+        if not (isinstance(res, basestring)):
+            res = str(res)
+    except:
+        if not (isinstance(res, str)):
+            res = str(res)
     resTranspose = False
 
-    if res == '0':
+    if res == "0":
         # zero order
-        W = np.zeros([3,3,1,1],dtype=np.float32)
+        W = np.zeros([3, 3, 1, 1], dtype=np.float32)
         W[1, 1, 0, 0] = 1.0
         F = 1.0
-    elif res == '1':
+    elif res == "1":
         # 1st order
-        W = np.zeros([3,3,1,1],dtype=np.float32)
+        W = np.zeros([3, 3, 1, 1], dtype=np.float32)
         W[1, :, 0, 0] = [-1.0, 1.0, 0]
         resTranspose = True
         F = 1.0
-    elif res == '2':
+    elif res == "2":
         # 2nd order
         W = np.zeros([3, 3, 1, 1], dtype=np.float32)
         W[1, :, 0, 0] = [-1.0, 2.0, -1.0]
         resTranspose = True
         F = 2.0
-    elif res == '3':
+    elif res == "3":
         # 3rd order
         W = np.zeros([5, 5, 1, 1], dtype=np.float32)
-        W[2, :, 0, 0] = [ 0.0, +1.0, -3.0, +3.0, -1.0]
+        W[2, :, 0, 0] = [0.0, +1.0, -3.0, +3.0, -1.0]
         resTranspose = True
         F = 3.0
-    elif res == '5x5':
+    elif res == "5x5":
         # 5x5
         W = np.zeros([5, 5, 1, 1], dtype=np.float32)
-        W[0, :, 0, 0] = [-1.0, +2.0,  -2.0, +2.0, -1.0]
-        W[1, :, 0, 0] = [+2.0, -6.0,  +8.0, -6.0, +2.0]
+        W[0, :, 0, 0] = [-1.0, +2.0, -2.0, +2.0, -1.0]
+        W[1, :, 0, 0] = [+2.0, -6.0, +8.0, -6.0, +2.0]
         W[2, :, 0, 0] = [-2.0, +8.0, -12.0, +8.0, -2.0]
-        W[3, :, 0, 0] = [+2.0, -6.0,  +8.0, -6.0, +2.0]
-        W[4, :, 0, 0] = [-1.0, +2.0,  -2.0, +2.0, -1.0]
+        W[3, :, 0, 0] = [+2.0, -6.0, +8.0, -6.0, +2.0]
+        W[4, :, 0, 0] = [-1.0, +2.0, -2.0, +2.0, -1.0]
         F = 12.0
     else:
         W = np.zeros([1, 1, 1, 1], dtype=np.float32)
@@ -62,11 +65,12 @@ def getFiltersResidue(res):
 
     return W, F, resTranspose
 
+
 def getFilterOcco(occo, values):
-    dim = int(occo + 1 - (occo%2))
+    dim = int(occo + 1 - (occo % 2))
     values = np.asarray(values).astype(np.float32)
     M = np.zeros([occo, dim * dim], dtype=np.float32)
-    f = int((dim-1)/2)
+    f = int((dim - 1) / 2)
 
     for index in range(occo):
         R = np.zeros([dim, dim], dtype=np.float32)
@@ -77,7 +81,7 @@ def getFilterOcco(occo, values):
     V = values[P]
     n = V.shape[0]
 
-    W =  np.matmul(V, M)
+    W = np.matmul(V, M)
     B = -0.5 * np.sum(np.square(V), axis=1)
 
     W = np.reshape(W, [n, dim, dim, 1])

@@ -7,15 +7,7 @@ import cv2 as cv
 import numpy as np
 from PySide2.QtCore import QSettings, QFileInfo, Signal, Qt, QMimeDatabase
 from PySide2.QtGui import QImage, QFontDatabase, QColor
-from PySide2.QtWidgets import (
-    QLabel,
-    QTreeWidgetItem,
-    QFileDialog,
-    QMessageBox,
-    QWidget,
-    QSlider,
-    QSpinBox,
-    QHBoxLayout)
+from PySide2.QtWidgets import QLabel, QTreeWidgetItem, QFileDialog, QMessageBox, QWidget, QSlider, QSpinBox, QHBoxLayout
 
 
 def mat2img(cvmat):
@@ -67,22 +59,22 @@ def pad_image(image, bsize, reflect=False):
 def shift_image(image, bsize):
     rows, cols = image.shape[:2]
     shifted = np.zeros_like(image)
-    shifted[:rows-bsize, :cols-bsize] = image[bsize:, bsize:]
+    shifted[: rows - bsize, : cols - bsize] = image[bsize:, bsize:]
     return shifted
 
 
-def human_size(total, binary=False, suffix='B'):
-    units = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y']
+def human_size(total, binary=False, suffix="B"):
+    units = ["", "K", "M", "G", "T", "P", "E", "Z", "Y"]
     if binary:
-        units = [unit + 'i' for unit in units]
+        units = [unit + "i" for unit in units]
         factor = 1024.0
     else:
         factor = 1000.0
     for unit in units:
         if abs(total) < factor:
-            return '%3.1f %s%s' % (total, unit, suffix)
+            return f"{total:3.1f} {unit}{suffix}"
         total /= factor
-    return '%.1f %s%s' % (total, units[-1], suffix)
+    return f"{total:.1f} {units[-1]}{suffix}"
 
 
 def create_lut(low, high):
@@ -96,7 +88,7 @@ def create_lut(low, high):
         p2 = (255, 255 + high)
     if p1[0] == p2[0]:
         return np.full(256, 255, np.uint8)
-    lut = [(x*(p1[1] - p2[1]) + p1[0]*p2[1] - p1[1]*p2[0]) / (p1[0] - p2[0]) for x in range(256)]
+    lut = [(x * (p1[1] - p2[1]) + p1[0] * p2[1] - p1[1] * p2[0]) / (p1[0] - p2[0]) for x in range(256)]
     return np.clip(np.array(lut), 0, 255).astype(np.uint8)
 
 
@@ -131,12 +123,12 @@ def auto_lut(image, centile):
 def elapsed_time(start, ms=True):
     elapsed = time() - start
     if ms:
-        return '{} ms'.format(int(np.round(elapsed*1000)))
-    return '{:.2f} sec'.format(elapsed)
+        return f"{int(np.round(elapsed * 1000))} ms"
+    return f"{elapsed:.2f} sec"
 
 
 def signed_value(value):
-    return '{}{}'.format('+' if value > 0 else '', value)
+    return f"{'+' if value > 0 else ''}{value}"
 
 
 def equalize_img(image):
@@ -166,17 +158,35 @@ def gray_to_bgr(image):
 def load_image(parent, filename=None):
     nothing = [None] * 3
     settings = QSettings()
-    mime_filters = ['image/jpeg', 'image/png', 'image/tiff', 'image/gif', 'image/bmp', 'image/webp',
-                    'image/x-portable-pixmap', 'image/x-portable-graymap', 'image/x-portable-bitmap',
-                    'image/x-nikon-nef', 'image/x-fuji-raf', 'image/x-canon-cr2', 'image/x-adobe-dng',
-                    'image/x-sony-arw', 'image/x-kodak-dcr', 'image/x-minolta-mrw', 'image/x-pentax-pef',
-                    'image/x-canon-crw', 'image/x-sony-sr2', 'image/x-olympus-orf', 'image/x-panasonic-raw']
+    mime_filters = [
+        "image/jpeg",
+        "image/png",
+        "image/tiff",
+        "image/gif",
+        "image/bmp",
+        "image/webp",
+        "image/x-portable-pixmap",
+        "image/x-portable-graymap",
+        "image/x-portable-bitmap",
+        "image/x-nikon-nef",
+        "image/x-fuji-raf",
+        "image/x-canon-cr2",
+        "image/x-adobe-dng",
+        "image/x-sony-arw",
+        "image/x-kodak-dcr",
+        "image/x-minolta-mrw",
+        "image/x-pentax-pef",
+        "image/x-canon-crw",
+        "image/x-sony-sr2",
+        "image/x-olympus-orf",
+        "image/x-panasonic-raw",
+    ]
     mime_db = QMimeDatabase()
     mime_patterns = [mime_db.mimeTypeForName(mime).globPatterns() for mime in mime_filters]
-    all_formats = 'Supported formats ({})'.format(' '.join([item for sub in mime_patterns for item in sub]))
+    all_formats = f"Supported formats ({' '.join([item for sub in mime_patterns for item in sub])})"
     raw_exts = [p[0][-3:] for p in mime_patterns][-12:]
     if filename is None:
-        dialog = QFileDialog(parent, parent.tr('Load image'), settings.value('load_folder'))
+        dialog = QFileDialog(parent, parent.tr("Load image"), settings.value("load_folder"))
         dialog.setOption(QFileDialog.DontUseNativeDialog, True)
         dialog.setFileMode(QFileDialog.ExistingFile)
         dialog.setViewMode(QFileDialog.Detail)
@@ -192,26 +202,26 @@ def load_image(parent, filename=None):
     if ext in raw_exts:
         with rawpy.imread(filename) as raw:
             image = cv.cvtColor(raw.postprocess(use_auto_wb=True), cv.COLOR_RGB2BGR)
-    elif ext == 'gif':
+    elif ext == "gif":
         capture = cv.VideoCapture(filename)
         frames = int(capture.get(cv.CAP_PROP_FRAME_COUNT))
         if frames > 1:
-            QMessageBox.warning(parent, parent.tr('Warning'), parent.tr('Animated GIF: importing first frame'))
+            QMessageBox.warning(parent, parent.tr("Warning"), parent.tr("Animated GIF: importing first frame"))
         result, image = capture.read()
         if not result:
-            QMessageBox.critical(parent, parent.tr('Error'), parent.tr('Unable to decode GIF!'))
+            QMessageBox.critical(parent, parent.tr("Error"), parent.tr("Unable to decode GIF!"))
             return nothing
         if len(image.shape) == 2:
             image = cv.cvtColor(image, cv.COLOR_GRAY2BGR)
     else:
         image = cv.imread(filename, cv.IMREAD_COLOR)
     if image is None:
-        QMessageBox.critical(parent, parent.tr('Error'), parent.tr('Unable to load image!'))
+        QMessageBox.critical(parent, parent.tr("Error"), parent.tr("Unable to load image!"))
         return nothing
     if image.shape[2] > 3:
-        QMessageBox.warning(parent, parent.tr('Warning'), parent.tr('Alpha channel discarded'))
+        QMessageBox.warning(parent, parent.tr("Warning"), parent.tr("Alpha channel discarded"))
         image = cv.cvtColor(image, cv.COLOR_BGRA2BGR)
-    settings.setValue('load_folder', QFileInfo(filename).absolutePath())
+    settings.setValue("load_folder", QFileInfo(filename).absolutePath())
     return filename, os.path.basename(filename), image
 
 
@@ -227,31 +237,31 @@ def norm_mat(matrix, to_bgr=False):
 
 
 def exiftool_exe():
-    if sys.platform.startswith('linux'):
-        return 'pyexiftool/exiftool/linux/exiftool'
-    if sys.platform.startswith('win32'):
-        return 'pyexiftool/exiftool/win/exiftool(-k).exe'
-    if sys.platform.startswith('darwin'):
-        return 'exiftool'
+    if sys.platform.startswith("linux"):
+        return "pyexiftool/exiftool/linux/exiftool"
+    if sys.platform.startswith("win32"):
+        return "pyexiftool/exiftool/win/exiftool(-k).exe"
+    if sys.platform.startswith("darwin"):
+        return "exiftool"
     return None
 
 
 def butter_exe():
-    if sys.platform.startswith('linux'):
-        return 'butteraugli/linux/butteraugli'
-    if sys.platform.startswith('win32'):
+    if sys.platform.startswith("linux"):
+        return "butteraugli/linux/butteraugli"
+    if sys.platform.startswith("win32"):
         return None
-    if sys.platform.startswith('darwin'):
+    if sys.platform.startswith("darwin"):
         return None
     return None
 
 
 def ssimul_exe():
-    if sys.platform.startswith('linux'):
-        return 'ssimulacra/linux/ssimulacra'
-    if sys.platform.startswith('win32'):
+    if sys.platform.startswith("linux"):
+        return "ssimulacra/linux/ssimulacra"
+    if sys.platform.startswith("win32"):
         return None
-    if sys.platform.startswith('darwin'):
+    if sys.platform.startswith("darwin"):
         return None
     return None
 

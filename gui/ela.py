@@ -2,13 +2,7 @@ from time import time
 
 import cv2 as cv
 import numpy as np
-from PySide2.QtWidgets import (
-    QPushButton,
-    QVBoxLayout,
-    QHBoxLayout,
-    QCheckBox,
-    QSpinBox,
-    QLabel)
+from PySide2.QtWidgets import QPushButton, QVBoxLayout, QHBoxLayout, QCheckBox, QSpinBox, QLabel
 
 from jpeg import compress_jpg
 from tools import ToolWidget
@@ -22,29 +16,29 @@ class ElaWidget(ToolWidget):
 
         self.quality_spin = QSpinBox()
         self.quality_spin.setRange(1, 100)
-        self.quality_spin.setSuffix(self.tr(' %'))
-        self.quality_spin.setToolTip(self.tr('JPEG reference quality level'))
+        self.quality_spin.setSuffix(self.tr(" %"))
+        self.quality_spin.setToolTip(self.tr("JPEG reference quality level"))
         self.scale_spin = QSpinBox()
         self.scale_spin.setRange(1, 100)
-        self.scale_spin.setSuffix(' %')
-        self.scale_spin.setToolTip(self.tr('Output multiplicative gain'))
+        self.scale_spin.setSuffix(" %")
+        self.scale_spin.setToolTip(self.tr("Output multiplicative gain"))
         self.contrast_spin = QSpinBox()
         self.contrast_spin.setRange(0, 100)
-        self.contrast_spin.setSuffix(' %')
-        self.contrast_spin.setToolTip(self.tr('Output tonality compression'))
-        self.linear_check = QCheckBox(self.tr('Linear'))
-        self.linear_check.setToolTip(self.tr('Linearize absolute difference'))
-        self.gray_check = QCheckBox(self.tr('Grayscale'))
-        self.gray_check.setToolTip(self.tr('Desaturated output'))
-        default_button = QPushButton(self.tr('Default'))
-        default_button.setToolTip(self.tr('Revert to default parameters'))
+        self.contrast_spin.setSuffix(" %")
+        self.contrast_spin.setToolTip(self.tr("Output tonality compression"))
+        self.linear_check = QCheckBox(self.tr("Linear"))
+        self.linear_check.setToolTip(self.tr("Linearize absolute difference"))
+        self.gray_check = QCheckBox(self.tr("Grayscale"))
+        self.gray_check.setToolTip(self.tr("Desaturated output"))
+        default_button = QPushButton(self.tr("Default"))
+        default_button.setToolTip(self.tr("Revert to default parameters"))
 
         params_layout = QHBoxLayout()
-        params_layout.addWidget(QLabel(self.tr('Quality:')))
+        params_layout.addWidget(QLabel(self.tr("Quality:")))
         params_layout.addWidget(self.quality_spin)
-        params_layout.addWidget(QLabel(self.tr('Scale:')))
+        params_layout.addWidget(QLabel(self.tr("Scale:")))
         params_layout.addWidget(self.scale_spin)
-        params_layout.addWidget(QLabel(self.tr('Contrast:')))
+        params_layout.addWidget(QLabel(self.tr("Contrast:")))
         params_layout.addWidget(self.contrast_spin)
         params_layout.addWidget(self.linear_check)
         params_layout.addWidget(self.gray_check)
@@ -89,7 +83,7 @@ class ElaWidget(ToolWidget):
         if grayscale:
             ela = desaturate(ela)
         self.viewer.update_processed(ela)
-        self.info_message.emit(self.tr('Error Level Analysis = {}'.format(elapsed_time(start))))
+        self.info_message.emit(self.tr(f"Error Level Analysis = {elapsed_time(start)}"))
 
     def default(self):
         self.blockSignals(True)

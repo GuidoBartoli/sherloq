@@ -2,9 +2,7 @@ import cv2 as cv
 from PySide2.QtCharts import QtCharts
 from PySide2.QtCore import Qt
 from PySide2.QtGui import QPainter
-from PySide2.QtWidgets import (
-    QVBoxLayout,
-    QProgressDialog)
+from PySide2.QtWidgets import QVBoxLayout, QProgressDialog
 
 from jpeg import compress_jpg
 from tools import ToolWidget
@@ -15,7 +13,7 @@ class MultipleWidget(ToolWidget):
         super(ToolWidget, self).__init__(parent)
 
         max_q = 101
-        progress = QProgressDialog(self.tr('Computing residuals...'), None, 0, max_q, self)
+        progress = QProgressDialog(self.tr("Computing residuals..."), None, 0, max_q, self)
         progress.setWindowModality(Qt.WindowModal)
         loss_series = QtCharts.QLineSeries()
         gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
@@ -27,14 +25,14 @@ class MultipleWidget(ToolWidget):
 
         loss_chart = QtCharts.QChart()
         loss_chart.legend().hide()
-        loss_chart.setTitle(self.tr('Loss vs Compression'))
+        loss_chart.setTitle(self.tr("Loss vs Compression"))
         loss_chart.addSeries(loss_series)
         loss_chart.createDefaultAxes()
         loss_chart.axisX().setRange(0, 100)
-        loss_chart.axisX().setTitleText(self.tr('quality (%)'))
+        loss_chart.axisX().setTitleText(self.tr("quality (%)"))
         loss_chart.axisX().setTickCount(11)
-        loss_chart.axisX().setLabelFormat('%d')
-        loss_chart.axisY().setTitleText(self.tr('loss (%)'))
+        loss_chart.axisX().setLabelFormat("%d")
+        loss_chart.axisY().setTitleText(self.tr("loss (%)"))
         loss_chart.setMinimumSize(600, 400)
         font = loss_chart.titleFont()
         font.setBold(True)

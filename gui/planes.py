@@ -1,11 +1,6 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtWidgets import (
-    QHBoxLayout,
-    QComboBox,
-    QLabel,
-    QVBoxLayout,
-    QSpinBox)
+from PySide2.QtWidgets import QHBoxLayout, QComboBox, QLabel, QVBoxLayout, QSpinBox
 
 from tools import ToolWidget
 from utility import norm_mat
@@ -18,12 +13,13 @@ class PlanesWidget(ToolWidget):
 
         self.chan_combo = QComboBox()
         self.chan_combo.addItems(
-            [self.tr('Luminance'), self.tr('Red'), self.tr('Green'), self.tr('Blue'), self.tr('RGB Norm')])
+            [self.tr("Luminance"), self.tr("Red"), self.tr("Green"), self.tr("Blue"), self.tr("RGB Norm")]
+        )
         self.plane_spin = QSpinBox()
-        self.plane_spin.setPrefix(self.tr('Bit '))
+        self.plane_spin.setPrefix(self.tr("Bit "))
         self.plane_spin.setRange(0, 7)
         self.filter_combo = QComboBox()
-        self.filter_combo.addItems([self.tr('Disabled'), self.tr('Median'), self.tr('Gaussian')])
+        self.filter_combo.addItems([self.tr("Disabled"), self.tr("Median"), self.tr("Gaussian")])
 
         self.image = image
         self.viewer = ImageViewer(self.image, self.image)
@@ -35,11 +31,11 @@ class PlanesWidget(ToolWidget):
         self.filter_combo.currentIndexChanged.connect(self.process)
 
         top_layout = QHBoxLayout()
-        top_layout.addWidget(QLabel(self.tr('Channel:')))
+        top_layout.addWidget(QLabel(self.tr("Channel:")))
         top_layout.addWidget(self.chan_combo)
-        top_layout.addWidget(QLabel(self.tr('Plane:')))
+        top_layout.addWidget(QLabel(self.tr("Plane:")))
         top_layout.addWidget(self.plane_spin)
-        top_layout.addWidget(QLabel(self.tr('Filter:')))
+        top_layout.addWidget(QLabel(self.tr("Filter:")))
         top_layout.addWidget(self.filter_combo)
         top_layout.addStretch()
 

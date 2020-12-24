@@ -1,11 +1,6 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtWidgets import (
-    QVBoxLayout,
-    QGridLayout,
-    QRadioButton,
-    QComboBox,
-    QHBoxLayout)
+from PySide2.QtWidgets import QVBoxLayout, QGridLayout, QRadioButton, QComboBox, QHBoxLayout
 
 from tools import ToolWidget
 from utility import modify_font
@@ -26,7 +21,7 @@ class SpaceWidget(ToolWidget):
 
         self.gray = np.zeros((rows, cols, 4))
         self.gray[:, :, 0] = (np.amax(scaled, axis=2) + np.amin(scaled, axis=2)) / 2
-        self.gray[:, :, 1] = 0.21*scaled[:, :, 2] + 0.72*scaled[:, :, 1] + 0.07*scaled[:, :, 0]
+        self.gray[:, :, 1] = 0.21 * scaled[:, :, 2] + 0.72 * scaled[:, :, 1] + 0.07 * scaled[:, :, 0]
         self.gray[:, :, 2] = np.mean(scaled, axis=2)
         self.gray[:, :, 3] = cv.cvtColor(scaled, cv.COLOR_BGR2GRAY)
         self.gray = (self.gray * 255).astype(np.uint8)
@@ -46,63 +41,63 @@ class SpaceWidget(ToolWidget):
         self.cmyk[:, :, [0, 1, 2, 3]] = self.cmyk[:, :, [2, 1, 0, 3]]
         self.cmyk = self.cmyk.astype(np.uint8)
 
-        self.rgb_radio = QRadioButton(self.tr('RGB'))
+        self.rgb_radio = QRadioButton(self.tr("RGB"))
         self.rgb_radio.setChecked(True)
         self.rgb_combo = QComboBox()
-        self.rgb_combo.addItem(self.tr('Red'))
-        self.rgb_combo.addItem(self.tr('Green'))
-        self.rgb_combo.addItem(self.tr('Blue'))
+        self.rgb_combo.addItem(self.tr("Red"))
+        self.rgb_combo.addItem(self.tr("Green"))
+        self.rgb_combo.addItem(self.tr("Blue"))
         self.last_radio = self.rgb_radio
 
-        self.cmyk_radio = QRadioButton(self.tr('CMYK'))
+        self.cmyk_radio = QRadioButton(self.tr("CMYK"))
         self.cmyk_combo = QComboBox()
-        self.cmyk_combo.addItem(self.tr('Cyan'))
-        self.cmyk_combo.addItem(self.tr('Magenta'))
-        self.cmyk_combo.addItem(self.tr('Yellow'))
-        self.cmyk_combo.addItem(self.tr('Black'))
+        self.cmyk_combo.addItem(self.tr("Cyan"))
+        self.cmyk_combo.addItem(self.tr("Magenta"))
+        self.cmyk_combo.addItem(self.tr("Yellow"))
+        self.cmyk_combo.addItem(self.tr("Black"))
 
-        self.gray_radio = QRadioButton(self.tr('Grayscale'))
+        self.gray_radio = QRadioButton(self.tr("Grayscale"))
         self.gray_combo = QComboBox()
-        self.gray_combo.addItem(self.tr('Lightness'))
-        self.gray_combo.addItem(self.tr('Luminance'))
-        self.gray_combo.addItem(self.tr('Average'))
-        self.gray_combo.addItem(self.tr('Perceptual'))
+        self.gray_combo.addItem(self.tr("Lightness"))
+        self.gray_combo.addItem(self.tr("Luminance"))
+        self.gray_combo.addItem(self.tr("Average"))
+        self.gray_combo.addItem(self.tr("Perceptual"))
 
-        self.hsv_radio = QRadioButton(self.tr('HSV'))
+        self.hsv_radio = QRadioButton(self.tr("HSV"))
         self.hsv_combo = QComboBox()
-        self.hsv_combo.addItem(self.tr('Hue'))
-        self.hsv_combo.addItem(self.tr('Saturation'))
-        self.hsv_combo.addItem(self.tr('Value'))
+        self.hsv_combo.addItem(self.tr("Hue"))
+        self.hsv_combo.addItem(self.tr("Saturation"))
+        self.hsv_combo.addItem(self.tr("Value"))
 
-        self.hls_radio = QRadioButton(self.tr('HLS'))
+        self.hls_radio = QRadioButton(self.tr("HLS"))
         self.hls_combo = QComboBox()
-        self.hls_combo.addItem(self.tr('Hue'))
-        self.hls_combo.addItem(self.tr('Luminance'))
-        self.hls_combo.addItem(self.tr('Saturation'))
+        self.hls_combo.addItem(self.tr("Hue"))
+        self.hls_combo.addItem(self.tr("Luminance"))
+        self.hls_combo.addItem(self.tr("Saturation"))
 
-        self.ycrcb_radio = QRadioButton(self.tr('YCrCb'))
+        self.ycrcb_radio = QRadioButton(self.tr("YCrCb"))
         self.ycrcb_combo = QComboBox()
-        self.ycrcb_combo.addItem(self.tr('Luminance'))
-        self.ycrcb_combo.addItem(self.tr('Chroma Red'))
-        self.ycrcb_combo.addItem(self.tr('Chroma Blue'))
+        self.ycrcb_combo.addItem(self.tr("Luminance"))
+        self.ycrcb_combo.addItem(self.tr("Chroma Red"))
+        self.ycrcb_combo.addItem(self.tr("Chroma Blue"))
 
-        self.xyz_radio = QRadioButton(self.tr('CIE XYZ'))
+        self.xyz_radio = QRadioButton(self.tr("CIE XYZ"))
         self.xyz_combo = QComboBox()
-        self.xyz_combo.addItem(self.tr('X'))
-        self.xyz_combo.addItem(self.tr('Y'))
-        self.xyz_combo.addItem(self.tr('Z'))
+        self.xyz_combo.addItem(self.tr("X"))
+        self.xyz_combo.addItem(self.tr("Y"))
+        self.xyz_combo.addItem(self.tr("Z"))
 
-        self.lab_radio = QRadioButton(self.tr('CIE Lab'))
+        self.lab_radio = QRadioButton(self.tr("CIE Lab"))
         self.lab_combo = QComboBox()
-        self.lab_combo.addItem(self.tr('Luminosity'))
-        self.lab_combo.addItem(self.tr('Green-Red'))
-        self.lab_combo.addItem(self.tr('Blue-Yellow'))
+        self.lab_combo.addItem(self.tr("Luminosity"))
+        self.lab_combo.addItem(self.tr("Green-Red"))
+        self.lab_combo.addItem(self.tr("Blue-Yellow"))
 
-        self.luv_radio = QRadioButton(self.tr('CIE Luv'))
+        self.luv_radio = QRadioButton(self.tr("CIE Luv"))
         self.luv_combo = QComboBox()
-        self.luv_combo.addItem(self.tr('Luminosity'))
-        self.luv_combo.addItem(self.tr('Chroma U'))
-        self.luv_combo.addItem(self.tr('Chroma V'))
+        self.luv_combo.addItem(self.tr("Luminosity"))
+        self.luv_combo.addItem(self.tr("Chroma U"))
+        self.luv_combo.addItem(self.tr("Chroma V"))
 
         self.rgb_radio.clicked.connect(self.process)
         self.rgb_combo.currentIndexChanged.connect(self.process)

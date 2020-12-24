@@ -62,7 +62,7 @@ import json
 import warnings
 import codecs
 
-try:        # Py3k compatibility
+try:  # Py3k compatibility
     basestring
 except NameError:
     basestring = (bytes, str)
@@ -109,8 +109,10 @@ def _fscodec():
 
     return fsencode
 
+
 fsencode = _fscodec()
 del _fscodec
+
 
 class ExifTool(object):
     """Run the `exiftool` command-line tool and communicate to it.
@@ -168,10 +170,11 @@ class ExifTool(object):
             return
         with open(os.devnull, "w") as devnull:
             self._process = subprocess.Popen(
-                [self.executable, "-stay_open", "True",  "-@", "-",
-                 "-common_args", "-G", "-n"],
-                stdin=subprocess.PIPE, stdout=subprocess.PIPE,
-                stderr=devnull)
+                [self.executable, "-stay_open", "True", "-@", "-", "-common_args", "-G", "-n"],
+                stdin=subprocess.PIPE,
+                stdout=subprocess.PIPE,
+                stderr=devnull,
+            )
         self.running = True
 
     def terminate(self):
@@ -224,7 +227,7 @@ class ExifTool(object):
         fd = self._process.stdout.fileno()
         while not output[-32:].strip().endswith(sentinel):
             output += os.read(fd, block_size)
-        return output.strip()[:-len(sentinel)]
+        return output.strip()[: -len(sentinel)]
 
     def execute_json(self, *params):
         """Execute the given batch of parameters and parse the JSON output.
@@ -281,11 +284,9 @@ class ExifTool(object):
         # Explicitly ruling out strings here because passing in a
         # string would lead to strange and hard-to-find errors
         if isinstance(tags, basestring):
-            raise TypeError("The argument 'tags' must be "
-                            "an iterable of strings")
+            raise TypeError("The argument 'tags' must be " "an iterable of strings")
         if isinstance(filenames, basestring):
-            raise TypeError("The argument 'filenames' must be "
-                            "an iterable of strings")
+            raise TypeError("The argument 'filenames' must be " "an iterable of strings")
         params = ["-" + t for t in tags]
         params.extend(filenames)
         return self.execute_json(*params)

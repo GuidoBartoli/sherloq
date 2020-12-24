@@ -2,18 +2,8 @@ import math
 
 import cv2 as cv
 import numpy as np
-from PySide2.QtCore import (
-    QSettings,
-    Qt,
-    Signal,
-    QRect,
-    QRectF)
-from PySide2.QtGui import (
-    QIcon,
-    QPainter,
-    QMatrix,
-    QPixmap,
-    QImage)
+from PySide2.QtCore import QSettings, Qt, Signal, QRect, QRectF
+from PySide2.QtGui import QIcon, QPainter, QMatrix, QPixmap, QImage
 from PySide2.QtWidgets import (
     QLabel,
     QRadioButton,
@@ -23,7 +13,8 @@ from PySide2.QtWidgets import (
     QGraphicsScene,
     QGraphicsView,
     QVBoxLayout,
-    QHBoxLayout)
+    QHBoxLayout,
+)
 
 from utility import mat2img, modify_font
 
@@ -55,7 +46,7 @@ class DynamicView(QGraphicsView):
         elif type(image) is np.ndarray:
             pixmap = QPixmap.fromImage(mat2img(image))
         else:
-            raise TypeError(self.tr('DynamicView.set_image: Unsupported type: {}'.format(type(image))))
+            raise TypeError(self.tr(f"DynamicView.set_image: Unsupported type: {type(image)}"))
         if not self.scene.items():
             self.scene.addPixmap(pixmap)
         else:
@@ -176,7 +167,7 @@ class ImageViewer(QWidget):
     def __init__(self, original, processed, title=None, parent=None, export=False):
         super(ImageViewer, self).__init__(parent)
         if original is None and processed is None:
-            raise ValueError(self.tr('ImageViewer.__init__: Empty image received'))
+            raise ValueError(self.tr("ImageViewer.__init__: Empty image received"))
         if original is None and processed is not None:
             original = processed
         self.original = original
@@ -187,24 +178,24 @@ class ImageViewer(QWidget):
             self.view = DynamicView(self.processed)
 
         # view_label = QLabel(self.tr('View:'))
-        self.original_radio = QRadioButton(self.tr('Original'))
-        self.original_radio.setToolTip(self.tr('Show the original image for comparison'))
-        self.process_radio = QRadioButton(self.tr('Processed'))
-        self.process_radio.setToolTip(self.tr('Show result of the current processing'))
+        self.original_radio = QRadioButton(self.tr("Original"))
+        self.original_radio.setToolTip(self.tr("Show the original image for comparison"))
+        self.process_radio = QRadioButton(self.tr("Processed"))
+        self.process_radio.setToolTip(self.tr("Show result of the current processing"))
         self.zoom_label = QLabel()
         full_button = QToolButton()
-        full_button.setText(self.tr('100%'))
+        full_button.setText(self.tr("100%"))
         fit_button = QToolButton()
-        fit_button.setText(self.tr('Fit'))
+        fit_button.setText(self.tr("Fit"))
         height, width, _ = self.original.shape
-        size_label = QLabel(self.tr('[{}x{} px]'.format(height, width)))
+        size_label = QLabel(self.tr(f"[{height}x{width} px]"))
         export_button = QToolButton()
-        export_button.setToolTip(self.tr('Export processed image'))
+        export_button.setToolTip(self.tr("Export processed image"))
         # export_button.setText(self.tr('Export...'))
-        export_button.setIcon(QIcon('icons/export.svg'))
+        export_button.setIcon(QIcon("icons/export.svg"))
 
         tool_layout = QHBoxLayout()
-        tool_layout.addWidget(QLabel(self.tr('Zoom:')))
+        tool_layout.addWidget(QLabel(self.tr("Zoom:")))
         tool_layout.addWidget(self.zoom_label)
         # tool_layout.addWidget(full_button)
         # tool_layout.addWidget(fit_button)
@@ -262,7 +253,7 @@ class ImageViewer(QWidget):
         self.view.change_view(rect, scaling, horizontal, vertical)
 
     def forward_changed(self, rect, scaling, horizontal, vertical):
-        self.zoom_label.setText('{:.2f}%'.format(scaling*100))
+        self.zoom_label.setText(f"{scaling * 100:.2f}%")
         modify_font(self.zoom_label, scaling == 1)
         self.viewChanged.emit(rect, scaling, horizontal, vertical)
 
@@ -285,12 +276,13 @@ class ImageViewer(QWidget):
 
     def export_image(self):
         settings = QSettings()
-        filename = QFileDialog.getSaveFileName(self, self.tr('Export image...'), settings.value('save_folder'),
-                                               self.tr('PNG images (*.png)'))[0]
+        filename = QFileDialog.getSaveFileName(
+            self, self.tr("Export image..."), settings.value("save_folder"), self.tr("PNG images (*.png)")
+        )[0]
         if not filename:
             return
-        if not filename.endswith('.png'):
-            filename += '.png'
+        if not filename.endswith(".png"):
+            filename += ".png"
         cv.imwrite(filename, self.processed if self.processed is not None else self.original)
 
     def set_title(self, title):

@@ -29,7 +29,7 @@ Fast forward to 2020 when I decided to port everything in Python (PySide2 + Matp
 I'm happy to share my code and get in contact with anyone interested to improve or test it, but please keep in mind that this repository is *not* intended for distributing a final product, my aim is just to publicly track development of an *unpretentious educational tool*, so expect bugs, unpolished code and missing features! ;)
 
 # Features
-This list contains the functions that the toolkit will (hopefully) provide once the beta stage is reached.
+This list contains the functions that the toolkit will (hopefully) provide once beta stage is reached.
 
 ## Interface
 - Modern Qt-based GUI with multiple tool window management
@@ -93,7 +93,7 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 - __Median Filtering__: detect processing traces left by nonlinear median filtering
 - __Illuminant Map__: estimate scene local light direction on estimated 3D surfaces
 - __Dead/Hot Pixels__: detect and fix dead/hot pixels caused by sensor imperfections
-- __Stereogram Decoder__: decode 3D images concealed inside crossed-eye autostereograms
+- __Stereogram Decoder__: decode 3D images concealed in crossed-eye autostereograms
 
 
 # Screenshots
@@ -134,9 +134,6 @@ For more information about Python Virtual Environments, you can read [here](http
 $ sudo apt install python3-distutils python3-dev python3-testresources subversion
 $ wget https://bootstrap.pypa.io/get-pip.py
 $ sudo python3 get-pip.py
-```
-
-```
 $ sudo pip install virtualenv virtualenvwrapper
 $ echo -e "\n# Python Virtual Environments" >> ~/.bashrc
 $ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc

@@ -12,4 +12,4 @@ rawpy
 scikit-image
 scikit-learn
 sewar
-xgboost
+xgboost==1.1.1

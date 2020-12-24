@@ -9,7 +9,8 @@ from PySide2.QtWidgets import (
     QHBoxLayout,
     QLabel,
     QRadioButton,
-    QCheckBox)
+    QCheckBox,
+)
 
 from tools import ToolWidget
 from utility import norm_mat, modify_font, norm_img, equalize_img
@@ -21,19 +22,19 @@ class PcaWidget(ToolWidget):
         super(PcaWidget, self).__init__(parent)
 
         self.component_combo = QComboBox()
-        self.component_combo.addItems([self.tr('#{}'.format(i + 1)) for i in range(3)])
-        self.distance_radio = QRadioButton(self.tr('Distance'))
-        self.distance_radio.setToolTip(self.tr('Distance from the closest point on selected component'))
-        self.project_radio = QRadioButton(self.tr('Projection'))
-        self.project_radio.setToolTip(self.tr('Projection onto the selected principal component'))
-        self.crossprod_radio = QRadioButton(self.tr('Cross product'))
-        self.crossprod_radio.setToolTip(self.tr('Cross product between input and selected component'))
+        self.component_combo.addItems([self.tr(f"#{i + 1}") for i in range(3)])
+        self.distance_radio = QRadioButton(self.tr("Distance"))
+        self.distance_radio.setToolTip(self.tr("Distance from the closest point on selected component"))
+        self.project_radio = QRadioButton(self.tr("Projection"))
+        self.project_radio.setToolTip(self.tr("Projection onto the selected principal component"))
+        self.crossprod_radio = QRadioButton(self.tr("Cross product"))
+        self.crossprod_radio.setToolTip(self.tr("Cross product between input and selected component"))
         self.distance_radio.setChecked(True)
         self.last_radio = self.distance_radio
-        self.invert_check = QCheckBox(self.tr('Invert'))
-        self.invert_check.setToolTip(self.tr('Output bitwise complement'))
-        self.equalize_check = QCheckBox(self.tr('Equalize'))
-        self.equalize_check.setToolTip(self.tr('Apply histogram equalization'))
+        self.invert_check = QCheckBox(self.tr("Invert"))
+        self.invert_check.setToolTip(self.tr("Output bitwise complement"))
+        self.equalize_check = QCheckBox(self.tr("Equalize"))
+        self.equalize_check.setToolTip(self.tr("Apply histogram equalization"))
 
         rows, cols, chans = image.shape
         x = np.reshape(image, (rows * cols, chans)).astype(np.float32)
@@ -47,19 +48,20 @@ class PcaWidget(ToolWidget):
             project = p[:, :, i]
             self.output.extend([norm_mat(distance, to_bgr=True), norm_mat(project, to_bgr=True), norm_img(cross)])
 
-        table_data = [[mu[0, 2], mu[0, 1], mu[0, 0]],
-                      [ev[0, 2], ev[0, 1], ev[0, 0]],
-                      [ev[1, 2], ev[1, 1], ev[1, 0]],
-                      [ev[2, 2], ev[2, 1], ev[2, 0]],
-                      [ew[2, 0], ew[1, 0], ew[0, 0]]]
+        table_data = [
+            [mu[0, 2], mu[0, 1], mu[0, 0]],
+            [ev[0, 2], ev[0, 1], ev[0, 0]],
+            [ev[1, 2], ev[1, 1], ev[1, 0]],
+            [ev[2, 2], ev[2, 1], ev[2, 0]],
+            [ew[2, 0], ew[1, 0], ew[0, 0]],
+        ]
         table_widget = QTableWidget(5, 4)
-        table_widget.setHorizontalHeaderLabels([
-            self.tr('Element'), self.tr('Red'), self.tr('Green'), self.tr('Blue')])
-        table_widget.setItem(0, 0, QTableWidgetItem(self.tr('Mean vector')))
-        table_widget.setItem(1, 0, QTableWidgetItem(self.tr('Eigenvector 1')))
-        table_widget.setItem(2, 0, QTableWidgetItem(self.tr('Eigenvector 2')))
-        table_widget.setItem(3, 0, QTableWidgetItem(self.tr('Eigenvector 3')))
-        table_widget.setItem(4, 0, QTableWidgetItem(self.tr('Eigenvalues')))
+        table_widget.setHorizontalHeaderLabels([self.tr("Element"), self.tr("Red"), self.tr("Green"), self.tr("Blue")])
+        table_widget.setItem(0, 0, QTableWidgetItem(self.tr("Mean vector")))
+        table_widget.setItem(1, 0, QTableWidgetItem(self.tr("Eigenvector 1")))
+        table_widget.setItem(2, 0, QTableWidgetItem(self.tr("Eigenvector 2")))
+        table_widget.setItem(3, 0, QTableWidgetItem(self.tr("Eigenvector 3")))
+        table_widget.setItem(4, 0, QTableWidgetItem(self.tr("Eigenvalues")))
         for i in range(len(table_data)):
             modify_font(table_widget.item(i, 0), bold=True)
             for j in range(len(table_data[i])):
@@ -84,9 +86,9 @@ class PcaWidget(ToolWidget):
         self.equalize_check.stateChanged.connect(self.process)
 
         top_layout = QHBoxLayout()
-        top_layout.addWidget(QLabel(self.tr('Component:')))
+        top_layout.addWidget(QLabel(self.tr("Component:")))
         top_layout.addWidget(self.component_combo)
-        top_layout.addWidget(QLabel(self.tr('Mode:')))
+        top_layout.addWidget(QLabel(self.tr("Mode:")))
         top_layout.addWidget(self.distance_radio)
         top_layout.addWidget(self.project_radio)
         top_layout.addWidget(self.crossprod_radio)
@@ -103,7 +105,7 @@ class PcaWidget(ToolWidget):
         self.setLayout(main_layout)
 
     def process(self):
-        index = 3*self.component_combo.currentIndex()
+        index = 3 * self.component_combo.currentIndex()
         if self.distance_radio.isChecked():
             output = self.output[index]
             self.last_radio = self.distance_radio

@@ -13,7 +13,8 @@ from PySide2.QtWidgets import (
     QTableWidget,
     QMessageBox,
     QTableWidgetItem,
-    QAbstractItemView)
+    QAbstractItemView,
+)
 from matplotlib.backends.backend_qt5agg import FigureCanvas
 from matplotlib.figure import Figure
 
@@ -36,30 +37,30 @@ class QualityWidget(ToolWidget):
         figure = Figure()
         canvas = FigureCanvas(figure)
         axes = canvas.figure.subplots()
-        axes.plot(x, y * 100, label='compression loss')
+        axes.plot(x, y * 100, label="compression loss")
         axes.fill_between(x, y * 100, alpha=0.2)
-        axes.axvline(qm, linestyle=':', color='k', label='min error (q = {})'.format(qm))
+        axes.axvline(qm, linestyle=":", color="k", label=f"min error (q = {qm})")
         xt = axes.get_xticks()
         xt = np.append(xt, 1)
         axes.set_xticks(xt)
         axes.set_xlim([1, 100])
         axes.set_ylim([0, 100])
-        axes.set_xlabel(self.tr('JPEG quality (%)'))
-        axes.set_ylabel(self.tr('average error (%)'))
-        axes.grid(True, which='both')
-        axes.legend(loc='upper center')
+        axes.set_xlabel(self.tr("JPEG quality (%)"))
+        axes.set_ylabel(self.tr("average error (%)"))
+        axes.grid(True, which="both")
+        axes.legend(loc="upper center")
         axes.figure.canvas.draw()
         figure.set_tight_layout(True)
 
         main_layout = QVBoxLayout()
         main_layout.addWidget(canvas)
 
-        MRK = b'\xFF'
-        SOI = b'\xD8'
-        DQT = b'\xDB'
+        MRK = b"\xFF"
+        SOI = b"\xD8"
+        DQT = b"\xDB"
         # DHT = b'\xC4'
-        MSK = b'\x0F'
-        PAD = b'\x00'
+        MSK = b"\x0F"
+        PAD = b"\x00"
 
         MAX_TABLES = 2
         LEN_OFFSET = 2
@@ -72,13 +73,16 @@ class QualityWidget(ToolWidget):
         try:
             if temp_file.open():
                 copyfile(filename, temp_file.fileName())
-                subprocess.run([exiftool_exe(), '-all=', '-overwrite_original', temp_file.fileName()],
-                               stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+                subprocess.run(
+                    [exiftool_exe(), "-all=", "-overwrite_original", temp_file.fileName()],
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
+                )
                 found = False
-                with open(temp_file.fileName(), 'rb') as file:
+                with open(temp_file.fileName(), "rb") as file:
                     first = file.read(1)
                     if first not in [MRK, SOI]:
-                        raise ValueError(self.tr('File is not a JPEG image!'))
+                        raise ValueError(self.tr("File is not a JPEG image!"))
                     while True:
                         if not self.find_next(file, [MRK, DQT, PAD]):
                             break
@@ -106,7 +110,7 @@ class QualityWidget(ToolWidget):
                             else:
                                 found = True
             if not found:
-                raise ValueError(self.tr('Unable to find JPEG tables!'))
+                raise ValueError(self.tr("Unable to find JPEG tables!"))
 
             levels = [(1 - (np.mean(t.ravel()[1:]) - 1) / 254) * 100 for t in [luma, chroma]]
             distance = np.zeros(101)
@@ -119,22 +123,22 @@ class QualityWidget(ToolWidget):
             deviation = distance[closest]
             if deviation == 0:
                 quality = closest
-                message = '(standard tables)'
+                message = "(standard tables)"
             else:
                 quality = int(np.round(closest - deviation))
-                message = '(deviation from standard tables = {:.4f})'.format(deviation)
+                message = f"(deviation from standard tables = {deviation:.4f})"
             if quality == 0:
                 quality = 1
-            quality_label = QLabel(self.tr('[JPEG FORMAT] Last saved quality: {}% {}'.format(quality, message)))
+            quality_label = QLabel(self.tr(f"[JPEG FORMAT] Last saved quality: {quality}% {message}"))
             modify_font(quality_label, bold=True)
 
-            luma_label = QLabel(self.tr('Luminance Quantization Table (level = {:.2f}%)\n'.format(levels[0])))
+            luma_label = QLabel(self.tr(f"Luminance Quantization Table (level = {levels[0]:.2f}%)\n"))
             luma_label.setAlignment(Qt.AlignCenter)
             modify_font(luma_label, underline=True)
             luma_table = self.create_table(luma)
             luma_table.setFixedSize(420, 190)
 
-            chroma_label = QLabel(self.tr('Chrominance Quantization Table (level = {:.2f}%)\n'.format(levels[1])))
+            chroma_label = QLabel(self.tr(f"Chrominance Quantization Table (level = {levels[1]:.2f}%)\n"))
             chroma_label.setAlignment(Qt.AlignCenter)
             modify_font(chroma_label, underline=True)
             chroma_table = self.create_table(chroma)
@@ -149,10 +153,10 @@ class QualityWidget(ToolWidget):
             main_layout.addLayout(table_layout)
 
         except ValueError:
-            modelfile = 'models/jpeg_qf.mdl'
+            modelfile = "models/jpeg_qf.mdl"
             try:
                 model = load(modelfile)
-                limit = model.best_ntree_limit if hasattr(model, 'best_ntree_limit') else None
+                limit = model.best_ntree_limit if hasattr(model, "best_ntree_limit") else None
                 # f = self.get_features(image)
                 # p = model.predict_proba(f, ntree_limit=limit)[0, 0]
                 qp = model.predict(np.reshape(y, (1, len(y))), ntree_limit=limit)[0]
@@ -162,15 +166,16 @@ class QualityWidget(ToolWidget):
                 # else:
                 #     p = (1 - 2 * p) * 100
                 #     output = self.tr('Compressed image (p = {:.2f}%) ---> Estimated JPEG quality = {}%'.format(p, qm))
-                message = self.tr('[LOSSLESS FORMAT] Estimated last saved quality = {:.1f}%{}'.format(
-                    qp, '' if qp <= 99 else ' (uncompressed)'))
+                message = self.tr(
+                    f"[LOSSLESS FORMAT] Estimated last saved quality = {qp:.1f}%{'' if qp <= 99 else ' (uncompressed)'}"
+                )
                 if qp == 100:
-                    message += ' (uncompressed)'
+                    message += " (uncompressed)"
                 prob_label = QLabel(message)
                 modify_font(prob_label, bold=True)
                 main_layout.addWidget(prob_label)
             except FileNotFoundError:
-                QMessageBox.critical(self, self.tr('Error'), self.tr('Model not found ("{}")!'.format(modelfile)))
+                QMessageBox.critical(self, self.tr("Error"), self.tr(f'Model not found ("{modelfile}")!'))
 
         main_layout.addStretch()
         self.setLayout(main_layout)
@@ -178,7 +183,7 @@ class QualityWidget(ToolWidget):
     def show_error(self, message):
         error_label = QLabel(message)
         modify_font(error_label, bold=True)
-        error_label.setStyleSheet('color: #FF0000')
+        error_label.setStyleSheet("color: #FF0000")
         error_label.setAlignment(Qt.AlignCenter)
         main_layout = QVBoxLayout()
         main_layout.addWidget(error_label)

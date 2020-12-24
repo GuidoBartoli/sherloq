@@ -5,13 +5,14 @@
 #
 # By downloading and/or using any of these files, you implicitly agree to all the
 # terms of the license, as specified in the document LICENSE.txt
-# (included in this package) 
+# (included in this package)
 #
 
 import numpy as np
 from scipy.linalg import eigvalsh
 from numpy.linalg import cholesky
 from numpy.linalg import eigh
+
 
 class gm:
     prioriProb = 0
@@ -30,45 +31,47 @@ class gm:
     # outliersProb >= 0 # outliers are managed throught fixed nlogl (negative log likelihood)
     # TODO: outliers managed throught fixed probability
 
-    def __init__(self, dim, listSigmaInds, listSigmaType, outliersProb = -1, outliersNlogl = 0, dtype = np.float32):
+    def __init__(self, dim, listSigmaInds, listSigmaType, outliersProb=-1, outliersNlogl=0, dtype=np.float32):
         K = len(listSigmaInds)
         S = len(listSigmaType)
 
         self.listSigmaInds = listSigmaInds
         self.listSigmaType = listSigmaType
-        self.outliersProb  = outliersProb
+        self.outliersProb = outliersProb
         self.outliersNlogl = outliersNlogl
-        self.prioriProb = (1.0-self.outliersProb) * np.ones((K, 1), dtype=dtype) / K
+        self.prioriProb = (1.0 - self.outliersProb) * np.ones((K, 1), dtype=dtype) / K
         self.mu = np.zeros((K, dim), dtype=dtype)
-        self.listSigma = [None, ] * S
+        self.listSigma = [
+            None,
+        ] * S
 
         for s in range(S):
             sigmaType = self.listSigmaType[s]
             if sigmaType == 2:  # full covariance
-                self.listSigma[s] = np.ones([dim, dim], dtype = dtype)
+                self.listSigma[s] = np.ones([dim, dim], dtype=dtype)
             elif sigmaType == 1:  # diagonal covariance
-                self.listSigma[s] = np.ones([1, dim], dtype = dtype)
+                self.listSigma[s] = np.ones([1, dim], dtype=dtype)
             else:
-                self.listSigma[s] = np.ones([], dtype = dtype)
+                self.listSigma[s] = np.ones([], dtype=dtype)
 
-    def setRandomParams(self, X, regularizer = 0, randomState = np.random.get_state()):
+    def setRandomParams(self, X, regularizer=0, randomState=np.random.get_state()):
         [N, dim] = X.shape
         K = len(self.listSigmaInds)
         S = len(self.listSigmaType)
         dtype = X.dtype
 
         if self.outliersProb > 0:
-            self.prioriProb = (1.0-self.outliersProb) * np.ones((K, 1), dtype=dtype) / K
+            self.prioriProb = (1.0 - self.outliersProb) * np.ones((K, 1), dtype=dtype) / K
         else:
             self.prioriProb = np.ones((K, 1), dtype=dtype) / K
 
-        inds = randomState.random_integers(low=0,high=(N-1),size=(K,))
+        inds = randomState.random_integers(low=0, high=(N - 1), size=(K,))
         self.mu = X[inds, :]
         varX = np.var(X, axis=0, keepdims=True)
-        if regularizer>0:
+        if regularizer > 0:
             varX = varX + regularizer
-        elif regularizer<0:
-            varX = varX  + np.abs(regularizer*np.spacing(np.max(varX)))
+        elif regularizer < 0:
+            varX = varX + np.abs(regularizer * np.spacing(np.max(varX)))
 
         for s in range(S):
             sigmaType = self.listSigmaType[s]
@@ -80,33 +83,36 @@ class gm:
                 self.listSigma[s] = np.mean(varX)
         return inds
 
-    def setRandomParamsW(self, X, weights, regularizer = 0, randomState = np.random.get_state(), meanFlag = False):
+    def setRandomParamsW(self, X, weights, regularizer=0, randomState=np.random.get_state(), meanFlag=False):
         [N, dim] = X.shape
         K = len(self.listSigmaInds)
         S = len(self.listSigmaType)
         dtype = X.dtype
 
         if self.outliersProb > 0:
-            self.prioriProb = (1.0-self.outliersProb) * np.ones((K, 1), dtype=dtype) / K
+            self.prioriProb = (1.0 - self.outliersProb) * np.ones((K, 1), dtype=dtype) / K
         else:
             self.prioriProb = np.ones((K, 1), dtype=dtype) / K
 
-        avrX = np.mean(X*weights, axis=0, keepdims=True)/np.mean(weights)
-        varX = np.mean(weights *((X - avrX) ** 2), axis=0, keepdims=True)/np.mean(weights)
+        avrX = np.mean(X * weights, axis=0, keepdims=True) / np.mean(weights)
+        varX = np.mean(weights * ((X - avrX) ** 2), axis=0, keepdims=True) / np.mean(weights)
 
-        indsW = np.sum(weights)*randomState.random_sample(size=(K,))
-        inds = [None, ] * K
+        indsW = np.sum(weights) * randomState.random_sample(size=(K,))
+        inds = [
+            None,
+        ] * K
         weights = np.cumsum(weights.flatten())
         for index in range(K):
-            inds[index] = np.count_nonzero(weights<=indsW[index])
+            inds[index] = np.count_nonzero(weights <= indsW[index])
 
         self.mu = X[inds, :]
-        if meanFlag: self.mu[0,:] = avrX
-        #varX = np.var(X, axis=0, keepdims=True)
-        if regularizer>0:
+        if meanFlag:
+            self.mu[0, :] = avrX
+        # varX = np.var(X, axis=0, keepdims=True)
+        if regularizer > 0:
             varX = varX + regularizer
-        elif regularizer<0:
-            varX = varX + np.abs(regularizer*np.spacing(np.max(varX)))
+        elif regularizer < 0:
+            varX = varX + np.abs(regularizer * np.spacing(np.max(varX)))
 
         for s in range(S):
             sigmaType = self.listSigmaType[s]
@@ -125,12 +131,17 @@ class gm:
         dtype = X.dtype
 
         K0 = K
-        if self.outliersProb >= 0: K0 = K+1
+        if self.outliersProb >= 0:
+            K0 = K + 1
 
-        nlogl = np.zeros([N, K0], dtype = dtype)
-        mahal = np.zeros([N, K ], dtype = dtype)
-        listLogDet = [None, ] * S
-        listLowMtx = [None, ] * S
+        nlogl = np.zeros([N, K0], dtype=dtype)
+        mahal = np.zeros([N, K], dtype=dtype)
+        listLogDet = [
+            None,
+        ] * S
+        listLowMtx = [
+            None,
+        ] * S
         for s in range(S):
             sigmaType = self.listSigmaType[s]
             sigma = self.listSigma[s]
@@ -141,33 +152,33 @@ class gm:
                     # exceptional regularization
                     sigma_w, sigma_v = eigh(np.real(sigma))
                     sigma_w = np.maximum(sigma_w, np.spacing(np.max(sigma_w)))
-                    sigma = np.matmul(np.matmul(sigma_v, np.diag(sigma_w)), (np.transpose(sigma_v,[1,0])))
+                    sigma = np.matmul(np.matmul(sigma_v, np.diag(sigma_w)), (np.transpose(sigma_v, [1, 0])))
                     try:
                         listLowMtx[s] = cholesky(sigma)
                     except:
                         sigma_w, sigma_v = eigh(np.real(sigma))
                         sigma_w = np.maximum(sigma_w, np.spacing(np.max(sigma_w)))
-                        #print(np.min(sigma_w))
-                        sigma = np.matmul(np.matmul(sigma_v, np.diag(sigma_w)), (np.transpose(sigma_v,[1,0])))
-                        #print(sigma)
+                        # print(np.min(sigma_w))
+                        sigma = np.matmul(np.matmul(sigma_v, np.diag(sigma_w)), (np.transpose(sigma_v, [1, 0])))
+                        # print(sigma)
                         listLowMtx[s] = cholesky(sigma)
                 diagLowMtx = np.diag(listLowMtx[s])
                 listLogDet[s] = 2 * np.sum(np.log(diagLowMtx))
             elif sigmaType == 1:  # diagonal covariance
                 listLowMtx[s] = np.sqrt(sigma)
                 listLogDet[s] = np.sum(np.log(sigma))
-            else: # isotropic covariance
+            else:  # isotropic covariance
                 listLowMtx[s] = np.sqrt(sigma)
                 listLogDet[s] = dim * np.log(sigma)
 
-        constPi = dim*np.log(2*np.pi)
+        constPi = dim * np.log(2 * np.pi)
         for k in range(K):
             s = self.listSigmaInds[k]
             sigmaType = self.listSigmaType[s]
             lowMtx = listLowMtx[s]
             logDet = listLogDet[s]
 
-            Xmu =  X - self.mu[k,:]
+            Xmu = X - self.mu[k, :]
 
             if sigmaType == 2:  # full covariance
                 Xmu = np.linalg.solve(lowMtx, Xmu.transpose()).transpose()
@@ -176,9 +187,9 @@ class gm:
             else:  # isotropic covariance
                 Xmu = Xmu / lowMtx
 
-            mahal[:,k] = np.sum(Xmu * Xmu, axis = 1)
+            mahal[:, k] = np.sum(Xmu * Xmu, axis=1)
 
-            nlogl[:,k] = 0.5 * (mahal[:,k] + logDet + constPi)
+            nlogl[:, k] = 0.5 * (mahal[:, k] + logDet + constPi)
 
         if self.outliersProb >= 0:
             nlogl[:, K] = self.outliersNlogl
@@ -189,11 +200,11 @@ class gm:
         nlogl, _ = self.getNlogl(X)
         logPrb = np.log(self.prioriProb)
         if self.outliersProb >= 0:
-            #print(self.outliersProb)
+            # print(self.outliersProb)
             logPrb = np.append(logPrb.squeeze(), np.log(self.outliersProb))
-            logPrb = logPrb.reshape((-1,1))
+            logPrb = logPrb.reshape((-1, 1))
 
-        return logPrb.transpose((1,0)) - nlogl
+        return logPrb.transpose((1, 0)) - nlogl
 
     def getLoglhInlier(self, X):
         nlogl, _ = self.getNlogl(X)
@@ -204,16 +215,16 @@ class gm:
         maxll = np.max(logit, axis=1, keepdims=True)
         prob = np.exp(logit - maxll)
         dem = np.sum(prob, axis=1, keepdims=True)
-        #return (np.log(dem) + maxll - np.log(np.sum(self.prioriProb)))
-        return (np.log(dem) + maxll - np.log(np.sum(self.outliersProb)))
+        # return (np.log(dem) + maxll - np.log(np.sum(self.prioriProb)))
+        return np.log(dem) + maxll - np.log(np.sum(self.outliersProb))
 
-    def maximizationParam(self, X, post, regularizer = 0):
+    def maximizationParam(self, X, post, regularizer=0):
         [N, dim] = X.shape
         K = len(self.listSigmaInds)
         S = len(self.listSigmaType)
         dtype = X.dtype
 
-        self.prioriProb = np.sum(post[:,:K], axis=0, keepdims=True).transpose([1, 0])
+        self.prioriProb = np.sum(post[:, :K], axis=0, keepdims=True).transpose([1, 0])
 
         self.mu = np.tensordot(post, X, (0, 0)) / self.prioriProb
         for s in range(S):
@@ -231,8 +242,10 @@ class gm:
                 if regularizer > 0:
                     sigma = sigma + regularizer * np.eye(dim)
                 elif regularizer < 0:
-                    #sigma = sigma - regularizer * np.spacing(np.max(np.linalg.eigvalsh(sigma))) * np.eye(dim)
-                    sigma = sigma + np.abs(regularizer * np.spacing(eigvalsh(sigma, eigvals=(dim - 1, dim - 1)))) * np.eye(dim)
+                    # sigma = sigma - regularizer * np.spacing(np.max(np.linalg.eigvalsh(sigma))) * np.eye(dim)
+                    sigma = sigma + np.abs(
+                        regularizer * np.spacing(eigvalsh(sigma, eigvals=(dim - 1, dim - 1)))
+                    ) * np.eye(dim)
             elif sigmaType == 1:  # diagonal covariance
                 sigma = np.zeros([1, dim], dtype=dtype)
                 sigmadem = np.zeros([], dtype=dtype)
@@ -245,7 +258,7 @@ class gm:
                 if regularizer > 0:
                     sigma = sigma + regularizer
                 elif regularizer < 0:
-                    sigma = sigma + + np.abs(regularizer * np.spacing(np.max(sigma)))
+                    sigma = sigma + +np.abs(regularizer * np.spacing(np.max(sigma)))
             else:  # isotropic covariance
                 sigma = np.zeros([], dtype=dtype)
                 sigmadem = np.zeros([], dtype=dtype)
@@ -265,8 +278,8 @@ class gm:
         if self.outliersProb < 0:
             self.prioriProb = self.prioriProb / np.sum(self.prioriProb)
         else:
-            self.outliersProb = np.sum(post[:,K])
-            dem = self.outliersProb +  np.sum(self.prioriProb)
+            self.outliersProb = np.sum(post[:, K])
+            dem = self.outliersProb + np.sum(self.prioriProb)
             self.prioriProb = self.prioriProb / dem
             self.outliersProb = self.outliersProb / dem
 
@@ -278,24 +291,24 @@ class gm:
         [post, avrLogl] = softmaxWeighed(self.getLoglh(X), weighed)
         return post, avrLogl
 
-    def MEstep(self, X, post, regularizer = 0):
-        self.maximizationParam(X, post, regularizer = regularizer)
+    def MEstep(self, X, post, regularizer=0):
+        self.maximizationParam(X, post, regularizer=regularizer)
         [post, avrLogl] = self.expectation(X)
         return post, avrLogl
 
-    def MEstepWeighed(self, X, weights, post, regularizer = 0):
-        self.maximizationParam(X, post * weights, regularizer = regularizer)
+    def MEstepWeighed(self, X, weights, post, regularizer=0):
+        self.maximizationParam(X, post * weights, regularizer=regularizer)
         [post, avrLogl] = self.expectationWeighed(X, weights)
         return post, avrLogl
 
-    def EM(self, X, regularizer, maxIter, relErr = 1e-5):
+    def EM(self, X, regularizer, maxIter, relErr=1e-5):
         [post, avrLogl_old] = self.expectation(X)
 
         flagExit = 1
         # flagExit = 1 # max number of iteretions
         # flagExit = 0 # converged
         for iter in range(maxIter):
-            [post, avrLogl] = self.MEstep(X, post, regularizer = regularizer)
+            [post, avrLogl] = self.MEstep(X, post, regularizer=regularizer)
 
             diff = avrLogl - avrLogl_old
             if (diff >= 0) & (diff < relErr * np.abs(avrLogl)):
@@ -304,7 +317,6 @@ class gm:
             avrLogl_old = avrLogl
 
         return avrLogl, flagExit, iter
-
 
     def EMweighed(self, X, weights, regularizer, maxIter, relErr=1e-5):
         [post, avrLogl_old] = self.expectationWeighed(X, weights)
@@ -323,18 +335,20 @@ class gm:
 
         return avrLogl, flagExit, iter
 
+
 def softmax(logit):
-    maxll = np.max(logit, axis = 1, keepdims=True)
-    prob  = np.exp(logit - maxll)
-    dem   = np.sum(prob, axis = 1, keepdims=True)
-    prob  = prob / dem
+    maxll = np.max(logit, axis=1, keepdims=True)
+    prob = np.exp(logit - maxll)
+    dem = np.sum(prob, axis=1, keepdims=True)
+    prob = prob / dem
     avrLogl = np.mean(np.log(dem) + maxll)
     return prob, avrLogl
 
+
 def softmaxWeighed(logit, weights):
-    maxll = np.max(logit, axis = 1, keepdims=True)
-    prob  = np.exp(logit - maxll)
-    dem   = np.sum(prob, axis = 1, keepdims=True)
-    prob  = prob / dem
-    avrLogl = np.mean(weights * (np.log(dem) + maxll)) /  np.mean(weights)
+    maxll = np.max(logit, axis=1, keepdims=True)
+    prob = np.exp(logit - maxll)
+    dem = np.sum(prob, axis=1, keepdims=True)
+    prob = prob / dem
+    avrLogl = np.mean(weights * (np.log(dem) + maxll)) / np.mean(weights)
     return prob, avrLogl

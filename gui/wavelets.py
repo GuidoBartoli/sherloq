@@ -3,12 +3,7 @@ from copy import deepcopy
 import cv2 as cv
 import numpy as np
 import pywt
-from PySide2.QtWidgets import (
-    QSpinBox,
-    QComboBox,
-    QHBoxLayout,
-    QVBoxLayout,
-    QLabel)
+from PySide2.QtWidgets import QSpinBox, QComboBox, QHBoxLayout, QVBoxLayout, QLabel
 
 from tools import ToolWidget
 from viewer import ImageViewer
@@ -20,15 +15,17 @@ class WaveletWidget(ToolWidget):
 
         self.family_combo = QComboBox()
         self.family_combo.addItems(
-            [self.tr('Daubechies'), self.tr('Symlets'), self.tr('Coiflets'), self.tr('Biorthogonal')])
+            [self.tr("Daubechies"), self.tr("Symlets"), self.tr("Coiflets"), self.tr("Biorthogonal")]
+        )
         self.wavelet_combo = QComboBox()
         self.wavelet_combo.setMinimumWidth(70)
         self.threshold_spin = QSpinBox()
         self.threshold_spin.setRange(0, 100)
-        self.threshold_spin.setSuffix('%')
+        self.threshold_spin.setSuffix("%")
         self.mode_combo = QComboBox()
         self.mode_combo.addItems(
-            [self.tr('Soft'), self.tr('Hard'), self.tr('Garrote'), self.tr('Greater'), self.tr('Less')])
+            [self.tr("Soft"), self.tr("Hard"), self.tr("Garrote"), self.tr("Greater"), self.tr("Less")]
+        )
         self.level_spin = QSpinBox()
 
         self.image = image
@@ -43,15 +40,15 @@ class WaveletWidget(ToolWidget):
         self.level_spin.valueChanged.connect(self.compute_idwt)
 
         top_layout = QHBoxLayout()
-        top_layout.addWidget(QLabel(self.tr('Family:')))
+        top_layout.addWidget(QLabel(self.tr("Family:")))
         top_layout.addWidget(self.family_combo)
-        top_layout.addWidget(QLabel(self.tr('Wavelet:')))
+        top_layout.addWidget(QLabel(self.tr("Wavelet:")))
         top_layout.addWidget(self.wavelet_combo)
-        top_layout.addWidget(QLabel(self.tr('Threshold:')))
+        top_layout.addWidget(QLabel(self.tr("Threshold:")))
         top_layout.addWidget(self.threshold_spin)
-        top_layout.addWidget(QLabel(self.tr('Mode:')))
+        top_layout.addWidget(QLabel(self.tr("Mode:")))
         top_layout.addWidget(self.mode_combo)
-        top_layout.addWidget(QLabel(self.tr('Level:')))
+        top_layout.addWidget(QLabel(self.tr("Level:")))
         top_layout.addWidget(self.level_spin)
         top_layout.addStretch()
 
@@ -64,15 +61,30 @@ class WaveletWidget(ToolWidget):
         self.wavelet_combo.clear()
         family = self.family_combo.currentIndex()
         if family == 0:
-            self.wavelet_combo.addItems(['db{}'.format(i) for i in range(1, 21)])
+            self.wavelet_combo.addItems([f"db{i}" for i in range(1, 21)])
         elif family == 1:
-            self.wavelet_combo.addItems(['sym{}'.format(i) for i in range(2, 21)])
+            self.wavelet_combo.addItems([f"sym{i}" for i in range(2, 21)])
         elif family == 2:
-            self.wavelet_combo.addItems(['coif{}'.format(i) for i in range(1, 6)])
+            self.wavelet_combo.addItems([f"coif{i}" for i in range(1, 6)])
         else:
-            types = ['1.1', '1.3', '1.5', '2.2', '2.4', '2.6', '2.8',
-                     '3.1', '3.3', '3.5', '3.7', '3.9', '4.4', '5.5', '6.8']
-            self.wavelet_combo.addItems(['bior{}'.format(t) for t in types])
+            types = [
+                "1.1",
+                "1.3",
+                "1.5",
+                "2.2",
+                "2.4",
+                "2.6",
+                "2.8",
+                "3.1",
+                "3.3",
+                "3.5",
+                "3.7",
+                "3.9",
+                "4.4",
+                "5.5",
+                "6.8",
+            ]
+            self.wavelet_combo.addItems([f"bior{t}" for t in types])
         self.update_level()
 
     def update_level(self):
@@ -97,7 +109,7 @@ class WaveletWidget(ToolWidget):
             threshold = self.threshold_spin.value() / 100
             mode = self.mode_combo.currentText().lower()
             for i in range(1, level + 1):
-                octave = [None]*3
+                octave = [None] * 3
                 for j in range(3):
                     plane = coeffs[-i][j]
                     t = threshold * np.max(np.abs(plane))

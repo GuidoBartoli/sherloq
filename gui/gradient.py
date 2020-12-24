@@ -2,13 +2,7 @@ from time import time
 
 import cv2 as cv
 import numpy as np
-from PySide2.QtWidgets import (
-    QSpinBox,
-    QComboBox,
-    QCheckBox,
-    QHBoxLayout,
-    QVBoxLayout,
-    QLabel)
+from PySide2.QtWidgets import QSpinBox, QComboBox, QCheckBox, QHBoxLayout, QVBoxLayout, QLabel
 
 from tools import ToolWidget
 from utility import create_lut, norm_mat, equalize_img, elapsed_time
@@ -21,16 +15,16 @@ class GradientWidget(ToolWidget):
         self.intensity_spin = QSpinBox()
         self.intensity_spin.setRange(0, 100)
         self.intensity_spin.setValue(95)
-        self.intensity_spin.setSuffix(self.tr(' %'))
-        self.intensity_spin.setToolTip(self.tr('Tonality compression amount'))
+        self.intensity_spin.setSuffix(self.tr(" %"))
+        self.intensity_spin.setToolTip(self.tr("Tonality compression amount"))
         self.blue_combo = QComboBox()
-        self.blue_combo.addItems([self.tr('None'), self.tr('Flat'), self.tr('Abs'), self.tr('Norm')])
+        self.blue_combo.addItems([self.tr("None"), self.tr("Flat"), self.tr("Abs"), self.tr("Norm")])
         self.blue_combo.setCurrentIndex(2)
-        self.blue_combo.setToolTip(self.tr('Blue component inclusion mode'))
-        self.invert_check = QCheckBox(self.tr('Invert'))
-        self.invert_check.setToolTip(self.tr('Reverse lighting direction'))
-        self.equalize_check = QCheckBox(self.tr('Equalize'))
-        self.equalize_check.setToolTip(self.tr('Apply histogram equalization'))
+        self.blue_combo.setToolTip(self.tr("Blue component inclusion mode"))
+        self.invert_check = QCheckBox(self.tr("Invert"))
+        self.invert_check.setToolTip(self.tr("Reverse lighting direction"))
+        self.equalize_check = QCheckBox(self.tr("Equalize"))
+        self.equalize_check.setToolTip(self.tr("Apply histogram equalization"))
 
         self.image = image
         self.viewer = ImageViewer(self.image, self.image)
@@ -43,9 +37,9 @@ class GradientWidget(ToolWidget):
         self.equalize_check.stateChanged.connect(self.process)
 
         top_layout = QHBoxLayout()
-        top_layout.addWidget(QLabel(self.tr('Intensity:')))
+        top_layout.addWidget(QLabel(self.tr("Intensity:")))
         top_layout.addWidget(self.intensity_spin)
-        top_layout.addWidget(QLabel(self.tr('Blue channel:')))
+        top_layout.addWidget(QLabel(self.tr("Blue channel:")))
         top_layout.addWidget(self.blue_combo)
         top_layout.addWidget(self.invert_check)
         top_layout.addWidget(self.equalize_check)
@@ -90,4 +84,4 @@ class GradientWidget(ToolWidget):
         elif intensity > 0:
             gradient = cv.LUT(gradient, create_lut(intensity, intensity))
         self.viewer.update_processed(gradient)
-        self.info_message.emit(self.tr('Luminance Gradient = {}'.format(elapsed_time(start))))
+        self.info_message.emit(self.tr(f"Luminance Gradient = {elapsed_time(start)}"))

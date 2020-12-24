@@ -2,9 +2,7 @@ import subprocess
 
 import cv2 as cv
 from PySide2.QtCore import QTemporaryFile, Qt
-from PySide2.QtWidgets import (
-    QLabel,
-    QVBoxLayout)
+from PySide2.QtWidgets import QLabel, QVBoxLayout
 
 from tools import ToolWidget
 from utility import modify_font, exiftool_exe
@@ -17,13 +15,13 @@ class ThumbWidget(ToolWidget):
 
         temp_file = QTemporaryFile()
         if temp_file.open():
-            output = subprocess.check_output([exiftool_exe(), '-b', '-ThumbnailImage', filename])
+            output = subprocess.check_output([exiftool_exe(), "-b", "-ThumbnailImage", filename])
             temp_name = temp_file.fileName()
-            with open(temp_name, 'wb') as file:
+            with open(temp_name, "wb") as file:
                 file.write(output)
             thumb = cv.imread(temp_name, cv.IMREAD_COLOR)
             if thumb is None:
-                self.show_error(self.tr('Thumbnail image not found!'))
+                self.show_error(self.tr("Thumbnail image not found!"))
                 return
             # resized = cv.resize(image, thumb.shape[:-1][::-1], interpolation=cv.INTER_AREA)
             resized = cv.resize(thumb, image.shape[:-1][::-1], interpolation=cv.INTER_LANCZOS4)
@@ -55,7 +53,7 @@ class ThumbWidget(ToolWidget):
     def show_error(self, message):
         error_label = QLabel(message)
         modify_font(error_label, bold=True)
-        error_label.setStyleSheet('color: #FF0000')
+        error_label.setStyleSheet("color: #FF0000")
         error_label.setAlignment(Qt.AlignCenter)
         main_layout = QVBoxLayout()
         main_layout.addWidget(error_label)

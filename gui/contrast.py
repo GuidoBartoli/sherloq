@@ -1,13 +1,7 @@
 import cv2 as cv
 import numpy as np
 from PySide2.QtCore import Qt
-from PySide2.QtWidgets import (
-    QPushButton,
-    QComboBox,
-    QLabel,
-    QHBoxLayout,
-    QVBoxLayout,
-    QProgressDialog)
+from PySide2.QtWidgets import QPushButton, QComboBox, QLabel, QHBoxLayout, QVBoxLayout, QProgressDialog
 
 from tools import ToolWidget
 from utility import compute_hist, gray_to_bgr, pad_image
@@ -20,20 +14,21 @@ class ContrastWidget(ToolWidget):
 
         self.algo_combo = QComboBox()
         self.algo_combo.addItems(
-            [self.tr('Histogram Error'), self.tr('Channel Similarity'), self.tr('Joint probability')])
-        self.algo_combo.setToolTip(self.tr('Joint Probability merges Histogram Error and Channel Similarity'))
+            [self.tr("Histogram Error"), self.tr("Channel Similarity"), self.tr("Joint probability")]
+        )
+        self.algo_combo.setToolTip(self.tr("Joint Probability merges Histogram Error and Channel Similarity"))
         self.algo_combo.setCurrentIndex(2)
         self.block_combo = QComboBox()
-        self.block_combo.addItems(['32', '64', '128', '256'])
+        self.block_combo.addItems(["32", "64", "128", "256"])
         self.block_combo.setCurrentIndex(1)
-        self.block_combo.setToolTip(self.tr('Size of analyzed blocks'))
-        self.process_button = QPushButton(self.tr('Process'))
-        self.process_button.setToolTip(self.tr('Perform contrast enhancement analysis'))
+        self.block_combo.setToolTip(self.tr("Size of analyzed blocks"))
+        self.process_button = QPushButton(self.tr("Process"))
+        self.process_button.setToolTip(self.tr("Perform contrast enhancement analysis"))
 
         top_layout = QHBoxLayout()
-        top_layout.addWidget(QLabel(self.tr('Algorithm:')))
+        top_layout.addWidget(QLabel(self.tr("Algorithm:")))
         top_layout.addWidget(self.algo_combo)
-        top_layout.addWidget(QLabel(self.tr('Block size:')))
+        top_layout.addWidget(QLabel(self.tr("Block size:")))
         top_layout.addWidget(self.block_combo)
         top_layout.addWidget(self.process_button)
         top_layout.addStretch()
@@ -96,8 +91,7 @@ class ContrastWidget(ToolWidget):
         self.chsim = np.zeros(((rows // block) + 1, (cols // block) + 1), np.float32)
         self.error = np.copy(self.chsim)
         self.joint = np.copy(self.chsim)
-        progress = QProgressDialog(
-            self.tr('Detecting enhancements...'), self.tr('Cancel'), 0, self.chsim.size, self)
+        progress = QProgressDialog(self.tr("Detecting enhancements..."), self.tr("Cancel"), 0, self.chsim.size, self)
         progress.canceled.connect(self.cancel)
         progress.setWindowModality(Qt.WindowModal)
 
@@ -106,7 +100,7 @@ class ContrastWidget(ToolWidget):
         p = 0
         for i in range(0, rows, block):
             for j in range(0, cols, block):
-                hist = compute_hist(gray[i:i + block, j:j + block]) * window
+                hist = compute_hist(gray[i : i + block, j : j + block]) * window
                 hist = cv.normalize(hist, None, 0, 1, cv.NORM_MINMAX)
                 dft = np.fft.fftshift(cv.dft(hist, flags=cv.DFT_COMPLEX_OUTPUT))
                 mag = cv.magnitude(dft[:, :, 0], dft[:, :, 1])
@@ -132,11 +126,11 @@ class ContrastWidget(ToolWidget):
                     error *= np.sqrt(diff)
                 self.error[i // block, j // block] = error
 
-                avg_m = np.mean(avg[i:i + block, j:j + block])
+                avg_m = np.mean(avg[i : i + block, j : j + block])
                 if avg_m == 0:
                     chsim = 0
                 else:
-                    tri_m = np.mean(tri[i:i + block, j:j + block])
+                    tri_m = np.mean(tri[i : i + block, j : j + block])
                     chsim = tri_m / avg_m
                     if chsim > max_sim:
                         chsim = 1
