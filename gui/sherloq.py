@@ -47,7 +47,7 @@ class MainWindow(QMainWindow):
         super(MainWindow, self).__init__(parent)
         QApplication.setApplicationName("Sherloq")
         QApplication.setOrganizationName("Guido Bartoli")
-        QApplication.setOrganizationDomain("www.guidobartoli.com")
+        QApplication.setOrganizationDomain("http://www.guidobartoli.com")
         QApplication.setApplicationVersion(ToolTree().version)
         QApplication.setWindowIcon(QIcon("icons/sherloq_white.png"))
         self.setWindowTitle(f"{QApplication.applicationName()} {QApplication.applicationVersion()}")

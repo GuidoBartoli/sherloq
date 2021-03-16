@@ -91,6 +91,6 @@ class ElaWidget(ToolWidget):
         self.gray_check.setChecked(False)
         self.quality_spin.setValue(75)
         self.scale_spin.setValue(50)
-        self.contrast_spin.setValue(25)
+        self.contrast_spin.setValue(20)
         self.blockSignals(False)
         self.preprocess()

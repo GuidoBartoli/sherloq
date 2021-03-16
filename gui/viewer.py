@@ -1,4 +1,5 @@
 import math
+import os
 
 import cv2 as cv
 import numpy as np
@@ -179,9 +180,9 @@ class ImageViewer(QWidget):
 
         # view_label = QLabel(self.tr('View:'))
         self.original_radio = QRadioButton(self.tr("Original"))
-        self.original_radio.setToolTip(self.tr("Show the original image for comparison"))
+        self.original_radio.setToolTip(self.tr("Show the original image for comparison (press SPACE to toggle)"))
         self.process_radio = QRadioButton(self.tr("Processed"))
-        self.process_radio.setToolTip(self.tr("Show result of the current processing"))
+        self.process_radio.setToolTip(self.tr("Show result of the current processing (press SPACE to toggle)"))
         self.zoom_label = QLabel()
         full_button = QToolButton()
         full_button.setText(self.tr("100%"))
@@ -277,11 +278,12 @@ class ImageViewer(QWidget):
     def export_image(self):
         settings = QSettings()
         filename = QFileDialog.getSaveFileName(
-            self, self.tr("Export image..."), settings.value("save_folder"), self.tr("PNG images (*.png)")
+            self, self.tr("Export image..."), settings.value("save_folder"),
+            self.tr("Images (*.png *.jpg);;PNG files (*.png);;JPG files (*.jpg)")
         )[0]
         if not filename:
             return
-        if not filename.endswith(".png"):
+        if not os.path.splitext(filename)[1]:
             filename += ".png"
         cv.imwrite(filename, self.processed if self.processed is not None else self.original)
 
