@@ -548,7 +548,7 @@ sub WriteExif($$$)
         my $mustRead;
         if ($dirStart < 0 or $dirStart > $dataLen-2) {
             $mustRead = 1;
-        } elsif ($dirLen > 2) {
+        } elsif ($dirLen >= 2) {
             my $len = 2 + 12 * Get16u($dataPt, $dirStart);
             $mustRead = 1 if $dirStart + $len > $dataLen;
         }
@@ -1832,6 +1832,7 @@ NoOverwrite:            next if $isNew > 0;
                                 warn "Internal error writing offsets for $$newInfo{Name}\n";
                                 return undef;
                             }
+                            $newValuePt = \$newValue;
                         }
                         $offsetInfo or $offsetInfo = $offsetInfo[$ifd] = { };
                         # save location of valuePtr in new directory
@@ -2562,7 +2563,7 @@ This file contains routines to write EXIF metadata.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

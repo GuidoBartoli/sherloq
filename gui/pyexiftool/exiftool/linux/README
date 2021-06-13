@@ -14,46 +14,47 @@ supported by ExifTool (r = read, w = write, c = create):
 
   File Types
   ------------+-------------+-------------+-------------+------------
-  3FR   r     | DR4   r/w/c | ITC   r     | ODP   r     | RIFF  r
-  3G2   r/w   | DSS   r     | J2C   r     | ODS   r     | RSRC  r
-  3GP   r/w   | DV    r     | JNG   r/w   | ODT   r     | RTF   r
-  A     r     | DVB   r/w   | JP2   r/w   | OFR   r     | RW2   r/w
-  AA    r     | DVR-MS r    | JPEG  r/w   | OGG   r     | RWL   r/w
-  AAE   r     | DYLIB r     | JSON  r     | OGV   r     | RWZ   r
-  AAX   r/w   | EIP   r     | K25   r     | OPUS  r     | RM    r
-  ACR   r     | EPS   r/w   | KDC   r     | ORF   r/w   | SEQ   r
-  AFM   r     | EPUB  r     | KEY   r     | OTF   r     | SKETCH r
-  AI    r/w   | ERF   r/w   | LA    r     | PAC   r     | SO    r
-  AIFF  r     | EXE   r     | LFP   r     | PAGES r     | SR2   r/w
-  APE   r     | EXIF  r/w/c | LNK   r     | PBM   r/w   | SRF   r
-  ARQ   r/w   | EXR   r     | LRV   r/w   | PCD   r     | SRW   r/w
-  ARW   r/w   | EXV   r/w/c | M2TS  r     | PCX   r     | SVG   r
-  ASF   r     | F4A/V r/w   | M4A/V r/w   | PDB   r     | SWF   r
-  AVI   r     | FFF   r/w   | MAX   r     | PDF   r/w   | THM   r/w
-  AVIF  r/w   | FITS  r     | MEF   r/w   | PEF   r/w   | TIFF  r/w
-  AZW   r     | FLA   r     | MIE   r/w/c | PFA   r     | TORRENT r
-  BMP   r     | FLAC  r     | MIFF  r     | PFB   r     | TTC   r
-  BPG   r     | FLIF  r/w   | MKA   r     | PFM   r     | TTF   r
-  BTF   r     | FLV   r     | MKS   r     | PGF   r     | TXT   r
-  CHM   r     | FPF   r     | MKV   r     | PGM   r/w   | VCF   r
-  COS   r     | FPX   r     | MNG   r/w   | PLIST r     | VRD   r/w/c
-  CR2   r/w   | GIF   r/w   | MOBI  r     | PICT  r     | VSD   r
-  CR3   r/w   | GPR   r/w   | MODD  r     | PMP   r     | WAV   r
-  CRM   r/w   | GZ    r     | MOI   r     | PNG   r/w   | WDP   r/w
-  CRW   r/w   | HDP   r/w   | MOS   r/w   | PPM   r/w   | WEBP  r
-  CS1   r/w   | HDR   r     | MOV   r/w   | PPT   r     | WEBM  r
-  CSV   r     | HEIC  r/w   | MP3   r     | PPTX  r     | WMA   r
-  DCM   r     | HEIF  r/w   | MP4   r/w   | PS    r/w   | WMV   r
-  DCP   r/w   | HTML  r     | MPC   r     | PSB   r/w   | WTV   r
-  DCR   r     | ICC   r/w/c | MPG   r     | PSD   r/w   | WV    r
-  DFONT r     | ICS   r     | MPO   r/w   | PSP   r     | X3F   r/w
-  DIVX  r     | IDML  r     | MQV   r/w   | QTIF  r/w   | XCF   r
-  DJVU  r     | IIQ   r/w   | MRW   r/w   | R3D   r     | XLS   r
-  DLL   r     | IND   r/w   | MXF   r     | RA    r     | XLSX  r
-  DNG   r/w   | INSP  r/w   | NEF   r/w   | RAF   r/w   | XMP   r/w/c
-  DOC   r     | INSV  r     | NRW   r/w   | RAM   r     | ZIP   r
-  DOCX  r     | INX   r     | NUMBERS r   | RAR   r     |
-  DPX   r     | ISO   r     | O     r     | RAW   r/w   |
+  360   r/w   | DPX   r     | ITC   r     | NUMBERS r   | RAM   r
+  3FR   r     | DR4   r/w/c | J2C   r     | O     r     | RAR   r
+  3G2   r/w   | DSS   r     | JNG   r/w   | ODP   r     | RAW   r/w
+  3GP   r/w   | DV    r     | JP2   r/w   | ODS   r     | RIFF  r
+  A     r     | DVB   r/w   | JPEG  r/w   | ODT   r     | RSRC  r
+  AA    r     | DVR-MS r    | JSON  r     | OFR   r     | RTF   r
+  AAE   r     | DYLIB r     | JXL   r     | OGG   r     | RW2   r/w
+  AAX   r/w   | EIP   r     | K25   r     | OGV   r     | RWL   r/w
+  ACR   r     | EPS   r/w   | KDC   r     | ONP   r     | RWZ   r
+  AFM   r     | EPUB  r     | KEY   r     | OPUS  r     | RM    r
+  AI    r/w   | ERF   r/w   | LA    r     | ORF   r/w   | SEQ   r
+  AIFF  r     | EXE   r     | LFP   r     | ORI   r/w   | SKETCH r
+  APE   r     | EXIF  r/w/c | LNK   r     | OTF   r     | SO    r
+  ARQ   r/w   | EXR   r     | LRV   r/w   | PAC   r     | SR2   r/w
+  ARW   r/w   | EXV   r/w/c | M2TS  r     | PAGES r     | SRF   r
+  ASF   r     | F4A/V r/w   | M4A/V r/w   | PBM   r/w   | SRW   r/w
+  AVI   r     | FFF   r/w   | MACOS r     | PCD   r     | SVG   r
+  AVIF  r/w   | FITS  r     | MAX   r     | PCX   r     | SWF   r
+  AZW   r     | FLA   r     | MEF   r/w   | PDB   r     | THM   r/w
+  BMP   r     | FLAC  r     | MIE   r/w/c | PDF   r/w   | TIFF  r/w
+  BPG   r     | FLIF  r/w   | MIFF  r     | PEF   r/w   | TORRENT r
+  BTF   r     | FLV   r     | MKA   r     | PFA   r     | TTC   r
+  CHM   r     | FPF   r     | MKS   r     | PFB   r     | TTF   r
+  COS   r     | FPX   r     | MKV   r     | PFM   r     | TXT   r
+  CR2   r/w   | GIF   r/w   | MNG   r/w   | PGF   r     | VCF   r
+  CR3   r/w   | GPR   r/w   | MOBI  r     | PGM   r/w   | VRD   r/w/c
+  CRM   r/w   | GZ    r     | MODD  r     | PLIST r     | VSD   r
+  CRW   r/w   | HDP   r/w   | MOI   r     | PICT  r     | WAV   r
+  CS1   r/w   | HDR   r     | MOS   r/w   | PMP   r     | WDP   r/w
+  CSV   r     | HEIC  r/w   | MOV   r/w   | PNG   r/w   | WEBP  r
+  CZI   r     | HEIF  r/w   | MP3   r     | PPM   r/w   | WEBM  r
+  DCM   r     | HTML  r     | MP4   r/w   | PPT   r     | WMA   r
+  DCP   r/w   | ICC   r/w/c | MPC   r     | PPTX  r     | WMV   r
+  DCR   r     | ICS   r     | MPG   r     | PS    r/w   | WTV   r
+  DFONT r     | IDML  r     | MPO   r/w   | PSB   r/w   | WV    r
+  DIVX  r     | IIQ   r/w   | MQV   r/w   | PSD   r/w   | X3F   r/w
+  DJVU  r     | IND   r/w   | MRC   r     | PSP   r     | XCF   r
+  DLL   r     | INSP  r/w   | MRW   r/w   | QTIF  r/w   | XLS   r
+  DNG   r/w   | INSV  r     | MXF   r     | R3D   r     | XLSX  r
+  DOC   r     | INX   r     | NEF   r/w   | RA    r     | XMP   r/w/c
+  DOCX  r     | ISO   r     | NRW   r/w   | RAF   r/w   | ZIP   r
 
   Meta Information
   ----------------------+----------------------+---------------------
@@ -105,8 +106,8 @@ your home directory, then you would type the following commands in a
 terminal window to extract and run ExifTool:
 
   cd ~/Desktop
-  gzip -dc Image-ExifTool-12.00.tar.gz | tar -xf -
-  cd Image-ExifTool-12.00
+  gzip -dc Image-ExifTool-12.27.tar.gz | tar -xf -
+  cd Image-ExifTool-12.27
   ./exiftool t/images/ExifTool.jpg
 
 Note:  These commands extract meta information from one of the test images. 
@@ -160,7 +161,7 @@ for calculating digest values and providing other features listed below:
 
 COPYRIGHT AND LICENSE
 
-Copyright 2003-2020, Phil Harvey
+Copyright 2003-2021, Phil Harvey
 
 This is free software; you can redistribute it and/or modify it under the
 same terms as Perl itself.
@@ -193,6 +194,7 @@ distribution package:
     age.config                - Calculate Age of person in photo
     bibble.config             - Definitions for writing Bibble XMP tags
     convert_regions.config    - Convert between MWG, MP and IPTC regions
+    cuepointlist.config       - Extract cue points and labels as a list
     depthmap.config           - Extract Google DepthMap images
     example.config            - General example showing config features
     fotoware.config           - Definitions for writing Fotoware XMP tags

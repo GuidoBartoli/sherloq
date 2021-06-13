@@ -1,11 +1,12 @@
-[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 11.78
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 12.27
+[ExifTool, ExifTool, ExifTool] Warning - Warning: IPTCDigest is not current. XMP may be out of sync
 [File, System, Other] FileName - File Name: Writer_51_failed.jpg
 [File, System, Other] Directory - Directory: t
-[File, System, Other] FileSize - File Size: 25 kB
-[File, System, Time] FileModifyDate - File Modification Date/Time: 2019:12:04 11:01:40-05:00
-[File, System, Time] FileAccessDate - File Access Date/Time: 2019:12:04 11:01:40-05:00
-[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2019:12:04 11:01:40-05:00
-[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, System, Other] FileSize - File Size: 25 KiB
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2021:06:08 15:46:31-04:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2021:06:08 15:46:31-04:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2021:06:08 15:46:31-04:00
+[File, System, Other] FilePermissions - File Permissions: -rw-r--r--
 [File, File, Other] FileType - File Type: JPEG
 [File, File, Other] FileTypeExtension - File Type Extension: jpg
 [File, File, Other] MIMEType - MIME Type: image/jpeg
@@ -192,7 +193,7 @@
 [FlashPix, FlashPix, Other] 7 - Extension Description: Presized image for LCD display
 [FlashPix, FlashPix, Other] 4096 - Storage-Stream Pathname: /.Screen Nail_bd0100609719a180
 [FlashPix, FlashPix, Other] Screen Nail - Screen Nail: (Binary data 5917 bytes)
-[FlashPix, FlashPix, Preview] FlashPix::PreviewImage - Preview Image: (Binary data 5777 bytes)
+[FlashPix, FlashPix, Preview] FlashPix-PreviewImage - Preview Image: (Binary data 5777 bytes)
 [MPF, MPF0, Image] 45056 - MPF Version: 0100
 [MPF, MPF0, Image] 45057 - Number Of Images: 2
 [MPF, MPImage1, Image] 0.1 - MP Image Flags: Dependent parent image
@@ -246,6 +247,27 @@
 [APP11, JPEG-HDR, Image] bet - Beta: 1.000000
 [APP11, JPEG-HDR, Image] cor - Correction Method: 0
 [APP11, JPEG-HDR, Preview] RatioImage - Ratio Image: (Binary data 19 bytes)
+[JUMBF, JUMBF, Image] jumd-type - JUMD Type: cacb-0011-0010-800000aa00389b71
+[JUMBF, JUMBF, Image] jumd-flags - JUMD Flags: Requestable, Label
+[JUMBF, JUMBF, Image] jumd-label - JUMD Label: cai
+[JUMBF, JUMBF, Image] jumd-type - JUMD Type: cast-0011-0010-800000aa00389b71
+[JUMBF, JUMBF, Image] jumd-flags - JUMD Flags: Requestable, Label
+[JUMBF, JUMBF, Image] jumd-label - JUMD Label: cb.reuters_1
+[JUMBF, JUMBF, Image] jumd-type - JUMD Type: caas-0011-0010-800000aa00389b71
+[JUMBF, JUMBF, Image] jumd-flags - JUMD Flags: Requestable, Label
+[JUMBF, JUMBF, Image] jumd-label - JUMD Label: cai.assertions
+[JUMBF, JUMBF, Image] jumd-type - JUMD Type: json-0011-0010-800000aa00389b71
+[JUMBF, JUMBF, Image] jumd-flags - JUMD Flags: Requestable, Label
+[JUMBF, JUMBF, Image] jumd-label - JUMD Label: adobe.asset.info
+[JUMBF, JSON, Other] title - Title: HEALTHCORONAVIRUSUSAOREGON_SALEM_08.jpg
+[JUMBF, JUMBF, Image] jumd-type - JUMD Type: json-0011-0010-800000aa00389b71
+[JUMBF, JUMBF, Image] jumd-flags - JUMD Flags: Requestable, Label
+[JUMBF, JUMBF, Image] jumd-label - JUMD Label: cai.location.broad
+[JUMBF, JSON, Other] location - Location: Salem, Oregon
+[JUMBF, JUMBF, Image] jumd-type - JUMD Type: json-0011-0010-800000aa00389b71
+[JUMBF, JUMBF, Image] jumd-flags - JUMD Flags: Requestable, Label
+[JUMBF, JUMBF, Image] jumd-label - JUMD Label: cai.rights
+[JUMBF, JSON, Other] copyright - Copyright: Alisha Jucevic
 [APP12, PictureInfo, Time] TimeDate - Date/Time Original: 1998:12:31 15:17:20
 [APP12, PictureInfo, Image] Shutter - Exposure Time: 1/155
 [APP12, PictureInfo, Image] Flash - Flash: Off
@@ -402,13 +424,13 @@
 [FotoStation, FotoStation, Image] 8 - Crop Right: 30.676%
 [FotoStation, FotoStation, Image] 9 - Crop Bottom: 86.25%
 [FotoStation, FotoStation, Image] 11 - Crop Rotation: 0
-[Composite, Composite, Image] Exif::Aperture - Aperture: 3.5
-[Composite, Composite, Image] Exif::ShutterSpeed - Shutter Speed: 1/155
-[Composite, Composite, Image] Exif::ImageSize - Image Size: 8x8
-[Composite, Composite, Image] Exif::LightValue - Light Value: 10.9
-[Composite, Composite, Image] Exif::Megapixels - Megapixels: 0.000064
-[Composite, Composite, Camera] Exif::ScaleFactor35efl - Scale Factor To 35 mm Equivalent: 6.9
-[Composite, Composite, Camera] Exif::CircleOfConfusion - Circle Of Confusion: 0.004 mm
-[Composite, Composite, Image] Exif::FOV - Field Of View: 47.0 deg
-[Composite, Composite, Camera] Exif::FocalLength35efl - Focal Length: 6.0 mm (35 mm equivalent: 41.4 mm)
-[Composite, Composite, Camera] Exif::HyperfocalDistance - Hyperfocal Distance: 2.36 m
+[Composite, Composite, Image] Exif-Aperture - Aperture: 3.5
+[Composite, Composite, Image] Exif-ShutterSpeed - Shutter Speed: 1/155
+[Composite, Composite, Image] Exif-ImageSize - Image Size: 8x8
+[Composite, Composite, Image] Exif-LightValue - Light Value: 10.9
+[Composite, Composite, Image] Exif-Megapixels - Megapixels: 0.000064
+[Composite, Composite, Camera] Exif-ScaleFactor35efl - Scale Factor To 35 mm Equivalent: 6.9
+[Composite, Composite, Camera] Exif-CircleOfConfusion - Circle Of Confusion: 0.004 mm
+[Composite, Composite, Image] Exif-FOV - Field Of View: 47.0 deg
+[Composite, Composite, Camera] Exif-FocalLength35efl - Focal Length: 6.0 mm (35 mm equivalent: 41.4 mm)
+[Composite, Composite, Camera] Exif-HyperfocalDistance - Hyperfocal Distance: 2.36 m

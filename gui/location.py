@@ -15,11 +15,10 @@ class LocationWidget(ToolWidget):
         self.temp_dir = QTemporaryDir()
         if self.temp_dir.isValid():
             with exiftool.ExifTool(exiftool_exe()) as et:
-                temp_file = os.path.join(self.temp_dir.path(), "geo.html")
-                metadata = et.get_metadata(filename)
                 try:
+                    metadata = et.get_metadata(filename)
                     lat = metadata["Composite:GPSLatitude"]
-                    long = metadata["Composite:GPSLongitude"]
+                    lon = metadata["Composite:GPSLongitude"]
                 except KeyError:
                     label = QLabel(self.tr("Geolocation data not found!"))
                     modify_font(label, bold=True)
@@ -29,13 +28,10 @@ class LocationWidget(ToolWidget):
                     layout.addWidget(label)
                     self.setLayout(layout)
                     return
-                html = '<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2948.532014673314!2d{}!3d{}!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x0%3A0x0!2zNDLCsDIxJzA5LjAiTiA3McKwMDUnMjguMiJX!5e0!3m2!1sit!2sit!4v1590074026898!5m2!1sit!2sit" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>'.format(
-                    long, lat
-                )
-                with open(temp_file, "w") as file:
-                    file.write(html)
+                url = f"https://www.google.com/maps/place/{lat},{lon}/@{lat},{lon},17z/" \
+                      f"data=!4m5!3m4!1s0x0:0x0!8m2!3d{lat}!4d{lon}"
                 web_view = QWebEngineView()
-                web_view.load(QUrl("file://" + temp_file))
+                web_view.load(QUrl(url))
                 layout = QVBoxLayout()
                 layout.addWidget(web_view)
                 self.setLayout(layout)

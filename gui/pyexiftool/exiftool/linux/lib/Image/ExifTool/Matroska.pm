@@ -14,7 +14,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.09';
+$VERSION = '1.10';
 
 my %noYes = ( 0 => 'No', 1 => 'Yes' );
 
@@ -221,6 +221,8 @@ my %noYes = ( 0 => 'No', 1 => 'Yes' );
     },
     0x2e => {
         Name => 'TrackEntry',
+        # reset TrackType member at the start of each track
+        Condition => 'delete $$self{TrackType}; 1',
         SubDirectory => { TagTable => 'Image::ExifTool::Matroska::Main' },
     },
     0x57   => { Name => 'TrackNumber',      Format => 'unsigned' },
@@ -912,7 +914,7 @@ information from Matroska multimedia files (MKA, MKV, MKS and WEBM).
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

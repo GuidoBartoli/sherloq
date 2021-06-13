@@ -18,7 +18,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.06';
+$VERSION = '1.07';
 
 sub ParseAnt($);
 sub ProcessAnt($$$);
@@ -227,10 +227,11 @@ Tok: for (;;) {
                 last unless $tok =~ /(\\+)$/ and length($1) & 0x01;
                 $tok .= '"';    # quote is part of the string
             }
-            # must protect unescaped "$" and "@" symbols, and "\" at end of string
-            $tok =~ s{\\(.)|([\$\@]|\\$)}{'\\'.($2 || $1)}sge;
-            # convert C escape sequences (allowed in quoted text)
-            $tok = eval qq{"$tok"};
+            # convert C escape sequences, allowed in quoted text
+            # (note: this only converts a few of them!)
+            my %esc = ( a => "\a", b => "\b", f => "\f", n => "\n",
+                        r => "\r", t => "\t", '"' => '"', '\\' => '\\' );
+            $tok =~ s/\\(.)/$esc{$1}||'\\'.$1/egs;
         } else {                # key name
             pos($$dataPt) = pos($$dataPt) - 1;
             # allow anything in key but whitespace, braces and double quotes
@@ -352,7 +353,7 @@ Image::ExifTool::AIFF.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

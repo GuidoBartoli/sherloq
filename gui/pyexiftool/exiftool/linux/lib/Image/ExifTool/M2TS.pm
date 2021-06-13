@@ -31,7 +31,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.18';
+$VERSION = '1.20';
 
 # program map table "stream_type" lookup (ref 6/1)
 my %streamType = (
@@ -57,7 +57,8 @@ my %streamType = (
     0x13 => 'ISO 14496-1 SL-packetized',
     0x14 => 'ISO 13818-6 Synchronized Download Protocol',
   # 0x15-0x7F => 'ISO 13818-1 Reserved',
-    0x1b => 'H.264 Video',
+    0x1b => 'H.264 (AVC) Video',
+    0x24 => 'H.265 (HEVC) Video', #PH
     0x80 => 'DigiCipher II Video',
     0x81 => 'A52/AC-3 Audio',
     0x82 => 'HDMV DTS Audio',
@@ -67,6 +68,7 @@ my %streamType = (
     0x86 => 'DTS-HD Audio',
     0x87 => 'E-AC-3 Audio',
     0x8a => 'DTS Audio',
+    0x90 => 'PGS Audio', #https://www.avsforum.com/threads/bass-eq-for-filtered-movies.2995212/page-399
     0x91 => 'A52b/AC-3 Audio',
     0x92 => 'DVD_SPU vls Subtitle',
     0x94 => 'SDDS Audio',
@@ -110,6 +112,8 @@ my %noSyntax = (
     0xf8 => 1, # ITU-T Rec. H.222.1 type E stream
     0xff => 1, # program_stream_directory
 );
+
+my $knotsToKph = 1.852;     # knots --> km/h
 
 # information extracted from the MPEG-2 transport stream
 %Image::ExifTool::M2TS::Main = (
@@ -262,7 +266,7 @@ sub ParseAC3Descriptor($$)
 
 #------------------------------------------------------------------------------
 # Parse PID stream data
-# Inputs: 0) Exiftool ref, 1) PID number, 2) PID type, 3) PID name, 4) data ref
+# Inputs: 0) ExifTool ref, 1) PID number, 2) PID type, 3) PID name, 4) data ref
 # Returns: 0=stream parsed OK,
 #          1=stream parsed but we want to parse more of these,
 #          -1=can't parse yet because we don't know the type
@@ -299,6 +303,60 @@ sub ParsePID($$$$$)
     } elsif ($type == 0x81 or $type == 0x87 or $type == 0x91) {
         # AC-3 audio
         ParseAC3Audio($et, $dataPt);
+    } elsif ($type < 0) {
+        if ($$dataPt =~ /^(.{164})?(.{24})A[NS][EW]/s) {
+            # (Blueskysea B4K, Novatek NT96670)
+            # 0000: 01 00 ff 00 30 31 32 33 34 35 37 38 61 62 63 64 [....01234578abcd]
+            # 0010: 65 66 67 0a 00 00 00 00 00 00 00 00 00 00 00 00 [efg.............]
+            # 0020: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 [................]
+            # 0030: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 [................]
+            # 0040: 00 00 00 00 30 31 32 33 34 35 37 38 71 77 65 72 [....01234578qwer]
+            # 0050: 74 79 75 69 6f 70 0a 00 00 00 00 00 00 00 00 00 [tyuiop..........]
+            # 0060: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 [................]
+            # 0070: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 [................]
+            # 0080: 00 00 00 00 63 38 61 61 32 35 63 66 34 35 65 65 [....c8aa25cf45ee]
+            # 0090: 61 39 65 32 34 34 32 66 61 65 62 35 65 30 39 39 [a9e2442faeb5e099]
+            # 00a0: 30 37 64 34 15 00 00 00 10 00 00 00 1b 00 00 00 [07d4............]
+            # 00b0: 15 00 00 00 01 00 00 00 09 00 00 00 41 4e 57 00 [............ANW.]
+            # 00c0: 82 9a 57 45 98 b2 00 46 66 66 e4 41 d7 e3 14 43 [..WE...Fff.A...C]
+            # 00d0: 01 00 02 00 03 00 04 00 05 00 06 00             [............]
+            # (Viofo A119V3)
+            # 0000: 08 00 00 00 07 00 00 00 18 00 00 00 15 00 00 00 [................]
+            # 0010: 03 00 00 00 0b 00 00 00 41 4e 45 00 01 f2 ac 45 [........ANE....E]
+            # 0020: 2d 7f 6e 45 b8 1e 97 41 d7 23 46 43 00 00 00 00 [-.nE...A.#FC....]
+            # pad with dummy header and parse with existing FreeGPS code (minimum 92 bytes)
+            my $dat = ("\0" x 16) . substr($$dataPt, length($1 || '')) . ("\0" x 20);
+            my $tbl = GetTagTable('Image::ExifTool::QuickTime::Stream');
+            Image::ExifTool::QuickTime::ProcessFreeGPS($et, { DataPt => \$dat }, $tbl);
+            $more = 1;
+        } elsif ($$dataPt =~ /^A([NS])([EW])\0/s) {
+            # INNOVV TS video (same format is INNOVV MP4)
+            SetByteOrder('II');
+            while ($$dataPt =~ /(A[NS][EW]\0.{28})/g) {
+                my $dat = $1;
+                my $lat = abs(GetFloat(\$dat, 4)); # (abs just to be safe)
+                my $lon = abs(GetFloat(\$dat, 8)); # (abs just to be safe)
+                my $spd = GetFloat(\$dat, 12) * $knotsToKph;
+                my $trk = GetFloat(\$dat, 16);
+                my @acc = unpack('x20V3', $dat);
+                map { $_ = $_ - 4294967296 if $_ >= 0x80000000 } @acc;
+                my $deg = int($lat / 100);
+                $lat = $deg + ($lat - $deg * 100) / 60;
+                $deg = int($lon / 100);
+                $lon = $deg + ($lon - $deg * 100) / 60;
+                $$et{DOC_NUM} = ++$$et{DOC_COUNT};
+                my $tagTbl = GetTagTable('Image::ExifTool::QuickTime::Stream');
+                $et->HandleTag($tagTbl, GPSLatitude  => $lat * (substr($dat,1,1) eq 'S' ? -1 : 1));
+                $et->HandleTag($tagTbl, GPSLongitude => $lon * (substr($dat,2,1) eq 'W' ? -1 : 1));
+                $et->HandleTag($tagTbl, GPSSpeed     => $spd);
+                $et->HandleTag($tagTbl, GPSSpeedRef  => 'K');
+                $et->HandleTag($tagTbl, GPSTrack     => $trk);
+                $et->HandleTag($tagTbl, GPSTrackRef  => 'T');
+                $et->HandleTag($tagTbl, Accelerometer => "@acc");
+            }
+            SetByteOrder('MM');
+            $more = 1;
+        }
     }
     return $more;
 }
@@ -351,6 +409,14 @@ sub ProcessM2TS($$)
     my %didPID = ( 1 => 0, 2 => 0, 0x1fff => 0 );
     my %needPID = ( 0 => 1 );       # lookup for stream PID's that we still need to parse
     my $pEnd = 0;
+
+    # scan entire file for GPS program 0x0300 if ExtractEmbedded option is 3 or higher
+    # (some dashcams write this program but don't include it in the PMT)
+    if (($et->Options('ExtractEmbedded') || 0) > 2) {
+        $needPID{0x0300} = 1;
+        $pidType{0x0300} = -1;
+        $pidName{0x0300} = 'unregistered dashcam GPS';
+    }
 
     # parse packets from MPEG-2 Transport Stream
     for (;;) {
@@ -421,12 +487,11 @@ sub ProcessM2TS($$)
         my $adaptation_field_exists      = $prefix & 0x00000020;
         my $payload_data_exists          = $prefix & 0x00000010;
       # my $continuity_counter           = $prefix & 0x0000000f;
-
         if ($verbose > 1) {
             my $i = ($raf->Tell() - length($buff) + $pEnd) / $pLen - 1;
             print  $out "Transport packet $i:\n";
             $et->VerboseDump(\$buff, Len => $pLen, Addr => $i * $pLen, Start => $pos - $prePos);
-            my $str = $pidName{$pid} ? " ($pidName{$pid})" : '';
+            my $str = $pidName{$pid} ? " ($pidName{$pid})" : ' <not in Program Map Table!>';
             printf $out "  Timecode:   0x%.4x\n", Get32u(\$buff, $pos - $prePos) if $pLen == 192;
             printf $out "  Packet ID:  0x%.4x$str\n", $pid;
             printf $out "  Start Flag: %s\n", $payload_unit_start_indicator ? 'Yes' : 'No';
@@ -714,7 +779,7 @@ video.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

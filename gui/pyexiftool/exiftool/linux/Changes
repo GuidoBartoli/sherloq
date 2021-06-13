@@ -4,8 +4,401 @@ ExifTool Version History
 
 RSS feed: https://exiftool.org/rss.xml
 
-Note: The most recent production release is Version 12.00. (Other versions are
-considered development releases, and are not uploaded to CPAN.)
+Note: The most recent production release is Version 12.26. (Other versions are
+considered development releases, and are not uploaded to MetaCPAN.)
+
+June 9, 2021 - Version 12.27
+
+  - Added a new SonyModelID value
+  - Added two new Nikon LensID values (thanks Daniel)
+  - Added a new Pentax RawDevelopmentProcess value
+  - Added a few new Sony LensType values (thanks Jos Roost)
+  - Added warning if IPTCDigest is not current
+  - Decode a couple more Pentax tags (thanks LibRaw)
+  - Decode streaming GPS from Novatek INNOVV MP4 and TS videos
+  - Improved tag names in confi_files/covert_regions.config (thanks StarGeek)
+  - Changed MIME types for MS Office macro-enabled formats to add the .12
+  - Patched Canon LensID logic to properly identify the Canon RF 24-105mm F4 L
+    IS USM lens
+  - Patched decoding of camm6 GPSDateTime to use a flexible epoch because other
+    apps don't seem to use a consistent time zero
+  - Fixed family 7 group names for QuickTime Keys tags
+  - Fixed problem reading BeatsPerMinute from some MP4 files
+  - Fixed hemisphere problem when extracting GPS from 70mai dashcam videos
+
+May 20, 2021 - Version 12.26 (production release)
+
+  - Added support for JPEG Stereo (JPS) images
+  - Added a new Sony LensType (thanks LibRaw)
+  - Added a new PentaxModelID (thanks LibRaw)
+  - Changed ExifTool namespace URI to use exiftool.org instead of exiftool.ca in
+    the -X option output (exiftool.ca is still recognized when reading XML)
+  - Improved handling of large-array warnings in -htmldump output
+  - Changed handling of escaped characters in #[CSTR] lines of -@ argfile
+  - Patched security vulnerability in argument of -lang option
+  - Fixed problem which could cause a "Wide character" warning and generate a
+    corrupted output file when writing some illegal values
+
+Apr. 22, 2021 - Version 12.25
+
+  - JPEG XL support is now official
+  - Added read support for  Medical Research Council (MRC) image files
+  - Added ability to write a number of 3gp tags in video files
+  - Added a new Sony PictureProfile value (thanks Jos Roost)
+  - Added a new Sony LensType (thanks LibRaw)
+  - Added a new Nikon LensID (thanks Niels Kristian Bech Jensen)
+  - Added a new Canon LensType
+  - Decode more GPS information from Blackvue dashcam videos
+  - Decode a couple of new NikonSettings tags (thanks Warren Hatch)
+  - Decode a few new RIFF tags
+  - Improved Validate option to add minor warning if standard XMP is missing
+    xpacket wrapper
+  - Avoid decoding some large arrays in DNG images to improve performance unless
+    the -m option is used
+  - Patched bug that could give runtime warning when trying to write an empty
+    XMP structure
+  - Fixed decoding of ImageWidth/Height for JPEG XL images
+  - Fixed problem were Microsoft Xtra tags couldn't be deleted
+
+Apr. 13, 2021 - Version 12.24
+
+  - Added a new PhaseOne RawFormat value (thanks LibRaw)
+  - Decode a new Sony tag (thanks Jos Roost)
+  - Decode a few new Panasonic and FujiFilm tags (thanks LibRaw and Greybeard)
+  - Updated acdsee.config in distribution (thanks StarGeek)
+  - Recognize AutoCAD DXF files
+  - More work on experimental JUMBF read support
+  - More work on experimental JPEG XL read/write support
+  - Patched security vulnerability in DjVu reader
+
+Apr. 1, 2021 - Version 12.23
+
+  - Added support for Olympus ORI files
+  - Added experimental read/write support for JPEG XL images
+  - Added experimental read support for JUMBF metadata in JPEG and Jpeg2000
+    images
+  - Added built-in support for parsing GPS track from Denver ACG-8050 videos
+    with the -ee option
+  - Added a some new Sony lenses (thanks Jos Roost and LibRaw)
+  - Changed priority of Samsung trailer tags so the first DepthMapImage takes
+    precedence when -a is not used
+  - Improved identification of M4A audio files
+  - Patched to avoid escaping ',' in "Binary data" message when -struct is used
+  - Removed Unknown flag from MXF VideoCodingSchemeID tag
+  - Fixed -forcewrite=EXIF to apply to EXIF in binary header of EPS files
+  - API Changes:
+      - Added BlockExtract option
+
+Mar. 17, 2021 - Version 12.22
+
+  - Added a few new Sony LensTypes and a new SonyModelID (thanks Jos Roost and
+    LibRaw)
+  - Added Extra BaseName tag
+  - Added a new CanonModelID (thanks LibRaw)
+  - Decode timed GPS from unlisted programs in M2TS videos with the -ee3 option
+  - Decode more Sony rtmd tags
+  - Decode some tags for the Sony ILME-FX3 (thanks Jos Roost)
+  - Allow negative values to be written to XMP-aux:LensID
+  - Recognize HEVC video program in M2TS files
+  - Enhanced -b option so --b suppresses tags with binary data
+  - Improved flexibility when writing GPS coordinates:
+      - Now pulls latitude and longitude from a combined GPSCoordinates string
+      - Recognize full word "South" and "West" to write negative coordinates
+  - Improved warning when trying to write an integer QuickTime date/time tag and
+    Time::Local is not available
+  - Convert GPSSpeed from mph to km/h in timed GPS from Garmin MP4 videos
+
+Feb. 24, 2021 - Version 12.21
+
+  - Added a few new iOS QuickTime tags
+  - Decode a couple more Sony rtmd tags
+  - Patch to avoid possible "Use of uninitialized value" warning when attempting
+    to write QuickTime date/time tags with an invalid value
+  - Fixed problem writing Microsoft Xtra tags
+  - Fixed Windows daylight savings time patch for file times that was broken in
+    12.19 (however directory times will not yet handle DST properly)
+
+Feb. 23, 2021 - Version 12.20
+
+  - Added ability to write some Microsoft Xtra tags in MOV/MP4 videos
+  - Added two new Canon LensType values (thanks Norbert Wasser)
+  - Added a new Nikon LensID
+  - Fixed problem reading FITS comments that start before column 11
+
+Feb. 18, 2021 - Version 12.19
+
+  - Added -list_dir option
+  - Added the "ls-l" Shortcut tag
+  - Extract Comment and History from FITS files
+  - Enhanced FilePermissions to include device type (similar to "ls -l")
+  - Changed the name of Apple ContentIdentifier tag to MediaGroupUUID
+    (thanks Neal Krawetz)
+  - Fixed a potential "substr outside of string" runtime error when reading
+    corrupted EXIF
+  - Fixed edge case where NikonScanIFD may not be copied properly when copying
+    MakerNotes to another file
+  - API Changes:
+      - Added ability to read/write System tags of directories
+      - Enhanced GetAllGroups() to support family 7 and take optional ExifTool
+        reference
+      - Changed QuickTimeHandler option default to 1
+
+Feb. 9, 2021 - Version 12.18
+
+  - Added a new SonyModelID
+  - Decode a number of Sony tags for the ILCE-1 (thanks Jos Roost)
+  - Decode a couple of new Canon tags (thanks LibRaw)
+  - Patched to read differently formatted UserData:Keywords as written by iPhone
+  - Patched to tolerate out-of-order Nikon MakerNote IFD entries when obtaining
+    tags necessary for decryption
+  - Fixed a few possible Condition warnings for some NikonSettings tags
+
+Feb. 3, 2021 - Version 12.17
+
+  - Added a new Canon FocusMode value
+  - Added a new FujiFilm FilmMode value
+  - Added a number of new XMP-crs tags (thanks Herb)
+  - Decode a new H264 MDPM tag
+  - Allow non-conforming lower-case XMP boolean "true" and "false" values to be
+    written, but only when print conversion is disabled
+  - Improved Validate option to warn about non-capitalized boolean XMP values
+  - Improved logic for setting GPSLatitude/LongitudeRef values when writing
+  - Changed -json and -php options so the -a option is implied even without the
+    -g option
+  - Avoid extracting audio/video data from AVI videos when -ee -u is used
+  - Patched decoding of Canon ContinuousShootingSpeed for newer firmware
+    versions of the EOS-1DXmkIII
+  - Re-worked LensID patch of version 12.00 (github issue #51)
+  - Fixed a few typos in newly-added NikonSettings tags (thanks Herb)
+  - Fixed problem where group could not be specified for PNG-pHYs tags when
+    writing
+
+Jan. 21, 2021 - Version 12.16 (production release)
+
+  - Extract another form of video subtitle text
+  - Enhanced -ee option with -ee2 and -ee3 to allow parsing of the H264 video
+    stream in MP4 files
+  - Changed a Nikon FlashMode value
+  - Fixed problem that caused a failed DPX test on Strawberry Perl
+  - API Changes:
+      - Enhanced ExtractEmbedded option
+
+Jan. 18, 2021 - Version 12.15 (production release)
+
+  - Added a couple of new Sony LensType values (thanks LibRaw and Jos Roost)
+  - Added a new Nikon FlashMode value (thanks Mike)
+  - Decode NikonSettings (thanks Warren Hatch)
+  - Decode thermal information from DJI RJPEG images
+  - Fixed extra newline in -echo3 and -echo4 outputs added in version 12.10
+  - Fixed out-of-memory problem when writing some very large PNG files under
+    Windows
+
+Jan. 6, 2021 - Version 12.14
+
+  - Added support for 2 more types of timed GPS in video files (that makes 49
+    different formats now supported)
+  - Added validity check for PDF trailer dictionary Size
+  - Added a new Pentax LensType
+  - Extract metadata from Jpeg2000 Association box
+  - Changed -g:XX:YY and -G:XX:YY options to show empty strings for non-existent
+    groups
+  - Patched to issue warning and avoid writing date/time values with a zero
+    month or day number
+  - Patched to avoid runtime warnings if trying to set FileName to an empty
+    string
+  - Fixed issue that could cause GPS test number 12 to fail on some systems
+  - Fixed problem extracting XML as a block from Jpeg2000 images, and extract
+    XML tags in the XML group instead of XMP
+
+Dec. 24, 2020 - Version 12.13
+
+  - Added -i HIDDEN option to ignore files with names that start with "."
+  - Added a few new Nikon ShutterMode values (thanks Jan Skoda)
+  - Added ability to write Google GCamera MicroVideo XMP tags
+  - Add time zone automatically to most string-based QuickTime date/time tags
+    when writing unless the PrintConv option is disabled
+  - Decode a new Sony tag (thanks LibRaw)
+  - Changed behaviour when writing only pseudo tags to return an error and avoid
+    writing any other tags if writing FileName fails
+  - Print "X image files read" message even if only 1 file is read when at least
+    one other file has failed the -if condition
+
+Dec. 4, 2020 - Version 12.12
+
+  - Added ability to geotag from DJI CSV log files
+  - Added a new CanonModelID
+  - Added a couple of new Sony LensType values (thanks LibRaw)
+  - Enhanced -csvDelim option to allow "\t", "\n", "\r" and "\\"
+  - Unescape "\b" and "\f" in imported JSON values
+  - Fixed bug introduced in 12.10 which generated a "Not an integer" warning
+    when attempting to shift some QuickTime date/time tags
+  - Fixed shared-write permission problem with -@ argfile when using -stay_open
+    and a filename containing special characters on Windows
+
+Nov. 27, 2020 - Version 12.11
+
+  - Added -csvDelim option
+  - Added new Canon and Olympus LensType values (thanks LibRaw)
+  - Added a warning if ICC_Profile is deleted from an image (github issue #63)
+  - EndDir() function for -if option now works when -fileOrder is used
+  - Changed FileSize conversion to use binary prefixes since that is how the
+    conversion is currently done (eg. MiB instead of MB)
+  - Patched -csv option so columns aren't resorted when using -G option and one
+    of the tags is missing from a file
+  - Fixed incompatiblity with Google Photos when writing UserData:GPSCoordinates
+    to MP4 videos
+  - Fixed problem where the tags available in a -p format string were limited to
+    the same as the -if[NUM] option when NUM was specified
+  - Fixed incorrect decoding of SourceFileIndex/SourceDirectoryIndex for Ricoh
+    models
+
+Nov. 12, 2020 - Version 12.10
+
+  - Added -validate test for proper TIFF magic number in JPEG EXIF header
+  - Added support for Nikon Z7 LensData version 0801
+  - Added a new XMP-GPano tag
+  - Decode ColorData for the Canon EOS 1DXmkIII (thanks LibRaw)
+  - Decode more tags for the Sony ILCE-7SM3 (thanks Jos Roost)
+  - Automatically apply QuickTimeUTC option for CR3 files
+  - Improved decoding of XAttrMDLabel from MacOS files
+  - Ignore time zones when writing date/time values and using the -d option
+  - Enhanced -echo3 and -echo4 options to allow exit status to be returned
+  - Changed -execute so the -q option no longer suppresses the "{ready}" message
+    when a synchronization number is used (eg. -execute123)
+
+Oct. 29, 2020 - Version 12.09
+
+  - Added ability to copy CanonMakerNotes from CR3 images to other file types
+  - Added read support for ON1 presets file (.ONP)
+  - Added two new CanonModelID values
+  - Added trailing "/" when writing QuickTime:GPSCoordinates
+  - Added a number of new XMP-crs tags
+  - Added a new Sony LensType (thanks Jos Roost)
+  - Added a new Nikon Z lens (thanks LibRaw)
+  - Added a new Canon LensType
+  - Decode ColorData for Canon EOS R5/R6
+  - Decode a couple of new HEIF tags
+  - Decode FirmwareVersion for Canon M50
+  - Improved decoding of Sony CreativeStyle tags (thanks Jos Roost)
+  - Improved parsing of Radiance files to recognize comments
+  - Renamed GIF AspectRatio tag to PixelAspectRatio
+  - Patched EndDir() feature so subdirectories are always processed when -r is
+    used (previously, EndDir() would end processing of a directory completely)
+  - Yet another tweak to the EventTime formatting rules (also allow time-only
+    values with fractional seconds and a time zone)
+  - Avoid loading GoPro module unnecessarily when reading MP4 videos from some
+    other cameras
+  - Fixed problem with an incorrect naming of CodecID tags in some MKV videos
+  - Fixed verbose output to avoid "adding" messages for existing flattened XMP
+    tags
+
+Oct. 15, 2020 - Version 12.08
+
+  - Added read support for MacOS "._" sidecar files
+  - Added a new Sony LensType (thanks Jos Roost)
+  - Recognize Mac OS X xattr files
+  - Extract ThumbnailImage from MP4 videos of more dashcam models
+  - Improved decoding of a number of Sony tags (thanks Jos Roost)
+  - Fixed problem where the special -if EndDir() function didn't work properly
+    for directories after the one in which it was initially called
+  - Patched to read DLL files which don't have a .rsrc section (thanks Hank)
+  - Patched to support new IGC date format when geotagging
+  - Patched to read DLL files with an invalid size in the header
+
+Oct. 2, 2020 - Version 12.07
+
+  - Added support for GoPro .360 videos
+  - Added some new Canon RF and Nikkor Z lenses (thanks LibRaw)
+  - Added some new Sony LensType and CreativeStyle values and decode some
+    ILCE-7C tags (thanks Jos Roost)
+  - Added a number of new Olympus SceneMode values (thanks Herb)
+  - Added a new Nikon LensID
+  - Decode more timed metadata from Insta360 videos (thanks Thomas Allen)
+  - Decode timed GPS from videos of more Garmin dashcam models
+  - Decode a new GoPro video tag
+  - Reformat time-only EventTime values when writing and prevent arbitrary
+    strings from being written
+  - Patched to accept backslashes in SourceFile entries for -csv option
+
+Sept. 11, 2020 - Version 12.06
+
+  - Added read support for Lyrics3 metadata (and fixed problem where APE
+    metadata may be ignored if Lyrics3 exists)
+  - Added a new Panasonic VideoBurstMode value (thanks Klaus Homeister)
+  - Added a new Olympus MultipleExposureMode value
+  - Added a new Nikon LensID
+  - Added back conversions for XMP-dwc EventTime that were removed in 12.04 with
+    a patch to allow time-only values
+  - Decode GIF AspectRatio
+  - Decode Olympus FocusBracketStepSize (thanks Karsten)
+  - Extract PNG iDOT chunk in Binary format with the name AppleDataOffsets
+  - Process PNG images which do not start with mandatory IHDR chunk
+
+Aug. 24, 2020 - Version 12.05
+
+  - Added a new Panasonic SelfTimer value (thanks Herb)
+  - Decode a few more DPX tags (thanks Harry Mallon)
+  - Extract AIFF APPL tag as ApplicationData
+  - Fixed bug writing QuickTime ItemList 'gnre' Genre values
+  - Fixed an incorrect value for Panasonic VideoBurstResolution (thanks Herb)
+  - Fixed problem when applying a time shift to some invalid makernote date/time
+    values
+
+Aug. 10, 2020 - Version 12.04
+
+  - Added read support for Zeiss ZISRAW CZI files
+  - Added some new values for a couple of Olympus tags (thanks Sebastian)
+  - Decode a number of new tags for the Sony ILCE-7SM3 (thanks Jos Roost)
+  - Removed formatting restrictions on XMP-dwc:EventTime to allow a time-only
+    value to be written
+  - Moved new QuckTime ItemList tags added in version 12.02 to the proper group
+    (they were incorrectly added to the Keys group)
+  - Improved QuickTime -v3 output to show default language codes
+  - Patched -lang option to work for the values of somet tags with coded
+    translations
+  - Patched the format of a number of QuickTime tags when writing for improved
+    compatibility with iTunes and AtomicParsley
+  - Patched to write a default QuickTime language code of 0x0000 (null) instead
+    of 0x55c4 ('und')
+
+July 29, 2020 - Version 12.03
+
+  - Added family 7 group names to allow tag ID's to be specified when reading
+    and writing
+  - Fixed a couple of typos in tag values (thanks Herb)
+  - API Changes:
+      - Added HexTagIDs option
+      - Enhanced GetNewValue() to allow family 7 groups names to be used
+  - Internal Changes:
+      - Changed Composite tag ID's to use "-" instead of "::" as a separator
+
+July 27, 2020 - Version 12.02
+
+  - Added support for a number of new QuickTime ItemList tags
+  - Added support for writing XMP-xmp:RatingPercent
+  - Added a new Sony LensType (thanks Jos Roost and LibRaw)
+  - Added a new Pentax LensType (thanks James O'Neill)
+  - Decode barcodes from Ricoh APP5 RMETA segment
+  - Decode a few new QuickTime tags written by Ricoh and Garmin cameras
+  - Decode timed GPS from Sony A7R IV MP4 videos
+  - Decode timed GPS from 70mai dashcam videos
+  - Decode a few new Panasonic tags (thanks Klaus Homeister)
+  - Decode altitude and more accurate latitude/longitude from Transcend Driver
+    Pro 230 MP4 videos
+  - Improved decoding of some Canon EOS 1DXmkIII custom functions
+  - Allow integer QuickTime TrackNumber and DiskNumber values
+  - Relax validity check of QuickTime:ContentCreateDate when writing with -n
+  - Removed "Com" from the start of some unknown QuickTime ItemList tag names
+  - Patched CanonCustom decoding for bug in Canon EOS-1DX firmware
+  - Changed QuickTime CleanAperture tags decode as signed rationals
+
+June 24, 2020 - Version 12.01
+
+  - Added a new NEFCompression value (thanks Warren Hatch)
+  - Added a new Sony LensType (thanks Jos Roost)
+  - Decode timed GPS from Rove Stealth 4K dashcam videos
+  - Fixed bug which would corrupt TIFF images with 16-bit image data offsets
+    when writing (these are very rare)
 
 June 11, 2020 - Version 12.00 (production release)
 
@@ -37,8 +430,8 @@ June 11, 2020 - Version 12.00 (production release)
   - Fixed problem writing a list containing empty elements inside an XMP
     structure
   - API Changes:
-      - Changed FilterW option to not write tag if $_ is set to undef
       - Added NoMultiExif option
+      - Changed FilterW option to not write tag if $_ is set to undef
 
 May 11, 2020 - Version 11.99
 

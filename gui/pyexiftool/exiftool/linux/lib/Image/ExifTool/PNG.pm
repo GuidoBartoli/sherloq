@@ -36,7 +36,7 @@ use strict;
 use vars qw($VERSION $AUTOLOAD %stdCase);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.54';
+$VERSION = '1.57';
 
 sub ProcessPNG_tEXt($$$);
 sub ProcessPNG_iTXt($$$);
@@ -311,6 +311,18 @@ my %noLeapFrog = ( SAVE => 1, SEEK => 1, IHDR => 1, JHDR => 1, IEND => 1, MEND =
     },
     # fcTL - animation frame control for each frame
     # fdAT - animation data for each frame
+    iDOT => { # (ref NealKrawetz)
+        Name => 'AppleDataOffsets',
+        Binary => 1,
+        # Apple offsets into data relative to start of iDOT chunk:
+        #    int32u Divisor  [only ever seen 2]
+        #    int32u Unknown  [always 0]
+        #    int32u TotalDividedHeight  [image height from IDHR/Divisor]
+        #    int32u Size  [always 40 / 0x28; size of this chunk]
+        #    int32u DividedHeight1
+        #    int32u DividedHeight2
+        #    int32u IDAT_Offset2 [location of IDAT with start of DividedHeight2 segment]
+    },
 );
 
 # PNG IHDR chunk
@@ -963,7 +975,7 @@ sub FoundPNG($$$$;$$$$)
         $$tagInfo{LangCode} = $lang if $lang;
         # make unknown profiles binary data type
         $$tagInfo{Binary} = 1 if $tag =~ /^Raw profile type /;
-        $verbose and $et->VPrint(0, "  | [adding $tag]\n");
+        $verbose and $et->VPrint(0, "  [adding $tag]\n");
         AddTagToTable($tagTablePtr, $tag, $tagInfo);
     }
 #
@@ -1342,8 +1354,7 @@ sub ProcessPNG($$)
             } elsif ($hdrChunk eq 'IHDR' and $chunk eq 'CgBI') {
                 $et->Warn('Non-standard PNG image (Apple iPhone format)');
             } else {
-                $et->Warn("$fileType image did not start with $hdrChunk");
-                last;
+                $et->WarnOnce("$fileType image did not start with $hdrChunk");
             }
         }
         if ($outfile and ($isDatChunk{$chunk} or $chunk eq $endChunk) and @txtOffset) {
@@ -1411,8 +1422,16 @@ sub ProcessPNG($$)
             next;
         }
         if ($datChunk) {
-            # skip over data chunks if possible
-            unless ($verbose or $validate or $outfile) {
+            my $chunkSizeLimit = 10000000;  # largest chunk to read into memory
+            if ($outfile) {
+                # avoid loading very large data chunks into memory
+                if ($len > $chunkSizeLimit) {
+                    Write($outfile, $hbuf) or $err = 1;
+                    Image::ExifTool::CopyBlock($raf, $outfile, $len+4) or $et->Error("Error copying $datChunk");
+                    next;
+                }
+            # skip over data chunks if possible/necessary
+            } elsif (not $validate or $len > $chunkSizeLimit) {
                 $raf->Seek($len + 4, 1) or $et->Warn('Seek error'), last;
                 next;
             }
@@ -1520,7 +1539,7 @@ and JNG (JPEG Network Graphics) images.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

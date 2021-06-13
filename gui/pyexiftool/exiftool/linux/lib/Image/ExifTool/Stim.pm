@@ -21,8 +21,8 @@ $VERSION = '1.01';
     NOTES => q{
         These tags are part of the CIPA Stereo Still Image specification, and are
         found in the APP3 "Stim" segment of JPEG images.  See
-        L<http://www.cipa.jp/std/documents/e/DC-006_E.pdf> for the
-        official specification.
+        L<https://web.archive.org/web/20190718152459/http://www.cipa.jp/std/documents/e/DC-006_E.pdf>
+        for the official specification.
     },
     0 => 'StimVersion',
     1 => {
@@ -174,7 +174,7 @@ information.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

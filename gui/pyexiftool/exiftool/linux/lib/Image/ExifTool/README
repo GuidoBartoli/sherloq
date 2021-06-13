@@ -62,10 +62,11 @@ key:
   information about the source directory for tags to be copied to the output.
 
   CHECK_PROC : Reference to a function which validates Raw values for writing.
-  The function takes three arguments: 0) ExifTool object reference, 1) tagInfo
-  reference, 2) value reference, and returns undefined (and possibly modifies
-  the input value) if successful, or an error message if there was a format
-  problem.  May set ExifTool CHECK_WARN datamember for success with a warning.
+  The function takes 3-4 arguments: 0) ExifTool object reference, 1) tagInfo
+  reference, 2) value reference, and 3) [optional] conversion type.  It returns
+  undefined (and possibly modifies the input value) if successful, or an error
+  message if there was a format problem.  May set ExifTool CHECK_WARN datamember
+  for success with a warning.
 
   INIT_TABLE : Routine called to do any necessary initialization before the
   first time the table is loaded.  Argument is a reference to the table.
@@ -387,8 +388,11 @@ numerical, and generated automatically otherwise.
                   'Flattened' - [reserved] used internally to mark Struct tags
                   which have been processed to generate flattened equivalents.
 
-                  'GotGroups' - [reserved] flag used internally to indicate that
-                  the Groups hash has been initialized for this tag.
+                  'NotFlat' - [XMP tags only] Flag indicates that this tag ID
+                  does not represent a flattened tag.  Used to avoid a conflict
+                  if the tag ID would be the same as a generated ID for a
+                  flattened tag.  The result is that the flattened tag will not
+                  be accessible.
 
                   'Hidden' - set to hide tag from the TagName documentation.
                   Also suppresses verbose output of a BinaryData tag.
@@ -763,25 +767,26 @@ numerical, and generated automatically otherwise.
                   conditionally deleted.
 
   Writable      : Indicates this tag can be written (or not written if Writable
-                  is set to zero), and for EXIF-type tables gives format for
-                  writing.  Writable may be set to 1 for MakerNotes information
-                  because the existing format is always used, however providing
-                  a format is desirable because it is used in validating the
-                  value.  Set to 2 for tag to show "yes" in the Writable column
-                  of the tag name documentation even when there is no WRITE_PROC
-                  defined (eg. if it is written via an Extra tag).  For EXIF
-                  tables, the Writable flag may be different than the Format
-                  flag, in which case Format is used for converting the binary
-                  value and Writable specifies the format code written to the
-                  EXIF IFD.  For SubDirectories in EXIF information, this flag
-                  is only defined if the SubDirectory is writable as a block, or
-                  if the SubDirectory can not be edited (in which case Writable
-                  is set to 0).  If non-zero, the SubDirectory is also extracted
-                  as a block, so the Binary and Protected flags should usually
-                  set as well.  There is currently no way to specify a write
-                  format for a SubDirectory that is not writable as a block (the
-                  default is 'int32u' for IFD-type SubDirectories, and 'undef'
-                  for all others).
+                  is set to zero), and for EXIF and QuickTime tables gives
+                  format for writing.  Writable may be set to 1 for MakerNotes
+                  information because the existing format is always used,
+                  however providing a format is desirable because it is used in
+                  validating the value.  Set to 2 for tag to show "yes" in the
+                  Writable column of the tag name documentation even when there
+                  is no WRITE_PROC defined (eg. if it is written via an Extra
+                  tag).  For EXIF and QuickTime tables, the Writable flag may be
+                  different than the Format flag, in which case Format is used
+                  for converting the binary value and Writable specifies the
+                  format code written to the EXIF IFD.  For SubDirectories in
+                  EXIF information, this flag is only defined if the
+                  SubDirectory is writable as a block, or if the SubDirectory
+                  can not be edited (in which case Writable is set to 0).  If
+                  non-zero, the SubDirectory is also extracted as a block, so
+                  the Binary and Protected flags should usually set as well. 
+                  There is currently no way to specify a write format for a
+                  SubDirectory that is not writable as a block (the default is
+                  'int32u' for IFD-type SubDirectories, and 'undef' for all
+                  others).
 
   WriteAlso     : Used for writable tag to specify other tags to write when this
                   tag is written.  The value is a hash reference.  The hash keys

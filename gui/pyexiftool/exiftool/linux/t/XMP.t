@@ -21,7 +21,7 @@ END {print "not ok 1\n" unless $loaded;}
 use vars %Image::ExifTool::UserDefined::myXMPns;    # avoid "typo" warning
 %Image::ExifTool::UserDefined::myXMPns = (
     GROUPS    => { 0 => 'XMP', 1 => 'XMP-myXMPns'},
-    NAMESPACE => { 'myXMPns' => 'http://ns.exiftool.ca/t/XMP.t' },
+    NAMESPACE => { 'myXMPns' => 'http://ns.exiftool.org/t/XMP.t' },
     WRITABLE  => 'string',
     ATestTag  => { List => 'Bag', Resource => 1 },
     BTestTag  => {
@@ -262,7 +262,7 @@ my $testnum = 1;
         [ 'xmp-xmprights:all' => undef, Replace => 2 ],
     );
     print 'not ' unless writeCheck(\@writeInfo, $testname, $testnum,
-                                   't/images/XMP.jpg', ['XMP:all']);
+                                   't/images/XMP.jpg', ['XMP:all'], undef, 1);
     print "ok $testnum\n";
 }
 
@@ -274,7 +274,7 @@ my $testnum = 1;
         [ 'xmp:all' => undef, Replace => 2 ],
     );
     print 'not ' unless writeCheck(\@writeInfo, $testname, $testnum,
-                                   't/images/XMP.jpg', ['-file:all']);
+                                   't/images/XMP.jpg', ['-file:all'], undef, 1);
     print "ok $testnum\n";
 }
 
@@ -296,7 +296,7 @@ my $testnum = 1;
     unlink $testfile;
     my @writeInfo = (
         [ 'XMP-x:XMPToolkit' => "What's this?", Protected => 1 ],
-        [ 'XMP-rdf:About' => "http://www.exiftool.ca/t/$testname.t#$testnum", Protected => 1 ],
+        [ 'XMP-rdf:About' => "http://www.exiftool.org/t/$testname.t#$testnum", Protected => 1 ],
         [ 'XMP:ImageType' => 'Video' ],
         [ 'LicenseeImageNotes-en' => 'english notes' ],
         [ 'LicenseeImageNotes-de' => 'deutsche anmerkungen' ],
@@ -305,8 +305,8 @@ my $testnum = 1;
         [ 'CopyrightStatus' => 'public' ],
         [ 'Custom1-en' => 'a' ],
         [ 'Custom1-en' => 'b' ],
-        [ 'ATestTag' => "http://www.exiftool.ca/t/$testname.t#$testnum-one" ],
-        [ 'ATestTag' => "http://www.exiftool.ca/t/$testname.t#$testnum-two" ],
+        [ 'ATestTag' => "http://www.exiftool.org/t/$testname.t#$testnum-one" ],
+        [ 'ATestTag' => "http://www.exiftool.org/t/$testname.t#$testnum-two" ],
     );
     $exifTool->SetNewValue(@$_) foreach @writeInfo;
     my $ok = writeInfo($exifTool, undef, $testfile);

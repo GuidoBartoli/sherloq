@@ -59,6 +59,7 @@ my %psMap = (
     Photoshop    => 'PostScript',
     IPTC         => 'Photoshop',
     EXIFInfo     => 'Photoshop',
+    EXIF         => 'EXIFInfo',
     IFD0         => 'EXIFInfo',
     IFD1         => 'IFD0',
     ICC_Profile  => 'PostScript',
@@ -686,7 +687,7 @@ Thanks to Tim Kordick for his help testing the EPS writer.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

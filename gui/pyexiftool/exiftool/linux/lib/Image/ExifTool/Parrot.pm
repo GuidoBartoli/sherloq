@@ -13,7 +13,7 @@ package Image::ExifTool::Parrot;
 use strict;
 use vars qw($VERSION);
 
-$VERSION = '1.00';
+$VERSION = '1.01';
 
 sub Process_mett($$$);
 
@@ -703,6 +703,7 @@ sub Process_mett($$$)
         $et->HandleTag($tagTbl, $id, undef,
             DataPt  => $dataPt,
             DataPos => $dataPos,
+            Base    => $$dirInfo{Base},
             Start   => $pos,
             Size    => $size,
         );
@@ -730,7 +731,7 @@ timed metadata from the 'mett' frame found in Parrot drone MP4 videos.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

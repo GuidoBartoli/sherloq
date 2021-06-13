@@ -164,6 +164,7 @@ PTILoop:    for ($index=0; $index<@infoArray; ++$index) {
                 $format = 'struct' if $$tagInfo{Struct};
                 if (defined $format) {
                     $format =~ s/\[.*\$.*\]//;   # remove expressions from format
+                    $format = 'undef' if $format eq '2'; # (special case)
                 } elsif ($isBinary) {
                     $format = 'int8u';
                 } else {
@@ -637,7 +638,7 @@ and values.
 
 ~head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
@@ -821,7 +822,7 @@ Number of modules updated, or negative on error.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

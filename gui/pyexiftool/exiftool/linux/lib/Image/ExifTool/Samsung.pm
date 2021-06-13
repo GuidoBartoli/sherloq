@@ -22,7 +22,7 @@ use vars qw($VERSION %samsungLensTypes);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 
-$VERSION = '1.48';
+$VERSION = '1.49';
 
 sub WriteSTMN($$$);
 sub ProcessINFO($$$);
@@ -940,6 +940,7 @@ my %formatMinMax = (
 %Image::ExifTool::Samsung::Trailer = (
     GROUPS => { 0 => 'MakerNotes', 2 => 'Other' },
     VARS => { NO_ID => 1, HEX_ID => 0 },
+    PRIORITY => 0, # (first one takes priority so DepthMapWidth/Height match first DepthMapData)
     NOTES => q{
         Tags extracted from the trailer of JPEG images written when using certain
         features (such as "Sound & Shot" or "Shot & More") from Samsung models such
@@ -1447,7 +1448,7 @@ Samsung maker notes in EXIF information.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

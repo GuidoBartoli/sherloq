@@ -45,6 +45,7 @@ ol.index { margin: 0; padding: 0 0 0 2em }
 <li><a href="#Q27">Windows .BAT file problems</a></li>
 <li><a href="#Q28">Copying a shifted date/time</a></li>
 <li><a href="#Q29">ARGFILE options</a></li>
+<li><a href="#Q30">Extracting all metadata</a></li>
 </ol>
 </div>
 
@@ -135,7 +136,7 @@ with the desired group name.  eg.) "<code>-ExifIFD:DateTimeOriginal</code>"
 different meta information formats within the same file.  For example, often XMP
 will be ignored if IPTC exists and the Photoshop:IPTCDigest does not agree with
 the IPTC content.  The
-<a href="http://www.metadataworkinggroup.org/">Metadata Working Group</a>
+<a href="https://web.archive.org/web/20181006115950/http://www.metadataworkinggroup.org/specs/">Metadata Working Group</a>
 recommends techniques to keep the EXIF, IPTC and XMP metadata synchronized. 
 These recommendations are implemented by the ExifTool
 <a href="TagNames/MWG.html">MWG tags</a>.  For maximum compatibility with the
@@ -929,11 +930,12 @@ valid.  The numbers represent degrees, (and optionally) minutes and
 seconds with any number of decimal places.</blockquote>
 
 <blockquote>For EXIF GPS coordinates, the reference direction is specified
-separately with the EXIF:GPSLatitudeRef or EXIF:GPSLongitudeRef tag. 
-GPSLatitudeRef may be written with a string ending in "<code>N</code>" or
-"<code>S</code>", or with a signed coordinate value, positive for the northern
-hemisphere or negative for the south.  GPSLongitudeRef accepts similar values,
-but for E (positive) and W (negative).</blockquote>
+separately with the EXIF:GPSLatitudeRef or EXIF:GPSLongitudeRef tag.
+GPSLatitudeRef may be written with a string containing "<code>N</code>",
+"<code>North</code>", "<code>S</code>" or "<code>South</code>", or with a signed
+coordinate value (positive for the northern hemisphere or negative for the
+south).  GPSLongitudeRef accepts similar values, but for E/East (positive) and
+W/West (negative).</blockquote>
 
 <blockquote>For XMP GPS coordinates, the reference direction is specified within
 the XMP:GPSLatitude or XMP:GPSLongitude value, with west longitudes and south
@@ -955,6 +957,10 @@ exiftool -xmp:gpslatitude=-42.5 a.jpg
 Similar styles may be used for longitude.  ExifTool will convert any of these
 coordinate styles to the proper format for the specific tag used.
 </blockquote>
+
+<blockquote>ExifTool 12.22 and later allow combined lat/lon GPSCoordinates
+values to be written to GPSLatitude and GPSLongitude, and the appropriate
+latitude or longitude part will be pulled from the input string.</blockquote>
 
 <blockquote>When reading, by default ExifTool reports coordinates in the format
 <pre>DDD deg MM' SS.SS"</pre>
@@ -1306,7 +1312,10 @@ tag. </blockquote>
 the same directory as the exiftool application. Note that the file name begins
 with a "<code>.</code>", so if you are in Windows or on a Mac you may need to
 rename the file from the command line since the GUI might not like file names
-beginning with a "<code>.</code>".</blockquote>
+beginning with a "<code>.</code>".  <i class=lt>[An alternative is to load the
+config file with the <code>-config</code> option -- see the
+<a href="exiftool_pod.html#config-CFGFILE">application documentation</a>
+for details.]</i></blockquote>
 
 <blockquote>User-defined Composite tags have many other features, including the
 ability to combine the values of multiple tags.  See the
@@ -1547,16 +1556,14 @@ file.</blockquote>
 also sets this to the current date/time when the file is edited.  On Windows the
 creation date is readable/writable through the FileCreateDate tag (see the
 <a href="TagNames/Extra.html">Extra Tags documentation</a>), and is preserved
-with the <code>-P</code> option. On Mac the MDItemFSCreationDate tag is used
-(see the <a href="TagNames/MacOS.html#MDItem">MacOS MDItem Tags documentation</a>),
-however this tag is extracted only if specified explicitly or the
-<a href="ExifTool.html#MDItemTags">MDItemTags API option</a> is set.  The
-<code>-P</code> option does not preserve the creation date when editing a file
-on Mac systems, but the <code>-overwrite_original_in_place</code> option may be
-used to preserve all Finder information including the creation date, or the
-MDItemFSCreationDate may be copied back specifically (ie.
-<code>-tagsfromfile @ -MDItemFSCreationDate</code>).  On Linux, the file
-creation date is not stored.</blockquote>
+with the <code>-P</code> option. On MacOS, FileCreateDate is available but
+extracted only if specified explicitly, and is writable only if "setfile" is
+available.  The <code>-P</code> option does not preserve the creation date when
+editing a file on Mac systems, but the <code>-overwrite_original_in_place</code>
+option may be used to preserve all Finder information including the creation
+date, or the FileCreateDate may be copied back specifically (ie.
+<code>-tagsfromfile @ -FileCreateDate</code>).  On Linux, the file creation date
+is not stored.</blockquote>
 
 <blockquote>For example, commands like this act on common metadata tags, setting
 the filesystem modification date/time to the current date/time:
@@ -1591,8 +1598,9 @@ exiftool -alldates+=1 "-filemodifydate&lt;datetimeoriginal" c:\images
 
 <blockquote>ExifTool is not designed as an image validator but it does have a
 <code>-validate</code> feature which enables extra validation checks, mainly for
-JPEG and TIFF-format images (officially released in version 10.97, May 2018).
-Here is an example command to apply these validation checks to a JPEG image:
+JPEG and TIFF-format images (officially released in version 10.97, May 2018,
+but continually being improved). Here is an example command to apply these
+validation checks to a JPEG image:
 
 <pre>exiftool -validate -warning -error -a test.jpg</pre>
 
@@ -1716,8 +1724,22 @@ but in an ARGFILE, this should be
 <pre>-d
 %Y:%m:%d %H:%M:%S</pre></blockquote>
 
+<a name="Q30"></a>
+<p>30. <b>"How do I extract absolutely all metadata from a file?"</b></p>
+
+<blockquote>By default, duplicate tags, unknown tags, embedded tags, and System
+tags that require external utilities are not extracted.  The main reason for
+this is performance; extracting these tags will significantly increase
+processing time for some files.  The following command extracts everything
+possible with ExifTool:
+
+<pre>exiftool -ee3 -U -G3:1 -api requestall=3 -api largefilesupport FILE</pre>
+
+(The <code>-G3:1</code> option is included in the above command only to give an
+indication of where the metadata was stored.)</blockquote>
+
 <hr>
-<i>Last revised May 7, 2020</i>
+<i>Last revised Mar 17, 2021</i>
 <p class='lf'><a href="index.html">&lt;-- Back to ExifTool home page</a></p>
 </body>
 </html>

@@ -15,7 +15,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.05';
+$VERSION = '1.06';
 
 # APE metadata blocks
 %Image::ExifTool::APE::Main = (
@@ -166,7 +166,7 @@ sub ProcessAPE($$)
         # look for the APE trailer footer...
         my $footPos = -32;
         # (...but before the ID3v1 trailer if it exists)
-        $footPos -= 128 if $$et{DoneID3} == 2;
+        $footPos -= $$et{DoneID3} if $$et{DoneID3} > 1;
         $raf->Seek($footPos, 2)     or return 1;
         $raf->Read($buff, 32) == 32 or return 1;
         $buff =~ /^APETAGEX/        or return 1;
@@ -263,7 +263,7 @@ Currently doesn't parse MAC header unless it is at the start of the file.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

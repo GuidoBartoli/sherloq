@@ -573,6 +573,8 @@ my %epsg_vertcs = (
             3053 => 'Hjorsey 1955 Lambert',
             3057 => 'ISN93 Lambert 1993',
             3300 => 'Estonian Coordinate System of 1992',
+            3786 => 'Popular Visualisation CRS / Mercator', #PH (NC)
+            3857 => 'WGS 84 / Pseudo-Mercator', #PH (NC)
             20137 => 'Adindan UTM zone 37N',
             20138 => 'Adindan UTM zone 38N',
             20248 => 'AGD66 AMG zone 48',
@@ -2240,7 +2242,7 @@ coordinates.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

@@ -1044,7 +1044,8 @@ for live view or video recording)</span></span></td></tr>
   <br>16 = 16 (K-1)
   <br>17 = 17 (K-70)
   <br>18 = 18 (KP)
-  <br>19 = 19 (GR III)</td></tr></table>
+  <br>19 = 19 (GR III)
+  <br>20 = 20 (K-3III)</td></tr></table>
 </td></tr>
 <tr>
 <td title='0x0067 = 103'>0x0067</td>
@@ -1338,11 +1339,13 @@ other models)</span>
   <br>&#39;0 0&#39; = Off</span></td></tr>
 <tr>
 <td title='0x0095 = 149'>0x0095</td>
-<td>SkinToneCorrection</td>
-<td class=c>int8s[2]</td>
+<td>SkinToneCorrection
+  <br>SkinToneCorrection</td>
+<td class=c>int8s[2]<br>int8s[3]</td>
 <td><span class=s>&#39;0 0&#39; = Off
   <br>&#39;1 1&#39; = On (type 1)
-  <br>&#39;1 2&#39; = On (type 2)</span></td></tr>
+  <br>&#39;1 2&#39; = On (type 2)
+  <br>&#39;0 0 0&#39; = Off</span></td></tr>
 <tr class=b>
 <td title='0x0096 = 150'>0x0096</td>
 <td>ClarityControl</td>
@@ -1475,6 +1478,16 @@ segments for the K-3, converted to LV)</span></span></td></tr>
 <td class=c>no</td>
 <td><span class=s><span class=n>(only in PEF and DNG images)</span></span></td></tr>
 <tr>
+<td title='0x021c = 540'>0x021c</td>
+<td>ColorMatrixA2</td>
+<td class=c>undef[18]</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td title='0x021d = 541'>0x021d</td>
+<td>ColorMatrixB2</td>
+<td class=c>undef[18]</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td title='0x021f = 543'>0x021f</td>
 <td>AFInfo</td>
 <td class=c>-</td>
@@ -1523,7 +1536,8 @@ segments for the K-3, converted to LV)</span></span></td></tr>
 <td title='0x022a = 554'>0x022a</td>
 <td>FilterInfo</td>
 <td class=c>-</td>
-<td>--&gt; <a href='Pentax.html#FilterInfo'>Pentax FilterInfo Tags</a></td></tr>
+<td>--&gt; <a href='Pentax.html#FilterInfo'>Pentax FilterInfo Tags</a>
+  <br>--&gt; <a href='Pentax.html#FilterInfo'>Pentax FilterInfo Tags</a></td></tr>
 <tr>
 <td title='0x022b = 555'>0x022b</td>
 <td>LevelInfo</td>
@@ -1756,10 +1770,10 @@ are left, top, width and height in a 720x480 frame, with Y downwards)</span></sp
 <td class=r>0x13240</td><td>= K-1 Mark II</td>
 </tr><tr><td class=r>0x12c1e</td><td>= K10D</td>
 <td class='r b'>0x12e3a</td><td class=b>= Optio I-10</td>
-<td class=r>0x13290</td><td>= WG-70</td>
+<td class=r>0x13254</td><td>= K-3 Mark III</td>
 </tr><tr><td class=r>0x12c20</td><td>= Samsung GX10</td>
 <td class='r b'>0x12e44</td><td class=b>= Optio H90</td>
-<td class=r>&nbsp;</td><td>&nbsp;</td>
+<td class=r>0x13290</td><td>= WG-70</td>
 </tr></table></td></tr></table></blockquote>
 
 <h2><a name='City'>Pentax City Values</a></h2>
@@ -2102,6 +2116,7 @@ identify the specific lens model.</p>
 </tr><tr><td>'8 21'</td><td>= Sigma 17-50mm F2.8 EX DC OS HSM</td>
 </tr><tr><td>'8 22'</td><td>= Sigma 85mm F1.4 EX DG HSM</td>
 </tr><tr><td>'8 23'</td><td>= Sigma 70-200mm F2.8 APO EX DG OS HSM</td>
+</tr><tr><td>'8 24'</td><td>= Sigma 17-70mm F2.8-4 DC Macro OS HSM</td>
 </tr><tr><td>'8 25'</td><td>= Sigma 17-50mm F2.8 EX DC HSM</td>
 </tr><tr><td>'8 27'</td><td>= Sigma 18-200mm F3.5-6.3 II DC HSM</td>
 </tr><tr><td>'8 28'</td><td>= Sigma 18-250mm F3.5-6.3 DC Macro HSM</td>
@@ -2118,6 +2133,7 @@ identify the specific lens model.</p>
 </tr><tr><td>'8 63'</td><td>= HD PENTAX-D FA 15-30mm F2.8 ED SDM WR</td>
 </tr><tr><td>'8 64'</td><td>= HD PENTAX-D FA* 50mm F1.4 SDM AW</td>
 </tr><tr><td>'8 65'</td><td>= HD PENTAX-D FA 70-210mm F4 ED SDM WR</td>
+</tr><tr><td>'8 66'</td><td>= HD PENTAX-D FA 85mm F1.4 ED SDM AW</td>
 </tr><tr><td>'8 196'</td><td>= HD PENTAX-DA* 11-18mm F2.8 ED DC AW</td>
 </tr><tr><td>'8 197'</td><td>= HD PENTAX-DA 55-300mm F4.5-6.3 ED PLM WR RE</td>
 </tr><tr><td>'8 198'</td><td>= smc PENTAX-DA L 18-50mm F4-5.6 DC WR RE</td>
@@ -4900,7 +4916,7 @@ stored as ASCII text in a format very similar to some HP models.</p>
 
 <hr>
 (This document generated automatically by Image::ExifTool::BuildTagLookup)
-<br><i>Last revised May 11, 2020</i>
+<br><i>Last revised Jun 9, 2021</i>
 <p class=lf><a href='index.html'>&lt;-- ExifTool Tag Names</a></p>
 </body>
 </html>

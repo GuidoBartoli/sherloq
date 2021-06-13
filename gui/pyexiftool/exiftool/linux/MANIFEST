@@ -19,6 +19,7 @@ config_files/acdsee.config
 config_files/age.config
 config_files/bibble.config
 config_files/convert_regions.config
+config_files/cuepointlist.config
 config_files/depthmap.config
 config_files/example.config
 config_files/fotoware.config
@@ -104,6 +105,7 @@ html/TagNames/MOI.html
 html/TagNames/MPC.html
 html/TagNames/MPEG.html
 html/TagNames/MPF.html
+html/TagNames/MRC.html
 html/TagNames/MWG.html
 html/TagNames/MXF.html
 html/TagNames/MacOS.html
@@ -115,6 +117,7 @@ html/TagNames/Motorola.html
 html/TagNames/Nikon.html
 html/TagNames/NikonCapture.html
 html/TagNames/NikonCustom.html
+html/TagNames/NikonSettings.html
 html/TagNames/Nintendo.html
 html/TagNames/OOXML.html
 html/TagNames/Ogg.html
@@ -169,6 +172,7 @@ html/TagNames/Vorbis.html
 html/TagNames/WTV.html
 html/TagNames/XMP.html
 html/TagNames/ZIP.html
+html/TagNames/ZISRAW.html
 html/TagNames/iWork.html
 html/TagNames/index.html
 html/TagNames/style.css
@@ -324,6 +328,7 @@ lib/Image/ExifTool/MOI.pm
 lib/Image/ExifTool/MPC.pm
 lib/Image/ExifTool/MPEG.pm
 lib/Image/ExifTool/MPF.pm
+lib/Image/ExifTool/MRC.pm
 lib/Image/ExifTool/MWG.pm
 lib/Image/ExifTool/MXF.pm
 lib/Image/ExifTool/MacOS.pm
@@ -336,6 +341,7 @@ lib/Image/ExifTool/Motorola.pm
 lib/Image/ExifTool/Nikon.pm
 lib/Image/ExifTool/NikonCapture.pm
 lib/Image/ExifTool/NikonCustom.pm
+lib/Image/ExifTool/NikonSettings.pm
 lib/Image/ExifTool/Nintendo.pm
 lib/Image/ExifTool/OOXML.pm
 lib/Image/ExifTool/Ogg.pm
@@ -410,6 +416,7 @@ lib/Image/ExifTool/XMP.pm
 lib/Image/ExifTool/XMP2.pl
 lib/Image/ExifTool/XMPStruct.pl
 lib/Image/ExifTool/ZIP.pm
+lib/Image/ExifTool/ZISRAW.pm
 lib/Image/ExifTool/iWork.pm
 perl-Image-ExifTool.spec
 t/AFCP.t
@@ -506,6 +513,7 @@ t/ExifTool_29.out
 t/ExifTool_3.out
 t/ExifTool_30.out
 t/ExifTool_31.out
+t/ExifTool_32.out
 t/ExifTool_4.out
 t/ExifTool_5.out
 t/ExifTool_6.out
@@ -565,6 +573,7 @@ t/GeoTiff_4.out
 t/Geotag.t
 t/Geotag_10.out
 t/Geotag_11.out
+t/Geotag_12.out
 t/Geotag_2.out
 t/Geotag_3.out
 t/Geotag_5.out
@@ -596,10 +605,14 @@ t/JSON_2.out
 t/JVC.t
 t/JVC_2.out
 t/JVC_3.out
+t/JXL.t
+t/JXL_2.out
+t/JXL_3.out
 t/Jpeg2000.t
 t/Jpeg2000_2.out
 t/Jpeg2000_3.out
 t/Jpeg2000_4.out
+t/Jpeg2000_5.out
 t/Kodak.t
 t/Kodak_2.out
 t/Kodak_3.out
@@ -641,6 +654,8 @@ t/MOI.t
 t/MOI_2.out
 t/MP3.t
 t/MP3_2.out
+t/MRC.t
+t/MRC_2.out
 t/MWG.t
 t/MWG_2.out
 t/MWG_3.out
@@ -650,6 +665,8 @@ t/MWG_6.out
 t/MWG_7.out
 t/MXF.t
 t/MXF_2.out
+t/MacOS.t
+t/MacOS_2.out
 t/Matroska.t
 t/Matroska_2.out
 t/Minolta.t
@@ -751,6 +768,8 @@ t/QuickTime_12.out
 t/QuickTime_13.out
 t/QuickTime_14.out
 t/QuickTime_15.out
+t/QuickTime_16.out
+t/QuickTime_17.out
 t/QuickTime_2.out
 t/QuickTime_3.out
 t/QuickTime_4.out
@@ -915,6 +934,8 @@ t/ZIP_4.out
 t/ZIP_5.out
 t/ZIP_6.out
 t/ZIP_7.out
+t/ZISRAW.t
+t/ZISRAW_2.out
 t/images/AFCP.jpg
 t/images/AIFF.aif
 t/images/APE.ape
@@ -948,6 +969,7 @@ t/images/EXE.exe
 t/images/EXE.macho
 t/images/EXE.so
 t/images/ExifTool.jpg
+t/images/ExifTool.jps
 t/images/ExifTool.tif
 t/images/ExtendedXMP.jpg
 t/images/FITS.fits
@@ -980,6 +1002,7 @@ t/images/Geotag.log
 t/images/Geotag.xml
 t/images/Geotag2.log
 t/images/Geotag3.log
+t/images/Geotag_DJI_2020-12-02_[07-50-31].csv
 t/images/GoPro.jpg
 t/images/HTML.html
 t/images/ICC_Profile.icc
@@ -990,6 +1013,7 @@ t/images/InDesign.indd
 t/images/JSON.json
 t/images/JVC.jpg
 t/images/JVC2.jpg
+t/images/JXL.jxl
 t/images/Jpeg2000.j2c
 t/images/Jpeg2000.jp2
 t/images/Kodak.jpg
@@ -1001,8 +1025,10 @@ t/images/MIE.mie
 t/images/MIFF.miff
 t/images/MOI.moi
 t/images/MP3.mp3
+t/images/MRC.mrc
 t/images/MWG.jpg
 t/images/MXF.mxf
+t/images/MacOS.macos
 t/images/Matroska.mkv
 t/images/Minolta.jpg
 t/images/Minolta.mrw
@@ -1089,4 +1115,5 @@ t/images/XMP8.xmp
 t/images/XMP9.xmp
 t/images/ZIP.gz
 t/images/ZIP.zip
+t/images/ZISRAW.czi
 t/images/iWork.numbers

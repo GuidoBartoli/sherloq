@@ -45,9 +45,10 @@ MakerNotes.</p>
   <br>3 = Standard
   <br>4 = Economy
   <br>5 = Extra Fine
-  <br>6 = RAW + JPEG
+  <br>6 = RAW + JPEG/HEIF
   <br>7 = Compressed RAW
   <br>8 = Compressed RAW + JPEG
+  <br>9 = Light
   <br>4294967295 = n/a</td></tr></table>
 </td></tr>
 <tr class=b>
@@ -740,13 +741,16 @@ toward magenta)</span></span></td></tr>
 <td><span class=s>&#39;0 0&#39; = n/a
   <br>&#39;1 0&#39; = Off
   <br>&#39;1 1&#39; = Standard
-  <br>&#39;1 2&#39; = High</span></td></tr>
+  <br>&#39;1 2&#39; = High
+  <br>&#39;65535 65535&#39; = n/a</span></td></tr>
 <tr class=b>
 <td title='0x2029 = 8233'>0x2029</td>
 <td>RAWFileType</td>
 <td class=c>int16u</td>
 <td><span class=s>0 = Compressed RAW
-  <br>1 = Uncompressed RAW</span></td></tr>
+  <br>1 = Uncompressed RAW
+  <br>2 = Lossless Compressed RAW
+  <br>65535 = n/a</span></td></tr>
 <tr>
 <td title='0x202a = 8234'>0x202a</td>
 <td>Tag202a</td>
@@ -782,13 +786,15 @@ toward magenta)</span></span></td></tr>
 <td class=c>int16u[2]</td>
 <td><table class=cols><tr>
   <td>&#39;0 0&#39; = n/a
-  <br>&#39;0 1&#39; = Standard JPEG
-  <br>&#39;0 2&#39; = Fine JPEG
-  <br>&#39;0 3&#39; = Extra Fine JPEG
+  <br>&#39;0 1&#39; = Standard
+  <br>&#39;0 2&#39; = Fine
+  <br>&#39;0 3&#39; = Extra Fine
+  <br>&#39;0 4&#39; = Light
   <br>&#39;1 0&#39; = RAW
-  <br>&#39;1 1&#39; = RAW + Standard JPEG
-  <br>&#39;1 2&#39; = RAW + Fine JPEG
-  <br>&#39;1 3&#39; = RAW + Extra Fine JPEG</td></tr></table>
+  <br>&#39;1 1&#39; = RAW + Standard
+  <br>&#39;1 2&#39; = RAW + Fine
+  <br>&#39;1 3&#39; = RAW + Extra Fine
+  <br>&#39;1 4&#39; = RAW + Light</td></tr></table>
 </td></tr>
 <tr class=b>
 <td title='0x202f = 8239'>0x202f</td>
@@ -801,23 +807,62 @@ toward magenta)</span></span></td></tr>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
+<td title='0x2032 = 8242'>0x2032</td>
+<td>Shadows</td>
+<td class=c>int32s</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td title='0x2033 = 8243'>0x2033</td>
+<td>Highlights</td>
+<td class=c>int32s</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td title='0x2034 = 8244'>0x2034</td>
+<td>Fade</td>
+<td class=c>int32s</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td title='0x2035 = 8245'>0x2035</td>
+<td>SharpnessRange</td>
+<td class=c>int32s</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td title='0x2036 = 8246'>0x2036</td>
+<td>Clarity</td>
+<td class=c>int32s</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td title='0x2037 = 8247'>0x2037</td>
+<td>FocusFrameSize</td>
+<td class=c>no</td>
+<td><span class=s><span class=n>(width and height of FocusFrame, centered on FocusLocation)</span></span></td></tr>
+<tr class=b>
+<td title='0x2039 = 8249'>0x2039</td>
+<td>JPEG-HEIFSwitch</td>
+<td class=c>int16u</td>
+<td><span class=s>0 = JPEG
+  <br>1 = HEIF
+  <br>65535 = n/a</span></td></tr>
+<tr>
 <td title='0x3000 = 12288'>0x3000</td>
 <td>ShotInfo</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ShotInfo'>Sony ShotInfo Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td title='0x900b = 36875'>0x900b</td>
 <td>Tag900b</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag900b'>Sony Tag900b Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0x9050 = 36944'>0x9050</td>
 <td>Tag9050a
-  <br>Tag9050b</td>
-<td class=c>-<br>-</td>
+  <br>Tag9050b
+  <br>Tag9050c</td>
+<td class=c>-<br>-<br>-</td>
 <td>--&gt; <a href='Sony.html#Tag9050a'>Sony Tag9050a Tags</a>
-  <br>--&gt; <a href='Sony.html#Tag9050b'>Sony Tag9050b Tags</a></td></tr>
-<tr>
+  <br>--&gt; <a href='Sony.html#Tag9050b'>Sony Tag9050b Tags</a>
+  <br>--&gt; <a href='Sony.html#Tag9050c'>Sony Tag9050c Tags</a></td></tr>
+<tr class=b>
 <td title='0x9400 = 37888'>0x9400</td>
 <td>Tag9400a
   <br>Tag9400b
@@ -826,22 +871,22 @@ toward magenta)</span></span></td></tr>
 <td>--&gt; <a href='Sony.html#Tag9400a'>Sony Tag9400a Tags</a>
   <br>--&gt; <a href='Sony.html#Tag9400b'>Sony Tag9400b Tags</a>
   <br>--&gt; <a href='Sony.html#Tag9400c'>Sony Tag9400c Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0x9401 = 37889'>0x9401</td>
 <td>Tag9401</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag9401'>Sony Tag9401 Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td title='0x9402 = 37890'>0x9402</td>
 <td>Tag9402</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag9402'>Sony Tag9402 Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0x9403 = 37891'>0x9403</td>
 <td>Tag9403</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag9403'>Sony Tag9403 Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td title='0x9404 = 37892'>0x9404</td>
 <td>Tag9404a
   <br>Tag9404b
@@ -850,35 +895,40 @@ toward magenta)</span></span></td></tr>
 <td>--&gt; <a href='Sony.html#Tag9404a'>Sony Tag9404a Tags</a>
   <br>--&gt; <a href='Sony.html#Tag9404b'>Sony Tag9404b Tags</a>
   <br>--&gt; <a href='Sony.html#Tag9404c'>Sony Tag9404c Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0x9405 = 37893'>0x9405</td>
 <td>Tag9405a
   <br>Tag9405b</td>
 <td class=c>-<br>-</td>
 <td>--&gt; <a href='Sony.html#Tag9405a'>Sony Tag9405a Tags</a>
   <br>--&gt; <a href='Sony.html#Tag9405b'>Sony Tag9405b Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td title='0x9406 = 37894'>0x9406</td>
 <td>Tag9406</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag9406'>Sony Tag9406 Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0x940a = 37898'>0x940a</td>
 <td>Tag940a</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag940a'>Sony Tag940a Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td title='0x940c = 37900'>0x940c</td>
 <td>Tag940c</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag940c'>Sony Tag940c Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0x940e = 37902'>0x940e</td>
 <td>AFInfo
   <br>Tag940e</td>
 <td class=c>-<br>-</td>
 <td>--&gt; <a href='Sony.html#AFInfo'>Sony AFInfo Tags</a>
   <br>--&gt; <a href='Sony.html#Tag940e'>Sony Tag940e Tags</a></td></tr>
+<tr class=b>
+<td title='0x9416 = 37910'>0x9416</td>
+<td>Sony_0x9416</td>
+<td class=c>-</td>
+<td>--&gt; <a href='Sony.html#Tag9416'>Sony Tag9416 Tags</a></td></tr>
 <tr>
 <td title='0xb000 = 45056'>0xb000</td>
 <td>FileFormat</td>
@@ -894,7 +944,8 @@ toward magenta)</span></span></td></tr>
   <br>&#39;3 3 1 0&#39; = ARW 2.3.1
   <br>&#39;3 3 2 0&#39; = ARW 2.3.2
   <br>&#39;3 3 3 0&#39; = ARW 2.3.3
-  <br>&#39;3 3 5 0&#39; = ARW 2.3.5</td></tr></table>
+  <br>&#39;3 3 5 0&#39; = ARW 2.3.5
+  <br>&#39;4 0 0 0&#39; = ARW 4.0</td></tr></table>
 </td></tr>
 <tr class=b>
 <td title='0xb001 = 45057'>0xb001</td>
@@ -942,11 +993,11 @@ toward magenta)</span></span></td></tr>
   <br>299 = NEX-VG900
   <br>300 = NEX-VG30E
   <br>302 = ILCE-3000 / ILCE-3500
-  <br>303 = SLT-A58</td><td>&nbsp;&nbsp;</td>
-  <td>305 = NEX-3N
+  <br>303 = SLT-A58
+  <br>305 = NEX-3N
   <br>306 = ILCE-7
-  <br>307 = NEX-5T
-  <br>308 = DSC-RX100M2
+  <br>307 = NEX-5T</td><td>&nbsp;&nbsp;</td>
+  <td>308 = DSC-RX100M2
   <br>309 = DSC-RX10
   <br>310 = DSC-RX1R
   <br>311 = ILCE-7R
@@ -984,7 +1035,12 @@ toward magenta)</span></span></td></tr>
   <br>376 = ILCE-9M2
   <br>378 = ILCE-6600
   <br>379 = ILCE-6100
-  <br>380 = ZV-1</td></tr></table>
+  <br>380 = ZV-1
+  <br>381 = ILCE-7C
+  <br>383 = ILCE-7SM3
+  <br>384 = ILCE-1
+  <br>385 = ILME-FX3
+  <br>387 = ILCE-7RM4A</td></tr></table>
 </td></tr>
 <tr>
 <td title='0xb020 = 45088'>0xb020</td>
@@ -996,6 +1052,8 @@ toward magenta)</span></span></td></tr>
   <br>&#39;BW&#39; = B&amp;W
   <br>&#39;Clear&#39; = Clear
   <br>&#39;Deep&#39; = Deep
+  <br>&#39;FL&#39; = FL
+  <br>&#39;IN&#39; = IN
   <br>&#39;Landscape&#39; = Landscape
   <br>&#39;Light&#39; = Light
   <br>&#39;Neutral&#39; = Neutral
@@ -1003,9 +1061,11 @@ toward magenta)</span></span></td></tr>
   <br>&#39;None&#39; = None
   <br>&#39;Portrait&#39; = Portrait
   <br>&#39;Real&#39; = Real
+  <br>&#39;SH&#39; = SH
   <br>&#39;Sepia&#39; = Sepia
   <br>&#39;Standard&#39; = Standard
   <br>&#39;Sunset&#39; = Sunset
+  <br>&#39;VV2&#39; = Vivid 2
   <br>&#39;Vivid&#39; = Vivid</td></tr></table>
 </td></tr>
 <tr class=b>
@@ -1108,16 +1168,21 @@ toward magenta)</span></span></td></tr>
   <br>7 = Adobe RGB
   <br>12 = Neutral
   <br>13 = Clear
-  <br>14 = Deep</td><td>&nbsp;&nbsp;</td>
-  <td>15 = Light
-  <br>16 = Autumn Leaves
-  <br>17 = Sepia
+  <br>14 = Deep
+  <br>15 = Light
+  <br>16 = Autumn Leaves</td><td>&nbsp;&nbsp;</td>
+  <td>17 = Sepia
+  <br>18 = FL
+  <br>19 = Vivid 2
+  <br>20 = IN
+  <br>21 = SH
   <br>100 = Neutral
   <br>101 = Clear
   <br>102 = Deep
   <br>103 = Light
   <br>104 = Night View
   <br>105 = Autumn Leaves
+  <br>255 = Off
   <br>4294967295 = n/a</td></tr></table>
 </td></tr>
 <tr>
@@ -4736,11 +4801,13 @@ multi-frame noise reduction)</span></span></td></tr>
 </tr><tr><td>2</td><td>= Sony LA-EA2 Adapter</td>
 </tr><tr><td>3</td><td>= Sony LA-EA3 Adapter</td>
 </tr><tr><td>6</td><td>= Sony LA-EA4 Adapter</td>
+</tr><tr><td>7</td><td>= Sony LA-EA5 Adapter</td>
 </tr><tr><td>44</td><td>= Metabones Canon EF Smart Adapter</td>
 </tr><tr><td>78</td><td>= Metabones Canon EF Smart Adapter Mark III or Other Adapter</td>
 </tr><tr><td>184</td><td>= Metabones Canon EF Speed Booster Ultra</td>
 </tr><tr><td>234</td><td>= Metabones Canon EF Smart Adapter Mark IV</td>
 </tr><tr><td>239</td><td>= Metabones Canon EF Speed Booster</td>
+</tr><tr><td>24593</td><td>= LA-EA4r MonsterAdapter</td>
 </tr><tr><td>32784</td><td>= Sony E 16mm F2.8</td>
 </tr><tr><td>32785</td><td>= Sony E 18-55mm F3.5-5.6 OSS</td>
 </tr><tr><td>32786</td><td>= Sony E 55-210mm F4.5-6.3 OSS</td>
@@ -4798,8 +4865,17 @@ multi-frame noise reduction)</span></span></td></tr>
 </tr><tr><td>32852</td><td>= Sony FE 600mm F4 GM OSS</td>
 </tr><tr><td>32853</td><td>= Sony E 16-55mm F2.8 G</td>
 </tr><tr><td>32854</td><td>= Sony E 70-350mm F4.5-6.3 G OSS</td>
+</tr><tr><td>32855</td><td>= Sony FE C 16-35mm T3.1 G</td>
 </tr><tr><td>32858</td><td>= Sony FE 35mm F1.8</td>
 </tr><tr><td>32859</td><td>= Sony FE 20mm F1.8 G</td>
+</tr><tr><td>32860</td><td>= Sony FE 12-24mm F2.8 GM</td>
+</tr><tr><td>32862</td><td>= Sony FE 50mm F1.2 GM</td>
+</tr><tr><td>32863</td><td>= Sony FE 14mm F1.8 GM</td>
+</tr><tr><td>32864</td><td>= Sony FE 28-60mm F4-5.6</td>
+</tr><tr><td>32865</td><td>= Sony FE 35mm F1.4 GM</td>
+</tr><tr><td>32866</td><td>= Sony FE 24mm F2.8 G</td>
+</tr><tr><td>32867</td><td>= Sony FE 40mm F2.5 G</td>
+</tr><tr><td>32868</td><td>= Sony FE 50mm F2.5 G</td>
 </tr><tr><td>33072</td><td>= Sony FE 70-200mm F2.8 GM OSS + 1.4X Teleconverter</td>
 </tr><tr><td>33073</td><td>= Sony FE 70-200mm F2.8 GM OSS + 2X Teleconverter</td>
 </tr><tr><td>33076</td><td>= Sony FE 100mm F2.8 STF GM OSS (macro mode)</td>
@@ -4831,6 +4907,13 @@ multi-frame noise reduction)</span></span></td></tr>
 </tr><tr><td>49461</td><td>= Tamron 20mm F2.8 Di III OSD M1:2</td>
 </tr><tr><td>49462</td><td>= Tamron 70-180mm F2.8 Di III VXD</td>
 </tr><tr><td>49463</td><td>= Tamron 28-200mm F2.8-5.6 Di III RXD</td>
+</tr><tr><td>49464</td><td>= Tamron 70-300mm F4.5-6.3 Di III RXD</td>
+</tr><tr><td>49465</td><td>= Tamron 17-70mm F2.8 Di III-A VC RXD</td>
+</tr><tr><td>49466</td><td>= Tamron 150-500mm F5-6.7 Di III VC VXD</td>
+</tr><tr><td>49467</td><td>= Tamron 11-20mm F2.8 Di III-A RXD</td>
+</tr><tr><td>49473</td><td>= Tokina atx-m 85mm F1.8 FE or Viltrox lens</td>
+</tr><tr><td>49473.1</td><td>= Viltrox 23mm F1.4 E</td>
+</tr><tr><td>49473.2</td><td>= Viltrox 56mm F1.4 E</td>
 </tr><tr><td>49712</td><td>= Tokina FiRIN 20mm F2 FE AF</td>
 </tr><tr><td>49713</td><td>= Tokina FiRIN 100mm F2.8 FE MACRO</td>
 </tr><tr><td>50480</td><td>= Sigma 30mm F1.4 DC DN | C</td>
@@ -4858,6 +4941,14 @@ multi-frame noise reduction)</span></span></td></tr>
 </tr><tr><td>50515</td><td>= Sigma 35mm F1.2 DG DN | A</td>
 </tr><tr><td>50516</td><td>= Sigma 14-24mm F2.8 DG DN | A</td>
 </tr><tr><td>50517</td><td>= Sigma 24-70mm F2.8 DG DN | A</td>
+</tr><tr><td>50518</td><td>= Sigma 100-400mm F5-6.3 DG DN OS | C</td>
+</tr><tr><td>50521</td><td>= Sigma 85mm F1.4 DG DN | A</td>
+</tr><tr><td>50522</td><td>= Sigma 105mm F2.8 DG DN MACRO | A</td>
+</tr><tr><td>50523</td><td>= Sigma 65mm F2 DG DN | C</td>
+</tr><tr><td>50524</td><td>= Sigma 35mm F2 DG DN | C</td>
+</tr><tr><td>50525</td><td>= Sigma 24mm F3.5 DG DN | C</td>
+</tr><tr><td>50526</td><td>= Sigma 28-70mm F2.8 DG DN | C</td>
+</tr><tr><td>50528</td><td>= Sigma 35mm F1.4 DG DN | A</td>
 </tr><tr><td>50992</td><td>= Voigtlander SUPER WIDE-HELIAR 15mm F4.5 III</td>
 </tr><tr><td>50993</td><td>= Voigtlander HELIAR-HYPER WIDE 10mm F5.6</td>
 </tr><tr><td>50994</td><td>= Voigtlander ULTRA WIDE-HELIAR 12mm F5.6 III</td>
@@ -4870,13 +4961,16 @@ multi-frame noise reduction)</span></span></td></tr>
 </tr><tr><td>51001</td><td>= Voigtlander NOKTON 21mm F1.4 Aspherical</td>
 </tr><tr><td>51002</td><td>= Voigtlander APO-LANTHAR 50mm F2 Aspherical</td>
 </tr><tr><td>51003</td><td>= Voigtlander NOKTON 35mm F1.2 Aspherical SE</td>
+</tr><tr><td>51006</td><td>= Voigtlander APO-LANTHAR 35mm F2 Aspherical</td>
 </tr><tr><td>51504</td><td>= Samyang AF 50mm F1.4</td>
 </tr><tr><td>51505</td><td>= Samyang AF 14mm F2.8 or Samyang AF 35mm F2.8</td>
 </tr><tr><td>51505.1</td><td>= Samyang AF 35mm F2.8</td>
 </tr><tr><td>51507</td><td>= Samyang AF 35mm F1.4</td>
 </tr><tr><td>51508</td><td>= Samyang AF 45mm F1.8</td>
-</tr><tr><td>51510</td><td>= Samyang AF 18mm F2.8</td>
+</tr><tr><td>51510</td><td>= Samyang AF 18mm F2.8 or Samyang AF 35mm F1.8</td>
+</tr><tr><td>51510.1</td><td>= Samyang AF 35mm F1.8</td>
 </tr><tr><td>51512</td><td>= Samyang AF 75mm F1.8</td>
+</tr><tr><td>51514</td><td>= Samyang AF 24mm F1.8 FE</td>
 </tr></table></td></tr></table></blockquote>
 
 <h2><a name='CameraSettingsUnknown'>Sony CameraSettingsUnknown Tags</a></h2>
@@ -5229,7 +5323,12 @@ rotation -- the width is always the longer dimension.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='4447 = 0x115f'>4447</td>
@@ -5254,7 +5353,12 @@ rotation -- the width is always the longer dimension.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='4451 = 0x1163'>4451</td>
@@ -5621,7 +5725,12 @@ option is used.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='4451 = 0x1163'>4451</td>
@@ -5646,7 +5755,12 @@ option is used.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='4455 = 0x1167'>4455</td>
@@ -5845,7 +5959,12 @@ option is used.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='4415 = 0x113f'>4415</td>
@@ -5870,7 +5989,12 @@ option is used.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='4419 = 0x1143'>4419</td>
@@ -6055,7 +6179,12 @@ not valid for panorama images.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='4539 = 0x11bb'>4539</td>
@@ -6080,7 +6209,12 @@ not valid for panorama images.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='4543 = 0x11bf'>4543</td>
@@ -6269,7 +6403,12 @@ WX300, but not for panorama images.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='4503 = 0x1197'>4503</td>
@@ -6294,7 +6433,12 @@ WX300, but not for panorama images.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='4507 = 0x119b'>4507</td>
@@ -6534,7 +6678,12 @@ WX300, but not for panorama images.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='4175 = 0x104f'>4175</td>
@@ -6559,7 +6708,12 @@ WX300, but not for panorama images.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='4179 = 0x1053'>4179</td>
@@ -6744,7 +6898,12 @@ ILCE-7/7R/7S/7M2/5000/5100/6000/QX1, ILCA-68/77M2.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='583 = 0x247'>583</td>
@@ -6769,7 +6928,12 @@ ILCE-7/7R/7S/7M2/5000/5100/6000/QX1, ILCA-68/77M2.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='587 = 0x24b'>587</td>
@@ -7000,7 +7164,12 @@ ILCE-6300/6500/7RM2/7SM2, ILCA-99M2.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='583 = 0x247'>583</td>
@@ -7025,7 +7194,12 @@ ILCE-6300/6500/7RM2/7SM2, ILCA-99M2.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='587 = 0x24b'>587</td>
@@ -7132,7 +7306,7 @@ ILCE-6300/6500/7RM2/7SM2, ILCA-99M2.</p>
 </table></td></tr></table></blockquote>
 
 <h2><a name='Tag2010i'>Sony Tag2010i Tags</a></h2>
-<p>Valid for ILCE-6100/6400/6600/7M3/7RM3/7RM4/9/9M2, DSC-RX0M2/RX10M4/RX100M6/
+<p>Valid for ILCE-6100/6400/6600/7C/7M3/7RM3/7RM4/9/9M2, DSC-RX0M2/RX10M4/RX100M6/
 RX100M5A/RX100M7/HX99.</p>
 <blockquote>
 <table class=frame><tr><td>
@@ -7261,7 +7435,12 @@ RX100M5A/RX100M7/HX99.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='568 = 0x238'>568</td>
@@ -7286,7 +7465,12 @@ RX100M5A/RX100M7/HX99.</p>
   <br>28 = Gamma S-Log2 (PP7)
   <br>29 = Gamma ITU709 (800%)
   <br>31 = Gamma S-Log3 (PP8 or PP9)
-  <br>33 = Gamma HLG2 (PP10)</td></tr></table>
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='572 = 0x23c'>572</td>
@@ -7897,7 +8081,7 @@ models)</span></span></td></tr>
 </table></td></tr></table></blockquote>
 
 <h2><a name='Tag9050b'>Sony Tag9050b Tags</a></h2>
-<p>Valid from July 2015 for ILCE-6100/6300/6400/6500/6600/7M3/7RM2/7RM3/7RM4/
+<p>Valid from July 2015 for ILCE-6100/6300/6400/6500/6600/7C/7M3/7RM2/7RM3/7RM4/
 7SM2/9/9M2, ILCA-99M2.</p>
 <blockquote>
 <table class=frame><tr><td>
@@ -8091,6 +8275,83 @@ models)</span></span></td></tr>
 <td>&nbsp;</td></tr>
 </table></td></tr></table></blockquote>
 
+<h2><a name='Tag9050c'>Sony Tag9050c Tags</a></h2>
+<p>Valid from July 2020 for ILCE-1/7SM3, ILME-FX3.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Index1</th><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td class=r title='38 = 0x26'>38</td>
+<td>Shutter</td>
+<td class=c>int16u[3]</td>
+<td><span class=s>&#39;0 0 0&#39; = Silent / Electronic (0 0 0)</span></td></tr>
+<tr class=b>
+<td class=r title='57 = 0x39'>57</td>
+<td>FlashStatus</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = No Flash present
+  <br>2 = Flash Inhibited
+  <br>64 = Built-in Flash present
+  <br>65 = Built-in Flash Fired
+  <br>66 = Built-in Flash Inhibited
+  <br>128 = External Flash present
+  <br>129 = External Flash Fired</td></tr></table>
+</td></tr>
+<tr>
+<td class=r title='58 = 0x3a'>58</td>
+<td>ShutterCount</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td><span class=s><span class=n>(total number of image exposures made by the camera)</span></span></td></tr>
+<tr class=b>
+<td class=r title='70 = 0x46'>70</td>
+<td>SonyExposureTime</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='72 = 0x48'>72</td>
+<td>SonyFNumber</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='75 = 0x4b'>75</td>
+<td>ReleaseMode2</td>
+<td class=c>int8u</td>
+<td>--&gt; <a href='Sony.html#ReleaseMode2'>Sony ReleaseMode2 Values</a></td></tr>
+<tr>
+<td class=r title='80 = 0x50'>80</td>
+<td>ShutterCount2</td>
+<td class=c>int32u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='102 = 0x66'>102</td>
+<td>SonyExposureTime</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='104 = 0x68'>104</td>
+<td>SonyFNumber</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='107 = 0x6b'>107</td>
+<td>ReleaseMode2</td>
+<td class=c>int8u</td>
+<td>--&gt; <a href='Sony.html#ReleaseMode2'>Sony ReleaseMode2 Values</a></td></tr>
+<tr>
+<td class=r title='136 = 0x88'>136</td>
+<td>InternalSerialNumber</td>
+<td class=c title=' ~ = Writable only with -n'>int8u[6]~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='138 = 0x8a'>138</td>
+<td>InternalSerialNumber</td>
+<td class=c title=' ~ = Writable only with -n'>int8u[6]~</td>
+<td>&nbsp;</td></tr>
+</table></td></tr></table></blockquote>
+
 <h2><a name='Tag9400a'>Sony Tag9400a Tags</a></h2>
 <p>Valid for many DSC, NEX and SLT models</p>
 <blockquote>
@@ -8249,8 +8510,8 @@ DSC-HX50V, DSC-QX10/QX100.</p>
 <h2><a name='Tag9400c'>Sony Tag9400c Tags</a></h2>
 <p>Valid for DSC-HX60V/HX80/HX90V/HX99/HX350/HX400V/QX30/RX0/RX1RM2/RX10/
 RX10M2/RX10M3/RX10M4/RX100M3/RX100M4/RX100M5/RX100M5A/RX100M6/RX100M7/WX220/
-WX350/WX500, ILCE-7/7R/7S/7M2/7M3/7RM2/7RM3/7RM4/7SM2/9/9M2/5000/5100/6000/
-6100/6300/6400/6500/6600/QX1, ILCA-68/77M2/99M2.</p>
+WX350/WX500, ILCE-1/7/7C/7R/7S/7M2/7M3/7RM2/7RM3/7RM4/7SM2/7SM3/9/9M2/5000/
+5100/6000/6100/6300/6400/6500/6600/QX1, ILCA-68/77M2/99M2.</p>
 <blockquote>
 <table class=frame><tr><td>
 <table class=inner cellspacing=1>
@@ -8263,10 +8524,9 @@ WX350/WX500, ILCE-7/7R/7S/7M2/7M3/7RM2/7RM3/7RM4/7SM2/9/9M2/5000/5100/6000/
 <td>--&gt; <a href='Sony.html#ReleaseMode2'>Sony ReleaseMode2 Values</a></td></tr>
 <tr class=b>
 <td class=r title='10 = 0xa'>10</td>
-<td>ShotNumberSincePowerUp
-  <br>ShotNumberSincePowerUp</td>
-<td class=c>int8u<br>int32u</td>
-<td>&nbsp;</td></tr>
+<td>ShotNumberSincePowerUp</td>
+<td class=c>int32u</td>
+<td><span class=s><span class=n>(valid only for some models)</span></span></td></tr>
 <tr>
 <td class=r title='18 = 0x12'>18</td>
 <td>SequenceImageNumber</td>
@@ -8326,7 +8586,12 @@ WX350/WX500, ILCE-7/7R/7S/7M2/7M3/7RM2/7RM3/7RM4/7SM2/9/9M2/5000/5100/6000/
 <td><span class=s>0 = JPEG
   <br>1 = RAW
   <br>2 = RAW + JPEG
-  <br>3 = JPEG + MPO</span></td></tr>
+  <br>3 = JPEG + MPO
+  <br>1 = JPEG
+  <br>2 = RAW
+  <br>3 = RAW + JPEG
+  <br>4 = HEIF
+  <br>6 = RAW + HEIF</span></td></tr>
 <tr>
 <td class=r title='71 = 0x47'>71</td>
 <td>SonyImageHeight</td>
@@ -8351,51 +8616,56 @@ WX350/WX500, ILCE-7/7R/7S/7M2/7M3/7RM2/7RM3/7RM4/7SM2/9/9M2/5000/5100/6000/
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
 <tr class=b>
+<td class=r title='1185 = 0x4a1'>1185</td>
+<td>ISOInfo</td>
+<td class=c>-</td>
+<td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
+<tr>
 <td class=r title='1186 = 0x4a2'>1186</td>
 <td>ISOInfo</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='1437 = 0x59d'>1437</td>
 <td>ISOInfo</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='1588 = 0x634'>1588</td>
 <td>ISOInfo</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='1590 = 0x636'>1590</td>
 <td>ISOInfo</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='1612 = 0x64c'>1612</td>
 <td>ISOInfo</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='1619 = 0x653'>1619</td>
 <td>ISOInfo</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='1656 = 0x678'>1656</td>
 <td>ISOInfo</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='1720 = 0x6b8'>1720</td>
 <td>ISOInfo</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='1758 = 0x6de'>1758</td>
 <td>ISOInfo</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='1767 = 0x6e7'>1767</td>
 <td>ISOInfo</td>
 <td class=c>-</td>
@@ -8905,7 +9175,7 @@ ILCE-7/7M2/7M3/7R/7RM2/7RM3/7RM4/7S/7SM2/9/9M2/5000/5100/6000/6100/6300/
 </table></td></tr></table></blockquote>
 
 <h2><a name='Tag940c'>Sony Tag940c Tags</a></h2>
-<p>NEX and ILCE models only.</p>
+<p>E-mount cameras only.</p>
 <blockquote>
 <table class=frame><tr><td>
 <table class=inner cellspacing=1>
@@ -10674,6 +10944,152 @@ ILCE-7/7M2/7M3/7R/7RM2/7RM3/7RM4/7S/7SM2/9/9M2/5000/5100/6000/6100/6300/
 16-bit TIFF image)</span></span></td></tr>
 </table></td></tr></table></blockquote>
 
+<h2><a name='Tag9416'>Sony Tag9416 Tags</a></h2>
+<p>Valid for the ILCE-1/7SM3, ILME-FX3.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Index1</th><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td class=r title='0 = 0x0'>0</td>
+<td>Tag9416_0000</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='4 = 0x4'>4</td>
+<td>SonyISO</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='6 = 0x6'>6</td>
+<td>StopsAboveBaseISO</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='10 = 0xa'>10</td>
+<td>SonyExposureTime2</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='12 = 0xc'>12</td>
+<td>ExposureTime</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='16 = 0x10'>16</td>
+<td>SonyFNumber2</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='18 = 0x12'>18</td>
+<td>SonyMaxApertureValue</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='29 = 0x1d'>29</td>
+<td>SequenceImageNumber</td>
+<td class=c>no</td>
+<td><span class=s><span class=n>(number of images captured in burst sequence)</span></span></td></tr>
+<tr>
+<td class=r title='53 = 0x35'>53</td>
+<td>ExposureProgram</td>
+<td class=c>no</td>
+<td>--&gt; <a href='Sony.html#ExposureProgram3'>Sony ExposureProgram3 Values</a></td></tr>
+<tr class=b>
+<td class=r title='72 = 0x48'>72</td>
+<td>LensMount</td>
+<td class=c>no</td>
+<td><span class=s>0 = Unknown
+  <br>1 = A-mount
+  <br>2 = E-mount
+  <br>3 = A-mount (3)</span></td></tr>
+<tr>
+<td class=r title='73 = 0x49'>73</td>
+<td>LensFormat</td>
+<td class=c>no</td>
+<td><span class=s>0 = Unknown
+  <br>1 = APS-C
+  <br>2 = Full-frame</span></td></tr>
+<tr class=b>
+<td class=r title='74 = 0x4a'>74</td>
+<td>LensMount</td>
+<td class=c>no</td>
+<td><span class=s>0 = Unknown
+  <br>1 = A-mount
+  <br>2 = E-mount</span></td></tr>
+<tr>
+<td class=r title='75 = 0x4b'>75</td>
+<td>LensType2</td>
+<td class=c>no</td>
+<td>--&gt; <a href='Sony.html#LensType2'>Sony LensType2 Values</a></td></tr>
+<tr class=b>
+<td class=r title='77 = 0x4d'>77</td>
+<td>LensType</td>
+<td class=c>no</td>
+<td>--&gt; <a href='Sony.html#LensType'>Sony LensType Values</a></td></tr>
+<tr>
+<td class=r title='79 = 0x4f'>79</td>
+<td>DistortionCorrParams</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='112 = 0x70'>112</td>
+<td>PictureProfile</td>
+<td class=c>no</td>
+<td><table class=cols><tr>
+  <td>0 = Gamma Still - Standard/Neutral (PP2)
+  <br>1 = Gamma Still - Portrait
+  <br>3 = Gamma Still - Night View/Portrait
+  <br>4 = Gamma Still - B&amp;W/Sepia
+  <br>5 = Gamma Still - Clear
+  <br>6 = Gamma Still - Deep
+  <br>7 = Gamma Still - Light
+  <br>8 = Gamma Still - Vivid
+  <br>9 = Gamma Still - Real
+  <br>10 = Gamma Movie (PP1)
+  <br>22 = Gamma ITU709 (PP3 or PP4)
+  <br>24 = Gamma Cine1 (PP5)
+  <br>25 = Gamma Cine2 (PP6)
+  <br>26 = Gamma Cine3
+  <br>27 = Gamma Cine4
+  <br>28 = Gamma S-Log2 (PP7)
+  <br>29 = Gamma ITU709 (800%)
+  <br>31 = Gamma S-Log3 (PP8 or PP9)
+  <br>33 = Gamma HLG2 (PP10)
+  <br>34 = Gamma HLG3
+  <br>37 = FL
+  <br>38 = VV2
+  <br>39 = IN
+  <br>40 = SH</td></tr></table>
+</td></tr>
+<tr>
+<td class=r title='113 = 0x71'>113</td>
+<td>FocalLength</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='115 = 0x73'>115</td>
+<td>MinFocalLength</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='117 = 0x75'>117</td>
+<td>MaxFocalLength</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='2191 = 0x88f'>2191</td>
+<td>VignettingCorrParams</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='2324 = 0x914'>2324</td>
+<td>ChromaticAberrationCorrParams</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+</table></td></tr></table></blockquote>
+
 <h2><a name='PIC'>Sony PIC Tags</a></h2>
 <p>The TextInfo data is extracted as a block to preserve the formatting, and
 some of the more interesting information is extracted as separate tags.</p>
@@ -11266,6 +11682,97 @@ some models when the <a href="../ExifTool.html#ExtractEmbedded">ExtractEmbedded<
 <tr class=h><th>Tag&nbsp;ID</th><th>Tag Name</th>
 <th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
 <tr>
+<td title='0x8000 = 32768'>0x8000</td>
+<td>FNumber</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td title='0x8109 = 33033'>0x8109</td>
+<td>ExposureTime</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td title='0x810a = 33034'>0x810a</td>
+<td>MasterGainAdjustment</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td title='0x810b = 33035'>0x810b</td>
+<td>ISO</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td title='0x810c = 33036'>0x810c</td>
+<td>ElectricalExtenderMagnification</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td title='0x8500 = 34048'>0x8500</td>
+<td>GPSVersionID</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td title='0x8501 = 34049'>0x8501</td>
+<td>GPSLatitudeRef</td>
+<td class=c>no</td>
+<td><span class=s>&#39;N&#39; = North
+  <br>&#39;S&#39; = South</span></td></tr>
+<tr class=b>
+<td title='0x8502 = 34050'>0x8502</td>
+<td>GPSLatitude</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td title='0x8503 = 34051'>0x8503</td>
+<td>GPSLongitudeRef</td>
+<td class=c>no</td>
+<td><span class=s>&#39;E&#39; = East
+  <br>&#39;W&#39; = West</span></td></tr>
+<tr class=b>
+<td title='0x8504 = 34052'>0x8504</td>
+<td>GPSLongitude</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td title='0x8507 = 34055'>0x8507</td>
+<td>GPSTimeStamp</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td title='0x8509 = 34057'>0x8509</td>
+<td>GPSStatus</td>
+<td class=c>no</td>
+<td><span class=s>&#39;A&#39; = Measurement Active
+  <br>&#39;V&#39; = Measurement Void</span></td></tr>
+<tr>
+<td title='0x850a = 34058'>0x850a</td>
+<td>GPSMeasureMode</td>
+<td class=c>no</td>
+<td><span class=s>2 = 2-Dimensional Measurement
+  <br>3 = 3-Dimensional Measurement</span></td></tr>
+<tr class=b>
+<td title='0x8512 = 34066'>0x8512</td>
+<td>GPSMapDatum</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td title='0x851d = 34077'>0x851d</td>
+<td>GPSDateStamp</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td title='0xe303 = 58115'>0xe303</td>
+<td>WhiteBalance</td>
+<td class=c>no</td>
+<td><table class=cols><tr>
+  <td>1 = Incandescent
+  <br>2 = Fluorescent
+  <br>4 = Daylight</td><td>&nbsp;&nbsp;</td>
+  <td>5 = Cloudy
+  <br>6 = Custom
+  <br>255 = Preset</td></tr></table>
+</td></tr>
+<tr>
 <td title='0xe304 = 58116'>0xe304</td>
 <td>DateTime</td>
 <td class=c>no</td>
@@ -11274,7 +11781,7 @@ some models when the <a href="../ExifTool.html#ExtractEmbedded">ExtractEmbedded<
 
 <hr>
 (This document generated automatically by Image::ExifTool::BuildTagLookup)
-<br><i>Last revised Jun 11, 2020</i>
+<br><i>Last revised Jun 9, 2021</i>
 <p class=lf><a href='index.html'>&lt;-- ExifTool Tag Names</a></p>
 </body>
 </html>

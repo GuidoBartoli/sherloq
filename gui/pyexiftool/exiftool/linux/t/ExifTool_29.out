@@ -1,10 +1,10 @@
 [File, System, Other] FileName - File Name: ExifTool.jpg
 [File, System, Other] Directory - Directory: t/images
-[File, System, Other] FileSize - File Size: ##_kB
+[File, System, Other] FileSize - File Size: ##_KiB
 [File, System, Time] FileModifyDate - File Modification Date/Time: ####:##:##_##:##:##-##:##
 [File, System, Time] FileAccessDate - File Access Date/Time: ####:##:##_##:##:##-##:##
 [File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: ####:##:##_##:##:##-##:##
-[File, System, Other] FilePermissions - File Permissions: rw-r--r--
+[File, System, Other] FilePermissions - File Permissions: -rw-r--r--
 [File, File, Other] FileType - File Type: JPEG
 [File, File, Other] FileTypeExtension - File Type Extension: jpg
 [File, File, Other] MIMEType - MIME Type: image/jpeg
@@ -191,7 +191,7 @@
 [FlashPix, FlashPix, Other] 7 - Extension Description: Presized_image_for_LCD_display
 [FlashPix, FlashPix, Other] 4096 - Storage-Stream Pathname: /.Screen_Nail_bd##########a###
 [FlashPix, FlashPix, Other] Screen Nail - Screen Nail: (Binary data 5917 bytes)
-[FlashPix, FlashPix, Preview] FlashPix::PreviewImage - Preview Image: (Binary data 5777 bytes)
+[FlashPix, FlashPix, Preview] FlashPix-PreviewImage - Preview Image: (Binary data 5777 bytes)
 [MPF, MPF0, Image] 45056 - MPF Version: ####
 [MPF, MPF0, Image] 45057 - Number Of Images: #
 [MPF, MPImage1, Image] 0.1 - MP Image Flags: Dependent_parent_image
@@ -258,6 +258,27 @@
 [APP11, JPEG-HDR, Image] bet - Beta: #.######
 [APP11, JPEG-HDR, Image] cor - Correction Method: #
 [APP11, JPEG-HDR, Preview] RatioImage - Ratio Image: (Binary data 19 bytes)
+[JUMBF, JUMBF, Image] jumd-type - JUMD Type: cacb-####-####-######aa#####b##
+[JUMBF, JUMBF, Image] jumd-flags - JUMD Flags: Requestable,_Label
+[JUMBF, JUMBF, Image] jumd-label - JUMD Label: cai
+[JUMBF, JUMBF, Image] jumd-type - JUMD Type: cast-####-####-######aa#####b##
+[JUMBF, JUMBF, Image] jumd-flags - JUMD Flags: Requestable,_Label
+[JUMBF, JUMBF, Image] jumd-label - JUMD Label: cb.reuters_#
+[JUMBF, JUMBF, Image] jumd-type - JUMD Type: caas-####-####-######aa#####b##
+[JUMBF, JUMBF, Image] jumd-flags - JUMD Flags: Requestable,_Label
+[JUMBF, JUMBF, Image] jumd-label - JUMD Label: cai.assertions
+[JUMBF, JUMBF, Image] jumd-type - JUMD Type: json-####-####-######aa#####b##
+[JUMBF, JUMBF, Image] jumd-flags - JUMD Flags: Requestable,_Label
+[JUMBF, JUMBF, Image] jumd-label - JUMD Label: adobe.asset.info
+[JUMBF, JSON, Other] title - Title: HEALTHCORONAVIRUSUSAOREGON_SALEM_##.jpg
+[JUMBF, JUMBF, Image] jumd-type - JUMD Type: json-####-####-######aa#####b##
+[JUMBF, JUMBF, Image] jumd-flags - JUMD Flags: Requestable,_Label
+[JUMBF, JUMBF, Image] jumd-label - JUMD Label: cai.location.broad
+[JUMBF, JSON, Other] location - Location: Salem,_Oregon
+[JUMBF, JUMBF, Image] jumd-type - JUMD Type: json-####-####-######aa#####b##
+[JUMBF, JUMBF, Image] jumd-flags - JUMD Flags: Requestable,_Label
+[JUMBF, JUMBF, Image] jumd-label - JUMD Label: cai.rights
+[JUMBF, JSON, Other] copyright - Copyright: Alisha_Jucevic
 [APP12, PictureInfo, Time] TimeDate - Date/Time Original: ####:##:##_##:##:##
 [APP12, PictureInfo, Image] Shutter - Exposure Time: #/###
 [APP12, PictureInfo, Image] Flash - Flash: Off
@@ -346,6 +367,7 @@
 [Photoshop, Photoshop, Image] 0 - Photoshop Quality: #
 [Photoshop, Photoshop, Image] 1 - Photoshop Format: Standard
 [Photoshop, Photoshop, Image] 2 - Progressive Scans: #_Scans
+[ExifTool, ExifTool, ExifTool] Warning - Warning: IPTCDigest_is_not_current._XMP_may_be_out_of_sync
 [APP13, AdobeCM, Image] 0 - Adobe CM Type: #
 [APP14, Adobe, Image] 0 - DCT Encode Version: ###
 [APP14, Adobe, Image] 1 - APP14 Flags 0: (none)
@@ -414,13 +436,13 @@
 [FotoStation, FotoStation, Image] 8 - Crop Right: ##.###%
 [FotoStation, FotoStation, Image] 9 - Crop Bottom: ##.##%
 [FotoStation, FotoStation, Image] 11 - Crop Rotation: #
-[Composite, Composite, Image] Exif::Aperture - Aperture: #.#
-[Composite, Composite, Image] Exif::ImageSize - Image Size: #x#
-[Composite, Composite, Image] Exif::Megapixels - Megapixels: #.######
-[Composite, Composite, Image] Exif::ShutterSpeed - Shutter Speed: #/###
-[Composite, Composite, Image] Exif::LightValue - Light Value: ##.#
-[Composite, Composite, Camera] Exif::ScaleFactor35efl - Scale Factor To 35 mm Equivalent: #.#
-[Composite, Composite, Camera] Exif::CircleOfConfusion - Circle Of Confusion: #.###_mm
-[Composite, Composite, Image] Exif::FOV - Field Of View: ##.#_deg
-[Composite, Composite, Camera] Exif::FocalLength35efl - Focal Length: #.#_mm_(##_mm_equivalent:_##.#_mm)
-[Composite, Composite, Camera] Exif::HyperfocalDistance - Hyperfocal Distance: #.##_m
+[Composite, Composite, Image] Exif-Aperture - Aperture: #.#
+[Composite, Composite, Image] Exif-ImageSize - Image Size: #x#
+[Composite, Composite, Image] Exif-Megapixels - Megapixels: #.######
+[Composite, Composite, Image] Exif-ShutterSpeed - Shutter Speed: #/###
+[Composite, Composite, Image] Exif-LightValue - Light Value: ##.#
+[Composite, Composite, Camera] Exif-ScaleFactor35efl - Scale Factor To 35 mm Equivalent: #.#
+[Composite, Composite, Camera] Exif-CircleOfConfusion - Circle Of Confusion: #.###_mm
+[Composite, Composite, Image] Exif-FOV - Field Of View: ##.#_deg
+[Composite, Composite, Camera] Exif-FocalLength35efl - Focal Length: #.#_mm_(##_mm_equivalent:_##.#_mm)
+[Composite, Composite, Camera] Exif-HyperfocalDistance - Hyperfocal Distance: #.##_m

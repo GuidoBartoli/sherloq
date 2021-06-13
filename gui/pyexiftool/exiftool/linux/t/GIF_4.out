@@ -3,8 +3,8 @@ BitsPerPixel: 8
 ColorResolutionDepth: 8
 Comment: x
 Country: Canada
-ExifToolVersion: 9.93
-FileSize: 4.0 kB
+ExifToolVersion: 12.11
+FileSize: 4.0 KiB
 FileType: GIF
 FileTypeExtension: gif
 GIFVersion: 89a
@@ -14,5 +14,6 @@ ImageSize: 8x8
 ImageWidth: 8
 MIMEType: image/gif
 Megapixels: 0.000064
+PixelAspectRatio: 1
 Subject: one, two, three
-XMPToolkit: Image::ExifTool 9.93
+XMPToolkit: Image::ExifTool 12.11

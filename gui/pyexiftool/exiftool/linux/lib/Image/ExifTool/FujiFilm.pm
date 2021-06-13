@@ -31,7 +31,7 @@ use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 
-$VERSION = '1.78';
+$VERSION = '1.80';
 
 sub ProcessFujiDir($$$);
 sub ProcessFaceRec($$$);
@@ -507,6 +507,7 @@ my %faceCategories = (
             0 => 'Off',
             1 => 'On',
             2 => 'No flash & flash', #3
+            6 => 'Pixel Shift', #IB (GFX100S)
         },
     }],
     0x1101 => {
@@ -517,6 +518,8 @@ my %faceCategories = (
         Name => 'DriveSettings',
         SubDirectory => { TagTable => 'Image::ExifTool::FujiFilm::DriveSettings' },
     },
+    0x1105 => { Name => 'PixelShiftShots',  Writable => 'int16u' }, #IB
+    0x1106 => { Name => 'PixelShiftOffset', Writable => 'rational64s', Count => 2 }, #IB
     # (0x1150-0x1152 exist only for Pro Low-light and Pro Focus PictureModes)
     # 0x1150 - Pro Low-light - val=1; Pro Focus - val=2 (ref 7); HDR - val=128 (forum10799)
     # 0x1151 - Pro Low-light - val=4 (number of pictures taken?); Pro Focus - val=2,3 (ref 7); HDR - val=3 (forum10799)
@@ -623,6 +626,7 @@ my %faceCategories = (
             0x700 => 'Eterna', #12
             0x800 => 'Classic Negative', #forum10536
             0x900 => 'Bleach Bypass', #forum10890
+            0xa00 => 'Nostalgic Neg', #forum12085
         },
     },
     0x1402 => { #2
@@ -914,15 +918,22 @@ my %faceCategories = (
     WRITABLE => 1,
     0.1 => {
         Name => 'FocusMode2',
-        Mask => 0x000000ff,
+        Mask => 0x0000000f,
         PrintConv => {
-            0x00 => 'AF-M',
-            0x01 => 'AF-S',
-            0x02 => 'AF-C',
-            0x11 => 'AF-S (Auto)',
+            0x0 => 'AF-M',
+            0x1 => 'AF-S',
+            0x2 => 'AF-C',
         },
     },
     0.2 => {
+        Name => 'PreAF',
+        Mask => 0x00f0,
+        PrintConv => {
+            0 => 'Off',
+            1 => 'On',
+        },
+    },
+    0.3 => {
         Name => 'AFAreaMode',
         Mask => 0x0f00,
         PrintConv => {
@@ -931,7 +942,7 @@ my %faceCategories = (
             2 => 'Wide/Tracking',
         },
     },
-    0.3 => {
+    0.4 => {
         Name => 'AFAreaPointSize',
         Mask => 0xf000,
         PrintConv => {
@@ -939,7 +950,7 @@ my %faceCategories = (
             OTHER => sub { return $_[0] },
         },
     },
-    0.4 => {
+    0.5 => {
         Name => 'AFAreaZoneSize',
         Mask => 0xf0000,
         PrintConv => {
@@ -1658,7 +1669,7 @@ FujiFilm maker notes in EXIF information, and to read/write FujiFilm RAW
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

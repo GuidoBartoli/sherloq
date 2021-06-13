@@ -1697,6 +1697,7 @@ my %sSubVersion = (
     InitialViewPitchDegrees         => { Writable => 'real' },
     InitialViewRollDegrees          => { Writable => 'real' },
     InitialHorizontalFOVDegrees     => { Writable => 'real' },
+    InitialVerticalFOVDegrees       => { Writable => 'real' },
     FirstPhotoDate                  => { %dateTimeInfo, Groups => { 2 => 'Time' } },
     LastPhotoDate                   => { %dateTimeInfo, Groups => { 2 => 'Time' } },
     SourcePhotosCount               => { Writable => 'integer' },
@@ -1838,6 +1839,10 @@ my %sSubVersion = (
         ValueConv => 'Image::ExifTool::XMP::DecodeBase64($val)',
         ValueConvInv => 'Image::ExifTool::XMP::EncodeBase64($val)',
     },
+    MicroVideo          => { Writable => 'integer' },
+    MicroVideoVersion   => { Writable => 'integer' },
+    MicroVideoOffset    => { Writable => 'integer' },
+    MicroVideoPresentationTimestampUs => { Writable => 'integer' },
 );
 
 # Google creations namespace (ref PH)
@@ -2117,7 +2122,7 @@ This file contains definitions for less common XMP namespaces.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

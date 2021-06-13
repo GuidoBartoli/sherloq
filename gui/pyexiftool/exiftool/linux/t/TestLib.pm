@@ -14,6 +14,7 @@
 #               Sep. 16/08 - P. Harvey Improve timezone testing
 #               Jul. 14/10 - P. Harvey Added writeInfo()
 #               Jan. 06/12 - P. Harvey Patched MirBSD leap second "feature"
+#               Jun. 08/21 - PH Patched float compare to fix quadmath test failure
 #------------------------------------------------------------------------------
 
 package t::TestLib;
@@ -24,7 +25,7 @@ require Exporter;
 use Image::ExifTool qw(ImageInfo);
 
 use vars qw($VERSION @ISA @EXPORT);
-$VERSION = '1.21';
+$VERSION = '1.23';
 @ISA = qw(Exporter);
 @EXPORT = qw(check writeCheck writeInfo testCompare binaryCompare testVerbose);
 
@@ -78,14 +79,28 @@ sub testCompare($$$;$)
             $success = 1;
             my ($line1, $line2);
             my $linenum = 0;
+            my $skip = 0;
             for (;;) {
-                $line1 = <FILE1>;
+                $line1 = <FILE1> unless $skip == 1;
                 last unless defined $line1;
                 ++$linenum;
-                $line2 = <FILE2>;
+                $line2 = <FILE2> unless $skip == 2;
+                $skip = 0;
                 if (defined $line2) {
                     next if $line1 eq $line2;
                     next if nearEnough($line1, $line2);
+                    # ignore IPTCDigest warning if Digest::MD5 isn't available
+                    if ($line1 =~ /Warning: IPTCDigest is not current/ and
+                        not eval 'require Digest::MD5')
+                    {
+                        $skip = 2; 
+                        next;
+                    } elsif ($line2 =~ /Warning: IPTCDigest is not current/ and
+                        not eval 'require Digest::MD5')
+                    {
+                        $skip = 1;
+                        next;
+                    }
                 }
                 $success = 0;
                 last;
@@ -204,8 +219,7 @@ sub nearEnough($$)
                 last unless $tok2 =~ s/^'//;
             }
             last unless Image::ExifTool::IsFloat($tok1) and
-                        Image::ExifTool::IsFloat($tok2) and
-                        $tok1 =~ /\./ and $tok2 =~ /\./;
+                        Image::ExifTool::IsFloat($tok2);
             last if $tok1 == 0 or $tok2 == 0;
             # numbers are bad if not the same to 5 significant figures
             if (abs(($tok1-$tok2)/($tok1+$tok2)) > 1e-5) {
@@ -354,10 +368,11 @@ sub check($$$;$$$)
 #         1) test name, 2) test number, 3) optional source file name,
 #         4) true to only check tags which were written (or list ref for tags to check)
 #         5) flag set if nothing is expected to change in the output file
+#         6) true to ignore warnings
 # Returns: 1 if check passed
-sub writeCheck($$$;$$$)
+sub writeCheck($$$;$$$$)
 {
-    my ($writeInfo, $testname, $testnum, $srcfile, $onlyWritten, $same) = @_;
+    my ($writeInfo, $testname, $testnum, $srcfile, $onlyWritten, $same, $ignore) = @_;
     $srcfile or $srcfile = "t/images/$testname.jpg";
     my ($ext) = ($srcfile =~ /\.(.+?)$/);
     my $testfile = "t/${testname}_${testnum}_failed.$ext";
@@ -372,7 +387,7 @@ sub writeCheck($$$;$$$)
         push @tags, $$_[0] if $onlyWritten;
     }
     unlink $testfile;
-    my $ok = writeInfo($exifTool, $srcfile, $testfile, $same);
+    my $ok = writeInfo($exifTool, $srcfile, $testfile, $same, $ignore);
     my $info = $exifTool->ImageInfo($testfile,{Duplicates=>1,Unknown=>1},@tags);
     my $rtnVal = check($exifTool, $info, $testname, $testnum);
     return 0 unless $ok and $rtnVal;
@@ -396,7 +411,7 @@ sub writeInfo($$;$$$)
     $err .= "  Error: WriteInfo() returned $result\n" if $result != ($same ? 2 : 1);
     my $info = $exifTool->GetInfo('Warning', 'Error');
     foreach (sort keys %$info) {
-        next if $ignore and $_ eq 'Warning';
+        next if $ignore and $_ =~ /^Warning/;
         my $tag = Image::ExifTool::GetTagName($_);
         $err .= "  $tag: $$info{$_}\n";
     }

@@ -18,7 +18,7 @@ use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::ID3;
 
-$VERSION = '1.10';
+$VERSION = '1.11';
 
 # information for time/date-based tags (time zero is Jan 1, 1904)
 my %timeInfo = (
@@ -73,12 +73,12 @@ my %timeInfo = (
             ProcessProc => \&Image::ExifTool::ID3::ProcessID3,
         },
     },
+    APPL => 'ApplicationData', # (first 4 bytes are the application signature)
 #    SSND => 'SoundData',
 #    MARK => 'Marker',
 #    INST => 'Instrument',
 #    MIDI => 'MidiData',
 #    AESD => 'AudioRecording',
-#    APPL => 'ApplicationSpecific',
 );
 
 %Image::ExifTool::AIFF::Common = (
@@ -287,7 +287,7 @@ information from AIFF (Audio Interchange File Format) audio files.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

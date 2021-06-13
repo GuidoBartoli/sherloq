@@ -126,7 +126,7 @@ class QualityWidget(ToolWidget):
                 message = "(standard tables)"
             else:
                 quality = int(np.round(closest - deviation))
-                message = f"(deviation from standard tables = {deviation:.4f})"
+                message = f"(deviation from standard tables --> {deviation:.4f})"
             if quality == 0:
                 quality = 1
             quality_label = QLabel(self.tr(f"[JPEG FORMAT] Last saved quality: {quality}% {message}"))

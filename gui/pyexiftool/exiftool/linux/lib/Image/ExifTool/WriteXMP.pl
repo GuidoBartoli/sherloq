@@ -12,7 +12,7 @@ use vars qw(%specialStruct %dateTimeInfo %stdXlatNS);
 
 use Image::ExifTool qw(:DataAccess :Utils);
 
-sub CheckXMP($$$);
+sub CheckXMP($$$;$);
 sub CaptureXMP($$$;$);
 sub SetPropertyPath($$;$$$$);
 
@@ -165,12 +165,12 @@ sub FormatXMPDate($)
 
 #------------------------------------------------------------------------------
 # Check XMP values for validity and format accordingly
-# Inputs: 0) ExifTool object ref, 1) tagInfo hash ref, 2) raw value ref
+# Inputs: 0) ExifTool object ref, 1) tagInfo hash ref, 2) raw value ref, 3) conversion type
 # Returns: error string or undef (and may change value) on success
 # Note: copies structured information to avoid conflicts with calling code
-sub CheckXMP($$$)
+sub CheckXMP($$$;$)
 {
-    my ($et, $tagInfo, $valPtr) = @_;
+    my ($et, $tagInfo, $valPtr, $convType) = @_;
 
     if ($$tagInfo{Struct}) {
         require 'Image/ExifTool/XMPStruct.pl';
@@ -250,9 +250,12 @@ sub CheckXMP($$$)
         return "Invalid date/time (use YYYY:mm:dd HH:MM:SS[.ss][+/-HH:MM|Z])" unless $newDate;
         $$valPtr = $newDate;
     } elsif ($format eq 'boolean') {
+        # (allow lower-case 'true' and 'false' if not setting PrintConv value)
         if (not $$valPtr or $$valPtr =~ /false/i or $$valPtr =~ /^no$/i) {
-            $$valPtr = 'False';
-        } else {
+            if (not $$valPtr or $$valPtr ne 'false' or not $convType or $convType eq 'PrintConv') {
+                $$valPtr = 'False';
+            }
+        } elsif ($$valPtr ne 'true' or not $convType or $convType eq 'PrintConv') {
             $$valPtr = 'True';
         }
     } elsif ($format eq '1') {
@@ -503,7 +506,7 @@ sub ConformPathToNamespace($$)
     my $prop;
     foreach $prop (@propList) {
         my ($ns, $tag) = $prop =~ /(.+?):(.*)/;
-        next if $$nsUsed{$ns};
+        next if not defined $ns or $$nsUsed{$ns};
         my $uri = $nsURI{$ns};
         unless ($uri) {
             warn "No URI for namespace prefix $ns!\n";
@@ -1414,7 +1417,11 @@ sub WriteXMP($$;$)
             my $uri = $nsUsed{$1};
             unless ($uri) {
                 $uri = $nsURI{$1};      # we must have added a namespace
-                $uri or $xmpErr = "Undefined XMP namespace: $1", next;
+                unless ($uri) {
+                    # (namespace may be empty if trying to write empty XMP structure, forum12384)
+                    $xmpErr = "Undefined XMP namespace: $1" if length $uri;
+                    next;
+                }
             }
             $nsNew{$1} = $uri;
             # need a new description if any new namespaces
@@ -1462,7 +1469,7 @@ sub WriteXMP($$;$)
             $long[-2] .= "$nl$sp<$prop rdf:about='${about}'";
             # generate et:toolkit attribute if this is an exiftool RDF/XML output file
             if (@ns and $nsCur{$ns[0]} =~ m{^http://ns.exiftool.(?:ca|org)/}) {
-                $long[-2] .= "\n$sp${sp}xmlns:et='http://ns.exiftool.ca/1.0/'" .
+                $long[-2] .= "\n$sp${sp}xmlns:et='http://ns.exiftool.org/1.0/'" .
                             " et:toolkit='Image::ExifTool $Image::ExifTool::VERSION'";
             }
             $long[-2] .= "\n$sp${sp}xmlns:$_='$nsCur{$_}'" foreach @ns;
@@ -1613,7 +1620,7 @@ This file contains routines to write XMP metadata.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

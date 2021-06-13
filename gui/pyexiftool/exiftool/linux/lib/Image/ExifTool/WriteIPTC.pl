@@ -170,7 +170,7 @@ sub FormatIPTC($$$$$;$)
         } else {
             my $len = int(($1 || 0) / 8);
             if ($len == 1) {        # 1 byte
-                $$valPtr = chr($$valPtr);
+                $$valPtr = chr($$valPtr & 0xff);
             } elsif ($len == 2) {   # 2-byte integer
                 $$valPtr = pack('n', $$valPtr);
             } else {                # 4-byte integer
@@ -715,7 +715,7 @@ seldom-used routines.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

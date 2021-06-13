@@ -14,16 +14,35 @@ use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Import;
 
-$VERSION = '1.01';
+$VERSION = '1.03';
 
+sub ProcessJSON($$);
 sub ProcessTag($$$$%);
 
 %Image::ExifTool::JSON::Main = (
     GROUPS => { 0 => 'JSON', 1 => 'JSON', 2 => 'Other' },
+    VARS => { NO_ID => 1 },
+    PROCESS_PROC => \&ProcessJSON,
     NOTES => q{
-        No JSON tags have been pre-defined, but ExifTool will read any existing
-        tags from basic JSON-formatted files.
+        Other than a few tags in the table below, JSON tags have not been
+        pre-defined.  However, ExifTool will read any existing tags from basic
+        JSON-formatted files.
     },
+    # ON1 settings tags
+    ON1_SettingsData => {
+        RawConv => q{
+            require Image::ExifTool::XMP;
+            $val = Image::ExifTool::XMP::DecodeBase64($val);
+        },
+        SubDirectory => { TagTable => 'Image::ExifTool::PLIST::Main' },
+    },
+    ON1_SettingsMetadataCreated     => { Groups => { 2 => 'Time' } },
+    ON1_SettingsMetadataModified    => { Groups => { 2 => 'Time' } },
+    ON1_SettingsMetadataName        => { },
+    ON1_SettingsMetadataPluginID    => { },
+    ON1_SettingsMetadataTimestamp   => { Groups => { 2 => 'Time' } },
+    ON1_SettingsMetadataUsage       => { },
+    ON1_SettingsMetadataVisibleToUser=>{ },
 );
 
 #------------------------------------------------------------------------------
@@ -33,12 +52,18 @@ sub FoundTag($$$$%)
 {
     my ($et, $tagTablePtr, $tag, $val, %flags) = @_;
 
+    # special case to reformat ON1 tag names
+    if ($tag =~ s/^settings\w{8}-\w{4}-\w{4}-\w{4}-\w{12}(Data|Metadata.+)$/ON1_Settings$1/) {
+        $et->OverrideFileType('ONP','application/on1') if $$et{FILE_TYPE} eq 'JSON';
+    }
+
     # avoid conflict with special table entries
     $tag .= '!' if $Image::ExifTool::specialTags{$tag};
 
     AddTagToTable($tagTablePtr, $tag, {
         Name => Image::ExifTool::MakeTagName($tag),
         %flags,
+        Temporary => 1,
     }) unless $$tagTablePtr{$tag};
 
     $et->HandleTag($tagTablePtr, $tag, $val);
@@ -80,7 +105,26 @@ sub ProcessJSON($$)
     my ($et, $dirInfo) = @_;
     my $raf = $$dirInfo{RAF};
     my $structOpt = $et->Options('Struct');
-    my (%database, $key, $tag);
+    my (%database, $key, $tag, $dataPt);
+
+    unless ($raf) {
+        $dataPt = $$dirInfo{DataPt};
+        if ($$dirInfo{DirStart} or ($$dirInfo{DirLen} and $$dirInfo{DirLen} ne length($$dataPt))) {
+            my $buff = substr(${$$dirInfo{DataPt}}, $$dirInfo{DirStart}, $$dirInfo{DirLen});
+            $dataPt = \$buff;
+        }
+        $raf = new File::RandomAccess($dataPt);
+        # extract as a block if requested
+        my $blockName = $$dirInfo{BlockInfo} ? $$dirInfo{BlockInfo}{Name} : '';
+        my $blockExtract = $et->Options('BlockExtract');
+        if ($blockName and ($blockExtract or $$et{REQ_TAG_LOOKUP}{lc $blockName} or
+            ($$et{TAGS_FROM_FILE} and not $$et{EXCL_TAG_LOOKUP}{lc $blockName})))
+        {
+            $et->FoundTag($$dirInfo{BlockInfo}, $$dataPt);
+            return 1 if $blockExtract and $blockExtract > 1;
+        }
+        $et->VerboseDir('JSON');
+    }
 
     # read information from JSON file into database structure
     my $err = Image::ExifTool::Import::ReadJSON($raf, \%database,
@@ -88,13 +132,13 @@ sub ProcessJSON($$)
 
     return 0 if $err or not %database;
 
-    $et->SetFileType();
+    $et->SetFileType() unless $dataPt;
 
     my $tagTablePtr = GetTagTable('Image::ExifTool::JSON::Main');
 
     # remove any old tag definitions in case they change flags
     foreach $key (TagTableKeys($tagTablePtr)) {
-        delete $$tagTablePtr{$key};
+        delete $$tagTablePtr{$key} if $$tagTablePtr{$key}{Temporary};
     }
 
     # extract tags from JSON database
@@ -128,7 +172,7 @@ information from JSON files.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

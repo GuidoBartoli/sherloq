@@ -15,7 +15,7 @@ use vars qw($VERSION);
 use Image::ExifTool::Exif;
 use Image::ExifTool::PLIST;
 
-$VERSION = '1.04';
+$VERSION = '1.05';
 
 # Apple iPhone metadata (ref PH)
 %Image::ExifTool::Apple::Main = (
@@ -72,7 +72,8 @@ $VERSION = '1.04';
     # 0x000f - int32s: 2,3
     # 0x0010 - int32s: 1
     0x0011 => {
-        Name => 'ContentIdentifier', #forum8750
+        Name => 'MediaGroupUUID', #NealKrawetz private communication
+        # (changed in 12.19 from Name => 'ContentIdentifier', #forum8750)
         Writable => 'string',
     },
     # 0x0014 - int32s: 1,2,3,4,5 (iPhone 6s, iOS 6.1)
@@ -148,7 +149,7 @@ Apple maker notes in EXIF information.
 
 =head1 AUTHOR
 
-Copyright 2003-2020, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
