@@ -43,7 +43,7 @@ class HistWidget(ToolWidget):
         self.start_slider = ParamSlider([0, 255], 8, 0, bold=True)
         self.end_slider = ParamSlider([0, 255], 8, 255, bold=True)
 
-        channels = cv.split(cv.cvtColor(image, cv.COLOR_BGR2RGB))
+        channels = list(cv.split(cv.cvtColor(image, cv.COLOR_BGR2RGB)))
         channels.append(cv.cvtColor(image, cv.COLOR_BGR2GRAY))
         self.hist = [compute_hist(c) for c in channels]
         rows, cols, chans = image.shape
