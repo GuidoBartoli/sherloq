@@ -28,8 +28,10 @@ class LocationWidget(ToolWidget):
                     layout.addWidget(label)
                     self.setLayout(layout)
                     return
-                url = f"https://www.google.com/maps/place/{lat},{lon}/@{lat},{lon},17z/" \
-                      f"data=!4m5!3m4!1s0x0:0x0!8m2!3d{lat}!4d{lon}"
+                url = (
+                    f"https://www.google.com/maps/place/{lat},{lon}/@{lat},{lon},17z/"
+                    f"data=!4m5!3m4!1s0x0:0x0!8m2!3d{lat}!4d{lon}"
+                )
                 web_view = QWebEngineView()
                 web_view.load(QUrl(url))
                 layout = QVBoxLayout()

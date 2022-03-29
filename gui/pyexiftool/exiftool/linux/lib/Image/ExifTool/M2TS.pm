@@ -31,7 +31,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.20';
+$VERSION = '1.21';
 
 # program map table "stream_type" lookup (ref 6/1)
 my %streamType = (
@@ -332,6 +332,7 @@ sub ParsePID($$$$$)
         } elsif ($$dataPt =~ /^A([NS])([EW])\0/s) {
             # INNOVV TS video (same format is INNOVV MP4)
             SetByteOrder('II');
+            my $tagTbl = GetTagTable('Image::ExifTool::QuickTime::Stream');
             while ($$dataPt =~ /(A[NS][EW]\0.{28})/g) {
                 my $dat = $1;
                 my $lat = abs(GetFloat(\$dat, 4)); # (abs just to be safe)
@@ -340,14 +341,10 @@ sub ParsePID($$$$$)
                 my $trk = GetFloat(\$dat, 16);
                 my @acc = unpack('x20V3', $dat);
                 map { $_ = $_ - 4294967296 if $_ >= 0x80000000 } @acc;
-                my $deg = int($lat / 100);
-                $lat = $deg + ($lat - $deg * 100) / 60;
-                $deg = int($lon / 100);
-                $lon = $deg + ($lon - $deg * 100) / 60;
+                Image::ExifTool::QuickTime::ConvertLatLon($lat, $lon);
                 $$et{DOC_NUM} = ++$$et{DOC_COUNT};
-                my $tagTbl = GetTagTable('Image::ExifTool::QuickTime::Stream');
-                $et->HandleTag($tagTbl, GPSLatitude  => $lat * (substr($dat,1,1) eq 'S' ? -1 : 1));
-                $et->HandleTag($tagTbl, GPSLongitude => $lon * (substr($dat,2,1) eq 'W' ? -1 : 1));
+                $et->HandleTag($tagTbl, GPSLatitude  => abs($lat) * (substr($dat,1,1) eq 'S' ? -1 : 1));
+                $et->HandleTag($tagTbl, GPSLongitude => abs($lon) * (substr($dat,2,1) eq 'W' ? -1 : 1));
                 $et->HandleTag($tagTbl, GPSSpeed     => $spd);
                 $et->HandleTag($tagTbl, GPSSpeedRef  => 'K');
                 $et->HandleTag($tagTbl, GPSTrack     => $trk);
@@ -356,7 +353,66 @@ sub ParsePID($$$$$)
             }
             SetByteOrder('MM');
             $more = 1;
+        } elsif ($$dataPt =~ /^\$(GPSINFO|GSNRINFO),/) {
+            # $GPSINFO,0x0004,2021.08.09 13:27:36,2341.54561,12031.70135,8.0,51,153,0,0,\x0d
+            # $GSNRINFO,0.01,0.04,0.25\0
+            $$dataPt =~ tr/\x0d/\x0a/;
+            $$dataPt =~ tr/\0//d;
+            my $tagTbl = GetTagTable('Image::ExifTool::QuickTime::Stream');
+            my @lines = split /\x0a/, $$dataPt;
+            my ($line, $lastTime);
+            foreach $line (@lines) {
+                if ($line =~ /^\$GPSINFO/) {
+                    my @a = split /,/, $lines[0];
+                    next unless @a > 7;
+                    # ignore duplicate fixes
+                    next if $lastTime and $a[2] eq $lastTime;
+                    $lastTime = $a[2];
+                    $$et{DOC_NUM} = ++$$et{DOC_COUNT};
+                    $a[2] =~ tr/./:/;
+                    # (untested, and probably doesn't work for S/W hemispheres)
+                    my ($lat, $lon) = @a[3,4];
+                    Image::ExifTool::QuickTime::ConvertLatLon($lat, $lon);
+                    # $a[0] - flags? values: '0x0001','0x0004','0x0008','0x0010'
+                    $et->HandleTag($tagTbl, GPSDateTime  => $a[2]);
+                    $et->HandleTag($tagTbl, GPSLatitude  => $lat);
+                    $et->HandleTag($tagTbl, GPSLongitude => $lon);
+                    $et->HandleTag($tagTbl, GPSSpeed     => $a[5]);
+                    $et->HandleTag($tagTbl, GPSSpeedRef  => 'K');
+                    # $a[6] - values: 48-60
+                    $et->HandleTag($tagTbl, GPSTrack     => $a[7]);
+                    $et->HandleTag($tagTbl, GPSTrackRef  => 'T');
+                    # #a[8,9] - always 0
+                } elsif ($line =~ /^\$GSNRINFO/) {
+                    my @a = split /,/, $line;
+                    shift @a;
+                    $et->HandleTag($tagTbl, Accelerometer => "@a");
+                }
+            }
+            $more = 1;
+        } elsif ($$dataPt =~ /^.{44}A\0{3}.{4}([NS])\0{3}.{4}([EW])\0{3}/s and length($$dataPt) >= 84) {
+            #forum11320
+            SetByteOrder('II');
+            my $tagTbl = GetTagTable('Image::ExifTool::QuickTime::Stream');
+            my $lat = abs(GetFloat($dataPt, 48)); # (abs just to be safe)
+            my $lon = abs(GetFloat($dataPt, 56)); # (abs just to be safe)
+            my $spd = GetFloat($dataPt, 64);
+            my $trk = GetFloat($dataPt, 68);
+            $et->WarnOnce('GPSLatitude/Longitude encryption is not yet known, so these will be wrong');
+            $$et{DOC_NUM} = ++$$et{DOC_COUNT};
+            my @date = unpack('x32V3x28V3', $$dataPt);
+            $date[3] += 2000;
+            $et->HandleTag($tagTbl, GPSDateTime  => sprintf('%.4d:%.2d:%.2d %.2d:%.2d:%.2d', @date[3..5,0..2]));
+            $et->HandleTag($tagTbl, GPSLatitude  => abs($lat) * ($1 eq 'S' ? -1 : 1));
+            $et->HandleTag($tagTbl, GPSLongitude => abs($lon) * ($2 eq 'W' ? -1 : 1));
+            $et->HandleTag($tagTbl, GPSSpeed     => $spd);
+            $et->HandleTag($tagTbl, GPSSpeedRef  => 'K');
+            $et->HandleTag($tagTbl, GPSTrack     => $trk);
+            $et->HandleTag($tagTbl, GPSTrackRef  => 'T');
+            SetByteOrder('MM');
+            $more = 1;
         }
+        delete $$et{DOC_NUM};
     }
     return $more;
 }
@@ -408,14 +464,21 @@ sub ProcessM2TS($$)
     );
     my %didPID = ( 1 => 0, 2 => 0, 0x1fff => 0 );
     my %needPID = ( 0 => 1 );       # lookup for stream PID's that we still need to parse
+    # PID's that may contain GPS info
+    my %gpsPID = (
+        0x0300 => 1,    # Novatek INNOVV
+        0x01e4 => 1,    # vsys a6l dashcam
+    );
     my $pEnd = 0;
 
-    # scan entire file for GPS program 0x0300 if ExtractEmbedded option is 3 or higher
-    # (some dashcams write this program but don't include it in the PMT)
+    # scan entire file for GPS programs if ExtractEmbedded option is 3 or higher
+    # (some dashcams write these programs but don't include it in the PMT)
     if (($et->Options('ExtractEmbedded') || 0) > 2) {
-        $needPID{0x0300} = 1;
-        $pidType{0x0300} = -1;
-        $pidName{0x0300} = 'unregistered dashcam GPS';
+        foreach (keys %gpsPID) {
+            $needPID{$_} = 1;
+            $pidType{$_} = -1;
+            $pidName{$_} ='unregistered dashcam GPS';
+        }
     }
 
     # parse packets from MPEG-2 Transport Stream
@@ -704,7 +767,11 @@ sub ProcessM2TS($$)
                 }
                 $data{$pid} = substr($buff, $pos, $pEnd-$pos);
             } else {
-                next unless defined $data{$pid};
+                unless (defined $data{$pid}) {
+                    # (vsys a6l dashcam GPS record doesn't have a start indicator)
+                    next unless $gpsPID{$pid};
+                    $data{$pid} = '';
+                }
                 # accumulate data for each elementary stream
                 $data{$pid} .= substr($buff, $pos, $pEnd-$pos);
             }
@@ -779,7 +846,7 @@ video.
 
 =head1 AUTHOR
 
-Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

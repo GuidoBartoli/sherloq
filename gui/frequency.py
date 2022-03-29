@@ -94,7 +94,7 @@ class FrequencyWidget(ToolWidget):
         start = time()
         rows, cols, _ = self.dft.shape
         mask = np.zeros((rows, cols), np.float32)
-        half = np.sqrt(rows ** 2 + cols ** 2) / 2
+        half = np.sqrt(rows**2 + cols**2) / 2
         radius = int(half * self.split_spin.value() / 100)
         mask = cv.circle(mask, (cols // 2, rows // 2), radius, 1, cv.FILLED)
         kernel = 2 * int(half * self.smooth_spin.value() / 100) + 1

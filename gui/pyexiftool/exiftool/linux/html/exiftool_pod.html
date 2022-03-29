@@ -78,7 +78,7 @@
 
 <h2 id="Copying">Copying</h2>
 
-<p><b>exiftool</b> [<i>OPTIONS</i>] <b>-tagsFromFile</b> <i>SRCFILE</i> [-<i>SRCTAG</i>[&gt;<i>DSTTAG</i>]...] <i>FILE</i>...</p>
+<p><b>exiftool</b> [<i>OPTIONS</i>] <b>-tagsFromFile</b> <i>SRCFILE</i> [-[<i>DSTTAG</i>&lt;]<i>SRCTAG</i>...] <i>FILE</i>...</p>
 
 <h2 id="Other">Other</h2>
 
@@ -100,47 +100,48 @@
 
 <pre><code>  File Types
   ------------+-------------+-------------+-------------+------------
-  360   r/w   | DPX   r     | ITC   r     | NUMBERS r   | RAM   r
-  3FR   r     | DR4   r/w/c | J2C   r     | O     r     | RAR   r
-  3G2   r/w   | DSS   r     | JNG   r/w   | ODP   r     | RAW   r/w
-  3GP   r/w   | DV    r     | JP2   r/w   | ODS   r     | RIFF  r
-  A     r     | DVB   r/w   | JPEG  r/w   | ODT   r     | RSRC  r
-  AA    r     | DVR-MS r    | JSON  r     | OFR   r     | RTF   r
-  AAE   r     | DYLIB r     | JXL   r     | OGG   r     | RW2   r/w
-  AAX   r/w   | EIP   r     | K25   r     | OGV   r     | RWL   r/w
-  ACR   r     | EPS   r/w   | KDC   r     | ONP   r     | RWZ   r
-  AFM   r     | EPUB  r     | KEY   r     | OPUS  r     | RM    r
-  AI    r/w   | ERF   r/w   | LA    r     | ORF   r/w   | SEQ   r
-  AIFF  r     | EXE   r     | LFP   r     | ORI   r/w   | SKETCH r
-  APE   r     | EXIF  r/w/c | LNK   r     | OTF   r     | SO    r
-  ARQ   r/w   | EXR   r     | LRV   r/w   | PAC   r     | SR2   r/w
-  ARW   r/w   | EXV   r/w/c | M2TS  r     | PAGES r     | SRF   r
-  ASF   r     | F4A/V r/w   | M4A/V r/w   | PBM   r/w   | SRW   r/w
-  AVI   r     | FFF   r/w   | MACOS r     | PCD   r     | SVG   r
-  AVIF  r/w   | FITS  r     | MAX   r     | PCX   r     | SWF   r
-  AZW   r     | FLA   r     | MEF   r/w   | PDB   r     | THM   r/w
-  BMP   r     | FLAC  r     | MIE   r/w/c | PDF   r/w   | TIFF  r/w
-  BPG   r     | FLIF  r/w   | MIFF  r     | PEF   r/w   | TORRENT r
-  BTF   r     | FLV   r     | MKA   r     | PFA   r     | TTC   r
-  CHM   r     | FPF   r     | MKS   r     | PFB   r     | TTF   r
-  COS   r     | FPX   r     | MKV   r     | PFM   r     | TXT   r
-  CR2   r/w   | GIF   r/w   | MNG   r/w   | PGF   r     | VCF   r
-  CR3   r/w   | GPR   r/w   | MOBI  r     | PGM   r/w   | VRD   r/w/c
-  CRM   r/w   | GZ    r     | MODD  r     | PLIST r     | VSD   r
-  CRW   r/w   | HDP   r/w   | MOI   r     | PICT  r     | WAV   r
-  CS1   r/w   | HDR   r     | MOS   r/w   | PMP   r     | WDP   r/w
-  CSV   r     | HEIC  r/w   | MOV   r/w   | PNG   r/w   | WEBP  r
-  CZI   r     | HEIF  r/w   | MP3   r     | PPM   r/w   | WEBM  r
-  DCM   r     | HTML  r     | MP4   r/w   | PPT   r     | WMA   r
-  DCP   r/w   | ICC   r/w/c | MPC   r     | PPTX  r     | WMV   r
-  DCR   r     | ICS   r     | MPG   r     | PS    r/w   | WTV   r
-  DFONT r     | IDML  r     | MPO   r/w   | PSB   r/w   | WV    r
-  DIVX  r     | IIQ   r/w   | MQV   r/w   | PSD   r/w   | X3F   r/w
-  DJVU  r     | IND   r/w   | MRC   r     | PSP   r     | XCF   r
-  DLL   r     | INSP  r/w   | MRW   r/w   | QTIF  r/w   | XLS   r
-  DNG   r/w   | INSV  r     | MXF   r     | R3D   r     | XLSX  r
-  DOC   r     | INX   r     | NEF   r/w   | RA    r     | XMP   r/w/c
-  DOCX  r     | ISO   r     | NRW   r/w   | RAF   r/w   | ZIP   r
+  360   r/w   | DR4   r/w/c | JNG   r/w   | O     r     | RAW   r/w
+  3FR   r     | DSS   r     | JP2   r/w   | ODP   r     | RIFF  r
+  3G2   r/w   | DV    r     | JPEG  r/w   | ODS   r     | RSRC  r
+  3GP   r/w   | DVB   r/w   | JSON  r     | ODT   r     | RTF   r
+  A     r     | DVR-MS r    | JXL   r     | OFR   r     | RW2   r/w
+  AA    r     | DYLIB r     | K25   r     | OGG   r     | RWL   r/w
+  AAE   r     | EIP   r     | KDC   r     | OGV   r     | RWZ   r
+  AAX   r/w   | EPS   r/w   | KEY   r     | ONP   r     | RM    r
+  ACR   r     | EPUB  r     | LA    r     | OPUS  r     | SEQ   r
+  AFM   r     | ERF   r/w   | LFP   r     | ORF   r/w   | SKETCH r
+  AI    r/w   | EXE   r     | LIF   r     | ORI   r/w   | SO    r
+  AIFF  r     | EXIF  r/w/c | LNK   r     | OTF   r     | SR2   r/w
+  APE   r     | EXR   r     | LRV   r/w   | PAC   r     | SRF   r
+  ARQ   r/w   | EXV   r/w/c | M2TS  r     | PAGES r     | SRW   r/w
+  ARW   r/w   | F4A/V r/w   | M4A/V r/w   | PBM   r/w   | SVG   r
+  ASF   r     | FFF   r/w   | MACOS r     | PCD   r     | SWF   r
+  AVI   r     | FITS  r     | MAX   r     | PCX   r     | THM   r/w
+  AVIF  r/w   | FLA   r     | MEF   r/w   | PDB   r     | TIFF  r/w
+  AZW   r     | FLAC  r     | MIE   r/w/  | PDF   r/w   | TORRENT r
+  BMP   r     | FLIF  r/w   | MIFF  r   c | PEF   r/w   | TTC   r
+  BPG   r     | FLV   r     | MKA   r     | PFA   r     | TTF   r
+  BTF   r     | FPF   r     | MKS   r     | PFB   r     | TXT   r
+  CHM   r     | FPX   r     | MKV   r     | PFM   r     | VCF   r
+  COS   r     | GIF   r/w   | MNG   r/w   | PGF   r     | VRD   r/w/c
+  CR2   r/w   | GPR   r/w   | MOBI  r     | PGM   r/w   | VSD   r
+  CR3   r/w   | GZ    r     | MODD  r     | PLIST r     | WAV   r
+  CRM   r/w   | HDP   r/w   | MOI   r     | PICT  r     | WDP   r/w
+  CRW   r/w   | HDR   r     | MOS   r/w   | PMP   r     | WEBP  r
+  CS1   r/w   | HEIC  r/w   | MOV   r/w   | PNG   r/w   | WEBM  r
+  CSV   r     | HEIF  r/w   | MP3   r     | PPM   r/w   | WMA   r
+  CZI   r     | HTML  r     | MP4   r/w   | PPT   r     | WMV   r
+  DCM   r     | ICC   r/w/c | MPC   r     | PPTX  r     | WTV   r
+  DCP   r/w   | ICS   r     | MPG   r     | PS    r/w   | WV    r
+  DCR   r     | IDML  r     | MPO   r/w   | PSB   r/w   | X3F   r/w
+  DFONT r     | IIQ   r/w   | MQV   r/w   | PSD   r/w   | XCF   r
+  DIVX  r     | IND   r/w   | MRC   r     | PSP   r     | XLS   r
+  DJVU  r     | INSP  r/w   | MRW   r/w   | QTIF  r/w   | XLSX  r
+  DLL   r     | INSV  r     | MXF   r     | R3D   r     | XMP   r/w/c
+  DNG   r/w   | INX   r     | NEF   r/w   | RA    r     | ZIP   r
+  DOC   r     | ISO   r     | NKSC  r/w   | RAF   r/w   |
+  DOCX  r     | ITC   r     | NRW   r/w   | RAM   r     |
+  DPX   r     | J2C   r     | NUMBERS r   | RAR   r     |
 
   Meta Information
   ----------------------+----------------------+---------------------
@@ -297,15 +298,17 @@
 
 <p>Exclude specified tag from extracted information. Same as the <b>-x</b> option. Group names and wildcards are permitted as described above for <b>-TAG</b>. Once excluded from the output, a tag may not be re-included by a subsequent option. May also be used following a <b>-tagsFromFile</b> option to exclude tags from being copied (when redirecting to another tag, it is the source tag that should be excluded), or to exclude groups from being deleted when deleting all information (eg. <code>-all= --exif:all</code> deletes all but EXIF information). But note that this will not exclude individual tags from a group delete (unless a family 2 group is specified, see note 4 below). Instead, individual tags may be recovered using the <b>-tagsFromFile</b> option (eg. <code>-all= -tagsfromfile @ -artist</code>).</p>
 
+<p>To speed processing when reading XMP, exclusions in XMP groups also bypass processing of the corresponding XMP property and any contained properties. For example, <code>--xmp-crs:all</code> may speed processing significantly in cases where a large number of XMP-crs tags exist. To use this feature to bypass processing of a specific XMP property, the property name must be used instead of the ExifTool tag name (eg. <code>--xmp-crs:dabs</code>). Also, <code>XMP-all</code> may be used to to indicate any XMP namespace (eg. &lt;C--xmp-all:dabs&gt;).</p>
+
 </dd>
 <dt id="TAG---VALUE"><b>-</b><i>TAG</i>[+-^]<b>=</b>[<i>VALUE</i>]</dt>
 <dd>
 
-<p>Write a new value for the specified tag (eg. <code>-comment=wow</code>), or delete the tag if no <i>VALUE</i> is given (eg. <code>-comment=</code>). <code>+=</code> and <code>-=</code> are used to add or remove existing entries from a list, or to shift date/time values (see <a>Image::ExifTool::Shift.pl</a> and note 6 below for more details). <code>+=</code> may also be used to increment numerical values (or decrement if <i>VALUE</i> is negative), and <code>-=</code> may be used to conditionally delete or replace a tag (see <a href="#WRITING-EXAMPLES">&quot;WRITING EXAMPLES&quot;</a> for examples). <code>^=</code> is used to write an empty string instead of deleting the tag when no <i>VALUE</i> is given, but otherwise it is equivalent to <code>=</code>.</p>
+<p>Write a new value for the specified tag (eg. <code>-comment=wow</code>), or delete the tag if no <i>VALUE</i> is given (eg. <code>-comment=</code>). <code>+=</code> and <code>-=</code> are used to add or remove existing entries from a list, or to shift date/time values (see <a>Image::ExifTool::Shift.pl</a> and note 6 below for more details). <code>+=</code> may also be used to increment numerical values (or decrement if <i>VALUE</i> is negative), and <code>-=</code> may be used to conditionally delete or replace a tag (see <a href="#WRITING-EXAMPLES">&quot;WRITING EXAMPLES&quot;</a> for examples). <code>^=</code> is used to write an empty string instead of deleting the tag when no <i>VALUE</i> is given, but otherwise it is equivalent to <code>=</code>, but note that the caret must be quoted on the Windows command line.</p>
 
-<p><i>TAG</i> may contain one or more leading family 0, 1, 2 or 7 group names, prefixed by optional family numbers, and separated colons. If no group name is specified, the tag is created in the preferred group, and updated in any other location where a same-named tag already exists. The preferred group is the first group in the following list where <i>TAG</i> is valid: 1) EXIF, 2) IPTC, 3) XMP.</p>
+<p><i>TAG</i> may contain one or more leading family 0, 1, 2 or 7 group names, prefixed by optional family numbers, and separated colons. If no group name is specified, the tag is created in the preferred group, and updated in any other location where a same-named tag already exists. The preferred group in JPEG and TIFF-format images is the first group in the following list where <i>TAG</i> is valid: 1) EXIF, 2) IPTC, 3) XMP.</p>
 
-<p>The wildcards <code>*</code> and <code>?</code> may be used in tag names to assign the same value to multiple tags. When specified with wildcards, &quot;unsafe&quot; tags are not written. A tag name of <code>All</code> is equivalent to <code>*</code> (except that it doesn&#39;t require quoting, while arguments with wildcards do on systems with shell globbing), and is often used when deleting all metadata (ie. <code>-All=</code>) or an entire group (eg. <code>-XMP-dc:All=</code>, see note 4 below). Note that not all groups are deletable, and that the JPEG APP14 &quot;Adobe&quot; group is not removed by default with <code>-All=</code> because it may affect the appearance of the image. However, color space information is removed, so the colors may be affected (but this may be avoided by copying back the tags defined by the ColorSpaceTags shortcut). Use the <b>-listd</b> option for a complete list of deletable groups, and see note 5 below regarding the &quot;APP&quot; groups. Also, within an image some groups may be contained within others, and these groups are removed if the containing group is deleted:</p>
+<p>The wildcards <code>*</code> and <code>?</code> may be used in tag names to assign the same value to multiple tags. When specified with wildcards, &quot;Unsafe&quot; tags are not written. A tag name of <code>All</code> is equivalent to <code>*</code> (except that it doesn&#39;t require quoting, while arguments with wildcards do on systems with shell globbing), and is often used when deleting all metadata (ie. <code>-All=</code>) or an entire group (eg. <code>-XMP-dc:All=</code>, see note 4 below). Note that not all groups are deletable, and that the JPEG APP14 &quot;Adobe&quot; group is not removed by default with <code>-All=</code> because it may affect the appearance of the image. However, color space information is removed, so the colors may be affected (but this may be avoided by copying back the tags defined by the ColorSpaceTags shortcut). Use the <b>-listd</b> option for a complete list of deletable groups, and see note 5 below regarding the &quot;APP&quot; groups. Also, within an image some groups may be contained within others, and these groups are removed if the containing group is deleted:</p>
 
 <pre><code>  JPEG Image:
   - Deleting EXIF or IFD0 also deletes ExifIFD, GlobParamIFD,
@@ -357,7 +360,7 @@
 
 <p>Notes:</p>
 
-<p>1) Some tags (generally tags which may affect the appearance of the image) are considered &quot;unsafe&quot; to write, and are only copied if specified explicitly (ie. no wildcards). See the <a>tag name documentation</a> for more details about &quot;unsafe&quot; tags.</p>
+<p>1) Some tags (generally tags which may affect the appearance of the image) are considered &quot;Unsafe&quot; to write, and are only copied if specified explicitly (ie. no wildcards). See the <a>tag name documentation</a> for more details about &quot;Unsafe&quot; tags.</p>
 
 <p>2) Be aware of the difference between excluding a tag from being copied (--<i>TAG</i>), and deleting a tag (-<i>TAG</i>=). Excluding a tag prevents it from being copied to the destination image, but deleting will remove a pre-existing tag from the image.</p>
 
@@ -410,7 +413,7 @@
 <pre><code>    exiftool -args -G1 --filename --directory src.jpg &gt; out.args
     exiftool -@ out.args -sep &#39;, &#39; dst.jpg</code></pre>
 
-<p>Note: Be careful when copying information with this technique since it is easy to write tags which are normally considered &quot;unsafe&quot;. For instance, the FileName and Directory tags are excluded in the example above to avoid renaming and moving the destination file. Also note that the second command above will produce warning messages for any tags which are not writable.</p>
+<p>Note: Be careful when copying information with this technique since it is easy to write tags which are normally considered &quot;Unsafe&quot;. For instance, the FileName and Directory tags are excluded in the example above to avoid renaming and moving the destination file. Also note that the second command above will produce warning messages for any tags which are not writable.</p>
 
 <p>As well, the <b>-sep</b> option should be used as in the second command above to maintain separate list items when writing metadata back to image files, and the <b>-struct</b> option may be used when extracting to preserve structured XMP information.</p>
 
@@ -418,7 +421,7 @@
 <dt id="b---b--binary---binary"><b>-b</b>, <b>--b</b> (<b>-binary</b>, <b>--binary</b>)</dt>
 <dd>
 
-<p>Output requested metadata in binary format without tag names or descriptions (<b>-b</b> or <b>-binary</b>). This option is mainly used for extracting embedded images or other binary data, but it may also be useful for some text strings since control characters (such as newlines) are not replaced by &#39;.&#39; as they are in the default output. By default, list items are separated by a newline when extracted with the <b>-b</b> option, but this may be changed (see the <b>-sep</b> option for details). May be combined with <b>-j</b>, <b>-php</b> or <b>-X</b> to extract binary data in JSON, PHP or XML format, but note that &quot;unsafe&quot; tags must be specified explicitly to be extracted as binary in these formats.</p>
+<p>Output requested metadata in binary format without tag names or descriptions (<b>-b</b> or <b>-binary</b>). This option is mainly used for extracting embedded images or other binary data, but it may also be useful for some text strings since control characters (such as newlines) are not replaced by &#39;.&#39; as they are in the default output. By default, list items are separated by a newline when extracted with the <b>-b</b> option, but this may be changed (see the <b>-sep</b> option for details). May be combined with <b>-j</b>, <b>-php</b> or <b>-X</b> to extract binary data in JSON, PHP or XML format, but note that &quot;Unsafe&quot; tags are not extracted as binary unless they are specified explicitly or the API RequestAll option is set to 3 or higher.</p>
 
 <p>With a leading double dash (<b>--b</b> or <b>--binary</b>), tags which contain binary data are suppressed in the output when reading.</p>
 
@@ -528,7 +531,7 @@
 <dt id="d-FMT--dateFormat"><b>-d</b> <i>FMT</i> (<b>-dateFormat</b>)</dt>
 <dd>
 
-<p>Set the format for date/time tag values. The <i>FMT</i> string may contain formatting codes beginning with a percent character (<code>%</code>) to represent the various components of a date/time value. The specifics of the <i>FMT</i> syntax are system dependent -- consult the <code>strftime</code> man page on your system for details. The default format is equivalent to &quot;%Y:%m:%d %H:%M:%S&quot;. This option has no effect on date-only or time-only tags and ignores timezone information if present. Only one <b>-d</b> option may be used per command. Requires POSIX::strptime or Time::Piece for the inversion conversion when writing.</p>
+<p>Set the format for date/time tag values. The <i>FMT</i> string may contain formatting codes beginning with a percent character (<code>%</code>) to represent the various components of a date/time value. The specifics of the <i>FMT</i> syntax are system dependent -- consult the <code>strftime</code> man page on your system for details. The default format is equivalent to &quot;%Y:%m:%d %H:%M:%S&quot;. This option has no effect on date-only or time-only tags and ignores timezone information if present. ExifTool adds a <code>%f</code> format code to represent fractional seconds, and supports an optional width to specify the number of digits after the decimal point (eg. <code>%3f</code> would give something like <code>.437</code>). Only one <b>-d</b> option may be used per command. Requires POSIX::strptime or Time::Piece for the inversion conversion when writing.</p>
 
 </dd>
 <dt id="D--decimal"><b>-D</b> (<b>-decimal</b>)</dt>
@@ -552,7 +555,7 @@
 <dt id="g-NUM-:NUM...--groupHeadings"><b>-g</b>[<i>NUM</i>][:<i>NUM</i>...] (<b>-groupHeadings</b>)</dt>
 <dd>
 
-<p>Organize output by tag group. <i>NUM</i> specifies a group family number, and may be 0 (general location), 1 (specific location), 2 (category), 3 (document number), 4 (instance number), 5 (metadata path), 6 (EXIF/TIFF format) or 7 (tag ID). <b>-g0</b> is assumed if a family number is not specified. May be combined with other options to add group names to the output. Multiple families may be specified by separating them with colons. By default the resulting group name is simplified by removing any leading <code>Main:</code> and collapsing adjacent identical group names, but this can be avoided by placing a colon before the first family number (eg. <b>-g:3:1</b>). Use the <b>-listg</b> option to list group names for a specified family. The SavePath and SaveFormat API options are automatically enabled if the respective family 5 or 6 group names are requested. See the <a>API GetGroup documentation</a> for more information.</p>
+<p>Organize output by tag group. <i>NUM</i> specifies a group family number, and may be 0 (general location), 1 (specific location), 2 (category), 3 (document number), 4 (instance number), 5 (metadata path), 6 (EXIF/TIFF format) or 7 (tag ID). <b>-g0</b> is assumed if a family number is not specified. May be combined with other options to add group names to the output. Multiple families may be specified by separating them with colons. By default the resulting group name is simplified by removing any leading <code>Main:</code> and collapsing adjacent identical group names, but this can be avoided by placing a colon before the first family number (eg. <b>-g:3:1</b>). Use the <b>-listg</b> option to list group names for a specified family. The API SavePath and SaveFormat options are automatically enabled if the respective family 5 or 6 group names are requested. See the <a>API GetGroup documentation</a> for more information.</p>
 
 </dd>
 <dt id="G-NUM-:NUM...--groupNames"><b>-G</b>[<i>NUM</i>][:<i>NUM</i>...] (<b>-groupNames</b>)</dt>
@@ -671,7 +674,7 @@
 
 <p>Print output in the format specified by the given file or string. The argument is interpreted as a string unless a file of that name exists, in which case the string is loaded from the contents of the file. Tag names in the format file or string begin with a <code>$</code> symbol and may contain leading group names and/or a trailing <code>#</code> (to disable print conversion). Case is not significant. Braces <code>{}</code> may be used around the tag name to separate it from subsequent text. Use <code>$$</code> to represent a <code>$</code> symbol, and <code>$/</code> for a newline.</p>
 
-<p>Multiple <b>-p</b> options may be used, each contributing a line (or more) of text to the output. Lines beginning with <code>#[HEAD]</code> and <code>#[TAIL]</code> are output before the first processed file and after the last processed file respectively. Lines beginning with <code>#[SECT]</code> and <code>#[ENDS]</code> are output before and after each section of files. A section is defined as a group of consecutive files with the same section header (eg. files are grouped by directory if <code>#[SECT]</code> contains <code>$directory</code>). Lines beginning with <code>#[BODY]</code> and lines not beginning with <code>#</code> are output for each processed file. Lines beginning with <code>#[IF]</code> are not output, but all BODY lines are skipped if any tag on an IF line doesn&#39;t exist. Other lines beginning with <code>#</code> are ignored. For example, this format file:</p>
+<p>Multiple <b>-p</b> options may be used, each contributing a line (or more) of text to the output. Lines beginning with <code>#[HEAD]</code> and <code>#[TAIL]</code> are output before the first processed file and after the last processed file respectively. Lines beginning with <code>#[SECT]</code> and <code>#[ENDS]</code> are output before and after each section of files. A section is defined as a group of consecutive files with the same section header (eg. files are grouped by directory if <code>#[SECT]</code> contains <code>$directory</code>). Lines beginning with <code>#[BODY]</code> and lines not beginning with <code>#</code> are output for each processed file. Lines beginning with <code>#[IF]</code> are not output, but all BODY lines are skipped if any tag on an IF line doesn&#39;t exist. Other lines beginning with <code>#</code> are ignored. (To output a line beginning with <code>#</code>, use <code>#[BODY]#</code>.) For example, this format file:</p>
 
 <pre><code>    # this is a comment line
     #[HEAD]-- Generated by ExifTool $exifToolVersion --
@@ -685,7 +688,7 @@
 
 <p>produces output like this:</p>
 
-<pre><code>    -- Generated by ExifTool 12.27 --
+<pre><code>    -- Generated by ExifTool 12.40 --
     File: a.jpg - 2003:10:31 15:44:19
     (f/5.6, 1/60s, ISO 100)
     File: b.jpg - 2006:05:23 11:57:38
@@ -696,7 +699,7 @@
 
 <p>When <b>-ee</b> (<b>-extractEmbedded</b>) is combined with <b>-p</b>, embedded documents are effectively processed as separate input files.</p>
 
-<p>If a specified tag does not exist, a minor warning is issued and the line with the missing tag is not printed. However, the <b>-f</b> option may be used to set the value of missing tags to &#39;-&#39; (but this may be configured via the MissingTagValue API option), or the <b>-m</b> option may be used to ignore minor warnings and leave the missing values empty. Alternatively, <b>-q -q</b> may be used to simply suppress the warning messages.</p>
+<p>If a specified tag does not exist, a minor warning is issued and the line with the missing tag is not printed. However, the <b>-f</b> option may be used to set the value of missing tags to &#39;-&#39; (but this may be configured via the API MissingTagValue option), or the <b>-m</b> option may be used to ignore minor warnings and leave the missing values empty. Alternatively, <b>-q -q</b> may be used to simply suppress the warning messages.</p>
 
 <p>The <a href="#Advanced-formatting-feature">&quot;Advanced formatting feature&quot;</a> may be used to modify the values of individual tags with the <b>-p</b> option.</p>
 
@@ -858,7 +861,7 @@
 
 <p>1) With <b>-W</b>, a new output file is created for each extracted tag.</p>
 
-<p>2) <b>-W</b> supports three additional format codes: %t, %g and %s represent the tag name, group name, and suggested extension for the output file (based on the format of the data). The %g code may be followed by a single digit to specify the group family number (eg. %g1), otherwise family 0 is assumed. The substring width/position/case specifiers may be used with these format codes in exactly the same way as with %f and %e.</p>
+<p>2) <b>-W</b> supports four additional format codes: %t, %g and %s represent the tag name, group name, and suggested extension for the output file (based on the format of the data), and %o represents the value of the OriginalRawFileName or OriginalFileName tag from the input file (including extension). The %g code may be followed by a single digit to specify the group family number (eg. %g1), otherwise family 0 is assumed. The substring width/position/case specifiers may be used with these format codes in exactly the same way as with %f and %e.</p>
 
 <p>3) The argument for <b>-W</b> is interpreted as a file name if it contains no format codes. (For <b>-w</b>, this would be a file extension.) This change allows a simple file name to be specified, which, when combined with the append feature, provides a method to write metadata from multiple source files to a single output file without the need for shell redirection. For example, the following pairs of commands give the same result:</p>
 
@@ -870,7 +873,7 @@
     exiftool test.jpg &gt;&gt; out.txt    # shell redirection
     exiftool test.jpg -W+ out.txt   # equivalent -W option</code></pre>
 
-<p>4) Adding the <b>-v</b> option to <b>-W</b> sends a list of the tags and output file names to the console instead of giving a verbose dump of the entire file. (Unless appending all output to one file for each source file by using <b>-W+</b> with an output file <i>FMT</i> that does not contain %t, $g or %s.)</p>
+<p>4) Adding the <b>-v</b> option to <b>-W</b> sends a list of the tags and output file names to the console instead of giving a verbose dump of the entire file. (Unless appending all output to one file for each source file by using <b>-W+</b> with an output file <i>FMT</i> that does not contain %t, %g, %s or %o.)</p>
 
 <p>5) Individual list items are stored in separate files when <b>-W</b> is combined with <b>-b</b>, but note that for separate files to be created %c or %C must be used in <i>FMT</i> to give the files unique names.</p>
 
@@ -888,7 +891,7 @@
 
 <p>By default, <b>-X</b> outputs flattened tags, so <b>-struct</b> should be added if required to preserve XMP structures. List-type tags with multiple values are formatted as an RDF Bag, but they are combined into a single string when <b>-s</b> or <b>-sep</b> is used. Using <b>-L</b> changes the XML encoding from &quot;UTF-8&quot; to &quot;windows-1252&quot;. Other <b>-charset</b> settings change the encoding only if there is a corresponding standard XML character set. The <b>-b</b> option causes binary data values to be written, encoded in base64 if necessary. The <b>-t</b> option adds tag table information to the output (see <b>-t</b> for details).</p>
 
-<p>Note: This output is NOT the same as XMP because it uses dynamically-generated property names corresponding to the ExifTool tag names, and not the standard XMP properties. To write XMP instead, use the <b>-o</b> option with an XMP extension for the output file.</p>
+<p>Note: This output is NOT the same as XMP because it uses dynamically-generated property names corresponding to the ExifTool tag names with ExifTool family 1 group names as namespaces, and not the standard XMP properties and namespaces. To write XMP instead, use the <b>-o</b> option with an XMP extension for the output file.</p>
 
 </dd>
 </dl>
@@ -1285,7 +1288,7 @@
 <dt id="efile-NUM-ERRFILE"><b>-efile</b>[<i>NUM</i>][!] <i>ERRFILE</i></dt>
 <dd>
 
-<p>Save the names of files giving errors (<i>NUM</i> missing or 1), files that were unchanged (<i>NUM</i> is 2), files that fail the <b>-if</b> condition (<i>NUM</i> is 4), or any combination thereof (by summing <i>NUM</i>, eg. <b>-efile3</b> is the same has having both <b>-efile</b> and <b>-efile2</b> options with the same <i>ERRFILE</i>). By default, file names are appended to any existing <i>ERRFILE</i>, but <i>ERRFILE</i> is overwritten if an exclamation point is added to the option (eg. <b>-efile!</b>). Saves the name of the file specified by the <b>-srcfile</b> option if applicable.</p>
+<p>Save the names of files giving errors (<i>NUM</i> missing or 1), files that were unchanged (<i>NUM</i> is 2), files that fail the <b>-if</b> condition (<i>NUM</i> is 4), or any combination thereof by summing <i>NUM</i> (eg. <b>-efile3</b> is the same has having both <b>-efile</b> and <b>-efile2</b> options with the same <i>ERRFILE</i>). By default, file names are appended to any existing <i>ERRFILE</i>, but <i>ERRFILE</i> is overwritten if an exclamation point is added to the option (eg. <b>-efile!</b>). Saves the name of the file specified by the <b>-srcfile</b> option if applicable.</p>
 
 </dd>
 <dt id="execute-NUM"><b>-execute</b>[<i>NUM</i>]</dt>
@@ -2029,7 +2032,7 @@
 
 <h1 id="AUTHOR">AUTHOR</h1>
 
-<p>Copyright 2003-2021, Phil Harvey</p>
+<p>Copyright 2003-2022, Phil Harvey</p>
 
 <p>This is free software; you can redistribute it and/or modify it under the same terms as Perl itself.</p>
 

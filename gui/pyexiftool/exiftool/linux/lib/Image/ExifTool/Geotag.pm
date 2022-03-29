@@ -28,7 +28,7 @@ use vars qw($VERSION);
 use Image::ExifTool qw(:Public);
 use Image::ExifTool::GPS;
 
-$VERSION = '1.64';
+$VERSION = '1.66';
 
 sub JITTER() { return 2 }       # maximum time jitter
 
@@ -210,13 +210,14 @@ sub LoadTrackLog($$;$)
         $raf->ReadLine($_) or last;
         # determine file format
         if (not $format) {
+            s/^\xef\xbb\xbf//;          # remove leading BOM if it exists
             if (/^<(\?xml|gpx)[\s>]/) { # look for XML or GPX header
                 $format = 'XML';
             # check for NMEA sentence
             # (must ONLY start with ones that have timestamps! eg. not GSA or PTNTHPR!)
             } elsif (/^.*\$([A-Z]{2}(RMC|GGA|GLL|ZDA)|PMGNTRK),/) {
                 $format = 'NMEA';
-                $nmeaStart = $2 || $1;    # save type of first sentence
+                $nmeaStart = $2 || $1;  # save type of first sentence
             } elsif (/^A(FLA|XSY|FIL)/) {
                 # (don't set format yet because we want to read HFDTE first)
                 $nmeaStart = 'B' ;
@@ -262,8 +263,10 @@ sub LoadTrackLog($$;$)
                         $param = 'time';
                     } elsif (/^(Pos)?Lat/i) {
                         $param = 'lat';
+                        /ref$/i and $param .= 'ref';
                     } elsif (/^(Pos)?Lon/i) {
                         $param = 'lon';
+                        /ref$/i and $param .= 'ref';
                     } elsif (/^(Pos)?Alt/i) {
                         $param = 'alt';
                     } elsif (/^(Angle)?(Heading|Track)/i) {
@@ -453,7 +456,7 @@ DoneFix:    $isDate = 1;
 # (ExifTool enhancements allow for standard tag names or descriptions as the column headings,
 #  add support for time zones and flexible coordinates, and allow new DateTime and Shift columns)
 #
-            my ($param, $date, $secs);
+            my ($param, $date, $secs, %neg);
             foreach $param (@csvHeadings) {
                 my $val = shift @vals;
                 last unless defined $val;
@@ -479,12 +482,21 @@ DoneFix:    $isDate = 1;
                     }
                 } elsif ($param eq 'lat' or $param eq 'lon') {
                     $$fix{$param} = Image::ExifTool::GPS::ToDegrees($val, 1);
+                } elsif ($param eq 'latref') {
+                    $neg{lat} = 1 if $val =~ /^S/i;
+                } elsif ($param eq 'lonref') {
+                    $neg{lon} = 1 if $val =~ /^W/i;
                 } elsif ($param eq 'runtime') {
                     $date = $trackTime;
                     $secs = $val;
                 } else {
                     $$fix{$param} = $val;
                 }
+            }
+            # make coordinate negative according to reference direction if necessary
+            foreach $param (keys %neg) {
+                next unless defined $$fix{$param};
+                $$fix{$param} = -abs($$fix{$param});
             }
             if ($date and defined $secs and defined $$fix{lat} and defined $$fix{lon}) {
                 $time = $date + $secs;
@@ -1412,7 +1424,7 @@ user-defined tag GPSRoll, must be active.
 
 =head1 AUTHOR
 
-Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

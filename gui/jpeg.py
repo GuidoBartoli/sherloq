@@ -2,7 +2,7 @@ import cv2 as cv
 import numpy as np
 
 DCT_SIZE = 8
-TABLE_SIZE = DCT_SIZE ** 2
+TABLE_SIZE = DCT_SIZE**2
 ZIG_ZAG = [
     [0, 0],
     [0, 1],

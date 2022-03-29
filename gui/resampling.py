@@ -38,7 +38,7 @@ class ResamplingWidget(ToolWidget):
         i = 0
         sigma = em_stddev
         c1 = 1 / (sigma * np.sqrt(2 * np.pi))
-        c2 = 2 * sigma ** 2
+        c2 = 2 * sigma**2
         p0 = 1 / (maximum - minimum)
         while cv.norm(alpha0, alpha1) > em_error and i < max_iter:
             filt = cv.filter2D(gray, cv.CV_32F, alpha1)

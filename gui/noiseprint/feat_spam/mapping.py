@@ -19,7 +19,7 @@ def getIdemMapper(num):
 
 def getSignSymMapper(occo, n):
     # n = 2 * T + 1
-    numIn = n ** occo
+    numIn = n**occo
     P = getCombinations(occo, n)
     V = np.ones([numIn, 1], dtype=np.bool)
     table = np.zeros([numIn, 1], dtype=np.int)
@@ -47,7 +47,7 @@ def getSignSymMapper(occo, n):
 
 def getSignMapper(occo, n):
     # n = 2 * T + 1
-    numIn = n ** occo
+    numIn = n**occo
     numOut = (numIn - 1) / 2 + 1
     P = getCombinations(occo, n)
     V = np.ones([numIn, 1], dtype=np.bool)
@@ -72,7 +72,7 @@ def getPos(P, n, occo):
 
 
 def getCombinations(occo, n):
-    num = n ** occo
+    num = n**occo
     P = np.zeros([num, occo], dtype=np.int)
     P[0, :] = 0
     for indexI in range(1, num):

@@ -17,7 +17,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.03';
+$VERSION = '1.07';
 
 sub ProcessNikonSettings($$$);
 
@@ -159,6 +159,39 @@ my %iSOAutoHiLimitD6 = (
     43 => 'ISO Hi 3.0',
     44 => 'ISO Hi 4.0',
     45 => 'ISO Hi 5.0',
+);
+
+my %iSOAutoHiLimitZ7 = (
+    1 => 'ISO 100',
+    2 => 'ISO 125',
+    4 => 'ISO 160',
+    5 => 'ISO 200',
+    6 => 'ISO 250',
+    8 => 'ISO 320',
+    9 => 'ISO 400',
+    10 => 'ISO 500',
+    12 => 'ISO 640',
+    13 => 'ISO 800',
+    14 => 'ISO 1000',
+    16 => 'ISO 1250',
+    17 => 'ISO 1600',
+    18 => 'ISO 2000',
+    20 => 'ISO 2500',
+    21 => 'ISO 3200',
+    22 => 'ISO 4000',
+    24 => 'ISO 5000',
+    25 => 'ISO 6400',
+    26 => 'ISO 8000',
+    28 => 'ISO 10000',
+    29 => 'ISO 12800',
+    30 => 'ISO 16000',
+    32 => 'ISO 20000',
+    33 => 'ISO 25600',
+    38 => 'ISO Hi 0.3',
+    39 => 'ISO Hi 0.5',
+    40 => 'ISO Hi 0.7',
+    41 => 'ISO Hi 1.0',
+    42 => 'ISO Hi 2.0',
 );
 
 my %lensFuncButtonZ7m2 = (
@@ -305,14 +338,19 @@ my %times4s10s20s1m5m20m = (
 
 my %yesNo = ( 1 => 'Yes', 2 => 'No' );
 
-my %infoZ72 = (
-    Condition => '$$self{Model} =~ /^NIKON Z 6_2/i or $$self{Model} =~ /^NIKON Z 7_2/i',
-    Notes => 'Z7_2',
+my %infoD6 = (
+    Condition => '$$self{Model} =~ /^NIKON D6\b/i',
+    Notes => 'D6',
 );
 
-my %infoD6 = (
-    Condition => '$$self{Model} =~ /^NIKON D6/i',
-    Notes => 'D6',
+my %infoZ7 = (
+    Condition => '$$self{Model} =~ /^NIKON Z (7|7_2)\b/i',
+    Notes => 'Z7 and Z7_2',
+);
+
+my %infoZSeries = (
+    Condition => '$$self{Model} =~ /^NIKON Z (5|50|6|6_2|7|7_2|fc)\b/i',
+    Notes => 'Z Series cameras thru November 2021',
 );
 
 # Nikon Settings tags (ref 1, tag ID's ref PH)
@@ -329,39 +367,8 @@ my %infoD6 = (
         %infoD6,
     },{
         Name => 'ISOAutoHiLimit',
-        PrintConv => {
-            1 => 'ISO 100',
-            2 => 'ISO 125',
-            4 => 'ISO 160',
-            5 => 'ISO 200',
-            6 => 'ISO 250',
-            8 => 'ISO 320',
-            9 => 'ISO 400',
-            10 => 'ISO 500',
-            12 => 'ISO 640',
-            13 => 'ISO 800',
-            14 => 'ISO 1000',
-            16 => 'ISO 1250',
-            17 => 'ISO 1600',
-            18 => 'ISO 2000',
-            20 => 'ISO 2500',
-            21 => 'ISO 3200',
-            22 => 'ISO 4000',
-            24 => 'ISO 5000',
-            25 => 'ISO 6400',
-            26 => 'ISO 8000',
-            28 => 'ISO 10000',
-            29 => 'ISO 12800',
-            30 => 'ISO 16000',
-            32 => 'ISO 20000',
-            33 => 'ISO 25600',
-            38 => 'ISO Hi 0.3',
-            39 => 'ISO Hi 0.5',
-            40 => 'ISO Hi 0.7',
-            41 => 'ISO Hi 1.0',
-            42 => 'ISO Hi 2.0',
-        },
-        %infoZ72,
+        PrintConv => \%iSOAutoHiLimitZ7,
+        %infoZ7,
     }],
     0x002 => [{
         Name => 'ISOAutoFlashLimit',
@@ -441,7 +448,7 @@ my %infoD6 = (
             42 => 'ISO Hi 1.0',
             43 => 'ISO Hi 2.0',
         },
-        %infoZ72,
+        %infoZ7,
     }],
     0x003 => { # (D6/Z7_2)
         Name => 'ISOAutoShutterTime',
@@ -542,18 +549,10 @@ my %infoD6 = (
             37 => 'ISO Hi 1.0',
             38 => 'ISO Hi 2.0',
         },
-        %infoZ72,
+        %infoZ7,
     }],
     0x00e => { Name => 'MovieISOAutoControlManualMode',PrintConv => \%onOff }, # (D6/Z7_2)
-  # 0x00f => [{   # this tag should reside here, but unable to confirm
-  #     Name => 'MovieISOAutoManualMode',
-  #     PrintConv => \%iSOAutoHiLimitD6,
-  #     %infoD6,
-  # },{
-  #     Name => 'MovieISOAutoManualMode',
-  #     PrintConv => \%iSOAutoHiLimitZ7m2,
-  #     %infoZ72,
-  # }],
+    0x00f => { Name => 'MovieWhiteBalanceSameAsPhoto', PrintConv => \%yesNo }, # (D6/Z7_2)
     0x01d => [{ # CSa1 (D6)
         Name => 'AF-CPrioritySel',
         PrintConv => { # valid for cameras with 4 options for CS1, otherwise 1=Release, 2=Focus
@@ -566,7 +565,7 @@ my %infoD6 = (
     },{ # CSa1 (Z7_2)
         Name => 'AF-CPrioritySel',
         PrintConv => \%releaseFocus,
-        %infoZ72,
+        %infoZSeries,
     }],
     0x01e => { Name => 'AF-SPrioritySel',       PrintConv => \%releaseFocus }, # CSa2 (D6), CSa2 (Z7_2)
     0x020 => [{ # CSa4 (D6)
@@ -580,7 +579,7 @@ my %infoD6 = (
     },{ # CSa4 (Z7_2)
         Name => 'AFPointSel',
         PrintConv => { 1 => 'Use All', 2 => 'Use Half' },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x022 => { Name => 'AFActivation',          PrintConv => { 1 => 'Shutter/AF-On', 2 => 'AF-On Only' } }, # CSa6-a (D6/Z7_2) (missing enable/disable out of focus release) # (D6)
     0x023 => { Name => 'FocusPointWrap',        PrintConv => { 1 => 'Wrap', 2 => 'No Wrap' } }, # CSa16 (D6), CSa8 (Z7_2)
@@ -592,7 +591,7 @@ my %infoD6 = (
         },
     },
     0x026 => { Name => 'AF-AssistIlluminator',      PrintConv => \%onOff }, # CSa11 (Z7_2)
-  # 0x027 => { Name => 'ManualFocusRingInAFMode',   PrintConv => \%onOff }, # CSa18 (D6,Z7_2) capability documented in manual, but visibility (& ability to test) requires a compatible lens
+    0x027 => { Name => 'ManualFocusRingInAFMode',   PrintConv => \%onOff }, # CSa12 (D6,Z7_2) capability documented in manual, but visibility (& ability to test) requires a compatible lens
     0x029 => { Name => 'ISOStepSize',               PrintConv => \%thirdHalfFull },     # CSb1 (D6)
     0x02a => { Name => 'ExposureControlStepSize',   PrintConv => \%thirdHalfFull }, # CSb2 (D6), CSb1 (Z7_2)
     0x02b => { # CSb4 (D6), CSb2 (Z7_2)
@@ -617,7 +616,7 @@ my %infoD6 = (
     },{ # CSb3 (Z7_2)
         Name => 'CenterWeightedAreaSize',
         PrintConv => { 1 => '12 mm', 2 => 'Average' },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x02f => { # CSb7-a (D6), CSb4-a (Z7_2)
         Name => 'FineTuneOptMatrixMetering',
@@ -681,7 +680,7 @@ my %infoD6 = (
             7 => '30 min',
             8 => 'No Limit',
         },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x035 => { # CSc3-a (D6), CSc2-a (Z7_2)
         Name => 'SelfTimerTime',
@@ -770,7 +769,7 @@ my %infoD6 = (
             6 => '1/80 s',
             7 => '1/60 s',
         },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x048 => { # CSe2 (D6/Z7_2)
         Name => 'FlashShutterSpeed',
@@ -844,7 +843,7 @@ my %infoD6 = (
             25 => 'Non-CPU Lens',
             26 => 'None',
         },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x053 => [{ # CSf4-a (D6)
         Name => 'MultiSelectorShootMode',
@@ -864,7 +863,7 @@ my %infoD6 = (
             4 => 'Zoom (High)',
             5 => 'None',
         },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x054 => [{ # CSf4-c (D6)
         Name => 'MultiSelectorPlaybackMode',
@@ -887,7 +886,7 @@ my %infoD6 = (
             5 => 'Zoom (High)',
             6 => 'Choose Folder',
         },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x056 => { # CSf4-b (D6)
         Name => 'MultiSelectorLiveView',
@@ -949,7 +948,7 @@ my %infoD6 = (
         Name => 'MovieShutterButton',
         PrintConv => {
             1 => 'Take Photo',
-            2 => 'Record Movies',
+            2 => 'Record Movie',
         },
     },
     0x063 => { # Settings menu # (D6,Z7_2)
@@ -975,9 +974,29 @@ my %infoD6 = (
             1 => 'Manual (dark on light)',
             2 => 'Manual (light on dark)',
         },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x074 => { Name => 'FlickAdvanceDirection', PrintConv => { 1 => 'Right to Left', 2 => 'Left to Right' } }, # CSf12-3 (D6)
+    0x075 => { # Settings menu # (D6,Z7_2)
+        Name => 'HDMIOutputResolution',
+        PrintConv => {
+            1 => 'Auto',
+            2 => '2160p',
+            3 => '1080p',
+            4 => '1080i',
+            5 => '720p',
+            6 => '576p',
+            7 => '480p',
+        },
+    },
+    0x077 => { # Settings menu # (D6,Z7_2)
+        Name => 'HDMIOutputRange',
+        PrintConv => {
+            1 => 'Auto',
+            2 => 'Limit',
+            3 => 'Full',
+        },
+    },
     0x080 => [{
         Name => 'RemoteFuncButton',
         PrintConv => {
@@ -1010,7 +1029,7 @@ my %infoD6 = (
             10 => 'None',
             11 => 'LiveView Info Display On/Off',
         },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x08b => [{ # CSf6-a-1 and CSf6-a-2 (D6), CSf5-a-1 and CSf5-a-2 (Z7_2), (continued from above)
         Name => 'CmdDialsReverseRotation',
@@ -1051,6 +1070,7 @@ my %infoD6 = (
             8 => '180',
         },
     },
+    0x092 => { Name => 'HDMIExternalRecorder',     PrintConv => \%onOff }, # Settings Menu/HDMI/Advanced entry (D6 & Z7_2)
     0x093 => { # CSa3-a (D6), CSa3 (Z7_2)
         Name => 'BlockShotAFResponse',
         PrintConv => {
@@ -1077,7 +1097,7 @@ my %infoD6 = (
             1 => 'Focus Point',
             2 => 'Off',
         },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x099 => { Name => 'DynamicAreaAFAssist',PrintConv => \%onOff }, # CSa17-c (D6), CSa9-b (Z7_2)
     0x09a => { Name => 'ExposureCompStepSize',      PrintConv => \%thirdHalfFull }, # CSb3 (D6)
@@ -1100,7 +1120,7 @@ my %infoD6 = (
     },{ # CSf2-a (Z7_2)
         Name => 'Func1Button',
         PrintConv => \%funcButtonZ7m2,
-        %infoZ72,
+        %infoZSeries,
     }],
     0x0a2 => [{ # CSf3-c (D6)
         Name => 'Func2Button',
@@ -1109,7 +1129,7 @@ my %infoD6 = (
     },{ # CSf2-b (Z7_2)
         Name => 'Func2Button',
         PrintConv => \%funcButtonZ7m2,
-        %infoZ72,
+        %infoZSeries,
     }],
     0x0a3 => [{ # CSf3-f (D6)
         Name => 'AF-OnButton',
@@ -1161,7 +1181,7 @@ my %infoD6 = (
             11 => 'Zoom (High)',
             12 => 'None'
         },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x0a4 => { Name => 'SubSelector', PrintConv => \%tagSubSelector }, # CSf3-g-1 # (D6), CSf2-d-1 # (Z7_2)
     0x0a5 => [{ # CSf3-h (D6)
@@ -1234,7 +1254,7 @@ my %infoD6 = (
             24 => 'Non-CPU Lens',
             25 => 'None',
         },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x0a7 => [{ # CSf3-n (D6)
         Name => 'LensFunc1Button',
@@ -1274,7 +1294,7 @@ my %infoD6 = (
     },{ # CSf2-g (Z7_2)
         Name => 'LensFunc1Button',
         PrintConv => \%lensFuncButtonZ7m2,
-        %infoZ72,
+        %infoZSeries,
     }],
     0x0a8 => { Name => 'CmdDialsApertureSetting',   PrintConv => { 1 => 'Sub-command Dial', 2 => 'Aperture Ring' } }, # CSf6-c (D6)
     0x0a9 => { Name => 'MultiSelector',             PrintConv => \%tagMultiSelector }, # CSf7 (D6)
@@ -1335,7 +1355,7 @@ my %infoD6 = (
             23 => 'Rating (1)',    # no mapping for 24 on the Z7_2.  Possibly intended for Rating = 'Candidate for Deletion'?
             25 => 'None',
         },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x0b3 => [{ # CSg2-b (D6)
         Name => 'MovieFunc1Button',
@@ -1379,7 +1399,7 @@ my %infoD6 = (
             23 => 'Rating (1)',    # no mapping for 24 on the Z7_2.  Possibly intended for Rating = 'Candidate for Deletion'?
             25 => 'None',
         },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x0b5 => { # CSg2-c (D6)
         Name => 'MovieFunc2Button',
@@ -1405,7 +1425,7 @@ my %infoD6 = (
             7 => 'Zoom (Low)',
             8 => 'Zoom (1:1)',
             9 => 'Zoom (High)',
-            10 => 'Record Movies',
+            10 => 'Record Movie',
             11 => 'None',
         },
         %infoD6,
@@ -1422,11 +1442,11 @@ my %infoD6 = (
             8 => 'Zoom (Low)',
             9 => 'Zoom (1:1)',
             10 => 'Zoom (High)',
-            11 => 'Record Movies',
+            11 => 'Record Movie',
             12 => 'Image Area',
             13 => 'None',
         },
-        %infoZ72,
+        %infoZSeries,
     }],
     0x0b8 => { Name => 'LimitAFAreaModeSelD9',          PrintConv => \%limitNolimit, Unknown => 1 }, # CSa14-a (D6)
     0x0b9 => { Name => 'LimitAFAreaModeSelD25',         PrintConv => \%limitNolimit, Unknown => 1 }, # CSa14-b (D6)
@@ -1459,14 +1479,13 @@ my %infoD6 = (
             4 => 'Off',
         },
     },
-    0x0e9 => { # CSf2-i        # need to confirm with a Z series lens  # (Z7_2)
+    0x0ea => { # CSf2-i         #option for 'Focus (M/A)' is documented, but not available from camera menu
         Name => 'LensControlRing',
         PrintConv => {
-            1 => 'Focus (M/A)',
-            2 => 'Aperture',
-            3 => 'Exposure Compensation',
-            4 => 'ISO Sensitivity',
-            5 => 'None (Disabled)',
+            1 => 'Aperture',
+            2 => 'Exposure Compensation',
+            3 => 'ISO Sensitivity',
+            4 => 'None (Disabled)',
         },
     },
   # 0x0eb  MovieLensControlRing ? # (Z7_2)
@@ -1478,7 +1497,7 @@ my %infoD6 = (
             2 => 'Zoom (Low)',
             3 => 'Zoom (1:1)',
             4 => 'Zoom (High)',
-            5 => 'Record Movies',
+            5 => 'Record Movie',
             6 => 'None',
         },
         %infoD6,
@@ -1489,7 +1508,7 @@ my %infoD6 = (
             2 => 'Zoom (Low)',
             3 => 'Zoom (1:1)',
             4 => 'Zoom (High)',
-            5 => 'Record Movies',
+            5 => 'Record Movie',
             6 => 'None',
         },
     }],
@@ -1541,7 +1560,7 @@ my %infoD6 = (
             8 => 'Zoom (Low)',
             9 => 'Zoom (1:1)',
             10 => 'Zoom (High)',
-            11 => 'Record Movies',
+            11 => 'Record Movie',
             12 => 'None',
         },
     },
@@ -1549,6 +1568,29 @@ my %infoD6 = (
     0x0fb => { Name => 'SecondarySlotFunction', PrintConv => \%tagSecondarySlotFunction }, # (D6)
     0x0fc => { Name => 'SilentPhotography',     PrintConv => \%onOff }, # (D6,Z7_2)   # tag is associated with Silent LiveView Photography (as distinguisehed from Silent Interval or Silent Focus Shift)
     0x0fd => { Name => 'ExtendedShutterSpeeds', PrintConv => \%onOff }, # CSd7 (D6), CSd6 (Z7_2)
+    0x102 => { # (Z7_2)
+        Name => 'HDMIBitDepth',
+        RawConv => '$$self{HDMIBitDepth} = $val',
+        PrintConv => {
+            1 => '8 Bit',
+            2 => '10 Bit',
+            #5 => 'Auto',     #observed on the Z50 - needs confirmation
+        },
+    },
+    0x103 => { # (Z7_2)
+        Name => 'HDMIOutputHDR',
+        Condition => '$$self{HDMIBitDepth}  == 2',   # HDR(HLC) output option only available only for 10 bit
+        RawConv => '$$self{HDMIOutputHDR} = $val',
+        PrintConv => {
+            2 => 'On',  # unusual decode perhaps due to sharing sub-menu with tag HDMIOutputN-Log?
+            3 => 'Off',
+        },
+    },
+    0x104 => {  # valid for 10 bit with either N-Log or HDR/HLG selected    CSg5 (Z7_2)
+        Name => 'HDMIViewAssist',
+        Condition => '$$self{HDMIBitDepth}  == 2',
+        PrintConv => \%onOff
+    },
     0x109 => { # (D6,Z7_2)
         Name => 'BracketSet',
         RawConv => '$$self{BracketSet} = $val',
@@ -1639,6 +1681,11 @@ my %infoD6 = (
             7 => 'Off, Low, Normal, High',
             8 => 'Off, Low, Normal, High, Extra High',
         },
+    },
+    0x10e  => { # (D6/Z7_2)
+        Name => 'MonitorBrightness',
+        # settings: -5 to +5
+        ValueConv => '$val - 6',
     },
     0x116 => { Name => 'GroupAreaC1',               PrintConv =>\%groupAreaCustom },    # CSa10-a (new with D6) # (D6)
     0x117 => { Name => 'AutoAreaAFStartingPoint',   PrintConv => \%enableDisable },     # CSa12 (D6)
@@ -1808,7 +1855,7 @@ my %infoD6 = (
     0x13d => {  # CSg2-d (D6)
         Name => 'MovieFunc3Button',
         PrintConv => {
-            1 => 'Record Movies',
+            1 => 'Record Movie',
             2 => 'My Menu',
             3 => 'My Menu Top Item',
             4 => 'None',
@@ -1823,8 +1870,9 @@ my %infoD6 = (
         },
     },
     0x151 => { Name => 'LensFunc2Button',       PrintConv => \%lensFuncButtonZ7m2 }, # CSf2-h (Z7_2)
+    #0x153 => { Name => 'ViewfinderBrightness', }      #(Z7_2)   # commented out to reduce output volume.  Range [-5,+5]. PrintConv matches MonitorBrightness.
     0x158 => { Name => 'USBPowerDelivery',      PrintConv => \%enableDisable }, # (Z7_2)
-    0x15b => { Name => 'GroupAreaC2',           PrintConv =>\%groupAreaCustom },    # CSa10-b (new with D6) # (D6)
+    0x159 => { Name => 'EnergySavingMode',      PrintConv =>\%onOff },    # (Z7_2)
     0x15c => { Name => 'BracketingBurstOptions',PrintConv => \%enableDisable }, # CSe9 (D6)
   # 0x15d => CSf3-j-2 (D6) 'Same as Multi-Selector with Info(U/D) & Playback(R/L)'  and  'Same as Multi-Selector with Info(R/L) & Playback(U/D)'  (skipped to reduce volume of output)
     0x15e => { Name => 'PrimarySlot',           PrintConv => { 1 => 'CFexpress/XQD Card', 2 => 'SD Card' } }, # (Z7_2)
@@ -1876,7 +1924,7 @@ my %infoD6 = (
         Name => 'VerticalMovieFuncButton',
         PrintConv => {
             1 => 'LiveView Info Display On/Off',
-            2 => 'Record Movies',
+            2 => 'Record Movie',
             3 => 'Exposure Compensation',
             4 => 'ISO',
             5 => 'None',
@@ -1896,14 +1944,16 @@ my %infoD6 = (
             9 => 'Zoom (Low)',
             10 => 'Zoom (1:1)',
             11 => 'Zoom (High)',
-            12 => 'Record Movies',
+            12 => 'Record Movie',
             13 => 'None',
         },
     },
+    #0x168 => { Name => 'ControlPanelBrightness',   # (Z7_2)   #commented to reduce output volume
     0x169 => { Name => 'LimitAF-AreaModeSelAutoPeople',   PrintConv => \%limitNolimit, Unknown => 1 }, # CSa7-h (Z7_2)
     0x16a => { Name => 'LimitAF-AreaModeSelAutoAnimals',  PrintConv => \%limitNolimit, Unknown => 1 }, # CSa7-h (Z7_2)
     0x16b => { Name => 'LimitAF-AreaModeSelWideLPeople',  PrintConv => \%limitNolimit, Unknown => 1 }, # CSa7-e (Z7_2)
     0x16c => { Name => 'LimitAF-AreaModeSelWideLAnimals', PrintConv => \%limitNolimit, Unknown => 1 }, # CSa7-f (Z7_2)
+    0x16d => { Name => 'SaveFocus', PrintConv => \%onOff }, # (Z7_2)
     0x16e => { # (Z7_2)
         Name => 'AFAreaMode',
         RawConv => '$$self{AFAreaMode} = $val',
@@ -1919,7 +1969,28 @@ my %infoD6 = (
             10 => 'Auto (Animals)',
         },
     },
+    0x16f => { # (Z7_2)
+        Name => 'MovieAFAreaMode',
+        PrintConv => {
+            1 => 'Single-point',
+            2 => 'Wide (S)',
+            3 => 'Wide (L)',
+            4 => 'Wide (L-people)',
+            5 => 'Wide (L-animals)',
+            6 => 'Auto',
+            7 => 'Auto (People)',
+            8 => 'Auto (Animals)',
+        },
+    },
     0x170 => { Name => 'PreferSubSelectorCenter', PrintConv => \%offOn }, # CSf13 (D6 firmware v1.2.0)
+    0x171 => { # CSb8 (D6 firmware v1.3.0)
+        Name => 'KeepExposureWithTeleconverter',
+        PrintConv => {
+            1 => 'Off',
+            2 => 'Shutter Speed',
+            3 => 'ISO',
+        },
+    },
     0x174 => { # CSa17-d (D6 firmware v1.2.0)
         Name => 'FocusPointSelectionSpeed',
         PrintConv => {
@@ -2004,7 +2075,7 @@ Nikon cameras such as the D6 and Z7mk2.
 
 =head1 AUTHOR
 
-Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

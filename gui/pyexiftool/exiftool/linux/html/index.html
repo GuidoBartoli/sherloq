@@ -46,6 +46,7 @@ table.sticky td { border-bottom: 1px solid gray; border-right: 1px solid gray }
 table.sticky th:first-child,
 table.sticky td:first-child { border-left: 1px solid gray}
 span.sup        { font-size: 0.8em; font-weight: normal; position: relative; top: -.4em }
+i.orng          { color: #c60 }
 -->
 </style>
 </head>
@@ -53,6 +54,10 @@ span.sup        { font-size: 0.8em; font-weight: normal; position: relative; top
 <h1><a name="top">ExifTool by Phil Harvey</a></h1>
 <h2 class='tight red'><b>Read</b>, <b>Write</b> and <b>Edit</b> Meta Information!</h2>
 <p><b>Also available</b> --> <a href="https://exiftool.org/fix_corrupted_nef.html">Utility to fix Nikon NEF images corrupted by Nikon software</a></p>
+<p><i class=orng><b>Note:</b> If exiftool.org goes down, it is because of the crappy DreamHost
+web hosting which disables an "unlimited traffic" web site if a single bot hammers
+the site with a moderate load.  An alternate ExifTool homepage is available at
+<a href="http://exiftool.sourceforge.net/">http://exiftool.sourceforge.net/</a></i></p>
 <div class=wide><table class=links><tr>
 <th><a href="install.html" class=wt>&nbsp;Installing&nbsp;</a></th>
 <th><a href="TagNames/index.html" class=wt>&nbsp;Tag&nbsp;Names&nbsp;</a></th>
@@ -87,9 +92,9 @@ span.sup        { font-size: 0.8em; font-weight: normal; position: relative; top
 </div>
 
 <blockquote><table class='dl lg'><tr><td><b>
-<a href="Image-ExifTool-12.27.tar.gz">
-Download        Version 12.27</a> (4.7 MB) -
-<a href="history.html">June 9, 2021</a></b></td></tr></table></blockquote>
+<a href="Image-ExifTool-12.40.tar.gz">
+Download        Version 12.40</a> (4.8 MB) -
+<a href="history.html">Feb. 9, 2022</a></b></td></tr></table></blockquote>
 
 <p><b>ExifTool is a platform-independent <a href="ExifTool.html">Perl
 library</a> plus a <a href="exiftool_pod.html">command-line application</a> for
@@ -142,8 +147,8 @@ distribution above.)</i></p>
 
 <blockquote><table class='dl lg'><tr><td><b>
 <a name="alone">Windows Executable:</a>
-<a href="exiftool-12.27.zip">
-         exiftool-12.27.zip</a> (6.4 MB)</b></td></tr></table></blockquote>
+<a href="exiftool-12.40.zip">
+         exiftool-12.40.zip</a> (6.4 MB)</b></td></tr></table></blockquote>
 
 <p><b>The stand-alone Windows executable</b> does not require Perl. Just
 download and un-zip the archive then double-click on
@@ -160,8 +165,8 @@ if you have any problems/comments with this version.)</i></p>
 
 <blockquote><table class='dl lg'><tr><td><b>
 MacOS Package:
-<a href="ExifTool-12.27.dmg">
-         ExifTool-12.27.dmg</a> (3.0 MB)</b></td></tr></table></blockquote>
+<a href="ExifTool-12.40.dmg">
+         ExifTool-12.40.dmg</a> (3.1 MB)</b></td></tr></table></blockquote>
 
 <p><b>The MacOS package</b> installs the ExifTool command-line application and
 libraries in /usr/local/bin. After installing, type "<code>exiftool</code>" in a
@@ -171,10 +176,10 @@ Terminal window to run exiftool and read the application documentation.</p>
 installing ExifTool on Windows, MacOS and Unix systems.</p>
 
 <ul>
-<li><a href="https://exiftool.org/checksums.txt">Click here
+<li><a href="checksums.txt">Click here
 for the SHA1 and MD5 checksums to verify these distribution packages</a>.</li>
 <li>The version number of the latest ExifTool release may be found
-<a href="https://exiftool.org/ver.txt">here</a>.</li>
+<a href="ver.txt">here</a>.</li>
 </ul>
 
 <h2><a name="features">Features</a></h2>
@@ -235,7 +240,7 @@ for the SHA1 and MD5 checksums to verify these distribution packages</a>.</li>
     hex dump</a> outputs</li>
 </ul>
 
-<h2><a name="awk">A Note to Unix Power-Users</a></h2> <blockquote>If you find
+<h2><a name="awk">A Note to Unix Power-Users</a></h2> <blockquote>If you feel
 the need to use "find" or "awk" in conjunction with ExifTool, then you probably
 haven't discovered the full power of ExifTool.  Read about the <code>-ext</code>,
 <code>-if</code>, <code>-p</code> and <code>-tagsFromFile</code> options in the
@@ -380,6 +385,7 @@ for each file format.</p>
 <tr><td><a href="TagNames/iWork.html">KEY, KTH</a></td><td>R</td><td>Apple iWork '09 Keynote presentation/Theme</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/iWork.html">XML</a> <a href="TagNames/ZIP.html">ZIP</a></td></tr>
 <tr><td>LA</td><td>R</td><td>Lossless Audio (<a href="TagNames/RIFF.html">RIFF</a>-based)</td><td>R<span class=sup>3</span></td><td>-</td><td>R</td><td>-</td><td>R <a href="TagNames/RIFF.html">RIFF</a></td></tr>
 <tr><td><a href="TagNames/Lytro.html">LFP, LFR</a></td><td>R</td><td>Lytro Light Field Picture</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/Lytro.html">Lytro</a></td></tr>
+<tr><td><a href="TagNames/LIF.html">LIF</a></td><td>R</td><td>Leica Image File</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/LIF.html">LIF</a></td></tr>
 <tr><td><a href="TagNames/LNK.html">LNK</a></td><td>R</td><td>Microsoft Shell Link (Windows shortcut)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/LNK.html">LNK</a></td></tr>
 <tr><td>LRV</td><td>R/W</td><td>Low-Resolution Video (<a href="TagNames/QuickTime.html">QuickTime</a>-based)</td><td>R/W<span class=sup>3</span></td><td>R/W<span class=sup>3</span></td><td>R/W/C</td><td>-</td><td>R/W/C <a href="TagNames/QuickTime.html">QuickTime</a></td></tr>
 <tr><td><a href="TagNames/M2TS.html">M2TS, MTS, M2T, TS</a></td><td>R</td><td>MPEG-2 Transport Stream (used for AVCHD video)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/M2TS.html">M2TS</a> <a href="TagNames/H264.html">H264</a></td></tr>
@@ -405,6 +411,7 @@ for each file format.</p>
 <tr><td><a href="TagNames/MRC.html">MRC</a></td><td>R</td><td>Medical Research Council</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/MRC.html">MRC</a></td></tr>
 <tr><td><a href="TagNames/MXF.html">MXF</a></td><td>R</td><td>Material Exchange Format</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/MXF.html">MXF</a></td></tr>
 <tr><td>NEF</td><td>R/W</td><td>Nikon (RAW) Electronic Format (<a href="TagNames/EXIF.html">TIFF</a>-based)</td><td>R/W/C</td><td>R/W/C</td><td>R/W/C</td><td>R/W/C</td><td>R/W <a href="TagNames/Nikon.html">Nikon</a> <a href="TagNames/NikonCapture.html">NikonCapture</a></td></tr>
+<tr><td>NKSC</td><td>R/W</td><td>Nikon Sidecar (<a href="TagNames/XMP.html">XMP</a>-based)</td><td>-</td><td>-</td><td>R/W/C</td><td>-</td><td>-</td></tr>
 <tr><td><a href="TagNames/iWork.html">NMBTEMPLATE</a></td><td>R</td><td>Apple iWork '09 Numbers Template</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/iWork.html">XML</a> <a href="TagNames/ZIP.html">ZIP</a></td></tr>
 <tr><td>NRW</td><td>R/W</td><td>Nikon RAW (2) (<a href="TagNames/EXIF.html">TIFF</a>-based)</td><td>R/W/C</td><td>R/W/C</td><td>R/W/C</td><td>R/W/C</td><td>R/W <a href="TagNames/Nikon.html">Nikon</a> <a href="TagNames/NikonCapture.html">NikonCapture</a></td></tr>
 <tr><td><a href="TagNames/iWork.html">NUMBERS</a></td><td>R</td><td>Apple iWork '09 Numbers spreadsheet</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/iWork.html">XML</a> <a href="TagNames/ZIP.html">ZIP</a></td></tr>
@@ -421,10 +428,11 @@ for each file format.</p>
 <tr><td><a href="TagNames/PhotoCD.html">PCD</a></td><td>R</td><td>Kodak Photo CD Image Pac</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/PhotoCD.html">PhotoCD</a></td></tr>
 <tr><td><a href="TagNames/PCX.html">PCX</a></td><td>R</td><td>PC Paintbrush</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/PCX.html">PCX</a></td></tr>
 <tr><td><a href="TagNames/Palm.html">PDB, PRC</a></td><td>R</td><td>Palm Database</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/Palm.html">Palm</a></td></tr>
-<tr><td><a href="TagNames/PDF.html">PDF</a></td><td>R/W</td><td>Adobe Portable Document Format</td><td>R<span class=sup>3</span></td><td>R<span class=sup>3</span></td><td>R/W/C</td><td>R<span class=sup>3</span></td><td>R/W/C <a href="TagNames/PDF.html">PDF</a>, R <a href="TagNames/Photoshop.html">Photoshop</a></td></tr>
+<tr><td><a href="TagNames/PDF.html">PDF</a></td><td>R/W<span class=sup>7</span></td><td>Adobe Portable Document Format</td><td>R<span class=sup>3</span></td><td>R<span class=sup>3</span></td><td>R/W/C</td><td>R<span class=sup>3</span></td><td>R/W/C <a href="TagNames/PDF.html">PDF</a>, R <a href="TagNames/Photoshop.html">Photoshop</a></td></tr>
 <tr><td>PEF</td><td>R/W</td><td>Pentax (RAW) Electronic Format (<a href="TagNames/EXIF.html">TIFF</a>-based)</td><td>R/W/C</td><td>R/W/C</td><td>R/W/C</td><td>R/W/C</td><td>R/W <a href="TagNames/Pentax.html">Pentax</a></td></tr>
 <tr><td><a href="TagNames/Font.html">PFA, PFB</a></td><td>R</td><td>PostScript Font ASCII/Binary</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/Font.html">Font</a></td></tr>
 <tr><td><a href="TagNames/Font.html">PFM</a></td><td>R</td><td>Printer Font Metrics</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/Font.html">Font</a></td></tr>
+<tr><td><a href="TagNames/Other.html#PFM">PFM</a></td><td>R</td><td>Portable FloatMap</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/Other.html#PFM">PFM</a></td></tr>
 <tr><td><a href="TagNames/PGF.html">PGF</a></td><td>R</td><td>Progressive Graphics File</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/PGF.html">PGF</a> <a href="TagNames/PNG.html">PNG</a></td></tr>
 <tr><td><a href="TagNames/PICT.html">PICT, PCT</a></td><td>R</td><td>Apple Picture file</td><td>-</td><td>-</td><td>-</td><td>R</td><td>R <a href="TagNames/PICT.html">PICT</a> <a href="TagNames/Photoshop.html">Photoshop</a></td></tr>
 <tr><td><a href="TagNames/PLIST.html">PLIST</a></td><td>R</td><td>Apple Property List (binary and XML formats)</td><td>-</td><td>-</td><td>-</td><td>-</td><td>R <a href="TagNames/PLIST.html">PLIST</a></td></tr>
@@ -489,7 +497,8 @@ for each file format.</p>
 <span class=sup>3</span> Non-standard format,
 <span class=sup>4</span> Only writable for PostScript-format file type,
 <span class=sup>5</span> Only writable for PDF-format file type,
-<span class=sup>6</span> Only writable when ignoring minor errors due to <a href='#problems'>Phocus incompatibility</a></span></blockquote>
+<span class=sup>6</span> Only writable when ignoring minor errors due to <a href='#problems'>Phocus incompatibility</a>,
+<span class=sup>7</span> Old metdata is never actually deleted</span></blockquote>
 <h3><a name="JPEG">Supported JPEG Meta Information</a></h3>
 <p>ExifTool can <b>R</b>ead, <b>W</b>rite and/or <b>C</b>reate the following types
 of meta information in JPEG images:</p>
@@ -552,9 +561,11 @@ of meta information in JPEG images:</p>
 <tr><td><a href="TagNames/MIE.html">MIE trailer</a></td><td>R/W</td><td><a href="MIE1.1-20070121.pdf">Meta Information Encapsulation</a></td></tr>
 <tr><td><a href="TagNames/Samsung.html#Trailer">Samsung trailer</a></td><td>R</td><td>Samsung Galaxy trailer</td></tr>
 <tr><td>Insta360 trailer</td><td>R</td><td>Insta360 trailer found in INSP files</td></tr>
+<tr><td>NikonApp trailer</td><td>R</td><td>Nikon trailer added by NX Studio to NEF/NRW files</td></tr>
 <tr><td>PreviewImage trailer</td><td>R/W/C</td><td>(preview image written after JPEG EOI)</td></tr>
 <tr><td>EmbeddedVideo trailer</td><td>R</td><td>(extracted only with ExtractEmbedded option)</td></tr>
-</table><span class=sm><span class=sup>1</span> All trailers except Samsung, Insta360, PreviewImage and EmbeddedVideo also have R/W support in TIFF images.</span></blockquote>
+</table><span class=sm><span class=sup>1</span> All trailers except Samsung, Insta360, PreviewImage and EmbeddedVideo also have
+R/W support in TIFF images, and the NikonApp trailer is used in NEF/NRW files.</span></blockquote>
 
 <h2><a name="system">System Requirements</a></h2>
 
@@ -817,9 +828,9 @@ Torrent, Trailer, UserParam, VCard, Vorbis, WTV, XML, XMP, ZIP
 </td></tr>
 <tr><td><b>1&nbsp;(Specific&nbsp;Location)</b></td>
 <td class=sm>AC3, AFCP, AIFF, APE, ASF, AVI1, Adobe, AdobeCM, AdobeDNG, Apple, Audible,
-CIFF, CameraIFD, Canon, CanonCustom, CanonRaw, CanonVRD, Casio, Chapter#,
-Composite, DICOM, DJI, DNG, DV, DjVu, DjVu-Meta, Ducky, EPPIM, EXE, EXIF,
-ExifIFD, ExifTool, FITS, FLAC, FLIR, File, Flash, FlashPix, Font,
+CBOR, CIFF, CameraIFD, Canon, CanonCustom, CanonRaw, CanonVRD, Casio,
+Chapter#, Composite, DICOM, DJI, DNG, DV, DjVu, DjVu-Meta, Ducky, EPPIM,
+EXE, EXIF, ExifIFD, ExifTool, FITS, FLAC, FLIR, File, Flash, FlashPix, Font,
 FotoStation, FujiFilm, FujiIFD, GE, GIF, GIMP, GPS, GeoTiff, GlobParamIFD,
 GoPro, GraphConv, H264, HP, HTC, HTML, HTML-dc, HTML-ncc, HTML-office,
 HTML-prod, HTML-vw96, HTTP-equiv, ICC-chrm, ICC-clrt, ICC-header, ICC-meas,
@@ -834,25 +845,26 @@ MIE-Orient, MIE-Preview, MIE-Thumbnail, MIE-UTM, MIE-Unknown, MIE-Video,
 MIFF, MNG, MOBI, MOI, MPC, MPEG, MPF0, MPImage, MS-DOC, MXF, MacOS,
 MakerNotes, MakerUnknown, Matroska, MediaJukebox, Meta, MetaIFD, Microsoft,
 Minolta, MinoltaRaw, Motorola, NITF, Nikon, NikonCapture, NikonCustom,
-NikonScan, NikonSettings, Nintendo, Ocad, Ogg, Olympus, OpenEXR, Opus, PDF,
-PICT, PNG, PNG-pHYs, PSP, Palm, Panasonic, PanasonicRaw, Pentax, PhaseOne,
-PhotoCD, PhotoMechanic, Photoshop, PictureInfo, PostScript, PreviewIFD,
-PrintIM, ProfileIFD, Qualcomm, QuickTime, RAF, RAF2, RIFF, RMETA, RSRC, RTF,
-Radiance, Rawzor, Real, Real-CONT, Real-MDPR, Real-PROP, Real-RA3, Real-RA4,
-Real-RA5, Real-RJMD, Reconyx, Red, Ricoh, SPIFF, SR2, SR2DataIFD, SR2SubIFD,
-SRF#, SVG, Samsung, Sanyo, Scalado, Sigma, SigmaRaw, Sony, SonyIDC, Stim,
-SubIFD, System, Theora, Torrent, Track#, UserData, UserParam, VCalendar,
-VCard, Version0, Vorbis, WTV, XML, XMP, XMP-DICOM, XMP-Device, XMP-GAudio,
-XMP-GDepth, XMP-GFocus, XMP-GImage, XMP-GPano, XMP-GSpherical, XMP-LImage,
-XMP-MP, XMP-MP1, XMP-PixelLive, XMP-aas, XMP-acdsee, XMP-album,
-XMP-apple-fi, XMP-aux, XMP-cc, XMP-cell, XMP-creatorAtom, XMP-crs, XMP-dc,
-XMP-dex, XMP-digiKam, XMP-drone-dji, XMP-dwc, XMP-exif, XMP-exifEX,
-XMP-expressionmedia, XMP-extensis, XMP-fpv, XMP-getty, XMP-ics,
-XMP-iptcCore, XMP-iptcExt, XMP-lr, XMP-mediapro, XMP-microsoft,
-XMP-mwg-coll, XMP-mwg-kw, XMP-mwg-rs, XMP-pdf, XMP-pdfx, XMP-photomech,
-XMP-photoshop, XMP-plus, XMP-pmi, XMP-prism, XMP-prl, XMP-prm, XMP-pur,
-XMP-rdf, XMP-swf, XMP-tiff, XMP-x, XMP-xmp, XMP-xmpBJ, XMP-xmpDM, XMP-xmpMM,
-XMP-xmpNote, XMP-xmpPLUS, XMP-xmpRights, XMP-xmpTPg, ZIP
+NikonScan, NikonSettings, NineEdits, Nintendo, Ocad, Ogg, Olympus, OpenEXR,
+Opus, PDF, PICT, PNG, PNG-pHYs, PSP, Palm, Panasonic, PanasonicRaw, Pentax,
+PhaseOne, PhotoCD, PhotoMechanic, Photoshop, PictureInfo, PostScript,
+PreviewIFD, PrintIM, ProfileIFD, Qualcomm, QuickTime, RAF, RAF2, RIFF,
+RMETA, RSRC, RTF, Radiance, Rawzor, Real, Real-CONT, Real-MDPR, Real-PROP,
+Real-RA3, Real-RA4, Real-RA5, Real-RJMD, Reconyx, Red, Ricoh, SPIFF, SR2,
+SR2DataIFD, SR2SubIFD, SRF#, SVG, Samsung, Sanyo, Scalado, Sigma, SigmaRaw,
+Sony, SonyIDC, Stim, SubIFD, System, Theora, Torrent, Track#, UserData,
+UserParam, VCalendar, VCard, Version0, Vorbis, WTV, XML, XMP, XMP-DICOM,
+XMP-Device, XMP-GAudio, XMP-GDepth, XMP-GFocus, XMP-GImage, XMP-GPano,
+XMP-GSpherical, XMP-LImage, XMP-MP, XMP-MP1, XMP-PixelLive, XMP-aas,
+XMP-acdsee, XMP-album, XMP-apple-fi, XMP-aux, XMP-cc, XMP-cell,
+XMP-creatorAtom, XMP-crs, XMP-dc, XMP-dex, XMP-digiKam, XMP-drone-dji,
+XMP-dwc, XMP-exif, XMP-exifEX, XMP-expressionmedia, XMP-extensis, XMP-fpv,
+XMP-getty, XMP-ics, XMP-iptcCore, XMP-iptcExt, XMP-lr, XMP-mediapro,
+XMP-microsoft, XMP-mwg-coll, XMP-mwg-kw, XMP-mwg-rs, XMP-pdf, XMP-pdfx,
+XMP-photomech, XMP-photoshop, XMP-plus, XMP-pmi, XMP-prism, XMP-prl,
+XMP-prm, XMP-pur, XMP-rdf, XMP-swf, XMP-tiff, XMP-x, XMP-xmp, XMP-xmpBJ,
+XMP-xmpDM, XMP-xmpMM, XMP-xmpNote, XMP-xmpPLUS, XMP-xmpRights, XMP-xmpTPg,
+ZIP, iTunes
 </td></tr>
 <tr><td><b>2&nbsp;(Category)</b></td>
 <td>Audio, Author, Camera, Device, Document, ExifTool, Image, Location, Other,
@@ -1083,6 +1095,8 @@ calling application must either place file names after the "<code>--</code>"
 option, or ensure that input file names do not start with a dash (U+002D) or a
 Unicode minus sign (U+2212).  One way to accomplish this is to prefix input file
 names with a known directory name, eg.) <code>"./FILENAME"</code>.</p>
+<p>As well, untrusted window title strings should not be using with the
+<code>-progress:TITLE</code> option.</p>
 
 <h2><a name="shift">Date/Time Shift Feature</a></h2>
 
@@ -1177,7 +1191,10 @@ extracted tags by specifying them individually (<code>-TAG</code>) or by group
 the print conversions (<code>-n</code>) if these features aren't required.  Note
 that the exclude options (<code>-x</code> or <code>--TAG</code>) are not very
 efficient, and may have a negative impact on performance if a large number of
-tags are excluded individually.</p>
+tags are excluded individually.  The exception is XMP groups, which are bypassed
+in processing so they are never even extracted -- specifying
+<code>--XMP-crs:all</code> and <code>-XMP-crd:all</code> may speed processing
+significantly by avoiding processing of bulky Adobe image-editing information.</p>
 
 <p>The <code>-fast</code> option can significantly increase speed when
 extracting information from JPEG images which are piped across a slow network
@@ -1240,7 +1257,9 @@ binary data.  The simple script above does not handle this case.</p>
 <li><a href="canon_raw.html">Canon RAW (CRW) File Format Specification</a></li>
 <li><a href="MIE1.1-20070121.pdf">MIE 1.1 File Format Specification (pdf)</a></li>
 <li><a href="https://github.com/exiftool/exiftool">ExifTool source code on GitHub</a></li>
-<li><a href="https://sourceforge.net/projects/exiftool/">ExifTool SourceForge project page</a> (<a href="https://sourceforge.net/p/exiftool/discussion/">alternate discussion forum</a>)</li>
+<li><a href="https://sourceforge.net/projects/exiftool/">ExifTool SourceForge project page</a> (alternate
+    <a href="https://sourceforge.net/p/exiftool/discussion/">discussion forum</a> and
+    <a href="http://exiftool.sourceforge.net">home page</a>)</li>
 <li><a href="https://exiftool.org/sample_images.html">JPEG Image Samples</a> (and
     <a href="https://exiftool.org/makernote_types.html">Table of Makernote Types</a>)</li>
 <li><a href="https://metacpan.org/release/Image-ExifTool">Image::ExifTool at MetaCPAN</a></li>
@@ -1265,6 +1284,7 @@ binary data.  The simple script above does not handle this case.</p>
 <p><b><a name="related_win">Windows</a></b></p>
 <ul>
 <li><a href="https://oliverbetz.de/pages/Artikel/ExifTool-for-Windows">Alternate ExifTool Windows Installer and Portable Package</a> by Oliver Betz</li>
+<li><a href="http://wxutils.com/wxeti.php">wxETI</a>: A wxWidgets-based Windows interface for Exiftool</a></li>
 <li><a href="https://exiftool.org/gui/">ExifTool GUI for Windows</a>: GUI for viewing meta information with some editing features</li>
 <li><a href="https://www.logipole.com/metadata++-en.htm">Metadata++</a>: View, edit, extract, copy metadata metadata</li>
 <!-- dead <li><a href="http://www.thezeal.com/software/?Exif_Stats_Utility">Exif Stats Utility</a>: Analyzes images to tabulate apertures, exposure times, etc</li> -->

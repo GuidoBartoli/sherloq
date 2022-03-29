@@ -14,7 +14,7 @@ use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Import;
 
-$VERSION = '1.03';
+$VERSION = '1.05';
 
 sub ProcessJSON($$);
 sub ProcessTag($$$$%);
@@ -83,8 +83,12 @@ sub ProcessTag($$$$%)
             FoundTag($et, $tagTablePtr, $tag, $val, %flags, Struct => 1);
             return unless $et->Options('Struct') > 1;
         }
-        foreach (sort keys %$val) {
-            ProcessTag($et, $tagTablePtr, $tag . ucfirst, $$val{$_}, %flags, Flat => 1);
+        # support hashes with ordered keys
+        my @keys = $$val{_ordered_keys_} ? @{$$val{_ordered_keys_}} : sort keys %$val;
+        foreach (@keys) {
+            my $tg = $tag . ((/^\d/ and $tag =~ /\d$/) ? '_' : '') . ucfirst;
+            $tg =~ s/([^a-zA-Z])([a-z])/$1\U$2/g;
+            ProcessTag($et, $tagTablePtr, $tg, $$val{$_}, %flags, Flat => 1);
         }
     } elsif (ref $val eq 'ARRAY') {
         foreach (@$val) {
@@ -172,7 +176,7 @@ information from JSON files.
 
 =head1 AUTHOR
 
-Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

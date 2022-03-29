@@ -65,7 +65,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>43 = ISO Hi 3.0
   <br>44 = ISO Hi 4.0
   <br>45 = ISO Hi 5.0</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z7 and Z7_2)</span></span><table class=cols><tr>
   <td>1 = ISO 100
   <br>2 = ISO 125
   <br>4 = ISO 160
@@ -140,7 +140,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>44 = ISO Hi 3.0
   <br>45 = ISO Hi 4.0
   <br>46 = ISO Hi 5.0</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z7 and Z7_2)</span></span><table class=cols><tr>
   <td>1 = Same As Without Flash
   <br>2 = ISO 100
   <br>3 = ISO 125
@@ -298,7 +298,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>43 = ISO Hi 3.0
   <br>44 = ISO Hi 4.0
   <br>45 = ISO Hi 5.0</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z7 and Z7_2)</span></span><table class=cols><tr>
   <td>1 = ISO 200
   <br>2 = ISO 250
   <br>4 = ISO 320
@@ -334,6 +334,12 @@ Unknown only to reduce the volume of the normal output.</p>
 <td><span class=s>1 = On
   <br>2 = Off</span></td></tr>
 <tr class=b>
+<td title='0x000f = 15'>0x000f</td>
+<td>MovieWhiteBalanceSameAsPhoto</td>
+<td class=c>no</td>
+<td><span class=s>1 = Yes
+  <br>2 = No</span></td></tr>
+<tr>
 <td title='0x001d = 29'>0x001d</td>
 <td>AF-CPrioritySel</td>
 <td class=c>no</td>
@@ -342,16 +348,16 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>2 = Release + Focus
   <br>3 = Focus + Release
   <br>4 = Focus
-  <br><span class=n>(Z7_2)</span>
+  <br><span class=n>(Z Series cameras thru November 2021)</span>
   <br>1 = Release
   <br>2 = Focus</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x001e = 30'>0x001e</td>
 <td>AF-SPrioritySel</td>
 <td class=c>no</td>
 <td><span class=s>1 = Release
   <br>2 = Focus</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0020 = 32'>0x0020</td>
 <td>AFPointSel</td>
 <td class=c>no</td>
@@ -359,30 +365,36 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>1 = 105 Points
   <br>2 = 27 Points
   <br>3 = 15 Points
-  <br><span class=n>(Z7_2)</span>
+  <br><span class=n>(Z Series cameras thru November 2021)</span>
   <br>1 = Use All
   <br>2 = Use Half</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0022 = 34'>0x0022</td>
 <td>AFActivation</td>
 <td class=c>no</td>
 <td><span class=s>1 = Shutter/AF-On
   <br>2 = AF-On Only</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0023 = 35'>0x0023</td>
 <td>FocusPointWrap</td>
 <td class=c>no</td>
 <td><span class=s>1 = Wrap
   <br>2 = No Wrap</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0025 = 37'>0x0025</td>
 <td>ManualFocusPointIllumination</td>
 <td class=c>no</td>
 <td><span class=s>1 = On
   <br>2 = On During Focus Point Selection Only</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0026 = 38'>0x0026</td>
 <td>AF-AssistIlluminator</td>
+<td class=c>no</td>
+<td><span class=s>1 = On
+  <br>2 = Off</span></td></tr>
+<tr class=b>
+<td title='0x0027 = 39'>0x0027</td>
+<td>ManualFocusRingInAFMode</td>
 <td class=c>no</td>
 <td><span class=s>1 = On
   <br>2 = Off</span></td></tr>
@@ -423,7 +435,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>3 = 15 mm
   <br>4 = 20 mm
   <br>5 = Average
-  <br><span class=n>(Z7_2)</span>
+  <br><span class=n>(Z Series cameras thru November 2021)</span>
   <br>1 = 12 mm
   <br>2 = Average</span></td></tr>
 <tr class=b>
@@ -467,7 +479,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <td>7 = 10 min
   <br>8 = 30 min
   <br>9 = No Limit</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z Series cameras thru November 2021)</span></span><table class=cols><tr>
   <td>1 = 10 s
   <br>2 = 20 s
   <br>3 = 30 s
@@ -624,7 +636,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>6 = 1/100 s
   <br>7 = 1/80 s
   <br>8 = 1/60 s</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z Series cameras thru November 2021)</span></span><table class=cols><tr>
   <td>1 = 1/200 s (auto FP)
   <br>2 = 1/200 s
   <br>3 = 1/160 s
@@ -679,7 +691,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>5 = Image Area
   <br>6 = Shutter/Aperture Lock
   <br>7 = None</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z Series cameras thru November 2021)</span></span><table class=cols><tr>
   <td>1 = AE Lock (hold)
   <br>2 = AE Lock (reset on release)
   <br>3 = Preview
@@ -716,7 +728,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>2 = Preset Focus Point - Press To Recall
   <br>3 = Preset Focus Point - Hold To Recall
   <br>4 = None
-  <br><span class=n>(Z7_2)</span>
+  <br><span class=n>(Z Series cameras thru November 2021)</span>
   <br>1 = Select Center Focus Point
   <br>2 = Zoom (Low)
   <br>3 = Zoom (1:1)
@@ -733,7 +745,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <td>4 = Zoom (1:1)
   <br>5 = Zoom (High)
   <br>6 = Choose Folder</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z Series cameras thru November 2021)</span></span><table class=cols><tr>
   <td>1 = Thumbnail On/Off
   <br>2 = View Histograms
   <br>3 = Zoom (Low)</td><td>&nbsp;&nbsp;</td>
@@ -807,7 +819,7 @@ Unknown only to reduce the volume of the normal output.</p>
 <td>MovieShutterButton</td>
 <td class=c>no</td>
 <td><span class=s>1 = Take Photo
-  <br>2 = Record Movies</span></td></tr>
+  <br>2 = Record Movie</span></td></tr>
 <tr>
 <td title='0x0063 = 99'>0x0063</td>
 <td>Language</td>
@@ -824,7 +836,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>1 = Auto
   <br>2 = Manual (dark on light)
   <br>3 = Manual (light on dark)
-  <br><span class=n>(Z7_2)</span>
+  <br><span class=n>(Z Series cameras thru November 2021)</span>
   <br>1 = Manual (dark on light)
   <br>2 = Manual (light on dark)</span></td></tr>
 <tr>
@@ -833,6 +845,26 @@ Unknown only to reduce the volume of the normal output.</p>
 <td class=c>no</td>
 <td><span class=s>1 = Right to Left
   <br>2 = Left to Right</span></td></tr>
+<tr class=b>
+<td title='0x0075 = 117'>0x0075</td>
+<td>HDMIOutputResolution</td>
+<td class=c>no</td>
+<td><table class=cols><tr>
+  <td>1 = Auto
+  <br>2 = 2160p
+  <br>3 = 1080p
+  <br>4 = 1080i</td><td>&nbsp;&nbsp;</td>
+  <td>5 = 720p
+  <br>6 = 576p
+  <br>7 = 480p</td></tr></table>
+</td></tr>
+<tr>
+<td title='0x0077 = 119'>0x0077</td>
+<td>HDMIOutputRange</td>
+<td class=c>no</td>
+<td><span class=s>1 = Auto
+  <br>2 = Limit
+  <br>3 = Full</span></td></tr>
 <tr class=b>
 <td title='0x0080 = 128'>0x0080</td>
 <td>RemoteFuncButton</td>
@@ -850,7 +882,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>10 = LiveView Info Display On/Off
   <br>11 = Recall Shooting Functions
   <br>12 = None</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z Series cameras thru November 2021)</span></span><table class=cols><tr>
   <td>1 = AF-On
   <br>2 = AF Lock Only
   <br>3 = AE Lock (reset on release)
@@ -912,6 +944,12 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>8 = 180</td></tr></table>
 </td></tr>
 <tr>
+<td title='0x0092 = 146'>0x0092</td>
+<td>HDMIExternalRecorder</td>
+<td class=c>no</td>
+<td><span class=s>1 = On
+  <br>2 = Off</span></td></tr>
+<tr class=b>
 <td title='0x0093 = 147'>0x0093</td>
 <td>BlockShotAFResponse</td>
 <td class=c>no</td>
@@ -920,19 +958,19 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>3 = 3 (Normal)
   <br>4 = 4
   <br>5 = 5 (Delay)</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0094 = 148'>0x0094</td>
 <td>SubjectMotion</td>
 <td class=c>no</td>
 <td><span class=s>1 = Erratic
   <br>2 = Steady</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0095 = 149'>0x0095</td>
 <td>Three-DTrackingFaceDetection</td>
 <td class=c>no</td>
 <td><span class=s>1 = On
   <br>2 = Off</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0097 = 151'>0x0097</td>
 <td>StoreByOrientation</td>
 <td class=c>no</td>
@@ -940,35 +978,35 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>1 = Focus Point
   <br>2 = Focus Point and AF-area mode
   <br>3 = Off
-  <br><span class=n>(Z7_2)</span>
+  <br><span class=n>(Z Series cameras thru November 2021)</span>
   <br>1 = Focus Point
   <br>2 = Off</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0099 = 153'>0x0099</td>
 <td>DynamicAreaAFAssist</td>
 <td class=c>no</td>
 <td><span class=s>1 = On
   <br>2 = Off</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x009a = 154'>0x009a</td>
 <td>ExposureCompStepSize</td>
 <td class=c>no</td>
 <td><span class=s>1 = 1/3 EV
   <br>2 = 1/2 EV
   <br>3 = 1 EV</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x009b = 155'>0x009b</td>
 <td>SyncReleaseMode</td>
 <td class=c>no</td>
 <td><span class=s>1 = Sync
   <br>2 = No Sync</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x009c = 156'>0x009c</td>
 <td>ModelingFlash</td>
 <td class=c>no</td>
 <td><span class=s>1 = On
   <br>2 = Off</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x009d = 157'>0x009d</td>
 <td>AutoBracketModeM</td>
 <td class=c>no</td>
@@ -976,7 +1014,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>2 = Flash/Speed/Aperture
   <br>3 = Flash/Aperture
   <br>4 = Flash Only</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x009e = 158'>0x009e</td>
 <td>PreviewButton</td>
 <td class=c>no</td>
@@ -1036,7 +1074,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>55 = Non-CPU Lens
   <br>56 = None</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0x00a0 = 160'>0x00a0</td>
 <td>Func1Button</td>
 <td class=c>no</td>
@@ -1095,7 +1133,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>54 = 1 Stop Speed/Aperture
   <br>55 = Non-CPU Lens
   <br>56 = None</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z Series cameras thru November 2021)</span></span><table class=cols><tr>
   <td>1 = AF-On
   <br>2 = AF Lock Only
   <br>3 = AE Lock (hold)
@@ -1146,7 +1184,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>50 = Rating 1
   <br>52 = None</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x00a2 = 162'>0x00a2</td>
 <td>Func2Button</td>
 <td class=c>no</td>
@@ -1205,7 +1243,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>54 = 1 Stop Speed/Aperture
   <br>55 = Non-CPU Lens
   <br>56 = None</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z Series cameras thru November 2021)</span></span><table class=cols><tr>
   <td>1 = AF-On
   <br>2 = AF Lock Only
   <br>3 = AE Lock (hold)
@@ -1256,7 +1294,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>50 = Rating 1
   <br>52 = None</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0x00a3 = 163'>0x00a3</td>
 <td>AF-OnButton</td>
 <td class=c>no</td>
@@ -1290,7 +1328,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>27 = AE/AF Lock
   <br>28 = Recall Shooting Functions
   <br>29 = None</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z Series cameras thru November 2021)</span></span><table class=cols><tr>
   <td>1 = Center Focus Point
   <br>2 = AF-On
   <br>3 = AF Lock Only
@@ -1304,13 +1342,13 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>11 = Zoom (High)
   <br>12 = None</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x00a4 = 164'>0x00a4</td>
 <td>SubSelector</td>
 <td class=c>no</td>
 <td><span class=s>1 = Same as MultiSelector
   <br>2 = Focus Point Selection</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00a5 = 165'>0x00a5</td>
 <td>SubSelectorCenter</td>
 <td class=c>no</td>
@@ -1353,7 +1391,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>36 = Synchronized Release (Master)
   <br>37 = Synchronized Release (Remote)
   <br>38 = None</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z Series cameras thru November 2021)</span></span><table class=cols><tr>
   <td>1 = Center Focus Point
   <br>2 = AF-On
   <br>3 = AF Lock Only
@@ -1378,7 +1416,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>24 = Non-CPU Lens
   <br>25 = None</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x00a7 = 167'>0x00a7</td>
 <td>LensFunc1Button</td>
 <td class=c>no</td>
@@ -1413,7 +1451,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>28 = Recall Shooting Functions
   <br>29 = Synchronized Release (Master)
   <br>30 = Synchronized Release (Remote)</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z Series cameras thru November 2021)</span></span><table class=cols><tr>
   <td>1 = AF-On
   <br>2 = AF Lock Only
   <br>3 = AE Lock (hold)
@@ -1441,32 +1479,32 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>27 = Playback
   <br>28 = None</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0x00a8 = 168'>0x00a8</td>
 <td>CmdDialsApertureSetting</td>
 <td class=c>no</td>
 <td><span class=s>1 = Sub-command Dial
   <br>2 = Aperture Ring</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00a9 = 169'>0x00a9</td>
 <td>MultiSelector</td>
 <td class=c>no</td>
 <td><span class=s>1 = Restart Standby Timer
   <br>2 = Do Nothing</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00aa = 170'>0x00aa</td>
 <td>LiveViewButtonOptions</td>
 <td class=c>no</td>
 <td><span class=s>1 = Enable
   <br>2 = Enable (Standby Timer Active)
   <br>3 = Disable</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00ab = 171'>0x00ab</td>
 <td>LightSwitch</td>
 <td class=c>no</td>
 <td><span class=s>1 = LCD Backlight
   <br>2 = LCD Backlight and Shooting Information</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00b1 = 177'>0x00b1</td>
 <td>MoviePreviewButton
   <br>MovieFunc1Button</td>
@@ -1481,7 +1519,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>7 = Image Area
   <br>8 = Microphone Sensitivity
   <br>9 = None</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z Series cameras thru November 2021)</span></span><table class=cols><tr>
   <td>1 = Power Aperture (Open)
   <br>2 = Exposure Compensation
   <br>3 = Subject Tracking
@@ -1507,7 +1545,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>23 = Rating (1)
   <br>25 = None</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x00b3 = 179'>0x00b3</td>
 <td>MovieFunc1Button
   <br>MovieFunc2Button</td>
@@ -1522,7 +1560,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>7 = Image Area
   <br>8 = Microphone Sensitivity
   <br>9 = None</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z Series cameras thru November 2021)</span></span><table class=cols><tr>
   <td>1 = Power Aperture (Close)
   <br>2 = Exposure Compensation
   <br>3 = Subject Tracking
@@ -1548,7 +1586,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>23 = Rating (1)
   <br>25 = None</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0x00b5 = 181'>0x00b5</td>
 <td>MovieFunc2Button</td>
 <td class=c>no</td>
@@ -1561,7 +1599,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>6 = Microphone Sensitivity
   <br>7 = None</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x00b6 = 182'>0x00b6</td>
 <td>AssignMovieSubselector</td>
 <td class=c>no</td>
@@ -1575,9 +1613,9 @@ Unknown only to reduce the volume of the normal output.</p>
   <td>7 = Zoom (Low)
   <br>8 = Zoom (1:1)
   <br>9 = Zoom (High)
-  <br>10 = Record Movies
+  <br>10 = Record Movie
   <br>11 = None</td></tr></table>
-<span class=s><span class=n>(Z7_2)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Z Series cameras thru November 2021)</span></span><table class=cols><tr>
   <td>1 = Center Focus Point
   <br>2 = AF Lock Only
   <br>3 = AE Lock (hold)
@@ -1588,53 +1626,53 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>8 = Zoom (Low)
   <br>9 = Zoom (1:1)
   <br>10 = Zoom (High)
-  <br>11 = Record Movies
+  <br>11 = Record Movie
   <br>12 = Image Area
   <br>13 = None</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0x00b8 = 184'>0x00b8</td>
 <td>LimitAFAreaModeSelD9?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00b9 = 185'>0x00b9</td>
 <td>LimitAFAreaModeSelD25?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00bc = 188'>0x00bc</td>
 <td>LimitAFAreaModeSel3D?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00bd = 189'>0x00bd</td>
 <td>LimitAFAreaModeSelGroup?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00be = 190'>0x00be</td>
 <td>LimitAFAreaModeSelAuto?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00c1 = 193'>0x00c1</td>
 <td>LimitSelectableImageArea5To4?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00c2 = 194'>0x00c2</td>
 <td>LimitSelectableImageArea1To1?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00d4 = 212'>0x00d4</td>
 <td>PhotoShootingMenuBank</td>
 <td class=c>no</td>
@@ -1642,7 +1680,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>2 = B
   <br>3 = C
   <br>4 = D</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00d5 = 213'>0x00d5</td>
 <td>CustomSettingsBank</td>
 <td class=c>no</td>
@@ -1650,67 +1688,67 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>2 = B
   <br>3 = C
   <br>4 = D</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00d6 = 214'>0x00d6</td>
 <td>LimitAF-AreaModeSelPinpoint?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00d7 = 215'>0x00d7</td>
 <td>LimitAF-AreaModeSelDynamic?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00d8 = 216'>0x00d8</td>
 <td>LimitAF-AreaModeSelWideAF_S?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00d9 = 217'>0x00d9</td>
 <td>LimitAF-AreaModeSelWideAF_L?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00da = 218'>0x00da</td>
 <td>LowLightAF</td>
 <td class=c>no</td>
 <td><span class=s>1 = On
   <br>2 = Off</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00db = 219'>0x00db</td>
 <td>LimitSelectableImageAreaDX?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00dc = 220'>0x00dc</td>
 <td>LimitSelectableImageArea5To4?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00dd = 221'>0x00dd</td>
 <td>LimitSelectableImageArea1To1?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00de = 222'>0x00de</td>
 <td>LimitSelectableImageArea16To9?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00df = 223'>0x00df</td>
 <td>ApplySettingsToLiveView</td>
 <td class=c>no</td>
 <td><span class=s>1 = On
   <br>2 = Off</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00e0 = 224'>0x00e0</td>
 <td>FocusPeakingLevel</td>
 <td class=c>no</td>
@@ -1718,16 +1756,15 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>2 = Standard Sensitivity
   <br>3 = Low Sensitivity
   <br>4 = Off</span></td></tr>
-<tr>
-<td title='0x00e9 = 233'>0x00e9</td>
+<tr class=b>
+<td title='0x00ea = 234'>0x00ea</td>
 <td>LensControlRing</td>
 <td class=c>no</td>
-<td><span class=s>1 = Focus (M/A)
-  <br>2 = Aperture
-  <br>3 = Exposure Compensation
-  <br>4 = ISO Sensitivity
-  <br>5 = None (Disabled)</span></td></tr>
-<tr class=b>
+<td><span class=s>1 = Aperture
+  <br>2 = Exposure Compensation
+  <br>3 = ISO Sensitivity
+  <br>4 = None (Disabled)</span></td></tr>
+<tr>
 <td title='0x00ed = 237'>0x00ed</td>
 <td>MovieMultiSelector</td>
 <td class=c>no</td>
@@ -1736,28 +1773,28 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>2 = Zoom (Low)
   <br>3 = Zoom (1:1)</td><td>&nbsp;&nbsp;</td>
   <td>4 = Zoom (High)
-  <br>5 = Record Movies
+  <br>5 = Record Movie
   <br>6 = None</td></tr></table>
 <table class=cols><tr>
   <td>1 = Center Focus Point
   <br>2 = Zoom (Low)
   <br>3 = Zoom (1:1)</td><td>&nbsp;&nbsp;</td>
   <td>4 = Zoom (High)
-  <br>5 = Record Movies
+  <br>5 = Record Movie
   <br>6 = None</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0x00ee = 238'>0x00ee</td>
 <td>MovieAFSpeed</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td title='0x00ef = 239'>0x00ef</td>
 <td>MovieAFSpeedApply</td>
 <td class=c>no</td>
 <td><span class=s>1 = Always
   <br>2 = Only During Recording</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00f0 = 240'>0x00f0</td>
 <td>MovieAFTrackingSensitivity</td>
 <td class=c>no</td>
@@ -1770,50 +1807,50 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>6 = 6
   <br>7 = 7 (Low)</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x00f1 = 241'>0x00f1</td>
 <td>MovieHighlightDisplayPattern</td>
 <td class=c>no</td>
 <td><span class=s>1 = Pattern 1
   <br>2 = Pattern 2
   <br>3 = Off</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00f2 = 242'>0x00f2</td>
 <td>SubDialFrameAdvanceRating5?</td>
 <td class=c>no</td>
 <td><span class=s>1 = No
   <br>2 = Yes</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00f3 = 243'>0x00f3</td>
 <td>SubDialFrameAdvanceRating4?</td>
 <td class=c>no</td>
 <td><span class=s>1 = No
   <br>2 = Yes</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00f4 = 244'>0x00f4</td>
 <td>SubDialFrameAdvanceRating3?</td>
 <td class=c>no</td>
 <td><span class=s>1 = No
   <br>2 = Yes</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00f5 = 245'>0x00f5</td>
 <td>SubDialFrameAdvanceRating2?</td>
 <td class=c>no</td>
 <td><span class=s>1 = No
   <br>2 = Yes</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00f6 = 246'>0x00f6</td>
 <td>SubDialFrameAdvanceRating1?</td>
 <td class=c>no</td>
 <td><span class=s>1 = No
   <br>2 = Yes</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00f7 = 247'>0x00f7</td>
 <td>SubDialFrameAdvanceRating0?</td>
 <td class=c>no</td>
 <td><span class=s>1 = No
   <br>2 = Yes</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00f9 = 249'>0x00f9</td>
 <td>MovieAF-OnButton</td>
 <td class=c>no</td>
@@ -1828,10 +1865,10 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>8 = Zoom (Low)
   <br>9 = Zoom (1:1)
   <br>10 = Zoom (High)
-  <br>11 = Record Movies
+  <br>11 = Record Movie
   <br>12 = None</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x00fb = 251'>0x00fb</td>
 <td>SecondarySlotFunction</td>
 <td class=c>no</td>
@@ -1839,15 +1876,33 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>2 = Backup
   <br>3 = NEF Primary + JPG Secondary
   <br>4 = JPG Primary + JPG Secondary</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x00fc = 252'>0x00fc</td>
 <td>SilentPhotography</td>
 <td class=c>no</td>
 <td><span class=s>1 = On
   <br>2 = Off</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x00fd = 253'>0x00fd</td>
 <td>ExtendedShutterSpeeds</td>
+<td class=c>no</td>
+<td><span class=s>1 = On
+  <br>2 = Off</span></td></tr>
+<tr class=b>
+<td title='0x0102 = 258'>0x0102</td>
+<td>HDMIBitDepth</td>
+<td class=c>no</td>
+<td><span class=s>1 = 8 Bit
+  <br>2 = 10 Bit</span></td></tr>
+<tr>
+<td title='0x0103 = 259'>0x0103</td>
+<td>HDMIOutputHDR</td>
+<td class=c>no</td>
+<td><span class=s>2 = On
+  <br>3 = Off</span></td></tr>
+<tr class=b>
+<td title='0x0104 = 260'>0x0104</td>
+<td>HDMIViewAssist</td>
 <td class=c>no</td>
 <td><span class=s>1 = On
   <br>2 = Off</span></td></tr>
@@ -1919,6 +1974,11 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>8 = Off, Low, Normal, High, Extra High</td></tr></table>
 </td></tr>
 <tr>
+<td title='0x010e = 270'>0x010e</td>
+<td>MonitorBrightness</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td title='0x0116 = 278'>0x0116</td>
 <td>GroupAreaC1</td>
 <td class=c>no</td>
@@ -1941,50 +2001,50 @@ Unknown only to reduce the volume of the normal output.</p>
   <td>16 = 15x3
   <br>17 = 15x1</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x0117 = 279'>0x0117</td>
 <td>AutoAreaAFStartingPoint</td>
 <td class=c>no</td>
 <td><span class=s>1 = Enable
   <br>2 = Disable</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0118 = 280'>0x0118</td>
 <td>FocusPointPersistence</td>
 <td class=c>no</td>
 <td><span class=s>1 = Auto
   <br>2 = Off</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0119 = 281'>0x0119</td>
 <td>LimitAFAreaModeSelD49?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x011a = 282'>0x011a</td>
 <td>LimitAFAreaModeSelD105?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x011b = 283'>0x011b</td>
 <td>LimitAFAreaModeSelGroupC1?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x011c = 284'>0x011c</td>
 <td>LimitAFAreaModeSelGroupC2?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x011d = 285'>0x011d</td>
 <td>AutoFocusModeRestrictions</td>
 <td class=c>no</td>
 <td><span class=s>1 = AF-S
   <br>2 = AF-C
   <br>3 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x011e = 286'>0x011e</td>
 <td>FocusPointBrightness</td>
 <td class=c>no</td>
@@ -1992,17 +2052,17 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>2 = High
   <br>3 = Normal
   <br>4 = Low</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x011f = 287'>0x011f</td>
 <td>CHModeShootingSpeed</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td title='0x0120 = 288'>0x0120</td>
 <td>CLModeShootingSpeed</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td title='0x0121 = 289'>0x0121</td>
 <td>QuietShutterShootingSpeed</td>
 <td class=c>no</td>
@@ -2014,120 +2074,120 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>5 = 2 fps
   <br>6 = 1 fps</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0x0122 = 290'>0x0122</td>
 <td>LimitReleaseModeSelCL?</td>
 <td class=c>no</td>
 <td><span class=s>0 = No Limit
   <br>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0123 = 291'>0x0123</td>
 <td>LimitReleaseModeSelCH?</td>
 <td class=c>no</td>
 <td><span class=s>0 = No Limit
   <br>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0124 = 292'>0x0124</td>
 <td>LimitReleaseModeSelQ?</td>
 <td class=c>no</td>
 <td><span class=s>0 = No Limit
   <br>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0125 = 293'>0x0125</td>
 <td>LimitReleaseModeSelTimer?</td>
 <td class=c>no</td>
 <td><span class=s>0 = No Limit
   <br>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0126 = 294'>0x0126</td>
 <td>LimitReleaseModeSelMirror-Up?</td>
 <td class=c>no</td>
 <td><span class=s>0 = No Limit
   <br>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0127 = 295'>0x0127</td>
 <td>LimitSelectableImageArea16To9?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0128 = 296'>0x0128</td>
 <td>RearControPanelDisplay</td>
 <td class=c>no</td>
 <td><span class=s>1 = Release Mode
   <br>2 = Frame Count</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0129 = 297'>0x0129</td>
 <td>FlashBurstPriority</td>
 <td class=c>no</td>
 <td><span class=s>1 = Frame Rate
   <br>2 = Exposure</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x012a = 298'>0x012a</td>
 <td>RecallShootFuncExposureMode</td>
 <td class=c>no</td>
 <td><span class=s>1 = Off
   <br>2 = On</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x012b = 299'>0x012b</td>
 <td>RecallShootFuncShutterSpeed</td>
 <td class=c>no</td>
 <td><span class=s>1 = Off
   <br>2 = On</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x012c = 300'>0x012c</td>
 <td>RecallShootFuncAperture</td>
 <td class=c>no</td>
 <td><span class=s>1 = Off
   <br>2 = On</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x012d = 301'>0x012d</td>
 <td>RecallShootFuncExposureComp</td>
 <td class=c>no</td>
 <td><span class=s>1 = Off
   <br>2 = On</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x012e = 302'>0x012e</td>
 <td>RecallShootFuncISO</td>
 <td class=c>no</td>
 <td><span class=s>1 = Off
   <br>2 = On</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x012f = 303'>0x012f</td>
 <td>RecallShootFuncMeteringMode</td>
 <td class=c>no</td>
 <td><span class=s>1 = Off
   <br>2 = On</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0130 = 304'>0x0130</td>
 <td>RecallShootFuncWhiteBalance</td>
 <td class=c>no</td>
 <td><span class=s>1 = Off
   <br>2 = On</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0131 = 305'>0x0131</td>
 <td>RecallShootFuncAFAreaMode</td>
 <td class=c>no</td>
 <td><span class=s>1 = Off
   <br>2 = On</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0132 = 306'>0x0132</td>
 <td>RecallShootFuncFocusTracking</td>
 <td class=c>no</td>
 <td><span class=s>1 = Off
   <br>2 = On</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0133 = 307'>0x0133</td>
 <td>RecallShootFuncAF-On</td>
 <td class=c>no</td>
 <td><span class=s>1 = Off
   <br>2 = On</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0134 = 308'>0x0134</td>
 <td>VerticalFuncButton</td>
 <td class=c>no</td>
@@ -2165,7 +2225,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>31 = Non-CPU Lens
   <br>32 = None</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x0135 = 309'>0x0135</td>
 <td>Func3Button</td>
 <td class=c>no</td>
@@ -2185,7 +2245,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>13 = Candidate For Deletion
   <br>14 = None</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0x0136 = 310'>0x0136</td>
 <td>VerticalAF-OnButton</td>
 <td class=c>no</td>
@@ -2221,13 +2281,13 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>29 = Recall Shooting Functions
   <br>30 = None</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x0137 = 311'>0x0137</td>
 <td>VerticalMultiSelector</td>
 <td class=c>no</td>
 <td><span class=s>1 = Same as MultiSelector
   <br>2 = Focus Point Selection</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0138 = 312'>0x0138</td>
 <td>MeteringButton</td>
 <td class=c>no</td>
@@ -2242,7 +2302,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>8 = Non-CPU Lens
   <br>9 = None</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x0139 = 313'>0x0139</td>
 <td>PlaybackFlickUp</td>
 <td class=c>no</td>
@@ -2251,7 +2311,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>3 = Protect
   <br>4 = Voice Memo
   <br>5 = None</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x013a = 314'>0x013a</td>
 <td>PlaybackFlickUpRating</td>
 <td class=c>no</td>
@@ -2263,7 +2323,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>5 = Rating 1
   <br>6 = Candidate for Deletion</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x013b = 315'>0x013b</td>
 <td>PlaybackFlickDown</td>
 <td class=c>no</td>
@@ -2272,7 +2332,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>3 = Protect
   <br>4 = Voice Memo
   <br>5 = None</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x013c = 316'>0x013c</td>
 <td>PlaybackFlickDownRating</td>
 <td class=c>no</td>
@@ -2284,22 +2344,22 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>5 = Rating 1
   <br>6 = Candidate for Deletion</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x013d = 317'>0x013d</td>
 <td>MovieFunc3Button</td>
 <td class=c>no</td>
-<td><span class=s>1 = Record Movies
+<td><span class=s>1 = Record Movie
   <br>2 = My Menu
   <br>3 = My Menu Top Item
   <br>4 = None</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0150 = 336'>0x0150</td>
 <td>ShutterType</td>
 <td class=c>no</td>
 <td><span class=s>1 = Auto
   <br>2 = Mechanical
   <br>3 = Electronic</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0151 = 337'>0x0151</td>
 <td>LensFunc2Button</td>
 <td class=c>no</td>
@@ -2331,54 +2391,37 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>27 = Playback
   <br>28 = None</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0x0158 = 344'>0x0158</td>
 <td>USBPowerDelivery</td>
 <td class=c>no</td>
 <td><span class=s>1 = Enable
   <br>2 = Disable</span></td></tr>
-<tr class=b>
-<td title='0x015b = 347'>0x015b</td>
-<td>GroupAreaC2</td>
-<td class=c>no</td>
-<td><table class=cols><tr>
-  <td>1 = 1x7
-  <br>2 = 1x5
-  <br>3 = 3x7
-  <br>4 = 3x5
-  <br>5 = 3x3</td><td>&nbsp;&nbsp;</td>
-  <td>6 = 5x7
-  <br>7 = 5x5
-  <br>8 = 5x3
-  <br>9 = 5x1
-  <br>10 = 7x7</td><td>&nbsp;&nbsp;</td>
-  <td>11 = 7x5
-  <br>12 = 7x3
-  <br>13 = 7x1
-  <br>14 = 11x3
-  <br>15 = 11x1</td><td>&nbsp;&nbsp;</td>
-  <td>16 = 15x3
-  <br>17 = 15x1</td></tr></table>
-</td></tr>
 <tr>
+<td title='0x0159 = 345'>0x0159</td>
+<td>EnergySavingMode</td>
+<td class=c>no</td>
+<td><span class=s>1 = On
+  <br>2 = Off</span></td></tr>
+<tr class=b>
 <td title='0x015c = 348'>0x015c</td>
 <td>BracketingBurstOptions</td>
 <td class=c>no</td>
 <td><span class=s>1 = Enable
   <br>2 = Disable</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x015e = 350'>0x015e</td>
 <td>PrimarySlot</td>
 <td class=c>no</td>
 <td><span class=s>1 = CFexpress/XQD Card
   <br>2 = SD Card</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x015f = 351'>0x015f</td>
 <td>ReverseFocusRing</td>
 <td class=c>no</td>
 <td><span class=s>1 = Not Reversed
   <br>2 = Reversed</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0160 = 352'>0x0160</td>
 <td>VerticalFuncButton</td>
 <td class=c>no</td>
@@ -2402,7 +2445,7 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>17 = ISO Sensitivity
   <br>18 = None</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0x0161 = 353'>0x0161</td>
 <td>VerticalAFOnButton</td>
 <td class=c>no</td>
@@ -2421,22 +2464,22 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>12 = Zoom (High)
   <br>13 = None</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0x0162 = 354'>0x0162</td>
 <td>VerticalMultiSelector</td>
 <td class=c>no</td>
 <td><span class=s>1 = Same as MultiSelector
   <br>2 = Focus Point Selection</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x0164 = 356'>0x0164</td>
 <td>VerticalMovieFuncButton</td>
 <td class=c>no</td>
 <td><span class=s>1 = LiveView Info Display On/Off
-  <br>2 = Record Movies
+  <br>2 = Record Movie
   <br>3 = Exposure Compensation
   <br>4 = ISO
   <br>5 = None</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x0165 = 357'>0x0165</td>
 <td>VerticalMovieAFOnButton</td>
 <td class=c>no</td>
@@ -2452,33 +2495,39 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>9 = Zoom (Low)
   <br>10 = Zoom (1:1)
   <br>11 = Zoom (High)
-  <br>12 = Record Movies
+  <br>12 = Record Movie
   <br>13 = None</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0x0169 = 361'>0x0169</td>
 <td>LimitAF-AreaModeSelAutoPeople?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x016a = 362'>0x016a</td>
 <td>LimitAF-AreaModeSelAutoAnimals?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0x016b = 363'>0x016b</td>
 <td>LimitAF-AreaModeSelWideLPeople?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0x016c = 364'>0x016c</td>
 <td>LimitAF-AreaModeSelWideLAnimals?</td>
 <td class=c>no</td>
 <td><span class=s>1 = Limit
   <br>2 = No Limit</span></td></tr>
+<tr class=b>
+<td title='0x016d = 365'>0x016d</td>
+<td>SaveFocus</td>
+<td class=c>no</td>
+<td><span class=s>1 = On
+  <br>2 = Off</span></td></tr>
 <tr>
 <td title='0x016e = 366'>0x016e</td>
 <td>AFAreaMode</td>
@@ -2495,11 +2544,32 @@ Unknown only to reduce the volume of the normal output.</p>
   <br>10 = Auto (Animals)</td></tr></table>
 </td></tr>
 <tr class=b>
+<td title='0x016f = 367'>0x016f</td>
+<td>MovieAFAreaMode</td>
+<td class=c>no</td>
+<td><table class=cols><tr>
+  <td>1 = Single-point
+  <br>2 = Wide (S)
+  <br>3 = Wide (L)
+  <br>4 = Wide (L-people)</td><td>&nbsp;&nbsp;</td>
+  <td>5 = Wide (L-animals)
+  <br>6 = Auto
+  <br>7 = Auto (People)
+  <br>8 = Auto (Animals)</td></tr></table>
+</td></tr>
+<tr>
 <td title='0x0170 = 368'>0x0170</td>
 <td>PreferSubSelectorCenter</td>
 <td class=c>no</td>
 <td><span class=s>1 = Off
   <br>2 = On</span></td></tr>
+<tr class=b>
+<td title='0x0171 = 369'>0x0171</td>
+<td>KeepExposureWithTeleconverter</td>
+<td class=c>no</td>
+<td><span class=s>1 = Off
+  <br>2 = Shutter Speed
+  <br>3 = ISO</span></td></tr>
 <tr>
 <td title='0x0174 = 372'>0x0174</td>
 <td>FocusPointSelectionSpeed</td>
@@ -2511,7 +2581,7 @@ Unknown only to reduce the volume of the normal output.</p>
 
 <hr>
 (This document generated automatically by Image::ExifTool::BuildTagLookup)
-<br><i>Last revised Apr 22, 2021</i>
+<br><i>Last revised Jan 12, 2022</i>
 <p class=lf><a href='index.html'>&lt;-- ExifTool Tag Names</a></p>
 </body>
 </html>

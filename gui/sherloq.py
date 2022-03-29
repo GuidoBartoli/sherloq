@@ -290,9 +290,7 @@ class MainWindow(QMainWindow):
         self.findChild(QAction, "cascade_action").setEnabled(True)
         self.findChild(QAction, "close_action").setEnabled(True)
         self.findChild(QAction, "tabbed_action").setEnabled(True)
-        self.setWindowTitle(
-            f"({basename}) - {QApplication.applicationName()} {QApplication.applicationVersion()}"
-        )
+        self.setWindowTitle(f"({basename}) - {QApplication.applicationName()} {QApplication.applicationVersion()}")
         if filename not in self.recent_files:
             self.recent_files.insert(0, filename)
             if len(self.recent_files) > self.max_recent:

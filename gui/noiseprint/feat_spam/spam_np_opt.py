@@ -44,7 +44,7 @@ def getParams(ordResid, symTranspose, q, T, ordCooc, mapper, strides):
         numFeat = mapper["num"]
     elif mapper == "Idem":
         mapper = []
-        numFeat = n ** ordCooc
+        numFeat = n**ordCooc
     else:
         mapper = spam_m.getSignSymMapper(ordCooc, n)
         numFeat = mapper["num"]
@@ -85,7 +85,7 @@ def computeSpamRes(res, params, weights=list(), normalize=True):
     resV = np.zeros(shapeR, dtype=np.int)
 
     for indexP in range(ordCooc):
-        nn = n ** indexP
+        nn = n**indexP
         resH += resQ[indexL : (shapeR[0] + indexL), indexP : (shapeR[1] + indexP)] * nn
         resV += resQ[indexP : (shapeR[0] + indexP), indexL : (shapeR[1] + indexL)] * nn
 

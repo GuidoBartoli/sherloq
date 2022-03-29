@@ -5,7 +5,7 @@
 #
 # URL:          https://exiftool.org/
 #
-# Legal:        Copyright (c) 2003-2021, Phil Harvey (philharvey66 at gmail.com)
+# Legal:        Copyright (c) 2003-2022, Phil Harvey (philharvey66 at gmail.com)
 #               This library is free software; you can redistribute it and/or
 #               modify it under the same terms as Perl itself.
 #------------------------------------------------------------------------------
@@ -65,47 +65,48 @@ supported by ExifTool (r = read, w = write, c = create):
 
   File Types
   ------------+-------------+-------------+-------------+------------
-  360   r/w   | DPX   r     | ITC   r     | NUMBERS r   | RAM   r
-  3FR   r     | DR4   r/w/c | J2C   r     | O     r     | RAR   r
-  3G2   r/w   | DSS   r     | JNG   r/w   | ODP   r     | RAW   r/w
-  3GP   r/w   | DV    r     | JP2   r/w   | ODS   r     | RIFF  r
-  A     r     | DVB   r/w   | JPEG  r/w   | ODT   r     | RSRC  r
-  AA    r     | DVR-MS r    | JSON  r     | OFR   r     | RTF   r
-  AAE   r     | DYLIB r     | JXL   r     | OGG   r     | RW2   r/w
-  AAX   r/w   | EIP   r     | K25   r     | OGV   r     | RWL   r/w
-  ACR   r     | EPS   r/w   | KDC   r     | ONP   r     | RWZ   r
-  AFM   r     | EPUB  r     | KEY   r     | OPUS  r     | RM    r
-  AI    r/w   | ERF   r/w   | LA    r     | ORF   r/w   | SEQ   r
-  AIFF  r     | EXE   r     | LFP   r     | ORI   r/w   | SKETCH r
-  APE   r     | EXIF  r/w/c | LNK   r     | OTF   r     | SO    r
-  ARQ   r/w   | EXR   r     | LRV   r/w   | PAC   r     | SR2   r/w
-  ARW   r/w   | EXV   r/w/c | M2TS  r     | PAGES r     | SRF   r
-  ASF   r     | F4A/V r/w   | M4A/V r/w   | PBM   r/w   | SRW   r/w
-  AVI   r     | FFF   r/w   | MACOS r     | PCD   r     | SVG   r
-  AVIF  r/w   | FITS  r     | MAX   r     | PCX   r     | SWF   r
-  AZW   r     | FLA   r     | MEF   r/w   | PDB   r     | THM   r/w
-  BMP   r     | FLAC  r     | MIE   r/w/c | PDF   r/w   | TIFF  r/w
-  BPG   r     | FLIF  r/w   | MIFF  r     | PEF   r/w   | TORRENT r
-  BTF   r     | FLV   r     | MKA   r     | PFA   r     | TTC   r
-  CHM   r     | FPF   r     | MKS   r     | PFB   r     | TTF   r
-  COS   r     | FPX   r     | MKV   r     | PFM   r     | TXT   r
-  CR2   r/w   | GIF   r/w   | MNG   r/w   | PGF   r     | VCF   r
-  CR3   r/w   | GPR   r/w   | MOBI  r     | PGM   r/w   | VRD   r/w/c
-  CRM   r/w   | GZ    r     | MODD  r     | PLIST r     | VSD   r
-  CRW   r/w   | HDP   r/w   | MOI   r     | PICT  r     | WAV   r
-  CS1   r/w   | HDR   r     | MOS   r/w   | PMP   r     | WDP   r/w
-  CSV   r     | HEIC  r/w   | MOV   r/w   | PNG   r/w   | WEBP  r
-  CZI   r     | HEIF  r/w   | MP3   r     | PPM   r/w   | WEBM  r
-  DCM   r     | HTML  r     | MP4   r/w   | PPT   r     | WMA   r
-  DCP   r/w   | ICC   r/w/c | MPC   r     | PPTX  r     | WMV   r
-  DCR   r     | ICS   r     | MPG   r     | PS    r/w   | WTV   r
-  DFONT r     | IDML  r     | MPO   r/w   | PSB   r/w   | WV    r
-  DIVX  r     | IIQ   r/w   | MQV   r/w   | PSD   r/w   | X3F   r/w
-  DJVU  r     | IND   r/w   | MRC   r     | PSP   r     | XCF   r
-  DLL   r     | INSP  r/w   | MRW   r/w   | QTIF  r/w   | XLS   r
-  DNG   r/w   | INSV  r     | MXF   r     | R3D   r     | XLSX  r
-  DOC   r     | INX   r     | NEF   r/w   | RA    r     | XMP   r/w/c
-  DOCX  r     | ISO   r     | NRW   r/w   | RAF   r/w   | ZIP   r
+  360   r/w   | DR4   r/w/c | JNG   r/w   | O     r     | RAW   r/w
+  3FR   r     | DSS   r     | JP2   r/w   | ODP   r     | RIFF  r
+  3G2   r/w   | DV    r     | JPEG  r/w   | ODS   r     | RSRC  r
+  3GP   r/w   | DVB   r/w   | JSON  r     | ODT   r     | RTF   r
+  A     r     | DVR-MS r    | JXL   r     | OFR   r     | RW2   r/w
+  AA    r     | DYLIB r     | K25   r     | OGG   r     | RWL   r/w
+  AAE   r     | EIP   r     | KDC   r     | OGV   r     | RWZ   r
+  AAX   r/w   | EPS   r/w   | KEY   r     | ONP   r     | RM    r
+  ACR   r     | EPUB  r     | LA    r     | OPUS  r     | SEQ   r
+  AFM   r     | ERF   r/w   | LFP   r     | ORF   r/w   | SKETCH r
+  AI    r/w   | EXE   r     | LIF   r     | ORI   r/w   | SO    r
+  AIFF  r     | EXIF  r/w/c | LNK   r     | OTF   r     | SR2   r/w
+  APE   r     | EXR   r     | LRV   r/w   | PAC   r     | SRF   r
+  ARQ   r/w   | EXV   r/w/c | M2TS  r     | PAGES r     | SRW   r/w
+  ARW   r/w   | F4A/V r/w   | M4A/V r/w   | PBM   r/w   | SVG   r
+  ASF   r     | FFF   r/w   | MACOS r     | PCD   r     | SWF   r
+  AVI   r     | FITS  r     | MAX   r     | PCX   r     | THM   r/w
+  AVIF  r/w   | FLA   r     | MEF   r/w   | PDB   r     | TIFF  r/w
+  AZW   r     | FLAC  r     | MIE   r/w/  | PDF   r/w   | TORRENT r
+  BMP   r     | FLIF  r/w   | MIFF  r   c | PEF   r/w   | TTC   r
+  BPG   r     | FLV   r     | MKA   r     | PFA   r     | TTF   r
+  BTF   r     | FPF   r     | MKS   r     | PFB   r     | TXT   r
+  CHM   r     | FPX   r     | MKV   r     | PFM   r     | VCF   r
+  COS   r     | GIF   r/w   | MNG   r/w   | PGF   r     | VRD   r/w/c
+  CR2   r/w   | GPR   r/w   | MOBI  r     | PGM   r/w   | VSD   r
+  CR3   r/w   | GZ    r     | MODD  r     | PLIST r     | WAV   r
+  CRM   r/w   | HDP   r/w   | MOI   r     | PICT  r     | WDP   r/w
+  CRW   r/w   | HDR   r     | MOS   r/w   | PMP   r     | WEBP  r
+  CS1   r/w   | HEIC  r/w   | MOV   r/w   | PNG   r/w   | WEBM  r
+  CSV   r     | HEIF  r/w   | MP3   r     | PPM   r/w   | WMA   r
+  CZI   r     | HTML  r     | MP4   r/w   | PPT   r     | WMV   r
+  DCM   r     | ICC   r/w/c | MPC   r     | PPTX  r     | WTV   r
+  DCP   r/w   | ICS   r     | MPG   r     | PS    r/w   | WV    r
+  DCR   r     | IDML  r     | MPO   r/w   | PSB   r/w   | X3F   r/w
+  DFONT r     | IIQ   r/w   | MQV   r/w   | PSD   r/w   | XCF   r
+  DIVX  r     | IND   r/w   | MRC   r     | PSP   r     | XLS   r
+  DJVU  r     | INSP  r/w   | MRW   r/w   | QTIF  r/w   | XLSX  r
+  DLL   r     | INSV  r     | MXF   r     | R3D   r     | XMP   r/w/c
+  DNG   r/w   | INX   r     | NEF   r/w   | RA    r     | ZIP   r
+  DOC   r     | ISO   r     | NKSC  r/w   | RAF   r/w   |
+  DOCX  r     | ITC   r     | NRW   r/w   | RAM   r     |
+  DPX   r     | J2C   r     | NUMBERS r   | RAR   r     |
 
   Meta Information
   ----------------------+----------------------+---------------------
@@ -592,12 +593,13 @@ different when copying tags with L</SetNewValuesFromFile>.
 =item DateFormat
 
 Format for printing date/time values.  See C<strftime> in the L<POSIX>
-package for details about the format string.  If date can not be converted,
-value is left unchanged unless the StrictDate option is set.  Timezones are
-ignored.  The inverse conversion (ie. when calling L</SetNewValue>) is
-performed only if POSIX::strptime or Time::Piece is installed.  The default
-setting of undef causes date/time values to remain in standard EXIF format
-(similar to a DateFormat of "%Y:%m:%d %H:%M:%S").
+package and L<https://exiftool.org/filename.html#codes> for details about
+the format string.  If the date can not be converted, the value is left
+unchanged unless the StrictDate option is set.  Timezones are ignored.  The
+inverse conversion (ie. when calling L</SetNewValue>) is performed only if
+POSIX::strptime or Time::Piece is installed.  The default setting of undef
+causes date/time values to remain in standard EXIF format (similar to a
+DateFormat of "%Y:%m:%d %H:%M:%S").
 
 =item Duplicates
 
@@ -858,6 +860,14 @@ QuickTime ItemList tags.  Adobe Bridge does not add this Handler, but it is
 commonly found in samples from other software, and it has been reported that
 Apple QuickTime Player and Photos.apps will ignore ItemList tags if this is
 missing.  Default is 1.
+
+=item QuickTimePad
+
+Flag to preserve the padding of some QuickTime atoms when writing. 
+QuickTime-based Canon CR3 files pad the values of container atoms with null
+bytes.  This padding is removed by default when the file is rewritten, but
+setting this option to 1 adds padding to preserve the original atom size if
+the new atom would be smaller than the original.  Default is undef.
 
 =item QuickTimeUTC
 
@@ -1187,8 +1197,9 @@ file from scratch.  A reference to a
 L<File::RandomAccess|File::RandomAccess> object is also allowed as a source,
 but in this case the destination is not optional.
 
-2) [optional] Destination file name, file reference, scalar reference, or
-undef to overwrite the original file.  May be '-' to write to stdout.
+2) [optional] Destination file name, file reference, scalar reference to
+write to memory, or undef to overwrite the original file.  May be '-' to
+write to stdout.
 
 3) [optional] Destination file type.  Ignored if a source is defined.
 
@@ -1233,8 +1244,8 @@ called with a source file name.
 The following ExifTool options are effective in the call to L</WriteInfo>:
 
 ByteOrder, Charset, CharsetEXIF, CharsetFileName, CharsetIPTC, Compact,
-Compress, FixBase, IgnoreMinorErrors, Password, QuickTimeHandler, Verbose
-and WriteMode.
+Compress, FixBase, IgnoreMinorErrors, NoMultiExif, NoPDFList, Password,
+QuickTimeHandler, QuickTimePad, Verbose and WriteMode.
 
 =head2 GetTagList
 
@@ -1484,13 +1495,13 @@ optional leading family numbers, separated by colons (eg. 'EXIF:Artist',
 'XMP:Time:*'), which is equivalent to using a Group option argument.  Also,
 a '#' may be appended to the tag name (eg. 'EXIF:Orientation#'), with the
 same effect as setting Type to 'ValueConv'.  Wildcards ('*' and '?') may be
-used in the tag name to assign multiple tags simultaneously.  A tag name of
-'*' is special when deleting information, and will delete an entire group
-even if some individual tags in the group are not writable, but only if a
-single family 0 or 1 group is specified (otherwise the tags are deleted
-individually).  Use L</GetDeleteGroups> to get a list of deletable group
-names, and see L<Image::ExifTool::TagNames|Image::ExifTool::TagNames> for a
-complete list of tag names.
+used in the tag name to assign or delete multiple tags simultaneously.  A
+tag name of '*' is special when deleting information, and will delete an
+entire group even if some individual tags in the group are not writable, but
+only if a single family 0 or 1 group is specified (otherwise the tags are
+deleted individually).  Use L</GetDeleteGroups> to get a list of deletable
+group names, and see L<Image::ExifTool::TagNames|Image::ExifTool::TagNames>
+for a complete list of tag names.
 
 2) [optional] New value for tag.  Undefined to delete tag from file.  May be
 a scalar, scalar reference, list reference to set a list of values, or hash
@@ -2298,9 +2309,9 @@ Torrent, Trailer, UserParam, VCard, Vorbis, WTV, XML, XMP, ZIP
 =item Family 1 (Specific Location):
 
 AC3, AFCP, AIFF, APE, ASF, AVI1, Adobe, AdobeCM, AdobeDNG, Apple, Audible,
-CIFF, CameraIFD, Canon, CanonCustom, CanonRaw, CanonVRD, Casio, Chapter#,
-Composite, DICOM, DJI, DNG, DV, DjVu, DjVu-Meta, Ducky, EPPIM, EXE, EXIF,
-ExifIFD, ExifTool, FITS, FLAC, FLIR, File, Flash, FlashPix, Font,
+CBOR, CIFF, CameraIFD, Canon, CanonCustom, CanonRaw, CanonVRD, Casio,
+Chapter#, Composite, DICOM, DJI, DNG, DV, DjVu, DjVu-Meta, Ducky, EPPIM,
+EXE, EXIF, ExifIFD, ExifTool, FITS, FLAC, FLIR, File, Flash, FlashPix, Font,
 FotoStation, FujiFilm, FujiIFD, GE, GIF, GIMP, GPS, GeoTiff, GlobParamIFD,
 GoPro, GraphConv, H264, HP, HTC, HTML, HTML-dc, HTML-ncc, HTML-office,
 HTML-prod, HTML-vw96, HTTP-equiv, ICC-chrm, ICC-clrt, ICC-header, ICC-meas,
@@ -2315,25 +2326,26 @@ MIE-Orient, MIE-Preview, MIE-Thumbnail, MIE-UTM, MIE-Unknown, MIE-Video,
 MIFF, MNG, MOBI, MOI, MPC, MPEG, MPF0, MPImage, MS-DOC, MXF, MacOS,
 MakerNotes, MakerUnknown, Matroska, MediaJukebox, Meta, MetaIFD, Microsoft,
 Minolta, MinoltaRaw, Motorola, NITF, Nikon, NikonCapture, NikonCustom,
-NikonScan, NikonSettings, Nintendo, Ocad, Ogg, Olympus, OpenEXR, Opus, PDF,
-PICT, PNG, PNG-pHYs, PSP, Palm, Panasonic, PanasonicRaw, Pentax, PhaseOne,
-PhotoCD, PhotoMechanic, Photoshop, PictureInfo, PostScript, PreviewIFD,
-PrintIM, ProfileIFD, Qualcomm, QuickTime, RAF, RAF2, RIFF, RMETA, RSRC, RTF,
-Radiance, Rawzor, Real, Real-CONT, Real-MDPR, Real-PROP, Real-RA3, Real-RA4,
-Real-RA5, Real-RJMD, Reconyx, Red, Ricoh, SPIFF, SR2, SR2DataIFD, SR2SubIFD,
-SRF#, SVG, Samsung, Sanyo, Scalado, Sigma, SigmaRaw, Sony, SonyIDC, Stim,
-SubIFD, System, Theora, Torrent, Track#, UserData, UserParam, VCalendar,
-VCard, Version0, Vorbis, WTV, XML, XMP, XMP-DICOM, XMP-Device, XMP-GAudio,
-XMP-GDepth, XMP-GFocus, XMP-GImage, XMP-GPano, XMP-GSpherical, XMP-LImage,
-XMP-MP, XMP-MP1, XMP-PixelLive, XMP-aas, XMP-acdsee, XMP-album,
-XMP-apple-fi, XMP-aux, XMP-cc, XMP-cell, XMP-creatorAtom, XMP-crs, XMP-dc,
-XMP-dex, XMP-digiKam, XMP-drone-dji, XMP-dwc, XMP-exif, XMP-exifEX,
-XMP-expressionmedia, XMP-extensis, XMP-fpv, XMP-getty, XMP-ics,
-XMP-iptcCore, XMP-iptcExt, XMP-lr, XMP-mediapro, XMP-microsoft,
-XMP-mwg-coll, XMP-mwg-kw, XMP-mwg-rs, XMP-pdf, XMP-pdfx, XMP-photomech,
-XMP-photoshop, XMP-plus, XMP-pmi, XMP-prism, XMP-prl, XMP-prm, XMP-pur,
-XMP-rdf, XMP-swf, XMP-tiff, XMP-x, XMP-xmp, XMP-xmpBJ, XMP-xmpDM, XMP-xmpMM,
-XMP-xmpNote, XMP-xmpPLUS, XMP-xmpRights, XMP-xmpTPg, ZIP
+NikonScan, NikonSettings, NineEdits, Nintendo, Ocad, Ogg, Olympus, OpenEXR,
+Opus, PDF, PICT, PNG, PNG-pHYs, PSP, Palm, Panasonic, PanasonicRaw, Pentax,
+PhaseOne, PhotoCD, PhotoMechanic, Photoshop, PictureInfo, PostScript,
+PreviewIFD, PrintIM, ProfileIFD, Qualcomm, QuickTime, RAF, RAF2, RIFF,
+RMETA, RSRC, RTF, Radiance, Rawzor, Real, Real-CONT, Real-MDPR, Real-PROP,
+Real-RA3, Real-RA4, Real-RA5, Real-RJMD, Reconyx, Red, Ricoh, SPIFF, SR2,
+SR2DataIFD, SR2SubIFD, SRF#, SVG, Samsung, Sanyo, Scalado, Sigma, SigmaRaw,
+Sony, SonyIDC, Stim, SubIFD, System, Theora, Torrent, Track#, UserData,
+UserParam, VCalendar, VCard, Version0, Vorbis, WTV, XML, XMP, XMP-DICOM,
+XMP-Device, XMP-GAudio, XMP-GDepth, XMP-GFocus, XMP-GImage, XMP-GPano,
+XMP-GSpherical, XMP-LImage, XMP-MP, XMP-MP1, XMP-PixelLive, XMP-aas,
+XMP-acdsee, XMP-album, XMP-apple-fi, XMP-aux, XMP-cc, XMP-cell,
+XMP-creatorAtom, XMP-crs, XMP-dc, XMP-dex, XMP-digiKam, XMP-drone-dji,
+XMP-dwc, XMP-exif, XMP-exifEX, XMP-expressionmedia, XMP-extensis, XMP-fpv,
+XMP-getty, XMP-ics, XMP-iptcCore, XMP-iptcExt, XMP-lr, XMP-mediapro,
+XMP-microsoft, XMP-mwg-coll, XMP-mwg-kw, XMP-mwg-rs, XMP-pdf, XMP-pdfx,
+XMP-photomech, XMP-photoshop, XMP-plus, XMP-pmi, XMP-prism, XMP-prl,
+XMP-prm, XMP-pur, XMP-rdf, XMP-swf, XMP-tiff, XMP-x, XMP-xmp, XMP-xmpBJ,
+XMP-xmpDM, XMP-xmpMM, XMP-xmpNote, XMP-xmpPLUS, XMP-xmpRights, XMP-xmpTPg,
+ZIP, iTunes
 
 =item Family 2 (Category):
 
@@ -2732,7 +2744,7 @@ specified by the L</Charset> option.
 
 =head1 AUTHOR
 
-Copyright 2003-2021, Phil Harvey
+Copyright 2003-2022, Phil Harvey
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

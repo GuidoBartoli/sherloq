@@ -16,6 +16,7 @@
 #               11) http://www.extensis.com/en/support/kb_article.jsp?articleNumber=6102211
 #               12) XMPSpecificationPart3_May2013, page 58
 #               13) https://developer.android.com/training/camera2/Dynamic-depth-v1.0.pdf
+#               14) http://www.iptc.org/standards/photo-metadata/iptc-standard/
 #------------------------------------------------------------------------------
 
 package Image::ExifTool::XMP;
@@ -530,16 +531,17 @@ my %sImageRegion = ( # new in 1.5
     rRole  => { Namespace => 'Iptc4xmpExt', FlatName => 'Role',  List => 'Bag', Struct => \%sEntity },
 );
 
-# IPTC Extension namespace properties (Iptc4xmpExt) (ref 4)
+# IPTC Extension namespace properties (Iptc4xmpExt) (ref 4, 14)
 %Image::ExifTool::XMP::iptcExt = (
     %xmpTableDefaults,
     GROUPS => { 1 => 'XMP-iptcExt', 2 => 'Author' },
     NAMESPACE   => 'Iptc4xmpExt',
     TABLE_DESC => 'XMP IPTC Extension',
     NOTES => q{
-        This table contains tags defined by the IPTC Extension schema version 1.5. 
+        This table contains tags defined by the IPTC Extension schema version 1.6. 
         The actual namespace prefix is "Iptc4xmpExt", but ExifTool shortens this for
-        the family 1 group name. (see L<http://www.iptc.org/IPTC4XMP/>)
+        the family 1 group name. (see
+        L<http://www.iptc.org/standards/photo-metadata/iptc-standard/>)
     },
     AboutCvTerm => {
         Struct => \%sCVTermDetails,
@@ -796,6 +798,8 @@ my %sImageRegion = ( # new in 1.5
     audioBitsPerSample  => { Groups => { 2 => 'Audio' }, Writable => 'integer' },
     # new IPTC Extension schema 1.5 property
     ImageRegion => { Groups => { 2 => 'Image' }, List => 'Bag', Struct => \%sImageRegion },
+    # new Extension 1.6 property
+    EventId     => { Name => 'EventID', List => 'Bag' },
 );
 
 #------------------------------------------------------------------------------
@@ -2122,7 +2126,7 @@ This file contains definitions for less common XMP namespaces.
 
 =head1 AUTHOR
 
-Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

@@ -30,7 +30,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.58';
+$VERSION = '1.59';
 
 sub ConvertTimecode($);
 sub ProcessSGLT($$$);
@@ -527,6 +527,10 @@ my %code2charset = (
         Name => 'Text',
         Notes => 'streamed text, extracted when the ExtractEmbedded option is used',
     },
+   'id3 ' => {
+        Name => 'ID3',
+        SubDirectory => { TagTable => 'Image::ExifTool::ID3::Main' },
+    },        
 #
 # WebP-specific tags
 #
@@ -818,6 +822,7 @@ my %code2charset = (
     ILGT => 'Lightness',
     IMED => 'Medium',
     INAM => 'Title',
+    ITRK => 'TrackNumber',
     IPLT => 'NumColors',
     IPRD => 'Product',
     ISBJ => 'Subject',
@@ -2024,7 +2029,7 @@ including AVI videos, WAV audio files and WEBP images.
 
 =head1 AUTHOR
 
-Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

@@ -56,7 +56,7 @@ use vars qw($VERSION $AUTOLOAD @formatSize @formatName %formatNumber %intFormat
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::MakerNotes;
 
-$VERSION = '4.35';
+$VERSION = '4.39';
 
 sub ProcessExif($$$);
 sub WriteExif($$$);
@@ -265,6 +265,7 @@ sub BINARY_DATA_LIMIT { return 10 * 1024 * 1024; }
     32892 => 'Sequential Color Filter', #JR (Sony ARQ)
     34892 => 'Linear Raw', #2
     51177 => 'Depth Map', # (DNG 1.5)
+    52527 => 'Semantic Mask', # (DNG 1.6)
 );
 
 %orientation = (
@@ -291,6 +292,7 @@ sub BINARY_DATA_LIMIT { return 10 * 1024 * 1024; }
     9 => 'Depth map of reduced-resolution image', # (DNG 1.5)
     16 => 'Enhanced image data', # (DNG 1.5)
     0x10001 => 'Alternate reduced-resolution image', # (DNG 1.2)
+    0x10004 => 'Semantic Mask', # (DNG 1.6)
     0xffffffff => 'invalid', #(found in E5700 NEF's)
     BITMASK => {
         0 => 'Reduced resolution',
@@ -366,6 +368,7 @@ my %opcodeInfo = (
         11 => 'DeltaPerColumn',
         12 => 'ScalePerRow',
         13 => 'ScalePerColumn',
+        14 => 'WarpRectilinear2', # (DNG 1.6)
     },
     PrintConvInv => undef,  # (so the inverse conversion is not performed)
 );
@@ -412,7 +415,14 @@ my %opcodeInfo = (
         WriteGroup => 'IFD0',
         # set priority directory if this is the full resolution image
         DataMember => 'SubfileType',
-        RawConv => '$self->SetPriorityDir() if $val eq "0"; $$self{SubfileType} = $val',
+        RawConv => q{
+            if ($val == ($val & 0x02)) {
+                $self->SetPriorityDir() if $val == 0;
+                $$self{PageCount} = ($$self{PageCount} || 0) + 1;
+                $$self{MultiPage} = 1 if $val == 2 or $$self{PageCount} > 1;
+            }
+            $$self{SubfileType} = $val;
+        },
         PrintConv => \%subfileType,
     },
     0xff => {
@@ -422,7 +432,14 @@ my %opcodeInfo = (
         Writable => 'int16u',
         WriteGroup => 'IFD0',
         # set priority directory if this is the full resolution image
-        RawConv => '$self->SetPriorityDir() if $val eq "1"; $val',
+        RawConv => q{
+            if ($val == 1 or $val == 3) {
+                $self->SetPriorityDir() if $val == 1;
+                $$self{PageCount} = ($$self{PageCount} || 0) + 1;
+                $$self{MultiPage} = 1 if $val == 3 or $$self{PageCount} > 1;
+            }
+            $val;
+        },
         PrintConv => {
             1 => 'Full-resolution image',
             2 => 'Reduced-resolution image',
@@ -2141,7 +2158,7 @@ my %opcodeInfo = (
         Notes => 'displayed in seconds, but stored as an APEX value',
         Format => 'rational64s', # Leica M8 patch (incorrectly written as rational64u)
         Writable => 'rational64s',
-        ValueConv => 'abs($val)<100 ? 2**(-$val) : 0',
+        ValueConv => 'IsFloat($val) && abs($val)<100 ? 2**(-$val) : 0',
         ValueConvInv => '$val>0 ? -log($val)/log(2) : -100',
         PrintConv => 'Image::ExifTool::Exif::PrintExposureTime($val)',
         PrintConvInv => 'Image::ExifTool::Exif::ConvertFraction($val)',
@@ -3038,12 +3055,12 @@ my %opcodeInfo = (
         },
     },
 #
-# DNG tags 0xc6XX and 0xc7XX (ref 2 unless otherwise stated)
+# DNG tags 0xc6XX, 0xc7XX and 0xcdXX (ref 2 unless otherwise stated)
 #
     0xc612 => {
         Name => 'DNGVersion',
         Notes => q{
-            tags 0xc612-0xc7b5 are defined by the DNG specification unless otherwise
+            tags 0xc612-0xcd3b are defined by the DNG specification unless otherwise
             noted.  See L<https://helpx.adobe.com/photoshop/digital-negative.html> for
             the specification
         },
@@ -4041,6 +4058,97 @@ my %opcodeInfo = (
         Protected => 1,
         WriteGroup => 'IFD0',
     },
+    0xcd2d => { # DNG 1.6
+        Name => 'ProfileGainTableMap',
+        Writable => 'undef',
+        WriteGroup => 'SubIFD',
+        Protected => 1,
+        Binary => 1,
+    },
+    0xcd2e => { # DNG 1.6
+        Name => 'SemanticName',
+      # Writable => 'string',
+        WriteGroup => 'SubIFD' #? (NC) Semantic Mask IFD (only for Validate)
+    },
+    0xcd30 => { # DNG 1.6
+        Name => 'SemanticInstanceIFD',
+      # Writable => 'string',
+        WriteGroup => 'SubIFD' #? (NC) Semantic Mask IFD (only for Validate)
+    },
+    0xcd31 => { # DNG 1.6
+        Name => 'CalibrationIlluminant3',
+        Writable => 'int16u',
+        WriteGroup => 'IFD0',
+        Protected => 1,
+        SeparateTable => 'LightSource',
+        PrintConv => \%lightSource,
+    },
+    0xcd32 => { # DNG 1.6
+        Name => 'CameraCalibration3',
+        Writable => 'rational64s',
+        WriteGroup => 'IFD0',
+        Count => -1,
+        Protected => 1,
+    },
+    0xcd33 => { # DNG 1.6
+        Name => 'ColorMatrix3',
+        Writable => 'rational64s',
+        WriteGroup => 'IFD0',
+        Count => -1,
+        Protected => 1,
+    },
+    0xcd34 => { # DNG 1.6
+        Name => 'ForwardMatrix3',
+        Writable => 'rational64s',
+        WriteGroup => 'IFD0',
+        Count => -1,
+        Protected => 1,
+    },
+    0xcd35 => { # DNG 1.6
+        Name => 'IlluminantData1',
+        Writable => 'undef',
+        WriteGroup => 'IFD0',
+        Protected => 1,
+    },
+    0xcd36 => { # DNG 1.6
+        Name => 'IlluminantData2',
+        Writable => 'undef',
+        WriteGroup => 'IFD0',
+        Protected => 1,
+    },
+    0xcd37 => { # DNG 1.6
+        Name => 'IlluminantData3',
+        Writable => 'undef',
+        WriteGroup => 'IFD0',
+        Protected => 1,
+    },
+    0xcd38 => { # DNG 1.6
+        Name => 'MaskSubArea',
+      # Writable => 'int32u',
+        WriteGroup => 'SubIFD', #? (NC) Semantic Mask IFD (only for Validate)
+        Count => 4,
+    },
+    0xcd39 => { # DNG 1.6
+        Name => 'ProfileHueSatMapData3',
+        %longBin,
+        Writable => 'float',
+        WriteGroup => 'IFD0',
+        Count => -1,
+        Protected => 1,
+    },
+    0xcd3a => { # DNG 1.6
+        Name => 'ReductionMatrix3',
+        Writable => 'rational64s',
+        WriteGroup => 'IFD0',
+        Count => -1,
+        Protected => 1,
+    },
+    0xcd3b => { # DNG 1.6
+        Name => 'RGBTables',
+        Writable => 'undef',
+        WriteGroup => 'IFD0',
+        Protected => 1,
+    },
     0xea1c => { #13
         Name => 'Padding',
         Binary => 1,
@@ -4722,11 +4830,32 @@ my %subSecConv = (
     },
     GPSPosition => {
         Groups => { 2 => 'Location' },
+        Writable => 1,
+        Protected => 1,
+        WriteAlso => {
+            GPSLatitude => '$val =~ /(.*?)( ?[NS])?,/ ? $1 : undef',
+            GPSLatitudeRef => '$val =~ /(-?)(.*?) ?([NS]?),/ ? ($3 || ($1 ? "S" : "N")) : undef',
+            GPSLongitude => '$val =~ /, ?(.*?)( ?[EW]?)$/ ? $1 : undef',
+            GPSLongitudeRef => '$val =~ /, ?(-?)(.*?) ?([EW]?)$/ ? ($3 || ($1 ? "W" : "E")) : undef',
+        },
+        PrintConvInv => q{
+            return undef unless $val =~ /(.*? ?[NS]?), ?(.*? ?[EW]?)$/;
+            my ($lat, $lon) = ($1, $2);
+            require Image::ExifTool::GPS;
+            $lat = Image::ExifTool::GPS::ToDegrees($lat, 1, "lat");
+            $lon = Image::ExifTool::GPS::ToDegrees($lon, 1, "lon");
+            return "$lat, $lon";
+        },
         Require => {
             0 => 'GPSLatitude',
             1 => 'GPSLongitude',
         },
         Priority => 0,
+        Notes => q{
+            when written, writes GPSLatitude, GPSLatitudeRef, GPSLongitude and
+            GPSLongitudeRef.  This tag may be written using the same coordinate
+            format as provided by Google Maps when right-clicking on a location
+        },
         ValueConv => '(length($val[0]) or length($val[1])) ? "$val[0] $val[1]" : undef',
         PrintConv => '"$prt[0], $prt[1]"',
     },
@@ -5134,6 +5263,7 @@ sub RedBlueBalance($@)
 sub PrintExposureTime($)
 {
     my $secs = shift;
+    return $secs unless Image::ExifTool::IsFloat($secs);
     if ($secs < 0.25001 and $secs > 0) {
         return sprintf("1/%d",int(0.5 + 1/$secs));
     }
@@ -5739,7 +5869,7 @@ sub ProcessExif($$$)
         unless ($path =~ /^(JPEG-APP1-IFD0|TIFF-IFD0|PSD-EXIFInfo-IFD0)$/) {
             if ($Image::ExifTool::MWG::strict) {
                 $et->Warn("Ignored non-standard EXIF at $path");
-                return 1;
+                return 0;
             } else {
                 $et->Warn("Non-standard EXIF at $path", 1);
             }
@@ -5782,10 +5912,6 @@ sub ProcessExif($$$)
                 # also read next IFD pointer if available
                 if ($raf->Read($buf2, $len+4) >= $len) {
                     $buff .= $buf2;
-                    # make copy of dirInfo since we're going to modify it
-                    my %newDirInfo = %$dirInfo;
-                    $dirInfo = \%newDirInfo;
-                    # update directory parameters for the newly loaded IFD
                     $dataPt = $$dirInfo{DataPt} = \$buff;
                     $dataPos = $$dirInfo{DataPos} = $offset;
                     $dataLen = $$dirInfo{DataLen} = length $buff;
@@ -5918,7 +6044,7 @@ sub ProcessExif($$$)
         my $size = $count * $formatSize[$format];
         my $readSize = $size;
         if ($size > 4) {
-            if ($size > 0x7fffffff) {
+            if ($size > 0x7fffffff and (not $tagInfo or not $$tagInfo{ReadFromRAF})) {
                 $et->Warn(sprintf("Invalid size (%u) for %s %s",$size,$dir,TagName($tagID,$tagInfo)), $inMakerNotes);
                 ++$warnCount;
                 next;
@@ -6592,28 +6718,40 @@ sub ProcessExif($$$)
 
     # scan for subsequent IFD's if specified
     if ($$dirInfo{Multi} and $bytesFromEnd >= 4) {
-        my $offset = Get32u($dataPt, $dirEnd);
-        if ($offset) {
-            my $subdirStart = $offset - $dataPos;
-            # use same directory information for trailing directory,
-            # but change the start location (ProcessDirectory will
-            # test to make sure we don't reprocess the same dir twice)
-            my %newDirInfo = %$dirInfo;
-            $newDirInfo{DirStart} = $subdirStart;
+        # use same directory information for trailing directory,
+        # but change the start location (ProcessDirectory will
+        # test to make sure we don't reprocess the same dir twice)
+        my %newDirInfo = %$dirInfo;
+        $newDirInfo{Multi} = 0;  # prevent recursion
+        $newDirInfo{OffsetName} = $nextOffName;
+        $$et{INDENT} =~ s/..$//; # keep indent the same
+        for (;;) {
+            my $offset = Get32u($dataPt, $dirEnd) or last;
+            $newDirInfo{DirStart} = $offset - $dataPos;
             # increment IFD number
             my $ifdNum = $newDirInfo{DirName} =~ s/(\d+)$// ? $1 : 0;
             $newDirInfo{DirName} .= $ifdNum + 1;
-            $newDirInfo{OffsetName} = $nextOffName;
             # must validate SubIFD1 because the nextIFD pointer is invalid for some RAW formats
             if ($newDirInfo{DirName} ne 'SubIFD1' or ValidateIFD(\%newDirInfo)) {
-                $$et{INDENT} =~ s/..$//; # keep indent the same
                 my $cur = pop @{$$et{PATH}};
                 $et->ProcessDirectory(\%newDirInfo, $tagTablePtr) or $success = 0;
                 push @{$$et{PATH}}, $cur;
+                if ($success and $newDirInfo{BytesFromEnd} >= 4) {
+                    $dataPt = $newDirInfo{DataPt};
+                    $dataPos = $newDirInfo{DataPos};
+                    $dirEnd = $newDirInfo{DirEnd};
+                    next;
+                }
             } elsif ($verbose or $$et{TIFF_TYPE} eq 'TIFF') {
                 $et->Warn('Ignored bad IFD linked from SubIFD');
             }
+            last;
         }
+    } elsif (defined $$dirInfo{Multi}) {
+        # return necessary parameters for parsing next IFD
+        $$dirInfo{DirEnd} = $dirEnd;
+        $$dirInfo{OffsetName} = $nextOffName;
+        $$dirInfo{BytesFromEnd} = $bytesFromEnd;
     }
     return $success;
 }
@@ -6637,7 +6775,7 @@ EXIF and TIFF meta information.
 
 =head1 AUTHOR
 
-Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

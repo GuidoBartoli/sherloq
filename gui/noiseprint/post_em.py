@@ -28,7 +28,7 @@ paramSpam_default = {
     "ordCooc": 4,
     "mapper": list(),
     "strides": [8, 8],
-    "numFeat": 4 ** 4,
+    "numFeat": 4**4,
     "radius": [1, 1],
     "symTranspose": False,
 }

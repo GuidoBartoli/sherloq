@@ -1291,8 +1291,18 @@ my %convPFn = ( PrintConv => \&ConvertPfn, PrintConvInv => \&ConvertPfnInv );
     },
     0x0106 => [{
         Name => 'AEBShotCount',
+        Condition => '$$self{Model} =~ /\b90D\b/',
+        Notes => 'EOS 90D', # (and who knows what others?)
+        PrintConv => {
+            2 => '2 shots',
+            3 => '3 shots',
+            5 => '5 shots',
+            7 => '7 shots',
+        },
+    },{
+        Name => 'AEBShotCount',
         Condition => '$count == 1',
-        Notes => 'one value for some models...',
+        Notes => 'other models storing a single value',
         PrintConv => {
             0 => '3 shots',
             1 => '2 shots',
@@ -1302,7 +1312,7 @@ my %convPFn = ( PrintConv => \&ConvertPfn, PrintConvInv => \&ConvertPfnInv );
     },{
         Name => 'AEBShotCount',
         Count => 2,
-        Notes => 'two values for others',
+        Notes => 'models storing two values',
         PrintConv => {
             '3 0' => '3 shots',
             '2 1' => '2 shots',
@@ -2863,7 +2873,7 @@ Image::ExifTool to read this information.
 
 =head1 AUTHOR
 
-Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

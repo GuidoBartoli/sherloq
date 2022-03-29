@@ -445,13 +445,13 @@ class ComparisonWidget(ToolWidget):
         c2 = 58.5225
         k = (11, 11)
         s = 1.5
-        x2 = x ** 2
-        y2 = y ** 2
+        x2 = x**2
+        y2 = y**2
         xy = x * y
         mu_x = cv.GaussianBlur(x, k, s)
         mu_y = cv.GaussianBlur(y, k, s)
-        mu_x2 = mu_x ** 2
-        mu_y2 = mu_y ** 2
+        mu_x2 = mu_x**2
+        mu_y2 = mu_y**2
         mu_xy = mu_x * mu_y
         s_x2 = cv.GaussianBlur(x2, k, s) - mu_x2
         s_y2 = cv.GaussianBlur(y2, k, s) - mu_y2
@@ -475,7 +475,7 @@ class ComparisonWidget(ToolWidget):
         k = np.mean(np.square(x - y))
         if k == 0:
             return -1
-        return 20 * math.log10((255 ** 2) / k)
+        return 20 * math.log10((255**2) / k)
 
     @staticmethod
     def butter(x, y):

@@ -112,7 +112,7 @@ class DynamicView(QGraphicsView):
             level += self.ZOOM_STEP
         else:
             level -= self.ZOOM_STEP
-        scaling = 2 ** level
+        scaling = 2**level
         if scaling < self.fit_scale:
             scaling = self.fit_scale
             self.next_fit = False
@@ -278,8 +278,10 @@ class ImageViewer(QWidget):
     def export_image(self):
         settings = QSettings()
         filename = QFileDialog.getSaveFileName(
-            self, self.tr("Export image..."), settings.value("save_folder"),
-            self.tr("Images (*.png *.jpg);;PNG files (*.png);;JPG files (*.jpg)")
+            self,
+            self.tr("Export image..."),
+            settings.value("save_folder"),
+            self.tr("Images (*.png *.jpg);;PNG files (*.png);;JPG files (*.jpg)"),
         )[0]
         if not filename:
             return

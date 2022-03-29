@@ -6,6 +6,8 @@
 # Revisions:    2009/08/28 - P. Harvey created
 #               2010/01/20 - P. Harvey complete re-write
 #               2010/07/16 - P. Harvey added UTF-16 support
+#
+# Notes:        Charset lookups are generated using my convertCharset script
 #------------------------------------------------------------------------------
 
 package Image::ExifTool::Charset;
@@ -420,7 +422,7 @@ when decoding certain types of information.
 
 =head1 AUTHOR
 
-Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

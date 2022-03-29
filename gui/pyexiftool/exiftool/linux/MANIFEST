@@ -48,6 +48,7 @@ html/TagNames/Apple.html
 html/TagNames/Audible.html
 html/TagNames/BMP.html
 html/TagNames/BPG.html
+html/TagNames/CBOR.html
 html/TagNames/Canon.html
 html/TagNames/CanonCustom.html
 html/TagNames/CanonRaw.html
@@ -94,6 +95,7 @@ html/TagNames/JVC.html
 html/TagNames/Jpeg2000.html
 html/TagNames/Kodak.html
 html/TagNames/KyoceraRaw.html
+html/TagNames/LIF.html
 html/TagNames/LNK.html
 html/TagNames/Leaf.html
 html/TagNames/Lytro.html
@@ -124,6 +126,7 @@ html/TagNames/Ogg.html
 html/TagNames/Olympus.html
 html/TagNames/OpenEXR.html
 html/TagNames/Opus.html
+html/TagNames/Other.html
 html/TagNames/PCX.html
 html/TagNames/PDF.html
 html/TagNames/PGF.html
@@ -191,6 +194,7 @@ html/idiosyncracies.html
 html/index.html
 html/install.html
 html/metafiles.html
+html/mistakes.html
 html/overview.png
 html/standards.html
 html/struct.html
@@ -215,6 +219,7 @@ lib/Image/ExifTool/BPG.pm
 lib/Image/ExifTool/BZZ.pm
 lib/Image/ExifTool/BigTIFF.pm
 lib/Image/ExifTool/BuildTagLookup.pm
+lib/Image/ExifTool/CBOR.pm
 lib/Image/ExifTool/Canon.pm
 lib/Image/ExifTool/CanonCustom.pm
 lib/Image/ExifTool/CanonRaw.pm
@@ -299,6 +304,7 @@ lib/Image/ExifTool/JVC.pm
 lib/Image/ExifTool/Jpeg2000.pm
 lib/Image/ExifTool/Kodak.pm
 lib/Image/ExifTool/KyoceraRaw.pm
+lib/Image/ExifTool/LIF.pm
 lib/Image/ExifTool/LNK.pm
 lib/Image/ExifTool/Lang/cs.pm
 lib/Image/ExifTool/Lang/de.pm
@@ -348,6 +354,7 @@ lib/Image/ExifTool/Ogg.pm
 lib/Image/ExifTool/Olympus.pm
 lib/Image/ExifTool/OpenEXR.pm
 lib/Image/ExifTool/Opus.pm
+lib/Image/ExifTool/Other.pm
 lib/Image/ExifTool/PCX.pm
 lib/Image/ExifTool/PDF.pm
 lib/Image/ExifTool/PGF.pm
@@ -715,6 +722,8 @@ t/PDF_6.out
 t/PDF_7.out
 t/PDF_8.out
 t/PDF_9.out
+t/PFM.t
+t/PFM_2.out
 t/PGF.t
 t/PGF_2.out
 t/PICT.t
@@ -731,6 +740,7 @@ t/PNG_3.out
 t/PNG_4.out
 t/PNG_5.out
 t/PNG_6.out
+t/PNG_7.out
 t/PPM.t
 t/PPM_2.out
 t/PPM_3.out
@@ -1048,6 +1058,7 @@ t/images/Opus.opus
 t/images/PCX.pcx
 t/images/PDF.pdf
 t/images/PDF2.pdf
+t/images/PFM.pfm
 t/images/PGF.pgf
 t/images/PICT.pict
 t/images/PLIST-bin.plist

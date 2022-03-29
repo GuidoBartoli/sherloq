@@ -298,6 +298,8 @@ sub SetPropertyPath($$;$$$$)
         $flatInfo = $$tagTablePtr{$flatID};
         if ($flatInfo) {
             return if $$flatInfo{PropertyPath};
+        } elsif (@$propList > 50) {
+            return; # avoid deep recursion
         } else {
             # flattened tag doesn't exist, so create it now
             # (could happen if we were just writing a structure)
@@ -1418,9 +1420,15 @@ sub WriteXMP($$;$)
             unless ($uri) {
                 $uri = $nsURI{$1};      # we must have added a namespace
                 unless ($uri) {
-                    # (namespace may be empty if trying to write empty XMP structure, forum12384)
-                    $xmpErr = "Undefined XMP namespace: $1" if length $uri;
-                    next;
+                    # (namespace prefix may be empty if trying to write empty XMP structure, forum12384)
+                     if (length $1) {
+                        my $err = "Undefined XMP namespace: $1";
+                        if (not $xmpErr or $err ne $xmpErr) {
+                            $xmpFile ? $et->Error($err) : $et->Warn($err);
+                            $xmpErr = $err;
+                        }
+                     }
+                     next;
                 }
             }
             $nsNew{$1} = $uri;
@@ -1586,14 +1594,7 @@ sub WriteXMP($$;$)
     unless (%capture or $xmpFile or $$dirInfo{InPlace} or $$dirInfo{NoDelete}) {
         $long[-2] = '';
     }
-    if ($xmpErr) {
-        if ($xmpFile) {
-            $et->Error($xmpErr);
-            return -1;
-        }
-        $et->Warn($xmpErr);
-        return undef;
-    }
+    return($xmpFile ? -1 : undef) if $xmpErr;
     $$et{CHANGED} += $changed;
     $debug > 1 and $long[-2] and print $long[-2],"\n";
     return $long[-2] unless $xmpFile;
@@ -1620,7 +1621,7 @@ This file contains routines to write XMP metadata.
 
 =head1 AUTHOR
 
-Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

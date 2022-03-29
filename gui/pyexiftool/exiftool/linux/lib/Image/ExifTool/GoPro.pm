@@ -16,7 +16,7 @@ use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::QuickTime;
 
-$VERSION = '1.06';
+$VERSION = '1.07';
 
 sub ProcessGoPro($$$);
 sub ProcessString($$$);
@@ -386,6 +386,21 @@ my %addUnits = (
         Binary => 1,
     },
   # ZFOV (APP6,GPMF) - seen: 148.34, 0 (fmt f, Hero8, Max)
+  # the following ref forum12825
+    MUID => {
+        Name => 'MediaUniqueID',
+        PrintConv => q{
+            my @a = split ' ', $val;
+            $_ = sprintf('%.8x',$_) foreach @a;
+            return join('', @a);
+        },
+    },
+    EXPT => 'MaximumShutterAngle',
+    MTRX => 'AccelerometerMatrix',
+    ORIN => 'InputOrientation',
+    ORIO => 'OutputOrientation',
+    UNIF => 'InputUniformity',
+    SROT => 'SensorReadoutTime',
 );
 
 # GoPro GPS5 tags (ref 2) (Hero5,Hero6)
@@ -718,7 +733,7 @@ metadata from GoPro MP4 videos.
 
 =head1 AUTHOR
 
-Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

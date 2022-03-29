@@ -408,6 +408,9 @@ numerical, and generated automatically otherwise.
                   to be evaluated.  Expression may access $val and $et,
                   and is evaluated only when reading.
 
+                  'iTXt' - [PNG TextualData tags only] flag to write tag as PNG
+                  iTXt chunk even if it contains no special characters.
+
                   'List' - flag indicating that duplicate entries of this tag
                   are allowed, and will be accumulated in a list.  Note that for
                   XMP information, 3 different types of lists are supported and
@@ -447,6 +450,10 @@ numerical, and generated automatically otherwise.
                   may be written if the tag already exists.  By default, all
                   MakerNotes tags are permanent unless otherwise specified.
 
+                  'PreservePadding' - [QuickTime only] flag to preserve the
+                  original size of the QuickTime atom by padding with nulls when
+                  writing with the QuickTimePad option.
+
                   'PrintHex' - specifies that unknown PrintConv values should
                   be printed in hex (eg. 'Unknown (0x1)').  Also causes
                   numerical tag values to be printed in hex in the HTML tag name
@@ -471,9 +478,9 @@ numerical, and generated automatically otherwise.
                   tags in IFD1 of JPEG images which default to priority 0.
 
                   'Protected' - bit mask to protect tags from writing:
-                  Bit 0x01 indicates an 'unsafe' tag, which is not set via
+                  Bit 0x01 indicates an 'Unsafe' tag, which is not set via
                   SetNewValuesFromFile() unless specified explicitly.
-                  Bit 0x02 indicates a 'protected' tag, which should not be set
+                  Bit 0x02 indicates a 'Protected' tag, which should not be set
                   directly by the user.
 
                   'PutFirst' - [EXIF only] flag to place this value before IFD0

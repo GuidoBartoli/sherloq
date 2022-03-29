@@ -12,7 +12,7 @@ meta information extracted from or written to a file.
 =head1 TAG TABLES
 
 The tables listed below give the names of all tags recognized by ExifTool.
-They contain a total of 24282 tags, with 15745 unique tag names.
+They contain a total of 25775 tags, with 16465 unique tag names.
 
 B<Tag ID>, B<Index#> or B<Sequence> is given in the first column of each
 table.  A B<Tag ID> is the computer-readable equivalent of a tag name, and
@@ -156,6 +156,7 @@ L<https://www.w3.org/Graphics/JPEG/jfif3.pdf> for the JPEG specification.
                Samsung                          Samsung Trailer
                EmbeddedVideo                    no
                Insta360                         no
+               NikonApp                         no
                PreviewImage                     yes
 
 =head3 JPEG AVI1 Tags
@@ -925,6 +926,20 @@ for the official EXIF 2.32 specification.
   0xc7ec   DepthUnits                IFD0       int16u!
   0xc7ed   DepthMeasureType          IFD0       int16u!
   0xc7ee   EnhanceParams             IFD0       string!
+  0xcd2d   ProfileGainTableMap       SubIFD     undef!
+  0xcd2e   SemanticName              SubIFD     no
+  0xcd30   SemanticInstanceIFD       SubIFD     no
+  0xcd31   CalibrationIlluminant3    IFD0       int16u!
+  0xcd32   CameraCalibration3        IFD0       rational64s[n]!
+  0xcd33   ColorMatrix3              IFD0       rational64s[n]!
+  0xcd34   ForwardMatrix3            IFD0       rational64s[n]!
+  0xcd35   IlluminantData1           IFD0       undef!
+  0xcd36   IlluminantData2           IFD0       undef!
+  0xcd37   IlluminantData3           IFD0       undef!
+  0xcd38   MaskSubArea               SubIFD     no
+  0xcd39   ProfileHueSatMapData3     IFD0       float[n]!
+  0xcd3a   ReductionMatrix3          IFD0       rational64s[n]!
+  0xcd3b   RGBTables                 IFD0       undef!
   0xea1c   Padding                   ExifIFD    undef!
   0xea1d   OffsetSchema              ExifIFD    int32s!
   0xfde8   OwnerName                 ExifIFD    string/
@@ -1237,6 +1252,7 @@ L<http://www.adobe.com/devnet/xmp/> for the official XMP specification.
   acdsee                                        XMP acdsee
   album                                         XMP Album
   apple-fi                                      XMP apple_fi
+  ast                                           Nikon ast
   aux                                           XMP aux
   cc                                            XMP cc
   cell                                          XMP cell
@@ -1276,6 +1292,7 @@ L<http://www.adobe.com/devnet/xmp/> for the official XMP specification.
   mwg-coll                                      MWG Collections
   mwg-kw                                        MWG Keywords
   mwg-rs                                        MWG Regions
+  nine                                          Nikon nine
   pdf                                           XMP pdf
   pdfx                                          XMP pdfx
   photomech                                     PhotoMechanic XMP
@@ -1288,6 +1305,7 @@ L<http://www.adobe.com/devnet/xmp/> for the official XMP specification.
   prm                                           XMP prm
   pur                                           XMP pur
   rdf                                           XMP rdf
+  sdc                                           Nikon sdc
   swf                                           XMP swf
   tiff                                          XMP tiff
   x                                             XMP x
@@ -1420,6 +1438,7 @@ These tags belong to the ExifTool XMP-aux family 1 group.
   LensID                                        string
   LensInfo                                      string/
   LensSerialNumber                              string/
+  NeutralDensityFactor                          string
   OwnerName                                     string/
   SerialNumber                                  string/
   VignetteCorrectionAlreadyApplied              boolean
@@ -1497,17 +1516,85 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   CircGradBasedCorrMaskBottom                   real/_
   CircGradBasedCorrMaskCenterValue              real/_
   CircGradBasedCorrMaskCenterWeight             real/_
+  CircGradBasedCorrMaskRange                    CorrRangeMask Struct_+
+  CircGradBasedCorrMaskRangeAreaModels          AreaModels Struct_+
+  CircGradBasedCorrMaskRangeAreaModelsComponents string/_+
+  CircGradBasedCorrMaskRangeAreaModelsColorSampleInfo string/_+
+  CircGradBasedCorrMaskRangeColorAmount         real/_+
+  CircGradBasedCorrMaskRangeDepthFeather        real/_+
+  CircGradBasedCorrMaskRangeDepthMax            real/_+
+  CircGradBasedCorrMaskRangeDepthMin            real/_+
+  CircGradBasedCorrMaskRangeInvert              boolean/_+
+  CircGradBasedCorrMaskRangeLumFeather          real/_+
+  CircGradBasedCorrMaskRangeLuminanceDepthSampleInfo string/_+
+  CircGradBasedCorrMaskRangeLumMax              real/_+
+  CircGradBasedCorrMaskRangeLumMin              real/_+
+  CircGradBasedCorrMaskRangeLumRange            string/_+
+  CircGradBasedCorrMaskRangeSampleType          integer/_+
+  CircGradBasedCorrMaskRangeType                string/_+
+  CircGradBasedCorrMaskRangeVersion             string/_+
   CircGradBasedCorrMaskDabs                     string/_
   CircGradBasedCorrMaskFeather                  real/_
   CircGradBasedCorrMaskFlipped                  boolean/_
   CircGradBasedCorrMaskFlow                     real/_
   CircGradBasedCorrMaskFullX                    real/_
   CircGradBasedCorrMaskFullY                    real/_
+  CircGradBasedCorrMaskInputDigest              string/_
   CircGradBasedCorrMaskLeft                     real/_
+  CircGradBasedCorrMaskMaskActive               boolean/_
+  CircGradBasedCorrMaskMaskBlendMode            integer/_
+  CircGradBasedCorrMaskMaskDigest               string/_
+  CircGradBasedCorrMaskMaskInverted             boolean/_
+  CircGradBasedCorrMaskMaskName                 string/_
+  CircGradBasedCorrMaskMasks                    CorrectionMask Struct_+
+  CircGradBasedCorrMaskMasksAlpha               real/_
+  CircGradBasedCorrMaskMasksAngle               real/_
+  CircGradBasedCorrMaskMasksBottom              real/_
+  CircGradBasedCorrMaskMasksCenterValue         real/_
+  CircGradBasedCorrMaskMasksCenterWeight        real/_
+  CircGradBasedCorrMaskMasksDabs                string/_+
+  CircGradBasedCorrMaskMasksFeather             real/_
+  CircGradBasedCorrMaskMasksFlipped             boolean/_
+  CircGradBasedCorrMaskMasksFlow                real/_
+  CircGradBasedCorrMaskMasksFullX               real/_
+  CircGradBasedCorrMaskMasksFullY               real/_
+  CircGradBasedCorrMaskMasksInputDigest         string/_
+  CircGradBasedCorrMaskMasksLeft                real/_
+  CircGradBasedCorrMaskMasksMaskActive          boolean/_
+  CircGradBasedCorrMaskMasksMaskBlendMode       integer/_
+  CircGradBasedCorrMaskMasksMaskDigest          string/_
+  CircGradBasedCorrMaskMasksMaskInverted        boolean/_
+  CircGradBasedCorrMaskMasksMaskName            string/_
+  CircGradBasedCorrMaskMasksMaskSubType         string/_
+  CircGradBasedCorrMaskMasksMaskSyncID          string/_
+  CircGradBasedCorrMaskMasksValue               real/_
+  CircGradBasedCorrMaskMasksMaskVersion         string/_
+  CircGradBasedCorrMaskMasksMidpoint            real/_
+  CircGradBasedCorrMaskMasksOrigin              string/_
+  CircGradBasedCorrMaskMasksPerimeterValue      real/_
+  CircGradBasedCorrMaskMasksRadius              real/_
+  CircGradBasedCorrMaskMasksReferencePoint      string/_
+  CircGradBasedCorrMaskMasksRight               real/_
+  CircGradBasedCorrMaskMasksRoundness           real/_
+  CircGradBasedCorrMaskMasksSizeX               real/_
+  CircGradBasedCorrMaskMasksSizeY               real/_
+  CircGradBasedCorrMaskMasksTop                 real/_
+  CircGradBasedCorrMaskMaskSubType              string/_
+  CircGradBasedCorrMaskMasksVersion             integer/_
+  CircGradBasedCorrMaskMasksWhat                string/_
+  CircGradBasedCorrMaskMasksWholeImageArea      string/_
+  CircGradBasedCorrMaskMasksX                   real/_
+  CircGradBasedCorrMaskMasksY                   real/_
+  CircGradBasedCorrMaskMaskSyncID               string/_
+  CircGradBasedCorrMaskMasksZeroX               real/_
+  CircGradBasedCorrMaskMasksZeroY               real/_
   CircGradBasedCorrMaskValue                    real/_
+  CircGradBasedCorrMaskMaskVersion              string/_
   CircGradBasedCorrMaskMidpoint                 real/_
+  CircGradBasedCorrMaskOrigin                   string/_
   CircGradBasedCorrMaskPerimeterValue           real/_
   CircGradBasedCorrMaskRadius                   real/_
+  CircGradBasedCorrMaskReferencePoint           string/_
   CircGradBasedCorrMaskRight                    real/_
   CircGradBasedCorrMaskRoundness                real/_
   CircGradBasedCorrMaskSizeX                    real/_
@@ -1515,20 +1602,30 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   CircGradBasedCorrMaskTop                      real/_
   CircGradBasedCorrMaskVersion                  integer/_
   CircGradBasedCorrMaskWhat                     string/_
+  CircGradBasedCorrMaskWholeImageArea           string/_
   CircGradBasedCorrMaskX                        real/_
   CircGradBasedCorrMaskY                        real/_
   CircGradBasedCorrMaskZeroX                    real/_
   CircGradBasedCorrMaskZeroY                    real/_
-  CircGradBasedCorrRangeMask                    CorrectionRangeMask Struct_+
+  CircGradBasedCorrCorrectionName               string/_+
+  CircGradBasedCorrRangeMask                    CorrRangeMask Struct_+
+  CircGradBasedCorrRangeMaskAreaModels          AreaModels Struct_+
+  CircGradBasedCorrRangeMaskAreaModelsComponents string/_+
+  CircGradBasedCorrRangeMaskAreaModelsColorSampleInfo string/_+
   CircGradBasedCorrRangeMaskColorAmount         real/_+
   CircGradBasedCorrRangeMaskDepthFeather        real/_+
   CircGradBasedCorrRangeMaskDepthMax            real/_+
   CircGradBasedCorrRangeMaskDepthMin            real/_+
+  CircGradBasedCorrRangeMaskInvert              boolean/_+
   CircGradBasedCorrRangeMaskLumFeather          real/_+
+  CircGradBasedCorrRangeMaskLuminanceDepthSampleInfo string/_+
   CircGradBasedCorrRangeMaskLumMax              real/_+
   CircGradBasedCorrRangeMaskLumMin              real/_+
+  CircGradBasedCorrRangeMaskLumRange            string/_+
+  CircGradBasedCorrRangeMaskSampleType          integer/_+
   CircGradBasedCorrRangeMaskType                string/_+
   CircGradBasedCorrRangeMaskVersion             string/_+
+  CircGradBasedCorrCorrectionSyncID             string/_+
   CircGradBasedCorrBlacks2012                   real/_
   CircGradBasedCorrBrightness                   real/_
   CircGradBasedCorrClarity                      real/_
@@ -1549,8 +1646,8 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   CircGradBasedCorrTemperature                  real/_
   CircGradBasedCorrTexture                      real/_
   CircGradBasedCorrTint                         real/_
-  CircGradBasedCorrHue                          real/_
-  CircGradBasedCorrSaturation                   real/_
+  CircGradBasedCorrToningHue                    real/_
+  CircGradBasedCorrToningSaturation             real/_
   CircGradBasedCorrWhites2012                   real/_
   CircGradBasedCorrWhat                         string/_
   Clarity                                       integer/
@@ -1570,6 +1667,7 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   ColorNoiseReduction                           integer/
   ColorNoiseReductionDetail                     integer/
   ColorNoiseReductionSmoothness                 integer/
+  CompatibleVersion                             string/
   ContactInfo                                   string/
   Contrast                                      integer/
   Contrast2012                                  integer/
@@ -1612,17 +1710,85 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   GradientBasedCorrMaskBottom                   real/_
   GradientBasedCorrMaskCenterValue              real/_
   GradientBasedCorrMaskCenterWeight             real/_
+  GradientBasedCorrMaskRange                    CorrRangeMask Struct_+
+  GradientBasedCorrMaskRangeAreaModels          AreaModels Struct_+
+  GradientBasedCorrMaskRangeAreaModelsComponents string/_+
+  GradientBasedCorrMaskRangeAreaModelsColorSampleInfo string/_+
+  GradientBasedCorrMaskRangeColorAmount         real/_+
+  GradientBasedCorrMaskRangeDepthFeather        real/_+
+  GradientBasedCorrMaskRangeDepthMax            real/_+
+  GradientBasedCorrMaskRangeDepthMin            real/_+
+  GradientBasedCorrMaskRangeInvert              boolean/_+
+  GradientBasedCorrMaskRangeLumFeather          real/_+
+  GradientBasedCorrMaskRangeLuminanceDepthSampleInfo string/_+
+  GradientBasedCorrMaskRangeLumMax              real/_+
+  GradientBasedCorrMaskRangeLumMin              real/_+
+  GradientBasedCorrMaskRangeLumRange            string/_+
+  GradientBasedCorrMaskRangeSampleType          integer/_+
+  GradientBasedCorrMaskRangeType                string/_+
+  GradientBasedCorrMaskRangeVersion             string/_+
   GradientBasedCorrMaskDabs                     string/_
   GradientBasedCorrMaskFeather                  real/_
   GradientBasedCorrMaskFlipped                  boolean/_
   GradientBasedCorrMaskFlow                     real/_
   GradientBasedCorrMaskFullX                    real/_
   GradientBasedCorrMaskFullY                    real/_
+  GradientBasedCorrMaskInputDigest              string/_
   GradientBasedCorrMaskLeft                     real/_
+  GradientBasedCorrMaskMaskActive               boolean/_
+  GradientBasedCorrMaskMaskBlendMode            integer/_
+  GradientBasedCorrMaskMaskDigest               string/_
+  GradientBasedCorrMaskMaskInverted             boolean/_
+  GradientBasedCorrMaskMaskName                 string/_
+  GradientBasedCorrMaskMasks                    CorrectionMask Struct_+
+  GradientBasedCorrMaskMasksAlpha               real/_
+  GradientBasedCorrMaskMasksAngle               real/_
+  GradientBasedCorrMaskMasksBottom              real/_
+  GradientBasedCorrMaskMasksCenterValue         real/_
+  GradientBasedCorrMaskMasksCenterWeight        real/_
+  GradientBasedCorrMaskMasksDabs                string/_+
+  GradientBasedCorrMaskMasksFeather             real/_
+  GradientBasedCorrMaskMasksFlipped             boolean/_
+  GradientBasedCorrMaskMasksFlow                real/_
+  GradientBasedCorrMaskMasksFullX               real/_
+  GradientBasedCorrMaskMasksFullY               real/_
+  GradientBasedCorrMaskMasksInputDigest         string/_
+  GradientBasedCorrMaskMasksLeft                real/_
+  GradientBasedCorrMaskMasksMaskActive          boolean/_
+  GradientBasedCorrMaskMasksMaskBlendMode       integer/_
+  GradientBasedCorrMaskMasksMaskDigest          string/_
+  GradientBasedCorrMaskMasksMaskInverted        boolean/_
+  GradientBasedCorrMaskMasksMaskName            string/_
+  GradientBasedCorrMaskMasksMaskSubType         string/_
+  GradientBasedCorrMaskMasksMaskSyncID          string/_
+  GradientBasedCorrMaskMasksValue               real/_
+  GradientBasedCorrMaskMasksMaskVersion         string/_
+  GradientBasedCorrMaskMasksMidpoint            real/_
+  GradientBasedCorrMaskMasksOrigin              string/_
+  GradientBasedCorrMaskMasksPerimeterValue      real/_
+  GradientBasedCorrMaskMasksRadius              real/_
+  GradientBasedCorrMaskMasksReferencePoint      string/_
+  GradientBasedCorrMaskMasksRight               real/_
+  GradientBasedCorrMaskMasksRoundness           real/_
+  GradientBasedCorrMaskMasksSizeX               real/_
+  GradientBasedCorrMaskMasksSizeY               real/_
+  GradientBasedCorrMaskMasksTop                 real/_
+  GradientBasedCorrMaskMaskSubType              string/_
+  GradientBasedCorrMaskMasksVersion             integer/_
+  GradientBasedCorrMaskMasksWhat                string/_
+  GradientBasedCorrMaskMasksWholeImageArea      string/_
+  GradientBasedCorrMaskMasksX                   real/_
+  GradientBasedCorrMaskMasksY                   real/_
+  GradientBasedCorrMaskMaskSyncID               string/_
+  GradientBasedCorrMaskMasksZeroX               real/_
+  GradientBasedCorrMaskMasksZeroY               real/_
   GradientBasedCorrMaskValue                    real/_
+  GradientBasedCorrMaskMaskVersion              string/_
   GradientBasedCorrMaskMidpoint                 real/_
+  GradientBasedCorrMaskOrigin                   string/_
   GradientBasedCorrMaskPerimeterValue           real/_
   GradientBasedCorrMaskRadius                   real/_
+  GradientBasedCorrMaskReferencePoint           string/_
   GradientBasedCorrMaskRight                    real/_
   GradientBasedCorrMaskRoundness                real/_
   GradientBasedCorrMaskSizeX                    real/_
@@ -1630,20 +1796,30 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   GradientBasedCorrMaskTop                      real/_
   GradientBasedCorrMaskVersion                  integer/_
   GradientBasedCorrMaskWhat                     string/_
+  GradientBasedCorrMaskWholeImageArea           string/_
   GradientBasedCorrMaskX                        real/_
   GradientBasedCorrMaskY                        real/_
   GradientBasedCorrMaskZeroX                    real/_
   GradientBasedCorrMaskZeroY                    real/_
-  GradientBasedCorrRangeMask                    CorrectionRangeMask Struct_+
+  GradientBasedCorrCorrectionName               string/_+
+  GradientBasedCorrRangeMask                    CorrRangeMask Struct_+
+  GradientBasedCorrRangeMaskAreaModels          AreaModels Struct_+
+  GradientBasedCorrRangeMaskAreaModelsComponents string/_+
+  GradientBasedCorrRangeMaskAreaModelsColorSampleInfo string/_+
   GradientBasedCorrRangeMaskColorAmount         real/_+
   GradientBasedCorrRangeMaskDepthFeather        real/_+
   GradientBasedCorrRangeMaskDepthMax            real/_+
   GradientBasedCorrRangeMaskDepthMin            real/_+
+  GradientBasedCorrRangeMaskInvert              boolean/_+
   GradientBasedCorrRangeMaskLumFeather          real/_+
+  GradientBasedCorrRangeMaskLuminanceDepthSampleInfo string/_+
   GradientBasedCorrRangeMaskLumMax              real/_+
   GradientBasedCorrRangeMaskLumMin              real/_+
+  GradientBasedCorrRangeMaskLumRange            string/_+
+  GradientBasedCorrRangeMaskSampleType          integer/_+
   GradientBasedCorrRangeMaskType                string/_+
   GradientBasedCorrRangeMaskVersion             string/_+
+  GradientBasedCorrCorrectionSyncID             string/_+
   GradientBasedCorrBlacks2012                   real/_
   GradientBasedCorrBrightness                   real/_
   GradientBasedCorrClarity                      real/_
@@ -1664,8 +1840,8 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   GradientBasedCorrTemperature                  real/_
   GradientBasedCorrTexture                      real/_
   GradientBasedCorrTint                         real/_
-  GradientBasedCorrHue                          real/_
-  GradientBasedCorrSaturation                   real/_
+  GradientBasedCorrToningHue                    real/_
+  GradientBasedCorrToningSaturation             real/_
   GradientBasedCorrWhites2012                   real/_
   GradientBasedCorrWhat                         string/_
   GrainAmount                                   integer/
@@ -1730,6 +1906,9 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   LookParametersLookTable                       string/_
   LookParametersProcessVersion                  string/_
   LookParametersToneCurvePV2012                 string/_+
+  LookParametersToneCurvePV2012Blue             string/_+
+  LookParametersToneCurvePV2012Green            string/_+
+  LookParametersToneCurvePV2012Red              string/_+
   LookParametersVersion                         string/_
   LookSupportsAmount                            string/_
   LookSupportsMonochrome                        string/_
@@ -1746,6 +1925,149 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   LuminanceNoiseReductionContrast               integer/
   LuminanceNoiseReductionDetail                 integer/
   LuminanceSmoothing                            integer/
+  MaskGroupBasedCorrections                     Correction Struct+
+  MaskGroupBasedCorrActive                      boolean/_
+  MaskGroupBasedCorrAmount                      real/_
+  MaskGroupBasedCorrMask                        CorrectionMask Struct_+
+  MaskGroupBasedCorrMaskAlpha                   real/_
+  MaskGroupBasedCorrMaskAngle                   real/_
+  MaskGroupBasedCorrMaskBottom                  real/_
+  MaskGroupBasedCorrMaskCenterValue             real/_
+  MaskGroupBasedCorrMaskCenterWeight            real/_
+  MaskGroupBasedCorrMaskRange                   CorrRangeMask Struct_+
+  MaskGroupBasedCorrMaskRangeAreaModels         AreaModels Struct_+
+  MaskGroupBasedCorrMaskRangeAreaModelsComponents string/_+
+  MaskGroupBasedCorrMaskRangeAreaModelsColorSampleInfo string/_+
+  MaskGroupBasedCorrMaskRangeColorAmount        real/_+
+  MaskGroupBasedCorrMaskRangeDepthFeather       real/_+
+  MaskGroupBasedCorrMaskRangeDepthMax           real/_+
+  MaskGroupBasedCorrMaskRangeDepthMin           real/_+
+  MaskGroupBasedCorrMaskRangeInvert             boolean/_+
+  MaskGroupBasedCorrMaskRangeLumFeather         real/_+
+  MaskGroupBasedCorrMaskRangeLuminanceDepthSampleInfo string/_+
+  MaskGroupBasedCorrMaskRangeLumMax             real/_+
+  MaskGroupBasedCorrMaskRangeLumMin             real/_+
+  MaskGroupBasedCorrMaskRangeLumRange           string/_+
+  MaskGroupBasedCorrMaskRangeSampleType         integer/_+
+  MaskGroupBasedCorrMaskRangeType               string/_+
+  MaskGroupBasedCorrMaskRangeVersion            string/_+
+  MaskGroupBasedCorrMaskDabs                    string/_+
+  MaskGroupBasedCorrMaskFeather                 real/_
+  MaskGroupBasedCorrMaskFlipped                 boolean/_
+  MaskGroupBasedCorrMaskFlow                    real/_
+  MaskGroupBasedCorrMaskFullX                   real/_
+  MaskGroupBasedCorrMaskFullY                   real/_
+  MaskGroupBasedCorrMaskInputDigest             string/_
+  MaskGroupBasedCorrMaskLeft                    real/_
+  MaskGroupBasedCorrMaskMaskActive              boolean/_
+  MaskGroupBasedCorrMaskMaskBlendMode           integer/_
+  MaskGroupBasedCorrMaskMaskDigest              string/_
+  MaskGroupBasedCorrMaskMaskInverted            boolean/_
+  MaskGroupBasedCorrMaskMaskName                string/_
+  MaskGroupBasedCorrMaskMasks                   CorrectionMask Struct_+
+  MaskGroupBasedCorrMaskMasksAlpha              real/_
+  MaskGroupBasedCorrMaskMasksAngle              real/_
+  MaskGroupBasedCorrMaskMasksBottom             real/_
+  MaskGroupBasedCorrMaskMasksCenterValue        real/_
+  MaskGroupBasedCorrMaskMasksCenterWeight       real/_
+  MaskGroupBasedCorrMaskMasksDabs               string/_+
+  MaskGroupBasedCorrMaskMasksFeather            real/_
+  MaskGroupBasedCorrMaskMasksFlipped            boolean/_
+  MaskGroupBasedCorrMaskMasksFlow               real/_
+  MaskGroupBasedCorrMaskMasksFullX              real/_
+  MaskGroupBasedCorrMaskMasksFullY              real/_
+  MaskGroupBasedCorrMaskMasksInputDigest        string/_
+  MaskGroupBasedCorrMaskMasksLeft               real/_
+  MaskGroupBasedCorrMaskMasksMaskActive         boolean/_
+  MaskGroupBasedCorrMaskMasksMaskBlendMode      integer/_
+  MaskGroupBasedCorrMaskMasksMaskDigest         string/_
+  MaskGroupBasedCorrMaskMasksMaskInverted       boolean/_
+  MaskGroupBasedCorrMaskMasksMaskName           string/_
+  MaskGroupBasedCorrMaskMasksMaskSubType        string/_
+  MaskGroupBasedCorrMaskMasksMaskSyncID         string/_
+  MaskGroupBasedCorrMaskMasksValue              real/_
+  MaskGroupBasedCorrMaskMasksMaskVersion        string/_
+  MaskGroupBasedCorrMaskMasksMidpoint           real/_
+  MaskGroupBasedCorrMaskMasksOrigin             string/_
+  MaskGroupBasedCorrMaskMasksPerimeterValue     real/_
+  MaskGroupBasedCorrMaskMasksRadius             real/_
+  MaskGroupBasedCorrMaskMasksReferencePoint     string/_
+  MaskGroupBasedCorrMaskMasksRight              real/_
+  MaskGroupBasedCorrMaskMasksRoundness          real/_
+  MaskGroupBasedCorrMaskMasksSizeX              real/_
+  MaskGroupBasedCorrMaskMasksSizeY              real/_
+  MaskGroupBasedCorrMaskMasksTop                real/_
+  MaskGroupBasedCorrMaskMaskSubType             string/_
+  MaskGroupBasedCorrMaskMasksVersion            integer/_
+  MaskGroupBasedCorrMaskMasksWhat               string/_
+  MaskGroupBasedCorrMaskMasksWholeImageArea     string/_
+  MaskGroupBasedCorrMaskMasksX                  real/_
+  MaskGroupBasedCorrMaskMasksY                  real/_
+  MaskGroupBasedCorrMaskMaskSyncID              string/_
+  MaskGroupBasedCorrMaskMasksZeroX              real/_
+  MaskGroupBasedCorrMaskMasksZeroY              real/_
+  MaskGroupBasedCorrMaskValue                   real/_
+  MaskGroupBasedCorrMaskMaskVersion             string/_
+  MaskGroupBasedCorrMaskMidpoint                real/_
+  MaskGroupBasedCorrMaskOrigin                  string/_
+  MaskGroupBasedCorrMaskPerimeterValue          real/_
+  MaskGroupBasedCorrMaskRadius                  real/_
+  MaskGroupBasedCorrMaskReferencePoint          string/_
+  MaskGroupBasedCorrMaskRight                   real/_
+  MaskGroupBasedCorrMaskRoundness               real/_
+  MaskGroupBasedCorrMaskSizeX                   real/_
+  MaskGroupBasedCorrMaskSizeY                   real/_
+  MaskGroupBasedCorrMaskTop                     real/_
+  MaskGroupBasedCorrMaskVersion                 integer/_
+  MaskGroupBasedCorrMaskWhat                    string/_
+  MaskGroupBasedCorrMaskWholeImageArea          string/_
+  MaskGroupBasedCorrMaskX                       real/_
+  MaskGroupBasedCorrMaskY                       real/_
+  MaskGroupBasedCorrMaskZeroX                   real/_
+  MaskGroupBasedCorrMaskZeroY                   real/_
+  MaskGroupBasedCorrCorrectionName              string/_+
+  MaskGroupBasedCorrRangeMask                   CorrRangeMask Struct_+
+  MaskGroupBasedCorrRangeMaskAreaModels         AreaModels Struct_+
+  MaskGroupBasedCorrRangeMaskAreaModelsComponents string/_+
+  MaskGroupBasedCorrRangeMaskAreaModelsColorSampleInfo string/_+
+  MaskGroupBasedCorrRangeMaskColorAmount        real/_+
+  MaskGroupBasedCorrRangeMaskDepthFeather       real/_+
+  MaskGroupBasedCorrRangeMaskDepthMax           real/_+
+  MaskGroupBasedCorrRangeMaskDepthMin           real/_+
+  MaskGroupBasedCorrRangeMaskInvert             boolean/_+
+  MaskGroupBasedCorrRangeMaskLumFeather         real/_+
+  MaskGroupBasedCorrRangeMaskLuminanceDepthSampleInfo string/_+
+  MaskGroupBasedCorrRangeMaskLumMax             real/_+
+  MaskGroupBasedCorrRangeMaskLumMin             real/_+
+  MaskGroupBasedCorrRangeMaskLumRange           string/_+
+  MaskGroupBasedCorrRangeMaskSampleType         integer/_+
+  MaskGroupBasedCorrRangeMaskType               string/_+
+  MaskGroupBasedCorrRangeMaskVersion            string/_+
+  MaskGroupBasedCorrCorrectionSyncID            string/_+
+  MaskGroupBasedCorrBlacks2012                  real/_
+  MaskGroupBasedCorrBrightness                  real/_
+  MaskGroupBasedCorrClarity                     real/_
+  MaskGroupBasedCorrClarity2012                 real/_
+  MaskGroupBasedCorrContrast                    real/_
+  MaskGroupBasedCorrContrast2012                real/_
+  MaskGroupBasedCorrDefringe                    real/_
+  MaskGroupBasedCorrDehaze                      real/_
+  MaskGroupBasedCorrExposure                    real/_
+  MaskGroupBasedCorrExposure2012                real/_
+  MaskGroupBasedCorrHighlights2012              real/_
+  MaskGroupBasedCorrHue                         real/_
+  MaskGroupBasedCorrLuminanceNoise              real/_
+  MaskGroupBasedCorrMoire                       real/_
+  MaskGroupBasedCorrSaturation                  real/_
+  MaskGroupBasedCorrShadows2012                 real/_
+  MaskGroupBasedCorrSharpness                   real/_
+  MaskGroupBasedCorrTemperature                 real/_
+  MaskGroupBasedCorrTexture                     real/_
+  MaskGroupBasedCorrTint                        real/_
+  MaskGroupBasedCorrToningHue                   real/_
+  MaskGroupBasedCorrToningSaturation            real/_
+  MaskGroupBasedCorrWhites2012                  real/_
+  MaskGroupBasedCorrWhat                        string/_
   MoireFilter                                   string/
   Name                                          lang-alt/
   NegativeCacheLargePreviewSize                 integer/
@@ -1761,17 +2083,85 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   PaintCorrectionMaskBottom                     real/_
   PaintCorrectionMaskCenterValue                real/_
   PaintCorrectionMaskCenterWeight               real/_
+  PaintCorrectionMaskRange                      CorrRangeMask Struct_+
+  PaintCorrectionMaskRangeAreaModels            AreaModels Struct_+
+  PaintCorrectionMaskRangeAreaModelsComponents  string/_+
+  PaintCorrectionMaskRangeAreaModelsColorSampleInfo string/_+
+  PaintCorrectionMaskRangeColorAmount           real/_+
+  PaintCorrectionMaskRangeDepthFeather          real/_+
+  PaintCorrectionMaskRangeDepthMax              real/_+
+  PaintCorrectionMaskRangeDepthMin              real/_+
+  PaintCorrectionMaskRangeInvert                boolean/_+
+  PaintCorrectionMaskRangeLumFeather            real/_+
+  PaintCorrectionMaskRangeLuminanceDepthSampleInfo string/_+
+  PaintCorrectionMaskRangeLumMax                real/_+
+  PaintCorrectionMaskRangeLumMin                real/_+
+  PaintCorrectionMaskRangeLumRange              string/_+
+  PaintCorrectionMaskRangeSampleType            integer/_+
+  PaintCorrectionMaskRangeType                  string/_+
+  PaintCorrectionMaskRangeVersion               string/_+
   PaintCorrectionMaskDabs                       string/_
   PaintCorrectionMaskFeather                    real/_
   PaintCorrectionMaskFlipped                    boolean/_
   PaintCorrectionMaskFlow                       real/_
   PaintCorrectionMaskFullX                      real/_
   PaintCorrectionMaskFullY                      real/_
+  PaintCorrectionMaskInputDigest                string/_
   PaintCorrectionMaskLeft                       real/_
+  PaintCorrectionMaskMaskActive                 boolean/_
+  PaintCorrectionMaskMaskBlendMode              integer/_
+  PaintCorrectionMaskMaskDigest                 string/_
+  PaintCorrectionMaskMaskInverted               boolean/_
+  PaintCorrectionMaskMaskName                   string/_
+  PaintCorrectionMaskMasks                      CorrectionMask Struct_+
+  PaintCorrectionMaskMasksAlpha                 real/_
+  PaintCorrectionMaskMasksAngle                 real/_
+  PaintCorrectionMaskMasksBottom                real/_
+  PaintCorrectionMaskMasksCenterValue           real/_
+  PaintCorrectionMaskMasksCenterWeight          real/_
+  PaintCorrectionMaskMasksDabs                  string/_+
+  PaintCorrectionMaskMasksFeather               real/_
+  PaintCorrectionMaskMasksFlipped               boolean/_
+  PaintCorrectionMaskMasksFlow                  real/_
+  PaintCorrectionMaskMasksFullX                 real/_
+  PaintCorrectionMaskMasksFullY                 real/_
+  PaintCorrectionMaskMasksInputDigest           string/_
+  PaintCorrectionMaskMasksLeft                  real/_
+  PaintCorrectionMaskMasksMaskActive            boolean/_
+  PaintCorrectionMaskMasksMaskBlendMode         integer/_
+  PaintCorrectionMaskMasksMaskDigest            string/_
+  PaintCorrectionMaskMasksMaskInverted          boolean/_
+  PaintCorrectionMaskMasksMaskName              string/_
+  PaintCorrectionMaskMasksMaskSubType           string/_
+  PaintCorrectionMaskMasksMaskSyncID            string/_
+  PaintCorrectionMaskMasksValue                 real/_
+  PaintCorrectionMaskMasksMaskVersion           string/_
+  PaintCorrectionMaskMasksMidpoint              real/_
+  PaintCorrectionMaskMasksOrigin                string/_
+  PaintCorrectionMaskMasksPerimeterValue        real/_
+  PaintCorrectionMaskMasksRadius                real/_
+  PaintCorrectionMaskMasksReferencePoint        string/_
+  PaintCorrectionMaskMasksRight                 real/_
+  PaintCorrectionMaskMasksRoundness             real/_
+  PaintCorrectionMaskMasksSizeX                 real/_
+  PaintCorrectionMaskMasksSizeY                 real/_
+  PaintCorrectionMaskMasksTop                   real/_
+  PaintCorrectionMaskMaskSubType                string/_
+  PaintCorrectionMaskMasksVersion               integer/_
+  PaintCorrectionMaskMasksWhat                  string/_
+  PaintCorrectionMaskMasksWholeImageArea        string/_
+  PaintCorrectionMaskMasksX                     real/_
+  PaintCorrectionMaskMasksY                     real/_
+  PaintCorrectionMaskMaskSyncID                 string/_
+  PaintCorrectionMaskMasksZeroX                 real/_
+  PaintCorrectionMaskMasksZeroY                 real/_
   PaintCorrectionMaskValue                      real/_
+  PaintCorrectionMaskMaskVersion                string/_
   PaintCorrectionMaskMidpoint                   real/_
+  PaintCorrectionMaskOrigin                     string/_
   PaintCorrectionMaskPerimeterValue             real/_
   PaintCorrectionMaskRadius                     real/_
+  PaintCorrectionMaskReferencePoint             string/_
   PaintCorrectionMaskRight                      real/_
   PaintCorrectionMaskRoundness                  real/_
   PaintCorrectionMaskSizeX                      real/_
@@ -1779,20 +2169,30 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   PaintCorrectionMaskTop                        real/_
   PaintCorrectionMaskVersion                    integer/_
   PaintCorrectionMaskWhat                       string/_
+  PaintCorrectionMaskWholeImageArea             string/_
   PaintCorrectionMaskX                          real/_
   PaintCorrectionMaskY                          real/_
   PaintCorrectionMaskZeroX                      real/_
   PaintCorrectionMaskZeroY                      real/_
-  PaintCorrectionRangeMask                      CorrectionRangeMask Struct_+
+  PaintCorrectionCorrectionName                 string/_+
+  PaintCorrectionRangeMask                      CorrRangeMask Struct_+
+  PaintCorrectionRangeMaskAreaModels            AreaModels Struct_+
+  PaintCorrectionRangeMaskAreaModelsComponents  string/_+
+  PaintCorrectionRangeMaskAreaModelsColorSampleInfo string/_+
   PaintCorrectionRangeMaskColorAmount           real/_+
   PaintCorrectionRangeMaskDepthFeather          real/_+
   PaintCorrectionRangeMaskDepthMax              real/_+
   PaintCorrectionRangeMaskDepthMin              real/_+
+  PaintCorrectionRangeMaskInvert                boolean/_+
   PaintCorrectionRangeMaskLumFeather            real/_+
+  PaintCorrectionRangeMaskLuminanceDepthSampleInfo string/_+
   PaintCorrectionRangeMaskLumMax                real/_+
   PaintCorrectionRangeMaskLumMin                real/_+
+  PaintCorrectionRangeMaskLumRange              string/_+
+  PaintCorrectionRangeMaskSampleType            integer/_+
   PaintCorrectionRangeMaskType                  string/_+
   PaintCorrectionRangeMaskVersion               string/_+
+  PaintCorrectionCorrectionSyncID               string/_+
   PaintCorrectionBlacks2012                     real/_
   PaintCorrectionBrightness                     real/_
   PaintCorrectionClarity                        real/_
@@ -1813,8 +2213,8 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   PaintCorrectionTemperature                    real/_
   PaintCorrectionTexture                        real/_
   PaintCorrectionTint                           real/_
-  PaintCorrectionHue                            real/_
-  PaintCorrectionSaturation                     real/_
+  PaintCorrectionToningHue                      real/_
+  PaintCorrectionToningSaturation               real/_
   PaintCorrectionWhites2012                     real/_
   PaintCorrectionWhat                           string/_
   ParametricDarks                               integer/
@@ -1840,6 +2240,13 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   PostCropVignetteStyle                         integer/
   PresetType                                    string/
   ProcessVersion                                string/
+  RangeMask                                     RangeMask Struct
+  RangeMaskMapInfo                              MapInfo Struct_
+  RangeMaskMapInfoLabMax                        string/_
+  RangeMaskMapInfoLabMin                        string/_
+  RangeMaskMapInfoLumEq                         string/_+
+  RangeMaskMapInfoRGBMax                        string/_
+  RangeMaskMapInfoRGBMin                        string/_
   RawFileName                                   string/
   RedEyeInfo                                    string/+
   RedHue                                        integer/
@@ -1852,17 +2259,85 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   RetouchAreaMaskBottom                         real/_
   RetouchAreaMaskCenterValue                    real/_
   RetouchAreaMaskCenterWeight                   real/_
+  RetouchAreaMaskRange                          CorrRangeMask Struct_+
+  RetouchAreaMaskRangeAreaModels                AreaModels Struct_+
+  RetouchAreaMaskRangeAreaModelsComponents      string/_+
+  RetouchAreaMaskRangeAreaModelsColorSampleInfo string/_+
+  RetouchAreaMaskRangeColorAmount               real/_+
+  RetouchAreaMaskRangeDepthFeather              real/_+
+  RetouchAreaMaskRangeDepthMax                  real/_+
+  RetouchAreaMaskRangeDepthMin                  real/_+
+  RetouchAreaMaskRangeInvert                    boolean/_+
+  RetouchAreaMaskRangeLumFeather                real/_+
+  RetouchAreaMaskRangeLuminanceDepthSampleInfo  string/_+
+  RetouchAreaMaskRangeLumMax                    real/_+
+  RetouchAreaMaskRangeLumMin                    real/_+
+  RetouchAreaMaskRangeLumRange                  string/_+
+  RetouchAreaMaskRangeSampleType                integer/_+
+  RetouchAreaMaskRangeType                      string/_+
+  RetouchAreaMaskRangeVersion                   string/_+
   RetouchAreaMaskDabs                           string/_
   RetouchAreaMaskFeather                        real/_
   RetouchAreaMaskFlipped                        boolean/_
   RetouchAreaMaskFlow                           real/_
   RetouchAreaMaskFullX                          real/_
   RetouchAreaMaskFullY                          real/_
+  RetouchAreaMaskInputDigest                    string/_
   RetouchAreaMaskLeft                           real/_
+  RetouchAreaMaskMaskActive                     boolean/_
+  RetouchAreaMaskMaskBlendMode                  integer/_
+  RetouchAreaMaskMaskDigest                     string/_
+  RetouchAreaMaskMaskInverted                   boolean/_
+  RetouchAreaMaskMaskName                       string/_
+  RetouchAreaMaskMasks                          CorrectionMask Struct_+
+  RetouchAreaMaskMasksAlpha                     real/_
+  RetouchAreaMaskMasksAngle                     real/_
+  RetouchAreaMaskMasksBottom                    real/_
+  RetouchAreaMaskMasksCenterValue               real/_
+  RetouchAreaMaskMasksCenterWeight              real/_
+  RetouchAreaMaskMasksDabs                      string/_+
+  RetouchAreaMaskMasksFeather                   real/_
+  RetouchAreaMaskMasksFlipped                   boolean/_
+  RetouchAreaMaskMasksFlow                      real/_
+  RetouchAreaMaskMasksFullX                     real/_
+  RetouchAreaMaskMasksFullY                     real/_
+  RetouchAreaMaskMasksInputDigest               string/_
+  RetouchAreaMaskMasksLeft                      real/_
+  RetouchAreaMaskMasksMaskActive                boolean/_
+  RetouchAreaMaskMasksMaskBlendMode             integer/_
+  RetouchAreaMaskMasksMaskDigest                string/_
+  RetouchAreaMaskMasksMaskInverted              boolean/_
+  RetouchAreaMaskMasksMaskName                  string/_
+  RetouchAreaMaskMasksMaskSubType               string/_
+  RetouchAreaMaskMasksMaskSyncID                string/_
+  RetouchAreaMaskMasksValue                     real/_
+  RetouchAreaMaskMasksMaskVersion               string/_
+  RetouchAreaMaskMasksMidpoint                  real/_
+  RetouchAreaMaskMasksOrigin                    string/_
+  RetouchAreaMaskMasksPerimeterValue            real/_
+  RetouchAreaMaskMasksRadius                    real/_
+  RetouchAreaMaskMasksReferencePoint            string/_
+  RetouchAreaMaskMasksRight                     real/_
+  RetouchAreaMaskMasksRoundness                 real/_
+  RetouchAreaMaskMasksSizeX                     real/_
+  RetouchAreaMaskMasksSizeY                     real/_
+  RetouchAreaMaskMasksTop                       real/_
+  RetouchAreaMaskMaskSubType                    string/_
+  RetouchAreaMaskMasksVersion                   integer/_
+  RetouchAreaMaskMasksWhat                      string/_
+  RetouchAreaMaskMasksWholeImageArea            string/_
+  RetouchAreaMaskMasksX                         real/_
+  RetouchAreaMaskMasksY                         real/_
+  RetouchAreaMaskMaskSyncID                     string/_
+  RetouchAreaMaskMasksZeroX                     real/_
+  RetouchAreaMaskMasksZeroY                     real/_
   RetouchAreaMaskValue                          real/_
+  RetouchAreaMaskMaskVersion                    string/_
   RetouchAreaMaskMidpoint                       real/_
+  RetouchAreaMaskOrigin                         string/_
   RetouchAreaMaskPerimeterValue                 real/_
   RetouchAreaMaskRadius                         real/_
+  RetouchAreaMaskReferencePoint                 string/_
   RetouchAreaMaskRight                          real/_
   RetouchAreaMaskRoundness                      real/_
   RetouchAreaMaskSizeX                          real/_
@@ -1870,6 +2345,7 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   RetouchAreaMaskTop                            real/_
   RetouchAreaMaskVersion                        integer/_
   RetouchAreaMaskWhat                           string/_
+  RetouchAreaMaskWholeImageArea                 string/_
   RetouchAreaMaskX                              real/_
   RetouchAreaMaskY                              real/_
   RetouchAreaMaskZeroX                          real/_
@@ -1962,7 +2438,10 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   CorrectionActive                              boolean
   CorrectionAmount                              real
   CorrectionMasks                               CorrectionMask Struct+
-  CorrectionRangeMask                           CorrectionRangeMask Struct
+  CorrectionName                                string
+  CorrRangeMask                                 CorrRangeMask Struct
+                                                -
+  CorrectionSyncID                              string
   LocalBlacks2012                               real
   LocalBrightness                               real
   LocalClarity                                  real
@@ -1997,17 +2476,31 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   Bottom                                        real
   CenterValue                                   real
   CenterWeight                                  real
+  CorrRangeMask                                 CorrRangeMask Struct
+                                                -
   Dabs                                          string+
   Feather                                       real
   Flipped                                       boolean
   Flow                                          real
   FullX                                         real
   FullY                                         real
+  InputDigest                                   string
   Left                                          real
+  MaskActive                                    boolean
+  MaskBlendMode                                 integer
+  MaskDigest                                    string
+  MaskInverted                                  boolean
+  MaskName                                      string
+  MaskSubType                                   string
+  MaskSyncID                                    string
   MaskValue                                     real
+  MaskVersion                                   string
+  Masks                                         CorrectionMask Struct
   Midpoint                                      real
+  Origin                                        string
   PerimeterValue                                real
   Radius                                        real
+  ReferencePoint                                string
   Right                                         real
   Roundness                                     real
   SizeX                                         real
@@ -2015,24 +2508,39 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   Top                                           real
   Version                                       integer
   What                                          string
+  WholeImageArea                                string
   X                                             real
   Y                                             real
   ZeroX                                         real
   ZeroY                                         real
 
-=head3 XMP CorrectionRangeMask Struct
+=head3 XMP CorrRangeMask Struct
+
+Called CorrectionRangeMask by the spec.
 
   Field Name                                    Writable
   ----------                                    --------
+  AreaModels                                    AreaModels Struct+
   ColorAmount                                   real
   DepthFeather                                  real
   DepthMax                                      real
   DepthMin                                      real
+  Invert                                        boolean
   LumFeather                                    real
   LumMax                                        real
   LumMin                                        real
+  LumRange                                      string
+  LuminanceDepthSampleInfo                      string
+  SampleType                                    integer
   Type                                          string
   Version                                       string
+
+=head3 XMP AreaModels Struct
+
+  Field Name                                    Writable
+  ----------                                    --------
+  AreaComponents                                string+
+  ColorRangeMaskAreaSampleInfo                  string
 
 =head3 XMP Look Struct
 
@@ -2059,7 +2567,34 @@ These tags belong to the ExifTool XMP-crd family 1 group.
   LookTable                                     string
   ProcessVersion                                string
   ToneCurvePV2012                               string+
+  ToneCurvePV2012Blue                           string+
+  ToneCurvePV2012Green                          string+
+  ToneCurvePV2012Red                            string+
   Version                                       string
+
+=head3 XMP RangeMask Struct
+
+This structure is actually called RangeMaskMapInfo, but it only contains one
+element which is a RangeMaskMapInfo structure (Yes, really!).  So these are
+renamed to RangeMask and MapInfo respectively to avoid confusion and
+redundancy in the tag names.
+
+  Field Name                                    Writable
+  ----------                                    --------
+  RangeMaskMapInfo                              MapInfo Struct
+
+=head3 XMP MapInfo Struct
+
+Called RangeMaskMapInfo by the specification, the same as the containing
+structure.
+
+  Field Name                                    Writable
+  ----------                                    --------
+  LabMax                                        string
+  LabMin                                        string
+  LumEq                                         string+
+  RGBMax                                        string
+  RGBMin                                        string
 
 =head3 XMP RetouchArea Struct
 
@@ -2161,17 +2696,85 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   CircGradBasedCorrMaskBottom                   real_
   CircGradBasedCorrMaskCenterValue              real_
   CircGradBasedCorrMaskCenterWeight             real_
+  CircGradBasedCorrMaskRange                    CorrRangeMask Struct_+
+  CircGradBasedCorrMaskRangeAreaModels          AreaModels Struct_+
+  CircGradBasedCorrMaskRangeAreaModelsComponents string_+
+  CircGradBasedCorrMaskRangeAreaModelsColorSampleInfo string_+
+  CircGradBasedCorrMaskRangeColorAmount         real_+
+  CircGradBasedCorrMaskRangeDepthFeather        real_+
+  CircGradBasedCorrMaskRangeDepthMax            real_+
+  CircGradBasedCorrMaskRangeDepthMin            real_+
+  CircGradBasedCorrMaskRangeInvert              boolean_+
+  CircGradBasedCorrMaskRangeLumFeather          real_+
+  CircGradBasedCorrMaskRangeLuminanceDepthSampleInfo string_+
+  CircGradBasedCorrMaskRangeLumMax              real_+
+  CircGradBasedCorrMaskRangeLumMin              real_+
+  CircGradBasedCorrMaskRangeLumRange            string_+
+  CircGradBasedCorrMaskRangeSampleType          integer_+
+  CircGradBasedCorrMaskRangeType                string_+
+  CircGradBasedCorrMaskRangeVersion             string_+
   CircGradBasedCorrMaskDabs                     string_
   CircGradBasedCorrMaskFeather                  real_
   CircGradBasedCorrMaskFlipped                  boolean_
   CircGradBasedCorrMaskFlow                     real_
   CircGradBasedCorrMaskFullX                    real_
   CircGradBasedCorrMaskFullY                    real_
+  CircGradBasedCorrMaskInputDigest              string_
   CircGradBasedCorrMaskLeft                     real_
+  CircGradBasedCorrMaskMaskActive               boolean_
+  CircGradBasedCorrMaskMaskBlendMode            integer_
+  CircGradBasedCorrMaskMaskDigest               string_
+  CircGradBasedCorrMaskMaskInverted             boolean_
+  CircGradBasedCorrMaskMaskName                 string_
+  CircGradBasedCorrMaskMasks                    CorrectionMask Struct_+
+  CircGradBasedCorrMaskMasksAlpha               real_
+  CircGradBasedCorrMaskMasksAngle               real_
+  CircGradBasedCorrMaskMasksBottom              real_
+  CircGradBasedCorrMaskMasksCenterValue         real_
+  CircGradBasedCorrMaskMasksCenterWeight        real_
+  CircGradBasedCorrMaskMasksDabs                string_+
+  CircGradBasedCorrMaskMasksFeather             real_
+  CircGradBasedCorrMaskMasksFlipped             boolean_
+  CircGradBasedCorrMaskMasksFlow                real_
+  CircGradBasedCorrMaskMasksFullX               real_
+  CircGradBasedCorrMaskMasksFullY               real_
+  CircGradBasedCorrMaskMasksInputDigest         string_
+  CircGradBasedCorrMaskMasksLeft                real_
+  CircGradBasedCorrMaskMasksMaskActive          boolean_
+  CircGradBasedCorrMaskMasksMaskBlendMode       integer_
+  CircGradBasedCorrMaskMasksMaskDigest          string_
+  CircGradBasedCorrMaskMasksMaskInverted        boolean_
+  CircGradBasedCorrMaskMasksMaskName            string_
+  CircGradBasedCorrMaskMasksMaskSubType         string_
+  CircGradBasedCorrMaskMasksMaskSyncID          string_
+  CircGradBasedCorrMaskMasksValue               real_
+  CircGradBasedCorrMaskMasksMaskVersion         string_
+  CircGradBasedCorrMaskMasksMidpoint            real_
+  CircGradBasedCorrMaskMasksOrigin              string_
+  CircGradBasedCorrMaskMasksPerimeterValue      real_
+  CircGradBasedCorrMaskMasksRadius              real_
+  CircGradBasedCorrMaskMasksReferencePoint      string_
+  CircGradBasedCorrMaskMasksRight               real_
+  CircGradBasedCorrMaskMasksRoundness           real_
+  CircGradBasedCorrMaskMasksSizeX               real_
+  CircGradBasedCorrMaskMasksSizeY               real_
+  CircGradBasedCorrMaskMasksTop                 real_
+  CircGradBasedCorrMaskMaskSubType              string_
+  CircGradBasedCorrMaskMasksVersion             integer_
+  CircGradBasedCorrMaskMasksWhat                string_
+  CircGradBasedCorrMaskMasksWholeImageArea      string_
+  CircGradBasedCorrMaskMasksX                   real_
+  CircGradBasedCorrMaskMasksY                   real_
+  CircGradBasedCorrMaskMaskSyncID               string_
+  CircGradBasedCorrMaskMasksZeroX               real_
+  CircGradBasedCorrMaskMasksZeroY               real_
   CircGradBasedCorrMaskValue                    real_
+  CircGradBasedCorrMaskMaskVersion              string_
   CircGradBasedCorrMaskMidpoint                 real_
+  CircGradBasedCorrMaskOrigin                   string_
   CircGradBasedCorrMaskPerimeterValue           real_
   CircGradBasedCorrMaskRadius                   real_
+  CircGradBasedCorrMaskReferencePoint           string_
   CircGradBasedCorrMaskRight                    real_
   CircGradBasedCorrMaskRoundness                real_
   CircGradBasedCorrMaskSizeX                    real_
@@ -2179,20 +2782,30 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   CircGradBasedCorrMaskTop                      real_
   CircGradBasedCorrMaskVersion                  integer_
   CircGradBasedCorrMaskWhat                     string_
+  CircGradBasedCorrMaskWholeImageArea           string_
   CircGradBasedCorrMaskX                        real_
   CircGradBasedCorrMaskY                        real_
   CircGradBasedCorrMaskZeroX                    real_
   CircGradBasedCorrMaskZeroY                    real_
-  CircGradBasedCorrRangeMask                    CorrectionRangeMask Struct_+
+  CircGradBasedCorrCorrectionName               string_+
+  CircGradBasedCorrRangeMask                    CorrRangeMask Struct_+
+  CircGradBasedCorrRangeMaskAreaModels          AreaModels Struct_+
+  CircGradBasedCorrRangeMaskAreaModelsComponents string_+
+  CircGradBasedCorrRangeMaskAreaModelsColorSampleInfo string_+
   CircGradBasedCorrRangeMaskColorAmount         real_+
   CircGradBasedCorrRangeMaskDepthFeather        real_+
   CircGradBasedCorrRangeMaskDepthMax            real_+
   CircGradBasedCorrRangeMaskDepthMin            real_+
+  CircGradBasedCorrRangeMaskInvert              boolean_+
   CircGradBasedCorrRangeMaskLumFeather          real_+
+  CircGradBasedCorrRangeMaskLuminanceDepthSampleInfo string_+
   CircGradBasedCorrRangeMaskLumMax              real_+
   CircGradBasedCorrRangeMaskLumMin              real_+
+  CircGradBasedCorrRangeMaskLumRange            string_+
+  CircGradBasedCorrRangeMaskSampleType          integer_+
   CircGradBasedCorrRangeMaskType                string_+
   CircGradBasedCorrRangeMaskVersion             string_+
+  CircGradBasedCorrCorrectionSyncID             string_+
   CircGradBasedCorrBlacks2012                   real_
   CircGradBasedCorrBrightness                   real_
   CircGradBasedCorrClarity                      real_
@@ -2213,8 +2826,8 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   CircGradBasedCorrTemperature                  real_
   CircGradBasedCorrTexture                      real_
   CircGradBasedCorrTint                         real_
-  CircGradBasedCorrHue                          real_
-  CircGradBasedCorrSaturation                   real_
+  CircGradBasedCorrToningHue                    real_
+  CircGradBasedCorrToningSaturation             real_
   CircGradBasedCorrWhites2012                   real_
   CircGradBasedCorrWhat                         string_
   Clarity                                       integer
@@ -2234,6 +2847,7 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   ColorNoiseReduction                           integer
   ColorNoiseReductionDetail                     integer
   ColorNoiseReductionSmoothness                 integer
+  CompatibleVersion                             string
   ContactInfo                                   string
   Contrast                                      integer/
   Contrast2012                                  integer
@@ -2276,17 +2890,85 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   GradientBasedCorrMaskBottom                   real_
   GradientBasedCorrMaskCenterValue              real_
   GradientBasedCorrMaskCenterWeight             real_
+  GradientBasedCorrMaskRange                    CorrRangeMask Struct_+
+  GradientBasedCorrMaskRangeAreaModels          AreaModels Struct_+
+  GradientBasedCorrMaskRangeAreaModelsComponents string_+
+  GradientBasedCorrMaskRangeAreaModelsColorSampleInfo string_+
+  GradientBasedCorrMaskRangeColorAmount         real_+
+  GradientBasedCorrMaskRangeDepthFeather        real_+
+  GradientBasedCorrMaskRangeDepthMax            real_+
+  GradientBasedCorrMaskRangeDepthMin            real_+
+  GradientBasedCorrMaskRangeInvert              boolean_+
+  GradientBasedCorrMaskRangeLumFeather          real_+
+  GradientBasedCorrMaskRangeLuminanceDepthSampleInfo string_+
+  GradientBasedCorrMaskRangeLumMax              real_+
+  GradientBasedCorrMaskRangeLumMin              real_+
+  GradientBasedCorrMaskRangeLumRange            string_+
+  GradientBasedCorrMaskRangeSampleType          integer_+
+  GradientBasedCorrMaskRangeType                string_+
+  GradientBasedCorrMaskRangeVersion             string_+
   GradientBasedCorrMaskDabs                     string_
   GradientBasedCorrMaskFeather                  real_
   GradientBasedCorrMaskFlipped                  boolean_
   GradientBasedCorrMaskFlow                     real_
   GradientBasedCorrMaskFullX                    real_
   GradientBasedCorrMaskFullY                    real_
+  GradientBasedCorrMaskInputDigest              string_
   GradientBasedCorrMaskLeft                     real_
+  GradientBasedCorrMaskMaskActive               boolean_
+  GradientBasedCorrMaskMaskBlendMode            integer_
+  GradientBasedCorrMaskMaskDigest               string_
+  GradientBasedCorrMaskMaskInverted             boolean_
+  GradientBasedCorrMaskMaskName                 string_
+  GradientBasedCorrMaskMasks                    CorrectionMask Struct_+
+  GradientBasedCorrMaskMasksAlpha               real_
+  GradientBasedCorrMaskMasksAngle               real_
+  GradientBasedCorrMaskMasksBottom              real_
+  GradientBasedCorrMaskMasksCenterValue         real_
+  GradientBasedCorrMaskMasksCenterWeight        real_
+  GradientBasedCorrMaskMasksDabs                string_+
+  GradientBasedCorrMaskMasksFeather             real_
+  GradientBasedCorrMaskMasksFlipped             boolean_
+  GradientBasedCorrMaskMasksFlow                real_
+  GradientBasedCorrMaskMasksFullX               real_
+  GradientBasedCorrMaskMasksFullY               real_
+  GradientBasedCorrMaskMasksInputDigest         string_
+  GradientBasedCorrMaskMasksLeft                real_
+  GradientBasedCorrMaskMasksMaskActive          boolean_
+  GradientBasedCorrMaskMasksMaskBlendMode       integer_
+  GradientBasedCorrMaskMasksMaskDigest          string_
+  GradientBasedCorrMaskMasksMaskInverted        boolean_
+  GradientBasedCorrMaskMasksMaskName            string_
+  GradientBasedCorrMaskMasksMaskSubType         string_
+  GradientBasedCorrMaskMasksMaskSyncID          string_
+  GradientBasedCorrMaskMasksValue               real_
+  GradientBasedCorrMaskMasksMaskVersion         string_
+  GradientBasedCorrMaskMasksMidpoint            real_
+  GradientBasedCorrMaskMasksOrigin              string_
+  GradientBasedCorrMaskMasksPerimeterValue      real_
+  GradientBasedCorrMaskMasksRadius              real_
+  GradientBasedCorrMaskMasksReferencePoint      string_
+  GradientBasedCorrMaskMasksRight               real_
+  GradientBasedCorrMaskMasksRoundness           real_
+  GradientBasedCorrMaskMasksSizeX               real_
+  GradientBasedCorrMaskMasksSizeY               real_
+  GradientBasedCorrMaskMasksTop                 real_
+  GradientBasedCorrMaskMaskSubType              string_
+  GradientBasedCorrMaskMasksVersion             integer_
+  GradientBasedCorrMaskMasksWhat                string_
+  GradientBasedCorrMaskMasksWholeImageArea      string_
+  GradientBasedCorrMaskMasksX                   real_
+  GradientBasedCorrMaskMasksY                   real_
+  GradientBasedCorrMaskMaskSyncID               string_
+  GradientBasedCorrMaskMasksZeroX               real_
+  GradientBasedCorrMaskMasksZeroY               real_
   GradientBasedCorrMaskValue                    real_
+  GradientBasedCorrMaskMaskVersion              string_
   GradientBasedCorrMaskMidpoint                 real_
+  GradientBasedCorrMaskOrigin                   string_
   GradientBasedCorrMaskPerimeterValue           real_
   GradientBasedCorrMaskRadius                   real_
+  GradientBasedCorrMaskReferencePoint           string_
   GradientBasedCorrMaskRight                    real_
   GradientBasedCorrMaskRoundness                real_
   GradientBasedCorrMaskSizeX                    real_
@@ -2294,20 +2976,30 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   GradientBasedCorrMaskTop                      real_
   GradientBasedCorrMaskVersion                  integer_
   GradientBasedCorrMaskWhat                     string_
+  GradientBasedCorrMaskWholeImageArea           string_
   GradientBasedCorrMaskX                        real_
   GradientBasedCorrMaskY                        real_
   GradientBasedCorrMaskZeroX                    real_
   GradientBasedCorrMaskZeroY                    real_
-  GradientBasedCorrRangeMask                    CorrectionRangeMask Struct_+
+  GradientBasedCorrCorrectionName               string_+
+  GradientBasedCorrRangeMask                    CorrRangeMask Struct_+
+  GradientBasedCorrRangeMaskAreaModels          AreaModels Struct_+
+  GradientBasedCorrRangeMaskAreaModelsComponents string_+
+  GradientBasedCorrRangeMaskAreaModelsColorSampleInfo string_+
   GradientBasedCorrRangeMaskColorAmount         real_+
   GradientBasedCorrRangeMaskDepthFeather        real_+
   GradientBasedCorrRangeMaskDepthMax            real_+
   GradientBasedCorrRangeMaskDepthMin            real_+
+  GradientBasedCorrRangeMaskInvert              boolean_+
   GradientBasedCorrRangeMaskLumFeather          real_+
+  GradientBasedCorrRangeMaskLuminanceDepthSampleInfo string_+
   GradientBasedCorrRangeMaskLumMax              real_+
   GradientBasedCorrRangeMaskLumMin              real_+
+  GradientBasedCorrRangeMaskLumRange            string_+
+  GradientBasedCorrRangeMaskSampleType          integer_+
   GradientBasedCorrRangeMaskType                string_+
   GradientBasedCorrRangeMaskVersion             string_+
+  GradientBasedCorrCorrectionSyncID             string_+
   GradientBasedCorrBlacks2012                   real_
   GradientBasedCorrBrightness                   real_
   GradientBasedCorrClarity                      real_
@@ -2328,8 +3020,8 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   GradientBasedCorrTemperature                  real_
   GradientBasedCorrTexture                      real_
   GradientBasedCorrTint                         real_
-  GradientBasedCorrHue                          real_
-  GradientBasedCorrSaturation                   real_
+  GradientBasedCorrToningHue                    real_
+  GradientBasedCorrToningSaturation             real_
   GradientBasedCorrWhites2012                   real_
   GradientBasedCorrWhat                         string_
   GrainAmount                                   integer
@@ -2394,6 +3086,9 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   LookParametersLookTable                       string_
   LookParametersProcessVersion                  string_
   LookParametersToneCurvePV2012                 string_+
+  LookParametersToneCurvePV2012Blue             string_+
+  LookParametersToneCurvePV2012Green            string_+
+  LookParametersToneCurvePV2012Red              string_+
   LookParametersVersion                         string_
   LookSupportsAmount                            string_
   LookSupportsMonochrome                        string_
@@ -2410,6 +3105,149 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   LuminanceNoiseReductionContrast               integer
   LuminanceNoiseReductionDetail                 integer
   LuminanceSmoothing                            integer
+  MaskGroupBasedCorrections                     Correction Struct+
+  MaskGroupBasedCorrActive                      boolean_
+  MaskGroupBasedCorrAmount                      real_
+  MaskGroupBasedCorrMask                        CorrectionMask Struct_+
+  MaskGroupBasedCorrMaskAlpha                   real_
+  MaskGroupBasedCorrMaskAngle                   real_
+  MaskGroupBasedCorrMaskBottom                  real_
+  MaskGroupBasedCorrMaskCenterValue             real_
+  MaskGroupBasedCorrMaskCenterWeight            real_
+  MaskGroupBasedCorrMaskRange                   CorrRangeMask Struct_+
+  MaskGroupBasedCorrMaskRangeAreaModels         AreaModels Struct_+
+  MaskGroupBasedCorrMaskRangeAreaModelsComponents string_+
+  MaskGroupBasedCorrMaskRangeAreaModelsColorSampleInfo string_+
+  MaskGroupBasedCorrMaskRangeColorAmount        real_+
+  MaskGroupBasedCorrMaskRangeDepthFeather       real_+
+  MaskGroupBasedCorrMaskRangeDepthMax           real_+
+  MaskGroupBasedCorrMaskRangeDepthMin           real_+
+  MaskGroupBasedCorrMaskRangeInvert             boolean_+
+  MaskGroupBasedCorrMaskRangeLumFeather         real_+
+  MaskGroupBasedCorrMaskRangeLuminanceDepthSampleInfo string_+
+  MaskGroupBasedCorrMaskRangeLumMax             real_+
+  MaskGroupBasedCorrMaskRangeLumMin             real_+
+  MaskGroupBasedCorrMaskRangeLumRange           string_+
+  MaskGroupBasedCorrMaskRangeSampleType         integer_+
+  MaskGroupBasedCorrMaskRangeType               string_+
+  MaskGroupBasedCorrMaskRangeVersion            string_+
+  MaskGroupBasedCorrMaskDabs                    string_+
+  MaskGroupBasedCorrMaskFeather                 real_
+  MaskGroupBasedCorrMaskFlipped                 boolean_
+  MaskGroupBasedCorrMaskFlow                    real_
+  MaskGroupBasedCorrMaskFullX                   real_
+  MaskGroupBasedCorrMaskFullY                   real_
+  MaskGroupBasedCorrMaskInputDigest             string_
+  MaskGroupBasedCorrMaskLeft                    real_
+  MaskGroupBasedCorrMaskMaskActive              boolean_
+  MaskGroupBasedCorrMaskMaskBlendMode           integer_
+  MaskGroupBasedCorrMaskMaskDigest              string_
+  MaskGroupBasedCorrMaskMaskInverted            boolean_
+  MaskGroupBasedCorrMaskMaskName                string_
+  MaskGroupBasedCorrMaskMasks                   CorrectionMask Struct_+
+  MaskGroupBasedCorrMaskMasksAlpha              real_
+  MaskGroupBasedCorrMaskMasksAngle              real_
+  MaskGroupBasedCorrMaskMasksBottom             real_
+  MaskGroupBasedCorrMaskMasksCenterValue        real_
+  MaskGroupBasedCorrMaskMasksCenterWeight       real_
+  MaskGroupBasedCorrMaskMasksDabs               string_+
+  MaskGroupBasedCorrMaskMasksFeather            real_
+  MaskGroupBasedCorrMaskMasksFlipped            boolean_
+  MaskGroupBasedCorrMaskMasksFlow               real_
+  MaskGroupBasedCorrMaskMasksFullX              real_
+  MaskGroupBasedCorrMaskMasksFullY              real_
+  MaskGroupBasedCorrMaskMasksInputDigest        string_
+  MaskGroupBasedCorrMaskMasksLeft               real_
+  MaskGroupBasedCorrMaskMasksMaskActive         boolean_
+  MaskGroupBasedCorrMaskMasksMaskBlendMode      integer_
+  MaskGroupBasedCorrMaskMasksMaskDigest         string_
+  MaskGroupBasedCorrMaskMasksMaskInverted       boolean_
+  MaskGroupBasedCorrMaskMasksMaskName           string_
+  MaskGroupBasedCorrMaskMasksMaskSubType        string_
+  MaskGroupBasedCorrMaskMasksMaskSyncID         string_
+  MaskGroupBasedCorrMaskMasksValue              real_
+  MaskGroupBasedCorrMaskMasksMaskVersion        string_
+  MaskGroupBasedCorrMaskMasksMidpoint           real_
+  MaskGroupBasedCorrMaskMasksOrigin             string_
+  MaskGroupBasedCorrMaskMasksPerimeterValue     real_
+  MaskGroupBasedCorrMaskMasksRadius             real_
+  MaskGroupBasedCorrMaskMasksReferencePoint     string_
+  MaskGroupBasedCorrMaskMasksRight              real_
+  MaskGroupBasedCorrMaskMasksRoundness          real_
+  MaskGroupBasedCorrMaskMasksSizeX              real_
+  MaskGroupBasedCorrMaskMasksSizeY              real_
+  MaskGroupBasedCorrMaskMasksTop                real_
+  MaskGroupBasedCorrMaskMaskSubType             string_
+  MaskGroupBasedCorrMaskMasksVersion            integer_
+  MaskGroupBasedCorrMaskMasksWhat               string_
+  MaskGroupBasedCorrMaskMasksWholeImageArea     string_
+  MaskGroupBasedCorrMaskMasksX                  real_
+  MaskGroupBasedCorrMaskMasksY                  real_
+  MaskGroupBasedCorrMaskMaskSyncID              string_
+  MaskGroupBasedCorrMaskMasksZeroX              real_
+  MaskGroupBasedCorrMaskMasksZeroY              real_
+  MaskGroupBasedCorrMaskValue                   real_
+  MaskGroupBasedCorrMaskMaskVersion             string_
+  MaskGroupBasedCorrMaskMidpoint                real_
+  MaskGroupBasedCorrMaskOrigin                  string_
+  MaskGroupBasedCorrMaskPerimeterValue          real_
+  MaskGroupBasedCorrMaskRadius                  real_
+  MaskGroupBasedCorrMaskReferencePoint          string_
+  MaskGroupBasedCorrMaskRight                   real_
+  MaskGroupBasedCorrMaskRoundness               real_
+  MaskGroupBasedCorrMaskSizeX                   real_
+  MaskGroupBasedCorrMaskSizeY                   real_
+  MaskGroupBasedCorrMaskTop                     real_
+  MaskGroupBasedCorrMaskVersion                 integer_
+  MaskGroupBasedCorrMaskWhat                    string_
+  MaskGroupBasedCorrMaskWholeImageArea          string_
+  MaskGroupBasedCorrMaskX                       real_
+  MaskGroupBasedCorrMaskY                       real_
+  MaskGroupBasedCorrMaskZeroX                   real_
+  MaskGroupBasedCorrMaskZeroY                   real_
+  MaskGroupBasedCorrCorrectionName              string_+
+  MaskGroupBasedCorrRangeMask                   CorrRangeMask Struct_+
+  MaskGroupBasedCorrRangeMaskAreaModels         AreaModels Struct_+
+  MaskGroupBasedCorrRangeMaskAreaModelsComponents string_+
+  MaskGroupBasedCorrRangeMaskAreaModelsColorSampleInfo string_+
+  MaskGroupBasedCorrRangeMaskColorAmount        real_+
+  MaskGroupBasedCorrRangeMaskDepthFeather       real_+
+  MaskGroupBasedCorrRangeMaskDepthMax           real_+
+  MaskGroupBasedCorrRangeMaskDepthMin           real_+
+  MaskGroupBasedCorrRangeMaskInvert             boolean_+
+  MaskGroupBasedCorrRangeMaskLumFeather         real_+
+  MaskGroupBasedCorrRangeMaskLuminanceDepthSampleInfo string_+
+  MaskGroupBasedCorrRangeMaskLumMax             real_+
+  MaskGroupBasedCorrRangeMaskLumMin             real_+
+  MaskGroupBasedCorrRangeMaskLumRange           string_+
+  MaskGroupBasedCorrRangeMaskSampleType         integer_+
+  MaskGroupBasedCorrRangeMaskType               string_+
+  MaskGroupBasedCorrRangeMaskVersion            string_+
+  MaskGroupBasedCorrCorrectionSyncID            string_+
+  MaskGroupBasedCorrBlacks2012                  real_
+  MaskGroupBasedCorrBrightness                  real_
+  MaskGroupBasedCorrClarity                     real_
+  MaskGroupBasedCorrClarity2012                 real_
+  MaskGroupBasedCorrContrast                    real_
+  MaskGroupBasedCorrContrast2012                real_
+  MaskGroupBasedCorrDefringe                    real_
+  MaskGroupBasedCorrDehaze                      real_
+  MaskGroupBasedCorrExposure                    real_
+  MaskGroupBasedCorrExposure2012                real_
+  MaskGroupBasedCorrHighlights2012              real_
+  MaskGroupBasedCorrHue                         real_
+  MaskGroupBasedCorrLuminanceNoise              real_
+  MaskGroupBasedCorrMoire                       real_
+  MaskGroupBasedCorrSaturation                  real_
+  MaskGroupBasedCorrShadows2012                 real_
+  MaskGroupBasedCorrSharpness                   real_
+  MaskGroupBasedCorrTemperature                 real_
+  MaskGroupBasedCorrTexture                     real_
+  MaskGroupBasedCorrTint                        real_
+  MaskGroupBasedCorrToningHue                   real_
+  MaskGroupBasedCorrToningSaturation            real_
+  MaskGroupBasedCorrWhites2012                  real_
+  MaskGroupBasedCorrWhat                        string_
   MoireFilter                                   string
   Name                                          lang-alt/
   NegativeCacheLargePreviewSize                 integer
@@ -2425,17 +3263,85 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   PaintCorrectionMaskBottom                     real_
   PaintCorrectionMaskCenterValue                real_
   PaintCorrectionMaskCenterWeight               real_
+  PaintCorrectionMaskRange                      CorrRangeMask Struct_+
+  PaintCorrectionMaskRangeAreaModels            AreaModels Struct_+
+  PaintCorrectionMaskRangeAreaModelsComponents  string_+
+  PaintCorrectionMaskRangeAreaModelsColorSampleInfo string_+
+  PaintCorrectionMaskRangeColorAmount           real_+
+  PaintCorrectionMaskRangeDepthFeather          real_+
+  PaintCorrectionMaskRangeDepthMax              real_+
+  PaintCorrectionMaskRangeDepthMin              real_+
+  PaintCorrectionMaskRangeInvert                boolean_+
+  PaintCorrectionMaskRangeLumFeather            real_+
+  PaintCorrectionMaskRangeLuminanceDepthSampleInfo string_+
+  PaintCorrectionMaskRangeLumMax                real_+
+  PaintCorrectionMaskRangeLumMin                real_+
+  PaintCorrectionMaskRangeLumRange              string_+
+  PaintCorrectionMaskRangeSampleType            integer_+
+  PaintCorrectionMaskRangeType                  string_+
+  PaintCorrectionMaskRangeVersion               string_+
   PaintCorrectionMaskDabs                       string_
   PaintCorrectionMaskFeather                    real_
   PaintCorrectionMaskFlipped                    boolean_
   PaintCorrectionMaskFlow                       real_
   PaintCorrectionMaskFullX                      real_
   PaintCorrectionMaskFullY                      real_
+  PaintCorrectionMaskInputDigest                string_
   PaintCorrectionMaskLeft                       real_
+  PaintCorrectionMaskMaskActive                 boolean_
+  PaintCorrectionMaskMaskBlendMode              integer_
+  PaintCorrectionMaskMaskDigest                 string_
+  PaintCorrectionMaskMaskInverted               boolean_
+  PaintCorrectionMaskMaskName                   string_
+  PaintCorrectionMaskMasks                      CorrectionMask Struct_+
+  PaintCorrectionMaskMasksAlpha                 real_
+  PaintCorrectionMaskMasksAngle                 real_
+  PaintCorrectionMaskMasksBottom                real_
+  PaintCorrectionMaskMasksCenterValue           real_
+  PaintCorrectionMaskMasksCenterWeight          real_
+  PaintCorrectionMaskMasksDabs                  string_+
+  PaintCorrectionMaskMasksFeather               real_
+  PaintCorrectionMaskMasksFlipped               boolean_
+  PaintCorrectionMaskMasksFlow                  real_
+  PaintCorrectionMaskMasksFullX                 real_
+  PaintCorrectionMaskMasksFullY                 real_
+  PaintCorrectionMaskMasksInputDigest           string_
+  PaintCorrectionMaskMasksLeft                  real_
+  PaintCorrectionMaskMasksMaskActive            boolean_
+  PaintCorrectionMaskMasksMaskBlendMode         integer_
+  PaintCorrectionMaskMasksMaskDigest            string_
+  PaintCorrectionMaskMasksMaskInverted          boolean_
+  PaintCorrectionMaskMasksMaskName              string_
+  PaintCorrectionMaskMasksMaskSubType           string_
+  PaintCorrectionMaskMasksMaskSyncID            string_
+  PaintCorrectionMaskMasksValue                 real_
+  PaintCorrectionMaskMasksMaskVersion           string_
+  PaintCorrectionMaskMasksMidpoint              real_
+  PaintCorrectionMaskMasksOrigin                string_
+  PaintCorrectionMaskMasksPerimeterValue        real_
+  PaintCorrectionMaskMasksRadius                real_
+  PaintCorrectionMaskMasksReferencePoint        string_
+  PaintCorrectionMaskMasksRight                 real_
+  PaintCorrectionMaskMasksRoundness             real_
+  PaintCorrectionMaskMasksSizeX                 real_
+  PaintCorrectionMaskMasksSizeY                 real_
+  PaintCorrectionMaskMasksTop                   real_
+  PaintCorrectionMaskMaskSubType                string_
+  PaintCorrectionMaskMasksVersion               integer_
+  PaintCorrectionMaskMasksWhat                  string_
+  PaintCorrectionMaskMasksWholeImageArea        string_
+  PaintCorrectionMaskMasksX                     real_
+  PaintCorrectionMaskMasksY                     real_
+  PaintCorrectionMaskMaskSyncID                 string_
+  PaintCorrectionMaskMasksZeroX                 real_
+  PaintCorrectionMaskMasksZeroY                 real_
   PaintCorrectionMaskValue                      real_
+  PaintCorrectionMaskMaskVersion                string_
   PaintCorrectionMaskMidpoint                   real_
+  PaintCorrectionMaskOrigin                     string_
   PaintCorrectionMaskPerimeterValue             real_
   PaintCorrectionMaskRadius                     real_
+  PaintCorrectionMaskReferencePoint             string_
   PaintCorrectionMaskRight                      real_
   PaintCorrectionMaskRoundness                  real_
   PaintCorrectionMaskSizeX                      real_
@@ -2443,20 +3349,30 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   PaintCorrectionMaskTop                        real_
   PaintCorrectionMaskVersion                    integer_
   PaintCorrectionMaskWhat                       string_
+  PaintCorrectionMaskWholeImageArea             string_
   PaintCorrectionMaskX                          real_
   PaintCorrectionMaskY                          real_
   PaintCorrectionMaskZeroX                      real_
   PaintCorrectionMaskZeroY                      real_
-  PaintCorrectionRangeMask                      CorrectionRangeMask Struct_+
+  PaintCorrectionCorrectionName                 string_+
+  PaintCorrectionRangeMask                      CorrRangeMask Struct_+
+  PaintCorrectionRangeMaskAreaModels            AreaModels Struct_+
+  PaintCorrectionRangeMaskAreaModelsComponents  string_+
+  PaintCorrectionRangeMaskAreaModelsColorSampleInfo string_+
   PaintCorrectionRangeMaskColorAmount           real_+
   PaintCorrectionRangeMaskDepthFeather          real_+
   PaintCorrectionRangeMaskDepthMax              real_+
   PaintCorrectionRangeMaskDepthMin              real_+
+  PaintCorrectionRangeMaskInvert                boolean_+
   PaintCorrectionRangeMaskLumFeather            real_+
+  PaintCorrectionRangeMaskLuminanceDepthSampleInfo string_+
   PaintCorrectionRangeMaskLumMax                real_+
   PaintCorrectionRangeMaskLumMin                real_+
+  PaintCorrectionRangeMaskLumRange              string_+
+  PaintCorrectionRangeMaskSampleType            integer_+
   PaintCorrectionRangeMaskType                  string_+
   PaintCorrectionRangeMaskVersion               string_+
+  PaintCorrectionCorrectionSyncID               string_+
   PaintCorrectionBlacks2012                     real_
   PaintCorrectionBrightness                     real_
   PaintCorrectionClarity                        real_
@@ -2477,8 +3393,8 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   PaintCorrectionTemperature                    real_
   PaintCorrectionTexture                        real_
   PaintCorrectionTint                           real_
-  PaintCorrectionHue                            real_
-  PaintCorrectionSaturation                     real_
+  PaintCorrectionToningHue                      real_
+  PaintCorrectionToningSaturation               real_
   PaintCorrectionWhites2012                     real_
   PaintCorrectionWhat                           string_
   ParametricDarks                               integer
@@ -2504,6 +3420,13 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   PostCropVignetteStyle                         integer
   PresetType                                    string
   ProcessVersion                                string
+  RangeMask                                     RangeMask Struct
+  RangeMaskMapInfo                              MapInfo Struct_
+  RangeMaskMapInfoLabMax                        string_
+  RangeMaskMapInfoLabMin                        string_
+  RangeMaskMapInfoLumEq                         string_+
+  RangeMaskMapInfoRGBMax                        string_
+  RangeMaskMapInfoRGBMin                        string_
   RawFileName                                   string
   RedEyeInfo                                    string+
   RedHue                                        integer
@@ -2516,17 +3439,85 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   RetouchAreaMaskBottom                         real_
   RetouchAreaMaskCenterValue                    real_
   RetouchAreaMaskCenterWeight                   real_
+  RetouchAreaMaskRange                          CorrRangeMask Struct_+
+  RetouchAreaMaskRangeAreaModels                AreaModels Struct_+
+  RetouchAreaMaskRangeAreaModelsComponents      string_+
+  RetouchAreaMaskRangeAreaModelsColorSampleInfo string_+
+  RetouchAreaMaskRangeColorAmount               real_+
+  RetouchAreaMaskRangeDepthFeather              real_+
+  RetouchAreaMaskRangeDepthMax                  real_+
+  RetouchAreaMaskRangeDepthMin                  real_+
+  RetouchAreaMaskRangeInvert                    boolean_+
+  RetouchAreaMaskRangeLumFeather                real_+
+  RetouchAreaMaskRangeLuminanceDepthSampleInfo  string_+
+  RetouchAreaMaskRangeLumMax                    real_+
+  RetouchAreaMaskRangeLumMin                    real_+
+  RetouchAreaMaskRangeLumRange                  string_+
+  RetouchAreaMaskRangeSampleType                integer_+
+  RetouchAreaMaskRangeType                      string_+
+  RetouchAreaMaskRangeVersion                   string_+
   RetouchAreaMaskDabs                           string_
   RetouchAreaMaskFeather                        real_
   RetouchAreaMaskFlipped                        boolean_
   RetouchAreaMaskFlow                           real_
   RetouchAreaMaskFullX                          real_
   RetouchAreaMaskFullY                          real_
+  RetouchAreaMaskInputDigest                    string_
   RetouchAreaMaskLeft                           real_
+  RetouchAreaMaskMaskActive                     boolean_
+  RetouchAreaMaskMaskBlendMode                  integer_
+  RetouchAreaMaskMaskDigest                     string_
+  RetouchAreaMaskMaskInverted                   boolean_
+  RetouchAreaMaskMaskName                       string_
+  RetouchAreaMaskMasks                          CorrectionMask Struct_+
+  RetouchAreaMaskMasksAlpha                     real_
+  RetouchAreaMaskMasksAngle                     real_
+  RetouchAreaMaskMasksBottom                    real_
+  RetouchAreaMaskMasksCenterValue               real_
+  RetouchAreaMaskMasksCenterWeight              real_
+  RetouchAreaMaskMasksDabs                      string_+
+  RetouchAreaMaskMasksFeather                   real_
+  RetouchAreaMaskMasksFlipped                   boolean_
+  RetouchAreaMaskMasksFlow                      real_
+  RetouchAreaMaskMasksFullX                     real_
+  RetouchAreaMaskMasksFullY                     real_
+  RetouchAreaMaskMasksInputDigest               string_
+  RetouchAreaMaskMasksLeft                      real_
+  RetouchAreaMaskMasksMaskActive                boolean_
+  RetouchAreaMaskMasksMaskBlendMode             integer_
+  RetouchAreaMaskMasksMaskDigest                string_
+  RetouchAreaMaskMasksMaskInverted              boolean_
+  RetouchAreaMaskMasksMaskName                  string_
+  RetouchAreaMaskMasksMaskSubType               string_
+  RetouchAreaMaskMasksMaskSyncID                string_
+  RetouchAreaMaskMasksValue                     real_
+  RetouchAreaMaskMasksMaskVersion               string_
+  RetouchAreaMaskMasksMidpoint                  real_
+  RetouchAreaMaskMasksOrigin                    string_
+  RetouchAreaMaskMasksPerimeterValue            real_
+  RetouchAreaMaskMasksRadius                    real_
+  RetouchAreaMaskMasksReferencePoint            string_
+  RetouchAreaMaskMasksRight                     real_
+  RetouchAreaMaskMasksRoundness                 real_
+  RetouchAreaMaskMasksSizeX                     real_
+  RetouchAreaMaskMasksSizeY                     real_
+  RetouchAreaMaskMasksTop                       real_
+  RetouchAreaMaskMaskSubType                    string_
+  RetouchAreaMaskMasksVersion                   integer_
+  RetouchAreaMaskMasksWhat                      string_
+  RetouchAreaMaskMasksWholeImageArea            string_
+  RetouchAreaMaskMasksX                         real_
+  RetouchAreaMaskMasksY                         real_
+  RetouchAreaMaskMaskSyncID                     string_
+  RetouchAreaMaskMasksZeroX                     real_
+  RetouchAreaMaskMasksZeroY                     real_
   RetouchAreaMaskValue                          real_
+  RetouchAreaMaskMaskVersion                    string_
   RetouchAreaMaskMidpoint                       real_
+  RetouchAreaMaskOrigin                         string_
   RetouchAreaMaskPerimeterValue                 real_
   RetouchAreaMaskRadius                         real_
+  RetouchAreaMaskReferencePoint                 string_
   RetouchAreaMaskRight                          real_
   RetouchAreaMaskRoundness                      real_
   RetouchAreaMaskSizeX                          real_
@@ -2534,6 +3525,7 @@ These tags belong to the ExifTool XMP-crs family 1 group.
   RetouchAreaMaskTop                            real_
   RetouchAreaMaskVersion                        integer_
   RetouchAreaMaskWhat                           string_
+  RetouchAreaMaskWholeImageArea                 string_
   RetouchAreaMaskX                              real_
   RetouchAreaMaskY                              real_
   RetouchAreaMaskZeroX                          real_
@@ -3138,8 +4130,8 @@ These tags belong to the ExifTool XMP-exif family 1 group.
 
 =head3 XMP exifEX Tags
 
-EXIF tags added by the EXIF 2.31 for XMP specification (see
-L<http://www.cipa.jp/std/documents/e/DC-X010-2017.pdf>).
+EXIF tags added by the EXIF 2.32 for XMP specification (see
+L<https://cipa.jp/std/documents/download_e.html?DC-010-2020_E>).
 
 These tags belong to the ExifTool XMP-exifEX family 1 group.
 
@@ -3487,6 +4479,7 @@ These tags belong to the ExifTool XMP-iptcCore family 1 group.
 
   Tag Name                                      Writable
   --------                                      --------
+  AltTextAccessibility                          lang-alt
   CountryCode                                   string
   CreatorContactInfo                            ContactInfo Struct
   CreatorCity                                   string_
@@ -3497,6 +4490,7 @@ These tags belong to the ExifTool XMP-iptcCore family 1 group.
   CreatorWorkEmail                              string_
   CreatorWorkTelephone                          string_
   CreatorWorkURL                                string_
+  ExtDescrAccessibility                         lang-alt
   IntellectualGenre                             string
   Location                                      string
   Scene                                         string+
@@ -3517,9 +4511,10 @@ These tags belong to the ExifTool XMP-iptcCore family 1 group.
 
 =head3 XMP iptcExt Tags
 
-This table contains tags defined by the IPTC Extension schema version 1.5.
+This table contains tags defined by the IPTC Extension schema version 1.6.
 The actual namespace prefix is "Iptc4xmpExt", but ExifTool shortens this for
-the family 1 group name. (see L<http://www.iptc.org/IPTC4XMP/>)
+the family 1 group name. (see
+L<http://www.iptc.org/standards/photo-metadata/iptc-standard/>)
 
 These tags belong to the ExifTool XMP-iptcExt family 1 group.
 
@@ -3595,6 +4590,7 @@ These tags belong to the ExifTool XMP-iptcExt family 1 group.
   ShownEvent                                    Entity Struct+
   ShownEventIdentifier                          string_+
   ShownEventName                                lang-alt_+
+  EventID                                       string+
   ExternalMetadataLink                          string+
   FeedIdentifier                                string
   Genre                                         CVTermDetails Struct+
@@ -4017,6 +5013,7 @@ These tags belong to the ExifTool XMP-lr family 1 group.
   --------                                      --------
   HierarchicalSubject                           string+
   PrivateRTKInfo                                string
+  WeightedFlatSubject                           string+
 
 =head3 XMP MediaPro Tags
 
@@ -4472,7 +5469,7 @@ These tags belong to the ExifTool XMP-tiff family 1 group.
   ImageWidth                                    integer
   Make                                          string
   Model                                         string
-  NativeDigest                                  string
+  NativeDigest                                  string/
   Orientation                                   integer
   PhotometricInterpretation                     integer
   PlanarConfiguration                           integer
@@ -5542,32 +6539,98 @@ specification.
   'A2B0'   AToB0                                no
   'A2B1'   AToB1                                no
   'A2B2'   AToB2                                no
+  'A2B3'   AToB3                                no
+  'A2M0'   AToM0                                no
   'B2A0'   BToA0                                no
   'B2A1'   BToA1                                no
   'B2A2'   BToA2                                no
+  'B2A3'   BToA3                                no
   'B2D0'   BToD0                                no
   'B2D1'   BToD1                                no
   'B2D2'   BToD2                                no
   'B2D3'   BToD3                                no
+  'CxF '   CXF                                  no
   'D2B0'   DToB0                                no
   'D2B1'   DToB1                                no
   'D2B2'   DToB2                                no
   'D2B3'   DToB3                                no
   'Header' ProfileHeader                        ICC_Profile Header
+  'M2A0'   MToA0                                no
+  'M2B0'   MToB0                                no
+  'M2B1'   MToB1                                no
+  'M2B2'   MToB2                                no
+  'M2B3'   MToB3                                no
+  'M2S0'   MToS0                                no
+  'M2S1'   MToS1                                no
+  'M2S2'   MToS2                                no
+  'M2S3'   MToS3                                no
   'MS00'   WCSProfiles                          no
+  'bAB0'   BRDFAToB0                            no
+  'bAB1'   BRDFAToB1                            no
+  'bAB2'   BRDFAToB2                            no
+  'bAB3'   BRDFAToB3                            no
+  'bBA0'   BRDFBToA0                            no
+  'bBA1'   BRDFBToA1                            no
+  'bBA2'   BRDFBToA2                            no
+  'bBA3'   BRDFBToA3                            no
+  'bBD0'   BRDFBToD0                            no
+  'bBD1'   BRDFBToD1                            no
+  'bBD2'   BRDFBToD2                            no
+  'bBD3'   BRDFBToD3                            no
+  'bDB0'   BRDFDToB0                            no
+  'bDB1'   BRDFDToB1                            no
+  'bDB2'   BRDFDToB2                            no
+  'bDB3'   BRDFDToB3                            no
+  'bMB0'   BRDFMToB0                            no
+  'bMB1'   BRDFMToB1                            no
+  'bMB2'   BRDFMToB2                            no
+  'bMB3'   BRDFMToB3                            no
+  'bMS0'   BRDFMToS0                            no
+  'bMS1'   BRDFMToS1                            no
+  'bMS2'   BRDFMToS2                            no
+  'bMS3'   BRDFMToS3                            no
   'bTRC'   BlueTRC                              no
   'bXYZ'   BlueMatrixColumn                     no
+  'bcp0'   BRDFColorimetricParam0               no
+  'bcp1'   BRDFColorimetricParam1               no
+  'bcp2'   BRDFColorimetricParam2               no
+  'bcp3'   BRDFColorimetricParam3               no
   'bfd '   UCRBG                                no
   'bkpt'   MediaBlackPoint                      no
+  'bsp0'   BRDFSpectralParam0                   no
+  'bsp1'   BRDFSpectralParam1                   no
+  'bsp2'   BRDFSpectralParam2                   no
+  'bsp3'   BRDFSpectralParam3                   no
+  'c2sp'   CustomToStandardPcc                  no
   'calt'   CalibrationDateTime                  no
+  'cept'   ColorEncodingParams                  no
   'chad'   ChromaticAdaptation                  no
   'chrm'   Chromaticity                         ICC_Profile Chromaticity
   'ciis'   ColorimetricIntentImageState         no
+  'clio'   ColorantInfoOut                      no
+  'cloo'   ColorantOrderOut                     no
   'clot'   ColorantTableOut                     no
   'clro'   ColorantOrder                        no
   'clrt'   ColorantTable                        ICC_Profile ColorantTable
   'cprt'   ProfileCopyright                     no
   'crdi'   CRDInfo                              no
+  'csnm'   ColorSpaceName                       no
+  'dAB0'   DirectionalAToB0                     no
+  'dAB1'   DirectionalAToB1                     no
+  'dAB2'   DirectionalAToB2                     no
+  'dAB3'   DirectionalAToB3                     no
+  'dBA0'   DirectionalBToA0                     no
+  'dBA1'   DirectionalBToA1                     no
+  'dBA2'   DirectionalBToA2                     no
+  'dBA3'   DirectionalBToA3                     no
+  'dBD0'   DirectionalBToD0                     no
+  'dBD1'   DirectionalBToD1                     no
+  'dBD2'   DirectionalBToD2                     no
+  'dBD3'   DirectionalBToD3                     no
+  'dDB0'   DirectionalDToB0                     no
+  'dDB1'   DirectionalDToB1                     no
+  'dDB2'   DirectionalDToB2                     no
+  'dDB3'   DirectionalDToB3                     no
   'desc'   ProfileDescription                   no
   'devs'   DeviceSettings                       no
   'dmdd'   DeviceModelDesc                      no
@@ -5577,14 +6640,23 @@ specification.
   'gTRC'   GreenTRC                             no
   'gXYZ'   GreenMatrixColumn                    no
   'gamt'   Gamut                                no
+  'gdb0'   GamutBoundaryDescription0            no
+  'gdb1'   GamutBoundaryDescription1            no
+  'gdb2'   GamutBoundaryDescription2            no
+  'gdb3'   GamutBoundaryDescription3            no
   'kTRC'   GrayTRC                              no
   'lumi'   Luminance                            no
+  'mcta'   MultiplexTypeArray                   no
+  'mdv '   MultiplexDefaultValues               no
   'meas'   Measurement                          ICC_Profile Measurement
   'meta'   Metadata                             ICC_Profile Metadata
+  'miin'   MeasurementInputInfo                 no
+  'minf'   MeasurementInfo                      no
   'mmod'   MakeAndModel                         no
   'ncl2'   NamedColor2                          no
   'ncol'   NamedColor                           no
   'ndin'   NativeDisplayInfo                    no
+  'nmcl'   NamedColor                           no
   'pre0'   Preview0                             no
   'pre1'   Preview1                             no
   'pre2'   Preview2                             no
@@ -5596,18 +6668,24 @@ specification.
   'psd3'   PostScript2CRD3                      no
   'pseq'   ProfileSequenceDesc                  no
   'psid'   ProfileSequenceIdentifier            no
+  'psin'   ProfileSequenceInfo                  no
   'psvm'   PS2CRDVMSize                         no
   'rTRC'   RedTRC                               no
   'rXYZ'   RedMatrixColumn                      no
   'resp'   OutputResponse                       no
+  'rfnm'   ReferenceName                        no
   'rhoc'   ReflectionHardcopyOrigColorimetry    no
   'rig0'   PerceptualRenderingIntentGamut       no
   'rig2'   SaturationRenderingIntentGamut       no
   'rpoc'   ReflectionPrintOutputColorimetry     no
+  's2cp'   StandardToCustomPcc                  no
   'sape'   SceneAppearanceEstimates             no
   'scoe'   SceneColorimetryEstimates            no
   'scrd'   ScreeningDesc                        no
   'scrn'   Screening                            no
+  'smap'   SurfaceMap                           no
+  'svcn'   SpectralViewingConditions            no
+  'swpt'   SpectralWhitePoint                   no
   'targ'   CharTarget                           no
   'tech'   Technology                           no
   'vcgt'   VideoCardGamma                       no
@@ -5930,6 +7008,7 @@ Unknown only to reduce the volume of the normal output.
   0x000c   FlickerReductionIndicator            no
   0x000d   MovieISOAutoHiLimit                  no
   0x000e   MovieISOAutoControlManualMode        no
+  0x000f   MovieWhiteBalanceSameAsPhoto         no
   0x001d   AF-CPrioritySel                      no
   0x001e   AF-SPrioritySel                      no
   0x0020   AFPointSel                           no
@@ -5937,6 +7016,7 @@ Unknown only to reduce the volume of the normal output.
   0x0023   FocusPointWrap                       no
   0x0025   ManualFocusPointIllumination         no
   0x0026   AF-AssistIlluminator                 no
+  0x0027   ManualFocusRingInAFMode              no
   0x0029   ISOStepSize                          no
   0x002a   ExposureControlStepSize              no
   0x002b   EasyExposureCompensation             no
@@ -5984,6 +7064,8 @@ Unknown only to reduce the volume of the normal output.
   0x0063   Language                             no
   0x006c   ShootingInfoDisplay                  no
   0x0074   FlickAdvanceDirection                no
+  0x0075   HDMIOutputResolution                 no
+  0x0077   HDMIOutputRange                      no
   0x0080   RemoteFuncButton                     no
   0x008b   CmdDialsReverseRotation              no
   0x008d   FocusPeakingHighlightColor           no
@@ -5991,6 +7073,7 @@ Unknown only to reduce the volume of the normal output.
   0x008f   ShutterSpeedLock                     no
   0x0090   ApertureLock                         no
   0x0091   MovieHighlightDisplayThreshold       no
+  0x0092   HDMIExternalRecorder                 no
   0x0093   BlockShotAFResponse                  no
   0x0094   SubjectMotion                        no
   0x0095   Three-DTrackingFaceDetection         no
@@ -6037,7 +7120,7 @@ Unknown only to reduce the volume of the normal output.
   0x00de   LimitSelectableImageArea16To9?       no
   0x00df   ApplySettingsToLiveView              no
   0x00e0   FocusPeakingLevel                    no
-  0x00e9   LensControlRing                      no
+  0x00ea   LensControlRing                      no
   0x00ed   MovieMultiSelector                   no
   0x00ee   MovieAFSpeed                         no
   0x00ef   MovieAFSpeedApply                    no
@@ -6053,10 +7136,14 @@ Unknown only to reduce the volume of the normal output.
   0x00fb   SecondarySlotFunction                no
   0x00fc   SilentPhotography                    no
   0x00fd   ExtendedShutterSpeeds                no
+  0x0102   HDMIBitDepth                         no
+  0x0103   HDMIOutputHDR                        no
+  0x0104   HDMIViewAssist                       no
   0x0109   BracketSet                           no
   0x010a   BracketProgram                       no
   0x010b   BracketIncrement                     no
   0x010c   BracketIncrement                     no
+  0x010e   MonitorBrightness                    no
   0x0116   GroupAreaC1                          no
   0x0117   AutoAreaAFStartingPoint              no
   0x0118   FocusPointPersistence                no
@@ -6100,7 +7187,7 @@ Unknown only to reduce the volume of the normal output.
   0x0150   ShutterType                          no
   0x0151   LensFunc2Button                      no
   0x0158   USBPowerDelivery                     no
-  0x015b   GroupAreaC2                          no
+  0x0159   EnergySavingMode                     no
   0x015c   BracketingBurstOptions               no
   0x015e   PrimarySlot                          no
   0x015f   ReverseFocusRing                     no
@@ -6113,8 +7200,11 @@ Unknown only to reduce the volume of the normal output.
   0x016a   LimitAF-AreaModeSelAutoAnimals?      no
   0x016b   LimitAF-AreaModeSelWideLPeople?      no
   0x016c   LimitAF-AreaModeSelWideLAnimals?     no
+  0x016d   SaveFocus                            no
   0x016e   AFAreaMode                           no
+  0x016f   MovieAFAreaMode                      no
   0x0170   PreferSubSelectorCenter              no
+  0x0171   KeepExposureWithTeleconverter        no
   0x0174   FocusPointSelectionSpeed             no
 
 =head2 Canon Tags
@@ -6235,6 +7325,7 @@ Unknown only to reduce the volume of the normal output.
            ColorData8                           Canon ColorData8
            ColorData9                           Canon ColorData9
            ColorData10                          Canon ColorData10
+           ColorData11                          Canon ColorData11
            ColorDataUnknown                     Canon ColorDataUnknown
   0x4002   CRWParam?                            no
   0x4003   ColorInfo                            Canon ColorInfo
@@ -6255,6 +7346,7 @@ Unknown only to reduce the volume of the normal output.
   0x4021   MultiExp                             Canon MultiExp
   0x4024   FilterInfo                           Canon FilterInfo
   0x4025   HDRInfo                              Canon HDRInfo
+  0x4026   LogInfo                              Canon LogInfo
   0x4028   AFConfig                             Canon AFConfig
   0x403f   RawBurstModeRoll                     Canon RawBurstInfo
 
@@ -7356,6 +8448,7 @@ WB tags for the Canon G9.
      19    LiveViewShooting                     int16s
      20    FocusDistanceUpper                   int16u
      21    FocusDistanceLower                   int16u
+     23    ShutterMode                          int16s
      25    FlashExposureLock                    int16s
      61    RFLensType                           int16u
 
@@ -7865,7 +8958,8 @@ These tags are used by the EOS 600D and 1200D.
 
 =head3 Canon ColorData7 Tags
 
-These tags are used by the EOS 1DX, 5DmkIII, 6D, 100D, 650D, 700D, M and 7DmkII.
+These tags are used by the EOS 1DX, 5DmkIII, 6D, 7DmkII, 100D, 650D, 700D,
+8000D, M and M2.
 
   Index2   Tag Name                             Writable
   ------   --------                             --------
@@ -7944,6 +9038,9 @@ These tags are used by the EOS 1DX, 5DmkIII, 6D, 100D, 650D, 700D, M and 7DmkII.
     734    LinearityUpperMargin                 int16u
 
 =head3 Canon ColorData8 Tags
+
+These tags are used by the EOS 1DXmkII, 5DS, 5DSR, 5DmkIV, 6DmkII, 77D, 80D,
+200D, 800D, 1300D, 2000D, 4000D and 9000D.
 
   Index2   Tag Name                             Writable
   ------   --------                             --------
@@ -8041,6 +9138,8 @@ These tags are used by the EOS 1DX, 5DmkIII, 6D, 100D, 650D, 700D, M and 7DmkII.
 
 =head3 Canon ColorData9 Tags
 
+These tags are used by the M6mkII, M50, M200, EOS R, RP, 90D, 250D and 850D
+
   Index2   Tag Name                             Writable
   ------   --------                             --------
       0    ColorDataVersion                     int16s
@@ -8130,6 +9229,8 @@ These tags are used by the EOS 1DX, 5DmkIII, 6D, 100D, 650D, 700D, M and 7DmkII.
 
 =head3 Canon ColorData10 Tags
 
+These tags are used by the R5, R5 and EOS 1DXmkIII.
+
   Index2   Tag Name                             Writable
   ------   --------                             --------
       0    ColorDataVersion                     int16s
@@ -8216,6 +9317,95 @@ These tags are used by the EOS 1DX, 5DmkIII, 6D, 100D, 650D, 700D, M and 7DmkII.
     810    NormalWhiteLevel                     int16u
     811    SpecularWhiteLevel                   int16u
     812    LinearityUpperMargin                 int16u
+
+=head3 Canon ColorData11 Tags
+
+These tags are used by the EOS R3
+
+  Index2   Tag Name                             Writable
+  ------   --------                             --------
+      0    ColorDataVersion                     int16s
+    105    WB_RGGBLevelsAsShot                  int16s[4]
+    109    ColorTempAsShot                      int16s
+    110    WB_RGGBLevelsAuto                    int16s[4]
+    114    ColorTempAuto                        int16s
+    115    WB_RGGBLevelsMeasured                int16s[4]
+    119    ColorTempMeasured                    int16s
+    120    WB_RGGBLevelsUnknown?                int16s[4]
+    124    ColorTempUnknown?                    int16s
+    125    WB_RGGBLevelsUnknown2?               int16s[4]
+    129    ColorTempUnknown2?                   int16s
+    130    WB_RGGBLevelsUnknown3?               int16s[4]
+    134    ColorTempUnknown3?                   int16s
+    135    WB_RGGBLevelsUnknown4?               int16s[4]
+    139    ColorTempUnknown4?                   int16s
+    140    WB_RGGBLevelsUnknown5?               int16s[4]
+    144    ColorTempUnknown5?                   int16s
+    145    WB_RGGBLevelsUnknown6?               int16s[4]
+    149    ColorTempUnknown6?                   int16s
+    150    WB_RGGBLevelsUnknown7?               int16s[4]
+    154    ColorTempUnknown7?                   int16s
+    155    WB_RGGBLevelsUnknown8?               int16s[4]
+    159    ColorTempUnknown8?                   int16s
+    160    WB_RGGBLevelsUnknown9?               int16s[4]
+    164    ColorTempUnknown9?                   int16s
+    165    WB_RGGBLevelsUnknown10?              int16s[4]
+    169    ColorTempUnknown10?                  int16s
+    170    WB_RGGBLevelsUnknown11?              int16s[4]
+    174    ColorTempUnknown11?                  int16s
+    175    WB_RGGBLevelsUnknown11?              int16s[4]
+    179    ColorTempUnknown11?                  int16s
+    180    WB_RGGBLevelsUnknown12?              int16s[4]
+    184    ColorTempUnknown12?                  int16s
+    185    WB_RGGBLevelsUnknown13?              int16s[4]
+    189    ColorTempUnknown13?                  int16s
+    190    WB_RGGBLevelsUnknown14?              int16s[4]
+    194    ColorTempUnknown14?                  int16s
+    195    WB_RGGBLevelsUnknown15?              int16s[4]
+    199    ColorTempUnknown15?                  int16s
+    200    WB_RGGBLevelsUnknown16?              int16s[4]
+    204    ColorTempUnknown16?                  int16s
+    205    WB_RGGBLevelsDaylight                int16s[4]
+    209    ColorTempDaylight                    int16s
+    210    WB_RGGBLevelsShade                   int16s[4]
+    214    ColorTempShade                       int16s
+    215    WB_RGGBLevelsCloudy                  int16s[4]
+    219    ColorTempCloudy                      int16s
+    220    WB_RGGBLevelsTungsten                int16s[4]
+    224    ColorTempTungsten                    int16s
+    225    WB_RGGBLevelsFluorescent             int16s[4]
+    229    ColorTempFluorescent                 int16s
+    230    WB_RGGBLevelsKelvin                  int16s[4]
+    234    ColorTempKelvin                      int16s
+    235    WB_RGGBLevelsFlash                   int16s[4]
+    239    ColorTempFlash                       int16s
+    240    WB_RGGBLevelsUnknown17?              int16s[4]
+    244    ColorTempUnknown17?                  int16s
+    245    WB_RGGBLevelsUnknown18?              int16s[4]
+    249    ColorTempUnknown18?                  int16s
+    250    WB_RGGBLevelsUnknown19?              int16s[4]
+    254    ColorTempUnknown19?                  int16s
+    255    WB_RGGBLevelsUnknown20?              int16s[4]
+    259    ColorTempUnknown20?                  int16s
+    260    WB_RGGBLevelsUnknown21?              int16s[4]
+    264    ColorTempUnknown21?                  int16s
+    265    WB_RGGBLevelsUnknown22?              int16s[4]
+    269    ColorTempUnknown22?                  int16s
+    270    WB_RGGBLevelsUnknown23?              int16s[4]
+    274    ColorTempUnknown23?                  int16s
+    275    WB_RGGBLevelsUnknown24?              int16s[4]
+    279    ColorTempUnknown24?                  int16s
+    280    WB_RGGBLevelsUnknown25?              int16s[4]
+    284    ColorTempUnknown25?                  int16s
+    285    WB_RGGBLevelsUnknown26?              int16s[4]
+    289    ColorTempUnknown26?                  int16s
+    290    WB_RGGBLevelsUnknown27?              int16s[4]
+    294    ColorTempUnknown27?                  int16s
+    300    ColorCalib?                          Canon ColorCalib
+    363    PerChannelBlackLevel                 int16u[4]
+    640    NormalWhiteLevel                     int16u
+    641    SpecularWhiteLevel                   int16u
+    642    LinearityUpperMargin                 int16u
 
 =head3 Canon ColorDataUnknown Tags
 
@@ -8325,6 +9515,18 @@ Information about creative filter settings.
   ------   --------                             --------
       1    HDR                                  int32s
       2    HDREffect                            int32s
+
+=head3 Canon LogInfo Tags
+
+  Index4   Tag Name                             Writable
+  ------   --------                             --------
+      4    CompressionFormat                    int32s
+      6    Sharpness                            int32s
+      7    Saturation                           int32s
+      8    ColorTone                            int32s
+      9    ColorSpace2                          int32s
+     10    ColorMatrix                          int32s
+     11    CanonLogVersion                      int32s
 
 =head3 Canon AFConfig Tags
 
@@ -9489,7 +10691,7 @@ imaging cameras by FLIR Systems Inc.
 
 Information extracted from FLIR FFF images and the APP1 FLIR segment of JPEG
 images.  These tags may also be extracted from the first frame of an FLIR
-SEQ file.
+SEQ file, or all frames if the ExtractEmbedded option is used.
 
   Tag ID       Tag Name                         Writable
   ------       --------                         --------
@@ -9699,8 +10901,10 @@ FLIR Picture in Picture tags.
      64    GPSDOP                               no
      68    GPSSpeedRef                          no
      70    GPSTrackRef                          no
+     72    GPSImgDirectionRef                   no
      76    GPSSpeed                             no
      80    GPSTrack                             no
+     84    GPSImgDirection                      no
      88    GPSMapDatum                          no
 
 =head3 FLIR MeterLink Tags
@@ -12312,7 +13516,8 @@ DiMAGE X and Xt.
            ShotInfoD500                         Nikon ShotInfoD500
            ShotInfoD6                           Nikon ShotInfoD6
            ShotInfoD610                         Nikon ShotInfoD610
-           ShotInfoZ7_2                         Nikon ShotInfoZ7_2
+           ShotInfoZ7II                         Nikon ShotInfoZ7II
+           ShotInfoZ9                           Nikon ShotInfoZ9
            ShotInfo02xx                         Nikon ShotInfo
            ShotInfoUnknown                      Nikon ShotInfo
   0x0092   HueAdjustment                        int16s
@@ -12368,12 +13573,14 @@ DiMAGE X and Xt.
   0x00b1   HighISONoiseReduction                int16u
   0x00b3   ToningEffect                         string
   0x00b6   PowerUpTime                          undef
-  0x00b7   AFInfo2                              Nikon AFInfo2
+  0x00b7   AFInfo2                              Nikon AFInfo2V0400
+                                                Nikon AFInfo2
   0x00b8   FileInfo                             Nikon FileInfo
                                                 Nikon FileInfo
   0x00b9   AFTune                               Nikon AFTune
   0x00bb   RetouchInfo                          Nikon RetouchInfo
   0x00bd   PictureControlData                   Nikon PictureControl
+  0x00bf   SilentPhotography                    yes
   0x00c3   BarometerInfo                        Nikon BarometerInfo
   0x0e00   PrintIM                              PrintIM
   0x0e01   NikonCaptureData                     NikonCapture
@@ -12385,6 +13592,63 @@ DiMAGE X and Xt.
   0x0e1d   NikonICCProfile                      ICC_Profile
   0x0e1e   NikonCaptureOutput                   Nikon CaptureOutput
   0x0e22   NEFBitDepth                          int16u[4]!
+
+=head3 Nikon ast Tags
+
+Tags used by Nikon NX Studio in Nikon NKSC sidecar files and trailers.
+
+These tags belong to the ExifTool XMP-ast family 1 group.
+
+  Tag Name                                      Writable
+  --------                                      --------
+  About                                         no
+  GPSAltitude                                   no
+  GPSAltitudeRef                                no
+  GPSImgDirection                               no
+  GPSImgDirectionRef                            no
+  GPSLatitude                                   no
+  GPSLatitudeRef                                no
+  GPSLongitude                                  no
+  GPSLongitudeRef                               no
+  GPSMapDatum                                   no
+  GPSVersionID                                  no
+  IPTC                                          IPTC
+  Version                                       no
+  XMLPackets                                    XMP
+
+=head3 Nikon nine Tags
+
+These tags belong to the ExifTool XMP-nine family 1 group.
+
+  Tag Name                                      Writable
+  --------                                      --------
+  About                                         no
+  Label                                         no
+  NineEdits                                     Nikon NineEdits
+  Rating                                        no
+  Trim                                          no
+  Version                                       no
+
+=head3 Nikon NineEdits Tags
+
+XML-based tags used to store editing information.
+
+  Tag Name                                      Writable
+  --------                                      --------
+  FilterParametersBinary                        no
+  FilterParametersCustomCustomData              no
+  FilterParametersExportExportData              no
+
+=head3 Nikon sdc Tags
+
+These tags belong to the ExifTool XMP-sdc family 1 group.
+
+  Tag Name                                      Writable
+  --------                                      --------
+  About                                         no
+  AppName                                       no
+  AppVersion                                    no
+  Version                                       no
 
 =head3 Nikon PreviewIFD Tags
 
@@ -12595,6 +13859,13 @@ Tags written by some Nikon GPS-equipped cameras like the AW100.
       5    CountryCode                          undef[3]
       8    POILevel                             int8u
       9    Location                             undef[70]
+
+=head3 Nikon MakerNotes0x51 Tags
+
+  Index1   Tag Name                             Writable
+  ------   --------                             --------
+      0    FirmwareVersion                      no
+     10    NEFCompression                       int16u[0.5]
 
 =head3 Nikon AFInfo Tags
 
@@ -12894,6 +14165,8 @@ These tags are extracted from encrypted data in images from the D5 and D500.
       0    ShotInfoVersion                      no
       4    FirmwareVersion                      no
     202    Rotation                             int8u & 0x03
+    208    Interval                             int8u~
+    212    IntervalFrame                        int8u~
    1506    FlickerReductionIndicator            int8u & 0x01
    2004    JPGCompression                       int8u & 0x01
    2171    AEBracketingSteps                    int8u & 0xff
@@ -12920,9 +14193,29 @@ These tags are extracted from encrypted data in images from the D6.
    Index   Tag Name                             Writable
    -----   --------                             --------
       0    ShotInfoVersion                      no
+      4    FirmwareVersion                      no
+  30220    IntervalShooting                     int16u~
   49690    RollAngle                            fixed32u
   49694    PitchAngle                           fixed32u
   49698    YawAngle                             fixed32u
+  50190    Intervals                            int32u
+  50194    ShotsPerInterval                     int32u
+  50198    IntervalExposureSmoothing            int8u
+  50200    IntervalPriority                     int8u
+  50234    FocusShiftNumberShots                int8u
+  50238    FocusShiftStepWidth                  int8u
+  50242    FocusShiftInterval                   int8u~
+  50246    FocusShiftExposureLock               int8u
+  50336    DiffractionCompensation              int8u
+  50342    FlashControlMode                     int8u
+  50348    FlashGNDistance?                     no
+  50352    FlashOutput?                         int8u
+  50362    FlashRemoteControl?                  int8u
+  50366    FlashMasterControlMode               int8u
+  50368    FlashMasterCompensation?             int8s
+  50372    FlashMasterOutput?                   int8u
+  50374    FlashWirelessOption?                 int8u
+  50524    MovieType?                           int8u
 
 =head3 Nikon ShotInfoD610 Tags
 
@@ -12934,17 +14227,156 @@ These tags are extracted from encrypted data in images from the D610.
       4    FirmwareVersion                      no
    1999    CustomSettingsD610                   NikonCustom SettingsD610
 
-=head3 Nikon ShotInfoZ7_2 Tags
+=head3 Nikon ShotInfoZ7II Tags
 
-These tags are extracted from encrypted data in images from the Z7_2.
+These tags are extracted from encrypted data in images from the Z7II.
 
    Index   Tag Name                             Writable
    -----   --------                             --------
       0    ShotInfoVersion                      no
       4    FirmwareVersion                      no
+  30220    IntervalShooting                     int16u~
+  32672    PortraitImpressionBalance            int8u[2]~
   52786    RollAngle                            fixed32u
   52790    PitchAngle                           fixed32u
   52794    YawAngle                             fixed32u
+  52918    MenuSettingsZ7IIOffset               int8u
+  52920    MenuSettingsZ7II                     Nikon MenuSettingsZ7II
+
+=head3 Nikon MenuSettingsZ7II Tags
+
+These tags are used by the Z5, Z6, Z7, Z6II, Z7II, Z50 and Zfc.
+
+  Index1   Tag Name                             Writable
+  ------   --------                             --------
+    160    IntervalDurationHours                int32u
+    164    IntervalDurationMinutes              int32u
+    168    IntervalDurationSeconds              int32u
+    176    Intervals                            int32u
+    180    ShotsPerInterval                     int32u
+    184    IntervalExposureSmoothing            int8u
+    186    IntervalPriority                     int8u
+    220    FocusShiftNumberShots                int8u
+    224    FocusShiftStepWidth                  int8u
+    228    FocusShiftInterval                   int8u~
+    232    FocusShiftExposureLock               int8u
+    322    DiffractionCompensation              int8u
+    323    AutoDistortionControl                int8u
+    326    NikonMeteringMode                    int8u
+    328    FlashControlMode                     int8u
+    334    FlashGNDistance?                     no
+    338    FlashOutput?                         int8u
+    346    FlashWirelessOption?                 int8u
+    348    FlashRemoteControl?                  int8u
+    352    FlashMasterControlMode               int8u
+    354    FlashMasterCompensation?             int8s
+    358    FlashMasterOutput?                   int8u
+    502    MovieFrameSize?                      int8u
+    504    MovieFrameRate?                      int8u
+    506    MovieSlowMotion?                     int8u
+    510    MovieType?                           int8u
+    516    MovieISOAutoManualMode?              int16u
+    568    MovieActiveD-Lighting?               int8u
+    572    MovieHighISONoiseReduction?          int8u
+    574    MovieVignetteControl?                int8u
+    576    MovieVignetteControlSameAsPhoto?     int8u
+    577    MovieDiffractionCompensation?        int8u
+    578    MovieAutoDistortionControl?          int8u
+    584    MovieFocusMode?                      int8u
+    590    MovieVibrationReduction?             int8u
+    591    MovieVibrationReductionSameAsPhoto?  int8u
+    858    HDMIOutputN-Log?                     int8u
+
+=head3 Nikon ShotInfoZ9 Tags
+
+These tags are extracted from encrypted data in images from the Z9.
+
+   Index   Tag Name                             Writable
+   -----   --------                             --------
+      0    ShotInfoVersion                      no
+      4    FirmwareVersion                      no
+  27800    IntervalShooting                     int16u~
+  30788    FocusShiftShooting                   int8u~
+  60139    RollAngle                            fixed32u
+  60143    PitchAngle                           fixed32u
+  60147    YawAngle                             fixed32u
+  60491    MenuSettingsZ9                       Nikon MenuSettingsZ9
+
+=head3 Nikon MenuSettingsZ9 Tags
+
+These tags are used by the Z9.
+
+  Index1   Tag Name                             Writable
+  ------   --------                             --------
+    140    MultipleExposureMode                 int8u
+    142    MultiExposureShots                   int8u
+    188    Intervals                            int32u
+    192    ShotsPerInterval                     int32u
+    232    FocusShiftNumberShots                int8u
+    236    FocusShiftStepWidth                  int8u
+    240    FocusShiftInterval                   int8u~
+    244    FocusShiftExposureLock?              int8u
+    274    PhotoShootingMenuBank                int8u
+    276    ExtendedMenuBanks                    int8u
+    308    PhotoShootingMenuBankImageArea       int8u
+    322    AutoISO                              int8u
+    324    ISOAutoHiLimit?                      int16u
+    326    ISOAutoFlashLimit?                   int16u
+    334    ISOAutoShutterTime                   no
+    416    MovieVignetteControl?                int8u
+    418    DiffractionCompensation              int8u
+    420    FlickerReductionShooting             int8u
+    424    FlashControlMode                     int8u
+    426    FlashMasterCompensation?             int8s
+    430    FlashGNDistance?                     no
+    434    FlashOutput?                         int8u
+    444    FlashRemoteControl?                  int8u
+    456    FlashWirelessOption?                 int8u
+    528    AFAreaMode                           int8u
+    530    VRMode                               int8u
+    534    BracketSet                           int8u
+    536    BracketProgram                       int8u
+    538    BracketIncrement                     int8u
+    556    SecondarySlotFunction                int8u
+    572    DXCropAlert                          int8u
+    574    SubjectDetection                     int8u
+    604    MovieImageArea?                      int8u & 0x01
+    614    MovieType?                           int8u
+    616    MovieISOAutoHiLimit?                 int16u
+    618    MovieISOAutoControlManualMode?       int8u
+    620    MovieISOAutoManualMode?              int16u
+    696    MovieActiveD-Lighting?               int8u
+    698    MovieHighISONoiseReduction?          int8u
+    704    MovieFlickerReduction                int8u
+    706    MovieMeteringMode?                   int8u
+    708    MovieFocusMode?                      int8u
+    710    MovieAFAreaMode                      int8u
+    712    MovieVRMode?                         int8u
+    716    MovieElectronicVR?                   int8u
+    718    MovieSoundRecording?                 int8u
+    720    MicrophoneSensitivity?               int8u
+    722    MicrophoneAttenuator?                int8u
+    724    MicrophoneFrequencyResponse?         int8u
+    726    WindNoiseReduction?                  int8u
+    748    MovieToneMap?                        int8u
+    754    MovieFrameSize?                      int8u
+    756    MovieFrameRate?                      int8u
+    762    MicrophoneJackPower?                 int8u
+    763    MovieDXCropAlert?                    int8u
+    764    MovieSubjectDetection?               int8u
+    799    CustomSettingsZ9                     NikonCustom SettingsZ9
+   1426    Language?                            int8u
+   1428    TimeZone                             int8u
+   1434    MonitorBrightness?                   no
+   1456    AFFineTune?                          int8u
+   1552    HDMIOutputResolution                 int8u
+   1565    SetClockFromLocationData?            int8u
+   1572    AirplaneMode?                        int8u
+   1573    EmptySlotRelease?                    int8u
+   1608    EnergySavingMode?                    int8u
+   1632    RecordLocationData?                  int8u
+   1636    USBPowerDelivery?                    int8u
+   1645    SensorShield?                        int8u
 
 =head3 Nikon ShotInfo Tags
 
@@ -13270,7 +14702,7 @@ These tags are used by the D4S, D750, D810, D5500, D7200 (FlashInfoVersion
       0    FlashInfoVersion                     no
       4    FlashSource                          int8u
       6    ExternalFlashFirmware                int8u[2]
-     27    FlashCompensation                    int8s
+     10    FlashCompensation                    int8s
 
 =head3 Nikon FlashInfoUnknown Tags
 
@@ -13286,6 +14718,18 @@ These tags are used by the D4S, D750, D810, D5500, D7200 (FlashInfoVersion
       1    MultiExposureMode                    int32u
       2    MultiExposureShots                   int32u
       3    MultiExposureAutoGain                int32u
+
+=head3 Nikon AFInfo2V0400 Tags
+
+  Index1   Tag Name                             Writable
+  ------   --------                             --------
+      0    AFInfo2Version                       no
+     62    AFImageWidth                         int16u
+     64    AFImageHeight                        int16u
+     67    FocusPositionHorizontal              int8u~
+     69    FocusPositionVertical                int8u~
+     70    AFAreaWidth                          int16u
+     72    AFAreaHeight                         int16u
 
 =head3 Nikon AFInfo2 Tags
 
@@ -14638,6 +16082,151 @@ Custom settings for the D610.
    21.2    ShootingInfoMonitorOffTime           int8u & 0x1c
    35.1    PlaybackMonitorOffTime               int8u & 0xe0
 
+=head3 NikonCustom SettingsZ9 Tags
+
+Custom settings for the Z9.
+
+  Index1   Tag Name                             Writable
+  ------   --------                             --------
+      1    CustomSettingsBank                   int8u
+      3    AF-CPrioritySelection                int8u
+      5    AF-SPrioritySelection                int8u
+      7    BlockShotAFResponse                  int8u
+     11    AFPointSel                           int8u
+     13    StoreByOrientation                   int8u
+     15    AFActivation                         int8u
+     16    AF-OnOutOfFocusRelease?              int8u
+     17    LimitAF-AreaModeSelPinpoint?         int8u
+     19    LimitAF-AreaModeSelWideAF_S?         int8u
+     20    LimitAF-AreaModeSelWideAF_L?         int8u
+     21    LimitAFAreaModeSelAuto?              int8u
+     22    FocusPointWrap?                      int8u
+     23    ManualFocusPointIllumination?        int8u
+     24    DynamicAreaAFAssist?                 int8u
+     25    AF-AssistIlluminator                 int8u
+     26    ManualFocusRingInAFMode              int8u
+     27    ExposureControlStepSize              int8u
+     29    EasyExposureCompensation             int8u
+     31    CenterWeightedAreaSize               int8u
+     33    FineTuneOptMatrixMetering            int8s
+     35    FineTuneOptCenterWeighted            int8s
+     37    FineTuneOptSpotMetering              int8s
+     39    FineTuneOptHighlightWeighted         int8s
+     41    ShutterReleaseButtonAE-L             int8u
+     43    SelfTimerTime                        int8u
+     45    SelfTimerShotCount                   int8u
+     49    SelfTimerShotInterval                int8u
+     51    PlaybackMonitorOffTime               int8u
+     53    MenuMonitorOffTime                   int8u
+     55    ShootingInfoMonitorOffTime           int8u
+     57    ImageReviewMonitorOffTime            int8u
+     59    CLModeShootingSpeed                  int8u
+     61    MaxContinuousRelease                 no
+     65    SyncReleaseMode?                     int8u
+     69    LimitSelectableImageAreaDX?          int8u
+     70    LimitSelectableImageArea1To1?        int8u
+     71    LimitSelectableImageArea16To9?       int8u
+     72    FileNumberSequence                   int8u
+     73    FocusPeakingLevel?                   int8u
+     75    FocusPeakingHighlightColor?          int8u
+     81    ContinuousModeDisplay                int8u
+     83    FlashSyncSpeed                       no
+     85    HighSpeedSync                        int8u
+     87    FlashShutterSpeed                    no
+     89    FlashExposureCompArea                int8u
+     91    AutoFlashISOSensitivity              int8u
+     93    ModelingFlash                        int8u
+     95    AutoBracketModeM                     int8u
+     97    AutoBracketOrder                     int8u
+     99    Func1Button                          int8u
+    115    Func2Button                          int8u
+    131    AFOnButton                           int8u
+    143    SubSelector?                         int8u
+    155    AssignMovieRecordButton?             int8u
+    159    LensFunc1Button                      int8u
+    167    LensFunc2Button                      int8u
+    173    LensControlRing                      int8u
+    175    MultiSelectorShootMode               int8u
+    179    MultiSelectorPlaybackMode            int8u
+    183    ShutterSpeedLock                     int8u
+    184    ApertureLock                         int8u
+    186    CmdDialsReverseRotation              int8u
+    191    UseDialWithoutHold?                  int8u
+    193    ReverseIndicators?                   int8u
+    195    MovieFunc1Button                     int8u
+    203    MovieAF-OnButton                     int8u
+    217    MovieMultiSelector?                  int8u
+    221    MovieAFSpeed                         int8u
+    223    MovieAFSpeedApply                    int8u
+    225    MovieAFTrackingSensitivity           int8u
+    257    LCDIllumination?                     int8u
+    258    ExtendedShutterSpeeds                int8u
+    259    SubjectMotion                        int8u
+    261    FocusPointPersistence                int8u
+    263    AutoFocusModeRestrictions?           int8u
+    267    CHModeShootingSpeed                  int8u
+  269.1    LimitReleaseModeSelCL?               int8u & 0x02
+  269.2    LimitReleaseModeSelCH?               int8u & 0x04
+  269.3    LimitReleaseModeSelC30?              int8u & 0x10
+  269.4    LimitReleaseModeSelC120?             int8u & 0x40
+  269.5    LimitReleaseModeSelSelf?             int8u & 0x80
+    273    FlashBurstPriority?                  int8u
+    277    VerticalFuncButton                   int8u
+    281    Func3Button                          int8u
+    285    VerticalAFOnButton                   int8u
+    293    VerticalMultiSelectorPlaybackMode?   int8u
+    295    MovieFunc3Button                     int8u
+    335    LimitAF-AreaModeSelDynamic_S?        int8u
+    336    LimitAF-AreaModeSelDynamic_M?        int8u
+    337    LimitAF-AreaModeSelDynamic_L?        int8u
+    339    LimitAF-AreaModeSel3DTracking?       int8u
+    341    PlaybackFlickUp?                     int8u
+    345    PlaybackFlickDown?                   int8u
+    349    ISOStepSize                          int8u
+    355    ReverseFocusRing                     int8u
+    356    EVFImageFrame?                       int8u
+    357    EVFGrid?                             int8u
+    359    VirtualHorizonStyle?                 int8u
+    373    Func4Button?                         int8u
+    379    AudioButton?                         int8u
+    381    QualityButton?                       int8u
+    399    VerticalMultiSelector?               int8u
+    421    Func1ButtonPlaybackMode?             int8u
+    423    Func2ButtonPlaybackMode?             int8u
+    425    Func3ButtonPlaybackMode?             int8u
+    431    Func4ButtonPlaybackMode?             int8u
+    437    MovieRecordButtonPlaybackMode?       int8u
+    439    VerticalFuncButtonPlaybackMode?      int8u
+    441    AudioButtonPlaybackMode?             int8u
+    447    QualityButtonPlaybackMode?           int8u
+    453    WhiteBalanceButtonPlaybackMode?      int8u
+    459    CommandDialPlaybackMode?             int8u
+    463    SubCommandDialPlaybackMode?          int8u
+    467    FocusPointLock?                      int8u
+    469    ControlRingResponse                  int8u
+    481    VerticalMovieFuncButton?             int8u
+    505    VerticalMovieAFOnButton?             int8u
+    515    MovieAFAreaMode?                     int8u
+    527    HDMIViewAssist?                      int8u
+    529    ZebraPatternToneRange?               int8u
+    531    MovieZebraPattern?                   int8u
+    533    MovieHighlightDisplayThreshold?      int8u
+    535    MovieMidtoneDisplayValue?            int8u
+    537    MovieMidtoneDisplayRange?            int8u~
+    541    MovieEVFGrid?                        int8u
+    549    MovieShutterSpeedLock?               int8u
+    550    MovieFocusPointLock?                 int8u
+    563    MatrixMetering?                      int8u
+    564    AF-CFocusDisplay                     int8u
+    565    FocusPeakingDisplay?                 int8u
+    567    KeepExposure                         int8u
+    585    StarlightView?                       int8u
+    587    EVFWarmDisplayMode?                  int8u
+    589    EVFWarmDisplayBrightness?            int8s
+    591    EVFReleaseIndicator?                 int8u
+    601    MovieApertureLock?                   int8u
+    607    FlickAdvanceDirection?               int8u
+
 =head2 NikonCapture Tags
 
 This information is written by the Nikon Capture software in tag 0x0e01 of
@@ -15409,6 +16998,7 @@ such as the OM E-M5.
      44    Model                                no
     131    DateTime1                            no
     157    DateTime2                            no
+    383    LensModel                            no
 
 =head3 Olympus scrn2 Tags
 
@@ -15619,6 +17209,7 @@ These tags are used in Panasonic/Leica cameras.
   0x00d1   ISO                                  int32u
   0x00d2   MonochromeGrainEffect                int16u
   0x00d6   NoiseReductionStrength               rational64s
+  0x00e4   LensTypeModel                        int16u
   0x0e00   PrintIM                              PrintIM
   0x2003   TimeInfo                             Panasonic TimeInfo
   0x8000   MakerNoteVersion                     undef
@@ -17039,11 +18630,13 @@ Camera orientation information written by the Gear 360 (SM-C200).
 
 Tags extracted from the trailer of JPEG images written when using certain
 features (such as "Sound & Shot" or "Shot & More") from Samsung models such
-as the Galaxy S4 and Tab S.
+as the Galaxy S4 and Tab S, and from the 'sefd' atom in HEIC images from the
+Samsung S10+.
 
   Tag Name                                      Writable
   --------                                      --------
   DepthMapData                                  no
+  DepthMapData2                                 no
   DepthMapName                                  no
   DualCameraImage                               no
   DualCameraImageName                           no
@@ -17051,9 +18644,11 @@ as the Galaxy S4 and Tab S.
   EmbeddedAudioFile                             no
   EmbeddedAudioFileName                         no
   EmbeddedImage                                 no
+  EmbeddedImage2                                no
   EmbeddedImageName                             no
   EmbeddedVideoFile                             no
   EmbeddedVideoType                             no
+  MCCData                                       no
   SingleShotDepthMap                            no
   SingleShotMeta                                Samsung SingleShotMeta
   SurroundShotVideo                             no
@@ -18708,6 +20303,7 @@ WX350/WX500, ILCE-1/7/7C/7R/7S/7M2/7M3/7RM2/7RM3/7RM4/7SM2/7SM3/9/9M2/5000/
   Index1   Tag Name                             Writable
   ------   --------                             --------
    1176    ISOInfo                              Sony ISOInfo
+   1181    ISOInfo                              Sony ISOInfo
    1185    ISOInfo                              Sony ISOInfo
    1186    ISOInfo                              Sony ISOInfo
    1437    ISOInfo                              Sony ISOInfo
@@ -19038,7 +20634,7 @@ E-mount models.
 
 =head3 Sony Tag9416 Tags
 
-Valid for the ILCE-1/7SM3, ILME-FX3.
+Valid for the ILCE-1/7M4/7SM3, ILME-FX3.
 
   Index1   Tag Name                             Writable
   ------   --------                             --------
@@ -19062,7 +20658,9 @@ Valid for the ILCE-1/7SM3, ILME-FX3.
     115    MinFocalLength                       no
     117    MaxFocalLength                       no
    2191    VignettingCorrParams                 no
+   2193    VignettingCorrParams                 no
    2324    ChromaticAberrationCorrParams        no
+   2326    ChromaticAberrationCorrParams        no
 
 =head3 Sony PIC Tags
 
@@ -19250,6 +20848,8 @@ some models when the ExtractEmbedded option is used.
   0x851d   GPSDateStamp                         no
   0xe303   WhiteBalance                         no
   0xe304   DateTime                             no
+  0xe43b   PitchRollYaw                         no
+  0xe44b   Accelerometer                        no
 
 =head2 SonyIDC Tags
 
@@ -20496,6 +22096,7 @@ L<https://github.com/gopro/gpmf-parser> for details about this format.
   'EISA'   ElectronicImageStabilization         no
   'EMPT'   Empty?                               no
   'ESCS'   EscapeStatus?                        no
+  'EXPT'   MaximumShutterAngle                  no
   'FACE'   FaceDetected                         no
   'FCNM'   FaceNumbers                          no
   'FMWR'   FirmwareVersion                      no
@@ -20513,7 +22114,11 @@ L<https://github.com/gopro/gpmf-parser> for details about this format.
   'LNED'   LocalPositionNED                     no
   'MAGN'   Magnetometer                         no
   'MINF'   Model                                no
+  'MTRX'   AccelerometerMatrix                  no
+  'MUID'   MediaUniqueID                        no
   'OREN'   AutoRotation                         no
+  'ORIN'   InputOrientation                     no
+  'ORIO'   OutputOrientation                    no
   'PHDR'   HDRSetting                           no
   'PIMN'   AutoISOMin                           no
   'PIMX'   AutoISOMax                           no
@@ -20530,6 +22135,7 @@ L<https://github.com/gopro/gpmf-parser> for details about this format.
   'SHUT'   ExposureTimes                        no
   'SIMU'   ScaledIMU                            no
   'SIUN'   SIUnits?                             no
+  'SROT'   SensorReadoutTime                    no
   'STMP'   TimeStamp                            no
   'STNM'   StreamName?                          no
   'STRM'   NestedSignalStream                   GoPro GPMF
@@ -20537,6 +22143,7 @@ L<https://github.com/gopro/gpmf-parser> for details about this format.
   'TMPC'   CameraTemperature                    no
   'TSMP'   TotalSamples?                        no
   'TYPE'   StructureType?                       no
+  'UNIF'   InputUniformity                      no
   'UNIT'   Units?                               no
   'VERS'   MetadataVersion                      no
   'VFOV'   FieldOfView                          no
@@ -21806,16 +23413,19 @@ even if it is not listed in this table.
 
 =head2 Jpeg2000 Tags
 
-The tags below are extracted from JPEG 2000 images and the JUMBF metadata in
-JPEG images.  Note that ExifTool currently writes only EXIF, IPTC and XMP
-tags in Jpeg2000 images.
+The tags below are found in JPEG 2000 images and the JUMBF metadata in JPEG
+images, but not all of these are extracted.  Note that ExifTool currently
+writes only EXIF, IPTC and XMP tags in Jpeg2000 images.
 
   Tag ID   Tag Name                             Writable
   ------   --------                             --------
   'Exif'   EXIF                                 EXIF
   'asoc'   Association                          Jpeg2000
+  'bfdb'   BinaryDataType                       no
   'bfil'   BinaryFilter                         no
+  'bidb'   BinaryData                           no
   'bpcc'   BitsPerComponent                     no
+  'cbor'   CBORData                             CBOR
   'cdef'   ComponentDefinition                  no
   'cgrp'   ColorGroup                           no
   'chck'   DigitalSignature                     no
@@ -21869,6 +23479,7 @@ tags in Jpeg2000 images.
            UUID-GeoJP2                          EXIF
            UUID-Photoshop                       Photoshop
            UUID-Signature                       no
+           UUID-C2PAClaimSignature              -
            UUID-Unknown                         no
   'xml '   XML                                  XMP XML
            XMP                                  -
@@ -21876,14 +23487,23 @@ tags in Jpeg2000 images.
 
 =head3 Jpeg2000 ColorSpec Tags
 
+The table below contains tags in the color specification (colr) box.  This
+box may be rewritten by writing either ICC_Profile, ColorSpace or
+ColorSpecData.  When writing, any existing colr boxes are replaced with the
+newly created colr box.
+
+B<NOTE>: Care must be taken when writing this color specification because
+writing a specification that is incompatible with the image data may make
+the image undisplayable.
+
   Index1   Tag Name                             Writable
   ------   --------                             --------
-      0    ColorSpecMethod                      no
-      1    ColorSpecPrecedence                  no
-      2    ColorSpecApproximation               no
+      0    ColorSpecMethod                      int8s!
+      1    ColorSpecPrecedence                  int8s!
+      2    ColorSpecApproximation               int8s!
       3    ICC_Profile                          ICC_Profile
-           ColorSpace                           no
-           ColorSpecData                        no
+           ColorSpace                           int32u!
+           ColorSpecData                        undef!
 
 =head3 Jpeg2000 FileType Tags
 
@@ -21907,13 +23527,13 @@ tags in Jpeg2000 images.
 
 Information extracted from the JUMBF description box.
 
-  Tag ID               Tag Name                 Writable
-  ------               --------                 --------
-  'jumd-flags'         JUMDFlags                no
-  'jumd-id'            JUMDID                   no
-  'jumd-label'         JUMDLabel                no
-  'jumd-sig'           JUMDSignature            no
-  'jumd-type'          JUMDType                 no
+  Tag ID       Tag Name                         Writable
+  ------       --------                         --------
+  'id'         JUMDID                           no
+  'label'      JUMDLabel                        no
+  'sig'        JUMDSignature                    no
+  'toggles'    JUMDToggles?                     no
+  'type'       JUMDType                         no
 
 =head3 Jpeg2000 CaptureResolution Tags
 
@@ -21949,6 +23569,24 @@ JSON-formatted files.
   ON1_SettingsMetadataTimestamp                 no
   ON1_SettingsMetadataUsage                     no
   ON1_SettingsMetadataVisibleToUser             no
+
+=head2 CBOR Tags
+
+The tags below are extracted from CBOR (Concise Binary Object
+Representation) metadata.  The C2PA specification uses this format for some
+metadata.  As well as these tags, ExifTool will read any existing tags.
+
+  Tag Name                                      Writable
+  --------                                      --------
+  AuthorIdentifier                              no
+  AuthorName                                    no
+  DocumentID                                    no
+  Format                                        no
+  InstanceID                                    no
+  Relationship                                  no
+  ThumbnailHash                                 no+
+  ThumbnailURL                                  no
+  Title                                         no
 
 =head2 PLIST Tags
 
@@ -22106,7 +23744,7 @@ These tags belong to the ExifTool XMP-dwc family 1 group.
   EventEarliestDate                             date_
   EventEndDayOfYear                             integer_
   EventDate                                     date_
-  EventID                                       string_
+  EventID                                       string/_
   EventRemarks                                  lang-alt_
   EventTime                                     string_
   EventFieldNotes                               string_
@@ -22148,7 +23786,7 @@ These tags belong to the ExifTool XMP-dwc family 1 group.
   HumanObservationEarliestDate                  date_
   HumanObservationEndDayOfYear                  integer_
   HumanObservationEventDate                     date_
-  HumanObservationEventID                       string_
+  HumanObservationEventID                       string/_
   HumanObservationEventRemarks                  lang-alt_
   HumanObservationEventTime                     string_
   HumanObservationFieldNotes                    string_
@@ -22180,7 +23818,7 @@ These tags belong to the ExifTool XMP-dwc family 1 group.
   MachineObservationEarliestDate                date_
   MachineObservationEndDayOfYear                integer_
   MachineObservationEventDate                   date_
-  MachineObservationEventID                     string_
+  MachineObservationEventID                     string/_
   MachineObservationEventRemarks                lang-alt_
   MachineObservationEventTime                   string_
   MachineObservationFieldNotes                  string_
@@ -23547,6 +25185,7 @@ specification.
   GIFVersion                                    no
   ScreenDescriptor                              GIF Screen
   Text                                          no
+  TransparentColor                              no
 
 =head3 GIF Extensions Tags
 
@@ -23869,13 +25508,13 @@ check if speed is more of a concern.
   'dSIG'             DigitalSignature           no
   'eXIf'             eXIf                       EXIF
   'fRAc'             FractalParameters          no
-  'gAMA'             Gamma                      no
+  'gAMA'             Gamma                      yes!
   'gIFg'             GIFGraphicControlExtension no
   'gIFt'             GIFPlainTextExtension      no
   'gIFx'             GIFApplicationExtension    no
   'hIST'             PaletteHistogram           no
   'iCCP'             ICC_Profile                ICC_Profile
-  'iCCP-name'        ProfileName                no
+  'iCCP-name'        ProfileName                yes
   'iDOT'             AppleDataOffsets           no
   'iTXt'             InternationalText          PNG TextualData
   'oFFs'             ImageOffset                no
@@ -23884,7 +25523,7 @@ check if speed is more of a concern.
   'sBIT'             SignificantBits            no
   'sCAL'             SubjectScale               PNG SubjectScale
   'sPLT'             SuggestedPalette           no
-  'sRGB'             SRGBRendering              no
+  'sRGB'             SRGBRendering              yes!
   'sTER'             StereoImage                PNG StereoImage
   'tEXt'             TextualData                PNG TextualData
   'tIME'             ModifyDate                 yes
@@ -23945,6 +25584,8 @@ available.  Alternate language tags and values containing special characters
 if the Compress option is used and Compress::Zlib is available.  Raw profile
 information is always created as compressed zTXt if Compress::Zlib is
 available, or tEXt otherwise.  Standard XMP is written as uncompressed iTXt.
+User-defined tags may set an 'iTXt' flag in the tag definition to be written
+only as iTXt.
 
 Alternate languages are accessed by suffixing the tag name with a '-',
 followed by an RFC 3066 language code (eg. "PNG:Comment-fr", or
@@ -24378,6 +26019,7 @@ Tags extracted from DPX (Digital Picture Exchange) images.
    1532    SourceCreateDate                     no
    1556    InputDeviceName                      no
    1588    InputDeviceSerialNumber              no
+   1628    AspectRatio                          no
    1724    OriginalFrameRate                    no
    1728    ShutterAngle                         no
    1732    FrameID                              no
@@ -24593,6 +26235,16 @@ Tags extracted from FEI1 and FEI2 extended headers.
     868    PhasePlatePosition                   no
     872    ObjectiveAperture                    no
 
+=head2 LIF Tags
+
+Tags extracted from Leica Image Format (LIF) imaging files.  As well as the
+tags listed below, all available information is extracted from the
+XML-format metadata in the LIF header.
+
+  Tag Name                                      Writable
+  --------                                      --------
+  TimeStampList                                 no
+
 =head2 MIFF Tags
 
 The MIFF (Magick Image File Format) format allows aribrary tag names to be
@@ -24779,6 +26431,18 @@ specification.
   'software'           Software                 no
   'view'               View                     no
 
+=head3 Other PFM Tags
+
+Tags extracted from Portable FloatMap images. See
+L<http://www.pauldebevec.com/Research/HDR/PFM/> for the specification.
+
+  Tag Name                                      Writable
+  --------                                      --------
+  ByteOrder                                     no
+  ColorSpace                                    no
+  ImageHeight                                   no
+  ImageWidth                                    no
+
 =head2 PDF Tags
 
 The tags listed in the PDF tables below are those which are used by ExifTool
@@ -24957,15 +26621,10 @@ This is the PDF document catalog.
 
   Tag ID               Tag Name                 Writable
   ------               --------                 --------
-  'Cs1'                Cs1                      PDF Cs1
+  'CS0'                CS0                      PDF DefaultRGB
+  'Cs1'                Cs1                      PDF DefaultRGB
   'DefaultCMYK'        DefaultCMYK              PDF DefaultRGB
   'DefaultRGB'         DefaultRGB               PDF DefaultRGB
-
-=head3 PDF Cs1 Tags
-
-  Tag ID       Tag Name                         Writable
-  ------       --------                         --------
-  '_stream'    _stream                          ICC_Profile
 
 =head3 PDF DefaultRGB Tags
 
@@ -25090,8 +26749,8 @@ Additional document permissions imposed by digital signatures.
 
 =head2 ID3 Tags
 
-ExifTool extracts ID3 and Lyrics3 information from MP3, MPEG, AIFF, OGG,
-FLAC, APE, MPC and RealAudio files.  ID3v2 tags which support multiple
+ExifTool extracts ID3 and Lyrics3 information from MP3, MPEG, WAV, AIFF,
+OGG, FLAC, APE, MPC and RealAudio files.  ID3v2 tags which support multiple
 languages (eg. Comment and Lyrics) are extracted by specifying the tag name,
 followed by a dash ('-'), then a 3-character ISO 639-2 language code (eg.
 "Comment-spa"). See L<http://www.id3.org/> for the official ID3
@@ -25983,7 +27642,7 @@ According to the specification, integer-format QuickTime date/time tags
 should be stored as UTC.  Unfortunately, digital cameras often store local
 time values instead (presumably because they don't know the time zone).  For
 this reason, by default ExifTool does not assume a time zone for these
-values.  However, if the QuickTimeUTC API option is set, then ExifTool will
+values.  However, if the API QuickTimeUTC option is set, then ExifTool will
 assume these values are properly stored as UTC, and will convert them to
 local time when extracting.
 
@@ -25991,6 +27650,11 @@ When writing string-based date/time tags, the system time zone is added if
 the PrintConv option is enabled and no time zone is specified.  This is
 because Apple software may display crazy values if the time zone is missing
 for some tags.
+
+By default ExifTool will remove null padding from some QuickTime containers
+in Canon CR3 files when writing, but the
+QuickTimePad option may be used to preserve
+the original size by padding with nulls if necessary.
 
 See
 L<https://developer.apple.com/library/archive/documentation/QuickTime/QTFF/>
@@ -26006,6 +27670,7 @@ for the official specification.
   'frea'               Kodak_frea               Kodak frea
   'free'               KodakFree                Kodak Free
                        Pittasoft                QuickTime Pittasoft
+                       ThumbnailImage           no
                        Free?                    no
   'ftyp'               FileType                 QuickTime FileType
   'gps0'               GPSTrack                 QuickTime Stream
@@ -26021,6 +27686,7 @@ for the official specification.
   'pict'               PreviewPICT              no
   'pnot'               Preview                  QuickTime Preview
   'prrt'               ARDroneTelemetry         no
+  'sefd'               SamsungTrailer           Samsung Trailer
   'skip'               CanonSkip                Canon Skip
                        PreviewImage             no
                        Skip?                    no
@@ -26065,7 +27731,7 @@ Tags found in Pittasoft Blackvue dashcam "free" data.
 The tags below are extracted from timed metadata in QuickTime and other
 formats of video files when the ExtractEmbedded option is used.  Although
 most of these tags are combined into the single table below, ExifTool
-currently reads 53 different formats of timed GPS metadata from video files.
+currently reads 59 different formats of timed GPS metadata from video files.
 
   Tag Name                                      Writable
   --------                                      --------
@@ -26123,6 +27789,7 @@ currently reads 53 different formats of timed GPS metadata from video files.
   fdsc                                          GoPro fdsc
   gpmd_Kingslim                                 QuickTime Stream
   gpmd_Rove                                     QuickTime Stream
+  gpmd_FMAS                                     QuickTime Stream
   gpmd_GoPro                                    GoPro GPMF
   marl                                          QuickTime marl
   mebx                                          QuickTime Keys
@@ -26310,7 +27977,7 @@ changed via the config file.
   'player.movie.audio.gain' AudioGain           yes
   'player.movie.audio.mute' Mute                int8u
   'player.movie.audio.pitchshift' PitchShift    yes
-  'player.movie.audio.treble' Trebel            yes
+  'player.movie.audio.treble' Treble            yes
   'player.movie.visual.brightness' Brightness   yes
   'player.movie.visual.color' Color             yes
   'player.movie.visual.contrast' Contrast       yes
@@ -26551,21 +28218,42 @@ QuickTimeHandler option may be set to 0 to avoid this.
 =head3 QuickTime iTunesInfo Tags
 
 ExifTool will extract any iTunesInfo tags that exist, even if they are not
-defined in this table.
+defined in this table.  These tags belong to the family 1 "iTunes" group,
+and are not currently writable.
 
   Tag ID                    Tag Name            Writable
   ------                    --------            --------
+  'ARTISTS'                 Artists             no
+  'BARCODE'                 Barcode             no
+  'CATALOGNUMBER'           CatalogNumber       no
   'DISCNUMBER'              DiscNumber          no
+  'Dynamic Range (DR)'      DynamicRange        no
+  'Dynamic Range (R128)'    DynamicRangeR128    no
   'Encoding Params'         EncodingParams      QuickTime EncodingParams
+  'LABEL'                   Label               no
+  'MEDIA'                   Media               no
+  'MOOD'                    Mood                no
+  'Peak Level (R128)'       PeakLevelR128       no
+  'Peak Level (Sample)'     PeakLevelSample     no
+  'RATING'                  Rating              no
+  'SCRIPT'                  Script              no
   'TRACKNUMBER'             TrackNumber         no
+  'Volume Level (R128)'     VolumeLevelR128     no
+  'Volume Level (ReplayGain)' ReplayVolumeLevel no
   'iTunEXTC'                ContentRating       no
   'iTunMOVI'                iTunMOVI            PLIST
   'iTunNORM'                VolumeNormalization no
   'iTunSMPB'                iTunSMPB            no
   'iTunes_CDDB_1'           CDDB1Info           no
   'iTunes_CDDB_TrackNumber' CDDBTrackNumber     no
+  'initialkey'              InitialKey          no
+  'originaldate'            OriginalDate        no
+  'originalyear'            OriginalYear        no
   'popularimeter'           Popularimeter       no
+  'replaygain_track_gain'   ReplayTrackGain     no
+  'replaygain_track_peak'   ReplayTrackPeak     no
   'tool'                    iTunTool            no
+  '~length'                 Length              no
 
 =head3 QuickTime EncodingParams Tags
 
@@ -27220,6 +28908,7 @@ the config file.
   'lrcu'       LyricsURI                        string
   'lvlm'       LevelMeter?                      rational64s
   'manu'       Make                             no
+  'mcvr'       PreviewImage                     string
   'meta'       Meta                             QuickTime Meta
   'modl'       Model                            no
   'name'       Name                             string
@@ -27918,9 +29607,10 @@ for the specification.
   0x7671   ProjectionType                       no
   0x7672   EquirectangularProj                  QuickTime equi
            CubemapProj                          QuickTime cbmp
-  0x7673   ProjectionPosYaw                     no
-  0x7674   ProjectionPosPitch                   no
-  0x7675   ProjectionPosRoll                    no
+           ProjectionPrivate                    no
+  0x7673   ProjectionPoseYaw                    no
+  0x7674   ProjectionPosePitch                  no
+  0x7675   ProjectionPoseRoll                   no
 
 =head2 MOI Tags
 
@@ -30080,6 +31770,7 @@ sub-documents, but the Duration is calculated for the full video.
   'gps0'               GPSTrack                 QuickTime Stream
   'gsen'               GSensor                  QuickTime Stream
   'iXML'               IXML                     XMP XML
+  'id3 '               ID3                      ID3
   'inst'               Instrument               RIFF Instrument
   'labl'               CuePointLabel            no
   'list'               ListType                 no
@@ -30201,6 +31892,7 @@ by some software.
   'ISTD'   ProductionStudio                     no
   'ISTR'   Starring                             no
   'ITCH'   Technician                           no
+  'ITRK'   TrackNumber                          no
   'IWMU'   WatermarkURL                         no
   'IWRI'   WrittenBy                            no
   'LANG'   Language                             no
@@ -34878,6 +36570,7 @@ document number (ie. the exiftool C<-g3> option).
       9    ZipCompressedSize                    no
      11    ZipUncompressedSize                  no
      15    ZipFileName                          no
+  '_com'   ZipFileComment                       no
 
 =head3 ZIP GZIP Tags
 
@@ -35105,7 +36798,7 @@ options, but these files are not writable directly.
 
 XAttr tags are extracted using the "xattr" utility.  They are extracted if
 any "XAttr*" tag or the MacOS group is specifically requested, or by setting
-the XAttrTags API option to 1 or the RequestAll API option to 2 or higher.
+the API XAttrTags option to 1 or the API RequestAll option to 2 or higher.
 And they are extracted by default from MacOS "._" files when reading
 these files directly.
 
@@ -35127,7 +36820,7 @@ these files directly.
 
 MDItem tags are extracted using the "mdls" utility.  They are extracted if
 any "MDItem*" tag or the MacOS group is specifically requested, or by
-setting the MDItemTags API option to 1 or the RequestAll API option to 2 or
+setting the API MDItemTags option to 1 or the API RequestAll option to 2 or
 higher.  Note that these tags do not necessarily reflect the current
 metadata of a file -- it may take some time for the MacOS mdworker daemon to
 index the file after a metadata change.
@@ -35333,6 +37026,7 @@ FileName.
   NewGUID                    ExifTool           no
   Now                        ExifTool           no
   OtherImage                 File               no
+  PageCount                  File               no
   PreviewImage               File               yes
   PreviewPDF                 File               no
   PreviewPNG                 File               no
@@ -35351,6 +37045,7 @@ FileName.
   XMP                        XMP                yes!
   XResolution                File               no
   YResolution                File               no
+  ZoneIdentifier             System             yes!
 
 =head2 Composite Tags
 
@@ -35495,13 +37190,17 @@ values, may created via the ExifTool configuration file.
                        GPS:GPSLatitudeRef
   GPSLatitude          QuickTime:GPSCoordinates no
   GPSLatitude          QuickTime:LocationInformation no
+  GPSLatitude          Sony:GPSLatitude         no
+                       Sony:GPSLatitudeRef
   GPSLatitudeRef       XMP-exif:GPSLatitude     no
   GPSLongitude         GPS:GPSLongitude         no
                        GPS:GPSLongitudeRef
   GPSLongitude         QuickTime:GPSCoordinates no
   GPSLongitude         QuickTime:LocationInformation no
+  GPSLongitude         Sony:GPSLongitude        no
+                       Sony:GPSLongitudeRef
   GPSLongitudeRef      XMP-exif:GPSLongitude    no
-  GPSPosition          GPSLatitude              no
+  GPSPosition          GPSLatitude              yes!
                        GPSLongitude
   HyperfocalDistance   FocalLength              no
                        Aperture
@@ -36181,7 +37880,7 @@ L<Image::ExifTool::BuildTagLookup|Image::ExifTool::BuildTagLookup>.
 
 =head1 AUTHOR
 
-Copyright 2003-2021, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
