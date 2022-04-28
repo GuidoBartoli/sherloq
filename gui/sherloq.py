@@ -440,6 +440,8 @@ class MainWindow(QMainWindow):
         message += "<h3>A digital image forensic toolkit</h3>"
         message += f'<p>author: <a href="{QApplication.organizationDomain()}">{QApplication.organizationName()}</a></p>'
         message += '<p>source: <a href="https://github.com/GuidoBartoli/sherloq">GitHub repository</a></p>'
+        message += '<p>license: <a href="https://www.gnu.org/licenses/gpl-3.0.html">GNU GPLv3</a></p>'
+        message += '<p>libraries: <a href="https://opencv.org/">OpenCV</a> <a href="https://exiftool.org/">ExifTool</a> <a href="https://www.tensorflow.org/">TensorFlow</a></p>'
         QMessageBox.about(self, self.tr("About"), message)
 
     def show_message(self, message):
