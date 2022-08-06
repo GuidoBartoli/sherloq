@@ -3,6 +3,7 @@ astor
 concurrent-iterator
 keras-applications
 lxml
+matplotlib
 opencv-contrib-python-headless
 pandas
 pyside2
