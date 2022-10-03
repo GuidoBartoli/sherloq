@@ -1,6 +1,6 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtWidgets import QHBoxLayout, QComboBox, QLabel, QVBoxLayout, QSpinBox
+from PySide6.QtWidgets import QHBoxLayout, QComboBox, QLabel, QVBoxLayout, QSpinBox
 
 from tools import ToolWidget
 from utility import norm_mat
@@ -54,7 +54,7 @@ class PlanesWidget(ToolWidget):
         else:
             img = self.image[:, :, 3 - channel]
 
-        self.planes = [norm_mat(cv.bitwise_and(np.full_like(img, 2**b), img), to_bgr=True) for b in range(8)]
+        self.planes = [norm_mat(cv.bitwise_and(np.full_like(img, 2 ** b), img), to_bgr=True) for b in range(8)]
 
         # rows, cols = img.shape
         # bits = 8

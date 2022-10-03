@@ -22,41 +22,18 @@ class FullConvNet(object):
         """FullConvNet constructor."""
 
         self._num_levels = num_levels
-        self._actfun = [tf.nn.relu,] * (self._num_levels - 1) + [
-            tf.identity,
-        ]
-        self._f_size = [
-            3,
-        ] * self._num_levels
-        self._f_num = [64,] * (self._num_levels - 1) + [
-            1,
-        ]
-        self._f_stride = [
-            1,
-        ] * self._num_levels
-        self._bnorm = (
-            [
-                False,
-            ]
-            + [
-                True,
-            ]
-            * (self._num_levels - 2)
-            + [
-                False,
-            ]
-        )
-        self._res = [
-            0,
-        ] * self._num_levels
+        self._actfun = [tf.nn.relu] * (self._num_levels - 1) + [tf.identity]
+        self._f_size = [3] * self._num_levels
+        self._f_num = [64] * (self._num_levels - 1) + [1]
+        self._f_stride = [1] * self._num_levels
+        self._bnorm = [False] + [True] * (self._num_levels - 2) + [False]
+        self._res = [0] * self._num_levels
         self._bnorm_init_var = 1e-4
         self._bnorm_init_gamma = np.sqrt(2.0 / (9.0 * 64.0))
         self._bnorm_epsilon = 1e-5
         self._bnorm_decay = bnorm_decay
 
-        self.level = [
-            None,
-        ] * self._num_levels
+        self.level = [None] * self._num_levels
         self.input = images
         self.falg_train = falg_train
         self.extra_train = []

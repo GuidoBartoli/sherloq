@@ -1,6 +1,6 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtWidgets import QVBoxLayout, QGridLayout, QRadioButton, QComboBox, QHBoxLayout
+from PySide6.QtWidgets import QVBoxLayout, QGridLayout, QRadioButton, QComboBox, QHBoxLayout
 
 from tools import ToolWidget
 from utility import modify_font

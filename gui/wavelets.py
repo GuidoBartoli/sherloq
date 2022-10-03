@@ -3,7 +3,7 @@ from copy import deepcopy
 import cv2 as cv
 import numpy as np
 import pywt
-from PySide2.QtWidgets import QSpinBox, QComboBox, QHBoxLayout, QVBoxLayout, QLabel
+from PySide6.QtWidgets import QSpinBox, QComboBox, QHBoxLayout, QVBoxLayout, QLabel
 
 from tools import ToolWidget
 from viewer import ImageViewer

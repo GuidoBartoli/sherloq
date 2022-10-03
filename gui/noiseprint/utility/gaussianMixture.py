@@ -41,9 +41,7 @@ class gm:
         self.outliersNlogl = outliersNlogl
         self.prioriProb = (1.0 - self.outliersProb) * np.ones((K, 1), dtype=dtype) / K
         self.mu = np.zeros((K, dim), dtype=dtype)
-        self.listSigma = [
-            None,
-        ] * S
+        self.listSigma = [None] * S
 
         for s in range(S):
             sigmaType = self.listSigmaType[s]
@@ -98,9 +96,7 @@ class gm:
         varX = np.mean(weights * ((X - avrX) ** 2), axis=0, keepdims=True) / np.mean(weights)
 
         indsW = np.sum(weights) * randomState.random_sample(size=(K,))
-        inds = [
-            None,
-        ] * K
+        inds = [None] * K
         weights = np.cumsum(weights.flatten())
         for index in range(K):
             inds[index] = np.count_nonzero(weights <= indsW[index])
@@ -136,12 +132,8 @@ class gm:
 
         nlogl = np.zeros([N, K0], dtype=dtype)
         mahal = np.zeros([N, K], dtype=dtype)
-        listLogDet = [
-            None,
-        ] * S
-        listLowMtx = [
-            None,
-        ] * S
+        listLogDet = [None] * S
+        listLowMtx = [None] * S
         for s in range(S):
             sigmaType = self.listSigmaType[s]
             sigma = self.listSigma[s]

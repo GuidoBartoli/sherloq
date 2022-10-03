@@ -5,9 +5,9 @@ from time import time
 
 import cv2 as cv
 import numpy as np
-from PySide2.QtCore import QSettings, QFileInfo, Signal, Qt, QMimeDatabase
-from PySide2.QtGui import QImage, QFontDatabase, QColor
-from PySide2.QtWidgets import QLabel, QTreeWidgetItem, QFileDialog, QMessageBox, QWidget, QSlider, QSpinBox, QHBoxLayout
+from PySide6.QtCore import QSettings, QFileInfo, Signal, Qt, QMimeDatabase
+from PySide6.QtGui import QImage, QFontDatabase, QColor, QBrush
+from PySide6.QtWidgets import QLabel, QTreeWidgetItem, QFileDialog, QMessageBox, QWidget, QSlider, QSpinBox, QHBoxLayout
 
 
 def mat2img(cvmat):
@@ -24,7 +24,7 @@ def color_by_value(item, value, splits):
         hue = 60
     else:
         hue = 90
-    item.setBackgroundColor(QColor.fromHsv(hue, 96, 255))
+    item.setBackground(QBrush(QColor.fromHsv(hue, 96, 255)))
 
 
 def modify_font(obj, bold=False, italic=False, underline=False, mono=False):

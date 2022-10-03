@@ -1,8 +1,8 @@
 import subprocess
 
 import cv2 as cv
-from PySide2.QtCore import QTemporaryFile, Qt
-from PySide2.QtWidgets import QLabel, QVBoxLayout
+from PySide6.QtCore import QTemporaryFile, Qt
+from PySide6.QtWidgets import QLabel, QVBoxLayout
 
 from tools import ToolWidget
 from utility import modify_font, exiftool_exe

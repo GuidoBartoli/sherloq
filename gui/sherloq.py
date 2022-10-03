@@ -1,9 +1,9 @@
 import os
 import sys
 
-from PySide2.QtCore import Qt, QSettings
-from PySide2.QtGui import QKeySequence, QIcon
-from PySide2.QtWidgets import QApplication, QMainWindow, QMdiArea, QMdiSubWindow, QDockWidget, QAction, QMessageBox
+from PySide6.QtCore import Qt, QSettings
+from PySide6.QtGui import QKeySequence, QIcon, QAction
+from PySide6.QtWidgets import QApplication, QMainWindow, QMdiArea, QMdiSubWindow, QDockWidget, QMessageBox
 
 from adjust import AdjustWidget
 from cloning import CloningWidget
@@ -451,4 +451,4 @@ class MainWindow(QMainWindow):
 if __name__ == "__main__":
     application = QApplication(sys.argv)
     mainwindow = MainWindow()
-    sys.exit(application.exec_())
+    sys.exit(application.exec())

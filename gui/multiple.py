@@ -1,8 +1,8 @@
 import cv2 as cv
-from PySide2.QtCharts import QtCharts
-from PySide2.QtCore import Qt
-from PySide2.QtGui import QPainter
-from PySide2.QtWidgets import QVBoxLayout, QProgressDialog
+from PySide6.QtCharts import QLineSeries, QChart, QChartView
+from PySide6.QtCore import Qt
+from PySide6.QtGui import QPainter
+from PySide6.QtWidgets import QVBoxLayout, QProgressDialog
 
 from jpeg import compress_jpg
 from tools import ToolWidget
@@ -15,7 +15,7 @@ class MultipleWidget(ToolWidget):
         max_q = 101
         progress = QProgressDialog(self.tr("Computing residuals..."), None, 0, max_q, self)
         progress.setWindowModality(Qt.WindowModal)
-        loss_series = QtCharts.QLineSeries()
+        loss_series = QLineSeries()
         gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
         for q in range(max_q):
             loss = cv.mean(cv.absdiff(compress_jpg(gray, q, color=False), gray))
@@ -23,7 +23,7 @@ class MultipleWidget(ToolWidget):
             progress.setValue(q)
         progress.setValue(max_q)
 
-        loss_chart = QtCharts.QChart()
+        loss_chart = QChart()
         loss_chart.legend().hide()
         loss_chart.setTitle(self.tr("Loss vs Compression"))
         loss_chart.addSeries(loss_series)
@@ -37,7 +37,7 @@ class MultipleWidget(ToolWidget):
         font = loss_chart.titleFont()
         font.setBold(True)
         loss_chart.setTitleFont(font)
-        loss_view = QtCharts.QChartView(loss_chart)
+        loss_view = QChartView(loss_chart)
         loss_view.setRenderHint(QPainter.Antialiasing)
 
         main_layout = QVBoxLayout()

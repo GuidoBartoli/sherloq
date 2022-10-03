@@ -1,6 +1,6 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QRadioButton, QSpinBox, QCheckBox
+from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QRadioButton, QSpinBox, QCheckBox
 
 from tools import ToolWidget
 from utility import auto_lut, equalize_img

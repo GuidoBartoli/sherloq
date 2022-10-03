@@ -2,7 +2,7 @@ from time import time
 
 import cv2 as cv
 import numpy as np
-from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout, QCheckBox, QSpinBox, QLabel
+from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QCheckBox, QSpinBox, QLabel
 
 from tools import ToolWidget
 from utility import elapsed_time, create_lut, bgr_to_gray3

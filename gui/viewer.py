@@ -3,9 +3,9 @@ import os
 
 import cv2 as cv
 import numpy as np
-from PySide2.QtCore import QSettings, Qt, Signal, QRect, QRectF
-from PySide2.QtGui import QIcon, QPainter, QMatrix, QPixmap, QImage
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QSettings, Qt, Signal, QRect, QRectF
+from PySide6.QtGui import QIcon, QPainter, QTransform, QPixmap, QImage
+from PySide6.QtWidgets import (
     QLabel,
     QRadioButton,
     QToolButton,
@@ -61,7 +61,7 @@ class DynamicView(QGraphicsView):
 
     def zoom_fit(self):
         self.fitInView(self.scene.sceneRect(), Qt.KeepAspectRatio)
-        self.fit_scale = self.matrix().m11()
+        self.fit_scale = self.transform().m11()
         if self.fit_scale > 1:
             self.fit_scale = 1
             self.zoom_full()
@@ -93,26 +93,26 @@ class DynamicView(QGraphicsView):
         QGraphicsView.mouseDoubleClickEvent(self, event)
 
     def wheelEvent(self, event):
-        if event.delta() > 0:
+        if event.angleDelta().y() > 0:
             self.change_zoom(+1)
         else:
             self.change_zoom(-1)
 
     def resizeEvent(self, event):
         # FIXME: Se la finestra viene massimizzata, il valore di fit_scale non si aggiorna
-        if self.matrix().m11() <= self.fit_scale:
+        if self.transform().m11() <= self.fit_scale:
             self.zoom_fit()
         else:
             self.notify_change()
         QGraphicsView.resizeEvent(self, event)
 
     def change_zoom(self, direction):
-        level = math.log2(self.matrix().m11())
+        level = math.log2(self.transform().m11())
         if direction > 0:
             level += self.ZOOM_STEP
         else:
             level -= self.ZOOM_STEP
-        scaling = 2**level
+        scaling = 2 ** level
         if scaling < self.fit_scale:
             scaling = self.fit_scale
             self.next_fit = False
@@ -125,12 +125,12 @@ class DynamicView(QGraphicsView):
         self.notify_change()
 
     def set_scaling(self, scaling):
-        matrix = QMatrix()
-        matrix.scale(scaling, scaling)
-        self.setMatrix(matrix)
+        transform = QTransform()
+        transform.scale(scaling, scaling)
+        self.setTransform(transform)
 
     def change_view(self, _, new_scaling, new_horiz, new_vert):
-        old_factor = self.matrix().m11()
+        old_factor = self.transform().m11()
         old_horiz = self.horizontalScrollBar().value()
         old_vert = self.verticalScrollBar().value()
         if new_scaling != old_factor or new_horiz != old_horiz or new_vert != old_vert:
@@ -143,7 +143,7 @@ class DynamicView(QGraphicsView):
         scene_rect = self.get_rect()
         horiz_scroll = self.horizontalScrollBar().value()
         vert_scroll = self.verticalScrollBar().value()
-        zoom_factor = self.matrix().m11()
+        zoom_factor = self.transform().m11()
         self.viewChanged.emit(scene_rect, zoom_factor, horiz_scroll, vert_scroll)
 
     def get_rect(self):

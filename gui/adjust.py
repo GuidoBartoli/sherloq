@@ -1,6 +1,6 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtWidgets import QVBoxLayout, QLabel, QGridLayout, QCheckBox, QPushButton, QComboBox
+from PySide6.QtWidgets import QVBoxLayout, QLabel, QGridLayout, QCheckBox, QPushButton, QComboBox
 
 from tools import ToolWidget
 from utility import create_lut, ParamSlider

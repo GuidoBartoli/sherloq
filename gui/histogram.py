@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtGui import QColor
-from PySide2.QtWidgets import (
+from PySide6.QtGui import QColor, QBrush
+from PySide6.QtWidgets import (
     QVBoxLayout,
     QHBoxLayout,
     QFrame,
@@ -205,7 +205,7 @@ class HistWidget(ToolWidget):
             for i in range(self.table_widget.rowCount()):
                 if self.table_widget.item(i, 1) is not None:
                     self.table_widget.item(i, 1).setText("")
-                    self.table_widget.item(i, 1).setBackgroundColor(QColor("white"))
+                    self.table_widget.item(i, 1).setBackground(QBrush(QColor("white")))
         else:
             self.table_widget.setEnabled(True)
             self.marker_check.setEnabled(True)

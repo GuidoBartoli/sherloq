@@ -1,6 +1,6 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtWidgets import QVBoxLayout, QHBoxLayout, QCheckBox, QLabel, QRadioButton
+from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QCheckBox, QLabel, QRadioButton
 
 from tools import ToolWidget
 from viewer import ImageViewer

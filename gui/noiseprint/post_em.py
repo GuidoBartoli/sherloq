@@ -28,7 +28,7 @@ paramSpam_default = {
     "ordCooc": 4,
     "mapper": list(),
     "strides": [8, 8],
-    "numFeat": 4**4,
+    "numFeat": 4 ** 4,
     "radius": [1, 1],
     "symTranspose": False,
 }
@@ -102,35 +102,13 @@ def getSpamFromNoiseprint(res, img_gray, ksize=ksize_default, stride=stride_defa
 def EMgu(feats, seed=0, maxIter=100, replicates=10, outliersNlogl=42):
 
     randomState = np.random.RandomState(seed)
-    gm_data = gm(
-        feats.shape[1],
-        [
-            0,
-        ],
-        [
-            2,
-        ],
-        outliersProb=0.01,
-        outliersNlogl=outliersNlogl,
-        dtype=list_valid.dtype,
-    )
+    gm_data = gm(feats.shape[1], [0], [2], outliersProb=0.01, outliersNlogl=outliersNlogl, dtype=list_valid.dtype)
     gm_data.setRandomParams(feats, regularizer=-1.0, randomState=randomState)
     avrLogl, _, _ = gm_data.EM(feats, maxIter=maxIter, regularizer=-1.0)
 
     for index in range(1, replicates):
 
-        gm_data_1 = gm(
-            feats.shape[1],
-            [
-                0,
-            ],
-            [
-                2,
-            ],
-            outliersProb=0.01,
-            outliersNlogl=outliersNlogl,
-            dtype=list_valid.dtype,
-        )
+        gm_data_1 = gm(feats.shape[1], [0], [2], outliersProb=0.01, outliersNlogl=outliersNlogl, dtype=list_valid.dtype)
         gm_data_1.setRandomParams(feats, regularizer=-1.0, randomState=randomState)
 
         avrLogl_1, _, _ = gm_data_1.EM(feats, maxIter=maxIter, regularizer=-1.0)
@@ -140,12 +118,7 @@ def EMgu(feats, seed=0, maxIter=100, replicates=10, outliersNlogl=42):
 
     _, mahal = gm_data.getNlogl(list_spam)
 
-    mahal = mahal.reshape(
-        [
-            shape_spam[0],
-            shape_spam[1],
-        ]
-    )
+    mahal = mahal.reshape([shape_spam[0], shape_spam[1]])
     other = dict()
     other["Sigma"] = gm_data.listSigma[0]
     other["mu"] = gm_data.mu
@@ -164,34 +137,12 @@ def EMgu_img(spam, valid, extFeat=range(32), seed=0, maxIter=100, replicates=10,
     list_valid = list_spam[valid.flatten(), :]
 
     randomState = np.random.RandomState(seed)
-    gm_data = gm(
-        shape_spam[2],
-        [
-            0,
-        ],
-        [
-            2,
-        ],
-        outliersProb=0.01,
-        outliersNlogl=outliersNlogl,
-        dtype=list_valid.dtype,
-    )
+    gm_data = gm(shape_spam[2], [0], [2], outliersProb=0.01, outliersNlogl=outliersNlogl, dtype=list_valid.dtype)
     gm_data.setRandomParams(list_valid, regularizer=-1.0, randomState=randomState)
     avrLogl, _, _ = gm_data.EM(list_valid, maxIter=maxIter, regularizer=-1.0)
 
     for index in range(1, replicates):
-        gm_data_1 = gm(
-            shape_spam[2],
-            [
-                0,
-            ],
-            [
-                2,
-            ],
-            outliersProb=0.01,
-            outliersNlogl=outliersNlogl,
-            dtype=list_valid.dtype,
-        )
+        gm_data_1 = gm(shape_spam[2], [0], [2], outliersProb=0.01, outliersNlogl=outliersNlogl, dtype=list_valid.dtype)
         gm_data_1.setRandomParams(list_valid, regularizer=-1.0, randomState=randomState)
         avrLogl_1, _, _ = gm_data_1.EM(list_valid, maxIter=maxIter, regularizer=-1.0)
         if avrLogl_1 > avrLogl:
@@ -199,12 +150,7 @@ def EMgu_img(spam, valid, extFeat=range(32), seed=0, maxIter=100, replicates=10,
             avrLogl = avrLogl_1
 
     _, mahal = gm_data.getNlogl(list_spam)
-    mahal = mahal.reshape(
-        [
-            shape_spam[0],
-            shape_spam[1],
-        ]
-    )
+    mahal = mahal.reshape([shape_spam[0], shape_spam[1]])
     other = dict()
     other["Sigma"] = gm_data.listSigma[0]
     other["mu"] = gm_data.mu

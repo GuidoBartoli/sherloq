@@ -49,14 +49,15 @@ try:
         if ori_dtype == np.uint8:
             img = img / 256.0
         elif ori_dtype == np.uint16:
-            img = img / (2.0**16)
+            img = img / (2.0 ** 16)
         elif ori_dtype == np.uint32:
-            img = img / (2.0**32)
+            img = img / (2.0 ** 32)
         elif ori_dtype == np.uint64:
-            img = img / (2.0**64)
+            img = img / (2.0 ** 64)
         elif ori_dtype == np.uint128:
-            img = img / (2.0**128)
+            img = img / (2.0 ** 128)
         return img, "RAW"
+
 
 except:
     pass

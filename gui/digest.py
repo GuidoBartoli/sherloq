@@ -3,8 +3,8 @@ import re
 
 import cv2 as cv
 import magic
-from PySide2.QtCore import QFileInfo, QLocale, QFile, QIODevice, QCryptographicHash
-from PySide2.QtWidgets import QVBoxLayout, QMessageBox
+from PySide6.QtCore import QFileInfo, QLocale, QFile, QIODevice, QCryptographicHash
+from PySide6.QtWidgets import QVBoxLayout, QMessageBox
 
 from table import TableWidget
 from tools import ToolWidget

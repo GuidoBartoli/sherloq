@@ -5,9 +5,9 @@ from subprocess import run, PIPE
 import cv2 as cv
 import numpy as np
 import sewar
-from PySide2.QtCore import QTemporaryDir, Qt
-from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import (
+from PySide6.QtCore import QTemporaryDir, Qt
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import (
     QAbstractItemView,
     QTableWidgetItem,
     QTableWidget,
@@ -56,7 +56,7 @@ class ComparisonWidget(ToolWidget):
         self.reference_viewer = ImageViewer(np.full_like(self.evidence, 127), None, self.tr("Reference"))
 
         self.table_widget = QTableWidget(20, 3)
-        self.table_widget.setHorizontalHeaderLabels([self.tr("Metric"), self.tr("Value"), self.tr("Better")])
+        self.table_widget.setHorizontalHeaderLabels([self.tr("Metric"), self.tr("Value"), self.tr("Best")])
         self.table_widget.setItem(0, 0, QTableWidgetItem(self.tr("RMSE")))
         self.table_widget.setItem(0, 2, QTableWidgetItem(QIcon("icons/low.svg"), "(0)"))
         self.table_widget.item(0, 0).setToolTip(
@@ -128,7 +128,7 @@ class ComparisonWidget(ToolWidget):
         self.table_widget.item(6, 0).setToolTip(
             self.tr(
                 "SSIM is used to compare the local patterns of pixel intensities between \n"
-                " the reference and fused images. The range varies between -1 to 1. \n"
+                "reference and fused images. The range varies between -1 to 1. \n"
                 "The value 1 indicates the reference and fused images are similar."
             )
         )
@@ -150,7 +150,7 @@ class ComparisonWidget(ToolWidget):
         self.table_widget.setItem(12, 0, QTableWidgetItem(self.tr("SSIMulacra")))
         self.table_widget.setItem(12, 2, QTableWidgetItem(QIcon("icons/low.svg"), "(0)"))
         self.table_widget.item(12, 0).setToolTip(
-            self.tr("Structural SIMilarity Unveiling Local " "And Compression Related Artifacts")
+            self.tr("Structural SIMilarity Unveiling Local And Compression Related Artifacts")
         )
         self.table_widget.setItem(13, 0, QTableWidgetItem(self.tr("Butteraugli")))
         self.table_widget.setItem(13, 2, QTableWidgetItem(QIcon("icons/low.svg"), "(0)"))
@@ -421,6 +421,7 @@ class ComparisonWidget(ToolWidget):
         self.metric_button.setEnabled(False)
         self.ssim_radio.setEnabled(True)
         self.butter_radio.setEnabled(True)
+        progress.close()
 
     def cancel(self):
         self.stopped = True
@@ -445,13 +446,13 @@ class ComparisonWidget(ToolWidget):
         c2 = 58.5225
         k = (11, 11)
         s = 1.5
-        x2 = x**2
-        y2 = y**2
+        x2 = x ** 2
+        y2 = y ** 2
         xy = x * y
         mu_x = cv.GaussianBlur(x, k, s)
         mu_y = cv.GaussianBlur(y, k, s)
-        mu_x2 = mu_x**2
-        mu_y2 = mu_y**2
+        mu_x2 = mu_x ** 2
+        mu_y2 = mu_y ** 2
         mu_xy = mu_x * mu_y
         s_x2 = cv.GaussianBlur(x2, k, s) - mu_x2
         s_y2 = cv.GaussianBlur(y2, k, s) - mu_y2
@@ -475,7 +476,7 @@ class ComparisonWidget(ToolWidget):
         k = np.mean(np.square(x - y))
         if k == 0:
             return -1
-        return 20 * math.log10((255**2) / k)
+        return 20 * math.log10((255 ** 2) / k)
 
     @staticmethod
     def butter(x, y):

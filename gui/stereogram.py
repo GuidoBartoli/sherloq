@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QRadioButton, QLabel, QHBoxLayout, QVBoxLayout
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QRadioButton, QLabel, QHBoxLayout, QVBoxLayout
 
 from tools import ToolWidget
 from utility import norm_mat, modify_font, gray_to_bgr, norm_img

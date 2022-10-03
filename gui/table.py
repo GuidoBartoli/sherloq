@@ -1,8 +1,8 @@
 import csv
 
-from PySide2.QtCore import Qt, QRect, QRegularExpression, QSettings, QFileInfo
-from PySide2.QtGui import QIcon, QKeySequence, QCursor
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt, QRect, QRegularExpression, QSettings, QFileInfo
+from PySide6.QtGui import QIcon, QKeySequence, QCursor
+from PySide6.QtWidgets import (
     QToolTip,
     QApplication,
     QAbstractItemView,

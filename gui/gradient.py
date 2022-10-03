@@ -2,7 +2,7 @@ from time import time
 
 import cv2 as cv
 import numpy as np
-from PySide2.QtWidgets import QSpinBox, QComboBox, QCheckBox, QHBoxLayout, QVBoxLayout, QLabel
+from PySide6.QtWidgets import QSpinBox, QComboBox, QCheckBox, QHBoxLayout, QVBoxLayout, QLabel
 
 from tools import ToolWidget
 from utility import create_lut, norm_mat, equalize_img, elapsed_time

@@ -1,6 +1,6 @@
-from PySide2.QtCore import Qt, Signal
-from PySide2.QtGui import QIcon
-from PySide2.QtWidgets import QTreeWidget, QTreeWidgetItem, QWidget
+from PySide6.QtCore import Qt, Signal
+from PySide6.QtGui import QIcon
+from PySide6.QtWidgets import QTreeWidget, QTreeWidgetItem, QWidget
 
 from utility import modify_font
 
@@ -119,7 +119,7 @@ class ToolTree(QTreeWidget):
         group_names.append(self.tr("[Noise]"))
         tool_names.append(
             [
-                self.tr("Noise Separation"),
+                self.tr("Signal Separation"),
                 self.tr("Min/Max Deviation"),
                 self.tr("Bit Plane Values"),
                 self.tr("PRNU Identification"),
@@ -219,7 +219,7 @@ class ToolTree(QTreeWidget):
         self.setColumnCount(1)
         self.header().setVisible(False)
         self.setMaximumWidth(300)
-        self.version = f"{sum(tool_progress) / 100:.2f}b"
+        self.version = f"{sum(tool_progress) / 100:.2f}c"
 
     def set_bold(self, tool, enabled):
         items = self.findItems(tool, Qt.MatchFixedString | Qt.MatchRecursive)

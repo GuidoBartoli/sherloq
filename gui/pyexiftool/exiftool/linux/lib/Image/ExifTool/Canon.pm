@@ -88,7 +88,7 @@ sub ProcessCTMD($$$);
 sub ProcessExifInfo($$$);
 sub SwapWords($);
 
-$VERSION = '4.56';
+$VERSION = '4.58';
 
 # Note: Removed 'USM' from 'L' lenses since it is redundant - PH
 # (or is it?  Ref 32 shows 5 non-USM L-type lenses)
@@ -197,6 +197,7 @@ $VERSION = '4.56';
     44 => 'Canon EF 90-300mm f/4.5-5.6', #32
     45 => 'Canon EF-S 18-55mm f/3.5-5.6 [II]', #PH (same ID for version II, ref 20)
     46 => 'Canon EF 28-90mm f/4-5.6', #32
+  # 46 => 'Tamron 28-300mm f/3.5-6.3 Di VC PZD (A010)', # (also possibly?)
     47 => 'Zeiss Milvus 35mm f/2 or 50mm f/2', #IB
     47.1 => 'Zeiss Milvus 50mm f/2 Makro', #IB
     47.2 => 'Zeiss Milvus 135mm f/2 ZE', #IB
@@ -208,6 +209,7 @@ $VERSION = '4.56';
     53 => 'Canon EF-S 18-55mm f/3.5-5.6 III', #Jon Charnas
     54 => 'Canon EF-S 55-250mm f/4-5.6 IS II', #47
     60 => 'Irix 11mm f/4', #50
+    63 => 'Irix 30mm F1.4 Dragonfly', #IB
     80 => 'Canon TS-E 50mm f/2.8L Macro', #42
     81 => 'Canon TS-E 90mm f/2.8L Macro', #42
     82 => 'Canon TS-E 135mm f/4L Macro', #42
@@ -570,7 +572,9 @@ $VERSION = '4.56';
     61494 => 'Canon CN-E 85mm T1.3 L F', #PH
     61495 => 'Canon CN-E 135mm T2.2 L F', #PH
     61496 => 'Canon CN-E 35mm T1.5 L F', #PH
-    # see RFLensType tag for master list of 61182 RF lenses
+#
+# see RFLensType tag for master list of 61182 RF lenses
+#
     61182 => 'Canon RF 50mm F1.2L USM or other Canon RF Lens',
     61182.1 => 'Canon RF 24-105mm F4L IS USM',
     61182.2 => 'Canon RF 28-70mm F2L USM',
@@ -599,7 +603,15 @@ $VERSION = '4.56';
    '61182.25' => 'Canon RF 100-400mm F5.6-8 IS USM + RF1.4x', #42 (NC)
    '61182.26' => 'Canon RF 100-400mm F5.6-8 IS USM + RF2x', #42 (NC)
    '61182.27' => 'Canon RF 16mm F2.8 STM', #42
-  #'61182.xx' => 'Canon RF 100mm F2.8L MACRO IS USM',
+   '61182.28' => 'Canon RF 400mm F2.8L IS USM', #IB
+   '61182.29' => 'Canon RF 400mm F2.8L IS USM + RF1.4x', #IB
+   '61182.30' => 'Canon RF 400mm F2.8L IS USM + RF2x', #IB
+   '61182.31' => 'Canon RF 600mm F4L IS USM', #GiaZopatti
+   # we need the RFLensType values for the following...
+   '61182.32' => 'Canon RF 800mm F5.6L IS USM', #PH (NC)
+   '61182.33' => 'Canon RF 1200mm F8L IS USM', #PH (NC)
+   '61182.34' => 'Canon RF 5.2mm F2.8L Dual Fisheye 3D VR', #PH (NC)
+   '61182.35' => 'Canon RF 100mm F2.8L MACRO IS USM', #(NC)
     65535 => 'n/a',
 );
 
@@ -1018,7 +1030,7 @@ my %canonWhiteBalance = (
     20 => 'PC Set4', #PH
     21 => 'PC Set5', #PH
     # 22 - Custom 2?
-    23 => 'Auto (ambience priority)', #PH (5DS)
+    23 => 'Auto (ambience priority)', #PH (5DS) (perhaps this needs re-thinking?: forum13295)
     # 30 - Click White Balance?
     # 31 - Shot Settings?
     # 137 - Tungsten?
@@ -2133,6 +2145,7 @@ my %offOn = ( 0 => 'Off', 1 => 'On' );
             4 => 'Continuous, Low', #PH
             5 => 'Continuous, High', #PH
             6 => 'Silent Single', #PH
+            8 => 'Continuous, High+', #WolfgangGulcker
             # ref A: https://exiftool.org/forum/index.php/topic,5701.msg27843.html#msg27843
             9 => 'Single, Silent', #A
             10 => 'Continuous, Silent', #A
@@ -6796,6 +6809,10 @@ my %ciMaxFocal = (
             284 => 'Canon RF 100-400mm F5.6-8 IS USM + RF1.4x', #42 (NC)
             285 => 'Canon RF 100-400mm F5.6-8 IS USM + RF2x', #42 (NC)
             288 => 'Canon RF 16mm F2.8 STM', #42
+            289 => 'Canon RF 400mm F2.8L IS USM', #IB
+            290 => 'Canon RF 400mm F2.8L IS USM + RF1.4x', #IB
+            291 => 'Canon RF 400mm F2.8L IS USM + RF2x', #IB
+            292 => 'Canon RF 600mm F4L IS USM', #GiaZopatti
            #xxx => 'Canon RF 100mm F2.8L MACRO IS USM',
             # Note: add new RF lenses to %canonLensTypes with ID 61182
         },

@@ -1,7 +1,7 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import QPushButton, QComboBox, QLabel, QHBoxLayout, QVBoxLayout, QProgressDialog
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QPushButton, QComboBox, QLabel, QHBoxLayout, QVBoxLayout, QProgressDialog
 
 from tools import ToolWidget
 from utility import compute_hist, gray_to_bgr, pad_image

@@ -2,9 +2,9 @@ import os
 import sys
 from subprocess import run, PIPE
 
-from PySide2.QtCore import QUrl, QTemporaryDir
-from PySide2.QtWebEngineWidgets import QWebEngineView
-from PySide2.QtWidgets import QVBoxLayout
+from PySide6.QtCore import QUrl, QTemporaryDir
+from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtWidgets import QVBoxLayout
 
 from tools import ToolWidget
 from utility import exiftool_exe

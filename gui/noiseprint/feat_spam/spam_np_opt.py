@@ -44,7 +44,7 @@ def getParams(ordResid, symTranspose, q, T, ordCooc, mapper, strides):
         numFeat = mapper["num"]
     elif mapper == "Idem":
         mapper = []
-        numFeat = n**ordCooc
+        numFeat = n ** ordCooc
     else:
         mapper = spam_m.getSignSymMapper(ordCooc, n)
         numFeat = mapper["num"]
@@ -85,7 +85,7 @@ def computeSpamRes(res, params, weights=list(), normalize=True):
     resV = np.zeros(shapeR, dtype=np.int)
 
     for indexP in range(ordCooc):
-        nn = n**indexP
+        nn = n ** indexP
         resH += resQ[indexL : (shapeR[0] + indexL), indexP : (shapeR[1] + indexP)] * nn
         resV += resQ[indexP : (shapeR[0] + indexP), indexL : (shapeR[1] + indexL)] * nn
 
@@ -158,18 +158,7 @@ def getSpamRes(res, params, ksize, weights=list(), paddingModality=0):
     ksize[1] = int(ksize[1] / strides[1])
     spam, spamW, range0, range1 = computeSpamRes(res, params, weights=weights, normalize=True)
 
-    spamW = np.maximum(
-        uniform_filter(
-            spamW,
-            (
-                ksize[0],
-                ksize[1],
-            ),
-            mode="constant",
-            cval=0.0,
-        ),
-        0.0,
-    )
+    spamW = np.maximum(uniform_filter(spamW, (ksize[0], ksize[1]), mode="constant", cval=0.0), 0.0)
     spam = np.maximum(uniform_filter(spam, (ksize[0], ksize[1], 1), mode="constant", cval=0.0), 0.0)
     spam = spam / np.maximum(spamW[:, :, np.newaxis], 1e-20)
 

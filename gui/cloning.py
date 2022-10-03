@@ -4,8 +4,8 @@ from time import time
 
 import cv2 as cv
 import numpy as np
-from PySide2.QtCore import Qt, QCoreApplication
-from PySide2.QtWidgets import (
+from PySide6.QtCore import Qt, QCoreApplication
+from PySide6.QtWidgets import (
     QToolButton,
     QMessageBox,
     QSpinBox,

@@ -2,7 +2,7 @@ from time import time
 
 import cv2 as cv
 import numpy as np
-from PySide2.QtWidgets import QPushButton, QVBoxLayout, QHBoxLayout, QCheckBox, QSpinBox, QLabel
+from PySide6.QtWidgets import QPushButton, QVBoxLayout, QHBoxLayout, QCheckBox, QSpinBox, QLabel
 
 from jpeg import compress_jpg
 from tools import ToolWidget

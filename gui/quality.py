@@ -3,10 +3,10 @@ from shutil import copyfile
 
 import cv2 as cv
 import numpy as np
-from PySide2.QtCore import QTemporaryFile, Qt
-from PySide2.QtGui import QColor
+from PySide6.QtCore import QTemporaryFile, Qt
+from PySide6.QtGui import QColor, QBrush
 from joblib import load
-from PySide2.QtWidgets import (
+from PySide6.QtWidgets import (
     QLabel,
     QVBoxLayout,
     QGridLayout,
@@ -220,7 +220,7 @@ class QualityWidget(ToolWidget):
                 item.setTextAlignment(Qt.AlignCenter)
                 hsv[0, 0, 0] = 64 - 64 * ((value - 1) / maximum)
                 rgb = cv.cvtColor(hsv.astype(np.uint8), cv.COLOR_HSV2RGB)
-                item.setBackgroundColor(QColor(rgb[0, 0, 0], rgb[0, 0, 1], rgb[0, 0, 2]))
+                item.setBackground(QBrush(QColor(rgb[0, 0, 0], rgb[0, 0, 1], rgb[0, 0, 2])))
                 table_widget.setItem(i, j, item)
         table_widget.resizeRowsToContents()
         table_widget.resizeColumnsToContents()

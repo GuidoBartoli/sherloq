@@ -1,4 +1,4 @@
-from PySide2.QtWidgets import QVBoxLayout
+from PySide6.QtWidgets import QVBoxLayout
 
 from pyexiftool import exiftool
 from table import TableWidget

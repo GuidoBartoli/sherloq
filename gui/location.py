@@ -1,8 +1,8 @@
 import os
 
-from PySide2.QtCore import QUrl, QTemporaryDir, Qt
-from PySide2.QtWebEngineWidgets import QWebEngineView
-from PySide2.QtWidgets import QVBoxLayout, QLabel
+from PySide6.QtCore import QUrl, QTemporaryDir, Qt
+from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtWidgets import QVBoxLayout, QLabel
 
 from pyexiftool import exiftool
 from tools import ToolWidget

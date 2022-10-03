@@ -3,8 +3,8 @@ from time import time
 
 import cv2 as cv
 import numpy as np
-from PySide2.QtCore import QCoreApplication
-from PySide2.QtWidgets import QPushButton, QGridLayout, QMessageBox
+from PySide6.QtCore import QCoreApplication
+from PySide6.QtWidgets import QPushButton, QGridLayout, QMessageBox
 
 from jpeg import estimate_qf
 

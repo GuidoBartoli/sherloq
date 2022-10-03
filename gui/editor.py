@@ -1,6 +1,6 @@
-from PySide2.QtCore import QUrl
-from PySide2.QtWebEngineWidgets import QWebEngineView
-from PySide2.QtWidgets import QVBoxLayout
+from PySide6.QtCore import QUrl
+from PySide6.QtWebEngineWidgets import QWebEngineView
+from PySide6.QtWidgets import QVBoxLayout
 
 from tools import ToolWidget
 

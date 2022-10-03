@@ -1,7 +1,7 @@
 from time import time
 
 import cv2 as cv
-from PySide2.QtWidgets import QComboBox, QHBoxLayout, QCheckBox, QLabel, QVBoxLayout, QSpinBox
+from PySide6.QtWidgets import QComboBox, QHBoxLayout, QCheckBox, QLabel, QVBoxLayout, QSpinBox
 
 from tools import ToolWidget
 from utility import create_lut, elapsed_time, equalize_img

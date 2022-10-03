@@ -1,7 +1,8 @@
 import cv2 as cv
 import numpy as np
-from PySide2.QtCore import Qt
-from PySide2.QtWidgets import (
+import xgboost as xgb
+from PySide6.QtCore import Qt
+from PySide6.QtWidgets import (
     QDoubleSpinBox,
     QMessageBox,
     QSpinBox,
@@ -24,13 +25,13 @@ def ssim(a, b, maximum=255):
     c2 = (0.03 * maximum) ** 2
     k = (11, 11)
     s = 1.5
-    a2 = a**2
-    b2 = b**2
+    a2 = a ** 2
+    b2 = b ** 2
     ab = a * b
     mu_a = cv.GaussianBlur(a, k, s)
     mu_b = cv.GaussianBlur(b, k, s)
-    mu_a2 = mu_a**2
-    mu_b2 = mu_b**2
+    mu_a2 = mu_a ** 2
+    mu_b2 = mu_b ** 2
     mu_ab = mu_a * mu_b
     s_a2 = cv.GaussianBlur(a2, k, s) - mu_a2
     s_b2 = cv.GaussianBlur(b2, k, s) - mu_b2
@@ -95,8 +96,8 @@ class MedianWidget(ToolWidget):
         super(MedianWidget, self).__init__(parent)
 
         self.variance_spin = QSpinBox()
-        self.variance_spin.setRange(0, 50)
-        self.variance_spin.setValue(10)
+        self.variance_spin.setRange(0, 100)
+        self.variance_spin.setValue(5)
         self.threshold_spin = QDoubleSpinBox()
         self.threshold_spin.setRange(0, 1)
         self.threshold_spin.setValue(0.45)
@@ -124,6 +125,7 @@ class MedianWidget(ToolWidget):
         self.prob = self.var = None
         self.block = 64
         self.canceled = False
+        self.modelfile = f"models/median_b{self.block}.json"
 
         self.process_button.clicked.connect(self.prepare)
         self.variance_spin.valueChanged.connect(self.process)
@@ -137,14 +139,13 @@ class MedianWidget(ToolWidget):
         self.setLayout(main_layout)
 
     def prepare(self):
-        modelfile = f"models/median_b{self.block}.mdl"
+        booster = xgb.Booster()
         try:
-            model = load(modelfile)
-        except FileNotFoundError:
-            QMessageBox.critical(self, self.tr("Error"), self.tr(f'Model not found ("{modelfile}")!'))
+            booster.load_model(self.modelfile)
+        except xgb.core.XGBoostError:
+            QMessageBox.critical(self, self.tr("Error"), self.tr(f'Unable to load model ("{modelfile}")!'))
             return
-        limit = model.best_ntree_limit if hasattr(model, "best_ntree_limit") else None
-        columns = model._features_count
+        columns = booster.num_features()
         if columns == 8:
             levels = 1
             windows = 1
@@ -173,8 +174,8 @@ class MedianWidget(ToolWidget):
         for i in range(0, rows, self.block):
             for j in range(0, cols, self.block):
                 roi = padded[i : i + self.block, j : j + self.block]
-                x = np.reshape(get_features(roi, levels, windows), (1, columns))
-                y = model.predict_proba(x, ntree_limit=limit)[0, 1]
+                x = xgb.DMatrix(np.reshape(get_features(roi, levels, windows), (1, columns)))
+                y = booster.predict(x)[0]
                 ib = i // self.block
                 jb = j // self.block
                 self.var[ib, jb] = np.var(roi)
