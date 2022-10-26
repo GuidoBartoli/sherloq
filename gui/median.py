@@ -100,7 +100,7 @@ class MedianWidget(ToolWidget):
         self.variance_spin.setValue(5)
         self.threshold_spin = QDoubleSpinBox()
         self.threshold_spin.setRange(0, 1)
-        self.threshold_spin.setValue(0.45)
+        self.threshold_spin.setValue(0.4)
         self.threshold_spin.setSingleStep(0.01)
         self.showprob_check = QCheckBox(self.tr("Probability map"))
         self.filter_check = QCheckBox(self.tr("Speckle filter"))
