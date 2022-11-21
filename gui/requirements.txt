@@ -11,5 +11,5 @@ rawpy==0.17.2
 scikit-image==0.19.3
 scikit-learn==1.1.2
 sewar==0.4.5
-tensorflow==2.10.0
+tensorflow==2.10.1
 xgboost==1.6.2
