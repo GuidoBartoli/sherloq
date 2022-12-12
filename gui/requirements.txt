@@ -5,7 +5,7 @@ lxml==4.9.1
 matplotlib==3.6.0
 opencv-contrib-python-headless==4.6.0.66
 pandas==1.5.0
-pyside6==6.3.2
+pyside6
 python-magic==0.4.27
 rawpy==0.17.2
 scikit-image==0.19.3
