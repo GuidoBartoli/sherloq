@@ -134,6 +134,7 @@ For more information about Python Virtual Environments, you can read [here](http
 $ sudo apt install python3-distutils python3-dev python3-testresources subversion
 $ wget https://bootstrap.pypa.io/get-pip.py
 $ sudo python3 get-pip.py
+$ rm get-pip.py
 $ sudo pip install virtualenv virtualenvwrapper
 $ echo -e "\n# Python Virtual Environments" >> ~/.bashrc
 $ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc
