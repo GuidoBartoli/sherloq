@@ -81,8 +81,8 @@ def computeSpamRes(res, params, weights=list(), normalize=True):
     indexL = int((dim - 1) / 2)
 
     shapeR = np.asarray(resQ.shape[:2]) - dim + 1
-    resH = np.zeros(shapeR, dtype=np.int)
-    resV = np.zeros(shapeR, dtype=np.int)
+    resH = np.zeros(shapeR, dtype=int)
+    resV = np.zeros(shapeR, dtype=int)
 
     for indexP in range(ordCooc):
         nn = n ** indexP

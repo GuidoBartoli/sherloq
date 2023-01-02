@@ -24,7 +24,7 @@ The first version was written in 2015 using C++11 to build a command line utilit
 
 While also including novel algorithms, the 2017 version mainly added a Qt-based multi-window GUI to provide a better user experience. Multiple analyses could be shown on screen and a fast zoom/scroll  viewer was implemented for easier image navigation. That project could be compiled with Qt Creator with Qt 5 and OpenCV 3 and covered about 70% of planned features.
 
-Fast forward to 2020 when I decided to port everything in Python (PySide2 + Matplotlib + OpenCV) for easier development and deployment. While this iteration is just begun and I have yet to port all the previous code on the new platform, I think this will be the final "form" of the project (as long as someone does not volunteer up to develop a nice web application!).
+Fast-forward to 2020 when I decided to port everything in Python (PySide2 + Matplotlib + OpenCV) for easier development and deployment. While this iteration is just begun and I have yet to port all the previous code on the new platform, I think this will be the final "form" of the project (as long as someone does not volunteer up to develop a nice web application!).
 
 I'm happy to share my code and get in contact with anyone interested to improve or test it, but please keep in mind that this repository is *not* intended for distributing a final product, my aim is just to publicly track development of an *unpretentious educational tool*, so expect bugs, unpolished code and missing features! ;)
 
@@ -97,30 +97,44 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 
 
 # Screenshots
-Here are some screenshots from the previous C++ Qt GUI (to be updated with the new version):
 <p align="center">
-  <img src="screenshots/File.jpg" alt="File Analysis"/>
-  <br><b>File Analysis</b>: Metadata, Digest and EXIF
+  <img src="screenshots/0_general.png" alt="General"/>
+  <br><b>General</b>: Original Image, Hex Editor, File Digest, Similar Search
 </p>
 
 <p align="center">
-  <img src="screenshots/Color.jpg" alt="Color Analysis"/>
-  <br><b>Color Analysis</b>: Space Conversion, PCA Projection, Histograms and Statistics
+  <img src="screenshots/1_metadata.png" alt="Metadata"/>
+  <br><b>Metadata</b>: EXIF Full Dump, Header Structure
 </p>
 
 <p align="center">
-  <img src="screenshots/Visual.jpg" alt="Visual Inspection"/>
-  <br><b>Visual Inspection</b>: Magnifier Loupe, Image Adjustments and Evidence Comparison
+  <img src="screenshots/2_inspection.png" alt="Inspection"/>
+  <br><b>Inspection</b>: Enhancing Magnifier, Channel Histogram, Reference Comparison
 </p>
 
 <p align="center">
-  <img src="screenshots/JPEG.jpg" alt="JPEG Analysis"/>
-  <br><b>JPEG Analysis</b>: Quantization Tables, Compression Ghosts and Error Level Analysis
+  <img src="screenshots/3_detail.png" alt="Detail"/>
+  <br><b>Detail</b>: Luminance Gradient, Echo Edge Filter, Wavelet Threshold, Frequency Split
 </p>
 
 <p align="center">
-  <img src="screenshots/LumaNoise.jpg" alt="Luminance/Noise"/>
-  <br><b>Luminance and Noise</b>: Light Gradient, Echo Edge, Min/Max Deviation and SNR Consistency
+  <img src="screenshots/4_colors.png" alt="Colors"/>
+  <br><b>Colors</b>: RGB/HSV Plots, Space Conversion, PCA Projection, Pixel Statistics 
+</p>
+
+<p align="center">
+  <img src="screenshots/5_noise.png" alt="Noise"/>
+  <br><b>Noise</b>: Signal Separation, Min/Max Deviation, Bit Plane Values
+</p>
+
+<p align="center">
+  <img src="screenshots/6_jpeg.png" alt="JPEG"/>
+  <br><b>JPEG</b>: Quality Estimation, Error Level Analysis 
+</p>
+
+<p align="center">
+  <img src="screenshots/7_tampering.png" alt="Tampering"/>
+  <br><b>Tampering</b>: Contrast Enhancement, Copy/Move Forgery, Composite Splicing, Median Filtering
 </p>
 
 # Installation
@@ -169,26 +183,20 @@ $ mkvirtualenv sq -p python3
 ```
 
 ### Windows
-1. Download latest *Python* setup package from [official site](https://www.python.org/downloads/)
-1. Install ensuring that "Add Python to PATH" and "PIP installation" are enabled
-1. Open *Command Prompt* and enter the following commands:
+1. Download the latest *Python* setup package from [official site](https://www.python.org/downloads/)
+2. Install ensuring that "Add Python to PATH" and "PIP installation" are enabled
+3. Open *Command Prompt* and enter the following commands:
 ```
 > pip install virtualenv virtualenvwrapper-win
 > mkvirtualenv sq
 ```
 
-### Conda
-1. Download and install [Anaconda](https://www.anaconda.com/products/individual) (one can also install miniconda, no GUI but is smaller)
-1. Install Xinerama library: `sudo apt-get install libxcb-xinerama0`
-1. Open a console to create a Python environment (on Windows one must start a Conda Console or `sth` from the Start menu):
-`conda create --copy -n sherloq python` [enter *Yes* when it prompts]
-1. After install ends, type in the same console `conda activate sherloq` to activate the environment 
 
 ## [2/2] Launch program
 1. Clone the repository content into a local folder
-1. Change current directory to the `gui` folder inside `sherloq`
-1. Execute `pip install -r requirements.txt` to install required packages (use `pip install -r requirements_win.txt` on Windows)
-1. Launch the GUI with `python sherloq.py`
+2. Change current directory to the `gui` folder inside `sherloq`
+3. Execute `pip install -r requirements.txt` to install required packages (use `pip install -r requirements_win.txt` on Windows)
+4. Launch the GUI with `python sherloq.py`
 
 # Updates
 When a new version is released, update the local working copy using Git, SVN or manually downloading from this repository and (if necessary) update the packages in the virtual environment following [this guide](https://www.activestate.com/resources/quick-reads/how-to-update-all-python-packages/).
