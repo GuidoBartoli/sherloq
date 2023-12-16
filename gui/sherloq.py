@@ -133,7 +133,7 @@ class MainWindow(QMainWindow):
 
         close_action = QAction(self.tr("Close &All"), self)
         close_action.setToolTip(self.tr("Close all open tool windows"))
-        close_action.setShortcut(QKeySequence(Qt.CTRL + Qt.SHIFT + Qt.Key_W))
+        close_action.setShortcut(QKeySequence(Qt.CTRL | Qt.SHIFT | Qt.Key_W))
         close_action.triggered.connect(self.mdi_area.closeAllSubWindows)
         close_action.setObjectName("close_action")
         close_action.setIcon(QIcon("icons/close.svg"))
@@ -147,7 +147,7 @@ class MainWindow(QMainWindow):
 
         self.normal_action = QAction(self.tr("Normal view"), self)
         self.normal_action.setToolTip(self.tr("Back to normal view mode"))
-        self.normal_action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_F12))
+        self.normal_action.setShortcut(QKeySequence(Qt.CTRL | Qt.Key_F12))
         self.normal_action.triggered.connect(self.change_view)
         self.normal_action.setObjectName("normal_action")
         self.normal_action.setIcon(QIcon("icons/normal.svg"))
