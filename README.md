@@ -198,18 +198,6 @@ $ mkvirtualenv sq -p python3
 3. Execute `pip install -r requirements.txt` to install required packages (use `pip install -r requirements_win.txt` on Windows)
 4. Launch the GUI with `python sherloq.py`
 
-**Note for Windows users**: 
-- If you are getting errors about `libmagic`, try the following:
-```
-> pip uninstall python-magic python-magic-bin
-> pip install python-magic-bin
-```
-- If `ImportError: cannot import name 'convert_dict_qtables' from 'PIL.JpegImagePlugin'` is displayed:
-```
-> pip uninstall pillow
-> pip install pillow==9.5
-```
-
 # Updates
 When a new version is released, update the local working copy using Git, SVN or manually downloading from this repository and (if necessary) update the packages in the virtual environment following [this guide](https://www.activestate.com/resources/quick-reads/how-to-update-all-python-packages/).
 
