@@ -13,5 +13,5 @@ scikit-learn==1.3.2
 sewar==0.4.5
 tensorflow==2.12.0
 xgboost==1.6.2
-pillow==10.2.0
+pillow==10.3.0
 PyWavelets==1.5.0
