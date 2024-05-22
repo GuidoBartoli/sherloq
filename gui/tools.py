@@ -153,7 +153,7 @@ class ToolTree(QTreeWidget):
                 self.tr("Highlight traces of different compressions in difference images"),
             ]
         )
-        tool_progress.extend([3, 3, 0, 0])
+        tool_progress.extend([3, 3, 0, 2])
 
         # [7]
         group_names.append(self.tr("[Tampering]"))
