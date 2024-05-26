@@ -21,6 +21,9 @@ class GhostmapWidget(ToolWidget):
         #save variables to self
         self.filename = filename
 
+        #store different xy-offsets so user can quickly cycle different maps and inspect changes
+        self.ghostmaps = [None]*64
+
         #prepare user interface - input variables
         #qmin
         self.qmin_spin = QSpinBox()
@@ -50,6 +53,10 @@ class GhostmapWidget(ToolWidget):
         self.includeoriginal_check.setChecked(False)
         #calculate ghost maps
         self.process_button = QPushButton(self.tr("Calculate Maps"))
+        #calculate next offset ghost maps
+        self.process_next_offset_button = QPushButton(self.tr("Next offset"))
+        #calculate previous offset ghost maps
+        self.process_previous_offset_button = QPushButton(self.tr("Previous offset"))
 
         #combine top layout
         top_layout = QHBoxLayout()
@@ -66,6 +73,8 @@ class GhostmapWidget(ToolWidget):
         top_layout.addWidget(self.xoffset_spin)
         top_layout.addWidget(QLabel(self.tr("Offset Y:")))
         top_layout.addWidget(self.yoffset_spin)
+        top_layout.addWidget(self.process_previous_offset_button)
+        top_layout.addWidget(self.process_next_offset_button)
         top_layout.addStretch()
 
         self.viewer = ImageViewer(image, image, None)
@@ -74,12 +83,57 @@ class GhostmapWidget(ToolWidget):
         self.processGhostmaps()
 
         self.process_button.clicked.connect(self.processGhostmaps)
+        self.process_previous_offset_button.clicked.connect(self.calculate_previous_offset)
+        self.process_next_offset_button.clicked.connect(self.calculate_next_offset)
 
         main_layout = QVBoxLayout()
         main_layout.addLayout(top_layout)
         main_layout.addWidget(self.viewer)
         self.setLayout(main_layout)
 
+
+    def calculate_next_offset(self):
+        x_offset = self.xoffset_spin.value()
+        y_offset = self.yoffset_spin.value()
+
+        if(x_offset <7):
+            x_offset = x_offset + 1
+            self.xoffset_spin.setValue(x_offset)
+            self.processGhostmaps()
+        elif y_offset < 7:
+            x_offset = 0
+            y_offset = y_offset + 1
+            self.xoffset_spin.setValue(x_offset)
+            self.yoffset_spin.setValue(y_offset)
+            self.processGhostmaps()
+        else:
+            x_offset = 0
+            y_offset = 0
+            self.xoffset_spin.setValue(x_offset)
+            self.yoffset_spin.setValue(y_offset)
+            self.processGhostmaps()
+            
+
+    def calculate_previous_offset(self):
+        x_offset = self.xoffset_spin.value()
+        y_offset = self.yoffset_spin.value()
+
+        if(x_offset > 0):
+            x_offset = x_offset - 1
+            self.xoffset_spin.setValue(x_offset)
+            self.processGhostmaps()
+        elif y_offset > 0:
+            x_offset = 7
+            y_offset = y_offset - 1
+            self.xoffset_spin.setValue(x_offset)
+            self.yoffset_spin.setValue(y_offset)
+            self.processGhostmaps()
+        else:
+            x_offset = 7
+            y_offset = 7
+            self.xoffset_spin.setValue(x_offset)
+            self.yoffset_spin.setValue(y_offset)
+            self.processGhostmaps()
 
     #calculate ghost maps fuction:
     def processGhostmaps(self):
@@ -97,6 +151,15 @@ class GhostmapWidget(ToolWidget):
 
         includeoriginal = self.includeoriginal_check.isChecked()
         grayscale = self.showgray_check.isChecked()
+
+        #if ghostmaps already exists, return map and exit
+        if self.ghostmaps[shift_x + shift_y*8] is not None:
+            ghostplot, sqmin, sqmax, sqstep, sincludeoriginal, sgrayscale = self.ghostmaps[shift_x + shift_y*8]
+            if (sqmin == Qmin and sqmax == Qmax and sqstep == Qstep and 
+                sincludeoriginal == includeoriginal and sgrayscale == grayscale):
+                self.viewer.update_processed(ghostplot)
+                self.process_button.setEnabled(True)
+                return
 
         #load original
         original = np.double(cv2.imread(self.filename))
@@ -200,6 +263,9 @@ class GhostmapWidget(ToolWidget):
 
         # Load the saved image in a numpy array, BGR format
         numpy_ghostplot = cv2.imread(temp_filename, cv2.IMREAD_COLOR)
+
+        #save plot in memory so no recalculations are needed if user wants to revistit plot
+        self.ghostmaps[shift_x + shift_y*8] = [numpy_ghostplot,Qmin,Qmax,Qstep,includeoriginal,grayscale]
 
         #Remove the temporary file
         os.remove(temp_filename)
