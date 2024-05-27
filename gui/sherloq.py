@@ -38,7 +38,7 @@ from thumbnail import ThumbWidget
 from tools import ToolTree
 from utility import modify_font, load_image
 from wavelets import WaveletWidget
-
+from ghostmmaps import GhostmapWidget
 
 class MainWindow(QMainWindow):
     max_recent = 5
@@ -389,6 +389,8 @@ class MainWindow(QMainWindow):
                 tool_widget = ElaWidget(self.image)
             # elif tool == 2:
             #     tool_widget = MultipleWidget(self.image)
+            elif tool == 3:
+                tool_widget = GhostmapWidget(self.filename, self.image)
             else:
                 return
         elif group == 7:
