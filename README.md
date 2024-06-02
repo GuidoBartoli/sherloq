@@ -139,12 +139,34 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 
 # Installation
 
+## [1/4]
+
+Clone the current repository into a local folder and change current directory to it.
+
+## [2/4] Virtual environment
+
 For more information about Python Virtual Environments, you can read [here](https://realpython.com/python-virtual-environments-a-primer/) or [here](https://chriswarrick.com/blog/2018/09/04/python-virtual-environments/).
 
-## [1/2] Virtual environment
-
-### Linux
+### [Built-in Virtual Environment](https://docs.python.org/3/library/venv.html)
+Change current directory to Sherloq root, then initialize virtual environment folder:
+```console
+$ python -m venv .venv
 ```
+Then activate it:
+#### Linux
+```console
+$ source .venv/bin/activate
+```
+
+#### Windows
+```console
+C:\> .venv\Scripts\activate.bat
+```
+
+### VirtualEnvWrapper
+
+#### Linux
+```console
 $ sudo apt install python3-distutils python3-dev python3-testresources subversion
 $ wget https://bootstrap.pypa.io/get-pip.py
 $ sudo python3 get-pip.py
@@ -158,45 +180,55 @@ $ source ~/.bashrc
 $ mkvirtualenv sq -p python3
 ```
 
-### MacOS
+#### MacOS [untested]
 
 1) Open Terminal and enter `python3 --version` to install the interpreter and other command line tools
 2) Once installed, proceed similarly to Linux installation:
-```
-   $ wget https://bootstrap.pypa.io/get-pip.py
-   $ sudo python3 get-pip.py
-   $ sudo pip install virtualenv virtualenvwrapper
-   $ echo -e "\n# Python Virtual Environments" >> ~/.bash_profile
-   $ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bash_profile
-   $ echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bash_profile
-   $ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bash_profile
-   $ source ~/.bash_profile
+```console
+$ wget https://bootstrap.pypa.io/get-pip.py
+$ sudo python3 get-pip.py
+$ sudo pip install virtualenv virtualenvwrapper
+$ echo -e "\n# Python Virtual Environments" >> ~/.bash_profile
+$ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bash_profile
+$ echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bash_profile
+$ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bash_profile
+$ source ~/.bash_profile
 ```
 3) Create a new Python 3 virtual environment:
-```
+```console
 $ mkvirtualenv sq -p python3
 ```
 4) Install `libmagic` via `brew` (thanks to @thmsl):
-```
-   $ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-   $ brew install libmagic
+```console
+$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+$ brew install libmagic
 ```
 
-### Windows
+#### Windows
 1. Download *Python 3.10* setup package from [official site](https://www.python.org/downloads/)
 2. Install ensuring that "Add Python to PATH" and "PIP installation" are enabled
 3. Open *Command Prompt* and enter the following commands:
-```
+```console
 > pip install virtualenv virtualenvwrapper-win
 > mkvirtualenv sq
 ```
 
+## [3/4] Install dependencies
 
-## [2/2] Launch program
-1. Clone the repository content into a local folder
-2. Change current directory to the `gui` folder inside `sherloq`
-3. Execute `pip install -r requirements.txt` to install required packages (use `pip install -r requirements_win.txt` on Windows)
-4. Launch the GUI with `python sherloq.py`
+### Linux
+```console
+$ pip install -r requirements.txt
+```
+
+### Windows
+```console
+C:\> pip install -r requirements_win.txt
+```
+
+## [4/4] Launch program
+```console
+python sherloq.py
+```
 
 # Updates
 When a new version is released, update the local working copy using Git, SVN or manually downloading from this repository and (if necessary) update the packages in the virtual environment following [this guide](https://www.activestate.com/resources/quick-reads/how-to-update-all-python-packages/).
