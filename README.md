@@ -139,7 +139,7 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 
 # Installation
 
-## [1/4]
+## [1/4] Donwload source code
 
 Clone the current repository into a local folder and change current directory to it.
 
