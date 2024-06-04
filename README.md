@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo/sherloq.png" width="65%" alt="Sherloq" />
+  <img src="logo/sherloq.png" width="50%" alt="Sherloq" />
   <br><b>An open source image forensic toolset</b>
 </div>
 
