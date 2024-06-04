@@ -165,6 +165,7 @@ This list contains the functions that the toolkit will (hopefully) provide once 
   <br><b>Tampering</b>: Contrast Enhancement, Copy/Move Forgery, Composite Splicing, Median Filtering
 </p>
 <br><br>
+
 # Installation
 
 ## Installation requires a Python Virtual environment
