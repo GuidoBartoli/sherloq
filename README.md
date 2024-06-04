@@ -168,7 +168,7 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 
 # Installation
 
-## Installation requires a Python Virtual environment
+## Installation Requires A Python Virtual Environment
 
 For more information about Python Virtual Environments, you can read [here](https://realpython.com/python-virtual-environments-a-primer/) or [here](https://chriswarrick.com/blog/2018/09/04/python-virtual-environments/).
 <br><br>
