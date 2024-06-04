@@ -126,7 +126,7 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 
 # Screenshots
 <p align="center">
-  <img src="screenshots/0_general.png" alt="General"/>
+  <img src="screenshots/0_general.png" alt="General" width="50%" height="50%"/>
   <br><b>General</b>: Original Image, Hex Editor, File Digest, Similar Search
 </p>
 
