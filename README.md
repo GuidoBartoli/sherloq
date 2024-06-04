@@ -173,8 +173,8 @@ For more information about Python Virtual Environments, you can read [here](http
 
 ```console
 sudo apt install python3-venv python3-pip -y
-git clone https://github.com/midnit3Z0mbi3/sherloq-fork.git
-cd sherloq-fork/gui
+git clone https://github.com/midnit3Z0mbi3/Sherloq-fork.git
+cd Sherloq-fork/gui
 python3 -m venv sherloqEnvironment
 source sherloqEnvironment/bin/activate
 pip install -r requirements.txt
