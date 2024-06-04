@@ -169,50 +169,7 @@ pip install -r requirements.txt
 deactivate
 ```
 
-#### MacOS [untested]
 
-1) Open Terminal and enter `python3 --version` to install the interpreter and other command line tools
-2) Once installed, proceed similarly to Linux installation:
-```console
-$ wget https://bootstrap.pypa.io/get-pip.py
-$ sudo python3 get-pip.py
-$ sudo pip install virtualenv virtualenvwrapper
-$ echo -e "\n# Python Virtual Environments" >> ~/.bash_profile
-$ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bash_profile
-$ echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bash_profile
-$ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bash_profile
-$ source ~/.bash_profile
-```
-3) Create a new Python 3 virtual environment:
-```console
-$ mkvirtualenv sq -p python3
-```
-4) Install `libmagic` via `brew` (thanks to @thmsl):
-```console
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-$ brew install libmagic
-```
-
-#### Windows
-1. Download *Python 3.10* setup package from [official site](https://www.python.org/downloads/)
-2. Install ensuring that "Add Python to PATH" and "PIP installation" are enabled
-3. Open *Command Prompt* and enter the following commands:
-```console
-> pip install virtualenv virtualenvwrapper-win
-> mkvirtualenv sq
-```
-
-## [3/4] Install dependencies
-
-### Linux
-```console
-$ pip install -r requirements.txt
-```
-
-### Windows
-```console
-C:\> pip install -r requirements_win.txt
-```
 
 ## [4/4] Launch program
 ```console
