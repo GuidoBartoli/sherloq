@@ -9,7 +9,7 @@
 
 ## This is a fork of Sherloq.
 
-I use Sherloq with all of my OSINT <a href="https://github.com/midnit3Z0mbi3/Debian_OSINT_VM">Virtual Machine</a> builds.
+I use Sherloq with all of my <a href="https://github.com/midnit3Z0mbi3/Debian_OSINT_VM">OSINT Virtual Machine</a> builds.
 <br>
 <div align="center">
  <img src="https://github.com/midnit3Z0mbi3/Debian_OSINT_VM/blob/main/swords.gif" alt="Samurai swords." width="50%" height="50%"> 
