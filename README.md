@@ -204,7 +204,7 @@ C:\> pip install -r requirements_win.txt
 
 ## [4/4] Launch program
 ```console
-python sherloq.py
+python3 sherloq.py
 ```
 
 # Updates
