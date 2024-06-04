@@ -10,7 +10,6 @@
 # http://www.grip.unina.it/download/LICENSE_OPEN.txt
 #
 
-from PIL.JpegImagePlugin import convert_dict_qtables
 from PIL import Image
 import numpy as np
 
@@ -80,7 +79,7 @@ def jpeg_qtableinv(stream, tnum=0, force_baseline=None):
     else:
         th_high = 255
 
-    h = np.asarray(convert_dict_qtables(Image.open(stream).quantization)[tnum]).reshape((8, 8))
+    h = np.asarray
 
     if tnum == 0:
         # This is table 0 (the luminance table):
