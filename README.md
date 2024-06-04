@@ -20,7 +20,11 @@ I use Sherloq with all of my <a href="https://github.com/midnit3Z0mbi3/Debian_OS
 
 
 
-**Sherloq** is a personal research project of <a href="https://github.com/GuidoBartoli">GuidoBartoli</a>. This project is about implementing a fully integrated environment for digital image forensics. It is NOT 🙅 🙅 🙅  meant as an automatic tool that decide if an image is forged or not (that tool probably will never exist...), but as a companion in experimenting with various algorithms found in the latest research papers and workshops.
+**Sherloq** is a personal research project of <a href="https://github.com/GuidoBartoli">GuidoBartoli</a>. 
+
+The history, features, screenshots, etc... are all written by <a href="https://github.com/GuidoBartoli">GuidoBartoli</a>
+
+This project is about implementing a fully integrated environment for digital image forensics. It is NOT 🙅 🙅 🙅  meant as an automatic tool that decide if an image is forged or not (that tool probably will never exist...), but as a companion in experimenting with various algorithms found in the latest research papers and workshops.
 
 While many commercial solutions have high retail prices and often reserved to law enforcement and government agencies only, this toolset aims to be a both an extensible framework and a starting point for anyone interested in making experiments in this particular application of digital signal processing.
 
