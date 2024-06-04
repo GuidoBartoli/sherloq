@@ -26,7 +26,7 @@
  
 <br><br>
 <div align="center">
-   <br>
+   <br><br>
    <h3><i>Sherloq</i> is a personal research project of <a href="https://github.com/GuidoBartoli">GuidoBartoli</a>.</h3>
    <a href="https://github.com/GuidoBartoli">
      <img src="https://avatars.githubusercontent.com/u/16103676?v=4" alt="GuidoBartoli avatar" width="25%" height="25%">
