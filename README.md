@@ -13,7 +13,6 @@
 <div align="center">
   <h3>I use Sherloq with all of my <a href="https://github.com/midnit3Z0mbi3/Debian_OSINT_VM">OSINT Virtual Machine</a> builds.</h3>
   <br>
-  <br>
   <a href="https://github.com/midnit3Z0mbi3/Debian_OSINT_VM">
     <img src="https://github.com/midnit3Z0mbi3/Debian_OSINT_VM/blob/main/swords.gif" alt="Samurai swords." width="50%" height="50%">
   </a>
@@ -27,6 +26,7 @@
  
 <br><br>
 <div align="center">
+   <br>
    <h3><i>Sherloq</i> is a personal research project of <a href="https://github.com/GuidoBartoli">GuidoBartoli</a>.</h3>
    <a href="https://github.com/GuidoBartoli">
      <img src="https://avatars.githubusercontent.com/u/16103676?v=4" alt="GuidoBartoli avatar" width="25%" height="25%">
