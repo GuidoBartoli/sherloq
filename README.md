@@ -23,7 +23,7 @@ I use Sherloq with all of my <a href="https://github.com/midnit3Z0mbi3/Debian_OS
 **Sherloq** is a personal research project of <a href="https://github.com/GuidoBartoli">GuidoBartoli</a>. 
 <br>
 <div align="center">
- <img src="https://avatars.githubusercontent.com/u/16103676?v=4" alt="GuidoBartoli avatar" width="75%" height="75%"> 
+ <img src="https://avatars.githubusercontent.com/u/16103676?v=4" alt="GuidoBartoli avatar" width="40%" height="40%"> 
 </div>
 <br><br>
 
