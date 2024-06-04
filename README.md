@@ -185,7 +185,7 @@ deactivate
 
 
 
-## Launch program
+## Launch Program
 ```console
 cd sherloq-fork/gui
 source sherloqEnvironment/bin/activate
