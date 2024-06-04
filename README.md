@@ -189,7 +189,7 @@ deactivate
 cd sherloq-fork/gui
 source sherloqEnvironment/bin/activate
 python3 sherloq.py
-Press Ctrl+C
+Press Ctrl+C to stop program
 deactivate
 ```
 
