@@ -189,6 +189,8 @@ deactivate
 cd sherloq-fork/gui
 source sherloqEnvironment/bin/activate
 python3 sherloq.py
+Press Ctrl+C
+deactivate
 ```
 
 # Updates
