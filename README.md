@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="logo/sherloq.png" width="50%" alt="Sherloq" />
+  <img src="logo/sherloq.png" width="50%" height="50%" alt="Sherloq logo" />
   <br><b>An open source image forensic toolset</b>
 </div>
 
@@ -21,6 +21,12 @@ I use Sherloq with all of my <a href="https://github.com/midnit3Z0mbi3/Debian_OS
 
 
 **Sherloq** is a personal research project of <a href="https://github.com/GuidoBartoli">GuidoBartoli</a>. 
+<br>
+<div align="center">
+ <img src="https://avatars.githubusercontent.com/u/16103676?v=4" alt="GuidoBartoli avatar" width="75%" height="75%"> 
+</div>
+<br><br>
+
 
 This project is about implementing a fully integrated environment for digital image forensics. It is NOT 🙅 🙅 🙅  meant as an automatic tool that decide if an image is forged or not (that tool probably will never exist...), but as a companion in experimenting with various algorithms found in the latest research papers and workshops.
 
