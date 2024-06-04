@@ -155,14 +155,13 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 
 For more information about Python Virtual Environments, you can read [here](https://realpython.com/python-virtual-environments-a-primer/) or [here](https://chriswarrick.com/blog/2018/09/04/python-virtual-environments/).
 
-I recommend using linux. I only tested this on Debian, Kali, and Ubuntu.
+I recommend using a linux distribution. I only tested this on Debian, Kali, and Pop!_OS.
 
 
-#### Linux
 ```console
 sudo apt install python3-venv python3-pip -y
-git clone https://github.com/GuidoBartoli/sherloq.git
-cd sherloq/gui
+git clone https://github.com/midnit3Z0mbi3/sherloq-fork.git
+cd sherloq-fork/gui
 python3 -m venv sherloqEnvironment
 source sherloqEnvironment/bin/activate
 pip install -r requirements.txt
@@ -173,6 +172,8 @@ deactivate
 
 ## [4/4] Launch program
 ```console
+cd sherloq-fork/gui
+source sherloqEnvironment/bin/activate
 python3 sherloq.py
 ```
 
