@@ -147,24 +147,6 @@ Clone the current repository into a local folder and change current directory to
 
 For more information about Python Virtual Environments, you can read [here](https://realpython.com/python-virtual-environments-a-primer/) or [here](https://chriswarrick.com/blog/2018/09/04/python-virtual-environments/).
 
-### [Built-in Virtual Environment](https://docs.python.org/3/library/venv.html)
-Change current directory to Sherloq root, then initialize virtual environment folder:
-```console
-$ python -m venv .venv
-```
-Then activate it:
-#### Linux
-```console
-$ source .venv/bin/activate
-```
-
-#### Windows
-```console
-C:\> .venv\Scripts\activate.bat
-```
-
-### Python Venv
-
 #### Linux
 ```console
 git clone https://github.com/GuidoBartoli/sherloq.git
