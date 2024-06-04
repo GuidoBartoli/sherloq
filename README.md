@@ -9,8 +9,6 @@
 
 ## This is a fork of Sherloq. 
 
-### I use Sherloq with all of my <a href="https://github.com/midnit3Z0mbi3/Debian_OSINT_VM">OSINT Virtual Machine</a> builds.
-
 <br>
 <div align="center">
   <h3></h3>I use Sherloq with all of my <a href="https://github.com/midnit3Z0mbi3/Debian_OSINT_VM">OSINT Virtual Machine</a> builds.</h3>
