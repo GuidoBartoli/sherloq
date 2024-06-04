@@ -22,9 +22,7 @@
 <br><br>
 
 
-
- 
-<br><br>
+<br>
 <div align="center">
    <br>
    <h3><i>Sherloq</i> is a personal research project of <a href="https://github.com/GuidoBartoli">GuidoBartoli</a>.</h3>
