@@ -5,10 +5,18 @@
 
 # Introduction
 "*Forensic Image Analysis is the application of image science and domain expertise to interpret the content of an image and/or the image itself in legal matters. Major subdisciplines of Forensic Image Analysis with law enforcement applications include: Photogrammetry, Photographic Comparison, Content Analysis, and Image Authentication.*" (Scientific Working Group on Imaging Technologies)
+<br><br>
 
 ## This is a fork of Sherloq.
 
 I use Sherloq with all of my OSINT <a href="https://github.com/midnit3Z0mbi3/Debian_OSINT_VM">Virtual Machine</a> builds.
+<br>
+<div align="center">
+ <img src="swords.gif" alt="Samurai swords." width="50%" height="50%"> 
+ <br><br>
+ <p><i>"the best sword remains in its sheath"</i></p>
+</div>
+<br><br>
 
 
 
