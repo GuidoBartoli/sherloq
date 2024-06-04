@@ -12,7 +12,7 @@
 I use Sherloq with all of my OSINT <a href="https://github.com/midnit3Z0mbi3/Debian_OSINT_VM">Virtual Machine</a> builds.
 <br>
 <div align="center">
- <img src="swords.gif" alt="Samurai swords." width="50%" height="50%"> 
+ <img src="https://github.com/midnit3Z0mbi3/Debian_OSINT_VM/blob/main/swords.gif" alt="Samurai swords." width="50%" height="50%"> 
  <br><br>
  <p><i>"the best sword remains in its sheath"</i></p>
 </div>
