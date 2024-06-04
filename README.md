@@ -131,37 +131,37 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 </p>
 
 <p align="center">
-  <img src="screenshots/1_metadata.png" alt="Metadata"/>
+  <img src="screenshots/1_metadata.png" alt="Metadata" width="100%" height="100%"/>
   <br><b>Metadata</b>: EXIF Full Dump, Header Structure
 </p>
 
 <p align="center">
-  <img src="screenshots/2_inspection.png" alt="Inspection"/>
+  <img src="screenshots/2_inspection.png" alt="Inspection" width="100%" height="100%"/>
   <br><b>Inspection</b>: Enhancing Magnifier, Channel Histogram, Reference Comparison
 </p>
 
 <p align="center">
-  <img src="screenshots/3_detail.png" alt="Detail"/>
+  <img src="screenshots/3_detail.png" alt="Detail" width="100%" height="100%"/>
   <br><b>Detail</b>: Luminance Gradient, Echo Edge Filter, Wavelet Threshold, Frequency Split
 </p>
 
 <p align="center">
-  <img src="screenshots/4_colors.png" alt="Colors"/>
+  <img src="screenshots/4_colors.png" alt="Colors" width="100%" height="100%"/>
   <br><b>Colors</b>: RGB/HSV Plots, Space Conversion, PCA Projection, Pixel Statistics 
 </p>
 
 <p align="center">
-  <img src="screenshots/5_noise.png" alt="Noise"/>
+  <img src="screenshots/5_noise.png" alt="Noise" width="100%" height="100%"/>
   <br><b>Noise</b>: Signal Separation, Min/Max Deviation, Bit Plane Values
 </p>
 
 <p align="center">
-  <img src="screenshots/6_jpeg.png" alt="JPEG"/>
+  <img src="screenshots/6_jpeg.png" alt="JPEG" width="100%" height="100%"/>
   <br><b>JPEG</b>: Quality Estimation, Error Level Analysis 
 </p>
 
 <p align="center">
-  <img src="screenshots/7_tampering.png" alt="Tampering"/>
+  <img src="screenshots/7_tampering.png" alt="Tampering" width="100%" height="100%"/>
   <br><b>Tampering</b>: Contrast Enhancement, Copy/Move Forgery, Composite Splicing, Median Filtering
 </p>
 
