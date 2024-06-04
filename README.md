@@ -170,8 +170,6 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 
 For more information about Python Virtual Environments, you can read [here](https://realpython.com/python-virtual-environments-a-primer/) or [here](https://chriswarrick.com/blog/2018/09/04/python-virtual-environments/).
 
-I recommend using a linux distribution. I only tested this on Debian, Kali, and Pop!_OS.
-
 
 ```console
 sudo apt install python3-venv python3-pip -y
