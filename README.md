@@ -163,21 +163,16 @@ $ source .venv/bin/activate
 C:\> .venv\Scripts\activate.bat
 ```
 
-### VirtualEnvWrapper
+### Python Venv
 
 #### Linux
 ```console
-$ sudo apt install python3-distutils python3-dev python3-testresources subversion
-$ wget https://bootstrap.pypa.io/get-pip.py
-$ sudo python3 get-pip.py
-$ rm get-pip.py
-$ sudo pip install virtualenv virtualenvwrapper
-$ echo -e "\n# Python Virtual Environments" >> ~/.bashrc
-$ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc
-$ echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bashrc
-$ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
-$ source ~/.bashrc
-$ mkvirtualenv sq -p python3
+git clone https://github.com/GuidoBartoli/sherloq.git
+cd sherloq/gui
+python3 -m venv sherloqEnvironment
+source sherloqEnvironment/bin/activate
+pip install -r requirements.txt
+deactivate
 ```
 
 #### MacOS [untested]
