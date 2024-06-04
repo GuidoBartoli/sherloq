@@ -1,7 +1,7 @@
-<p align="center">
-  <img src="logo/sherloq.png" width="600px" alt="Sherloq" />
+<div align="center">
+  <img src="logo/sherloq.png" width="65%" alt="Sherloq" />
   <br><b>An open source image forensic toolset</b>
-</p>
+</div>
 
 # Introduction
 "*Forensic Image Analysis is the application of image science and domain expertise to interpret the content of an image and/or the image itself in legal matters. Major subdisciplines of Forensic Image Analysis with law enforcement applications include: Photogrammetry, Photographic Comparison, Content Analysis, and Image Authentication.*" (Scientific Working Group on Imaging Technologies)
