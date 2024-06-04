@@ -6,7 +6,13 @@
 # Introduction
 "*Forensic Image Analysis is the application of image science and domain expertise to interpret the content of an image and/or the image itself in legal matters. Major subdisciplines of Forensic Image Analysis with law enforcement applications include: Photogrammetry, Photographic Comparison, Content Analysis, and Image Authentication.*" (Scientific Working Group on Imaging Technologies)
 
-**Sherloq** is a personal research project about implementing a fully integrated environment for digital image forensics. It is not meant as an automatic tool that decide if an image is forged or not (that tool probably will never exist...), but as a companion in experimenting with various algorithms found in the latest research papers and workshops.
+## This is a fork of Sherloq.
+
+I use Sherloq with all of my OSINT <a href="https://github.com/midnit3Z0mbi3/Debian_OSINT_VM">Virtual Machine</a> builds.
+
+
+
+**Sherloq** is a personal research project of <a href="https://github.com/GuidoBartoli">GuidoBartoli</a>. This project is about implementing a fully integrated environment for digital image forensics. It is NOT 🙅 🙅 🙅  meant as an automatic tool that decide if an image is forged or not (that tool probably will never exist...), but as a companion in experimenting with various algorithms found in the latest research papers and workshops.
 
 While many commercial solutions have high retail prices and often reserved to law enforcement and government agencies only, this toolset aims to be a both an extensible framework and a starting point for anyone interested in making experiments in this particular application of digital signal processing.
 
@@ -137,18 +143,16 @@ This list contains the functions that the toolkit will (hopefully) provide once 
   <br><b>Tampering</b>: Contrast Enhancement, Copy/Move Forgery, Composite Splicing, Median Filtering
 </p>
 
-# Installation
-
-## [1/4] Donwload source code
-
-Clone the current repository into a local folder and change current directory to it.
-
-## [2/4] Virtual environment
+# Installation requires a Python Virtual environment
 
 For more information about Python Virtual Environments, you can read [here](https://realpython.com/python-virtual-environments-a-primer/) or [here](https://chriswarrick.com/blog/2018/09/04/python-virtual-environments/).
 
+I recommend using linux. I only tested this on Debian, Kali, and Ubuntu.
+
+
 #### Linux
 ```console
+sudo apt install python3-venv python3-pip -y
 git clone https://github.com/GuidoBartoli/sherloq.git
 cd sherloq/gui
 python3 -m venv sherloqEnvironment
