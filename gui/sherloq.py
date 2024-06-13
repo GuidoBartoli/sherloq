@@ -39,6 +39,7 @@ from tools import ToolTree
 from utility import modify_font, load_image
 from wavelets import WaveletWidget
 from ghostmmaps import GhostmapWidget
+from resammpling import ResamplingWidget
 
 class MainWindow(QMainWindow):
     max_recent = 5
@@ -400,6 +401,8 @@ class MainWindow(QMainWindow):
                 tool_widget = CloningWidget(self.image)
             elif tool == 2:
                 tool_widget = SplicingWidget(self.image)
+            elif tool == 3:
+                tool_widget = ResamplingWidget(self.filename, self.image)
             else:
                 return
         elif group == 8:
