@@ -80,7 +80,7 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 ### JPEG
 - __Quality Estimation__: extract quantization tables and estimate last saved JPEG quality
 - __Error Level Analysis__: show pixel-level difference against fixed compression levels
-- __Multiple Compression__: use a machine learning model to detect multiple compression
+- __Multiple Compression__: use a hine learning model to detect multiple compression
 - __JPEG Ghost Maps__: highlight traces of different compression levels in difference images
 
 ### Tampering
@@ -180,7 +180,7 @@ $ source ~/.bashrc
 $ mkvirtualenv sq -p python3
 ```
 
-#### MacOS [untested]
+#### MacOS [untested and probably not working!]
 
 1) Open Terminal and enter `python3 --version` to install the interpreter and other command line tools
 2) Once installed, proceed similarly to Linux installation:
