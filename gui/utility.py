@@ -201,7 +201,7 @@ def load_image(parent, filename=None):
     ext = os.path.splitext(filename)[1][1:].lower()
     if ext in raw_exts:
         with rawpy.imread(filename) as raw:
-            image = cv.cvtColor(raw.postprocess(use_auto_wb=True), cv.COLOR_RGB2BGR)
+            image = cv.cvtColor(raw.postprocess(use_auto_wb=True, auto_bright_thr=0), cv.COLOR_RGB2BGR)
     elif ext == "gif":
         capture = cv.VideoCapture(filename)
         frames = int(capture.get(cv.CAP_PROP_FRAME_COUNT))

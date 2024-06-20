@@ -16,7 +16,7 @@
 import numpy as np
 import numpy.linalg as numpyl
 from scipy.ndimage.filters import uniform_filter, maximum_filter
-import skimage.morphology as ski
+import cv2 as cv
 
 from .feat_spam.spam_np_opt import getSpamRes
 from .utility.gaussianMixture import gm
@@ -61,7 +61,8 @@ def getWeights(img, res):
 
     th_White = 253.0 / 256
     rd_White = 3
-    sat_mask = ski.binary_opening(img > th_White, ski.disk(rd_White))
+    kernel = cv.getStructuringElement(cv.MORPH_ELLIPSE, (rd_White, rd_White))
+    sat_mask = cv.morphologyEx((img > th_White).astype(np.uint8), cv.MORPH_OPEN, kernel)
     mm = np.logical_or(mm, sat_mask)
     mm = maximum_filter(mm, (win_z, win_z))
     weights = np.logical_not(mm)

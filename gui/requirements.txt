@@ -8,7 +8,6 @@ pandas==1.5.0
 pyside6==6.4.0.1
 python-magic==0.4.27
 rawpy==0.17.3
-scikit-image==0.22.0
 scikit-learn==1.5.0
 sewar==0.4.5
 tensorflow==2.12.0

@@ -215,14 +215,8 @@ $ brew install libmagic
 
 ## [3/4] Install dependencies
 
-### Linux
 ```console
-$ pip install -r requirements.txt
-```
-
-### Windows
-```console
-C:\> pip install -r requirements_win.txt
+pip install -r requirements.txt
 ```
 
 ## [4/4] Launch program

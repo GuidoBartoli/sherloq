@@ -10,7 +10,6 @@
 # http://www.grip.unina.it/download/LICENSE_OPEN.txt
 #
 
-from PIL.JpegImagePlugin import convert_dict_qtables
 from PIL import Image
 import numpy as np
 

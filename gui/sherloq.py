@@ -39,7 +39,7 @@ from tools import ToolTree
 from utility import modify_font, load_image
 from wavelets import WaveletWidget
 from ghostmmaps import GhostmapWidget
-from resammpling import ResamplingWidget
+from resampling import ResamplingWidget
 
 class MainWindow(QMainWindow):
     max_recent = 5
