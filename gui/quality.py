@@ -73,8 +73,10 @@ class QualityWidget(ToolWidget):
         try:
             if temp_file.open():
                 copyfile(filename, temp_file.fileName())
+                input_data = b"\n"
                 subprocess.run(
                     [exiftool_exe(), "-all=", "-overwrite_original", temp_file.fileName()],
+                    input=input_data,
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
                 )

@@ -15,7 +15,9 @@ class ThumbWidget(ToolWidget):
 
         temp_file = QTemporaryFile()
         if temp_file.open():
-            output = subprocess.check_output([exiftool_exe(), "-b", "-ThumbnailImage", filename])
+            input_data = b"\n"
+            command = [exiftool_exe(), "-b", "-ThumbnailImage", filename]
+            output = subprocess.check_output(command,input=input_data)
             temp_name = temp_file.fileName()
             with open(temp_name, "wb") as file:
                 file.write(output)

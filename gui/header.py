@@ -16,8 +16,9 @@ class HeaderWidget(ToolWidget):
         self.temp_dir = QTemporaryDir()
         if self.temp_dir.isValid():
             temp_file = os.path.join(self.temp_dir.path(), "structure.html")
-
-            p = run([exiftool_exe(), "-htmldump0", filename], stdout=PIPE)
+            input_data = b"\n"
+            command = [exiftool_exe(), "-htmldump0", filename]
+            p = run(command, input=input_data, stdout=PIPE)
             with open(temp_file, "w") as file:
                 file.write(p.stdout.decode("utf-8"))
 
