@@ -146,6 +146,7 @@ Clone the current repository into a local folder and change current directory to
 ## [2/4] Virtual environment
 
 For more information about Python Virtual Environments, you can read [here](https://realpython.com/python-virtual-environments-a-primer/) or [here](https://chriswarrick.com/blog/2018/09/04/python-virtual-environments/).
+Choose one of the following method to create a new virtual environment with Python 3.11 for Sherloq.
 
 ### [Built-in Virtual Environment](https://docs.python.org/3/library/venv.html)
 Change current directory to Sherloq root, then initialize virtual environment folder:
@@ -163,7 +164,7 @@ $ source .venv/bin/activate
 C:\> .venv\Scripts\activate.bat
 ```
 
-### VirtualEnvWrapper
+### [VirtualEnvWrapper](https://virtualenvwrapper.readthedocs.io/en/latest/)
 
 #### Linux
 ```console
@@ -179,39 +180,18 @@ $ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
 $ source ~/.bashrc
 $ mkvirtualenv sq -p python3
 ```
-
-#### MacOS [untested and probably not working!]
-
-1) Open Terminal and enter `python3 --version` to install the interpreter and other command line tools
-2) Once installed, proceed similarly to Linux installation:
-```console
-$ wget https://bootstrap.pypa.io/get-pip.py
-$ sudo python3 get-pip.py
-$ sudo pip install virtualenv virtualenvwrapper
-$ echo -e "\n# Python Virtual Environments" >> ~/.bash_profile
-$ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bash_profile
-$ echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bash_profile
-$ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bash_profile
-$ source ~/.bash_profile
-```
-3) Create a new Python 3 virtual environment:
-```console
-$ mkvirtualenv sq -p python3
-```
-4) Install `libmagic` via `brew` (thanks to @thmsl):
-```console
-$ /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-$ brew install libmagic
-```
-
 #### Windows
-1. Download *Python 3.10* setup package from [official site](https://www.python.org/downloads/)
+1. Download *Python 3.11* setup package from [official site](https://www.python.org/downloads/)
 2. Install ensuring that "Add Python to PATH" and "PIP installation" are enabled
 3. Open *Command Prompt* and enter the following commands:
 ```console
 > pip install virtualenv virtualenvwrapper-win
 > mkvirtualenv sq
 ```
+### [Conda environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
+1. Install latest **Miniconda** following instructions from the [official site](https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html)
+2. Create a new **virtual environment**: `conda create --name sq python=3.11 -y`
+3. **Activate** the `sq` environment: `conda activate sq`
 
 ## [3/4] Install dependencies
 
