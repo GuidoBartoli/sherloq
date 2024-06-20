@@ -173,7 +173,7 @@ class ToolTree(QTreeWidget):
                 self.tr("Estimate 2D pixel interpolation for detecting resampling traces"),
             ]
         )
-        tool_progress.extend([3, 2, 3, 0])
+        tool_progress.extend([3, 2, 3, 2])
 
         # [8]
         group_names.append(self.tr("[Various]"))
