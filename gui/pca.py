@@ -66,11 +66,7 @@ class PcaWidget(ToolWidget):
             modify_font(table_widget.item(i, 0), bold=True)
             for j in range(len(table_data[i])):
                 table_widget.setItem(i, j + 1, QTableWidgetItem(str(table_data[i][j])))
-        # item = QTableWidgetItem()
-        # item.setBackgroundColor(QColor(mu[0, 2], mu[0, 1], mu[0, 0]))
-        # table_widget.setItem(0, 4, item)
-        # table_widget.resizeRowsToContents()
-        # table_widget.resizeColumnsToContents()
+        table_widget.resizeColumnsToContents()
         table_widget.setEditTriggers(QAbstractItemView.NoEditTriggers)
         table_widget.setSelectionMode(QAbstractItemView.SingleSelection)
         table_widget.setMaximumHeight(190)

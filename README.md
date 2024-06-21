@@ -44,20 +44,20 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 ### General
 - __Original Image__: display the unaltered reference image for visual inspection
 - __File Digest__: retrieve physical file information, crypto and perceptual hashes
-- __Hex Editor__: open an external hexadecimal editor to show and edit raw bytes
-- __Similar Search__: browse online search services to find visually similar images
+- __Hex Editor__: open an external hexadecimal editor to show and edit raw bytes
+- __Similar Search__: browse online search services to find visually similar images
 
 ### Metadata
-- __Header Structure__: dump the file header structure and display an interactive view
-- __EXIF Full Dump__: scan through file metadata and gather all available information
-- __Thumbnail Analysis__: extract optional embedded thumbnail and compare with original
-- __Geolocation Data__: retrieve optional geolocation data and show it on a world map
+- __Header Structure__: dump the file header structure and display an interactive view
+- __EXIF Full Dump__: scan through file metadata and gather all available information
+- __Thumbnail Analysis__: extract optional embedded thumbnail and compare with original
+- __Geolocation Data__: retrieve optional geolocation data and show it on a world map
 
 ### Inspection
-- __Enhancing Magnifier__: magnifying glass with enhancements for better identifying forgeries
+- __Enhancing Magnifier__: magnifying glass with enhancements for better identifying forgeries
 - __Channel Histogram__: display single color channels or RGB composite interactive histogram
-- __Global Adjustments__: apply standard image adjustments (brightness, hue, saturation, ...)
-- __Reference Comparison__: open a synchronized double view for comparison with another picture
+- __Global Adjustments__: apply standard image adjustments (brightness, hue, saturation, ...)
+- __Reference Comparison__: open a synchronized double view for comparison with another picture
 
 ### Detail
 - __Luminance Gradient__: analyze horizontal/vertical brightness variations across the image
@@ -66,10 +66,10 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 - __Frequency Split__: split image luminance into high and low frequency components
 
 ### Colors
-- __RGB/HSV Plots__: display interactive 2D and 3D plots of RGB and HSV pixel values
-- __Space Conversion__: convert RGB channels into HSV/YCbCr/Lab/Luv/CMYK/Gray spaces
-- __PCA Projection__: use color PCA to project pixel onto most salient components
-- __Pixel Statistics__: compute minimum/maximum/average RGB values for every pixel
+- __RGB/HSV Plots__: display interactive 2D and 3D plots of RGB and HSV pixel values
+- __Space Conversion__: convert RGB channels into HSV/YCbCr/Lab/Luv/CMYK/Gray spaces
+- __PCA Projection__: use color PCA to project pixel onto most salient components
+- __Pixel Statistics__: compute minimum/maximum/average RGB values for every pixel
 
 ### Noise
 - __Noise Separation__: estimate and extract different kind of image noise components
@@ -78,10 +78,10 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 - __PRNU Identification__: exploit sensor pattern noise introduced by different cameras
 
 ### JPEG
-- __Quality Estimation__: extract quantization tables and estimate last saved JPEG quality
+- __Quality Estimation__: extract quantization tables and estimate last saved JPEG quality
 - __Error Level Analysis__: show pixel-level difference against fixed compression levels
 - __Multiple Compression__: use a machine learning model to detect multiple compression
-- __JPEG Ghost Maps__: highlight traces of different compression levels in difference images
+- __JPEG Ghost Maps__: highlight traces of different compression levels in difference images
 
 ### Tampering
 - __Contrast Enhancement__: analyze color distribution to detect contrast enhancements
