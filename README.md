@@ -80,7 +80,7 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 ### JPEG
 - __Quality Estimation__: extract quantization tables and estimate last saved JPEG quality
 - __Error Level Analysis__: show pixel-level difference against fixed compression levels
-- __Multiple Compression__: use a hine learning model to detect multiple compression
+- __Multiple Compression__: use a machine learning model to detect multiple compression
 - __JPEG Ghost Maps__: highlight traces of different compression levels in difference images
 
 ### Tampering
