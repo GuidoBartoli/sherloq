@@ -37,7 +37,7 @@ class PcaWidget(ToolWidget):
         self.equalize_check.setToolTip(self.tr("Apply histogram equalization"))
 
         rows, cols, chans = image.shape
-        x = np.reshape(image, (rows * cols, chans)).astype(np.float32)
+        x = np.reshape(image, (rows * cols, chans)).astype(np.float64)
         mu, ev, ew = cv.PCACompute2(x, np.array([]))
         p = np.reshape(cv.PCAProject(x, mu, ev), (rows, cols, chans))
         x0 = image.astype(np.float32) - mu
