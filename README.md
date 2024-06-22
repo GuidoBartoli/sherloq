@@ -12,12 +12,12 @@ While many commercial solutions have high retail prices and often reserved to la
 
 I strongly believe that *security-by-obscurity* is the wrong way to offer any kind of forensic service (i.e. "Using this proprietary software I guarantee you that this photo *is* pristine... and you have to trust me!"). Following the open-source philosophy, everyone should be able to try various techniques on their own, gain knowledge and share it to the community... even better if they contribute with code improvements! :)
 
-- [History](https://github.com/GuidoBartoli/sherloq#historry)
-- [Features](https://github.com/GuidoBartoli/sherloq#features)
-- [Screenshots](https://github.com/GuidoBartoli/sherloq#screenshots)
-- [Installation](https://github.com/GuidoBartoli/sherloq#installation)
-- [Updates](https://github.com/GuidoBartoli/sherloq#updates)
-- [Bibliography](https://github.com/GuidoBartoli/sherloq#bibliography)
+- [History](#history)
+- [Features](#features)
+- [Screenshots](#screenshots)
+- [Installation](#installation)
+- [Updates](#updates)
+- [Bibliography](#bibliography)
 
 # History
 The first version was written in 2015 using C++11 to build a command line utility with many options, but soon it turned to be too cumbersome and not much interactive. That version could be compiled with CMake after installing OpenCV, Boost and AlgLib libraries. This first proof of concept offered about 80% of planned features (see below for the full list).
