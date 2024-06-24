@@ -112,7 +112,9 @@ def computeSpamRes(res, params, weights=list(), normalize=True):
     spamV = np.zeros([range0.size, range1.size, numFeat + 1], dtype=out_dtype)
 
     if len(weights) > 0:
-        weights = weights[indexL : (shapeR[0] + indexL), indexL : (shapeR[1] + indexL)]  ## clip weights
+        weights = weights[
+            indexL : (shapeR[0] + indexL), indexL : (shapeR[1] + indexL)
+        ]  ## clip weights
         resH[np.logical_not(weights)] = numFeat
         resV[np.logical_not(weights)] = numFeat
         weights = weights.astype(dtype=out_dtype)
@@ -126,8 +128,12 @@ def computeSpamRes(res, params, weights=list(), normalize=True):
             pos1 = range1[index1]
             end1 = strides[1] + pos1
 
-            spamH[index0, index1, :], _ = np.histogram(resH[pos0:end0, pos1:end1], rangeH, density=False)
-            spamV[index0, index1, :], _ = np.histogram(resV[pos0:end0, pos1:end1], rangeH, density=False)
+            spamH[index0, index1, :], _ = np.histogram(
+                resH[pos0:end0, pos1:end1], rangeH, density=False
+            )
+            spamV[index0, index1, :], _ = np.histogram(
+                resV[pos0:end0, pos1:end1], rangeH, density=False
+            )
 
     spamW = (strides[0] * strides[1]) - spamH[:, :, -1]
     spamH = spamH[:, :, :-1]
@@ -156,10 +162,16 @@ def getSpamRes(res, params, ksize, weights=list(), paddingModality=0):
 
     ksize[0] = int(ksize[0] / strides[0])
     ksize[1] = int(ksize[1] / strides[1])
-    spam, spamW, range0, range1 = computeSpamRes(res, params, weights=weights, normalize=True)
+    spam, spamW, range0, range1 = computeSpamRes(
+        res, params, weights=weights, normalize=True
+    )
 
-    spamW = np.maximum(uniform_filter(spamW, (ksize[0], ksize[1]), mode="constant", cval=0.0), 0.0)
-    spam = np.maximum(uniform_filter(spam, (ksize[0], ksize[1], 1), mode="constant", cval=0.0), 0.0)
+    spamW = np.maximum(
+        uniform_filter(spamW, (ksize[0], ksize[1]), mode="constant", cval=0.0), 0.0
+    )
+    spam = np.maximum(
+        uniform_filter(spam, (ksize[0], ksize[1], 1), mode="constant", cval=0.0), 0.0
+    )
     spam = spam / np.maximum(spamW[:, :, np.newaxis], 1e-20)
 
     if paddingModality == 0:

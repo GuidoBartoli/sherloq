@@ -33,7 +33,9 @@ def noiseprint_blind_file(filename, model_name="net"):
     except:
         QF = 200
 
-    mapp, valid, range0, range1, imgsize, other = noiseprint_blind(img, QF, model_name=model_name)
+    mapp, valid, range0, range1, imgsize, other = noiseprint_blind(
+        img, QF, model_name=model_name
+    )
     return QF, mapp, valid, range0, range1, imgsize, other
 
 
@@ -50,7 +52,15 @@ def noiseprint_blind_post(res, img):
         # print('error too small %d' % np.sum(weights))
         return None, valid, range0, range1, imgsize, dict()
 
-    mapp, other = EMgu_img(spam, valid, extFeat=range(32), seed=0, maxIter=100, replicates=10, outliersNlogl=42)
+    mapp, other = EMgu_img(
+        spam,
+        valid,
+        extFeat=range(32),
+        seed=0,
+        maxIter=100,
+        replicates=10,
+        outliersNlogl=42,
+    )
 
     return mapp, valid, range0, range1, imgsize, other
 
@@ -73,7 +83,11 @@ def genMappUint8(mapp, valid, range0, range1, imgsize, vmax=None, vmin=None):
     if vmin is None:
         vmin = np.nanmin(mapp_s)
 
-    mapUint8 = (255 * (mapp_s.clip(vmin, vmax) - vmin) / (vmax - vmin)).clip(0, 255).astype(np.uint8)
+    mapUint8 = (
+        (255 * (mapp_s.clip(vmin, vmax) - vmin) / (vmax - vmin))
+        .clip(0, 255)
+        .astype(np.uint8)
+    )
     mapUint8 = 255 - resizeMapWithPadding(mapUint8, range0, range1, imgsize)
 
     return mapUint8

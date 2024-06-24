@@ -3,7 +3,14 @@ import sys
 
 from PySide6.QtCore import Qt, QSettings
 from PySide6.QtGui import QKeySequence, QIcon, QAction
-from PySide6.QtWidgets import QApplication, QMainWindow, QMdiArea, QMdiSubWindow, QDockWidget, QMessageBox
+from PySide6.QtWidgets import (
+    QApplication,
+    QMainWindow,
+    QMdiArea,
+    QMdiSubWindow,
+    QDockWidget,
+    QMessageBox,
+)
 
 from adjust import AdjustWidget
 from cloning import CloningWidget
@@ -41,6 +48,7 @@ from wavelets import WaveletWidget
 from ghostmmaps import GhostmapWidget
 from resampling import ResamplingWidget
 
+
 class MainWindow(QMainWindow):
     max_recent = 5
 
@@ -51,7 +59,9 @@ class MainWindow(QMainWindow):
         QApplication.setOrganizationDomain("http://www.guidobartoli.com")
         QApplication.setApplicationVersion(ToolTree().version)
         QApplication.setWindowIcon(QIcon("icons/sherloq_white.png"))
-        self.setWindowTitle(f"{QApplication.applicationName()} {QApplication.applicationVersion()}")
+        self.setWindowTitle(
+            f"{QApplication.applicationName()} {QApplication.applicationVersion()}"
+        )
         self.mdi_area = QMdiArea()
         self.setCentralWidget(self.mdi_area)
         self.filename = None
@@ -291,7 +301,9 @@ class MainWindow(QMainWindow):
         self.findChild(QAction, "cascade_action").setEnabled(True)
         self.findChild(QAction, "close_action").setEnabled(True)
         self.findChild(QAction, "tabbed_action").setEnabled(True)
-        self.setWindowTitle(f"({basename}) - {QApplication.applicationName()} {QApplication.applicationVersion()}")
+        self.setWindowTitle(
+            f"({basename}) - {QApplication.applicationName()} {QApplication.applicationVersion()}"
+        )
         if filename not in self.recent_files:
             self.recent_files.insert(0, filename)
             if len(self.recent_files) > self.max_recent:

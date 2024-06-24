@@ -14,7 +14,10 @@ from PySide6.QtWidgets import (
     QGridLayout,
     QTabWidget,
 )
-from matplotlib.backends.backend_qt5agg import FigureCanvas, NavigationToolbar2QT as NavigationToolbar
+from matplotlib.backends.backend_qt5agg import (
+    FigureCanvas,
+    NavigationToolbar2QT as NavigationToolbar,
+)
 from matplotlib.figure import Figure
 
 from tools import ToolWidget
@@ -63,7 +66,9 @@ class PlotsWidget(ToolWidget):
             hsv = cv.cvtColor(rgb, cv.COLOR_RGB2HSV)
             hsv[:, :, 0] /= 360
             shape = (img.shape[0] * img.shape[1], img.shape[2])
-            self.colors[scale] = np.concatenate((np.reshape(rgb, shape), np.reshape(hsv, shape)), axis=1)
+            self.colors[scale] = np.concatenate(
+                (np.reshape(rgb, shape), np.reshape(hsv, shape)), axis=1
+            )
             img = cv.pyrDown(img)
 
         figure2 = Figure()

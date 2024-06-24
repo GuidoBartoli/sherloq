@@ -2,8 +2,20 @@
 # "Exposing Digital Forgeries by Detecting Traces of Re-sampling" by Hany Farid & Alin C. Popescu
 # The book "Photo Forensics" by Hany Farid gives a more detailed explanation of the technique for those interested
 
-from PySide6.QtWidgets import QWidget, QDoubleSpinBox, QVBoxLayout, QSlider, QHBoxLayout, QLabel, QSpinBox, QCheckBox, \
-    QPushButton, QGridLayout, QSizePolicy, QScrollArea
+from PySide6.QtWidgets import (
+    QWidget,
+    QDoubleSpinBox,
+    QVBoxLayout,
+    QSlider,
+    QHBoxLayout,
+    QLabel,
+    QSpinBox,
+    QCheckBox,
+    QPushButton,
+    QGridLayout,
+    QSizePolicy,
+    QScrollArea,
+)
 from PySide6.QtGui import QTransform
 from PySide6.QtCore import Qt
 from tools import ToolWidget
@@ -15,9 +27,11 @@ import cv2
 import random
 import matplotlib.pyplot as plt
 
-plt.rcParams['savefig.dpi'] = 200  # increase deafault save resolution
-from matplotlib.backends.backend_qt5agg import FigureCanvasQTAgg as FigureCanvas, \
-    NavigationToolbar2QT as NavigationToolbar
+plt.rcParams["savefig.dpi"] = 200  # increase deafault save resolution
+from matplotlib.backends.backend_qt5agg import (
+    FigureCanvasQTAgg as FigureCanvas,
+    NavigationToolbar2QT as NavigationToolbar,
+)
 from matplotlib.backend_bases import MouseButton
 from matplotlib.figure import Figure
 from utility import modify_font
@@ -55,7 +69,9 @@ class ResamplingWidget(ToolWidget):
         self.original_sizes_widgets = {}
 
         # prepare user interface
-        self.calculate_probability_button = QPushButton(self.tr("Calculate probability"))
+        self.calculate_probability_button = QPushButton(
+            self.tr("Calculate probability")
+        )
         self.calculate_fourier_button = QPushButton(self.tr("Calculate fourier"))
 
         # N x N symmetric interpolation model to estimate interpolation probability
@@ -65,8 +81,12 @@ class ResamplingWidget(ToolWidget):
         self.filter_5x5_Check.setChecked(False)
 
         # bind toggle
-        self.filter_3x3_Check.clicked.connect(lambda: self.filter_5x5_Check.setChecked(False))
-        self.filter_5x5_Check.clicked.connect(lambda: self.filter_3x3_Check.setChecked(False))
+        self.filter_3x3_Check.clicked.connect(
+            lambda: self.filter_5x5_Check.setChecked(False)
+        )
+        self.filter_5x5_Check.clicked.connect(
+            lambda: self.filter_3x3_Check.setChecked(False)
+        )
 
         # pointpicker probability
         self.probability_check = QCheckBox(self.tr("Probability Windows"))
@@ -78,21 +98,43 @@ class ResamplingWidget(ToolWidget):
 
         # combine top layout
         top_layout = QGridLayout()
-        top_layout.addWidget(QLabel(self.tr("A resampling analysis is computationally expensive and for a\n" +
-                                            "high resoluion image (1280x720 pixels), it can take a few minutes to process.\n" +
-                                            "It is more efficient and more effective to calculate the probability map for only the suspected area.\n" +
-                                            "This is because a small resampled area is more readily " +
-                                            "detected when the larger image is not considered by the algoritm.")), 0, 0)
+        top_layout.addWidget(
+            QLabel(
+                self.tr(
+                    "A resampling analysis is computationally expensive and for a\n"
+                    + "high resoluion image (1280x720 pixels), it can take a few minutes to process.\n"
+                    + "It is more efficient and more effective to calculate the probability map for only the suspected area.\n"
+                    + "This is because a small resampled area is more readily "
+                    + "detected when the larger image is not considered by the algoritm."
+                )
+            ),
+            0,
+            0,
+        )
 
-        top_layout.addWidget(QLabel(self.tr(
-            "A 5x5 probability filter might be able to uncover more complex interpolation algorithms, but the computing time for the probability maps increases significantly.\n" +
-            "Left mouse button: choose location to construct area of interest\n" +
-            "Right mouse button: delete last location.")), 1, 0)
+        top_layout.addWidget(
+            QLabel(
+                self.tr(
+                    "A 5x5 probability filter might be able to uncover more complex interpolation algorithms, but the computing time for the probability maps increases significantly.\n"
+                    + "Left mouse button: choose location to construct area of interest\n"
+                    + "Right mouse button: delete last location."
+                )
+            ),
+            1,
+            0,
+        )
 
-        top_layout.addWidget(QLabel(self.tr(
-            "If no area of interest is chosen for probability, the probability map for the entire image will be calculated.\n" +
-            "Fourier maps will automatically be calculated for each area of interest by the probability map + for smaller sub windows applied when 'Fourier Windows' is cheched.\n"
-            "Please make sure areas do not overlap for probability maps!")), 2, 0)
+        top_layout.addWidget(
+            QLabel(
+                self.tr(
+                    "If no area of interest is chosen for probability, the probability map for the entire image will be calculated.\n"
+                    + "Fourier maps will automatically be calculated for each area of interest by the probability map + for smaller sub windows applied when 'Fourier Windows' is cheched.\n"
+                    "Please make sure areas do not overlap for probability maps!"
+                )
+            ),
+            2,
+            0,
+        )
 
         top_layout.addWidget(self.probability_check, 0, 1)
         top_layout.addWidget(self.fourier_check, 0, 2)
@@ -113,8 +155,12 @@ class ResamplingWidget(ToolWidget):
         self.rotationally_invariant_window_check = QCheckBox(self.tr("R. I. W."))
         self.rotationally_invariant_window_check.setChecked(False)
         # bind toggle options
-        self.hanning_check.clicked.connect(lambda: self.rotationally_invariant_window_check.setChecked(False))
-        self.rotationally_invariant_window_check.clicked.connect(lambda: self.hanning_check.setChecked(False))
+        self.hanning_check.clicked.connect(
+            lambda: self.rotationally_invariant_window_check.setChecked(False)
+        )
+        self.rotationally_invariant_window_check.clicked.connect(
+            lambda: self.hanning_check.setChecked(False)
+        )
 
         # upsample and take center options
         self.upsample_check = QCheckBox(self.tr("Upsample"))
@@ -127,8 +173,12 @@ class ResamplingWidget(ToolWidget):
         self.simple_highpass_check.setChecked(True)
         self.complex_highpass_check = QCheckBox(self.tr("Highpass 2"))
         self.complex_highpass_check.setChecked(False)
-        self.simple_highpass_check.clicked.connect(lambda: self.complex_highpass_check.setChecked(False))
-        self.complex_highpass_check.clicked.connect(lambda: self.simple_highpass_check.setChecked(False))
+        self.simple_highpass_check.clicked.connect(
+            lambda: self.complex_highpass_check.setChecked(False)
+        )
+        self.complex_highpass_check.clicked.connect(
+            lambda: self.simple_highpass_check.setChecked(False)
+        )
 
         # gamma correction
         self.gamma_spin = QDoubleSpinBox()
@@ -157,8 +207,10 @@ class ResamplingWidget(ToolWidget):
         self.axes = self.canvas.figure.subplots()
         # imshow creates an object, so the object is saved here so it can be updated in the future to show new content
         # repeatedly using imshow without clearing data will result in increased memory and subsequently slower performance
-        self.probability_image_canvas_object = self.axes.imshow(self.imagegray, cmap='gray')
-        self.canvas.mpl_connect('button_press_event', self.click_on_canvas)
+        self.probability_image_canvas_object = self.axes.imshow(
+            self.imagegray, cmap="gray"
+        )
+        self.canvas.mpl_connect("button_press_event", self.click_on_canvas)
         self.canvas.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
         self.axes.figure.canvas.draw()
 
@@ -168,23 +220,30 @@ class ResamplingWidget(ToolWidget):
         # canvas for fourier_Maps
         self.figure_four = plt.figure(figsize=(10, 15))
         self.canvas_fourier_maps = FigureCanvas(self.figure_four)
-        self.canvas_fourier_maps.mpl_connect('button_press_event', self.click_on_canvas)
+        self.canvas_fourier_maps.mpl_connect("button_press_event", self.click_on_canvas)
         self.canvas_fourier_maps.setSizePolicy(QSizePolicy.Fixed, QSizePolicy.Fixed)
 
         # add toolbar to fourier figure for zoom and export
         self.toolbar_four = NavigationToolbar(self.canvas_fourier_maps, self)
 
         # bind user interactions
-        self.calculate_probability_button.clicked.connect(self.calculate_probability_maps)
+        self.calculate_probability_button.clicked.connect(
+            self.calculate_probability_maps
+        )
         self.calculate_fourier_button.clicked.connect(self.calculate_fourier_maps)
-        self.probability_check.clicked.connect(lambda: self.fourier_check.setChecked(False))
-        self.fourier_check.clicked.connect(lambda: self.probability_check.setChecked(False))
+        self.probability_check.clicked.connect(
+            lambda: self.fourier_check.setChecked(False)
+        )
+        self.fourier_check.clicked.connect(
+            lambda: self.probability_check.setChecked(False)
+        )
 
         # assemble layout
         main_layout = QVBoxLayout()
         main_layout.addLayout(top_layout)
         self.four_parameters_label = QLabel(
-            "Fourier map options: (Make sure to have Hanning or R. I. W. checked, same for Highpass 1 or 2.)")
+            "Fourier map options: (Make sure to have Hanning or R. I. W. checked, same for Highpass 1 or 2.)"
+        )
         main_layout.addWidget(self.four_parameters_label)
         main_layout.addLayout(four_parameters_layout)
 
@@ -213,7 +272,9 @@ class ResamplingWidget(ToolWidget):
 
         scroll_layout.addWidget(self.toolbar_four)
         scroll_layout.addWidget(self.canvas_fourier_maps)
-        self.original_sizes_widgets[self.canvas_fourier_maps] = self.canvas_fourier_maps.sizeHint()
+        self.original_sizes_widgets[
+            self.canvas_fourier_maps
+        ] = self.canvas_fourier_maps.sizeHint()
 
         main_layout.addWidget(self.scroll_area)
 
@@ -237,9 +298,13 @@ class ResamplingWidget(ToolWidget):
 
         if len(self.selected_points_probability) == 0:
             if self.filter_5x5_Check.isChecked():
-                processed_part = self.calculate_probability_map_5x5(self.imagegray_nomalized_copy)
+                processed_part = self.calculate_probability_map_5x5(
+                    self.imagegray_nomalized_copy
+                )
             else:
-                processed_part = self.calculate_probability_map_3x3(self.imagegray_nomalized_copy)
+                processed_part = self.calculate_probability_map_3x3(
+                    self.imagegray_nomalized_copy
+                )
 
             self.probability_maps.append(processed_part)
             self.imagegray_copy_for_probabilitymaps = processed_part
@@ -250,19 +315,32 @@ class ResamplingWidget(ToolWidget):
                     (x2, y2) = self.selected_points_probability[i + 1]
                     if self.filter_5x5_Check.isChecked():
                         processed_part = self.calculate_probability_map_5x5(
-                            self.imagegray_nomalized_copy[min(y1, y2):max(y1, y2) + 1, min(x1, x2):max(x1, x2) + 1])
+                            self.imagegray_nomalized_copy[
+                                min(y1, y2) : max(y1, y2) + 1,
+                                min(x1, x2) : max(x1, x2) + 1,
+                            ]
+                        )
                         self.probability_maps.append(processed_part)
-                        self.imagegray_copy_for_probabilitymaps[min(y1, y2) + 2:max(y1, y2) - 1,
-                        min(x1, x2) + 2:max(x1, x2) - 1] = processed_part
+                        self.imagegray_copy_for_probabilitymaps[
+                            min(y1, y2) + 2 : max(y1, y2) - 1,
+                            min(x1, x2) + 2 : max(x1, x2) - 1,
+                        ] = processed_part
                     else:
                         processed_part = self.calculate_probability_map_3x3(
-                            self.imagegray_nomalized_copy[min(y1, y2):max(y1, y2) + 1, min(x1, x2):max(x1, x2) + 1])
+                            self.imagegray_nomalized_copy[
+                                min(y1, y2) : max(y1, y2) + 1,
+                                min(x1, x2) : max(x1, x2) + 1,
+                            ]
+                        )
                         self.probability_maps.append(processed_part)
-                        self.imagegray_copy_for_probabilitymaps[min(y1, y2) + 1:max(y1, y2),
-                        min(x1, x2) + 1:max(x1, x2)] = processed_part
+                        self.imagegray_copy_for_probabilitymaps[
+                            min(y1, y2) + 1 : max(y1, y2), min(x1, x2) + 1 : max(x1, x2)
+                        ] = processed_part
 
         # update content instead of using imshow again
-        self.probability_image_canvas_object.set_data(self.imagegray_copy_for_probabilitymaps)
+        self.probability_image_canvas_object.set_data(
+            self.imagegray_copy_for_probabilitymaps
+        )
         self.axes.figure.canvas.draw()
         self.calculate_probability_button.setEnabled(True)
 
@@ -282,7 +360,7 @@ class ResamplingWidget(ToolWidget):
             for y in range(1, process_part.shape[0] - 1):
                 for x in range(1, process_part.shape[1] - 1):
                     r = self.compute_residual_3x3(a, process_part, x, y)
-                    g = np.exp(-r ** 2 / s)
+                    g = np.exp(-(r ** 2) / s)
                     w[k] = g / (g + d)
                     s2 = s2 + w[k] * r ** 2
                     k = k + 1
@@ -314,7 +392,7 @@ class ResamplingWidget(ToolWidget):
             for y in range(2, process_part.shape[0] - 2):
                 for x in range(2, process_part.shape[1] - 2):
                     r = self.compute_residual_5x5(a, process_part, x, y)
-                    g = np.exp(-r ** 2 / s)
+                    g = np.exp(-(r ** 2) / s)
                     w[k] = g / (g + d)
                     s2 = s2 + w[k] * r ** 2
                     k = k + 1
@@ -336,39 +414,88 @@ class ResamplingWidget(ToolWidget):
         self.fourier_maps = []
         self.calculate_fourier_button.setEnabled(False)  # wait for processing
 
-        num_plots = int(len(self.selected_points_fourier) / 2) + len(self.probability_maps)
+        num_plots = int(len(self.selected_points_fourier) / 2) + len(
+            self.probability_maps
+        )
         self.canvas_fourier_maps.figure.clf()
         if num_plots > 1:
-            self.axes_fourier_maps = self.canvas_fourier_maps.figure.subplots(num_plots, 2)
+            self.axes_fourier_maps = self.canvas_fourier_maps.figure.subplots(
+                num_plots, 2
+            )
         else:
-            self.axes_fourier_maps = np.array([[self.canvas_fourier_maps.figure.add_subplot(1, 2, 1),
-                                                self.canvas_fourier_maps.figure.add_subplot(1, 2, 2)]])
+            self.axes_fourier_maps = np.array(
+                [
+                    [
+                        self.canvas_fourier_maps.figure.add_subplot(1, 2, 1),
+                        self.canvas_fourier_maps.figure.add_subplot(1, 2, 2),
+                    ]
+                ]
+            )
 
         i = 0
         counter_selected_prob_points = 0
         for prob_map in self.probability_maps:
-            if (len(self.probability_maps) == 1 and len(self.selected_points_probability) == 0):
+            if (
+                len(self.probability_maps) == 1
+                and len(self.selected_points_probability) == 0
+            ):
                 self.fourier_maps.append(self.calculate_fourier_map(prob_map))
-                self.axes_fourier_maps[i, 0].imshow(prob_map, cmap="gray", vmin=0, vmax=1)
-                self.axes_fourier_maps[i, 0].axis('off')
-                self.axes_fourier_maps[i, 1].imshow(self.fourier_maps[i], cmap="gray", vmin=0, vmax=1)
-                self.axes_fourier_maps[i, 1].axis('off')
+                self.axes_fourier_maps[i, 0].imshow(
+                    prob_map, cmap="gray", vmin=0, vmax=1
+                )
+                self.axes_fourier_maps[i, 0].axis("off")
+                self.axes_fourier_maps[i, 1].imshow(
+                    self.fourier_maps[i], cmap="gray", vmin=0, vmax=1
+                )
+                self.axes_fourier_maps[i, 1].axis("off")
                 i = i + 1
             else:
-                (x1, y1) = self.selected_points_probability[counter_selected_prob_points]
-                (x2, y2) = self.selected_points_probability[counter_selected_prob_points + 1]
+                (x1, y1) = self.selected_points_probability[
+                    counter_selected_prob_points
+                ]
+                (x2, y2) = self.selected_points_probability[
+                    counter_selected_prob_points + 1
+                ]
                 self.fourier_maps.append(self.calculate_fourier_map(prob_map))
                 self.userfourplot = self.imagegray_copy_for_probabilitymaps.copy()
-                self.userfourplot[min(y1, y2):max(y1, y2) + 1,
-                [x1, (x1 + 1), (x1 - 1), (x1 - 2), (x1 + 2), x2, (x2 + 1), (x2 - 1), (x2 - 2),
-                 (x2 + 2)]] = 0  # y-stripes
                 self.userfourplot[
-                [y1, (y1 - 1), (y1 + 1), (y1 - 2), (y1 + 2), y2, (y2 - 1), (y2 + 1), (y2 - 2), (y2 + 2)],
-                min(x1, x2):max(x1, x2) + 1] = 0  # x-stripes
-                self.axes_fourier_maps[i, 0].imshow(self.userfourplot, cmap="gray", vmin=0, vmax=1)
-                self.axes_fourier_maps[i, 0].axis('off')
-                self.axes_fourier_maps[i, 1].imshow(self.fourier_maps[i], cmap="gray", vmin=0, vmax=1)
-                self.axes_fourier_maps[i, 1].axis('off')
+                    min(y1, y2) : max(y1, y2) + 1,
+                    [
+                        x1,
+                        (x1 + 1),
+                        (x1 - 1),
+                        (x1 - 2),
+                        (x1 + 2),
+                        x2,
+                        (x2 + 1),
+                        (x2 - 1),
+                        (x2 - 2),
+                        (x2 + 2),
+                    ],
+                ] = 0  # y-stripes
+                self.userfourplot[
+                    [
+                        y1,
+                        (y1 - 1),
+                        (y1 + 1),
+                        (y1 - 2),
+                        (y1 + 2),
+                        y2,
+                        (y2 - 1),
+                        (y2 + 1),
+                        (y2 - 2),
+                        (y2 + 2),
+                    ],
+                    min(x1, x2) : max(x1, x2) + 1,
+                ] = 0  # x-stripes
+                self.axes_fourier_maps[i, 0].imshow(
+                    self.userfourplot, cmap="gray", vmin=0, vmax=1
+                )
+                self.axes_fourier_maps[i, 0].axis("off")
+                self.axes_fourier_maps[i, 1].imshow(
+                    self.fourier_maps[i], cmap="gray", vmin=0, vmax=1
+                )
+                self.axes_fourier_maps[i, 1].axis("off")
                 i = i + 1
                 counter_selected_prob_points = counter_selected_prob_points + 2
         for j in range(0, len(self.selected_points_fourier), 2):
@@ -377,22 +504,55 @@ class ResamplingWidget(ToolWidget):
                 (x2, y2) = self.selected_points_fourier[j + 1]
 
                 processed_part = self.calculate_fourier_map(
-                    self.imagegray_copy_for_probabilitymaps[min(y1, y2):max(y1, y2) + 1, min(x1, x2):max(x1, x2) + 1])
+                    self.imagegray_copy_for_probabilitymaps[
+                        min(y1, y2) : max(y1, y2) + 1, min(x1, x2) : max(x1, x2) + 1
+                    ]
+                )
                 self.fourier_maps.append(processed_part)
                 self.userfourplot = self.imagegray_copy_for_probabilitymaps.copy()
-                self.userfourplot[min(y1, y2):max(y1, y2) + 1,
-                [x1, (x1 + 1), (x1 - 1), (x1 - 2), (x1 + 2), x2, (x2 + 1), (x2 - 1), (x2 - 2),
-                 (x2 + 2)]] = 0  # y-stripes
                 self.userfourplot[
-                [y1, (y1 - 1), (y1 + 1), (y1 - 2), (y1 + 2), y2, (y2 - 1), (y2 + 1), (y2 - 2), (y2 + 2)],
-                min(x1, x2):max(x1, x2) + 1] = 0  # x-stripes
-                self.axes_fourier_maps[i, 0].imshow(self.userfourplot, cmap="gray", vmin=0, vmax=1)
-                self.axes_fourier_maps[i, 0].axis('off')
-                self.axes_fourier_maps[i, 1].imshow(self.fourier_maps[i], cmap="gray", vmin=0, vmax=1)
-                self.axes_fourier_maps[i, 1].axis('off')
+                    min(y1, y2) : max(y1, y2) + 1,
+                    [
+                        x1,
+                        (x1 + 1),
+                        (x1 - 1),
+                        (x1 - 2),
+                        (x1 + 2),
+                        x2,
+                        (x2 + 1),
+                        (x2 - 1),
+                        (x2 - 2),
+                        (x2 + 2),
+                    ],
+                ] = 0  # y-stripes
+                self.userfourplot[
+                    [
+                        y1,
+                        (y1 - 1),
+                        (y1 + 1),
+                        (y1 - 2),
+                        (y1 + 2),
+                        y2,
+                        (y2 - 1),
+                        (y2 + 1),
+                        (y2 - 2),
+                        (y2 + 2),
+                    ],
+                    min(x1, x2) : max(x1, x2) + 1,
+                ] = 0  # x-stripes
+                self.axes_fourier_maps[i, 0].imshow(
+                    self.userfourplot, cmap="gray", vmin=0, vmax=1
+                )
+                self.axes_fourier_maps[i, 0].axis("off")
+                self.axes_fourier_maps[i, 1].imshow(
+                    self.fourier_maps[i], cmap="gray", vmin=0, vmax=1
+                )
+                self.axes_fourier_maps[i, 1].axis("off")
                 i = i + 1
 
-        self.figure_four.subplots_adjust(left=0.05, right=0.95, top=0.95, bottom=0.05, wspace=0.05, hspace=0.05)
+        self.figure_four.subplots_adjust(
+            left=0.05, right=0.95, top=0.95, bottom=0.05, wspace=0.05, hspace=0.05
+        )
 
         self.canvas_fourier_maps.figure.canvas.draw()
         self.calculate_fourier_button.setEnabled(True)
@@ -404,11 +564,17 @@ class ResamplingWidget(ToolWidget):
         max_radius = np.sqrt(center_x ** 2 + center_y ** 2)
         for i in range(rows):
             for j in range(cols):
-                r = np.sqrt((i - center_x) ** 2 + (j - center_y) ** 2) / max_radius * np.sqrt(2)
+                r = (
+                    np.sqrt((i - center_x) ** 2 + (j - center_y) ** 2)
+                    / max_radius
+                    * np.sqrt(2)
+                )
                 if r < 3 / 4:
                     W[i, j] = 1
                 elif r <= np.sqrt(2):
-                    W[i, j] = 0.5 + 0.5 * np.cos(np.pi * (r - 3 / 4) / (np.sqrt(2) - 3 / 4))
+                    W[i, j] = 0.5 + 0.5 * np.cos(
+                        np.pi * (r - 3 / 4) / (np.sqrt(2) - 3 / 4)
+                    )
 
         return W
 
@@ -419,7 +585,11 @@ class ResamplingWidget(ToolWidget):
         max_radius = np.sqrt(center_x ** 2 + center_y ** 2)
         for i in range(rows):
             for j in range(cols):
-                r = np.sqrt((i - center_x) ** 2 + (j - center_y) ** 2) / max_radius * np.sqrt(2)
+                r = (
+                    np.sqrt((i - center_x) ** 2 + (j - center_y) ** 2)
+                    / max_radius
+                    * np.sqrt(2)
+                )
                 if r <= np.sqrt(2):
                     H[i, j] = 0.5 - 0.5 * np.cos(np.pi * r / np.sqrt(2))
 
@@ -431,13 +601,17 @@ class ResamplingWidget(ToolWidget):
         size = min(x, y)
         half_size = size // 2
         center_x, center_y = x // 2, y // 2
-        square_prob_map = process_prob_map[center_x - half_size:center_x + half_size,
-                          center_y - half_size:center_y + half_size]
+        square_prob_map = process_prob_map[
+            center_x - half_size : center_x + half_size,
+            center_y - half_size : center_y + half_size,
+        ]
 
         # apply pre-processing window
         if self.hanning_check.isChecked():
             # Apply Hanning window
-            hanning_window = np.hanning(square_prob_map.shape[0])[:, None] * np.hanning(square_prob_map.shape[1])
+            hanning_window = np.hanning(square_prob_map.shape[0])[:, None] * np.hanning(
+                square_prob_map.shape[1]
+            )
             windowed_prob_map = square_prob_map * hanning_window
         elif self.rotationally_invariant_window_check.isChecked():
             # apply rot. invariant window
@@ -460,9 +634,11 @@ class ResamplingWidget(ToolWidget):
         if self.center_four_check.isChecked():
             height, width = fourier.shape
             center_x, center_y = width // 2, height // 2
-            half_size = (width // 4)
-            fourier_center = fourier[center_y - half_size:center_y + half_size,
-                             center_x - half_size:center_x + half_size]
+            half_size = width // 4
+            fourier_center = fourier[
+                center_y - half_size : center_y + half_size,
+                center_x - half_size : center_x + half_size,
+            ]
         else:
             fourier_center = fourier
 
@@ -491,7 +667,8 @@ class ResamplingWidget(ToolWidget):
         # scale and gamma correct
         magnitude_spectrum = np.abs(filtered_spectrum)
         scaled_spectrum = (magnitude_spectrum - magnitude_spectrum.min()) / (
-                    magnitude_spectrum.max() - magnitude_spectrum.min())
+            magnitude_spectrum.max() - magnitude_spectrum.min()
+        )
 
         gamma_corrected_spectrum = np.power(scaled_spectrum, self.gamma_spin.value())
 
@@ -504,18 +681,21 @@ class ResamplingWidget(ToolWidget):
         return rescaled_spectrum
 
     def click_on_canvas(self, event):
-        if self.toolbar_four.mode == '' and self.toolbar_prob.mode == "":
+        if self.toolbar_four.mode == "" and self.toolbar_prob.mode == "":
             if event.inaxes:
                 if self.probability_check.isChecked():
                     if event.button == MouseButton.LEFT:
                         x, y = int(event.xdata), int(event.ydata)
                         self.selected_points_probability.append((x, y))
-                        print(f'Selected point: ({x}, {y})')
+                        print(f"Selected point: ({x}, {y})")
                         self.imagegray = self.imagegray_nomalized_copy.copy()
                         self.draw_selection(self.selected_points_probability)
                         self.probability_image_canvas_object.set_data(self.imagegray)
                         self.axes.figure.canvas.draw()
-                    elif event.button == MouseButton.RIGHT and self.selected_points_probability:
+                    elif (
+                        event.button == MouseButton.RIGHT
+                        and self.selected_points_probability
+                    ):
                         print(self.selected_points_probability)
                         self.selected_points_probability.pop()
                         print(self.selected_points_probability)
@@ -527,13 +707,20 @@ class ResamplingWidget(ToolWidget):
                     if event.button == MouseButton.LEFT:
                         x, y = int(event.xdata), int(event.ydata)
                         self.selected_points_fourier.append((x, y))
-                        self.userfourplot = self.imagegray_copy_for_probabilitymaps.copy()
+                        self.userfourplot = (
+                            self.imagegray_copy_for_probabilitymaps.copy()
+                        )
                         self.draw_selection(self.selected_points_fourier)
                         self.probability_image_canvas_object.set_data(self.userfourplot)
                         self.axes.figure.canvas.draw()
-                    elif event.button == MouseButton.RIGHT and self.selected_points_fourier:
+                    elif (
+                        event.button == MouseButton.RIGHT
+                        and self.selected_points_fourier
+                    ):
                         self.selected_points_fourier.pop()
-                        self.userfourplot = self.imagegray_copy_for_probabilitymaps.copy()
+                        self.userfourplot = (
+                            self.imagegray_copy_for_probabilitymaps.copy()
+                        )
                         self.draw_selection(self.selected_points_fourier)
                         self.probability_image_canvas_object.set_data(self.userfourplot)
                         self.axes.figure.canvas.draw()
@@ -559,21 +746,32 @@ class ResamplingWidget(ToolWidget):
         (x1, y1) = p1
         (x2, y2) = p2
         if self.probability_check.isChecked():
-            self.imagegray[min(y1, y2):max(y1, y2) + 1,
-            [x1, (x1 + 1), (x1 - 1), x2, (x2 + 1), (x2 - 1)]] = 0  # y-stripes
-            self.imagegray[[y1, (y1 - 1), (y1 + 1), y2, (y2 - 1), (y2 + 1)],
-            min(x1, x2):max(x1, x2) + 1] = 0  # x-stripes
+            self.imagegray[
+                min(y1, y2) : max(y1, y2) + 1,
+                [x1, (x1 + 1), (x1 - 1), x2, (x2 + 1), (x2 - 1)],
+            ] = 0  # y-stripes
+            self.imagegray[
+                [y1, (y1 - 1), (y1 + 1), y2, (y2 - 1), (y2 + 1)],
+                min(x1, x2) : max(x1, x2) + 1,
+            ] = 0  # x-stripes
         elif self.fourier_check.isChecked():
-            self.userfourplot[min(y1, y2):max(y1, y2) + 1,
-            [x1, (x1 + 1), (x1 - 1), x2, (x2 + 1), (x2 - 1)]] = 0  # y-stripes
-            self.userfourplot[[y1, (y1 - 1), (y1 + 1), y2, (y2 - 1), (y2 + 1)],
-            min(x1, x2):max(x1, x2) + 1] = 0  # x-stripes
+            self.userfourplot[
+                min(y1, y2) : max(y1, y2) + 1,
+                [x1, (x1 + 1), (x1 - 1), x2, (x2 + 1), (x2 - 1)],
+            ] = 0  # y-stripes
+            self.userfourplot[
+                [y1, (y1 - 1), (y1 + 1), y2, (y2 - 1), (y2 + 1)],
+                min(x1, x2) : max(x1, x2) + 1,
+            ] = 0  # x-stripes
 
     def build_matrices_for_processing_3x3(self, I):
         k = 0
-        F = np.zeros(((I.shape[0] - 2) * (I.shape[1] - 2),
-                      8))  # the i^th row of the matrix F corresponds to the pixel neighbors of the i^th element of f
-        f = np.zeros((I.shape[0] - 2) * (I.shape[1] - 2))  # the vector f is the image strung out in row-order
+        F = np.zeros(
+            ((I.shape[0] - 2) * (I.shape[1] - 2), 8)
+        )  # the i^th row of the matrix F corresponds to the pixel neighbors of the i^th element of f
+        f = np.zeros(
+            (I.shape[0] - 2) * (I.shape[1] - 2)
+        )  # the vector f is the image strung out in row-order
         for y in range(1, I.shape[0] - 1):
             for x in range(1, I.shape[1] - 1):
                 F[k, 0] = I[y - 1, x - 1]
@@ -591,9 +789,12 @@ class ResamplingWidget(ToolWidget):
 
     def build_matrices_for_processing_5x5(self, I):
         k = 0
-        F = np.zeros(((I.shape[0] - 4) * (I.shape[1] - 4),
-                      24))  # the i^th row of the matrix F corresponds to the pixel neighbors of the i^th element of f
-        f = np.zeros((I.shape[0] - 4) * (I.shape[1] - 4))  # the vector f is the image strung out in row-order
+        F = np.zeros(
+            ((I.shape[0] - 4) * (I.shape[1] - 4), 24)
+        )  # the i^th row of the matrix F corresponds to the pixel neighbors of the i^th element of f
+        f = np.zeros(
+            (I.shape[0] - 4) * (I.shape[1] - 4)
+        )  # the vector f is the image strung out in row-order
         for y in range(2, I.shape[0] - 2):
             for x in range(2, I.shape[1] - 2):
                 F[k, 0] = I[y - 2, x - 2]
@@ -626,18 +827,43 @@ class ResamplingWidget(ToolWidget):
         return F, f
 
     def compute_residual_3x3(self, a, I, x, y):
-        r = I[y, x] - (a[0] * I[y - 1, x - 1] + a[1] * I[y - 1, x] + a[2] * I[y - 1, x + 1]
-                       + a[3] * I[y, x - 1] + a[4] * I[y, x + 1]
-                       + a[5] * I[y + 1, x - 1] + a[6] * I[y + 1, x] + a[7] * I[y + 1, x + 1])
+        r = I[y, x] - (
+            a[0] * I[y - 1, x - 1]
+            + a[1] * I[y - 1, x]
+            + a[2] * I[y - 1, x + 1]
+            + a[3] * I[y, x - 1]
+            + a[4] * I[y, x + 1]
+            + a[5] * I[y + 1, x - 1]
+            + a[6] * I[y + 1, x]
+            + a[7] * I[y + 1, x + 1]
+        )
         return r
 
     def compute_residual_5x5(self, a, I, x, y):
-        r = I[y, x] - (a[0] * I[y - 2, x - 2] + a[1] * I[y - 2, x - 1] + a[2] * I[y - 2, x]
-                       + a[3] * I[y - 2, x + 1] + a[4] * I[y - 2, x + 2] + a[5] * I[y - 1, x - 2]
-                       + a[6] * I[y - 1, x - 1] + a[7] * I[y - 1, x] + a[8] * I[y - 1, x + 1]
-                       + a[9] * I[y - 1, x + 2] + a[10] * I[y, x - 2] + a[11] * I[y, x - 1]
-                       + a[12] * I[y, x + 1] + a[13] * I[y, x + 2] + a[14] * I[y + 1, x - 2]
-                       + a[15] * I[y + 1, x - 1] + a[16] * I[y + 1, x] + a[17] * I[y + 1, x + 1]
-                       + a[18] * I[y + 1, x + 2] + a[19] * I[y + 2, x - 2] + a[20] * I[y + 2, x - 1]
-                       + a[21] * I[y + 2, x] + a[22] * I[y + 2, x + 1] + a[23] * I[y + 2, x + 2])
+        r = I[y, x] - (
+            a[0] * I[y - 2, x - 2]
+            + a[1] * I[y - 2, x - 1]
+            + a[2] * I[y - 2, x]
+            + a[3] * I[y - 2, x + 1]
+            + a[4] * I[y - 2, x + 2]
+            + a[5] * I[y - 1, x - 2]
+            + a[6] * I[y - 1, x - 1]
+            + a[7] * I[y - 1, x]
+            + a[8] * I[y - 1, x + 1]
+            + a[9] * I[y - 1, x + 2]
+            + a[10] * I[y, x - 2]
+            + a[11] * I[y, x - 1]
+            + a[12] * I[y, x + 1]
+            + a[13] * I[y, x + 2]
+            + a[14] * I[y + 1, x - 2]
+            + a[15] * I[y + 1, x - 1]
+            + a[16] * I[y + 1, x]
+            + a[17] * I[y + 1, x + 1]
+            + a[18] * I[y + 1, x + 2]
+            + a[19] * I[y + 2, x - 2]
+            + a[20] * I[y + 2, x - 1]
+            + a[21] * I[y + 2, x]
+            + a[22] * I[y + 2, x + 1]
+            + a[23] * I[y + 2, x + 2]
+        )
         return r

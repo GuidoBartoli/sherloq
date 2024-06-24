@@ -83,12 +83,16 @@ class TestExifTool(unittest.TestCase):
             et_version = actual["ExifTool:ExifToolVersion"]
             self.assertTrue(isinstance(et_version, float))
             if isinstance(et_version, float):  # avoid exception in Py3k
-                self.assertTrue(et_version >= 8.40, "you should at least use ExifTool version 8.40")
+                self.assertTrue(
+                    et_version >= 8.40, "you should at least use ExifTool version 8.40"
+                )
             actual["SourceFile"] = os.path.normpath(actual["SourceFile"])
             for k, v in expected.items():
                 self.assertEqual(actual[k], v)
         tags0["SourceFile"] = os.path.normpath(tags0["SourceFile"])
-        self.assertEqual(tags0, dict((k, expected_data[0][k]) for k in ["SourceFile", "XMP:Subject"]))
+        self.assertEqual(
+            tags0, dict((k, expected_data[0][k]) for k in ["SourceFile", "XMP:Subject"])
+        )
         self.assertEqual(tag0, "Röschen")
 
 

@@ -31,7 +31,15 @@ class gm:
     # outliersProb >= 0 # outliers are managed throught fixed nlogl (negative log likelihood)
     # TODO: outliers managed throught fixed probability
 
-    def __init__(self, dim, listSigmaInds, listSigmaType, outliersProb=-1, outliersNlogl=0, dtype=np.float32):
+    def __init__(
+        self,
+        dim,
+        listSigmaInds,
+        listSigmaType,
+        outliersProb=-1,
+        outliersNlogl=0,
+        dtype=np.float32,
+    ):
         K = len(listSigmaInds)
         S = len(listSigmaType)
 
@@ -59,7 +67,9 @@ class gm:
         dtype = X.dtype
 
         if self.outliersProb > 0:
-            self.prioriProb = (1.0 - self.outliersProb) * np.ones((K, 1), dtype=dtype) / K
+            self.prioriProb = (
+                (1.0 - self.outliersProb) * np.ones((K, 1), dtype=dtype) / K
+            )
         else:
             self.prioriProb = np.ones((K, 1), dtype=dtype) / K
 
@@ -81,19 +91,30 @@ class gm:
                 self.listSigma[s] = np.mean(varX)
         return inds
 
-    def setRandomParamsW(self, X, weights, regularizer=0, randomState=np.random.get_state(), meanFlag=False):
+    def setRandomParamsW(
+        self,
+        X,
+        weights,
+        regularizer=0,
+        randomState=np.random.get_state(),
+        meanFlag=False,
+    ):
         [N, dim] = X.shape
         K = len(self.listSigmaInds)
         S = len(self.listSigmaType)
         dtype = X.dtype
 
         if self.outliersProb > 0:
-            self.prioriProb = (1.0 - self.outliersProb) * np.ones((K, 1), dtype=dtype) / K
+            self.prioriProb = (
+                (1.0 - self.outliersProb) * np.ones((K, 1), dtype=dtype) / K
+            )
         else:
             self.prioriProb = np.ones((K, 1), dtype=dtype) / K
 
         avrX = np.mean(X * weights, axis=0, keepdims=True) / np.mean(weights)
-        varX = np.mean(weights * ((X - avrX) ** 2), axis=0, keepdims=True) / np.mean(weights)
+        varX = np.mean(weights * ((X - avrX) ** 2), axis=0, keepdims=True) / np.mean(
+            weights
+        )
 
         indsW = np.sum(weights) * randomState.random_sample(size=(K,))
         inds = [None] * K
@@ -144,14 +165,20 @@ class gm:
                     # exceptional regularization
                     sigma_w, sigma_v = eigh(np.real(sigma))
                     sigma_w = np.maximum(sigma_w, np.spacing(np.max(sigma_w)))
-                    sigma = np.matmul(np.matmul(sigma_v, np.diag(sigma_w)), (np.transpose(sigma_v, [1, 0])))
+                    sigma = np.matmul(
+                        np.matmul(sigma_v, np.diag(sigma_w)),
+                        (np.transpose(sigma_v, [1, 0])),
+                    )
                     try:
                         listLowMtx[s] = cholesky(sigma)
                     except:
                         sigma_w, sigma_v = eigh(np.real(sigma))
                         sigma_w = np.maximum(sigma_w, np.spacing(np.max(sigma_w)))
                         # print(np.min(sigma_w))
-                        sigma = np.matmul(np.matmul(sigma_v, np.diag(sigma_w)), (np.transpose(sigma_v, [1, 0])))
+                        sigma = np.matmul(
+                            np.matmul(sigma_v, np.diag(sigma_w)),
+                            (np.transpose(sigma_v, [1, 0])),
+                        )
                         # print(sigma)
                         listLowMtx[s] = cholesky(sigma)
                 diagLowMtx = np.diag(listLowMtx[s])
@@ -236,7 +263,8 @@ class gm:
                 elif regularizer < 0:
                     # sigma = sigma - regularizer * np.spacing(np.max(np.linalg.eigvalsh(sigma))) * np.eye(dim)
                     sigma = sigma + np.abs(
-                        regularizer * np.spacing(eigvalsh(sigma, eigvals=(dim - 1, dim - 1)))
+                        regularizer
+                        * np.spacing(eigvalsh(sigma, eigvals=(dim - 1, dim - 1)))
                     ) * np.eye(dim)
             elif sigmaType == 1:  # diagonal covariance
                 sigma = np.zeros([1, dim], dtype=dtype)
@@ -317,7 +345,9 @@ class gm:
         # flagExit = 1 # max number of iteretions
         # flagExit = 0 # converged
         for iter in range(maxIter):
-            [post, avrLogl] = self.MEstepWeighed(X, weights, post, regularizer=regularizer)
+            [post, avrLogl] = self.MEstepWeighed(
+                X, weights, post, regularizer=regularizer
+            )
 
             diff = avrLogl - avrLogl_old
             if (diff >= 0) & (diff < relErr * np.abs(avrLogl)):

@@ -23,14 +23,25 @@ class ToolTree(QTreeWidget):
         # [0]
         group_names.append(self.tr("[General]"))
         tool_names.append(
-            [self.tr("Original Image"), self.tr("File Digest"), self.tr("Hex Editor"), self.tr("Similar Search")]
+            [
+                self.tr("Original Image"),
+                self.tr("File Digest"),
+                self.tr("Hex Editor"),
+                self.tr("Similar Search"),
+            ]
         )
         tool_infos.append(
             [
                 self.tr("Display the unaltered reference image for visual inspection"),
-                self.tr("Retrieve physical file information, crypto and perceptual hashes"),
-                self.tr("Open an external hexadecimal editor to show and edit raw bytes"),
-                self.tr("Browse online search services to find visually similar images"),
+                self.tr(
+                    "Retrieve physical file information, crypto and perceptual hashes"
+                ),
+                self.tr(
+                    "Open an external hexadecimal editor to show and edit raw bytes"
+                ),
+                self.tr(
+                    "Browse online search services to find visually similar images"
+                ),
             ]
         )
         tool_progress.extend([3, 3, 2, 2])
@@ -47,10 +58,18 @@ class ToolTree(QTreeWidget):
         )
         tool_infos.append(
             [
-                self.tr("Dump the file header structure and display an interactive view"),
-                self.tr("Scan through file metadata and gather all available information"),
-                self.tr("Extract optional embedded thumbnail and compare with original"),
-                self.tr("Retrieve optional geolocation data and show it on a world map"),
+                self.tr(
+                    "Dump the file header structure and display an interactive view"
+                ),
+                self.tr(
+                    "Scan through file metadata and gather all available information"
+                ),
+                self.tr(
+                    "Extract optional embedded thumbnail and compare with original"
+                ),
+                self.tr(
+                    "Retrieve optional geolocation data and show it on a world map"
+                ),
             ]
         )
         tool_progress.extend([3, 3, 3, 2])
@@ -67,10 +86,18 @@ class ToolTree(QTreeWidget):
         )
         tool_infos.append(
             [
-                self.tr("Magnifying glass with enhancements for better identifying forgeries"),
-                self.tr("Display single color channels or RGB composite interactive histogram"),
-                self.tr("Apply standard image adjustments (brightness, hue, saturation, ...)"),
-                self.tr("Open a synchronized double view for comparison with another picture"),
+                self.tr(
+                    "Magnifying glass with enhancements for better identifying forgeries"
+                ),
+                self.tr(
+                    "Display single color channels or RGB composite interactive histogram"
+                ),
+                self.tr(
+                    "Apply standard image adjustments (brightness, hue, saturation, ...)"
+                ),
+                self.tr(
+                    "Open a synchronized double view for comparison with another picture"
+                ),
             ]
         )
         tool_progress.extend([3, 3, 3, 3])
@@ -87,10 +114,18 @@ class ToolTree(QTreeWidget):
         )
         tool_infos.append(
             [
-                self.tr("Analyze horizontal/vertical brightness variations across the image"),
-                self.tr("Use derivative filters to reveal artificial out-of-focus regions"),
-                self.tr("Reconstruct image with different wavelet coefficient thresholds"),
-                self.tr("Divide image luminance into high and low frequency components"),
+                self.tr(
+                    "Analyze horizontal/vertical brightness variations across the image"
+                ),
+                self.tr(
+                    "Use derivative filters to reveal artificial out-of-focus regions"
+                ),
+                self.tr(
+                    "Reconstruct image with different wavelet coefficient thresholds"
+                ),
+                self.tr(
+                    "Divide image luminance into high and low frequency components"
+                ),
             ]
         )
         tool_progress.extend([3, 3, 3, 3])
@@ -107,7 +142,9 @@ class ToolTree(QTreeWidget):
         )
         tool_infos.append(
             [
-                self.tr("Display interactive 2D and 3D plots of RGB and HSV pixel values"),
+                self.tr(
+                    "Display interactive 2D and 3D plots of RGB and HSV pixel values"
+                ),
                 self.tr("Convert RGB channels into HSV/YCbCr/Lab/Luv/CMYK/Gray spaces"),
                 self.tr("Use color PCA to project pixel onto most salient components"),
                 self.tr("Compute minimum/maximum/average RGB values for every pixel"),
@@ -127,9 +164,15 @@ class ToolTree(QTreeWidget):
         )
         tool_infos.append(
             [
-                self.tr("Estimate and extract different kind of image noise components"),
-                self.tr("Highlight pixels deviating from block-based min/max statistics"),
-                self.tr("Show individual bit planes to find inconsistent noise patterns"),
+                self.tr(
+                    "Estimate and extract different kind of image noise components"
+                ),
+                self.tr(
+                    "Highlight pixels deviating from block-based min/max statistics"
+                ),
+                self.tr(
+                    "Show individual bit planes to find inconsistent noise patterns"
+                ),
                 self.tr("Exploit sensor pattern noise introduced by different cameras"),
             ]
         )
@@ -147,10 +190,16 @@ class ToolTree(QTreeWidget):
         )
         tool_infos.append(
             [
-                self.tr("Extract quantization tables and estimate last saved JPEG quality"),
-                self.tr("Show pixel-wise differences against a fixed compression level"),
+                self.tr(
+                    "Extract quantization tables and estimate last saved JPEG quality"
+                ),
+                self.tr(
+                    "Show pixel-wise differences against a fixed compression level"
+                ),
                 self.tr("Use a machine learning model to detect multiple compression"),
-                self.tr("Highlight traces of different compressions in difference images"),
+                self.tr(
+                    "Highlight traces of different compressions in difference images"
+                ),
             ]
         )
         tool_progress.extend([3, 3, 0, 2])
@@ -170,7 +219,9 @@ class ToolTree(QTreeWidget):
                 self.tr("Analyze color distributions to detect contrast enhancements"),
                 self.tr("Use invariant feature descriptors to detect cloned regions"),
                 self.tr("Exploit DCT statistics for automatic splicing zone detection"),
-                self.tr("Estimate 2D pixel interpolation for detecting resampling traces"),
+                self.tr(
+                    "Estimate 2D pixel interpolation for detecting resampling traces"
+                ),
             ]
         )
         tool_progress.extend([3, 2, 3, 2])
@@ -188,9 +239,15 @@ class ToolTree(QTreeWidget):
         tool_infos.append(
             [
                 self.tr("Detect nonlinear processing traces left by median filtering"),
-                self.tr("Estimate scene local light direction on estimated 3D surfaces"),
-                self.tr("Detect and fix dead/hot pixels caused by sensor imperfections"),
-                self.tr("Decode 3D images concealed inside crossed-eye autostereograms"),
+                self.tr(
+                    "Estimate scene local light direction on estimated 3D surfaces"
+                ),
+                self.tr(
+                    "Detect and fix dead/hot pixels caused by sensor imperfections"
+                ),
+                self.tr(
+                    "Decode 3D images concealed inside crossed-eye autostereograms"
+                ),
             ]
         )
         tool_progress.extend([2, 0, 0, 3])
@@ -219,7 +276,7 @@ class ToolTree(QTreeWidget):
         self.setColumnCount(1)
         self.header().setVisible(False)
         self.setMaximumWidth(300)
-        self.version = f"{sum(tool_progress) / 100:.2f}d"
+        self.version = f"{sum(tool_progress) / 100:.2f}e"
 
     def set_bold(self, tool, enabled):
         items = self.findItems(tool, Qt.MatchFixedString | Qt.MatchRecursive)

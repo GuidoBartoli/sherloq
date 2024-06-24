@@ -39,7 +39,9 @@ class HistWidget(ToolWidget):
         self.grid_check = QCheckBox(self.tr("Show grid"))
         self.grid_check.setToolTip(self.tr("Display XY main grid lines"))
         self.marker_check = QCheckBox(self.tr("Show markers"))
-        self.marker_check.setToolTip(self.tr("Show plot markers for min(--), avg(-), max(-.)"))
+        self.marker_check.setToolTip(
+            self.tr("Show plot markers for min(--), avg(-), max(-.)")
+        )
         self.start_slider = ParamSlider([0, 255], 8, 0, bold=True)
         self.end_slider = ParamSlider([0, 255], 8, 255, bold=True)
 
@@ -48,7 +50,9 @@ class HistWidget(ToolWidget):
         self.hist = [compute_hist(c) for c in channels]
         rows, cols, chans = image.shape
         pixels = rows * cols
-        self.unique_colors = np.unique(np.reshape(image, (pixels, chans)), axis=0).shape[0]
+        self.unique_colors = np.unique(
+            np.reshape(image, (pixels, chans)), axis=0
+        ).shape[0]
         self.unique_ratio = np.round(self.unique_colors / pixels * 100, 2)
 
         self.value_radio.clicked.connect(self.redraw)
@@ -64,7 +68,9 @@ class HistWidget(ToolWidget):
         self.end_slider.valueChanged.connect(self.redraw)
 
         self.table_widget = QTableWidget(13, 2)
-        self.table_widget.setHorizontalHeaderLabels([self.tr("Property"), self.tr("Value")])
+        self.table_widget.setHorizontalHeaderLabels(
+            [self.tr("Property"), self.tr("Value")]
+        )
         self.table_widget.setItem(0, 0, QTableWidgetItem(self.tr("Least frequent")))
         self.table_widget.item(0, 0).setToolTip(self.tr("Value that appears less"))
         self.table_widget.setItem(1, 0, QTableWidgetItem(self.tr("Most frequent")))
@@ -76,19 +82,27 @@ class HistWidget(ToolWidget):
         self.table_widget.setItem(4, 0, QTableWidgetItem(self.tr("Deviation")))
         self.table_widget.item(4, 0).setToolTip(self.tr("Histogram standard deviation"))
         self.table_widget.setItem(5, 0, QTableWidgetItem(self.tr("Pixel count")))
-        self.table_widget.item(5, 0).setToolTip(self.tr("Total values in current range"))
+        self.table_widget.item(5, 0).setToolTip(
+            self.tr("Total values in current range")
+        )
         self.table_widget.setItem(6, 0, QTableWidgetItem(self.tr("Percentile")))
         self.table_widget.item(6, 0).setToolTip(self.tr("Percentage of total pixels"))
         self.table_widget.setItem(7, 0, QTableWidgetItem(self.tr("Nonzero range")))
-        self.table_widget.item(7, 0).setToolTip(self.tr("Minimal range without empty bins"))
+        self.table_widget.item(7, 0).setToolTip(
+            self.tr("Minimal range without empty bins")
+        )
         self.table_widget.setItem(8, 0, QTableWidgetItem(self.tr("Empty bins")))
         self.table_widget.item(8, 0).setToolTip(self.tr("Number of missing values"))
         self.table_widget.setItem(9, 0, QTableWidgetItem(self.tr("Unique colors")))
         self.table_widget.item(9, 0).setToolTip(self.tr("Unique RGB color count"))
         self.table_widget.setItem(10, 0, QTableWidgetItem(self.tr("Unique ratio")))
-        self.table_widget.item(10, 0).setToolTip(self.tr("Unique colors vs total pixels"))
+        self.table_widget.item(10, 0).setToolTip(
+            self.tr("Unique colors vs total pixels")
+        )
         self.table_widget.setItem(11, 0, QTableWidgetItem(self.tr("Smoothness")))
-        self.table_widget.item(11, 0).setToolTip(self.tr("Estimated correlation among bin values"))
+        self.table_widget.item(11, 0).setToolTip(
+            self.tr("Estimated correlation among bin values")
+        )
         self.table_widget.setItem(12, 0, QTableWidgetItem(self.tr("Fullness")))
         self.table_widget.item(12, 0).setToolTip(self.tr("Area covered vs total size"))
         for i in range(self.table_widget.rowCount()):
@@ -246,7 +260,13 @@ class HistWidget(ToolWidget):
                     self.axes.axvline(argmax, linestyle="-.", color="m")
                     self.axes.axvline(median, linestyle=":", color="m")
             else:
-                argmin = argmax = mean = stddev = median = percent = smoothness = empty = nonzero = fullness = 0
+                argmin = (
+                    argmax
+                ) = (
+                    mean
+                ) = (
+                    stddev
+                ) = median = percent = smoothness = empty = nonzero = fullness = 0
 
             self.table_widget.setItem(0, 1, QTableWidgetItem(str(argmin)))
             self.table_widget.setItem(1, 1, QTableWidgetItem(str(argmax)))
@@ -258,16 +278,22 @@ class HistWidget(ToolWidget):
             self.table_widget.setItem(7, 1, QTableWidgetItem(str(nonzero)))
             self.table_widget.setItem(8, 1, QTableWidgetItem(str(empty)))
             self.table_widget.setItem(9, 1, QTableWidgetItem(str(self.unique_colors)))
-            self.table_widget.setItem(10, 1, QTableWidgetItem(str(self.unique_ratio) + "%"))
-            color_by_value(self.table_widget.item(10, 1), self.unique_ratio, [25, 50, 75])
+            self.table_widget.setItem(
+                10, 1, QTableWidgetItem(str(self.unique_ratio) + "%")
+            )
+            # color_by_value(
+            #     self.table_widget.item(10, 1), self.unique_ratio, [25, 50, 75]
+            # )
             self.table_widget.setItem(11, 1, QTableWidgetItem(str(smoothness) + "%"))
-            color_by_value(self.table_widget.item(11, 1), smoothness, [80, 90, 95])
+            # color_by_value(self.table_widget.item(11, 1), smoothness, [80, 90, 95])
             self.table_widget.setItem(12, 1, QTableWidgetItem(str(fullness) + "%"))
-            color_by_value(self.table_widget.item(12, 1), fullness, [5, 10, 20])
+            # color_by_value(self.table_widget.item(12, 1), fullness, [5, 10, 20])
             self.table_widget.resizeColumnsToContents()
             if start != 0 or end != 255:
                 self.axes.axvline(start, linestyle=":", color="k")
                 self.axes.axvline(end, linestyle=":", color="k")
                 _, top = self.axes.get_ylim()
-                self.axes.fill_between(np.arange(start, end + 1), top, facecolor="y", alpha=alpha * 2)
+                self.axes.fill_between(
+                    np.arange(start, end + 1), top, facecolor="y", alpha=alpha * 2
+                )
         self.axes.figure.canvas.draw()

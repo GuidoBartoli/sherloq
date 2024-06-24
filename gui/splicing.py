@@ -22,17 +22,23 @@ class SplicingWidget(ToolWidget):
         super(SplicingWidget, self).__init__(parent)
 
         self.image = image
-        self.image0 = cv.cvtColor(self.image, cv.COLOR_BGR2GRAY).astype(np.float32) / 255
+        self.image0 = (
+            cv.cvtColor(self.image, cv.COLOR_BGR2GRAY).astype(np.float32) / 255
+        )
         self.noise = self.map = None
 
         self.noise_button = QPushButton(self.tr("(1/2) Estimate noise"))
         modify_font(self.noise_button, bold=True)
         gray = np.full_like(self.image, 127)
-        self.noise_viewer = ImageViewer(self.image, gray, self.tr("Estimated noise print"), export=True)
+        self.noise_viewer = ImageViewer(
+            self.image, gray, self.tr("Estimated noise print"), export=True
+        )
         self.map_button = QPushButton(self.tr("(2/2) Compute heatmap"))
         modify_font(self.map_button, bold=True)
         self.map_button.setEnabled(False)
-        self.map_viewer = ImageViewer(self.image, gray, self.tr("Splicing probability heatmap"))
+        self.map_viewer = ImageViewer(
+            self.image, gray, self.tr("Splicing probability heatmap")
+        )
 
         self.noise_button.clicked.connect(self.estimate_noise)
         self.noise_button.toggled.connect(self.estimate_noise)
@@ -56,7 +62,9 @@ class SplicingWidget(ToolWidget):
             qf = estimate_qf(self.image)
             self.noise = genNoiseprint(self.image0, qf, model_name="net")
             vmin, vmax, _, _ = cv.minMaxLoc(self.noise[34:-34, 34:-34])
-            self.noise_viewer.update_processed(norm_mat(self.noise.clip(vmin, vmax), to_bgr=True))
+            self.noise_viewer.update_processed(
+                norm_mat(self.noise.clip(vmin, vmax), to_bgr=True)
+            )
             elapsed = time() - start
 
             self.noise_button.setText(self.tr(f"Noise estimated ({elapsed:.1f} s)"))
@@ -72,11 +80,17 @@ class SplicingWidget(ToolWidget):
             modify_font(self.map_button, bold=False, italic=True)
             QCoreApplication.processEvents()
 
-            mapp, valid, range0, range1, imgsize, other = noiseprint_blind_post(self.noise, self.image0)
+            mapp, valid, range0, range1, imgsize, other = noiseprint_blind_post(
+                self.noise, self.image0
+            )
             if mapp is None:
-                QMessageBox.critical(self, self.tr("Error"), self.tr("Too many invalid blocks!"))
+                QMessageBox.critical(
+                    self, self.tr("Error"), self.tr("Too many invalid blocks!")
+                )
                 return
-            self.map = cv.applyColorMap(genMappUint8(mapp, valid, range0, range1, imgsize), cv.COLORMAP_JET)
+            self.map = cv.applyColorMap(
+                genMappUint8(mapp, valid, range0, range1, imgsize), cv.COLORMAP_JET
+            )
             self.map_viewer.update_processed(self.map)
             elapsed = time() - start
 

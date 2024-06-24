@@ -57,18 +57,28 @@ def genNoiseprint(img, QF=101, model_name="net"):
                         max(index0start, 0) : min(index0end, img.shape[0]),
                         max(index1start, 0) : min(index1end, img.shape[1]),
                     ]
-                    resB = sess.run(net.output, feed_dict={x_data: clip[np.newaxis, :, :, np.newaxis]})
+                    resB = sess.run(
+                        net.output,
+                        feed_dict={x_data: clip[np.newaxis, :, :, np.newaxis]},
+                    )
                     resB = np.squeeze(resB)
 
                     if index0 > 0:
                         resB = resB[overlap:, :]
                     if index1 > 0:
                         resB = resB[:, overlap:]
-                    resB = resB[: min(slide, resB.shape[0]), : min(slide, resB.shape[1])]
+                    resB = resB[
+                        : min(slide, resB.shape[0]), : min(slide, resB.shape[1])
+                    ]
 
-                    res[index0 : min(index0 + slide, res.shape[0]), index1 : min(index1 + slide, res.shape[1])] = resB
+                    res[
+                        index0 : min(index0 + slide, res.shape[0]),
+                        index1 : min(index1 + slide, res.shape[1]),
+                    ] = resB
         else:
             # print(' %dx%d small %3d' % (img.shape[0], img.shape[1], QF))
-            res = sess.run(net.output, feed_dict={x_data: img[np.newaxis, :, :, np.newaxis]})
+            res = sess.run(
+                net.output, feed_dict={x_data: img[np.newaxis, :, :, np.newaxis]}
+            )
             res = np.squeeze(res)
     return res

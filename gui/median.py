@@ -143,7 +143,11 @@ class MedianWidget(ToolWidget):
         try:
             booster.load_model(self.modelfile)
         except xgb.core.XGBoostError:
-            QMessageBox.critical(self, self.tr("Error"), self.tr(f'Unable to load model ("{modelfile}")!'))
+            QMessageBox.critical(
+                self,
+                self.tr("Error"),
+                self.tr(f'Unable to load model ("{modelfile}")!'),
+            )
             return
         columns = booster.num_features()
         if columns == 8:
@@ -159,14 +163,22 @@ class MedianWidget(ToolWidget):
             levels = 4
             windows = 4
         else:
-            QMessageBox.critical(self, self.tr("Error"), self.tr("Unknown model format!"))
+            QMessageBox.critical(
+                self, self.tr("Error"), self.tr("Unknown model format!")
+            )
             return
 
         padded = pad_image(self.gray, self.block)
         rows, cols = padded.shape
         self.prob = np.zeros(((rows // self.block) + 1, (cols // self.block) + 1))
         self.var = np.zeros_like(self.prob)
-        progress = QProgressDialog(self.tr("Detecting median filter..."), self.tr("Cancel"), 0, self.prob.size, self)
+        progress = QProgressDialog(
+            self.tr("Detecting median filter..."),
+            self.tr("Cancel"),
+            0,
+            self.prob.size,
+            self,
+        )
         progress.canceled.connect(self.cancel)
         progress.setWindowModality(Qt.WindowModal)
         k = 0
@@ -174,7 +186,9 @@ class MedianWidget(ToolWidget):
         for i in range(0, rows, self.block):
             for j in range(0, cols, self.block):
                 roi = padded[i : i + self.block, j : j + self.block]
-                x = xgb.DMatrix(np.reshape(get_features(roi, levels, windows), (1, columns)))
+                x = xgb.DMatrix(
+                    np.reshape(get_features(roi, levels, windows), (1, columns))
+                )
                 y = booster.predict(x)[0]
                 ib = i // self.block
                 jb = j // self.block
@@ -215,7 +229,9 @@ class MedianWidget(ToolWidget):
             output = cv.merge((blue, green, red))
         output = cv.convertScaleAbs(output, None, 255)
         output = cv.resize(output, None, None, self.block, self.block, cv.INTER_LINEAR)
-        self.viewer.update_processed(np.copy(output[: self.image.shape[0], : self.image.shape[1]]))
+        self.viewer.update_processed(
+            np.copy(output[: self.image.shape[0], : self.image.shape[1]])
+        )
         avgprob = cv.mean(prob, 1 - mask.astype(np.uint8))[0] * 100
         self.avgprob_label.setText(self.tr(f"Average = {avgprob:.2f}%"))
         modify_font(self.avgprob_label, italic=False, bold=True)

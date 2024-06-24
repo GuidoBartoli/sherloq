@@ -13,7 +13,9 @@ class MultipleWidget(ToolWidget):
         super(ToolWidget, self).__init__(parent)
 
         max_q = 101
-        progress = QProgressDialog(self.tr("Computing residuals..."), None, 0, max_q, self)
+        progress = QProgressDialog(
+            self.tr("Computing residuals..."), None, 0, max_q, self
+        )
         progress.setWindowModality(Qt.WindowModal)
         loss_series = QLineSeries()
         gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)

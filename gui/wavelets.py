@@ -15,7 +15,12 @@ class WaveletWidget(ToolWidget):
 
         self.family_combo = QComboBox()
         self.family_combo.addItems(
-            [self.tr("Daubechies"), self.tr("Symlets"), self.tr("Coiflets"), self.tr("Biorthogonal")]
+            [
+                self.tr("Daubechies"),
+                self.tr("Symlets"),
+                self.tr("Coiflets"),
+                self.tr("Biorthogonal"),
+            ]
         )
         self.wavelet_combo = QComboBox()
         self.wavelet_combo.setMinimumWidth(70)
@@ -24,7 +29,13 @@ class WaveletWidget(ToolWidget):
         self.threshold_spin.setSuffix("%")
         self.mode_combo = QComboBox()
         self.mode_combo.addItems(
-            [self.tr("Soft"), self.tr("Hard"), self.tr("Garrote"), self.tr("Greater"), self.tr("Less")]
+            [
+                self.tr("Soft"),
+                self.tr("Hard"),
+                self.tr("Garrote"),
+                self.tr("Greater"),
+                self.tr("Less"),
+            ]
         )
         self.level_spin = QSpinBox()
 
@@ -118,5 +129,7 @@ class WaveletWidget(ToolWidget):
         else:
             coeffs = self.coeffs
         wavelet = self.wavelet_combo.currentText()
-        image = cv.cvtColor(pywt.waverec2(coeffs, wavelet).astype(np.uint8), cv.COLOR_GRAY2BGR)
+        image = cv.cvtColor(
+            pywt.waverec2(coeffs, wavelet).astype(np.uint8), cv.COLOR_GRAY2BGR
+        )
         self.viewer.update_processed(image)

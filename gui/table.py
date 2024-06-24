@@ -21,7 +21,17 @@ from utility import modify_font
 
 
 class TableWidget(QWidget):
-    def __init__(self, table, headers, bold=True, mono=True, tooltips=None, align=False, search=True, parent=None):
+    def __init__(
+        self,
+        table,
+        headers,
+        bold=True,
+        mono=True,
+        tooltips=None,
+        align=False,
+        search=True,
+        parent=None,
+    ):
         super(TableWidget, self).__init__(parent)
 
         self.table_widget = QTableWidget(len(table), len(table[0]))
@@ -31,7 +41,9 @@ class TableWidget(QWidget):
                     self.table_widget.setItem(i, j, QTableWidgetItem(str(item)))
                     if tooltips is not None:
                         self.table_widget.setToolTip(tooltips[i][j])
-                    modify_font(self.table_widget.item(i, j), bold=bold and j == 0, mono=mono)
+                    modify_font(
+                        self.table_widget.item(i, j), bold=bold and j == 0, mono=mono
+                    )
                     if align:
                         self.table_widget.item(i, j).setTextAlignment(Qt.AlignRight)
 
@@ -181,7 +193,10 @@ class TableWidget(QWidget):
     def export(self):
         settings = QSettings()
         filename = QFileDialog.getSaveFileName(
-            self, self.tr("Export metadata"), settings.value("save_folder"), self.tr("CSV files (*.csv)")
+            self,
+            self.tr("Export metadata"),
+            settings.value("save_folder"),
+            self.tr("CSV files (*.csv)"),
         )[0]
         if not filename:
             return
@@ -204,4 +219,10 @@ class TableWidget(QWidget):
 
     def copy(self, item):
         QApplication.clipboard().setText(item.text())
-        QToolTip.showText(QCursor.pos(), self.tr("Cell contents copied to clipboard"), self, QRect(), 3000)
+        QToolTip.showText(
+            QCursor.pos(),
+            self.tr("Cell contents copied to clipboard"),
+            self,
+            QRect(),
+            3000,
+        )

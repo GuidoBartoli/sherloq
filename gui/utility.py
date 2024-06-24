@@ -7,7 +7,16 @@ import cv2 as cv
 import numpy as np
 from PySide6.QtCore import QSettings, QFileInfo, Signal, Qt, QMimeDatabase
 from PySide6.QtGui import QImage, QFontDatabase, QColor, QBrush
-from PySide6.QtWidgets import QLabel, QTreeWidgetItem, QFileDialog, QMessageBox, QWidget, QSlider, QSpinBox, QHBoxLayout
+from PySide6.QtWidgets import (
+    QLabel,
+    QTreeWidgetItem,
+    QFileDialog,
+    QMessageBox,
+    QWidget,
+    QSlider,
+    QSpinBox,
+    QHBoxLayout,
+)
 
 
 def mat2img(cvmat):
@@ -88,12 +97,17 @@ def create_lut(low, high):
         p2 = (255, 255 + high)
     if p1[0] == p2[0]:
         return np.full(256, 255, np.uint8)
-    lut = [(x * (p1[1] - p2[1]) + p1[0] * p2[1] - p1[1] * p2[0]) / (p1[0] - p2[0]) for x in range(256)]
+    lut = [
+        (x * (p1[1] - p2[1]) + p1[0] * p2[1] - p1[1] * p2[0]) / (p1[0] - p2[0])
+        for x in range(256)
+    ]
     return np.clip(np.array(lut), 0, 255).astype(np.uint8)
 
 
 def compute_hist(image, normalize=False):
-    hist = np.array([h[0] for h in cv.calcHist([image], [0], None, [256], [0, 256])], int)
+    hist = np.array(
+        [h[0] for h in cv.calcHist([image], [0], None, [256], [0, 256])], int
+    )
     return hist / image.size if normalize else hist
 
 
@@ -182,11 +196,15 @@ def load_image(parent, filename=None):
         "image/x-panasonic-raw",
     ]
     mime_db = QMimeDatabase()
-    mime_patterns = [mime_db.mimeTypeForName(mime).globPatterns() for mime in mime_filters]
+    mime_patterns = [
+        mime_db.mimeTypeForName(mime).globPatterns() for mime in mime_filters
+    ]
     all_formats = f"Supported formats ({' '.join([item for sub in mime_patterns for item in sub])})"
     raw_exts = [p[0][-3:] for p in mime_patterns][-12:]
     if filename is None:
-        dialog = QFileDialog(parent, parent.tr("Load image"), settings.value("load_folder"))
+        dialog = QFileDialog(
+            parent, parent.tr("Load image"), settings.value("load_folder")
+        )
         dialog.setOption(QFileDialog.DontUseNativeDialog, True)
         dialog.setFileMode(QFileDialog.ExistingFile)
         dialog.setViewMode(QFileDialog.Detail)
@@ -201,25 +219,42 @@ def load_image(parent, filename=None):
     ext = os.path.splitext(filename)[1][1:].lower()
     if ext in raw_exts:
         with rawpy.imread(filename) as raw:
-            image = cv.cvtColor(raw.postprocess(use_auto_wb=True, auto_bright_thr=0), cv.COLOR_RGB2BGR)
+            image = cv.cvtColor(
+                raw.postprocess(
+                    no_auto_bright=True,
+                    no_auto_scale=True,
+                    use_camera_wb=True,
+                ),
+                cv.COLOR_RGB2BGR,
+            )
     elif ext == "gif":
         capture = cv.VideoCapture(filename)
         frames = int(capture.get(cv.CAP_PROP_FRAME_COUNT))
         if frames > 1:
-            QMessageBox.warning(parent, parent.tr("Warning"), parent.tr("Animated GIF: importing first frame"))
+            QMessageBox.warning(
+                parent,
+                parent.tr("Warning"),
+                parent.tr("Animated GIF: importing first frame"),
+            )
         result, image = capture.read()
         if not result:
-            QMessageBox.critical(parent, parent.tr("Error"), parent.tr("Unable to decode GIF!"))
+            QMessageBox.critical(
+                parent, parent.tr("Error"), parent.tr("Unable to decode GIF!")
+            )
             return nothing
         if len(image.shape) == 2:
             image = cv.cvtColor(image, cv.COLOR_GRAY2BGR)
     else:
         image = cv.imread(filename, cv.IMREAD_COLOR)
     if image is None:
-        QMessageBox.critical(parent, parent.tr("Error"), parent.tr("Unable to load image!"))
+        QMessageBox.critical(
+            parent, parent.tr("Error"), parent.tr("Unable to load image!")
+        )
         return nothing
     if image.shape[2] > 3:
-        QMessageBox.warning(parent, parent.tr("Warning"), parent.tr("Alpha channel discarded"))
+        QMessageBox.warning(
+            parent, parent.tr("Warning"), parent.tr("Alpha channel discarded")
+        )
         image = cv.cvtColor(image, cv.COLOR_BGRA2BGR)
     settings.setValue("load_folder", QFileInfo(filename).absolutePath())
     return filename, os.path.basename(filename), image
@@ -269,7 +304,17 @@ def ssimul_exe():
 class ParamSlider(QWidget):
     valueChanged = Signal(int)
 
-    def __init__(self, interval, ticks=10, reset=0, suffix=None, label=None, bold=False, special=None, parent=None):
+    def __init__(
+        self,
+        interval,
+        ticks=10,
+        reset=0,
+        suffix=None,
+        label=None,
+        bold=False,
+        special=None,
+        parent=None,
+    ):
         super(ParamSlider, self).__init__(parent)
 
         self.slider = QSlider(Qt.Horizontal)

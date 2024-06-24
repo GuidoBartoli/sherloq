@@ -74,7 +74,12 @@ class QualityWidget(ToolWidget):
             if temp_file.open():
                 copyfile(filename, temp_file.fileName())
                 subprocess.run(
-                    [exiftool_exe(), "-all=", "-overwrite_original", temp_file.fileName()],
+                    [
+                        exiftool_exe(),
+                        "-all=",
+                        "-overwrite_original",
+                        temp_file.fileName(),
+                    ],
                     stdout=subprocess.DEVNULL,
                     stderr=subprocess.DEVNULL,
                 )
@@ -112,7 +117,9 @@ class QualityWidget(ToolWidget):
             if not found:
                 raise ValueError(self.tr("Unable to find JPEG tables!"))
 
-            levels = [(1 - (np.mean(t.ravel()[1:]) - 1) / 254) * 100 for t in [luma, chroma]]
+            levels = [
+                (1 - (np.mean(t.ravel()[1:]) - 1) / 254) * 100 for t in [luma, chroma]
+            ]
             distance = np.zeros(101)
             for qm in range(101):
                 lu, ch = cv.split(get_tables(qm))
@@ -129,16 +136,22 @@ class QualityWidget(ToolWidget):
                 message = f"(deviation from standard tables --> {deviation:.4f})"
             if quality == 0:
                 quality = 1
-            quality_label = QLabel(self.tr(f"[JPEG FORMAT] Last saved quality: {quality}% {message}"))
+            quality_label = QLabel(
+                self.tr(f"[JPEG FORMAT] Last saved quality: {quality}% {message}")
+            )
             modify_font(quality_label, bold=True)
 
-            luma_label = QLabel(self.tr(f"Luminance Quantization Table (level = {levels[0]:.2f}%)\n"))
+            luma_label = QLabel(
+                self.tr(f"Luminance Quantization Table (level = {levels[0]:.2f}%)\n")
+            )
             luma_label.setAlignment(Qt.AlignCenter)
             modify_font(luma_label, underline=True)
             luma_table = self.create_table(luma)
             luma_table.setFixedSize(420, 190)
 
-            chroma_label = QLabel(self.tr(f"Chrominance Quantization Table (level = {levels[1]:.2f}%)\n"))
+            chroma_label = QLabel(
+                self.tr(f"Chrominance Quantization Table (level = {levels[1]:.2f}%)\n")
+            )
             chroma_label.setAlignment(Qt.AlignCenter)
             modify_font(chroma_label, underline=True)
             chroma_table = self.create_table(chroma)
@@ -156,7 +169,11 @@ class QualityWidget(ToolWidget):
             modelfile = "models/jpeg_qf.mdl"
             try:
                 model = load(modelfile)
-                limit = model.best_ntree_limit if hasattr(model, "best_ntree_limit") else None
+                limit = (
+                    model.best_ntree_limit
+                    if hasattr(model, "best_ntree_limit")
+                    else None
+                )
                 # f = self.get_features(image)
                 # p = model.predict_proba(f, ntree_limit=limit)[0, 0]
                 qp = model.predict(np.reshape(y, (1, len(y))), ntree_limit=limit)[0]
@@ -175,7 +192,9 @@ class QualityWidget(ToolWidget):
                 modify_font(prob_label, bold=True)
                 main_layout.addWidget(prob_label)
             except FileNotFoundError:
-                QMessageBox.critical(self, self.tr("Error"), self.tr(f'Model not found ("{modelfile}")!'))
+                QMessageBox.critical(
+                    self, self.tr("Error"), self.tr(f'Model not found ("{modelfile}")!')
+                )
 
         main_layout.addStretch()
         self.setLayout(main_layout)
@@ -220,7 +239,9 @@ class QualityWidget(ToolWidget):
                 item.setTextAlignment(Qt.AlignCenter)
                 hsv[0, 0, 0] = 64 - 64 * ((value - 1) / maximum)
                 rgb = cv.cvtColor(hsv.astype(np.uint8), cv.COLOR_HSV2RGB)
-                item.setBackground(QBrush(QColor(rgb[0, 0, 0], rgb[0, 0, 1], rgb[0, 0, 2])))
+                item.setBackground(
+                    QBrush(QColor(rgb[0, 0, 0], rgb[0, 0, 1], rgb[0, 0, 2]))
+                )
                 table_widget.setItem(i, j, item)
         table_widget.resizeRowsToContents()
         table_widget.resizeColumnsToContents()

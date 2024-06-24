@@ -27,7 +27,9 @@ def imread2f_pil(stream, channel=1, dtype=np.float32):
         else:
             img = img.convert("RGB")
             img = np.asarray(img).astype(dtype)
-            img = (0.299 * img[:, :, 0] + 0.587 * img[:, :, 1] + 0.114 * img[:, :, 2]) / 256.0
+            img = (
+                0.299 * img[:, :, 0] + 0.587 * img[:, :, 1] + 0.114 * img[:, :, 2]
+            ) / 256.0
     else:
         img = np.asarray(img).astype(dtype) / 256.0
     return img, mode
@@ -57,7 +59,6 @@ try:
             img = img / (2.0 ** 128)
         return img, "RAW"
 
-
 except:
     pass
 
@@ -79,7 +80,9 @@ def jpeg_qtableinv(stream, tnum=0, force_baseline=None):
     else:
         th_high = 255
 
-    h = np.asarray(convert_dict_qtables(Image.open(stream).quantization)[tnum]).reshape((8, 8))
+    h = np.asarray(convert_dict_qtables(Image.open(stream).quantization)[tnum]).reshape(
+        (8, 8)
+    )
 
     if tnum == 0:
         # This is table 0 (the luminance table):
@@ -139,9 +142,23 @@ def resizeMapWithPadding(x, range0, range1, shapeOut):
     range1 = range1.flatten()
     xv = np.arange(shapeOut[1])
     yv = np.arange(shapeOut[0])
-    y = interp1d(range1, x, axis=1, kind="nearest", fill_value="extrapolate", assume_sorted=True, bounds_error=False)
     y = interp1d(
-        range0, y(xv), axis=0, kind="nearest", fill_value="extrapolate", assume_sorted=True, bounds_error=False
+        range1,
+        x,
+        axis=1,
+        kind="nearest",
+        fill_value="extrapolate",
+        assume_sorted=True,
+        bounds_error=False,
+    )
+    y = interp1d(
+        range0,
+        y(xv),
+        axis=0,
+        kind="nearest",
+        fill_value="extrapolate",
+        assume_sorted=True,
+        bounds_error=False,
     )
     return y(yv).astype(x.dtype)
 
@@ -166,5 +183,7 @@ def computeMetricsContinue(values, gt0, gt1):
 
 def computeMCC(values, gt0, gt1):
     FP, TP, FN, TN, vet_th = computeMetricsContinue(values, gt0, gt1)
-    mcc = np.abs(TP * TN - FP * FN) / np.maximum(np.sqrt((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)), 1e-32)
+    mcc = np.abs(TP * TN - FP * FN) / np.maximum(
+        np.sqrt((TP + FP) * (TP + FN) * (TN + FP) * (TN + FN)), 1e-32
+    )
     return mcc, vet_th

@@ -1,6 +1,13 @@
 import cv2 as cv
 import numpy as np
-from PySide6.QtWidgets import QVBoxLayout, QLabel, QGridLayout, QCheckBox, QPushButton, QComboBox
+from PySide6.QtWidgets import (
+    QVBoxLayout,
+    QLabel,
+    QGridLayout,
+    QCheckBox,
+    QPushButton,
+    QComboBox,
+)
 
 from tools import ToolWidget
 from utility import create_lut, ParamSlider
@@ -118,7 +125,9 @@ class AdjustWidget(ToolWidget):
             result = cv.cvtColor(cv.merge([h, s, v]), cv.COLOR_HSV2BGR)
         if gamma != 0:
             inverse = 1 / gamma
-            lut = np.array([((i / 255) ** inverse) * 255 for i in np.arange(0, 256)]).astype(np.uint8)
+            lut = np.array(
+                [((i / 255) ** inverse) * 255 for i in np.arange(0, 256)]
+            ).astype(np.uint8)
             result = cv.LUT(result, lut)
         if shadows != 0:
             result = cv.LUT(result, create_lut(int(shadows / 100 * 255), 0))

@@ -24,11 +24,17 @@ class PcaWidget(ToolWidget):
         self.component_combo = QComboBox()
         self.component_combo.addItems([self.tr(f"#{i + 1}") for i in range(3)])
         self.distance_radio = QRadioButton(self.tr("Distance"))
-        self.distance_radio.setToolTip(self.tr("Distance from the closest point on selected component"))
+        self.distance_radio.setToolTip(
+            self.tr("Distance from the closest point on selected component")
+        )
         self.project_radio = QRadioButton(self.tr("Projection"))
-        self.project_radio.setToolTip(self.tr("Projection onto the selected principal component"))
+        self.project_radio.setToolTip(
+            self.tr("Projection onto the selected principal component")
+        )
         self.crossprod_radio = QRadioButton(self.tr("Cross product"))
-        self.crossprod_radio.setToolTip(self.tr("Cross product between input and selected component"))
+        self.crossprod_radio.setToolTip(
+            self.tr("Cross product between input and selected component")
+        )
         self.distance_radio.setChecked(True)
         self.last_radio = self.distance_radio
         self.invert_check = QCheckBox(self.tr("Invert"))
@@ -46,7 +52,13 @@ class PcaWidget(ToolWidget):
             cross = np.cross(x0, v)
             distance = np.linalg.norm(cross, axis=2) / np.linalg.norm(v)
             project = p[:, :, i]
-            self.output.extend([norm_mat(distance, to_bgr=True), norm_mat(project, to_bgr=True), norm_img(cross)])
+            self.output.extend(
+                [
+                    norm_mat(distance, to_bgr=True),
+                    norm_mat(project, to_bgr=True),
+                    norm_img(cross),
+                ]
+            )
 
         table_data = [
             [mu[0, 2], mu[0, 1], mu[0, 0]],
@@ -56,7 +68,9 @@ class PcaWidget(ToolWidget):
             [ew[2, 0], ew[1, 0], ew[0, 0]],
         ]
         table_widget = QTableWidget(5, 4)
-        table_widget.setHorizontalHeaderLabels([self.tr("Element"), self.tr("Red"), self.tr("Green"), self.tr("Blue")])
+        table_widget.setHorizontalHeaderLabels(
+            [self.tr("Element"), self.tr("Red"), self.tr("Green"), self.tr("Blue")]
+        )
         table_widget.setItem(0, 0, QTableWidgetItem(self.tr("Mean vector")))
         table_widget.setItem(1, 0, QTableWidgetItem(self.tr("Eigenvector 1")))
         table_widget.setItem(2, 0, QTableWidgetItem(self.tr("Eigenvector 2")))

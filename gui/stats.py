@@ -46,13 +46,31 @@ class StatsWidget(ToolWidget):
         self.maximum[1][np.logical_and(r >= b, r >= g)] = red
         self.average = [[], []]
         self.average[0] = np.zeros_like(self.image)
-        self.average[0][np.logical_or(np.logical_and(r < b, b < g), np.logical_and(g < b, b < r))] = blue
-        self.average[0][np.logical_or(np.logical_and(r < g, g < b), np.logical_and(b < g, g < r))] = green
-        self.average[0][np.logical_or(np.logical_and(b < r, r < g), np.logical_and(g < r, r < b))] = red
+        self.average[0][
+            np.logical_or(np.logical_and(r < b, b < g), np.logical_and(g < b, b < r))
+        ] = blue
+        self.average[0][
+            np.logical_or(np.logical_and(r < g, g < b), np.logical_and(b < g, g < r))
+        ] = green
+        self.average[0][
+            np.logical_or(np.logical_and(b < r, r < g), np.logical_and(g < r, r < b))
+        ] = red
         self.average[1] = np.zeros_like(self.image)
-        self.average[1][np.logical_or(np.logical_and(r <= b, b <= g), np.logical_and(g <= b, b <= r))] = blue
-        self.average[1][np.logical_or(np.logical_and(r <= g, g <= b), np.logical_and(b <= g, g <= r))] = green
-        self.average[1][np.logical_or(np.logical_and(b <= r, r <= g), np.logical_and(g <= r, r <= b))] = red
+        self.average[1][
+            np.logical_or(
+                np.logical_and(r <= b, b <= g), np.logical_and(g <= b, b <= r)
+            )
+        ] = blue
+        self.average[1][
+            np.logical_or(
+                np.logical_and(r <= g, g <= b), np.logical_and(b <= g, g <= r)
+            )
+        ] = green
+        self.average[1][
+            np.logical_or(
+                np.logical_and(b <= r, r <= g), np.logical_and(g <= r, r <= b)
+            )
+        ] = red
         self.viewer = ImageViewer(self.image, self.image)
         self.process()
 

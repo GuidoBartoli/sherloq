@@ -47,7 +47,9 @@ class DynamicView(QGraphicsView):
         elif type(image) is np.ndarray:
             pixmap = QPixmap.fromImage(mat2img(image))
         else:
-            raise TypeError(self.tr(f"DynamicView.set_image: Unsupported type: {type(image)}"))
+            raise TypeError(
+                self.tr(f"DynamicView.set_image: Unsupported type: {type(image)}")
+            )
         if not self.scene.items():
             self.scene.addPixmap(pixmap)
         else:
@@ -180,9 +182,13 @@ class ImageViewer(QWidget):
 
         # view_label = QLabel(self.tr('View:'))
         self.original_radio = QRadioButton(self.tr("Original"))
-        self.original_radio.setToolTip(self.tr("Show the original image for comparison (press SPACE to toggle)"))
+        self.original_radio.setToolTip(
+            self.tr("Show the original image for comparison (press SPACE to toggle)")
+        )
         self.process_radio = QRadioButton(self.tr("Processed"))
-        self.process_radio.setToolTip(self.tr("Show result of the current processing (press SPACE to toggle)"))
+        self.process_radio.setToolTip(
+            self.tr("Show result of the current processing (press SPACE to toggle)")
+        )
         self.zoom_label = QLabel()
         full_button = QToolButton()
         full_button.setText(self.tr("100%"))
@@ -287,7 +293,9 @@ class ImageViewer(QWidget):
             return
         if not os.path.splitext(filename)[1]:
             filename += ".png"
-        cv.imwrite(filename, self.processed if self.processed is not None else self.original)
+        cv.imwrite(
+            filename, self.processed if self.processed is not None else self.original
+        )
 
     def set_title(self, title):
         if self.title_label is not None:

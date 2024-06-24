@@ -16,7 +16,13 @@ class StereoWidget(ToolWidget):
         small = cv.resize(gray, None, None, 1, 0.5)
         start = 10
         end = small.shape[1] // 3
-        diff = np.fromiter([cv.mean(cv.absdiff(small[:, i:], small[:, :-i]))[0] for i in range(start, end)], np.float32)
+        diff = np.fromiter(
+            [
+                cv.mean(cv.absdiff(small[:, i:], small[:, :-i]))[0]
+                for i in range(start, end)
+            ],
+            np.float32,
+        )
         _, maximum, _, argmax = cv.minMaxLoc(np.ediff1d(diff))
         if maximum < 2:
             error_label = QLabel(self.tr("Unable to detect stereogram!"))
@@ -34,22 +40,32 @@ class StereoWidget(ToolWidget):
         self.pattern = norm_img(cv.absdiff(a, b))
         temp = cv.cvtColor(self.pattern, cv.COLOR_BGR2GRAY)
         thr, _ = cv.threshold(temp, 0, 255, cv.THRESH_TRIANGLE)
-        self.silhouette = cv.medianBlur(gray_to_bgr(cv.threshold(temp, thr, 255, cv.THRESH_BINARY)[1]), 3)
+        self.silhouette = cv.medianBlur(
+            gray_to_bgr(cv.threshold(temp, thr, 255, cv.THRESH_BINARY)[1]), 3
+        )
         a = cv.cvtColor(a, cv.COLOR_BGR2GRAY)
         b = cv.cvtColor(b, cv.COLOR_BGR2GRAY)
-        flow = cv.calcOpticalFlowFarneback(a, b, None, 0.5, 5, 15, 5, 5, 1.2, cv.OPTFLOW_FARNEBACK_GAUSSIAN)[:, :, 0]
+        flow = cv.calcOpticalFlowFarneback(
+            a, b, None, 0.5, 5, 15, 5, 5, 1.2, cv.OPTFLOW_FARNEBACK_GAUSSIAN
+        )[:, :, 0]
         self.depth = gray_to_bgr(norm_mat(flow))
-        flow = np.repeat(cv.normalize(flow, None, 0, 1, cv.NORM_MINMAX)[:, :, np.newaxis], 3, axis=2)
-        self.shaded = cv.normalize(self.pattern.astype(np.float32) * flow, None, 0, 255, cv.NORM_MINMAX).astype(
-            np.uint8
+        flow = np.repeat(
+            cv.normalize(flow, None, 0, 1, cv.NORM_MINMAX)[:, :, np.newaxis], 3, axis=2
         )
+        self.shaded = cv.normalize(
+            self.pattern.astype(np.float32) * flow, None, 0, 255, cv.NORM_MINMAX
+        ).astype(np.uint8)
         self.viewer = ImageViewer(self.pattern, None, export=True)
 
         self.pattern_radio = QRadioButton(self.tr("Pattern"))
         self.pattern_radio.setChecked(True)
-        self.pattern_radio.setToolTip(self.tr("Difference between raw and aligned image"))
+        self.pattern_radio.setToolTip(
+            self.tr("Difference between raw and aligned image")
+        )
         self.silhouette_radio = QRadioButton(self.tr("Silhouette"))
-        self.silhouette_radio.setToolTip(self.tr("Apply threshold to discovered pattern"))
+        self.silhouette_radio.setToolTip(
+            self.tr("Apply threshold to discovered pattern")
+        )
         self.depth_radio = QRadioButton(self.tr("Depth"))
         self.depth_radio.setToolTip(self.tr("Estimate 3D depth using optical flow"))
         self.shaded_radio = QRadioButton(self.tr("Shaded"))

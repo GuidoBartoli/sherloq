@@ -49,17 +49,33 @@ class FrequencyWidget(ToolWidget):
         rows, cols = gray.shape
         height = cv.getOptimalDFTSize(rows)
         width = cv.getOptimalDFTSize(cols)
-        padded = cv.copyMakeBorder(gray, 0, height - rows, 0, width - cols, cv.BORDER_CONSTANT)
-        self.dft = np.fft.fftshift(cv.dft(padded.astype(np.float32), flags=cv.DFT_COMPLEX_OUTPUT))
-        self.magnitude0, self.phase0 = cv.cartToPolar(self.dft[:, :, 0], self.dft[:, :, 1])
-        self.magnitude0 = cv.normalize(cv.log(self.magnitude0), None, 0, 255, cv.NORM_MINMAX)
+        padded = cv.copyMakeBorder(
+            gray, 0, height - rows, 0, width - cols, cv.BORDER_CONSTANT
+        )
+        self.dft = np.fft.fftshift(
+            cv.dft(padded.astype(np.float32), flags=cv.DFT_COMPLEX_OUTPUT)
+        )
+        self.magnitude0, self.phase0 = cv.cartToPolar(
+            self.dft[:, :, 0], self.dft[:, :, 1]
+        )
+        self.magnitude0 = cv.normalize(
+            cv.log(self.magnitude0), None, 0, 255, cv.NORM_MINMAX
+        )
         self.phase0 = cv.normalize(self.phase0, None, 0, 255, cv.NORM_MINMAX)
         self.magnitude = self.phase = None
 
-        self.low_viewer = ImageViewer(self.image, self.image, self.tr("Low frequency"), export=True)
-        self.high_viewer = ImageViewer(self.image, self.image, self.tr("High frequency"), export=True)
-        self.mag_viewer = ImageViewer(self.image, None, self.tr("DFT Magnitude"), export=True)
-        self.phase_viewer = ImageViewer(self.image, None, self.tr("DFT Phase"), export=True)
+        self.low_viewer = ImageViewer(
+            self.image, self.image, self.tr("Low frequency"), export=True
+        )
+        self.high_viewer = ImageViewer(
+            self.image, self.image, self.tr("High frequency"), export=True
+        )
+        self.mag_viewer = ImageViewer(
+            self.image, None, self.tr("DFT Magnitude"), export=True
+        )
+        self.phase_viewer = ImageViewer(
+            self.image, None, self.tr("DFT Phase"), export=True
+        )
         self.process()
 
         self.low_viewer.viewChanged.connect(self.high_viewer.changeView)
@@ -106,16 +122,22 @@ class FrequencyWidget(ToolWidget):
             zeros = (mask.size - np.count_nonzero(mask)) / mask.size * 100
         else:
             zeros = 0
-        self.zero_label.setText(self.tr("(zeroed coefficients = {:.2f}%)").format(zeros))
+        self.zero_label.setText(
+            self.tr("(zeroed coefficients = {:.2f}%)").format(zeros)
+        )
         mask2 = np.repeat(mask[:, :, np.newaxis], 2, axis=2)
 
         rows0, cols0, _ = self.image.shape
         low = cv.idft(np.fft.ifftshift(self.dft * mask2), flags=cv.DFT_SCALE)
-        low = norm_mat(cv.magnitude(low[:, :, 0], low[:, :, 1])[:rows0, :cols0], to_bgr=True)
+        low = norm_mat(
+            cv.magnitude(low[:, :, 0], low[:, :, 1])[:rows0, :cols0], to_bgr=True
+        )
         self.low_viewer.update_processed(low)
         high = cv.idft(np.fft.ifftshift(self.dft * (1 - mask2)), flags=cv.DFT_SCALE)
         high = norm_mat(cv.magnitude(high[:, :, 0], high[:, :, 1]), to_bgr=True)
-        self.high_viewer.update_processed(np.copy(high[: self.image.shape[0], : self.image.shape[1]]))
+        self.high_viewer.update_processed(
+            np.copy(high[: self.image.shape[0], : self.image.shape[1]])
+        )
         self.magnitude = (self.magnitude0 * mask).astype(np.uint8)
         self.phase = (self.phase0 * mask).astype(np.uint8)
         self.postprocess()

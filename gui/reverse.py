@@ -52,7 +52,9 @@ class ReverseWidget(ToolWidget):
             self.web_view.load(QUrl("https://www.google.com/imghp"))
             self.last_radio = self.google_radio
         elif self.bing_radio.isChecked():
-            self.web_view.load(QUrl("https://www.bing.com/?scope=images&nr=1&FORM=NOFORM"))
+            self.web_view.load(
+                QUrl("https://www.bing.com/?scope=images&nr=1&FORM=NOFORM")
+            )
             self.last_radio = self.bing_radio
         elif self.root_radio.isChecked():
             self.web_view.load(QUrl("http://rootabout.com/"))

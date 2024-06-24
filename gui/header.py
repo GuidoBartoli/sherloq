@@ -23,7 +23,9 @@ class HeaderWidget(ToolWidget):
 
             web_view = QWebEngineView()
             if sys.platform.startswith("win32"):
-                temp_file = self.temp_dir.path() + "//" + "structure.html"  # fixes the broken ESC sequence
+                temp_file = (
+                    self.temp_dir.path() + "//" + "structure.html"
+                )  # fixes the broken ESC sequence
                 web_view.load(QUrl(temp_file))  # load without 'file://' prefix
             else:
                 web_view.load(QUrl("file://" + temp_file))

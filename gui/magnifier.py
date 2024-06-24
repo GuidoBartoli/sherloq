@@ -1,6 +1,13 @@
 import cv2 as cv
 import numpy as np
-from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QRadioButton, QSpinBox, QCheckBox
+from PySide6.QtWidgets import (
+    QVBoxLayout,
+    QHBoxLayout,
+    QLabel,
+    QRadioButton,
+    QSpinBox,
+    QCheckBox,
+)
 
 from tools import ToolWidget
 from utility import auto_lut, equalize_img
@@ -66,7 +73,9 @@ class MagnifierWidget(ToolWidget):
             if self.channel_check.isChecked():
                 roi = cv.merge([cv.LUT(c, auto_lut(c, centile)) for c in cv.split(roi)])
             else:
-                roi = cv.LUT(roi, auto_lut(cv.cvtColor(roi, cv.COLOR_BGR2GRAY), centile))
+                roi = cv.LUT(
+                    roi, auto_lut(cv.cvtColor(roi, cv.COLOR_BGR2GRAY), centile)
+                )
             self.last_radio = self.contrast_radio
         else:
             self.last_radio.setChecked(True)

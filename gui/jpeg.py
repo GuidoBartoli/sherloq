@@ -78,7 +78,9 @@ def compress_jpg(image, quality, color=True):
 
 def loss_curve(image, qualities=tuple(range(1, 101)), normalize=True):
     x = cv.cvtColor(image, cv.COLOR_BGR2GRAY) if len(image.shape) > 2 else image
-    c = np.array([cv.mean(cv.absdiff(compress_jpg(x, q, False), x))[0] for q in qualities])
+    c = np.array(
+        [cv.mean(cv.absdiff(compress_jpg(x, q, False), x))[0] for q in qualities]
+    )
     if normalize:
         c = cv.normalize(c, None, 0, 1, cv.NORM_MINMAX).flatten()
     return c

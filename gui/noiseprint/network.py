@@ -45,7 +45,9 @@ class FullConvNet(object):
         x = self.input
         for i in range(self._num_levels):
             with tf.variable_scope("level_%d" % i):
-                x = self._conv(x, self._f_size[i], self._f_num[i], self._f_stride[i], name="conv")
+                x = self._conv(
+                    x, self._f_size[i], self._f_num[i], self._f_stride[i], name="conv"
+                )
                 if self._bnorm[i]:
                     x = self._batch_norm(x, name="bn")
                 x = self._bias(x, name="bias")
@@ -60,7 +62,11 @@ class FullConvNet(object):
         with tf.variable_scope(name):
             params_shape = [x.get_shape()[-1]]
             moving_mean = tf.get_variable(
-                "moving_mean", params_shape, tf.float32, initializer=tf.constant_initializer(0.0), trainable=False
+                "moving_mean",
+                params_shape,
+                tf.float32,
+                initializer=tf.constant_initializer(0.0),
+                trainable=False,
             )
             moving_variance = tf.get_variable(
                 "moving_variance",
@@ -84,15 +90,25 @@ class FullConvNet(object):
             local_mean, local_variance = tf.nn.moments(x, [0, 1, 2], name="moments")
 
             mean, variance = tf.cond(
-                self.falg_train, lambda: (local_mean, local_variance), lambda: (moving_mean, moving_variance)
+                self.falg_train,
+                lambda: (local_mean, local_variance),
+                lambda: (moving_mean, moving_variance),
             )
 
-            self.extra_train.append(moving_mean.assign_sub((1.0 - self._bnorm_decay) * (moving_mean - local_mean)))
             self.extra_train.append(
-                moving_variance.assign_sub((1.0 - self._bnorm_decay) * (moving_variance - local_variance))
+                moving_mean.assign_sub(
+                    (1.0 - self._bnorm_decay) * (moving_mean - local_mean)
+                )
+            )
+            self.extra_train.append(
+                moving_variance.assign_sub(
+                    (1.0 - self._bnorm_decay) * (moving_variance - local_variance)
+                )
             )
 
-            y = tf.nn.batch_normalization(x, mean, variance, None, gamma, self._bnorm_epsilon)
+            y = tf.nn.batch_normalization(
+                x, mean, variance, None, gamma, self._bnorm_epsilon
+            )
             y.set_shape(x.get_shape())
         return y
 
@@ -100,7 +116,12 @@ class FullConvNet(object):
         """Bias term."""
         with tf.variable_scope(name):
             params_shape = [x.get_shape()[-1]]
-            beta = tf.get_variable("beta", params_shape, tf.float32, initializer=tf.constant_initializer(0.0))
+            beta = tf.get_variable(
+                "beta",
+                params_shape,
+                tf.float32,
+                initializer=tf.constant_initializer(0.0),
+            )
             self.variables_list.append(beta)
             self.trainable_list.append(beta)
             y = x + beta

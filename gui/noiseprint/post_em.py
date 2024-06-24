@@ -74,12 +74,16 @@ def getCoocValues(res, img_gray, n_clusters=4, random_state=0):
     from sklearn.cluster import KMeans
 
     weights = getWeights(img_gray, res)
-    kmeans = KMeans(n_clusters=n_clusters, random_state=random_state).fit(res[weights].reshape((-1, 1)))
+    kmeans = KMeans(n_clusters=n_clusters, random_state=random_state).fit(
+        res[weights].reshape((-1, 1))
+    )
     values = np.sort(kmeans.cluster_centers_.flatten(), axis=None)
     return values
 
 
-def getSpamFromNoiseprint(res, img_gray, ksize=ksize_default, stride=stride_default, values=None):
+def getSpamFromNoiseprint(
+    res, img_gray, ksize=ksize_default, stride=stride_default, values=None
+):
     imgsize = img_gray.shape
 
     paramSpam = dict(paramSpam_default)
@@ -88,7 +92,9 @@ def getSpamFromNoiseprint(res, img_gray, ksize=ksize_default, stride=stride_defa
         paramSpam["values"] = values
 
     weights = getWeights(img_gray, res)
-    spam, weights, range0, range1 = getSpamRes(res, paramSpam, ksize, weights=weights, paddingModality=0)
+    spam, weights, range0, range1 = getSpamRes(
+        res, paramSpam, ksize, weights=weights, paddingModality=0
+    )
     valid = weights >= satutationProb
 
     spam = np.sqrt(np.abs(spam))
@@ -103,13 +109,27 @@ def getSpamFromNoiseprint(res, img_gray, ksize=ksize_default, stride=stride_defa
 def EMgu(feats, seed=0, maxIter=100, replicates=10, outliersNlogl=42):
 
     randomState = np.random.RandomState(seed)
-    gm_data = gm(feats.shape[1], [0], [2], outliersProb=0.01, outliersNlogl=outliersNlogl, dtype=list_valid.dtype)
+    gm_data = gm(
+        feats.shape[1],
+        [0],
+        [2],
+        outliersProb=0.01,
+        outliersNlogl=outliersNlogl,
+        dtype=list_valid.dtype,
+    )
     gm_data.setRandomParams(feats, regularizer=-1.0, randomState=randomState)
     avrLogl, _, _ = gm_data.EM(feats, maxIter=maxIter, regularizer=-1.0)
 
     for index in range(1, replicates):
 
-        gm_data_1 = gm(feats.shape[1], [0], [2], outliersProb=0.01, outliersNlogl=outliersNlogl, dtype=list_valid.dtype)
+        gm_data_1 = gm(
+            feats.shape[1],
+            [0],
+            [2],
+            outliersProb=0.01,
+            outliersNlogl=outliersNlogl,
+            dtype=list_valid.dtype,
+        )
         gm_data_1.setRandomParams(feats, regularizer=-1.0, randomState=randomState)
 
         avrLogl_1, _, _ = gm_data_1.EM(feats, maxIter=maxIter, regularizer=-1.0)
@@ -129,7 +149,9 @@ def EMgu(feats, seed=0, maxIter=100, replicates=10, outliersNlogl=42):
     return mahal, other
 
 
-def EMgu_img(spam, valid, extFeat=range(32), seed=0, maxIter=100, replicates=10, outliersNlogl=42):
+def EMgu_img(
+    spam, valid, extFeat=range(32), seed=0, maxIter=100, replicates=10, outliersNlogl=42
+):
     shape_spam = spam.shape
     list_spam = spam.reshape([shape_spam[0] * shape_spam[1], shape_spam[2]])
     list_valid = list_spam[valid.flatten(), :]
@@ -138,12 +160,26 @@ def EMgu_img(spam, valid, extFeat=range(32), seed=0, maxIter=100, replicates=10,
     list_valid = list_spam[valid.flatten(), :]
 
     randomState = np.random.RandomState(seed)
-    gm_data = gm(shape_spam[2], [0], [2], outliersProb=0.01, outliersNlogl=outliersNlogl, dtype=list_valid.dtype)
+    gm_data = gm(
+        shape_spam[2],
+        [0],
+        [2],
+        outliersProb=0.01,
+        outliersNlogl=outliersNlogl,
+        dtype=list_valid.dtype,
+    )
     gm_data.setRandomParams(list_valid, regularizer=-1.0, randomState=randomState)
     avrLogl, _, _ = gm_data.EM(list_valid, maxIter=maxIter, regularizer=-1.0)
 
     for index in range(1, replicates):
-        gm_data_1 = gm(shape_spam[2], [0], [2], outliersProb=0.01, outliersNlogl=outliersNlogl, dtype=list_valid.dtype)
+        gm_data_1 = gm(
+            shape_spam[2],
+            [0],
+            [2],
+            outliersProb=0.01,
+            outliersNlogl=outliersNlogl,
+            dtype=list_valid.dtype,
+        )
         gm_data_1.setRandomParams(list_valid, regularizer=-1.0, randomState=randomState)
         avrLogl_1, _, _ = gm_data_1.EM(list_valid, maxIter=maxIter, regularizer=-1.0)
         if avrLogl_1 > avrLogl:

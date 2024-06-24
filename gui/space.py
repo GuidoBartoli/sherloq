@@ -1,6 +1,12 @@
 import cv2 as cv
 import numpy as np
-from PySide6.QtWidgets import QVBoxLayout, QGridLayout, QRadioButton, QComboBox, QHBoxLayout
+from PySide6.QtWidgets import (
+    QVBoxLayout,
+    QGridLayout,
+    QRadioButton,
+    QComboBox,
+    QHBoxLayout,
+)
 
 from tools import ToolWidget
 from utility import modify_font
@@ -21,7 +27,9 @@ class SpaceWidget(ToolWidget):
 
         self.gray = np.zeros((rows, cols, 4))
         self.gray[:, :, 0] = (np.amax(scaled, axis=2) + np.amin(scaled, axis=2)) / 2
-        self.gray[:, :, 1] = 0.21 * scaled[:, :, 2] + 0.72 * scaled[:, :, 1] + 0.07 * scaled[:, :, 0]
+        self.gray[:, :, 1] = (
+            0.21 * scaled[:, :, 2] + 0.72 * scaled[:, :, 1] + 0.07 * scaled[:, :, 0]
+        )
         self.gray[:, :, 2] = np.mean(scaled, axis=2)
         self.gray[:, :, 3] = cv.cvtColor(scaled, cv.COLOR_BGR2GRAY)
         self.gray = (self.gray * 255).astype(np.uint8)

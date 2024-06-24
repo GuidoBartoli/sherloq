@@ -2,7 +2,14 @@ from time import time
 
 import cv2 as cv
 import numpy as np
-from PySide6.QtWidgets import QPushButton, QVBoxLayout, QHBoxLayout, QCheckBox, QSpinBox, QLabel
+from PySide6.QtWidgets import (
+    QPushButton,
+    QVBoxLayout,
+    QHBoxLayout,
+    QCheckBox,
+    QSpinBox,
+    QLabel,
+)
 
 from jpeg import compress_jpg
 from tools import ToolWidget
@@ -75,10 +82,14 @@ class ElaWidget(ToolWidget):
         linear = self.linear_check.isChecked()
         grayscale = self.gray_check.isChecked()
         if not linear:
-            difference = cv.absdiff(self.original, self.compressed.astype(np.float32) / 255)
+            difference = cv.absdiff(
+                self.original, self.compressed.astype(np.float32) / 255
+            )
             ela = cv.convertScaleAbs(cv.sqrt(difference) * 255, None, scale / 20)
         else:
-            ela = cv.convertScaleAbs(cv.subtract(self.compressed, self.image), None, scale)
+            ela = cv.convertScaleAbs(
+                cv.subtract(self.compressed, self.image), None, scale
+            )
         ela = cv.LUT(ela, create_lut(contrast, contrast))
         if grayscale:
             ela = desaturate(ela)

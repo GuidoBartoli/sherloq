@@ -2,7 +2,14 @@ from time import time
 
 import cv2 as cv
 import numpy as np
-from PySide6.QtWidgets import QSpinBox, QComboBox, QCheckBox, QHBoxLayout, QVBoxLayout, QLabel
+from PySide6.QtWidgets import (
+    QSpinBox,
+    QComboBox,
+    QCheckBox,
+    QHBoxLayout,
+    QVBoxLayout,
+    QLabel,
+)
 
 from tools import ToolWidget
 from utility import create_lut, norm_mat, equalize_img, elapsed_time
@@ -18,7 +25,9 @@ class GradientWidget(ToolWidget):
         self.intensity_spin.setSuffix(self.tr(" %"))
         self.intensity_spin.setToolTip(self.tr("Tonality compression amount"))
         self.blue_combo = QComboBox()
-        self.blue_combo.addItems([self.tr("None"), self.tr("Flat"), self.tr("Abs"), self.tr("Norm")])
+        self.blue_combo.addItems(
+            [self.tr("None"), self.tr("Flat"), self.tr("Abs"), self.tr("Norm")]
+        )
         self.blue_combo.setCurrentIndex(2)
         self.blue_combo.setToolTip(self.tr("Blue component inclusion mode"))
         self.invert_check = QCheckBox(self.tr("Invert"))
@@ -28,7 +37,9 @@ class GradientWidget(ToolWidget):
 
         self.image = image
         self.viewer = ImageViewer(self.image, self.image)
-        self.dx, self.dy = cv.spatialGradient(cv.cvtColor(self.image, cv.COLOR_BGR2GRAY))
+        self.dx, self.dy = cv.spatialGradient(
+            cv.cvtColor(self.image, cv.COLOR_BGR2GRAY)
+        )
         self.process()
 
         self.intensity_spin.valueChanged.connect(self.process)

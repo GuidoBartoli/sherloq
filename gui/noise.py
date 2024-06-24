@@ -1,7 +1,14 @@
 from time import time
 
 import cv2 as cv
-from PySide6.QtWidgets import QComboBox, QHBoxLayout, QCheckBox, QLabel, QVBoxLayout, QSpinBox
+from PySide6.QtWidgets import (
+    QComboBox,
+    QHBoxLayout,
+    QCheckBox,
+    QLabel,
+    QVBoxLayout,
+    QSpinBox,
+)
 
 from tools import ToolWidget
 from utility import create_lut, elapsed_time, equalize_img
@@ -14,7 +21,13 @@ class NoiseWidget(ToolWidget):
 
         self.mode_combo = QComboBox()
         self.mode_combo.addItems(
-            [self.tr("Median"), self.tr("Gaussian"), self.tr("BoxBlur"), self.tr("Bilateral"), self.tr("NonLocal")]
+            [
+                self.tr("Median"),
+                self.tr("Gaussian"),
+                self.tr("BoxBlur"),
+                self.tr("Bilateral"),
+                self.tr("NonLocal"),
+            ]
         )
 
         self.radius_spin = QSpinBox()
@@ -90,7 +103,9 @@ class NoiseWidget(ToolWidget):
             if grayscale:
                 denoised = cv.fastNlMeansDenoising(original, None, kernel)
             else:
-                denoised = cv.fastNlMeansDenoisingColored(original, None, kernel, kernel)
+                denoised = cv.fastNlMeansDenoisingColored(
+                    original, None, kernel, kernel
+                )
         else:
             denoised = None
 

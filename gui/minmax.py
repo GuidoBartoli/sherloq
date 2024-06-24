@@ -3,7 +3,15 @@ from time import time
 import cv2 as cv
 import numpy as np
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QComboBox, QSpinBox, QPushButton, QProgressDialog, QLabel
+from PySide6.QtWidgets import (
+    QVBoxLayout,
+    QHBoxLayout,
+    QComboBox,
+    QSpinBox,
+    QPushButton,
+    QProgressDialog,
+    QLabel,
+)
 
 from tools import ToolWidget
 from utility import elapsed_time, norm_mat
@@ -16,9 +24,21 @@ class MinMaxWidget(ToolWidget):
 
         self.chan_combo = QComboBox()
         self.chan_combo.addItems(
-            [self.tr("Luminance"), self.tr("Red"), self.tr("Green"), self.tr("Blue"), self.tr("RGB Norm")]
+            [
+                self.tr("Luminance"),
+                self.tr("Red"),
+                self.tr("Green"),
+                self.tr("Blue"),
+                self.tr("RGB Norm"),
+            ]
         )
-        colors = [self.tr("Red"), self.tr("Green"), self.tr("Blue"), self.tr("White"), self.tr("Black")]
+        colors = [
+            self.tr("Red"),
+            self.tr("Green"),
+            self.tr("Blue"),
+            self.tr("White"),
+            self.tr("Black"),
+        ]
         self.process_button = QPushButton(self.tr("Process"))
 
         self.min_combo = QComboBox()
@@ -78,7 +98,9 @@ class MinMaxWidget(ToolWidget):
         block = 2 * radius + 1
         for i in range(radius, rows, block):
             for j in range(radius, cols, block):
-                result[i - radius : i + radius + 1, j - radius : j + radius + 1] = np.std(
+                result[
+                    i - radius : i + radius + 1, j - radius : j + radius + 1
+                ] = np.std(
                     img[i - radius : i + radius + 1, j - radius : j + radius + 1]
                 )
         return cv.normalize(result, None, 0, 127, cv.NORM_MINMAX, cv.CV_8UC1)
@@ -109,7 +131,11 @@ class MinMaxWidget(ToolWidget):
         mask = np.full((kernel, kernel), 255, dtype=np.uint8)
         mask[border, border] = 0
         progress = QProgressDialog(
-            self.tr("Computing deviation..."), self.tr("Cancel"), 0, shape[0] * shape[1] - 1, self
+            self.tr("Computing deviation..."),
+            self.tr("Cancel"),
+            0,
+            shape[0] * shape[1] - 1,
+            self,
         )
         progress.canceled.connect(self.cancel)
         progress.setWindowModality(Qt.WindowModal)
@@ -121,7 +147,9 @@ class MinMaxWidget(ToolWidget):
                 self.stopped = False
                 return
         output = np.array(blocks).reshape(shape[:-2])
-        output = cv.copyMakeBorder(output, border, border, border, border, cv.BORDER_CONSTANT)
+        output = cv.copyMakeBorder(
+            output, border, border, border, border, cv.BORDER_CONSTANT
+        )
         self.low = output == -1
         self.high = output == +1
         self.min_combo.setEnabled(True)

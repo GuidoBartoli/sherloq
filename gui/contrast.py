@@ -1,7 +1,14 @@
 import cv2 as cv
 import numpy as np
 from PySide6.QtCore import Qt
-from PySide6.QtWidgets import QPushButton, QComboBox, QLabel, QHBoxLayout, QVBoxLayout, QProgressDialog
+from PySide6.QtWidgets import (
+    QPushButton,
+    QComboBox,
+    QLabel,
+    QHBoxLayout,
+    QVBoxLayout,
+    QProgressDialog,
+)
 
 from tools import ToolWidget
 from utility import compute_hist, gray_to_bgr, pad_image
@@ -14,9 +21,15 @@ class ContrastWidget(ToolWidget):
 
         self.algo_combo = QComboBox()
         self.algo_combo.addItems(
-            [self.tr("Histogram Error"), self.tr("Channel Similarity"), self.tr("Joint probability")]
+            [
+                self.tr("Histogram Error"),
+                self.tr("Channel Similarity"),
+                self.tr("Joint probability"),
+            ]
         )
-        self.algo_combo.setToolTip(self.tr("Joint Probability merges Histogram Error and Channel Similarity"))
+        self.algo_combo.setToolTip(
+            self.tr("Joint Probability merges Histogram Error and Channel Similarity")
+        )
         self.algo_combo.setCurrentIndex(2)
         self.block_combo = QComboBox()
         self.block_combo.addItems(["32", "64", "128", "256"])
@@ -84,14 +97,22 @@ class ContrastWidget(ToolWidget):
         window = np.arange(256).astype(np.float32)
         cutoff = 8
         window[:cutoff] = (1 - np.cos(np.pi * window[:cutoff] / cutoff)) / 2
-        window[-cutoff:] = (1 + np.cos(np.pi * (window[-cutoff:] + cutoff - 255) / cutoff)) / 2
+        window[-cutoff:] = (
+            1 + np.cos(np.pi * (window[-cutoff:] + cutoff - 255) / cutoff)
+        ) / 2
         window[cutoff:-cutoff] = 1
         weight = ((np.arange(256) - 128) / 128) ** 2
 
         self.chsim = np.zeros(((rows // block) + 1, (cols // block) + 1), np.float32)
         self.error = np.copy(self.chsim)
         self.joint = np.copy(self.chsim)
-        progress = QProgressDialog(self.tr("Detecting enhancements..."), self.tr("Cancel"), 0, self.chsim.size, self)
+        progress = QProgressDialog(
+            self.tr("Detecting enhancements..."),
+            self.tr("Cancel"),
+            0,
+            self.chsim.size,
+            self,
+        )
         progress.canceled.connect(self.cancel)
         progress.setWindowModality(Qt.WindowModal)
 
@@ -148,10 +169,22 @@ class ContrastWidget(ToolWidget):
 
         progress.setValue(self.chsim.size)
         self.chsim = cv.medianBlur(cv.convertScaleAbs(self.chsim, None, 255), 3)
-        self.chsim = gray_to_bgr(cv.resize(self.chsim, None, None, block, block, cv.INTER_NEAREST)[:rows0, :cols0])
+        self.chsim = gray_to_bgr(
+            cv.resize(self.chsim, None, None, block, block, cv.INTER_NEAREST)[
+                :rows0, :cols0
+            ]
+        )
         self.error = cv.medianBlur(cv.convertScaleAbs(self.error, None, 255), 3)
-        self.error = gray_to_bgr(cv.resize(self.error, None, None, block, block, cv.INTER_NEAREST)[:rows0, :cols0])
+        self.error = gray_to_bgr(
+            cv.resize(self.error, None, None, block, block, cv.INTER_NEAREST)[
+                :rows0, :cols0
+            ]
+        )
         self.joint = cv.medianBlur(cv.convertScaleAbs(self.joint, None, 255), 3)
-        self.joint = gray_to_bgr(cv.resize(self.joint, None, None, block, block, cv.INTER_NEAREST)[:rows0, :cols0])
+        self.joint = gray_to_bgr(
+            cv.resize(self.joint, None, None, block, block, cv.INTER_NEAREST)[
+                :rows0, :cols0
+            ]
+        )
         self.process_button.setEnabled(False)
         self.choose()

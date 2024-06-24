@@ -27,28 +27,40 @@ class CloningWidget(ToolWidget):
         super(CloningWidget, self).__init__(parent)
 
         self.detector_combo = QComboBox()
-        self.detector_combo.addItems([self.tr("BRISK"), self.tr("ORB"), self.tr("AKAZE")])
+        self.detector_combo.addItems(
+            [self.tr("BRISK"), self.tr("ORB"), self.tr("AKAZE")]
+        )
         self.detector_combo.setCurrentIndex(0)
-        self.detector_combo.setToolTip(self.tr("Algorithm used for localization and description"))
+        self.detector_combo.setToolTip(
+            self.tr("Algorithm used for localization and description")
+        )
         self.response_spin = QSpinBox()
         self.response_spin.setRange(0, 100)
         self.response_spin.setSuffix(self.tr("%"))
         self.response_spin.setValue(90)
-        self.response_spin.setToolTip(self.tr("Maximum keypoint response to perform matching"))
+        self.response_spin.setToolTip(
+            self.tr("Maximum keypoint response to perform matching")
+        )
         self.matching_spin = QSpinBox()
         self.matching_spin.setRange(1, 100)
         self.matching_spin.setSuffix(self.tr("%"))
         self.matching_spin.setValue(20)
-        self.matching_spin.setToolTip(self.tr("Maximum metric difference to accept matching"))
+        self.matching_spin.setToolTip(
+            self.tr("Maximum metric difference to accept matching")
+        )
         self.distance_spin = QSpinBox()
         self.distance_spin.setRange(1, 100)
         self.distance_spin.setSuffix(self.tr("%"))
         self.distance_spin.setValue(15)
-        self.distance_spin.setToolTip(self.tr("Maximum distance between matches in the same cluster"))
+        self.distance_spin.setToolTip(
+            self.tr("Maximum distance between matches in the same cluster")
+        )
         self.cluster_spin = QSpinBox()
         self.cluster_spin.setRange(1, 20)
         self.cluster_spin.setValue(5)
-        self.cluster_spin.setToolTip(self.tr("Minimum number of keypoints to create a new cluster"))
+        self.cluster_spin.setToolTip(
+            self.tr("Minimum number of keypoints to create a new cluster")
+        )
         self.kpts_check = QCheckBox(self.tr("Show keypoints"))
         self.kpts_check.setToolTip(self.tr("Show keypoint coverage"))
         self.nolines_check = QCheckBox(self.tr("Hide lines"))
@@ -70,7 +82,9 @@ class CloningWidget(ToolWidget):
         self.image = image
         self.viewer = ImageViewer(self.image, self.image)
         self.gray = cv.cvtColor(self.image, cv.COLOR_BGR2GRAY)
-        self.total = self.kpts = self.desc = self.matches = self.clusters = self.mask = None
+        self.total = (
+            self.kpts
+        ) = self.desc = self.matches = self.clusters = self.mask = None
         self.canceled = False
 
         self.detector_combo.currentIndexChanged.connect(self.update_detector)
@@ -116,7 +130,9 @@ class CloningWidget(ToolWidget):
     def toggle_mask(self, checked):
         self.onoff_button.setText("ON" if checked else "OFF")
         if checked:
-            self.viewer.update_processed(cv.merge([c * self.mask for c in cv.split(self.image)]))
+            self.viewer.update_processed(
+                cv.merge([c * self.mask for c in cv.split(self.image)])
+            )
         else:
             self.viewer.update_processed(self.image)
         self.update_detector()
@@ -126,9 +142,15 @@ class CloningWidget(ToolWidget):
         if filename is None:
             return
         if self.image.shape[:-1] != mask.shape[:-1]:
-            QMessageBox.critical(self, self.tr("Error"), self.tr("Both image and mask must have the same size!"))
+            QMessageBox.critical(
+                self,
+                self.tr("Error"),
+                self.tr("Both image and mask must have the same size!"),
+            )
             return
-        _, self.mask = cv.threshold(cv.cvtColor(mask, cv.COLOR_BGR2GRAY), 0, 1, cv.THRESH_BINARY)
+        _, self.mask = cv.threshold(
+            cv.cvtColor(mask, cv.COLOR_BGR2GRAY), 0, 1, cv.THRESH_BINARY
+        )
         self.onoff_button.setEnabled(True)
         self.onoff_button.setChecked(True)
         self.mask_button.setText(f'"{splitext(basename)[0]}"')
@@ -177,13 +199,17 @@ class CloningWidget(ToolWidget):
             self.kpts, self.desc = detector.detectAndCompute(self.gray, mask)
             self.total = len(self.kpts)
             responses = np.array([k.response for k in self.kpts])
-            strongest = (cv.normalize(responses, None, 0, 100, cv.NORM_MINMAX) >= response).flatten()
+            strongest = (
+                cv.normalize(responses, None, 0, 100, cv.NORM_MINMAX) >= response
+            ).flatten()
             self.kpts = list(compress(self.kpts, strongest))
             if len(self.kpts) > 30000:
                 QMessageBox.warning(
                     self,
                     self.tr("Warning"),
-                    self.tr(f"Too many keypoints found ({self.total}), please reduce response value"),
+                    self.tr(
+                        f"Too many keypoints found ({self.total}), please reduce response value"
+                    ),
                 )
                 self.kpts = self.desc = None
                 self.total = 0
@@ -195,7 +221,9 @@ class CloningWidget(ToolWidget):
             matcher = cv.BFMatcher_create(cv.NORM_HAMMING, True)
             self.matches = matcher.radiusMatch(self.desc, self.desc, matching)
             if self.matches is None:
-                self.status_label.setText(self.tr("No keypoint match found with current settings"))
+                self.status_label.setText(
+                    self.tr("No keypoint match found with current settings")
+                )
                 modify_font(self.status_label, italic=False, bold=True)
                 return
             self.matches = [item for sublist in self.matches for item in sublist]
@@ -207,11 +235,15 @@ class CloningWidget(ToolWidget):
             self.clusters = []
             min_dist = distance * np.min(self.gray.shape) / 2
             kpts_a = np.array([p.pt for p in self.kpts])
-            ds = np.linalg.norm([kpts_a[m.queryIdx] - kpts_a[m.trainIdx] for m in self.matches], axis=1)
+            ds = np.linalg.norm(
+                [kpts_a[m.queryIdx] - kpts_a[m.trainIdx] for m in self.matches], axis=1
+            )
             self.matches = [m for i, m in enumerate(self.matches) if ds[i] > min_dist]
 
             total = len(self.matches)
-            progress = QProgressDialog(self.tr("Clustering matches..."), self.tr("Cancel"), 0, total, self)
+            progress = QProgressDialog(
+                self.tr("Clustering matches..."), self.tr("Cancel"), 0, total, self
+            )
             progress.canceled.connect(self.cancel)
             progress.setWindowModality(Qt.WindowModal)
             for i in range(total):
@@ -241,7 +273,12 @@ class CloningWidget(ToolWidget):
                     ab = np.linalg.norm(a0 - b1)
                     ba = np.linalg.norm(b0 - a1)
 
-                    if not (0 < aa < min_dist and 0 < bb < min_dist or 0 < ab < min_dist and 0 < ba < min_dist):
+                    if not (
+                        0 < aa < min_dist
+                        and 0 < bb < min_dist
+                        or 0 < ab < min_dist
+                        and 0 < ba < min_dist
+                    ):
                         continue
                     for g in group:
                         if g.queryIdx == train1 and g.trainIdx == query1:
@@ -298,7 +335,10 @@ class CloningWidget(ToolWidget):
                 criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
                 attempts = 10
                 flags = cv.KMEANS_PP_CENTERS
-                compact = [cv.kmeans(angles, k, None, criteria, attempts, flags)[0] for k in range(1, 11)]
+                compact = [
+                    cv.kmeans(angles, k, None, criteria, attempts, flags)[0]
+                    for k in range(1, 11)
+                ]
                 compact = cv.normalize(np.array(compact), None, 0, 1, cv.NORM_MINMAX)
                 regions = np.argmax(compact < 0.005) + 1
         self.viewer.update_processed(output)
@@ -307,7 +347,11 @@ class CloningWidget(ToolWidget):
         self.status_label.setText(
             self.tr(
                 "Keypoints: {} --> Filtered: {} --> Matches: {} --> Clusters: {} --> Regions: {}".format(
-                    self.total, len(self.kpts), len(self.matches), len(self.clusters), regions
+                    self.total,
+                    len(self.kpts),
+                    len(self.matches),
+                    len(self.clusters),
+                    regions,
                 )
             )
         )

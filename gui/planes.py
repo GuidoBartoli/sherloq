@@ -13,13 +13,21 @@ class PlanesWidget(ToolWidget):
 
         self.chan_combo = QComboBox()
         self.chan_combo.addItems(
-            [self.tr("Luminance"), self.tr("Red"), self.tr("Green"), self.tr("Blue"), self.tr("RGB Norm")]
+            [
+                self.tr("Luminance"),
+                self.tr("Red"),
+                self.tr("Green"),
+                self.tr("Blue"),
+                self.tr("RGB Norm"),
+            ]
         )
         self.plane_spin = QSpinBox()
         self.plane_spin.setPrefix(self.tr("Bit "))
         self.plane_spin.setRange(0, 7)
         self.filter_combo = QComboBox()
-        self.filter_combo.addItems([self.tr("Disabled"), self.tr("Median"), self.tr("Gaussian")])
+        self.filter_combo.addItems(
+            [self.tr("Disabled"), self.tr("Median"), self.tr("Gaussian")]
+        )
 
         self.image = image
         self.viewer = ImageViewer(self.image, self.image)
@@ -54,7 +62,10 @@ class PlanesWidget(ToolWidget):
         else:
             img = self.image[:, :, 3 - channel]
 
-        self.planes = [norm_mat(cv.bitwise_and(np.full_like(img, 2 ** b), img), to_bgr=True) for b in range(8)]
+        self.planes = [
+            norm_mat(cv.bitwise_and(np.full_like(img, 2 ** b), img), to_bgr=True)
+            for b in range(8)
+        ]
 
         # rows, cols = img.shape
         # bits = 8

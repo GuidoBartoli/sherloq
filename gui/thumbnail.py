@@ -15,7 +15,9 @@ class ThumbWidget(ToolWidget):
 
         temp_file = QTemporaryFile()
         if temp_file.open():
-            output = subprocess.check_output([exiftool_exe(), "-b", "-ThumbnailImage", filename])
+            output = subprocess.check_output(
+                [exiftool_exe(), "-b", "-ThumbnailImage", filename]
+            )
             temp_name = temp_file.fileName()
             with open(temp_name, "wb") as file:
                 file.write(output)
@@ -24,7 +26,9 @@ class ThumbWidget(ToolWidget):
                 self.show_error(self.tr("Thumbnail image not found!"))
                 return
             # resized = cv.resize(image, thumb.shape[:-1][::-1], interpolation=cv.INTER_AREA)
-            resized = cv.resize(thumb, image.shape[:-1][::-1], interpolation=cv.INTER_LANCZOS4)
+            resized = cv.resize(
+                thumb, image.shape[:-1][::-1], interpolation=cv.INTER_LANCZOS4
+            )
             diff = cv.absdiff(image, resized)
 
             # image_aspect = image.shape[1] / image.shape[0]
