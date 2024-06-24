@@ -19,16 +19,16 @@ my $testnum = 1;
 # test 2: Extract information from InDesign.indd
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/InDesign.indd');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
 # tests 3-4: Write some XMP tags then delete all XMP (writes empty XMP record)
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     $exifTool->SetNewValue(Author => 'Phil Harvey');
     $exifTool->SetNewValue(ImageDescription => 'A description');
     my $testfile = "t/${testname}_${testnum}_failed.indd";
@@ -37,7 +37,7 @@ my $testnum = 1;
     my $info = $exifTool->ImageInfo($testfile);
     my $not;
     unless (check($exifTool, $info, $testname, $testnum)) {
-        print 'not ';
+        notOK();
         $not = 1;
     }
     print "ok $testnum\n";
@@ -54,9 +54,9 @@ my $testnum = 1;
         unlink $testfile unless $not;
         unlink $testfile2;
     } else {
-        print 'not ';
+        notOK();
     }
     print "ok $testnum\n";
 }
 
-# end
+done(); # end

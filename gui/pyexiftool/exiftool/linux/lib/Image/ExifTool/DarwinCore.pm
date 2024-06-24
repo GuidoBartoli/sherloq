@@ -15,7 +15,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool::XMP;
 
-$VERSION = '1.06';
+$VERSION = '1.07';
 
 my %dateTimeInfo = (
     # NOTE: Do NOT put "Groups" here because Groups hash must not be common!
@@ -138,6 +138,9 @@ my %event = (
             identificationVerificationStatus => { },
             identifiedBy                => { },
             typeStatus                  => { },
+            # new, ref forum13707
+            identifiedByID              => { },
+            verbatimIdentification      => { },
         },
     },
     LivingSpecimen      => { Struct => \%materialSample },
@@ -189,6 +192,11 @@ my %event = (
             recordNumber                => { },
             reproductiveCondition       => { },
             sex                         => { },
+            # new, ref forum13707
+            degreeOfEstablishment       => { },
+            georeferenceVerificationStatus => { },
+            pathway                     => { },
+            recordedByID                => { },
         },
     },
     OccurrenceOccurrenceDetails => { Name => 'OccurrenceDetails', Flat => 1 },
@@ -242,6 +250,7 @@ my %event = (
             relationshipRemarks         => { },
             resourceID                  => { },
             resourceRelationshipID      => { },
+            relationshipOfResourceID    => { }, # new, ref forum13707
         },
     },
     Taxon => {
@@ -255,6 +264,7 @@ my %event = (
             genus                       => { },
             higherClassification        => { },
             infraspecificEpithet        => { },
+            cultivarEpithet             => { }, # new, ref forum13707
             kingdom                     => { },
             nameAccordingTo             => { },
             nameAccordingToID           => { },
@@ -338,6 +348,8 @@ my %event = (
             verbatimLongitude           => { },
             verbatimSRS                 => { },
             waterBody                   => { },
+            # new, ref forum13707
+            verticalDatum               => { },
         },
     },
 );
@@ -360,7 +372,7 @@ This file contains tag definitions for the Darwin Core XMP namespace.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

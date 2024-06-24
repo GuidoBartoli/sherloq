@@ -19,7 +19,7 @@ package Image::ExifTool::Shortcuts;
 use strict;
 use vars qw($VERSION);
 
-$VERSION = '1.67';
+$VERSION = '1.68';
 
 # this is a special table used to define command-line shortcuts
 # (documentation Notes may be added for these via %shortcutNotes in BuildTagLookup.pm)
@@ -276,6 +276,7 @@ $VERSION = '1.67';
         'FileModifyDate',
         'FileName',
     ],
+    ImageDataMD5 => [ 'ImageDataHash' ], # (for backward compatibilty)
 );
 
 #------------------------------------------------------------------------------
@@ -343,7 +344,7 @@ name prefix.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

@@ -14,7 +14,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.08';
+$VERSION = '1.09';
 
 sub ProcessAFCP($$);
 
@@ -134,7 +134,7 @@ NoAFCP: for (;;) {
             $dirBuff = $valBuff = '';
             require Image::ExifTool::Fixup;
             $fixup = $$dirInfo{Fixup};
-            $fixup or $fixup = $$dirInfo{Fixup} = new Image::ExifTool::Fixup;
+            $fixup or $fixup = $$dirInfo{Fixup} = Image::ExifTool::Fixup->new;
             $vers = substr($buff, 4, 2); # get version number
         } else {
             $et->DumpTrailer($dirInfo) if $verbose or $$et{HTML_DUMP};
@@ -259,7 +259,7 @@ scanning for AFCP information.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

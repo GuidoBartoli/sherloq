@@ -137,13 +137,15 @@ sub ValidateProperty($$;$)
 
 #------------------------------------------------------------------------------
 # Check XMP date values for validity and format accordingly
-# Inputs: 1) EXIF-format date string
+# Inputs: 1) EXIF-format date string (XMP-format also accepted)
 # Returns: XMP date/time string (or undef on error)
 sub FormatXMPDate($)
 {
     my $val = shift;
     my ($y, $m, $d, $t, $tz);
-    if ($val =~ /(\d{4}):(\d{2}):(\d{2}) (\d{2}:\d{2}(?::\d{2}(?:\.\d*)?)?)(.*)/) {
+    if ($val =~ /(\d{4}):(\d{2}):(\d{2}) (\d{2}:\d{2}(?::\d{2}(?:\.\d*)?)?)(.*)/ or
+        $val =~ /(\d{4})-(\d{2})-(\d{2})T(\d{2}:\d{2}(?::\d{2}(?:\.\d*)?)?)(.*)/)
+    {
         ($y, $m, $d, $t, $tz) = ($1, $2, $3, $4, $5);
         $val = "$y-$m-${d}T$t";
     } elsif ($val =~ /^\s*\d{4}(:\d{2}){0,2}\s*$/) {
@@ -176,7 +178,7 @@ sub CheckXMP($$$;$)
         require 'Image/ExifTool/XMPStruct.pl';
         my ($item, $err, $w, $warn);
         unless (ref $$valPtr) {
-            ($$valPtr, $warn) = InflateStruct($valPtr);
+            ($$valPtr, $warn) = InflateStruct($et, $valPtr);
             # expect a structure HASH ref or ARRAY of structures
             unless (ref $$valPtr) {
                 $$valPtr eq '' and $$valPtr = { }, return undef; # allow empty structures
@@ -189,7 +191,7 @@ sub CheckXMP($$$;$)
             $$valPtr = \@copy;          # return the copy
             foreach $item (@copy) {
                 unless (ref $item eq 'HASH') {
-                    ($item, $w) = InflateStruct(\$item); # deserialize structure
+                    ($item, $w) = InflateStruct($et, \$item); # deserialize structure
                     $w and $warn = $w;
                     next if ref $item eq 'HASH';
                     $err = 'Improperly formed structure';
@@ -561,7 +563,21 @@ sub AddStructType($$$$;$)
 }
 
 #------------------------------------------------------------------------------
-# Hack to use XMP writer for SphericalVideoXML
+# Process SphericalVideoXML (see XMP-GSpherical tags documentation)
+# Inputs: 0) ExifTool ref, 1) dirInfo ref, 2) tag table ref
+# Returns: SphericalVideoXML data
+sub ProcessGSpherical($$$)
+{
+    my ($et, $dirInfo, $tagTablePtr) = @_;
+    # extract SphericalVideoXML as a block if requested
+    if ($$et{REQ_TAG_LOOKUP}{sphericalvideoxml}) {
+        $et->FoundTag(SphericalVideoXML => substr(${$$dirInfo{DataPt}}, 16));
+    }
+    return Image::ExifTool::XMP::ProcessXMP($et, $dirInfo, $tagTablePtr);
+}
+
+#------------------------------------------------------------------------------
+# Hack to use XMP writer for SphericalVideoXML (see XMP-GSpherical tags documentation)
 # Inputs: 0) ExifTool ref, 1) dirInfo ref, 2) tag table ref
 # Returns: SphericalVideoXML data
 sub WriteGSpherical($$$)
@@ -1067,6 +1083,8 @@ sub WriteXMP($$;$)
             # delete all structure (or pseudo-structure) elements
             require 'Image/ExifTool/XMPStruct.pl';
             ($deleted, $added, $existed) = DeleteStruct($et, \%capture, \$path, $nvHash, \$changed);
+            # don't add if it didn't exist and not IsCreating and Avoid
+            undef $added if not $existed and not $$nvHash{IsCreating} and $$tagInfo{Avoid};
             next unless $deleted or $added or $et->IsOverwriting($nvHash);
             next if $existed and $$nvHash{CreateOnly};
         } elsif ($cap) {
@@ -1246,8 +1264,8 @@ sub WriteXMP($$;$)
         # check to see if we want to create this tag
         # (create non-avoided tags in XMP data files by default)
         my $isCreating = ($$nvHash{IsCreating} or (($isStruct or
-                          ($preferred and not $$tagInfo{Avoid} and
-                            not defined $$nvHash{Shift})) and not $$nvHash{EditOnly}));
+                          ($preferred and not defined $$nvHash{Shift})) and
+                          not $$tagInfo{Avoid} and not $$nvHash{EditOnly}));
 
         # don't add new values unless...
             # ...tag existed before and was deleted, or we added it to a list
@@ -1476,7 +1494,7 @@ sub WriteXMP($$;$)
             my @ns = sort keys %nsCur;
             $long[-2] .= "$nl$sp<$prop rdf:about='${about}'";
             # generate et:toolkit attribute if this is an exiftool RDF/XML output file
-            if (@ns and $nsCur{$ns[0]} =~ m{^http://ns.exiftool.(?:ca|org)/}) {
+            if ($$et{XMP_NO_XMPMETA} and @ns and $nsCur{$ns[0]} =~ m{^http://ns.exiftool.(?:ca|org)/}) {
                 $long[-2] .= "\n$sp${sp}xmlns:et='http://ns.exiftool.org/1.0/'" .
                             " et:toolkit='Image::ExifTool $Image::ExifTool::VERSION'";
             }
@@ -1621,7 +1639,7 @@ This file contains routines to write XMP metadata.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

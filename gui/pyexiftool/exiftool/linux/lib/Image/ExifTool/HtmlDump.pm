@@ -13,7 +13,7 @@ use vars qw($VERSION);
 use Image::ExifTool;    # only for FinishTiffDump()
 use Image::ExifTool::HTML qw(EscapeHTML);
 
-$VERSION = '1.39';
+$VERSION = '1.41';
 
 sub DumpTable($$$;$$$$$$);
 sub Open($$$;@);
@@ -314,6 +314,8 @@ sub Print($$;$$$$$)
     $title = 'HtmlDump' unless $title;
     $level or $level = 0;
     my $tell = $raf->Tell();
+    $raf->Seek(0,2) or $$self{ERROR} = 'Seek error', return -1;
+    my $fileLen = $raf->Tell();
     my $pos = 0;
     my $dataEnd = $dataPos + ($dataPt ? length($$dataPt) : 0);
     # initialize member variables
@@ -352,6 +354,7 @@ sub Print($$;$$$$$)
         } else {
             last;
         }
+        $start = $fileLen if $start > $fileLen; # handle case of bad start offset
         my $len = $start - $pos;
         if ($len > 0 and not $wasUnused) {
             # we have a unused bytes before this data block
@@ -432,8 +435,7 @@ sub Print($$;$$$$$)
                             {
                                 $err = $msg;
                                 # reset $len to the actual length of available data
-                                $raf->Seek(0, 2);
-                                $len = $raf->Tell() - $start;
+                                $len = $fileLen - $start;
                                 $tip .= "<br>Error: Only $len bytes available!" if $tip;
                                 next;
                             }
@@ -894,7 +896,7 @@ Image::ExifTool::HtmlDump - Dump information in hex to HTML page
 =head1 SYNOPSIS
 
     use Image::ExifTool::HtmlDump;
-    my $dump = new Image::ExifTool::HtmlDump;
+    my $dump = Image::ExifTool::HtmlDump->new;
     $dump->Add($start, $size, $comment);
     $dump->Print($dumpInfo, $raf, $dataPt, $dataPos, $outfile);
 
@@ -917,7 +919,7 @@ page.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

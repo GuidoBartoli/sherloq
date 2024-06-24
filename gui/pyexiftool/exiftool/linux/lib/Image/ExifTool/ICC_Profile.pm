@@ -25,7 +25,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.39';
+$VERSION = '1.40';
 
 sub ProcessICC($$);
 sub ProcessICC_Profile($$$);
@@ -627,7 +627,7 @@ my %manuSig = ( #6
     swpt => 'SpectralWhitePoint',
     s2cp => 'StandardToCustomPcc',
     smap => 'SurfaceMap',
-    # smwp ? (seen in some v5 samples)
+    # smwp ? (seen in some v5 samples [was a mistake in sample production])
 
     # the following entry represents the ICC profile header, and doesn't
     # exist as a tag in the directory.  It is only in this table to provide
@@ -815,6 +815,7 @@ my %manuSig = ( #6
         Name => 'ChromaticityColorant',
         Format => 'int16u',
         PrintConv => {
+            0 => 'Unknown',
             1 => 'ITU-R BT.709',
             2 => 'SMPTE RP145-1994',
             3 => 'EBU Tech.3213-E',
@@ -1356,7 +1357,7 @@ data created on one device into another device's native color space.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

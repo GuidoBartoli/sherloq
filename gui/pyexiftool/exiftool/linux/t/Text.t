@@ -18,15 +18,15 @@ my $testnum = 1;
 
 # tests 2-7: Test various types of text files
 {
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $i;
     for (my $i=1; $i<=6; ++$i) {
         ++$testnum;
         my $fname = 't/images/' . ($i < 6 ? "Text$i.txt" : 'Text.csv');
         my $info = $exifTool->ImageInfo($fname, '-system:all');
-        print 'not ' unless check($exifTool, $info, $testname, $testnum);
+        notOK() unless check($exifTool, $info, $testname, $testnum);
         print "ok $testnum\n";
     }
 }
 
-# end
+done(); # end

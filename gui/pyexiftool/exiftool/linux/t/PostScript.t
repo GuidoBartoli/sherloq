@@ -19,16 +19,16 @@ my $testnum = 1;
 # test 2: Extract information from PostScript.eps
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/PostScript.eps');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
 # test 3: Write EPS information (and test ExtractEmbedded option)
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     $exifTool->SetNewValuesFromFile('t/images/IPTC.jpg','*:*');
     $exifTool->SetNewValuesFromFile('t/images/XMP.jpg','*:*');
     $exifTool->SetNewValue(Title => 'new title');
@@ -41,10 +41,9 @@ my $testnum = 1;
     if (check($exifTool, $info, $testname, $testnum, $testnum, 3)) {
         unlink $testfile;
     } else {
-        print 'not ';
+        notOK();
     }
     print "ok $testnum\n";
 }
 
-
-# end
+done(); # end

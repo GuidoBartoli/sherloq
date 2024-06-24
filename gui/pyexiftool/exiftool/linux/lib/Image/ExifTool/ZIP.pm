@@ -11,6 +11,7 @@
 #               4) http://DataCompression.info/ArchiveFormats/RAR202.txt
 #               5) https://jira.atlassian.com/browse/CONF-21706
 #               6) http://wwwimages.adobe.com/www.adobe.com/content/dam/Adobe/en/devnet/indesign/cs55-docs/IDML/idml-specification.pdf
+#               7) https://www.rarlab.com/technote.htm
 #------------------------------------------------------------------------------
 
 package Image::ExifTool::ZIP;
@@ -19,7 +20,7 @@ use strict;
 use vars qw($VERSION $warnString);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.27';
+$VERSION = '1.31';
 
 sub WarnProc($) { $warnString = $_[0]; }
 
@@ -191,7 +192,7 @@ my %iWorkType = (
     11 => 'Comment',
 );
 
-# RAR tags (ref 4)
+# RAR v4 tags (ref 4)
 %Image::ExifTool::ZIP::RAR = (
     PROCESS_PROC => \&Image::ExifTool::ProcessBinaryData,
     GROUPS => { 2 => 'Other' },
@@ -254,8 +255,45 @@ my %iWorkType = (
     },
 );
 
+# RAR v5 tags (ref 7, github#203)
+%Image::ExifTool::ZIP::RAR5 = (
+    GROUPS => { 2 => 'Other' },
+    VARS => { NO_ID => 1 },
+    NOTES => 'These tags are extracted from RAR v5 and 7z archive files.',
+    FileVersion     => { },
+    CompressedSize  => { },
+    ModifyDate => {
+        Groups => { 2 => 'Time' },
+        ValueConv => 'ConvertUnixTime($val,1)',
+        PrintConv => '$self->ConvertDateTime($val)',
+    },
+    UncompressedSize => { },
+    OperatingSystem => {
+        PrintConv => { 0 => 'Win32', 1 => 'Unix' },
+    },
+    ArchivedFileName => { },
+);
+
 #------------------------------------------------------------------------------
-# Extract information from a RAR file (ref 4)
+# Read unsigned LEB (Little Endian Base) from file
+# Inputs: 0) RAF ref
+# Returns: integer value
+sub ReadULEB($)
+{
+    my $raf = shift;
+    my ($i, $buff);
+    my $rtnVal = 0;
+    for ($i=0; ; ++$i) {
+        $raf->Read($buff, 1) or last;
+        my $num = ord($buff);
+        $rtnVal += ($num & 0x7f) << ($i * 7);
+        $num & 0x80 or last;
+    }
+    return $rtnVal;
+}
+
+#------------------------------------------------------------------------------
+# Extract information from a RAR file
 # Inputs: 0) ExifTool object reference, 1) dirInfo reference
 # Returns: 1 on success, 0 if this wasn't a valid RAR file
 sub ProcessRAR($$)
@@ -263,51 +301,129 @@ sub ProcessRAR($$)
     my ($et, $dirInfo) = @_;
     my $raf = $$dirInfo{RAF};
     my ($flags, $buff);
-
-    return 0 unless $raf->Read($buff, 7) and $buff eq "Rar!\x1a\x07\0";
-
-    $et->SetFileType();
-    SetByteOrder('II');
-    my $tagTablePtr = GetTagTable('Image::ExifTool::ZIP::RAR');
     my $docNum = 0;
 
-    for (;;) {
-        # read block header
-        $raf->Read($buff, 7) == 7 or last;
-        my ($type, $flags, $size) = unpack('xxCvv', $buff);
-        $size -= 7;
-        if ($flags & 0x8000) {
-            $raf->Read($buff, 4) == 4 or last;
-            $size += unpack('V',$buff) - 4;
-        }
-        last if $size < 0;
-        next unless $size;  # ignore blocks with no data
-        # don't try to read very large blocks unless LargeFileSupport is enabled
-        if ($size >= 0x80000000 and not $et->Options('LargeFileSupport')) {
-            $et->Warn('Large block encountered. Aborting.');
-            last;
-        }
-        # process the block
-        if ($type == 0x74) { # file block
-            # read maximum 4 KB from a file block
-            my $n = $size > 4096 ? 4096 : $size;
-            $raf->Read($buff, $n) == $n or last;
-            # add compressed size to start of data so we can extract it with the other tags
-            $buff = pack('V',$size) . $buff;
-            $$et{DOC_NUM} = ++$docNum;
-            $et->ProcessDirectory({ DataPt => \$buff }, $tagTablePtr);
-            $size -= $n;
-        } elsif ($type == 0x75 and $size > 6) { # comment block
-            $raf->Read($buff, $size) == $size or last;
-            # save comment, only if "Stored" (this is untested)
-            if (Get8u(\$buff, 3) == 0x30) {
-                $et->FoundTag('Comment', substr($buff, 6));
+    return 0 unless $raf->Read($buff, 7) and $buff =~ "Rar!\x1a\x07[\0\x01]";
+
+    if ($buff eq "Rar!\x1a\x07\0") { # RARv4 (ref 4)
+
+        $et->SetFileType();
+        SetByteOrder('II');
+        my $tagTablePtr = GetTagTable('Image::ExifTool::ZIP::RAR5');
+        $et->HandleTag($tagTablePtr, 'FileVersion', 'RAR v4');
+        $tagTablePtr = GetTagTable('Image::ExifTool::ZIP::RAR');
+
+        for (;;) {
+            # read block header
+            $raf->Read($buff, 7) == 7 or last;
+            my ($type, $flags, $size) = unpack('xxCvv', $buff);
+            $size -= 7;
+            if ($flags & 0x8000) {
+                $raf->Read($buff, 4) == 4 or last;
+                $size += unpack('V',$buff) - 4;
             }
-            next;
+            last if $size < 0;
+            next unless $size;  # ignore blocks with no data
+            # don't try to read very large blocks unless LargeFileSupport is enabled
+            if ($size >= 0x80000000 and not $et->Options('LargeFileSupport')) {
+                $et->Warn('Large block encountered. Aborting.');
+                last;
+            }
+            # process the block
+            if ($type == 0x74) { # file block
+                # read maximum 4 KB from a file block
+                my $n = $size > 4096 ? 4096 : $size;
+                $raf->Read($buff, $n) == $n or last;
+                # add compressed size to start of data so we can extract it with the other tags
+                $buff = pack('V',$size) . $buff;
+                $$et{DOC_NUM} = ++$docNum;
+                $et->ProcessDirectory({ DataPt => \$buff }, $tagTablePtr);
+                $size -= $n;
+            } elsif ($type == 0x75 and $size > 6) { # comment block
+                $raf->Read($buff, $size) == $size or last;
+                # save comment, only if "Stored" (this is untested)
+                if (Get8u(\$buff, 3) == 0x30) {
+                    $et->FoundTag('Comment', substr($buff, 6));
+                }
+                next;
+            }
+            # seek to the start of the next block
+            $raf->Seek($size, 1) or last if $size;
         }
-        # seek to the start of the next block
-        $raf->Seek($size, 1) or last if $size;
+
+    } else { # RARv5 (ref 7, github#203)
+
+        return 0 unless $raf->Read($buff, 1) and $buff eq "\0";
+        $et->SetFileType();
+        my $tagTablePtr = GetTagTable('Image::ExifTool::ZIP::RAR5');
+        $et->HandleTag($tagTablePtr, 'FileVersion', 'RAR v5');
+        $$et{INDENT} .= '| ';
+
+        # loop through header blocks
+        for (;;) {
+            $raf->Seek(4, 1);                   # skip header CRC
+            my $headSize = ReadULEB($raf);
+            last if $headSize == 0;
+            # read the header and create new RAF object for reading it
+            my $header;
+            $raf->Read($header, $headSize) == $headSize or last;
+            my $rafHdr = File::RandomAccess->new(\$header);
+            my $headType = ReadULEB($rafHdr);   # get header type
+
+            if ($headType == 4) {  # encryption block
+                $et->Warn("File is encrypted.", 0);
+                last;
+            }
+            # skip over all headers except file or service header
+            next unless $headType == 2 or $headType == 3;
+            $et->VerboseDir('RAR5 file', undef, $headSize) if $headType == 2;
+            
+            my $headFlag = ReadULEB($rafHdr);
+            ReadULEB($rafHdr);                  # skip extraSize
+            my $dataSize;
+            if ($headFlag & 0x0002) {
+                $dataSize = ReadULEB($rafHdr);  # compressed data size
+                if ($headType == 2) {
+                    $et->HandleTag($tagTablePtr, 'CompressedSize', $dataSize);
+                } else {
+                    $raf->Seek($dataSize, 1);   # skip service data section
+                    next;
+                }
+            } else {
+                next if $headType == 3;         # all done with service header
+                $dataSize = 0;
+            }
+            my $fileFlag = ReadULEB($rafHdr);
+            my $uncompressedSize = ReadULEB($rafHdr);
+            $et->HandleTag($tagTablePtr, 'UncompressedSize', $uncompressedSize) unless $fileFlag & 0x0008;
+            ReadULEB($rafHdr);                  # skip file attributes
+            if ($fileFlag & 0x0002) {
+                $rafHdr->Read($buff, 4) == 4 or last;
+                # (untested)
+                $et->HandleTag($tagTablePtr, 'ModifyDate', unpack('V', $buff));
+            }
+            $rafHdr->Seek(4, 1) if $fileFlag & 0x0004;  # skip CRC if present
+
+            ReadULEB($rafHdr);                  # skip compressionInfo
+
+            # get operating system
+            my $os = ReadULEB($rafHdr);
+            $et->HandleTag($tagTablePtr, 'OperatingSystem', $os);
+
+            # get filename
+            $rafHdr->Read($buff, 1) == 1 or last;
+            my $nameLen = ord($buff);
+            $rafHdr->Read($buff, $nameLen) == $nameLen or last;
+            $buff =~ s/\0+$//;  # remove trailing nulls (if any)
+            $et->HandleTag($tagTablePtr, 'ArchivedFileName', $buff);
+
+            $$et{DOC_NUM} = ++$docNum;
+
+            $raf->Seek($dataSize, 1);           # skip data section
+        }
+        $$et{INDENT} = substr($$et{INDENT}, 0, -2);
     }
+
     $$et{DOC_NUM} = 0;
     if ($docNum > 1 and not $et->Options('Duplicates')) {
         $et->Warn("Use the Duplicates option to extract tags for all $docNum files", 1);
@@ -386,6 +502,18 @@ sub HandleMember($$;$)
 }
 
 #------------------------------------------------------------------------------
+# Extract file from ZIP archive
+# Inputs: 0) ExifTool ref, 1) Zip object ref, 2) file name
+# Returns: zip member or undef it it didn't exist
+sub ExtractFile($$$)
+{
+    my ($et, $zip, $file) = @_;
+    my $result = $zip->memberNamed($file);
+    $et->VPrint(1, "  (Extracting '${file}' from zip archive)\n");
+    return $result;
+}
+
+#------------------------------------------------------------------------------
 # Extract information from a ZIP file
 # Inputs: 0) ExifTool object reference, 1) dirInfo reference
 # Returns: 1 on success, 0 if this wasn't a valid ZIP file
@@ -422,14 +550,14 @@ sub ProcessZIP($$)
         } elsif (eval { require IO::String }) {
             # read the whole file into memory (what else can I do?)
             $raf->Slurp();
-            $fh = new IO::String ${$raf->{BUFF_PT}};
+            $fh = IO::String->new(${$raf->{BUFF_PT}});
         } else {
             my $type = $raf->{FILE_PT} ? 'pipe or socket' : 'scalar reference';
             $et->Warn("Install IO::String to decode compressed ZIP information from a $type");
             last;
         }
         $et->VPrint(1, "  --- using Archive::Zip ---\n");
-        $zip = new Archive::Zip;
+        $zip = Archive::Zip->new;
         # catch all warnings! (Archive::Zip is bad for this)
         local $SIG{'__WARN__'} = \&WarnProc;
         my $status = $zip->readFromFileHandle($fh);
@@ -440,8 +568,8 @@ sub ProcessZIP($$)
             # a failed test with Perl 5.6.2 GNU/Linux 2.6.32-5-686 i686-linux-64int-ld
             $raf->Seek(0,0);
             $raf->Slurp();
-            $fh = new IO::String ${$raf->{BUFF_PT}};
-            $zip = new Archive::Zip;
+            $fh = IO::String->new(${$raf->{BUFF_PT}});
+            $zip = Archive::Zip->new;
             $status = $zip->readFromFileHandle($fh);
         }
         if ($status) {
@@ -460,7 +588,7 @@ sub ProcessZIP($$)
         # check for an Office Open file (DOCX, etc)
         # --> read '[Content_Types].xml' to determine the file type
         my ($mime, @members);
-        my $cType = $zip->memberNamed('[Content_Types].xml');
+        my $cType = ExtractFile($et, $zip, '[Content_Types].xml');
         if ($cType) {
             ($buff, $status) = $zip->contents($cType);
             if (not $status and (
@@ -501,7 +629,7 @@ sub ProcessZIP($$)
         }
 
         # check for an Open Document, IDML or EPUB file
-        my $mType = $zip->memberNamed('mimetype');
+        my $mType = ExtractFile($et, $zip, 'mimetype');
         if ($mType) {
             ($mime, $status) = $zip->contents($mType);
             if (not $status and $mime =~ /([\x21-\xfe]+)/s) {
@@ -510,9 +638,9 @@ sub ProcessZIP($$)
                 $et->SetFileType($openDocType{$mime} || 'ZIP', $mime);
                 $et->Warn("Unrecognized MIMEType $mime") unless $openDocType{$mime};
                 # extract Open Document metadata from "meta.xml"
-                my $meta = $zip->memberNamed('meta.xml');
+                my $meta = ExtractFile($et, $zip, 'meta.xml');
                 # IDML files have metadata in a different place (ref 6)
-                $meta or $meta = $zip->memberNamed('META-INF/metadata.xml');
+                $meta or $meta = ExtractFile($et, $zip, 'META-INF/metadata.xml');
                 if ($meta) {
                     ($buff, $status) = $zip->contents($meta);
                     unless ($status) {
@@ -532,7 +660,7 @@ sub ProcessZIP($$)
                 # process rootfile of EPUB container if applicable
                 for (;;) {
                     last if $meta and $mime ne 'application/epub+zip';
-                    my $container = $zip->memberNamed('META-INF/container.xml');
+                    my $container = ExtractFile($et, $zip, 'META-INF/container.xml');
                     ($buff, $status) = $zip->contents($container);
                     last if $status;
                     $buff =~ /<rootfile\s+[^>]*?\bfull-path=(['"])(.*?)\1/s or last;
@@ -570,7 +698,7 @@ sub ProcessZIP($$)
                     my $type;
                     my %tag = ( jpg => 'PreviewImage', png => 'PreviewPNG' );
                     foreach $type ('jpg', 'png') {
-                        my $thumb = $zip->memberNamed("Thumbnails/thumbnail.$type");
+                        my $thumb = ExtractFile($et, $zip, "Thumbnails/thumbnail.$type");
                         next unless $thumb;
                         ($buff, $status) = $zip->contents($thumb);
                         $et->FoundTag($tag{$type}, $buff) unless $status;
@@ -708,7 +836,7 @@ Electronic Publication (EPUB), and Sketch design files (SKETCH).
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
@@ -722,6 +850,8 @@ under the same terms as Perl itself.
 =item L<http://www.gzip.org/zlib/rfc-gzip.html>
 
 =item L<http://DataCompression.info/ArchiveFormats/RAR202.txt>
+
+=item L<https://www.rarlab.com/technote.htm>
 
 =back
 

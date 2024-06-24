@@ -14,9 +14,8 @@ package Image::ExifTool::Text;
 use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
-use Image::ExifTool::XMP;
 
-$VERSION = '1.03';
+$VERSION = '1.04';
 
 # Text tags
 %Image::ExifTool::Text::Main = (
@@ -26,11 +25,10 @@ $VERSION = '1.03';
         Although basic text files contain no metadata, the following tags are
         determined from a simple analysis of the data in TXT and CSV files. 
         Statistics are generated only for 8-bit encodings, but the L<FastScan|../ExifTool.html#FastScan> (-fast)
-        option may be used to limit processing to the first 64 kB in which case some
-        tags are not produced.  To avoid long processing delays, ExifTool will issue
-        a minor warning and process only the first 64 kB of any file larger than 20
-        MB unless the L<IgnoreMinorErrors|../ExifTool.html#IgnoreMinorErrors> (-m)
-        option is used.
+        option may be used to limit processing to the first 64 KiB in which case
+        some tags are not produced.  To avoid long processing delays, ExifTool will
+        issue a minor warning and process only the first 64 KiB of any file larger
+        than 20 MiB unless the L<IgnoreMinorErrors|../ExifTool.html#IgnoreMinorErrors> (-m) option is used.
     },
     MIMEEncoding => { Groups => { 2 => 'Other' } },
     Newlines => {
@@ -97,7 +95,7 @@ sub ProcessTXT($$)
         $nl =~ tr/\0//d;    # remove nulls from newline sequence
         $isBOM = 1;         # (we don't recognize UTF-16/UTF-32 without one)
     } else {
-        $isUTF8 = Image::ExifTool::XMP::IsUTF8($dataPt, 1);
+        $isUTF8 = Image::ExifTool::IsUTF8($dataPt, 1);
         if ($isUTF8 == 0) {
             $enc = 'us-ascii';
         } elsif ($isUTF8 > 0) {
@@ -183,7 +181,7 @@ sub ProcessTXT($$)
         next if $raf->Tell() < 65536;
         # continue to check encoding after the first 64 kB
         if ($isUTF8 >= 0) { # (if ascii or utf8)
-            $isUTF8 = Image::ExifTool::XMP::IsUTF8(\$buff);
+            $isUTF8 = Image::ExifTool::IsUTF8(\$buff);
             if ($isUTF8 > 0) {
                 $enc = 'utf-8';
             } elsif ($isUTF8 < 0) {
@@ -223,7 +221,7 @@ characteristics of TXT and CSV files.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

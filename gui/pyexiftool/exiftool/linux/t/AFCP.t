@@ -19,16 +19,16 @@ my $testnum = 1;
 # test 2: Extract information from AFCP.jpg
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/AFCP.jpg', {Duplicates => 1});
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
 # test 3: Test writing a bunch of information
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     $exifTool->SetNewValuesFromFile('t/images/IPTC.jpg');
     my $testfile = "t/${testname}_${testnum}_failed.jpg";
     unlink $testfile;
@@ -37,9 +37,9 @@ my $testnum = 1;
     if (check($exifTool, $info, $testname, $testnum)) {
         unlink $testfile;
     } else {
-        print 'not ';
+        notOK();
     }
     print "ok $testnum\n";
 }
 
-# end
+done(); # end

@@ -14,7 +14,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.05';
+$VERSION = '1.06';
 
 # currently support this version Rawzor images
 my $implementedRawzorVersion = 199; # (up to version 1.99)
@@ -138,7 +138,7 @@ sub ProcessRWZ($$)
     }
     # set OriginalFileType from FileType of original file
     # then change FileType and MIMEType to indicate a Rawzor image
-    my $origFileType = $$et{VALUE}{FileType};
+    my $origFileType = $$et{FileType};
     if ($origFileType) {
         $et->HandleTag($tagTablePtr, OriginalFileType => $origFileType);
         $et->OverrideFileType('RWZ');
@@ -168,7 +168,7 @@ information from Rawzor compressed images.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

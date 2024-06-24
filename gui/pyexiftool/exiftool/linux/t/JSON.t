@@ -19,13 +19,12 @@ my $testnum = 1;
 # test 2: Extract information from JSON.json
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     $exifTool->Options(Struct => 2);
     $exifTool->Options(MissingTagValue => 'null');
     my $info = $exifTool->ImageInfo('t/images/JSON.json');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
-
-# end
+done(); # end

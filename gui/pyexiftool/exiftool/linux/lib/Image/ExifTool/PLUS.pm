@@ -14,7 +14,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool::XMP;
 
-$VERSION = '1.00';
+$VERSION = '1.02';
 
 sub ValidateMediaSummary($);
 
@@ -2311,12 +2311,13 @@ my %mediaMatrix = (
     GROUPS => { 0 => 'XMP', 1 => 'XMP-plus', 2 => 'Author' },
     NAMESPACE => 'plus',
     NOTES => q{
-        PLUS (Picture Licensing Universal System) License Data Format 1.2.1 XMP
+        PLUS (Picture Licensing Universal System) License Data Format 2.0.1 XMP
         tags.  Note that all controlled-vocabulary tags in this table (ie. tags with
         a fixed set of values) have raw values which begin with
         "http://ns.useplus.org/ldf/vocab/", but to reduce clutter this prefix has
-        been removed from the values shown below.  See L<http://ns.useplus.org/> for
-        the complete specification.
+        been removed from the values shown below, and from the values read and
+        written with the -n option.  See L<http://ns.useplus.org/> for the complete
+        specification.
     },
     Version  => { Name => 'PLUSVersion' },
     Licensee => {
@@ -2529,6 +2530,20 @@ my %mediaMatrix = (
     Custom8     => { List => 'Bag', Writable => 'lang-alt' },
     Custom9     => { List => 'Bag', Writable => 'lang-alt' },
     Custom10    => { List => 'Bag', Writable => 'lang-alt' },
+    DataMining => {
+        %plusVocab,
+        PrintConv => {
+            'DMI-UNSPECIFIED' => 'Unspecified - no prohibition defined',
+            'DMI-ALLOWED'     => 'Allowed',
+            'DMI-PROHIBITED-AIMLTRAINING' => 'Prohibited for AI/ML training',
+            'DMI-PROHIBITED-GENAIMLTRAINING' => 'Prohibited for Generative AI/ML training',
+            'DMI-PROHIBITED-EXCEPTSEARCHENGINEINDEXING' => 'Prohibited except for search engine indexing',
+            'DMI-PROHIBITED' => 'Prohibited',
+            'DMI-PROHIBITED-SEECONSTRAINT' => 'Prohibited, see plus:OtherConstraints',
+            'DMI-PROHIBITED-SEEEMBEDDEDRIGHTSEXPR' => 'Prohibited, see iptcExt:EmbdEncRightsExpr',
+            'DMI-PROHIBITED-SEELINKEDRIGHTSEXPR' => 'Prohibited, see iptcExt:LinkedEncRightsExpr',
+        },
+    },
 );
 
 #------------------------------------------------------------------------------
@@ -2586,7 +2601,7 @@ Definitions for PLUS (Picture Licensing Universal System) tags.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

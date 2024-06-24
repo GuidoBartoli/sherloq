@@ -19,22 +19,23 @@ my $testnum = 1;
 # test 2: Extract information from MIE.mie
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/MIE.mie', '-filename', '-directory');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
 # test 3: Write MIE information (also test Escape option when writing)
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     $exifTool->Options(IgnoreMinorErrors => 1); # to copy invalid thumbnail
     $exifTool->SetNewValuesFromFile('t/images/Nikon.jpg','*:*');
     $exifTool->SetNewValue('EXIF:XResolution' => 200);
     $exifTool->SetNewValue('MIE:FNumber' => 11);
     $exifTool->SetNewValue('XMP:Creator' => 'phil');
     $exifTool->SetNewValue('IPTC:Keywords' => 'cool');
+    $exifTool->SetNewValue('MIE:GPSLongitude' => -1.5);
     $exifTool->Options(Escape => 'HTML');
     $exifTool->SetNewValue('MIE:PhoneNumber' => 'k&uuml;hl');
     $exifTool->Options(Escape => undef);
@@ -45,7 +46,7 @@ my $testnum = 1;
     if (check($exifTool, $info, $testname, $testnum)) {
         unlink $testfile;
     } else {
-        print 'not ';
+        notOK();
     }
     print "ok $testnum\n";
 }
@@ -53,7 +54,7 @@ my $testnum = 1;
 # test 4: Create a MIE file from scratch (also test Escape option when copying)
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     $exifTool->Options(IgnoreMinorErrors => 1); # to copy invalid thumbnail
     $exifTool->Options(Escape => 'HTML');
     $exifTool->SetNewValuesFromFile('t/images/MIE.mie');
@@ -65,7 +66,7 @@ my $testnum = 1;
     if (check($exifTool, $info, $testname, $testnum, 2)) {
         unlink $testfile;
     } else {
-        print 'not ';
+        notOK();
     }
     print "ok $testnum\n";
 }
@@ -73,11 +74,11 @@ my $testnum = 1;
 # tests 5-6: Test reading different Charsets
 foreach (qw(Latin Cyrillic)) {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     $exifTool->Options(Charset => $_);
     my $info = $exifTool->ImageInfo('t/images/MIE.mie', 'comment-ru_ru');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
-# end
+done(); # end

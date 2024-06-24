@@ -20,7 +20,7 @@ use strict;
 use vars qw($VERSION %uid);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.22';
+$VERSION = '1.23';
 
 # DICOM VR (Value Representation) format conversions
 my %dicomFormat = (
@@ -3668,7 +3668,7 @@ sub ProcessDICOM($$)
                         }
                         last if length $data < 8;
                         # create new RAF object from inflated data stream
-                        $raf = new File::RandomAccess(\$data);
+                        $raf = File::RandomAccess->new(\$data);
                         # re-read start of stream (now decompressed)
                         $raf->Read($buff, 8) == 8 or last;
                         $group = Get16u(\$buff, 0);
@@ -3853,7 +3853,7 @@ No translation of special characters sets is done.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

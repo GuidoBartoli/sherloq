@@ -23,7 +23,7 @@ my $beginComment = '%BeginExifToolUpdate';
 my $endComment   = '%EndExifToolUpdate ';
 
 my $keyExt;     # crypt key extension
-my $pdfVer;     # version of PDF file we are currently writing
+my $pdfVer;     # version of PDF file we are writing (highest Version in Root dictionaries)
 
 # internal tags used in dictionary objects
 my %myDictTags = (
@@ -290,22 +290,18 @@ sub WritePDF($$)
     $raf->Seek($pos, 0);
 
     # create a new ExifTool object and use it to read PDF and XMP information
-    my $newTool = new Image::ExifTool;
+    my $newTool = Image::ExifTool->new;
     $newTool->Options(List => 1);
     $newTool->Options(Password => $et->Options('Password'));
     $newTool->Options(NoPDFList => $et->Options('NoPDFList'));
     $$newTool{PDF_CAPTURE} = \%capture;
     my $info = $newTool->ImageInfo($raf, 'XMP', 'PDF:*', 'Error', 'Warning');
     # not a valid PDF file unless we got a version number
-    # (note: can't just check $$info{PDFVersion} due to possibility of XMP-pdf:PDFVersion)
-    my $vers = $newTool->GetInfo('PDF:PDFVersion');
-    # take highest version number if multiple versions in an incremental save
-    ($pdfVer) = sort { $b <=> $a } values %$vers;
+    $pdfVer = $$newTool{PDFVersion};
     $pdfVer or $et->Error('Missing PDF:PDFVersion'), return 0;
     # check version number
-    if ($pdfVer > 1.7) {
-        $et->Warn("The PDF $pdfVer specification is not freely available", 1);
-        # (so writing by ExifTool is based on trial and error)
+    if ($pdfVer > 2.0) {
+        $et->Error("Writing PDF $pdfVer is untested", 1) and return 0;
     }
     # fail if we had any serious errors while extracting information
     if ($capture{Error} or $$info{Error}) {
@@ -395,6 +391,10 @@ sub WritePDF($$)
 
     # must pre-determine Info reference to be used in encryption
     my $infoRef = $prevInfoRef || \ "$nextObject 0 R";
+    unless (ref $infoRef eq 'SCALAR') {
+        $et->Error("Info dictionary is not an indirect object");
+        return $rtn;
+    }
     $keyExt = $$infoRef;
 
     # must encrypt all values in dictionary if they came from an encrypted stream
@@ -408,6 +408,9 @@ sub WritePDF($$)
     my $tagID;
     foreach $tagID (sort keys %$newTags) {
         my $tagInfo = $$newTags{$tagID};
+        if ($pdfVer >= 2.0 and not $$tagInfo{PDF2}) {
+            next if $et->Warn("Writing PDF:$$tagInfo{Name} is deprecated for PDF 2.0 documents",2);
+        }
         my $nvHash = $et->GetNewValueHash($tagInfo);
         my (@vals, $deleted);
         my $tag = $$tagInfo{Name};
@@ -750,7 +753,7 @@ C<PDF-update> pseudo group).
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

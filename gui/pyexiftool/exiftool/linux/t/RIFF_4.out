@@ -1,18 +1,32 @@
-[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 12.03
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 12.46
 [File, System, Other] FileName - File Name: RIFF.webp
 [File, System, Other] Directory - Directory: t/images
-[File, System, Other] FileSize - File Size: 58 bytes
-[File, System, Time] FileModifyDate - File Modification Date/Time: 2012:08:03 09:30:24-04:00
-[File, System, Time] FileAccessDate - File Access Date/Time: 2020:07:29 09:04:20-04:00
-[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2017:12:27 12:00:59-05:00
-[File, System, Other] FilePermissions - File Permissions: rw-r--r--
-[File, File, Other] FileType - File Type: WEBP
+[File, System, Other] FileSize - File Size: 586 bytes
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2022:09:26 15:48:22-04:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2022:09:28 21:44:09-04:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2022:09:26 21:32:38-04:00
+[File, System, Other] FilePermissions - File Permissions: -rw-r--r--
+[File, File, Other] FileType - File Type: Extended WEBP
 [File, File, Other] FileTypeExtension - File Type Extension: webp
 [File, File, Other] MIMEType - MIME Type: image/webp
-[RIFF, RIFF, Image] 0 - VP8 Version: 1 (bilinear reconstruction, simple loop)
-[RIFF, RIFF, Image] 6 - Image Width: 16
+[File, File, Image] ExifByteOrder - Exif Byte Order: Big-endian (Motorola, MM)
+[RIFF, RIFF, Image] 0 - WebP Flags: XMP, EXIF, Alpha
+[RIFF, RIFF, Image] 4 - Image Width: 1
+[RIFF, RIFF, Image] 6 - Image Height: 1
+[RIFF, RIFF, Image] 0 - Alpha Preprocessing: Level Reduction
+[RIFF, RIFF, Image] 0.1 - Alpha Filtering: Horizontal
+[RIFF, RIFF, Image] 0.2 - Alpha Compression: Lossless
+[RIFF, RIFF, Image] 0 - VP8 Version: 2 (bilinear reconstruction, no loop)
+[RIFF, RIFF, Image] 6 - Image Width: 1
 [RIFF, RIFF, Image] 6.1 - Horizontal Scale: 0
-[RIFF, RIFF, Image] 8 - Image Height: 16
+[RIFF, RIFF, Image] 8 - Image Height: 1
 [RIFF, RIFF, Image] 8.1 - Vertical Scale: 0
-[Composite, Composite, Image] Exif-ImageSize - Image Size: 16x16
-[Composite, Composite, Image] Exif-Megapixels - Megapixels: 0.000256
+[EXIF, IFD0, Image] 282 - X Resolution: 72
+[EXIF, IFD0, Image] 283 - Y Resolution: 72
+[EXIF, IFD0, Image] 296 - Resolution Unit: inches
+[EXIF, IFD0, Author] 315 - Artist: me
+[EXIF, IFD0, Image] 531 - Y Cb Cr Positioning: Centered
+[XMP, XMP-x, Document] xmptk - XMP Toolkit: Image::ExifTool 12.46
+[XMP, XMP-dc, Image] subject - Subject: test
+[Composite, Composite, Image] Exif-ImageSize - Image Size: 1x1
+[Composite, Composite, Image] Exif-Megapixels - Megapixels: 0.000001

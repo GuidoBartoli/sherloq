@@ -275,9 +275,7 @@ def exiftool_exe():
     if sys.platform.startswith("linux"):
         return "pyexiftool/exiftool/linux/exiftool"
     if sys.platform.startswith("win32"):
-        return "pyexiftool/exiftool/win/exiftool(-k).exe"
-    if sys.platform.startswith("darwin"):
-        return "exiftool"
+        return "pyexiftool/exiftool/windows/exiftool(-k).exe"
     return None
 
 
@@ -286,8 +284,6 @@ def butter_exe():
         return "butteraugli/linux/butteraugli"
     if sys.platform.startswith("win32"):
         return None
-    if sys.platform.startswith("darwin"):
-        return None
     return None
 
 
@@ -295,8 +291,6 @@ def ssimul_exe():
     if sys.platform.startswith("linux"):
         return "ssimulacra/linux/ssimulacra"
     if sys.platform.startswith("win32"):
-        return None
-    if sys.platform.startswith("darwin"):
         return None
     return None
 

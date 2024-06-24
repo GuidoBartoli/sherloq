@@ -19,7 +19,7 @@ use integer;    # IMPORTANT!!  use integer arithmetic throughout
 require Exporter;
 use vars qw($VERSION @ISA @EXPORT_OK);
 
-$VERSION = '1.00';
+$VERSION = '1.01';
 @ISA = qw(Exporter);
 @EXPORT_OK = qw(Decode);
 
@@ -196,7 +196,7 @@ sub Decode($;$)
     if (ref $_[0] and UNIVERSAL::isa($_[0],'Image::ExifTool::BZZ')) {
         $self = shift;
     } else {
-        $self = new Image::ExifTool::BZZ;
+        $self = Image::ExifTool::BZZ->new;
     }
     my $dataPt = shift;
     if ($dataPt) {
@@ -445,7 +445,7 @@ compression ability).
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 Copyright 2002, Leon Bottou and Yann Le Cun
 Copyright 2001, AT&T
 Copyright 1999-2001, LizardTech Inc.

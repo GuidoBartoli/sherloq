@@ -21,7 +21,7 @@ use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::XMP;
 use Image::ExifTool::GPS;
 
-$VERSION = '1.09';
+$VERSION = '1.12';
 
 sub ExtractObject($$;$);
 sub Get24u($$);
@@ -274,6 +274,7 @@ sub ExtractObject($$;$)
                 }
                 my $tagTablePtr = $$plistInfo{TagTablePtr};
                 my $verbose = $et->Options('Verbose');
+                $val = { }; # initialize return dictionary (will stay empty if tags are saved)
                 for ($i=0; $i<$size; ++$i) {
                     # get the entry key
                     $raf->Seek($$table[$refs[$i]], 0) or return undef;
@@ -284,14 +285,26 @@ sub ExtractObject($$;$)
                     # generate an ID for this tag
                     my $tag = defined $parent ? "$parent/$key" : $key;
                     undef $$plistInfo{DateFormat};
-                    my $val = ExtractObject($et, $plistInfo, $tag);
-                    next if not defined $val or ref($val) eq 'HASH';
+                    my $obj = ExtractObject($et, $plistInfo, $tag);
+                    next if not defined $obj;
+                    unless ($tagTablePtr) {
+                        # make sure this is a valid structure field name
+                        if (not defined $key or $key !~ /^[-_a-zA-Z0-9]+$/) {
+                            $key = "Tag$i"; # (generate fake tag name if it had illegal characters)
+                        } elsif ($key !~ /^[_a-zA-Z]/) {
+                            $key = "_$key"; # (must begin with alpha or underline)
+                        }
+                        $$val{$key} = $obj if defined $obj;
+                        next;
+                    }
+                    next if ref($obj) eq 'HASH';
                     my $tagInfo = $et->GetTagInfo($tagTablePtr, $tag);
                     unless ($tagInfo) {
                         $et->VPrint(0, $$et{INDENT}, "[adding $tag]\n") if $verbose;
                         my $name = $tag;
                         $name =~ s/([^A-Za-z])([a-z])/$1\u$2/g; # capitalize words
                         $name =~ tr/-_a-zA-Z0-9//dc; # remove illegal characters
+                        $name = "Tag$name" if length($name) < 2 or $name =~ /^[-0-9]/;
                         $tagInfo = { Name => ucfirst($name), List => 1 };
                         if ($$plistInfo{DateFormat}) {
                             $$tagInfo{Groups}{2} = 'Time';
@@ -304,9 +317,8 @@ sub ExtractObject($$;$)
                         delete $$et{LIST_TAGS}{$$et{LastPListTag}};
                     }
                     $$et{LastPListTag} = $tagInfo;
-                    $et->HandleTag($tagTablePtr, $tag, $val);
+                    $et->HandleTag($tagTablePtr, $tag, $obj);
                 }
-                $val = { }; # flag the value as a dictionary (ie. tags already saved)
             } else {
                 # extract the referenced objects
                 foreach $ref (@refs) {
@@ -326,7 +338,7 @@ sub ExtractObject($$;$)
 # Process binary PLIST data (ref 2)
 # Inputs: 0) ExifTool object ref, 1) DirInfo ref, 2) tag table ref
 # Returns: 1 on success (and returns plist value as $$dirInfo{Value})
-sub ProcessBinaryPLIST($$$)
+sub ProcessBinaryPLIST($$;$)
 {
     my ($et, $dirInfo, $tagTablePtr) = @_;
     my ($i, $buff, @table);
@@ -339,9 +351,9 @@ sub ProcessBinaryPLIST($$$)
         my $start = $$dirInfo{DirStart};
         if ($start or ($$dirInfo{DirLen} and $$dirInfo{DirLen} != length $$dataPt)) {
             my $buf2 = substr($$dataPt, $start || 0, $$dirInfo{DirLen});
-            $$dirInfo{RAF} = new File::RandomAccess(\$buf2);
+            $$dirInfo{RAF} = File::RandomAccess->new(\$buf2);
         } else {
-            $$dirInfo{RAF} = new File::RandomAccess($dataPt);
+            $$dirInfo{RAF} = File::RandomAccess->new($dataPt);
         }
         my $strt = $$dirInfo{DirStart} || 0;
     }
@@ -438,7 +450,7 @@ This module decodes both the binary and XML-based PLIST format.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

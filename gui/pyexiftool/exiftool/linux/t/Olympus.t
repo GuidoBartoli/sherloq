@@ -19,9 +19,9 @@ my $testnum = 1;
 # test 2: Extract information from Olympus.jpg
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/Olympus.jpg');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
@@ -32,16 +32,16 @@ my $testnum = 1;
         [Software => 'ExifTool', Group => 'XMP'],
         [Macro => 'On'],
     );
-    print 'not ' unless writeCheck(\@writeInfo, $testname, $testnum);
+    notOK() unless writeCheck(\@writeInfo, $testname, $testnum);
     print "ok $testnum\n";
 }
 
 # test 4: Extract information from OlympusE1.jpg
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/OlympusE1.jpg');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
@@ -52,23 +52,23 @@ my $testnum = 1;
         [LensSerialNumber => '012345678'],
         [CoringFilter => 0],
     );
-    print 'not ' unless writeCheck(\@writeInfo, $testname, $testnum, 't/images/OlympusE1.jpg');
+    notOK() unless writeCheck(\@writeInfo, $testname, $testnum, 't/images/OlympusE1.jpg');
     print "ok $testnum\n";
 }
 
 # test 6: Test reading Olympus type 2 maker notes
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/Olympus2.jpg');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
 # test 7: Rewrite type 2 maker notes
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $testfile = "t/${testname}_${testnum}_failed.jpg";
     unlink $testfile;
     $exifTool->SetNewValue(FocusDistance => 100);
@@ -77,7 +77,7 @@ my $testnum = 1;
     if (testVerbose($testname, $testnum, $testfile, 2)) {
         unlink $testfile;
     } else {
-        print 'not ';
+        notOK();
     }
     print "ok $testnum\n";
 }
@@ -85,11 +85,10 @@ my $testnum = 1;
 # test 8: Extract information from Olympus.dss
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/Olympus.dss');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
-
-# end
+done(); # end

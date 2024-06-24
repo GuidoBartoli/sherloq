@@ -46,6 +46,8 @@ ol.index { margin: 0; padding: 0 0 0 2em }
 <li><a href="#Q28">Copying a shifted date/time</a></li>
 <li><a href="#Q29">ARGFILE options</a></li>
 <li><a href="#Q30">Extracting all metadata</a></li>
+<li><a href="#Q31">Rewriting the entire file</a></li>
+<li><a href="#Q32">Safely removing all metadata</a></li>
 </ol>
 </div>
 
@@ -215,6 +217,12 @@ parsing strings when writing date/time tags with ExifTool 10.32 or later if
 POSIX::strptime or Time::Piece is installed (use "<code>exiftool -ver -v</code>"
 to check the installed packages).  The format of the <code>-d</code> argument is
 the same for reading and writing.</blockquote>
+
+<blockquote>The <code>-n</code> option may be used to disable all of the
+date/time reformatting when reading and writing which will allow otherwise
+invalid date/time values to be written (eg. partial EXIF dates).  The
+reformatting may be disabled on a per-tag basis by adding "<code>#</code>"
+to the tag name instead of using <code>-n</code></blockquote>
 
 <blockquote><b>Special feature</b>: A value of "<code>now</code>" may be used to
 represent the current time when writing any date/time tag.  For example:
@@ -775,8 +783,8 @@ Nikon.jpg       -       100
 OlympusE1.jpg   Auto    400
 </pre>
 
-One limitation of the <code>-T</code> option is that a list of tags to extract
-must be specified.  Otherwise, all information is extracted from each input
+One limitation of the <code>-T</code> option is that you must specify a list
+of tags to extract.  Otherwise, all information is extracted from each input
 file, and the columns would contain values from random tags.</blockquote>
 
 <blockquote> The <code>-csv</code> (comma separated values) option solves this
@@ -784,7 +792,8 @@ dilemma by pre-extracting information from all input files, then producing a
 sorted list of available tag names as the first row of the output, and
 organizing the information into columns for each tag.  As well, a first column
 labelled "SourceFile" is generated.  These features make it practical to use the
-<code>-csv</code> option for extracting all information from multiple images.
+<code>-csv</code> option for extracting all information from multiple images
+(but impractical for a large number of images due to memory restrictions).
 For example, this command:
 
 <pre>exiftool -csv -r t/images > out.csv</pre>
@@ -825,7 +834,7 @@ then TAB, or in a Windows cmd shell with TAB when cmd.exe is run with the
 <code>/f:off</code> option to disable tab completion.)
 </blockquote>
 
-<blockquote>Other possible export formats include RDF/XML (with the the
+<blockquote>Other possible export formats include RDF/XML (with the
 <code>-X</code> option), or JSON (with the <code>-j</code> option).  These
 methods allow transfer of more complex data sets (including structured
 information with the <code>-struct</code> option), but require that the
@@ -850,8 +859,8 @@ characters may mess up the CSV formatting.  If this is a possibility, the
 <code>-api filter</code> option may be added to the command to quote values
 if necessary.  For example:
 
-<pre><span class='blk'># in Windows</span>
-exiftool -api filter="$_ = qq{""$_""} if s/""/""""/g or /(^\s+|\s+$)/ or /[,\n\r]/" ...
+<pre><span class='blk'># in a Windows CMD shell</span>
+exiftool -api filter="$_ = qq{""""$_""""} if s/""/""""/g or /(^\s+|\s+$)/ or /[,\n\r]/" ...
 
 <span class='blk'># in Mac/Linux</span>
 exiftool -api filter='$_ = qq{"$_"} if s/"/""/g or /(^\s+|\s+$)/ or /[,\n\r]/' ...</pre>
@@ -952,15 +961,33 @@ exiftool -exif:gpslatitude=42.5 -exif:gpslatituderef=S a.jpg
 exiftool -xmp:gpslatitude="42 30 0.00 S" a.jpg
 exiftool -xmp:gpslatitude=42.50S a.jpg
 exiftool -xmp:gpslatitude=-42.5 a.jpg
+exiftool -xmp:gpslatitude="-42 -30" a.jpg
 </pre>
 
-Similar styles may be used for longitude.  ExifTool will convert any of these
-coordinate styles to the proper format for the specific tag used.
+Note the last example: The negative sign must be applied to all components of
+the coordinate.  Similar styles may be used for longitude.  ExifTool will convert
+any of these coordinate styles to the proper format for the specific tag used.
 </blockquote>
 
 <blockquote>ExifTool 12.22 and later allow combined lat/lon GPSCoordinates
 values to be written to GPSLatitude and GPSLongitude, and the appropriate
-latitude or longitude part will be pulled from the input string.</blockquote>
+latitude or longitude part will be pulled from the input string.  Version 12.36
+and later make Composite:GPSPosition writable, allowing EXIF GPS coorinates and
+reference directions to be all writable via a single tag:
+
+<pre><span class='blk'># write all 4 EXIF GPS tags (version 12.36 and later)</span>
+exiftool -gpsposition="42 30 0.00 S, 33 15 0.00 W"
+exiftool -gpsposition="-42.5, -33.25"</pre>
+
+Version 12.44 and later make Composite:GPSLatitude/GPSLongitude writable,
+allowing the separate EXIF coordinate and reference direction tags to be written
+together.  (Note that the Composite group must be specified here because these
+tags are otherwise avoided when writing due to possible confusion when
+attempting to write EXIF tags.)
+
+<pre><span class='blk'># write EXIF:GPSLatitude and GPSLatitudeRef together (12.44 and later)</span>
+exiftool -composite:gpslatitude="42 30 0.00 S" a.jpg
+exiftool -composite:gpslatitude="-42.5" a.jpg</pre></blockquote>
 
 <blockquote>When reading, by default ExifTool reports coordinates in the format
 <pre>DDD deg MM' SS.SS"</pre>
@@ -1192,11 +1219,11 @@ tag in the command.  For instance, this command:
 
 writes only the value from the Comment tag.  This may seem strange, but it prevents
 duplicate items from being added to a list when copying a group of tags from a
-file containing duplicate information.  Alternatively, the
-<code>-addTagsFromFile</code> option may be used to accumulate items when
-copying from multiple tags:
+file containing duplicate information.  Alternatively, a leading <code>+</code>
+may be added to accumulate queued items when
+copying from multiple tags to a single list:
 
-<pre>exiftool -addTagsFromFile @ "-keywords&lt;filename" "-keywords&lt;comment" DIR
+<pre>exiftool "-keywords&lt;filename" "-+keywords&lt;comment" DIR
 </pre>
 
 Note that as with "<code>=</code>" in the first three examples above, the
@@ -1204,6 +1231,18 @@ Note that as with "<code>=</code>" in the first three examples above, the
 existed previously in the original file.  To add to or remove from the existing
 keywords, use "<code>+&lt;</code>" or "<code>-&lt;</code>".
 </blockquote>
+
+<blockquote>One final note:  In rare cases when copying the contents of two other
+tags into a single list, the resulting queued list values may contain duplicates
+that would be written to the target file.  There is an
+<a href="ExifTool.html#NoDups">API NoDups option</a> which removes duplicates items
+from list values that are queued for writing.  For example,
+
+<pre>exiftool -tagsfromfile a.jpg -subject -tagsfromfile b.jpg -+subject -api nodups c.jpg
+</pre>
+
+combines Subject items from a.jpg and b.jpg and writes them without duplicates
+to c.jpg (overwriting any previous Subject in c.jpg).</blockquote>
 
 <a name="Q18"></a>
 <p>18a. <b>"Special characters don't display properly in my Windows console"</b>, or
@@ -1216,7 +1255,7 @@ specific Windows code page, which may help display some special characters, but
 instead it may be better to switch the console to UTF&#8209;8 (the native
 ExifTool character encoding). This is especially useful if you are using the
 <code>-lang</code> option to translate exiftool output to another language.  To
-change the the Windows console to UTF&#8209;8, follow these steps:
+change the Windows console to UTF&#8209;8, follow these steps:
 
 <ol><li>Run "cmd.exe" to open a Windows console (select "Run..." from the
 Start menu and enter "cmd").</li>
@@ -1249,6 +1288,12 @@ around this limitation, arguments may be read from an ExifTool argument file
 using the <code>-@</code> option.  UTF&#8209;8 encoding is recommended for the
 argument file, and with this you would also set <code>-charset filename=utf8</code>
 if using special characters in filename arguments within the file.</blockquote>
+
+<blockquote>Also see
+<a href="https://stackoverflow.com/questions/57131654/using-utf-8-encoding-chcp-65001-in-command-prompt-windows-powershell-window/57134096#57134096">this StackOverflow answer</a>
+for another possible solution, but note that this option has the side effect of
+changing the fonts of some older programs and causing problems with their GUIs,
+so you'll have to decide whether this is acceptable for you.</blockquote>
 
 <blockquote>Another way to bypass the console/command-line encoding problems for
 individual tag values is to extract/write to/from a separate text file and use a
@@ -1457,9 +1502,10 @@ left-to-right), but there are exceptions:
 <ol><li>When writing list-type tags (eg. <code>-keywords=one</code>), new values
 are accumulated rather than overriding earlier assignments.<br>&nbsp;</li>
 <li>When copying values to list-type tags (eg.
-<code>"-keywords&lt;filename"</code>), new values are accumulated only if
-<code>-addTagsFromFile</code> is used, otherwise they override earlier
-assignments if <code>-tagsFromFile</code> is used or implied.<br>&nbsp;</li>
+<code>"-keywords&lt;filename"</code>), subsequent copies to the same tag
+override earlier operations with the exception that new values may be added to
+the queued list if a leading <code>+</code> is added to the target tag name (eg.
+<code>"-+keywords&lt;filename"</code>).<br>&nbsp;</li>
 <li>Tags copied with the <code>-tagsFromFile</code> option are assigned in
 order, and all together at the point in the command line where the
 <code>-tagsFromFile</code> option is located, regardless of whether these tags
@@ -1738,8 +1784,51 @@ possible with ExifTool:
 (The <code>-G3:1</code> option is included in the above command only to give an
 indication of where the metadata was stored.)</blockquote>
 
+<a name="Q31"></a>
+<p>31. <b>"Why does ExifTool rewrite the entire file when I am only changing one small thing?"</b></p>
+
+<blockquote>Generally it is possible in theory to edit existing fixed-length tags without having to rewrite an entire file, but ExifTool doesn't do this for 3 reasons:
+
+<ol>
+<li>The algorithm to do this would be completely different than the more general
+and powerful case where you want to be able to add/delete tags and/or write
+values with different lengths.  Plus, implementing this feature would be a lot
+of work, and it would only be useful in certain situations.</li>
+<li>Some file formats (like MP4) allow metadata to be written at the beginning
+or the end of a file.  Writing it at the end of the file could avoid the need to
+rewrite the entire starting section, but metadata is more useful at the start of
+a file because then other programs (especially ones that stream the file over
+the internet) don't have to read through the entire file to find the metadata.
+Also, some software won't read metadata that comes at the end of a file
+(probably for this reason).</li>
+<li>ExifTool is designed to allow files to be read/written via pipes, which are
+not seekable, so in-place editing is not possible with these files and again,
+like 1, two completely different algorithms would be required.</li>
+</ol></blockquote>
+
+<a name="Q32"></a>
+<p>32. <b>"How do I safely delete all metadata from a file?"</b></p>
+
+<blockquote>First of all, all metadata shouldn't be removed from some file types
+(such as RAW images) because this information is necessary for display of the
+image.  JPEG is the most popular image format and most suited to erasing all
+metadata because the image and metadata are well separated in this format.
+However, even with JPEG images care should be taken because the metadata
+may contain color space information which should be maintained to preserve the
+color rendition.</blockquote>
+
+<blockquote>Here is a command that may be used to safely delete all metadata
+from .JPG images in a directory:
+
+<pre>exiftool -ext jpg -all= --icc_profile:all -tagsfromfile @ -colorspacetags DIR</pre>
+
+This command deletes all metadata except the ICC Profile if it exists, then
+copies back any EXIF color space tags (adding any mandatory EXIF tags using
+default values if necessary).
+</blockquote>
+
 <hr>
-<i>Last revised Mar 17, 2021</i>
+<i>Last revised Jan 23, 2024</i>
 <p class='lf'><a href="index.html">&lt;-- Back to ExifTool home page</a></p>
 </body>
 </html>

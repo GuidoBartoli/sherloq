@@ -8,9 +8,24 @@
 </head>
 <body>
 <h2 class=top>Jpeg2000 Tags</h2>
-<p>The tags below are found in JPEG 2000 images and the JUMBF metadata in JPEG
-images, but not all of these are extracted.  Note that ExifTool currently
-writes only EXIF, IPTC and XMP tags in Jpeg2000 images.</p>
+<p>The tags below are found in JPEG 2000 images and the C2PA CAI JUMBF metadata
+in various file types (see below).  Note that ExifTool currently writes only
+EXIF, IPTC and XMP tags in Jpeg2000 images, and EXIF and XMP in JXL images.
+ExifTool will read/write Brotli-compressed EXIF and XMP in JXL images, but
+the API <a href="../ExifTool.html#Compress">Compress</a> option must be set to create new EXIF and XMP in compressed
+format.</p>
+
+<p>C2PA (Coalition for Content Provenance and Authenticity) CAI (Content
+Authenticity Initiative) JUMBF (JPEG Universal Metadata Box Format) metdata
+is currently extracted from JPEG, PNG, TIFF-based (eg. TIFF, DNG),
+QuickTime-based (eg. MP4, MOV, HEIF, AVIF), RIFF-based (eg. WAV, AVI, WebP),
+PDF, SVG and GIF files, and ID3v2 metadata.  The suggested ExifTool
+command-line arguments for reading C2PA metadata are <code>-jumbf:all -G3 -b -j
+-u -struct</code>.  This metadata may be deleted from writable JPEG, PNG, WebP,
+TIFF-based, and QuickTime-based files by deleting the JUMBF group with
+<code>-jumbf:all=</code>.  The C2PA JUMBF metadata may be extracted as a block via the
+JUMBF tag.  See <a href="https://c2pa.org/specifications/">https://c2pa.org/specifications/</a> for the C2PA
+specification.</p>
 <blockquote>
 <table class=frame><tr><td>
 <table class=inner cellspacing=1>
@@ -44,6 +59,20 @@ writes only EXIF, IPTC and XMP tags in Jpeg2000 images.</p>
 <tr class=b>
 <td>'bpcc'</td>
 <td>BitsPerComponent</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>'brob'</td>
+<td>BrotliXMP
+  <br>BrotliEXIF
+  <br>BrotliJUMB</td>
+<td class=c>-<br>-<br>-</td>
+<td>--&gt; <a href='XMP.html'>XMP Tags</a>
+  <br>--&gt; <a href='EXIF.html'>EXIF Tags</a>
+  <br>--&gt; <a href='Jpeg2000.html'>Jpeg2000 Tags</a></td></tr>
+<tr class=b>
+<td>'c2sh'</td>
+<td>C2PASaltHash</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
 <tr>
@@ -132,47 +161,52 @@ writes only EXIF, IPTC and XMP tags in Jpeg2000 images.</p>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
+<td>'hrgm'</td>
+<td>GainMapImage</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td>'ihdr'</td>
 <td>ImageHeader</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Jpeg2000.html#ImageHeader'>Jpeg2000 ImageHeader Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>'inst'</td>
 <td>InstructionSet</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>'jP  '</td>
 <td>JP2Signature</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>'jp2c'</td>
 <td>ContiguousCodestream
   <br>PreviewImage</td>
 <td class=c>no<br>no</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>'jp2h'</td>
 <td>JP2Header</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Jpeg2000.html'>Jpeg2000 Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>'jp2i'</td>
 <td>IntellectualProperty</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html'>XMP Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>'jpch'</td>
 <td>CodestreamHeader</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Jpeg2000.html'>Jpeg2000 Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>'jplh'</td>
 <td>CompositingLayerHeader</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Jpeg2000.html'>Jpeg2000 Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>'json'</td>
 <td>JSONData</td>
 <td class=c>-</td>
@@ -181,21 +215,27 @@ writes only EXIF, IPTC and XMP tags in Jpeg2000 images.</p>
 allow individual tags to be accessed when reading, but it may also be
 extracted as a block via the &quot;JSONData&quot; tag or by setting the API
 BlockExtract option)</span></td></tr>
-<tr>
+<tr class=b>
 <td>'jumb'</td>
 <td>JUMBFBox</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Jpeg2000.html'>Jpeg2000 Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>'jumd'</td>
 <td>JUMBFDescr</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Jpeg2000.html#JUMD'>Jpeg2000 JUMD Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>'jxlc'</td>
 <td>JXLCodestream</td>
 <td class=c>no</td>
 <td><span class=s><span class=n>(Codestream in JPEG XL image.  Currently processed only to determine
+ImageSize)</span></span></td></tr>
+<tr>
+<td>'jxlp'</td>
+<td>PartialJXLCodestream</td>
+<td class=c>no</td>
+<td><span class=s><span class=n>(Partial codestreams in JPEG XL image.  Currently processed only to determine
 ImageSize)</span></span></td></tr>
 <tr class=b>
 <td>'lbl '</td>
@@ -282,10 +322,10 @@ ImageSize)</span></span></td></tr>
   <br>UUID-XMP
   <br>UUID-GeoJP2
   <br>UUID-Photoshop
-  <br>UUID-Signature
   <br>UUID-C2PAClaimSignature
+  <br>UUID-Signature
   <br>UUID-Unknown</td>
-<td class=c>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>no<br>-<br>no</td>
+<td class=c>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>no<br>no</td>
 <td>--&gt; <a href='EXIF.html'>EXIF Tags</a>
   <br>--&gt; <a href='EXIF.html'>EXIF Tags</a>
   <br>--&gt; <a href='EXIF.html'>EXIF Tags</a>
@@ -392,6 +432,7 @@ ColorSpace, or 4 when writing ColorSpecData)</span>
 <td>MajorBrand</td>
 <td class=c>no</td>
 <td><span class=s>&#39;jp2 &#39; = JPEG 2000 Image (.JP2)
+  <br>&#39;jph &#39; = High-throughput JPEG 2000 (.JPH)
   <br>&#39;jpm &#39; = JPEG 2000 Compound Image (.JPM)
   <br>&#39;jpx &#39; = JPEG 2000 with extensions (.JPX)
   <br>&#39;jxl &#39; = JPEG XL Image (.JXL)</span></td></tr>
@@ -564,7 +605,7 @@ ColorSpace, or 4 when writing ColorSpecData)</span>
 
 <hr>
 (This document generated automatically by Image::ExifTool::BuildTagLookup)
-<br><i>Last revised Nov 11, 2021</i>
+<br><i>Last revised Jan 30, 2024</i>
 <p class=lf><a href='index.html'>&lt;-- ExifTool Tag Names</a></p>
 </body>
 </html>

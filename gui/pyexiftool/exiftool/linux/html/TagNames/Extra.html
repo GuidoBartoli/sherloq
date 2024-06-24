@@ -267,8 +267,9 @@ requested or the API <a href="../ExifTool.html#RequestAll">RequestAll</a> option
 <td>FileSize</td>
 <td class=c>no</td>
 <td class=c>System</td>
-<td><span class=s><span class=n>(note that the print conversion for this tag uses historic prefixes: 1 kB =
-1024 bytes, etc.)</span></span></td></tr>
+<td><span class=s><span class=n>(note that the print conversion for this tag uses SI prefixes by default:  1
+kB = 1000 bytes, etc.  Set the API ByteUnit option to &quot;Binary&quot; to use binary
+prefixes instead:  1 KiB = 1024 bytes, etc.)</span></span></td></tr>
 <tr>
 <td>FileType</td>
 <td class=c>no</td>
@@ -356,16 +357,29 @@ requested)</span></span></td></tr>
 <td><span class=s><span class=n>(the full IPTC data block.  This tag is generated only if specifically
 requested)</span></span></td></tr>
 <tr class=b>
+<td>ImageDataHash</td>
+<td class=c>no</td>
+<td class=c>File</td>
+<td><span class=s><span class=n>(Hash of image data. Generated only if specifically requested for JPEG, TIFF,
+PNG, CRW, CR3, MRW, RAF, X3F, IIQ, JP2, JXL, HEIC and AVIF images, MOV/MP4
+videos, and some RIFF-based files such as AVI, WAV and WEBP.  The hash
+algorithm is set by the API <a href="../ExifTool.html#ImageHashType">ImageHashType</a> option, and is &#39;MD5&#39; by default.
+The hash includes the main image data, plus JpgFromRaw/OtherImage for some
+formats, but does not include ThumbnailImage or PreviewImage.  Includes
+video and audio data for MOV/MP4.  The <a href="XMP.html#ExifTool">XMP-et:OriginalImageHash and
+XMP-et:OriginalImageHashType tags</a> provide a way to store
+the this hash value and the hash type in the file.)</span></span></td></tr>
+<tr>
 <td>ImageHeight</td>
 <td class=c>no</td>
 <td class=c>File</td>
 <td><span class=s><span class=n>(the height of the image in number of pixels)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>ImageWidth</td>
 <td class=c>no</td>
 <td class=c>File</td>
 <td><span class=s><span class=n>(the width of the image in number of pixels)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>JPEGDigest</td>
 <td class=c>no</td>
 <td class=c>File</td>
@@ -375,14 +389,14 @@ compared to known values in an attempt to deduce the originating software
 based only on the JPEG image data.  For performance reasons, this tag is
 generated only if specifically requested or the API <a href="../ExifTool.html#RequestAll">RequestAll</a> option is set
 to 3 or higher)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>JPEGImageLength</td>
 <td class=c>no</td>
 <td class=c>File</td>
 <td><span class=s><span class=n>(byte length of JPEG image without metadata.  For performance reasons, this
 tag is generated only if specifically requested or the API <a href="../ExifTool.html#RequestAll">RequestAll</a> option
 is set to 3 or higher)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>JPEGQualityEstimate</td>
 <td class=c>no</td>
 <td class=c>File</td>
@@ -390,6 +404,11 @@ is set to 3 or higher)</span></span></td></tr>
 the quantization tables.  For performance reasons, this tag is generated
 only if specifically requested or the API <a href="../ExifTool.html#RequestAll">RequestAll</a> option is set to 3 or
 higher)</span></span></td></tr>
+<tr class=b>
+<td>JUMBF</td>
+<td class=c>no</td>
+<td class=c>JUMBF</td>
+<td><span class=s><span class=n>(the C2PA JUMBF data block, extracted only if specifically requested)</span></span></td></tr>
 <tr>
 <td>MIMEType</td>
 <td class=c>no</td>
@@ -417,53 +436,58 @@ unless specifically requested or the API <a href="../ExifTool.html#RequestAll">R
 <code>&quot;-modifydate&lt;now&quot;</code>.  Not generated unless specifically requested or the
 API <a href="../ExifTool.html#RequestAll">RequestAll</a> option is set)</span></span></td></tr>
 <tr>
+<td>NumPlanes</td>
+<td class=c>no</td>
+<td class=c>File</td>
+<td><span class=s><span class=n>(number of color planes)</span></span></td></tr>
+<tr class=b>
 <td>OtherImage</td>
 <td class=c>no</td>
 <td class=c>File</td>
 <td><span class=s><span class=n>(other JPEG-format embedded image)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>PageCount</td>
 <td class=c>no</td>
 <td class=c>File</td>
 <td><span class=s><span class=n>(the number of pages in a multi-page TIFF document)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>PreviewImage</td>
 <td class=c>yes</td>
 <td class=c>File</td>
 <td><span class=s><span class=n>(JPEG-format embedded preview image)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>PreviewPDF</td>
 <td class=c>no</td>
 <td class=c>File</td>
 <td><span class=s><span class=n>(PDF-format embedded preview image)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>PreviewPNG</td>
 <td class=c>no</td>
 <td class=c>File</td>
 <td><span class=s><span class=n>(PNG-format embedded preview image)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>PreviewTIFF</td>
 <td class=c>no</td>
 <td class=c>File</td>
 <td><span class=s><span class=n>(TIFF-format embedded preview image)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>PreviewWMF</td>
 <td class=c>no</td>
 <td class=c>File</td>
 <td><span class=s><span class=n>(WMF-format embedded preview image)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>ProcessingTime</td>
 <td class=c>no</td>
 <td class=c>ExifTool</td>
 <td><span class=s><span class=n>(the clock time in seconds taken by ExifTool to extract information from this
 file.  Not generated unless specifically requested or the <a href="../ExifTool.html#RequestAll">RequestAll</a> API
 option is set.  Requires Time::HiRes)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>RAFVersion</td>
 <td class=c>no</td>
 <td class=c>File</td>
 <td><span class=s><span class=n>(RAF file version number)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>ResourceForkSize</td>
 <td class=c>no</td>
 <td class=c>System</td>
@@ -472,6 +496,12 @@ tag is generated the <a href="../ExifTool.html#ExtractEmbedded">ExtractEmbedded<
 resource-fork information as a sub-document.  When writing, the resource
 fork is preserved by default, but it may be deleted with <code>-rsrc:all=</code> on
 the command line)</span></span></td></tr>
+<tr class=b>
+<td>SphericalVideoXML</td>
+<td class=c title=' ! = Unsafe'>yes!</td>
+<td class=c>GSpherical</td>
+<td><span class=s><span class=n>(the SphericalVideoXML block from MP4/MOV videos.  This tag is generated only
+if specifically requested)</span></span></td></tr>
 <tr>
 <td>SymLink</td>
 <td class=c title=' ! = Unsafe'>yes!</td>
@@ -555,7 +585,7 @@ stream.  Requires Win32API::File)</span></span></td></tr>
 
 <hr>
 (This document generated automatically by Image::ExifTool::BuildTagLookup)
-<br><i>Last revised Feb 9, 2022</i>
+<br><i>Last revised Jan 30, 2024</i>
 <p class=lf><a href='index.html'>&lt;-- ExifTool Tag Names</a></p>
 </body>
 </html>

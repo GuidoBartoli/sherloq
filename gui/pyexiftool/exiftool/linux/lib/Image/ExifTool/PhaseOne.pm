@@ -15,7 +15,7 @@ use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 
-$VERSION = '1.07';
+$VERSION = '1.10';
 
 sub WritePhaseOne($$$);
 sub ProcessPhaseOne($$$);
@@ -84,6 +84,7 @@ my @formatName = ( undef, 'string', 'int16s', undef, 'int32s' );
         Name => 'RawData',
         Format => 'undef', # (actually 2-byte integers, but don't convert)
         Binary => 1,
+        IsImageData => 1,
         PutFirst => 1,
         Writable => 0,
         Drop => 1, # don't copy to other file types
@@ -152,7 +153,7 @@ my @formatName = ( undef, 'string', 'int16s', undef, 'int32s' );
         Format => 'int16s',
         Count => -1,
         Flags => ['Unknown','Hidden'],
-        PrintConv => 'length($val) > 60 ? substr($val,0,55) . "[...]" : $val',
+        PrintConv => \&Image::ExifTool::LimitLongValues,
     },
     0x0226 => {
         Name => 'ColorMatrix2',
@@ -183,13 +184,13 @@ my @formatName = ( undef, 'string', 'int16s', undef, 'int32s' );
         Name => 'PhaseOne_0x0258',
         Format => 'int16s',
         Flags => ['Unknown','Hidden'],
-        PrintConv => 'length($val) > 60 ? substr($val,0,55) . "[...]" : $val',
+        PrintConv => \&Image::ExifTool::LimitLongValues,
     },
     0x025a => { #PH
         Name => 'PhaseOne_0x025a',
         Format => 'int16s',
         Flags => ['Unknown','Hidden'],
-        PrintConv => 'length($val) > 60 ? substr($val,0,55) . "[...]" : $val',
+        PrintConv => \&Image::ExifTool::LimitLongValues,
     },
     # 0x0300 - int32u: 100,101,102
     0x0301 => { Name => 'FirmwareVersions', Format => 'string' },
@@ -472,7 +473,7 @@ sub WritePhaseOne($$$)
     return undef if $numEntries < 2 or $numEntries > 300 or $ifdEnd > $dirLen;
     my $hdrBuff = $hdr;
     my $valBuff = '';   # buffer for value data
-    my $fixup = new Image::ExifTool::Fixup;
+    my $fixup = Image::ExifTool::Fixup->new;
     my $index;
     for ($index=0; $index<$numEntries; ++$index) {
         my $entry = $dirStart + $ifdStart + 8 + $entrySize * $index;
@@ -584,6 +585,7 @@ sub ProcessPhaseOne($$$)
     my $dirLen = $$dirInfo{DirLen} || $$dirInfo{DataLen} - $dirStart;
     my $binary = $et->Options('Binary');
     my $verbose = $et->Options('Verbose');
+    my $hash = $$et{ImageDataHash};
     my $htmlDump = $$et{HTML_DUMP};
 
     return 0 if $dirLen < 12;
@@ -676,6 +678,17 @@ sub ProcessPhaseOne($$$)
                 }
             }
         }
+        if ($hash and $tagInfo and $$tagInfo{IsImageData}) {
+            my ($pos, $len) = ($valuePtr, $size);
+            while ($len) {
+                my $n = $len > 65536 ? 65536 : $len;
+                my $tmp = substr($$dataPt, $pos, $n);
+                $hash->add($tmp);
+                $len -= $n;
+                $pos += $n;
+            }
+            $et->VPrint(0, "$$et{INDENT}(ImageDataHash: $size bytes of PhaseOne:$$tagInfo{Name})\n");
+        }
         my %parms = (
             DirName => $ifdType,
             Index   => $index,
@@ -712,7 +725,7 @@ One maker notes.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

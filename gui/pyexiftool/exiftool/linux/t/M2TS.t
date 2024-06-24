@@ -19,12 +19,11 @@ my $testnum = 1;
 # test 2: Extract information from test image
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     $exifTool->Options(Unknown => 1);
     my $info = $exifTool->ImageInfo('t/images/M2TS.mts');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
-
-# end
+done(); # end

@@ -37,7 +37,7 @@ use vars qw($VERSION %leicaLensTypes);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 
-$VERSION = '2.17';
+$VERSION = '2.22';
 
 sub ProcessLeicaLEIC($$$);
 sub WhiteBalanceConv($;$$);
@@ -543,7 +543,11 @@ my %shootingMode = (
     0x2c => [
         {
             Name => 'ContrastMode',
-            Condition => '$$self{Model} !~ /^DMC-(FX10|G1|L1|L10|LC80|GF\d+|G2|TZ10|ZS7)$/',
+            Condition => q{
+                $$self{Model} !~ /^DMC-(FX10|G1|L1|L10|LC80|GF\d+|G2|TZ10|ZS7)$/ and
+                # tested for DC-GH6, but rule out other DC- models just in case - PH
+                $$self{Model} !~ /^DC-/
+            },
             Flags => 'PrintHex',
             Writable => 'int16u',
             Notes => q{
@@ -1066,17 +1070,17 @@ my %shootingMode = (
         },
     },
     # 0x71 - undef[128] (maybe text stamp text?)
+    # 0x72,0x73,0x74,0x75,0x77,0x78: 0
+    # 0x76: 0, (3 for G6 with HDR on, ref 18)
+    0x76 => { #18/21/forum15298
+        Name => 'MergedImages',
+        Writable => 'int16u',
+        Notes => 'number of images in HDR or Live View Composite picture',
+    },
     0x77 => { #18
         Name => 'BurstSpeed',
         Writable => 'int16u',
         Notes => 'images per second',
-    },
-    # 0x72,0x73,0x74,0x75,0x77,0x78: 0
-    # 0x76: 0, (3 for G6 with HDR on, ref 18)
-    0x76 => { #18/21
-        Name => 'HDRShot',
-        Writable => 'int16u',
-        PrintConv => { 0 => 'Off', 3 => 'On' },
     },
     0x79 => { #PH (GH2)
         Name => 'IntelligentD-Range',
@@ -1129,7 +1133,10 @@ my %shootingMode = (
             8 => 'Cinelike D', #forum11194
             9 => 'Cinelike V', #forum11194
             11 => 'L. Monochrome', #forum11194
+            12 => 'Like709', #forum14033
             15 => 'L. Monochrome D', #forum11194
+            17 => 'V-Log', #forum14033
+            18 => 'Cinelike D2', #forum14033
         },
     },
     0x8a => { #18
@@ -1255,8 +1262,9 @@ my %shootingMode = (
         Writable => 'rational64u',
         Format => 'int32u',
         PrintConv => {
-            '0 0' => 'Expressive',
-            # '0 1' => have seen this for XS1 (PH)
+            # '0 0' => 'Expressive', #forum11194
+            '0 0' => 'Off', #forum14033 (GH6)
+            '0 1' => 'Expressive', #forum14033 (GH6) (have also seen this for XS1)
             '0 2' => 'Retro',
             '0 4' => 'High Key',
             '0 8' => 'Sepia',
@@ -1434,6 +1442,15 @@ my %shootingMode = (
         },
         ValueConv => '$_=sprintf("%.4x",$val); s/(..)(..)/$2 $1/; $_',
         ValueConvInv => '$val =~ s/(..) (..)/$2$1/; hex($val)',
+    },
+    0xe8 => { #PH (DC-GH6)
+        Name => 'MinimumISO',
+        Writable => 'int32u',
+    },
+    0xee => { #PH (DC-GH6)
+        Name => 'DynamicRangeBoost',
+        Writable => 'int16u',
+        PrintConv => { 0 => 'Off', 1 => 'On' },
     },
     0x0e00 => {
         Name => 'PrintIM',
@@ -1974,6 +1991,15 @@ my %shootingMode = (
         },
         PrintConvInv => '$_=$val; tr/A-Z0-9//dc; s/(.{3})(19|20)/$1/; $_',
     },
+    0x05ff => {
+        Name => 'CameraIFD', # (Leica Q3)
+        Condition => '$$valPt =~ /^(II\x2a\0\x08\0\0\0|MM\0\x2a\0\0\0\x08)/',
+        SubDirectory => {
+            TagTable => 'Image::ExifTool::PanasonicRaw::CameraIFD',
+            Base => '$start',
+            ProcessProc => \&Image::ExifTool::ProcessTIFF,
+        },
+    },
 );
 
 # Leica type5 ShotInfo (ref PH) (X2)
@@ -2159,6 +2185,10 @@ my %shootingMode = (
         Name => 'WhitePoint', # (x/y)
         Writable => 'rational64u',
         Count => 2,
+    },
+    0x0370 => { #forum15440
+        Name => 'LensProfileName',
+        Writable => 'string',
     },
 );
 
@@ -2481,6 +2511,27 @@ my %shootingMode = (
             Start => 12,
         },
     },
+);
+
+# Leica XMP Digital Shift Assistant tags
+%Image::ExifTool::Panasonic::DSA = (
+    GROUPS => { 0 => 'XMP', 1 => 'XMP-xmpDSA', 2 => 'Image' },
+    PROCESS_PROC => 'Image::ExifTool::XMP::ProcessXMP',
+    NAMESPACE => 'xmpDSA',
+    WRITABLE => 'string',
+    AVOID => 1,
+    VARS => { NO_ID => 1 },
+    NOTES => 'XMP Digital Shift Assistant tags written by some Leica cameras.',
+    Version             => { }, # eg. "1.0.0"
+    CorrectionAlreadyApplied => { Writable => 'boolean' },
+    PitchAngle          => { Writable => 'real' },
+    RollAngle           => { Writable => 'real' },
+    FocalLength35mm     => { Writable => 'real' },
+    TargetAspectRatio   => { Writable => 'real' },
+    ScalingFactorHeight => { Writable => 'real' },
+    ValidCropCorners    => { Writable => 'boolean' },
+    ApplyAutomatically  => { Writable => 'boolean' },
+    NormalizedCropCorners => { Writable => 'real', List => 'Seq' },
 );
 
 # Panasonic Composite tags
@@ -2817,10 +2868,14 @@ sub ProcessLeicaTrailer($;$)
             my $val = Image::ExifTool::Exif::RebuildMakerNotes($et, \%dirInfo, $tagTablePtr);
             unless (defined $val) {
                 $et->Warn('Error rebuilding maker notes (may be corrupt)') if $len > 4;
-                $val = $buff,
+                $val = $buff;
             }
             my $key = $et->FoundTag($tagInfo, $val);
             $et->SetGroup($key, 'ExifIFD');
+            if ($$et{MAKER_NOTE_FIXUP}) {
+                $$et{TAG_EXTRA}{$key}{Fixup} = $$et{MAKER_NOTE_FIXUP};
+                delete $$et{MAKER_NOTE_FIXUP};
+            }
         }
     }
     SetByteOrder($oldOrder);
@@ -2846,7 +2901,7 @@ Panasonic and Leica maker notes in EXIF information.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

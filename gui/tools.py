@@ -276,7 +276,7 @@ class ToolTree(QTreeWidget):
         self.setColumnCount(1)
         self.header().setVisible(False)
         self.setMaximumWidth(300)
-        self.version = f"{sum(tool_progress) / 100:.2f}e"
+        self.version = f"{sum(tool_progress) / 100:.2f}f"
 
     def set_bold(self, tool, enabled):
         items = self.findItems(tool, Qt.MatchFixedString | Qt.MatchRecursive)

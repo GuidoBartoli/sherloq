@@ -18,15 +18,14 @@ my $testnum = 1;
 
 # tests 2-7: Extract information from various types of executable files and libraries
 {
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $ext;
     foreach $ext ('exe', 'macho', 'elf', 'a', 'so', 'dylib') {
         ++$testnum;
         my $info = $exifTool->ImageInfo("t/images/EXE.$ext", '-system:all');
-        print 'not ' unless check($exifTool, $info, $testname, $testnum);
+        notOK() unless check($exifTool, $info, $testname, $testnum);
         print "ok $testnum\n";
     }
 }
 
-
-# end
+done(); # end

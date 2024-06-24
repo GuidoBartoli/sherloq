@@ -19,9 +19,9 @@ my $testnum = 1;
 # test 2: Extract information from GeoTiff.tif
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/GeoTiff.tif');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
@@ -29,14 +29,14 @@ my $testnum = 1;
 {
     ++$testnum;
     my @writeInfo = (['ResolutionUnit','cm']);
-    print 'not ' unless writeCheck(\@writeInfo, $testname, $testnum, 't/images/GeoTiff.tif');
+    notOK() unless writeCheck(\@writeInfo, $testname, $testnum, 't/images/GeoTiff.tif');
     print "ok $testnum\n";
 }
 
 # test 4: Copy GeoTiff information
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $testfile = "t/${testname}_${testnum}_failed.out";
     unlink $testfile;
     $exifTool->SetNewValuesFromFile('t/images/GeoTiff.tif', 'GeoTiff*');
@@ -45,10 +45,9 @@ my $testnum = 1;
     if (check($exifTool, $info, $testname, $testnum) and $ok) {
         unlink $testfile;
     } else {
-        print 'not ';
+        notOK();
     }
     print "ok $testnum\n";
 }
 
-
-# end
+done(); # end

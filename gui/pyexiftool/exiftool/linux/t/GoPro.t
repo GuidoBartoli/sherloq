@@ -19,12 +19,11 @@ my $testnum = 1;
 # test 2: Extract information from GoPro.jpg
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     $exifTool->Options(Unknown => 1);
     my $info = $exifTool->ImageInfo('t/images/GoPro.jpg', 'GoPro:all');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
-
-# end
+done(); # end

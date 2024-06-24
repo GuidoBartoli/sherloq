@@ -28,10 +28,12 @@ specifies the information format:  <code>string</code> is an unformatted string,
 <code>real</code> is a floating point number, <code>rational</code> is entered as a floating
 point number but stored as two <code>integer</code> strings separated by a &#39;/&#39;
 character, <code>date</code> is a date/time string entered in the format &quot;YYYY:mm:dd
-HH:MM:SS[.ss][+/-HH:MM]&quot;, <code>boolean</code> is either &quot;True&quot; or &quot;False&quot; (but &quot;true&quot;
-and &quot;false&quot; may be written as a ValueConv value for compatibility with
-non-conforming applications), <code>struct</code> indicates a structured tag, and
-<code>lang-alt</code> is a tag that supports alternate languages.</p>
+HH:MM:SS[.ss][+/-HH:MM]&quot; but some partial date/time formats are also
+accepted (see <a href="../faq.html#Q5">faq.html#Q5</a>), <code>boolean</code> is either
+&quot;True&quot; or &quot;False&quot; (but &quot;true&quot; and &quot;false&quot; may be written as a ValueConv
+value for compatibility with non-conforming applications), <code>struct</code>
+indicates a structured tag, and <code>lang-alt</code> is a tag that supports alternate
+languages.</p>
 
 <p>When reading, <code>struct</code> tags are extracted only if the <a href="../ExifTool.html#Struct">Struct</a> (-struct)
 option is used.  Otherwise the corresponding <i>Flattened</i> tags, indicated by
@@ -167,113 +169,129 @@ as extensions from various other sources.  See
 <td class=c>-</td>
 <td>--&gt; <a href='DarwinCore.html'>DarwinCore Tags</a></td></tr>
 <tr>
+<td>et</td>
+<td class=c>-</td>
+<td>--&gt; <a href='XMP.html#ExifTool'>XMP ExifTool Tags</a></td></tr>
+<tr class=b>
 <td><u>exif</u></td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#exif'>XMP exif Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>exifEX</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#exifEX'>XMP exifEX Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>expressionmedia</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#ExpressionMedia'>XMP ExpressionMedia Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>extensis</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#extensis'>XMP extensis Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>fpv</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#fpv'>XMP fpv Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>GAudio</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#GAudio'>XMP GAudio Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>GCamera</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#GCamera'>XMP GCamera Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>GCreations</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#GCreations'>XMP GCreations Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>GDepth</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#GDepth'>XMP GDepth Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>getty</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#GettyImages'>XMP GettyImages Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>GFocus</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#GFocus'>XMP GFocus Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>GImage</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#GImage'>XMP GImage Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>GPano</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#GPano'>XMP GPano Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>GSpherical</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#GSpherical'>XMP GSpherical Tags</a></td></tr>
+<tr class=b>
+<td>hdr</td>
+<td class=c>-</td>
+<td>--&gt; <a href='XMP.html#hdr'>XMP hdr Tags</a></td></tr>
 <tr>
+<td>hdrgm</td>
+<td class=c>-</td>
+<td>--&gt; <a href='XMP.html#hdrgm'>XMP hdrgm Tags</a></td></tr>
+<tr class=b>
 <td>ics</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#ics'>XMP ics Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>iptcCore</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#iptcCore'>XMP iptcCore Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>iptcExt</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#iptcExt'>XMP iptcExt Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>LImage</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#LImage'>XMP LImage Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>lr</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#Lightroom'>XMP Lightroom Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>mediapro</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#MediaPro'>XMP MediaPro Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>microsoft</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Microsoft.html#XMP'>Microsoft XMP Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>MP</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Microsoft.html#MP'>Microsoft MP Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>MP1</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Microsoft.html#MP1'>Microsoft MP1 Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>mwg-coll</td>
 <td class=c>-</td>
 <td>--&gt; <a href='MWG.html#Collections'>MWG Collections Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>mwg-kw</td>
 <td class=c>-</td>
 <td>--&gt; <a href='MWG.html#Keywords'>MWG Keywords Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>mwg-rs</td>
 <td class=c>-</td>
 <td>--&gt; <a href='MWG.html#Regions'>MWG Regions Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>nine</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#nine'>Nikon nine Tags</a></td></tr>
+<tr>
+<td>panorama</td>
+<td class=c>-</td>
+<td>--&gt; <a href='XMP.html#panorama'>XMP panorama Tags</a></td></tr>
 <tr class=b>
 <td><u>pdf</u></td>
 <td class=c>-</td>
@@ -351,22 +369,26 @@ as extensions from various other sources.  See
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#xmpDM'>XMP xmpDM Tags</a></td></tr>
 <tr>
+<td>xmpDSA</td>
+<td class=c>-</td>
+<td>--&gt; <a href='Panasonic.html#DSA'>Panasonic DSA Tags</a></td></tr>
+<tr class=b>
 <td><u>xmpMM</u></td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#xmpMM'>XMP xmpMM Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td><u>xmpNote</u></td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#xmpNote'>XMP xmpNote Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>xmpPLUS</td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#xmpPLUS'>XMP xmpPLUS Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td><u>xmpRights</u></td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#xmpRights'>XMP xmpRights Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td><u>xmpTPg</u></td>
 <td class=c>-</td>
 <td>--&gt; <a href='XMP.html#xmpTPg'>XMP xmpTPg Tags</a></td></tr>
@@ -653,6 +675,38 @@ at this time.  For this reason, tags below with equivalents in the
 <tr class=b>
 <td>DistortionCorrectionAlreadyApplied</td>
 <td class=c>boolean</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>EnhanceDenoiseAlreadyApplied</td>
+<td class=c>boolean</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>EnhanceDenoiseLumaAmount</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>EnhanceDenoiseVersion</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>EnhanceDetailsAlreadyApplied</td>
+<td class=c>boolean</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>EnhanceDetailsVersion</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>EnhanceSuperResolutionAlreadyApplied</td>
+<td class=c>boolean</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>EnhanceSuperResolutionScale</td>
+<td class=c>rational</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>EnhanceSuperResolutionVersion</td>
+<td class=c>string</td>
 <td>&nbsp;</td></tr>
 <tr>
 <td>Firmware</td>
@@ -1846,845 +1900,1449 @@ specific properties in XMP (see <a href="http://creativecommons.org/ns">http://c
 <td class=c title=' / = Avoid'>real/</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td>DepthBasedCorrections</td>
+<td class=c title=' + = List'>struct+</td>
+<td>--&gt; <a href='XMP.html#DepthBasedCorr'>DepthBasedCorr Struct</a></td></tr>
+<tr class=b>
+<td>DepthBasedCorrCorrectionActive</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>boolean/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionActive)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrCorrectionAmount</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>real/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionAmount)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMask</td>
+<td class=c title=' _ = Flattened
+ + = List'>struct_+</td>
+<td>--&gt; <a href='XMP.html#CorrectionMask'>CorrectionMask Struct</a>
+  <br><span class='n s'>(DepthBasedCorrectionsCorrectionMasks)</span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskAlpha</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksAlpha)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskAngle</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksAngle)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskBottom</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksBottom)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskCenterValue</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCenterValue)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskCenterWeight</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCenterWeight)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRange</td>
+<td class=c title=' _ = Flattened
+ + = List'>struct_+</td>
+<td>--&gt; <a href='XMP.html#CorrRangeMask'>CorrRangeMask Struct</a>
+  <br><span class='n s'>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMask; called CorrectionRangeMask by the spec)</span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeAreaModels</td>
+<td class=c title=' _ = Flattened
+ + = List'>struct_+</td>
+<td>--&gt; <a href='XMP.html#AreaModels'>AreaModels Struct</a>
+  <br><span class='n s'>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskAreaModels)</span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeAreaModelsComponents</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>string/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskAreaModelsAreaComponents)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeAreaModelsColorSampleInfo</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>string/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskAreaModelsColorRangeMaskAreaSampleInfo)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeColorAmount</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>real/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskColorAmount)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeDepthFeather</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>real/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskDepthFeather)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeDepthMax</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>real/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskDepthMax)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeDepthMin</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>real/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskDepthMin)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeInvert</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>boolean/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskInvert)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeLumFeather</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>real/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumFeather)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeLuminanceDepthSampleInfo</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>string/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskLuminanceDepthSampleInfo)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeLumMax</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>real/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumMax)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeLumMin</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>real/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumMin)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeLumRange</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>string/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumRange)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeSampleType</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>integer/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskSampleType)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeType</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>string/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskType)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeVersion</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>string/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskVersion)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskDabs</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>string/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksDabs)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskFeather</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksFeather)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskFlipped</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>boolean/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksFlipped)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskFlow</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksFlow)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskFullX</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksFullX)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskFullY</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksFullY)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskInputDigest</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksInputDigest)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskLeft</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksLeft)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMaskActive</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>boolean/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskActive)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMaskBlendMode</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>integer/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskBlendMode)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMaskDigest</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskDigest)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMaskInverted</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>boolean/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskInverted)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMaskName</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskName)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasks</td>
+<td class=c title=' _ = Flattened
+ + = List'>struct_+</td>
+<td>--&gt; <a href='XMP.html#CorrectionMask'>CorrectionMask Struct</a>
+  <br><span class='n s'>(DepthBasedCorrectionsCorrectionMasksMasks)</span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksAlpha</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksAlpha)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksAngle</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksAngle)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksBottom</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksBottom)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksCenterValue</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksCenterValue)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksCenterWeight</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksCenterWeight)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksDabs</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>string/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksDabs)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksFeather</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksFeather)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksFlipped</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>boolean/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksFlipped)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksFlow</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksFlow)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksFullX</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksFullX)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksFullY</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksFullY)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksInputDigest</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksInputDigest)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksLeft</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksLeft)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksMaskActive</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>boolean/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskActive)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksMaskBlendMode</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>integer/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskBlendMode)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksMaskDigest</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskDigest)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksMaskInverted</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>boolean/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskInverted)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksMaskName</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskName)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksMaskSubType</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskSubType)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksMaskSyncID</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskSyncID)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksValue</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskValue)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksMaskVersion</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskVersion)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksMidpoint</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMidpoint)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksOrigin</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksOrigin)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksPerimeterValue</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksPerimeterValue)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksRadius</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksRadius)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksReferencePoint</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksReferencePoint)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksRight</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksRight)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksRoundness</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksRoundness)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksSizeX</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksSizeX)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksSizeY</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksSizeY)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksTop</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksTop)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMaskSubType</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskSubType)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksVersion</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>integer/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksVersion)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksWhat</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksWhat)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksWholeImageArea</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksWholeImageArea)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksX</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksX)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksY</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksY)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMaskSyncID</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskSyncID)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksZeroX</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksZeroX)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksZeroY</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksZeroY)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskValue</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskValue)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMaskVersion</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskVersion)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMidpoint</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMidpoint)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskOrigin</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksOrigin)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskPerimeterValue</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksPerimeterValue)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRadius</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksRadius)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskReferencePoint</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksReferencePoint)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRight</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksRight)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRoundness</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksRoundness)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskSizeX</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksSizeX)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskSizeY</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksSizeY)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskTop</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksTop)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskVersion</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>integer/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksVersion)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskWhat</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksWhat)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskWholeImageArea</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksWholeImageArea)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskX</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksX)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskY</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksY)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskZeroX</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksZeroX)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskZeroY</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksZeroY)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrCorrectionSyncID</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>string/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionSyncID)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrLocalCorrectedDepth</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>real/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsLocalCorrectedDepth)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrLocalCurveRefineSaturation</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>real/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsLocalCurveRefineSaturation)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrWhat</td>
+<td class=c title=' / = Avoid
+ _ = Flattened
+ + = List'>string/_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsWhat)</span></span></td></tr>
+<tr>
+<td>DepthMapInfo</td>
+<td class=c>struct</td>
+<td>--&gt; <a href='XMP.html#DepthMapInfo'>DepthMapInfo Struct</a></td></tr>
+<tr class=b>
+<td>DepthMapInfoBaseHighlightGuideInputDigest</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>DepthMapInfoBaseHighlightGuideTable</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>DepthMapInfoBaseHighlightGuideVersion</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>DepthMapInfoBaseLayeredDepthInputDigest</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>DepthMapInfoBaseLayeredDepthTable</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>DepthMapInfoBaseLayeredDepthVersion</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>DepthMapInfoBaseRawDepthInputDigest</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>DepthMapInfoBaseRawDepthTable</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>DepthMapInfoBaseRawDepthVersion</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>DepthMapInfoDepthSource</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td>Description</td>
 <td class=c title=' / = Avoid'>lang-alt/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>DNGIgnoreSidecars</td>
 <td class=c title=' / = Avoid'>boolean/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>Exposure</td>
 <td class=c title=' / = Avoid'>real/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>Exposure2012</td>
 <td class=c title=' / = Avoid'>real/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>FillLight</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrections</td>
 <td class=c title=' + = List'>struct+</td>
 <td>--&gt; <a href='XMP.html#Correction'>Correction Struct</a></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrActive</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>boolean/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionActive)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrAmount</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionAmount)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMasks</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#CorrectionMask'>CorrectionMask Struct</a>
   <br><span class='n s'>(GradientBasedCorrectionsCorrectionMasks)</span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskAlpha</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksAlpha)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskAngle</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksAngle)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskBottom</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksBottom)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskCenterValue</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCenterValue)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskCenterWeight</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCenterWeight)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRange</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#CorrRangeMask'>CorrRangeMask Struct</a>
   <br><span class='n s'>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMask; called CorrectionRangeMask by the spec)</span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeAreaModels</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#AreaModels'>AreaModels Struct</a>
   <br><span class='n s'>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskAreaModels)</span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeAreaModelsComponents</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskAreaModelsAreaComponents)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeAreaModelsColorSampleInfo</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskAreaModelsColorRangeMaskAreaSampleInfo)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeColorAmount</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskColorAmount)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeDepthFeather</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskDepthFeather)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeDepthMax</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskDepthMax)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeDepthMin</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskDepthMin)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeInvert</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>boolean/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskInvert)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeLumFeather</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumFeather)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeLuminanceDepthSampleInfo</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskLuminanceDepthSampleInfo)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeLumMax</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumMax)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeLumMin</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumMin)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeLumRange</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumRange)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeSampleType</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>integer/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskSampleType)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeType</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskType)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeVersion</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskVersion)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskDabs</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksDabs)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskFeather</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksFeather)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskFlipped</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>boolean/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksFlipped)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskFlow</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksFlow)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskFullX</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksFullX)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskFullY</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksFullY)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskInputDigest</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksInputDigest)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskLeft</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksLeft)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMaskActive</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>boolean/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskActive)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMaskBlendMode</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>integer/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskBlendMode)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMaskDigest</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskDigest)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMaskInverted</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>boolean/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskInverted)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMaskName</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskName)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasks</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#CorrectionMask'>CorrectionMask Struct</a>
   <br><span class='n s'>(GradientBasedCorrectionsCorrectionMasksMasks)</span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksAlpha</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksAlpha)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksAngle</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksAngle)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksBottom</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksBottom)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksCenterValue</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksCenterValue)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksCenterWeight</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksCenterWeight)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksDabs</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksDabs)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksFeather</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksFeather)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksFlipped</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>boolean/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksFlipped)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksFlow</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksFlow)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksFullX</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksFullX)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksFullY</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksFullY)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksInputDigest</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksInputDigest)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksLeft</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksLeft)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksMaskActive</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>boolean/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskActive)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksMaskBlendMode</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>integer/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskBlendMode)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksMaskDigest</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskDigest)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksMaskInverted</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>boolean/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskInverted)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksMaskName</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskName)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksMaskSubType</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskSubType)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksMaskSyncID</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskSyncID)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksValue</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskValue)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksMaskVersion</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskVersion)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksMidpoint</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMidpoint)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksOrigin</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksOrigin)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksPerimeterValue</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksPerimeterValue)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksRadius</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksRadius)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksReferencePoint</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksReferencePoint)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksRight</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksRight)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksRoundness</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksRoundness)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksSizeX</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksSizeX)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksSizeY</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksSizeY)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksTop</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksTop)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMaskSubType</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskSubType)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksVersion</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>integer/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksVersion)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksWhat</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksWhat)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksWholeImageArea</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksWholeImageArea)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksX</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksX)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksY</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksY)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMaskSyncID</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskSyncID)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksZeroX</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksZeroX)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksZeroY</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksZeroY)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskValue</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskValue)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMaskVersion</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskVersion)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMidpoint</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMidpoint)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskOrigin</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksOrigin)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskPerimeterValue</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksPerimeterValue)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRadius</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksRadius)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskReferencePoint</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksReferencePoint)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRight</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksRight)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRoundness</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksRoundness)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskSizeX</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksSizeX)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskSizeY</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksSizeY)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskTop</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksTop)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskVersion</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>integer/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksVersion)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskWhat</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksWhat)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskWholeImageArea</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksWholeImageArea)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskX</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksX)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskY</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksY)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskZeroX</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksZeroX)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskZeroY</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksZeroY)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrCorrectionName</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionName)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMask</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#CorrRangeMask'>CorrRangeMask Struct</a>
   <br><span class='n s'>(GradientBasedCorrectionsCorrectionRangeMask; called CorrectionRangeMask by the spec)</span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskAreaModels</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#AreaModels'>AreaModels Struct</a>
   <br><span class='n s'>(GradientBasedCorrectionsCorrectionRangeMaskAreaModels)</span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskAreaModelsComponents</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskAreaModelsAreaComponents)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskAreaModelsColorSampleInfo</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskAreaModelsColorRangeMaskAreaSampleInfo)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskColorAmount</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskColorAmount)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskDepthFeather</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskDepthFeather)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskDepthMax</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskDepthMax)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskDepthMin</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskDepthMin)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskInvert</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>boolean/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskInvert)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskLumFeather</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskLumFeather)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskLuminanceDepthSampleInfo</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskLuminanceDepthSampleInfo)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskLumMax</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskLumMax)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskLumMin</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>real/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskLumMin)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskLumRange</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskLumRange)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskSampleType</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>integer/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskSampleType)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskType</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskType)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskVersion</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskVersion)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrCorrectionSyncID</td>
 <td class=c title=' / = Avoid
  _ = Flattened
  + = List'>string/_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionSyncID)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrBlacks2012</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalBlacks2012)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrBrightness</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalBrightness)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrClarity</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalClarity)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrClarity2012</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalClarity2012)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrContrast</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalContrast)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrContrast2012</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalContrast2012)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrDefringe</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalDefringe)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrDehaze</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalDehaze)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrExposure</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalExposure)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrExposure2012</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalExposure2012)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrHighlights2012</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalHighlights2012)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrHue</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalHue)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrLuminanceNoise</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalLuminanceNoise)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMoire</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalMoire)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrSaturation</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalSaturation)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrShadows2012</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalShadows2012)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrSharpness</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalSharpness)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrTemperature</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalTemperature)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrTexture</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalTexture)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrTint</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalTint)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrToningHue</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalToningHue)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrToningSaturation</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalToningSaturation)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrWhites2012</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>real/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalWhites2012)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrWhat</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsWhat)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GrainAmount</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GrainFrequency</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>GrainSeed</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GrainSize</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>GrayMixerAqua</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GrayMixerBlue</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>GrayMixerGreen</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GrayMixerMagenta</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>GrayMixerOrange</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GrayMixerPurple</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>GrayMixerRed</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GrayMixerYellow</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>GreenHue</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GreenSaturation</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>Group</td>
 <td class=c title=' / = Avoid'>lang-alt/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>HasCrop</td>
 <td class=c title=' / = Avoid'>boolean/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>HasSettings</td>
 <td class=c title=' / = Avoid'>boolean/</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>HDREditMode</td>
+<td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
 <td>Highlight2012</td>
@@ -2741,6 +3399,95 @@ specific properties in XMP (see <a href="http://creativecommons.org/ns">http://c
 <tr>
 <td>JPEGHandling</td>
 <td class=c title=' / = Avoid'>string/</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlur</td>
+<td class=c>struct</td>
+<td>--&gt; <a href='XMP.html#LensBlur'>LensBlur Struct</a></td></tr>
+<tr>
+<td>LensBlurActive</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>boolean/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurAmount</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td><span class=s><span class=n>(LensBlurBlurAmount)</span></span></td></tr>
+<tr>
+<td>LensBlurBokehAspect</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurBokehRotation</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurBokehShape</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurBokehShapeDetail</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurCatEyeAmount</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurCatEyeScale</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurFocalRange</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurFocalRangeSource</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurHighlightsBoost</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurHighlightsThreshold</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurSampledArea</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurSampledRange</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurSphericalAberration</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>real/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurSubjectRange</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurVersion</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
 <td>LensManualDistortionAmount</td>
@@ -2862,12 +3609,22 @@ specific properties in XMP (see <a href="http://creativecommons.org/ns">http://c
  _ = Flattened'>string/_</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
-<td>LookParametersLookTable</td>
+<td>LookParametersHighlights2012</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td>LookParametersLookTable</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td>LookParametersProcessVersion</td>
+<td class=c title=' / = Avoid
+ _ = Flattened'>string/_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LookParametersShadows2012</td>
 <td class=c title=' / = Avoid
  _ = Flattened'>string/_</td>
 <td>&nbsp;</td></tr>
@@ -4543,7 +5300,14 @@ specific properties in XMP (see <a href="http://creativecommons.org/ns">http://c
 <tr>
 <td>PerspectiveUpright</td>
 <td class=c title=' / = Avoid'>integer/</td>
-<td>&nbsp;</td></tr>
+<td><table class=cols><tr>
+  <td>0 = Off
+  <br>1 = Auto
+  <br>2 = Full</td><td>&nbsp;&nbsp;</td>
+  <td>3 = Level
+  <br>4 = Vertical
+  <br>5 = Guided</td></tr></table>
+</td></tr>
 <tr class=b>
 <td>PerspectiveVertical</td>
 <td class=c title=' / = Avoid'>integer/</td>
@@ -4579,7 +5343,9 @@ specific properties in XMP (see <a href="http://creativecommons.org/ns">http://c
 <tr class=b>
 <td>PostCropVignetteStyle</td>
 <td class=c title=' / = Avoid'>integer/</td>
-<td>&nbsp;</td></tr>
+<td><span class=s>1 = Highlight Priority
+  <br>2 = Color Priority
+  <br>3 = Paint Overlay</span></td></tr>
 <tr>
 <td>PresetType</td>
 <td class=c title=' / = Avoid'>string/</td>
@@ -5232,6 +5998,30 @@ specific properties in XMP (see <a href="http://creativecommons.org/ns">http://c
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
+<td>SDRBlend</td>
+<td class=c title=' / = Avoid'>real/</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>SDRBrightness</td>
+<td class=c title=' / = Avoid'>real/</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>SDRContrast</td>
+<td class=c title=' / = Avoid'>real/</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>SDRHighlights</td>
+<td class=c title=' / = Avoid'>real/</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>SDRShadows</td>
+<td class=c title=' / = Avoid'>real/</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>SDRWhites</td>
+<td class=c title=' / = Avoid'>real/</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td>Shadows</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
@@ -5423,70 +6213,90 @@ specific properties in XMP (see <a href="http://creativecommons.org/ns">http://c
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td>UprightFourSegments_0</td>
+<td class=c title=' / = Avoid'>string/</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>UprightFourSegments_1</td>
+<td class=c title=' / = Avoid'>string/</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>UprightFourSegments_2</td>
+<td class=c title=' / = Avoid'>string/</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>UprightFourSegments_3</td>
+<td class=c title=' / = Avoid'>string/</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td>UprightFourSegmentsCount</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
+<td>UprightGuidedDependentDigest</td>
+<td class=c title=' / = Avoid'>string/</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td>UprightPreview</td>
 <td class=c title=' / = Avoid'>boolean/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>UprightTransform_0</td>
 <td class=c title=' / = Avoid'>string/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>UprightTransform_1</td>
 <td class=c title=' / = Avoid'>string/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>UprightTransform_2</td>
 <td class=c title=' / = Avoid'>string/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>UprightTransform_3</td>
 <td class=c title=' / = Avoid'>string/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>UprightTransform_4</td>
 <td class=c title=' / = Avoid'>string/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>UprightTransform_5</td>
 <td class=c title=' / = Avoid'>string/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>UprightTransformCount</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>UprightVersion</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>UUID</td>
 <td class=c title=' / = Avoid'>string/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>Version</td>
 <td class=c title=' / = Avoid'>string/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>Vibrance</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>VignetteAmount</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>VignetteMidpoint</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>What</td>
 <td class=c title=' / = Avoid'>string/</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>WhiteBalance</td>
 <td class=c title=' / = Avoid'>string/</td>
 <td><table class=cols><tr>
@@ -5500,7 +6310,7 @@ specific properties in XMP (see <a href="http://creativecommons.org/ns">http://c
   <br>&#39;Shade&#39; = Shade
   <br>&#39;Tungsten&#39; = Tungsten</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td>Whites2012</td>
 <td class=c title=' / = Avoid'>integer/</td>
 <td>&nbsp;</td></tr>
@@ -5889,6 +6699,166 @@ specific properties in XMP (see <a href="http://creativecommons.org/ns">http://c
 <td>&nbsp;</td></tr>
 </table></td></tr></table></blockquote>
 
+<h2><a name='DepthBasedCorr'>XMP DepthBasedCorr Struct</a></h2>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Field Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td>CorrectionActive</td>
+<td class=c>boolean</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CorrectionAmount</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>CorrectionMasks</td>
+<td class=c title=' + = List'>CorrectionMask+</td>
+<td>--&gt; <a href='XMP.html#CorrectionMask'>CorrectionMask Struct</a></td></tr>
+<tr class=b>
+<td>CorrectionSyncID</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LocalCorrectedDepth</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LocalCurveRefineSaturation</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>What</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='DepthMapInfo'>XMP DepthMapInfo Struct</a></h2>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Field Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td>BaseHighlightGuideInputDigest</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>BaseHighlightGuideTable</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>BaseHighlightGuideVersion</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>BaseLayeredDepthInputDigest</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>BaseLayeredDepthTable</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>BaseLayeredDepthVersion</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>BaseRawDepthInputDigest</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>BaseRawDepthTable</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>BaseRawDepthVersion</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>DepthSource</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='LensBlur'>XMP LensBlur Struct</a></h2>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Field Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td>Active</td>
+<td class=c>boolean</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>BlurAmount</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>BokehAspect</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>BokehRotation</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>BokehShape</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>BokehShapeDetail</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>CatEyeAmount</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CatEyeScale</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>FocalRange</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>FocalRangeSource</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>HighlightsBoost</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>HighlightsThreshold</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>SampledArea</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>SampledRange</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>SphericalAberration</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>SubjectRange</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>Version</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+</table></td></tr></table></blockquote>
+
 <h2><a name='Look'>XMP Look Struct</a></h2>
 <blockquote>
 <table class=frame><tr><td>
@@ -5956,11 +6926,19 @@ specific properties in XMP (see <a href="http://creativecommons.org/ns">http://c
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
-<td>LookTable</td>
+<td>Highlights2012</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td>LookTable</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td>ProcessVersion</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>Shadows2012</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
@@ -7102,709 +8080,1204 @@ metadata space with these incredibly bulky image editing parameters.</p>
 <td class=c>real</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td>DepthBasedCorrections</td>
+<td class=c title=' + = List'>struct+</td>
+<td>--&gt; <a href='XMP.html#DepthBasedCorr'>DepthBasedCorr Struct</a></td></tr>
+<tr class=b>
+<td>DepthBasedCorrCorrectionActive</td>
+<td class=c title=' _ = Flattened
+ + = List'>boolean_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionActive)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrCorrectionAmount</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionAmount)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMask</td>
+<td class=c title=' _ = Flattened
+ + = List'>struct_+</td>
+<td>--&gt; <a href='XMP.html#CorrectionMask'>CorrectionMask Struct</a>
+  <br><span class='n s'>(DepthBasedCorrectionsCorrectionMasks)</span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskAlpha</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksAlpha)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskAngle</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksAngle)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskBottom</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksBottom)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskCenterValue</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCenterValue)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskCenterWeight</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCenterWeight)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRange</td>
+<td class=c title=' _ = Flattened
+ + = List'>struct_+</td>
+<td>--&gt; <a href='XMP.html#CorrRangeMask'>CorrRangeMask Struct</a>
+  <br><span class='n s'>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMask; called CorrectionRangeMask by the spec)</span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeAreaModels</td>
+<td class=c title=' _ = Flattened
+ + = List'>struct_+</td>
+<td>--&gt; <a href='XMP.html#AreaModels'>AreaModels Struct</a>
+  <br><span class='n s'>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskAreaModels)</span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeAreaModelsComponents</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskAreaModelsAreaComponents)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeAreaModelsColorSampleInfo</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskAreaModelsColorRangeMaskAreaSampleInfo)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeColorAmount</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskColorAmount)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeDepthFeather</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskDepthFeather)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeDepthMax</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskDepthMax)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeDepthMin</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskDepthMin)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeInvert</td>
+<td class=c title=' _ = Flattened
+ + = List'>boolean_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskInvert)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeLumFeather</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumFeather)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeLuminanceDepthSampleInfo</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskLuminanceDepthSampleInfo)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeLumMax</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumMax)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeLumMin</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumMin)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeLumRange</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumRange)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeSampleType</td>
+<td class=c title=' _ = Flattened
+ + = List'>integer_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskSampleType)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRangeType</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskType)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRangeVersion</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksCorrectionRangeMaskVersion)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskDabs</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksDabs)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskFeather</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksFeather)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskFlipped</td>
+<td class=c title=' _ = Flattened'>boolean_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksFlipped)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskFlow</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksFlow)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskFullX</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksFullX)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskFullY</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksFullY)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskInputDigest</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksInputDigest)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskLeft</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksLeft)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMaskActive</td>
+<td class=c title=' _ = Flattened'>boolean_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskActive)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMaskBlendMode</td>
+<td class=c title=' _ = Flattened'>integer_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskBlendMode)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMaskDigest</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskDigest)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMaskInverted</td>
+<td class=c title=' _ = Flattened'>boolean_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskInverted)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMaskName</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskName)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasks</td>
+<td class=c title=' _ = Flattened
+ + = List'>struct_+</td>
+<td>--&gt; <a href='XMP.html#CorrectionMask'>CorrectionMask Struct</a>
+  <br><span class='n s'>(DepthBasedCorrectionsCorrectionMasksMasks)</span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksAlpha</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksAlpha)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksAngle</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksAngle)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksBottom</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksBottom)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksCenterValue</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksCenterValue)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksCenterWeight</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksCenterWeight)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksDabs</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksDabs)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksFeather</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksFeather)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksFlipped</td>
+<td class=c title=' _ = Flattened'>boolean_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksFlipped)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksFlow</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksFlow)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksFullX</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksFullX)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksFullY</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksFullY)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksInputDigest</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksInputDigest)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksLeft</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksLeft)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksMaskActive</td>
+<td class=c title=' _ = Flattened'>boolean_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskActive)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksMaskBlendMode</td>
+<td class=c title=' _ = Flattened'>integer_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskBlendMode)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksMaskDigest</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskDigest)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksMaskInverted</td>
+<td class=c title=' _ = Flattened'>boolean_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskInverted)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksMaskName</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskName)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksMaskSubType</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskSubType)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksMaskSyncID</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskSyncID)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksValue</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskValue)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksMaskVersion</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMaskVersion)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksMidpoint</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksMidpoint)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksOrigin</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksOrigin)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksPerimeterValue</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksPerimeterValue)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksRadius</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksRadius)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksReferencePoint</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksReferencePoint)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksRight</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksRight)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksRoundness</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksRoundness)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksSizeX</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksSizeX)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksSizeY</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksSizeY)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksTop</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksTop)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMaskSubType</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskSubType)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksVersion</td>
+<td class=c title=' _ = Flattened'>integer_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksVersion)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksWhat</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksWhat)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksWholeImageArea</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksWholeImageArea)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksX</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksX)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksY</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksY)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMaskSyncID</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskSyncID)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMasksZeroX</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksZeroX)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMasksZeroY</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMasksZeroY)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskValue</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskValue)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskMaskVersion</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMaskVersion)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskMidpoint</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksMidpoint)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskOrigin</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksOrigin)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskPerimeterValue</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksPerimeterValue)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRadius</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksRadius)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskReferencePoint</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksReferencePoint)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskRight</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksRight)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskRoundness</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksRoundness)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskSizeX</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksSizeX)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskSizeY</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksSizeY)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskTop</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksTop)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskVersion</td>
+<td class=c title=' _ = Flattened'>integer_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksVersion)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskWhat</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksWhat)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskWholeImageArea</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksWholeImageArea)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskX</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksX)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskY</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksY)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrMaskZeroX</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksZeroX)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrMaskZeroY</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionMasksZeroY)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrCorrectionSyncID</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsCorrectionSyncID)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrLocalCorrectedDepth</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsLocalCorrectedDepth)</span></span></td></tr>
+<tr>
+<td>DepthBasedCorrLocalCurveRefineSaturation</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsLocalCurveRefineSaturation)</span></span></td></tr>
+<tr class=b>
+<td>DepthBasedCorrWhat</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td><span class=s><span class=n>(DepthBasedCorrectionsWhat)</span></span></td></tr>
+<tr>
+<td>DepthMapInfo</td>
+<td class=c>struct</td>
+<td>--&gt; <a href='XMP.html#DepthMapInfo'>DepthMapInfo Struct</a></td></tr>
+<tr class=b>
+<td>DepthMapInfoBaseHighlightGuideInputDigest</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>DepthMapInfoBaseHighlightGuideTable</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>DepthMapInfoBaseHighlightGuideVersion</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>DepthMapInfoBaseLayeredDepthInputDigest</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>DepthMapInfoBaseLayeredDepthTable</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>DepthMapInfoBaseLayeredDepthVersion</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>DepthMapInfoBaseRawDepthInputDigest</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>DepthMapInfoBaseRawDepthTable</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>DepthMapInfoBaseRawDepthVersion</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>DepthMapInfoDepthSource</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td>Description</td>
 <td class=c title=' / = Avoid'>lang-alt/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>DNGIgnoreSidecars</td>
 <td class=c>boolean</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>Exposure</td>
 <td class=c>real</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>Exposure2012</td>
 <td class=c>real</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>FillLight</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrections</td>
 <td class=c title=' + = List'>struct+</td>
 <td>--&gt; <a href='XMP.html#Correction'>Correction Struct</a></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrActive</td>
 <td class=c title=' _ = Flattened'>boolean_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionActive)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrAmount</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionAmount)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMasks</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#CorrectionMask'>CorrectionMask Struct</a>
   <br><span class='n s'>(GradientBasedCorrectionsCorrectionMasks)</span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskAlpha</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksAlpha)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskAngle</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksAngle)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskBottom</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksBottom)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskCenterValue</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCenterValue)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskCenterWeight</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCenterWeight)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRange</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#CorrRangeMask'>CorrRangeMask Struct</a>
   <br><span class='n s'>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMask; called CorrectionRangeMask by the spec)</span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeAreaModels</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#AreaModels'>AreaModels Struct</a>
   <br><span class='n s'>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskAreaModels)</span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeAreaModelsComponents</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskAreaModelsAreaComponents)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeAreaModelsColorSampleInfo</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskAreaModelsColorRangeMaskAreaSampleInfo)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeColorAmount</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskColorAmount)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeDepthFeather</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskDepthFeather)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeDepthMax</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskDepthMax)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeDepthMin</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskDepthMin)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeInvert</td>
 <td class=c title=' _ = Flattened
  + = List'>boolean_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskInvert)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeLumFeather</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumFeather)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeLuminanceDepthSampleInfo</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskLuminanceDepthSampleInfo)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeLumMax</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumMax)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeLumMin</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumMin)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeLumRange</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskLumRange)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeSampleType</td>
 <td class=c title=' _ = Flattened
  + = List'>integer_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskSampleType)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRangeType</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskType)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRangeVersion</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksCorrectionRangeMaskVersion)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskDabs</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksDabs)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskFeather</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksFeather)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskFlipped</td>
 <td class=c title=' _ = Flattened'>boolean_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksFlipped)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskFlow</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksFlow)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskFullX</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksFullX)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskFullY</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksFullY)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskInputDigest</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksInputDigest)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskLeft</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksLeft)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMaskActive</td>
 <td class=c title=' _ = Flattened'>boolean_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskActive)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMaskBlendMode</td>
 <td class=c title=' _ = Flattened'>integer_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskBlendMode)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMaskDigest</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskDigest)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMaskInverted</td>
 <td class=c title=' _ = Flattened'>boolean_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskInverted)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMaskName</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskName)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasks</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#CorrectionMask'>CorrectionMask Struct</a>
   <br><span class='n s'>(GradientBasedCorrectionsCorrectionMasksMasks)</span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksAlpha</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksAlpha)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksAngle</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksAngle)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksBottom</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksBottom)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksCenterValue</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksCenterValue)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksCenterWeight</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksCenterWeight)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksDabs</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksDabs)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksFeather</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksFeather)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksFlipped</td>
 <td class=c title=' _ = Flattened'>boolean_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksFlipped)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksFlow</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksFlow)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksFullX</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksFullX)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksFullY</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksFullY)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksInputDigest</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksInputDigest)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksLeft</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksLeft)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksMaskActive</td>
 <td class=c title=' _ = Flattened'>boolean_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskActive)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksMaskBlendMode</td>
 <td class=c title=' _ = Flattened'>integer_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskBlendMode)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksMaskDigest</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskDigest)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksMaskInverted</td>
 <td class=c title=' _ = Flattened'>boolean_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskInverted)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksMaskName</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskName)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksMaskSubType</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskSubType)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksMaskSyncID</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskSyncID)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksValue</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskValue)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksMaskVersion</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMaskVersion)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksMidpoint</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksMidpoint)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksOrigin</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksOrigin)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksPerimeterValue</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksPerimeterValue)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksRadius</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksRadius)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksReferencePoint</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksReferencePoint)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksRight</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksRight)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksRoundness</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksRoundness)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksSizeX</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksSizeX)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksSizeY</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksSizeY)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksTop</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksTop)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMaskSubType</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskSubType)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksVersion</td>
 <td class=c title=' _ = Flattened'>integer_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksVersion)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksWhat</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksWhat)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksWholeImageArea</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksWholeImageArea)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksX</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksX)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksY</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksY)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMaskSyncID</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskSyncID)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMasksZeroX</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksZeroX)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMasksZeroY</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMasksZeroY)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskValue</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskValue)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskMaskVersion</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMaskVersion)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskMidpoint</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksMidpoint)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskOrigin</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksOrigin)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskPerimeterValue</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksPerimeterValue)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRadius</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksRadius)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskReferencePoint</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksReferencePoint)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskRight</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksRight)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskRoundness</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksRoundness)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskSizeX</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksSizeX)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskSizeY</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksSizeY)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskTop</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksTop)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskVersion</td>
 <td class=c title=' _ = Flattened'>integer_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksVersion)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskWhat</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksWhat)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskWholeImageArea</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksWholeImageArea)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskX</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksX)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskY</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksY)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMaskZeroX</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksZeroX)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrMaskZeroY</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionMasksZeroY)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrCorrectionName</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionName)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMask</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#CorrRangeMask'>CorrRangeMask Struct</a>
   <br><span class='n s'>(GradientBasedCorrectionsCorrectionRangeMask; called CorrectionRangeMask by the spec)</span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskAreaModels</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#AreaModels'>AreaModels Struct</a>
   <br><span class='n s'>(GradientBasedCorrectionsCorrectionRangeMaskAreaModels)</span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskAreaModelsComponents</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskAreaModelsAreaComponents)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskAreaModelsColorSampleInfo</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskAreaModelsColorRangeMaskAreaSampleInfo)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskColorAmount</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskColorAmount)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskDepthFeather</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskDepthFeather)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskDepthMax</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskDepthMax)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskDepthMin</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskDepthMin)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskInvert</td>
 <td class=c title=' _ = Flattened
  + = List'>boolean_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskInvert)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskLumFeather</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskLumFeather)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskLuminanceDepthSampleInfo</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskLuminanceDepthSampleInfo)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskLumMax</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskLumMax)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskLumMin</td>
 <td class=c title=' _ = Flattened
  + = List'>real_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskLumMin)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskLumRange</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskLumRange)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskSampleType</td>
 <td class=c title=' _ = Flattened
  + = List'>integer_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskSampleType)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrRangeMaskType</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskType)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrRangeMaskVersion</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionRangeMaskVersion)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrCorrectionSyncID</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsCorrectionSyncID)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrBlacks2012</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalBlacks2012)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrBrightness</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalBrightness)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrClarity</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalClarity)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrClarity2012</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalClarity2012)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrContrast</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalContrast)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrContrast2012</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalContrast2012)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrDefringe</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalDefringe)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrDehaze</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalDehaze)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrExposure</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalExposure)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrExposure2012</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalExposure2012)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrHighlights2012</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalHighlights2012)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrHue</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalHue)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrLuminanceNoise</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalLuminanceNoise)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrMoire</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalMoire)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrSaturation</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalSaturation)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrShadows2012</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalShadows2012)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrSharpness</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalSharpness)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrTemperature</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalTemperature)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrTexture</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalTexture)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrTint</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalTint)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrToningHue</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalToningHue)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrToningSaturation</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalToningSaturation)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GradientBasedCorrWhites2012</td>
 <td class=c title=' _ = Flattened'>real_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsLocalWhites2012)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>GradientBasedCorrWhat</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td><span class=s><span class=n>(GradientBasedCorrectionsWhat)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>GrainAmount</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GrainFrequency</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>GrainSeed</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GrainSize</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>GrayMixerAqua</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GrayMixerBlue</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>GrayMixerGreen</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GrayMixerMagenta</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>GrayMixerOrange</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GrayMixerPurple</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>GrayMixerRed</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GrayMixerYellow</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>GreenHue</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>GreenSaturation</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>Group</td>
 <td class=c title=' / = Avoid'>lang-alt/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>HasCrop</td>
 <td class=c>boolean</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>HasSettings</td>
 <td class=c>boolean</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>HDREditMode</td>
+<td class=c>integer</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
 <td>Highlight2012</td>
@@ -7861,6 +9334,78 @@ metadata space with these incredibly bulky image editing parameters.</p>
 <tr>
 <td>JPEGHandling</td>
 <td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlur</td>
+<td class=c>struct</td>
+<td>--&gt; <a href='XMP.html#LensBlur'>LensBlur Struct</a></td></tr>
+<tr>
+<td>LensBlurActive</td>
+<td class=c title=' _ = Flattened'>boolean_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurAmount</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td><span class=s><span class=n>(LensBlurBlurAmount)</span></span></td></tr>
+<tr>
+<td>LensBlurBokehAspect</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurBokehRotation</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurBokehShape</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurBokehShapeDetail</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurCatEyeAmount</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurCatEyeScale</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurFocalRange</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurFocalRangeSource</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurHighlightsBoost</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurHighlightsThreshold</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurSampledArea</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurSampledRange</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurSphericalAberration</td>
+<td class=c title=' _ = Flattened'>real_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>LensBlurSubjectRange</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensBlurVersion</td>
+<td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
 <td>LensManualDistortionAmount</td>
@@ -7975,11 +9520,19 @@ metadata space with these incredibly bulky image editing parameters.</p>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
-<td>LookParametersLookTable</td>
+<td>LookParametersHighlights2012</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td>LookParametersLookTable</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td>LookParametersProcessVersion</td>
+<td class=c title=' _ = Flattened'>string_</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LookParametersShadows2012</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
@@ -9373,7 +10926,14 @@ metadata space with these incredibly bulky image editing parameters.</p>
 <tr>
 <td>PerspectiveUpright</td>
 <td class=c>integer</td>
-<td>&nbsp;</td></tr>
+<td><table class=cols><tr>
+  <td>0 = Off
+  <br>1 = Auto
+  <br>2 = Full</td><td>&nbsp;&nbsp;</td>
+  <td>3 = Level
+  <br>4 = Vertical
+  <br>5 = Guided</td></tr></table>
+</td></tr>
 <tr class=b>
 <td>PerspectiveVertical</td>
 <td class=c>integer</td>
@@ -9409,7 +10969,9 @@ metadata space with these incredibly bulky image editing parameters.</p>
 <tr class=b>
 <td>PostCropVignetteStyle</td>
 <td class=c>integer</td>
-<td>&nbsp;</td></tr>
+<td><span class=s>1 = Highlight Priority
+  <br>2 = Color Priority
+  <br>3 = Paint Overlay</span></td></tr>
 <tr>
 <td>PresetType</td>
 <td class=c>string</td>
@@ -9954,6 +11516,30 @@ metadata space with these incredibly bulky image editing parameters.</p>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
+<td>SDRBlend</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>SDRBrightness</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>SDRContrast</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>SDRHighlights</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>SDRShadows</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>SDRWhites</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td>Shadows</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
@@ -10137,70 +11723,90 @@ metadata space with these incredibly bulky image editing parameters.</p>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td>UprightFourSegments_0</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>UprightFourSegments_1</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>UprightFourSegments_2</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>UprightFourSegments_3</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td>UprightFourSegmentsCount</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
+<td>UprightGuidedDependentDigest</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td>UprightPreview</td>
 <td class=c>boolean</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>UprightTransform_0</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>UprightTransform_1</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>UprightTransform_2</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>UprightTransform_3</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>UprightTransform_4</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>UprightTransform_5</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>UprightTransformCount</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>UprightVersion</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>UUID</td>
 <td class=c title=' / = Avoid'>string/</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>Version</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>Vibrance</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>VignetteAmount</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>VignetteMidpoint</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>What</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>WhiteBalance</td>
 <td class=c title=' / = Avoid'>string/</td>
 <td><table class=cols><tr>
@@ -10214,7 +11820,7 @@ metadata space with these incredibly bulky image editing parameters.</p>
   <br>&#39;Shade&#39; = Shade
   <br>&#39;Tungsten&#39; = Tungsten</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td>Whites2012</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
@@ -11431,13 +13037,38 @@ of tags available in DICOM-format files.</p>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
 <tr>
-<td>PickLabel</td>
+<td>PicasawebGPhotoId</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
+<td>PickLabel</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td>TagsList</td>
 <td class=c title=' + = List'>string+</td>
 <td>&nbsp;</td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='ExifTool'>XMP ExifTool Tags</a></h2>
+<p>These tags belong to the ExifTool XMP-et family 1 group.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td>OriginalImageHash</td>
+<td class=c>string</td>
+<td><span class=s><span class=n>(used to store ExifTool ImageDataHash digest)</span></span></td></tr>
+<tr class=b>
+<td>OriginalImageHashType</td>
+<td class=c>string</td>
+<td><span class=s><span class=n>(ImageHashType API setting, default &#39;MD5&#39;)</span></span></td></tr>
+<tr>
+<td>OriginalImageMD5</td>
+<td class=c>string</td>
+<td><span class=s><span class=n>(deprecated)</span></span></td></tr>
 </table></td></tr></table></blockquote>
 
 <h2><a name='exif'>XMP exif Tags</a></h2>
@@ -12389,33 +14020,41 @@ writing due to name conflicts with tags in other schemas.</p>
 <td class=c>string</td>
 <td><span class=s><span class=n>(called hdrp_makernote by the spec)</span></span></td></tr>
 <tr>
+<td>HdrPlusMakernote</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td>MicroVideo</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>MicroVideoOffset</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>MicroVideoPresentationTimestampUs</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>MicroVideoVersion</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>PortraitNote</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>PortraitRequest</td>
 <td class=c>string</td>
 <td><span class=s><span class=n>(High Definition Render Pipeline (HDRP) data)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>PortraitVersion</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
+<tr>
+<td>ShotLogData</td>
+<td class=c>string</td>
+<td><span class=s><span class=n>(called shot_log_data by the spec)</span></span></td></tr>
 <tr class=b>
 <td>SpecialTypeID</td>
 <td class=c title=' + = List'>string+</td>
@@ -12434,6 +14073,10 @@ writing due to name conflicts with tags in other schemas.</p>
 <tr>
 <td>CameraBurstID</td>
 <td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>Type</td>
+<td class=c title=' / = Avoid'>string/</td>
 <td>&nbsp;</td></tr>
 </table></td></tr></table></blockquote>
 
@@ -12843,6 +14486,91 @@ for the specification.</p>
 <td>&nbsp;</td></tr>
 </table></td></tr></table></blockquote>
 
+<h2><a name='hdr'>XMP hdr Tags</a></h2>
+<p>HDR metadata namespace tags written by ACR 15.1.  The actual namespace
+prefix is &quot;hdr_metadata&quot;, which is the prefix recorded in the file, but
+ExifTool shortens this for the family 1 group name.</p>
+
+<p>These tags belong to the ExifTool XMP-hdr family 1 group.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td>CCVAvgLuminanceNits</td>
+<td class=c>real</td>
+<td><span class=s><span class=n>(called ccv_avg_luminance_nits by the spec)</span></span></td></tr>
+<tr class=b>
+<td>CCVMaxLuminanceNits</td>
+<td class=c>real</td>
+<td><span class=s><span class=n>(called ccv_max_luminance_nits by the spec)</span></span></td></tr>
+<tr>
+<td>CCVMinLuminanceNits</td>
+<td class=c>real</td>
+<td><span class=s><span class=n>(called ccv_min_luminance_nits by the spec)</span></span></td></tr>
+<tr class=b>
+<td>CCVPrimariesXY</td>
+<td class=c>string</td>
+<td><span class=s><span class=n>(called ccv_primaries_xy by the spec)</span></span></td></tr>
+<tr>
+<td>CCVWhiteXY</td>
+<td class=c>string</td>
+<td><span class=s><span class=n>(called ccv_white_xy by the spec)</span></span></td></tr>
+<tr class=b>
+<td>SceneReferred</td>
+<td class=c>boolean</td>
+<td><span class=s><span class=n>(called scene_referred by the spec)</span></span></td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='hdrgm'>XMP hdrgm Tags</a></h2>
+<p>Tags used in Adobe gain map images.</p>
+
+<p>These tags belong to the ExifTool XMP-hdrgm family 1 group.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td>BaseRenditionIsHDR</td>
+<td class=c>boolean</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>GainMapMax</td>
+<td class=c title=' + = List'>real+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>GainMapMin</td>
+<td class=c title=' + = List'>real+</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>Gamma</td>
+<td class=c title=' / = Avoid
+ + = List'>real/+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>HDRCapacityMax</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>HDRCapacityMin</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>OffsetHDR</td>
+<td class=c title=' + = List'>real+</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>OffsetSDR</td>
+<td class=c title=' + = List'>real+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>Version</td>
+<td class=c title=' / = Avoid'>string/</td>
+<td>&nbsp;</td></tr>
+</table></td></tr></table></blockquote>
+
 <h2><a name='ics'>XMP ics Tags</a></h2>
 <p>Tags used by IDimager.  Nested TagStructure structures are unrolled to an
 arbitrary depth of 6 to avoid infinite recursion.</p>
@@ -13164,10 +14892,11 @@ shortens this for the family 1 group name. (see
 </table></td></tr></table></blockquote>
 
 <h2><a name='iptcExt'>XMP iptcExt Tags</a></h2>
-<p>This table contains tags defined by the IPTC Extension schema version 1.6.
-The actual namespace prefix is &quot;Iptc4xmpExt&quot;, but ExifTool shortens this for
-the family 1 group name. (see
-<a href="http://www.iptc.org/standards/photo-metadata/iptc-standard/">http://www.iptc.org/standards/photo-metadata/iptc-standard/</a>)</p>
+<p>This table contains tags defined by the IPTC Extension schema version 1.7
+and IPTC Video Metadata version 1.3. The actual namespace prefix is
+&quot;Iptc4xmpExt&quot;, but ExifTool shortens this for the family 1 group name. (See
+<a href="http://www.iptc.org/standards/photo-metadata/iptc-standard/">http://www.iptc.org/standards/photo-metadata/iptc-standard/</a> and
+<a href="https://iptc.org/standards/video-metadata-hub/">https://iptc.org/standards/video-metadata-hub/</a>.)</p>
 
 <p>These tags belong to the ExifTool XMP-iptcExt family 1 group.</p>
 <blockquote>
@@ -13809,16 +15538,50 @@ the family 1 group name. (see
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td>MetadataAuthority</td>
+<td class=c>struct</td>
+<td>--&gt; <a href='XMP.html#Entity'>Entity Struct</a></td></tr>
+<tr class=b>
+<td>MetadataAuthorityIdentifier</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>MetadataAuthorityName</td>
+<td class=c title=' _ = Flattened'>lang-alt_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>MetadataLastEdited</td>
+<td class=c>date</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>MetadataLastEditor</td>
+<td class=c>struct</td>
+<td>--&gt; <a href='XMP.html#Entity'>Entity Struct</a></td></tr>
+<tr class=b>
+<td>MetadataLastEditorIdentifier</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>MetadataLastEditorName</td>
+<td class=c title=' _ = Flattened'>lang-alt_</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td>ModelAge</td>
 <td class=c title=' + = List'>integer+</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>OrganisationInImageCode</td>
 <td class=c title=' + = List'>string+</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>OrganisationInImageName</td>
 <td class=c title=' + = List'>string+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>ParentID</td>
+<td class=c>string</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
 <td>PersonHeard</td>
@@ -13917,236 +15680,241 @@ the family 1 group name. (see
  + = List'>string_+</td>
 <td><span class=s><span class=n>(ProductInImageProductGTIN)</span></span></td></tr>
 <tr class=b>
+<td>ProductInImageProductId</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td>ProductInImageName</td>
 <td class=c title=' _ = Flattened
  + = List'>lang-alt_+</td>
 <td><span class=s><span class=n>(ProductInImageProductName)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>PublicationEvent</td>
 <td class=c title=' + = List'>struct+</td>
 <td>--&gt; <a href='XMP.html#PublicationEvent'>PublicationEvent Struct</a></td></tr>
-<tr class=b>
+<tr>
 <td>PublicationEventDate</td>
 <td class=c title=' _ = Flattened
  + = List'>date_+</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>PublicationEventIdentifier</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>PublicationEventName</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>Rating</td>
 <td class=c title=' + = List'>struct+</td>
 <td>--&gt; <a href='XMP.html#Rating'>Rating Struct</a></td></tr>
-<tr class=b>
+<tr>
 <td>RatingRegion</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#LocationDetails'>LocationDetails Struct</a>
   <br><span class='n s'>(RatingRatingRegion)</span></td></tr>
-<tr>
+<tr class=b>
 <td>RatingRegionCity</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingRegionCity)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>RatingRegionCountryCode</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingRegionCountryCode)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>RatingRegionCountryName</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingRegionCountryName)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>RatingRegionGPSAltitude</td>
 <td class=c title=' _ = Flattened
  + = List'>rational_+</td>
 <td><span class=s><span class=n>(RatingRatingRegionGPSAltitude)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>RatingRegionGPSLatitude</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingRegionGPSLatitude)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>RatingRegionGPSLongitude</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingRegionGPSLongitude)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>RatingRegionIdentifier</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingRegionIdentifier)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>RatingRegionLocationId</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingRegionLocationId)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>RatingRegionLocationName</td>
 <td class=c title=' _ = Flattened
  + = List'>lang-alt_+</td>
 <td><span class=s><span class=n>(RatingRatingRegionLocationName)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>RatingRegionProvinceState</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingRegionProvinceState)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>RatingRegionSublocation</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingRegionSublocation)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>RatingRegionWorldRegion</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingRegionWorldRegion)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>RatingScaleMaxValue</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingScaleMaxValue)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>RatingScaleMinValue</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingScaleMinValue)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>RatingSourceLink</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingSourceLink)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>RatingValue</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingValue)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>RatingValueLogoLink</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RatingRatingValueLogoLink)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>RecDevice</td>
 <td class=c>struct</td>
 <td>--&gt; <a href='XMP.html#Device'>Device Struct</a></td></tr>
-<tr>
+<tr class=b>
 <td>RecDeviceAttLensDescription</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>RecDeviceManufacturer</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>RecDeviceModelName</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>RecDeviceOwnersDeviceId</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>RecDeviceSerialNumber</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>RegistryID</td>
 <td class=c title=' + = List'>struct+</td>
 <td>--&gt; <a href='XMP.html#RegistryEntryDetails'>RegistryEntryDetails Struct</a></td></tr>
-<tr>
+<tr class=b>
 <td>RegistryEntryRole</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RegistryIdRegEntryRole)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>RegistryItemID</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RegistryIdRegItemId)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>RegistryOrganisationID</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(RegistryIdRegOrgId)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>ReleaseReady</td>
 <td class=c>boolean</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>Season</td>
 <td class=c>struct</td>
 <td>--&gt; <a href='XMP.html#EpisodeOrSeason'>EpisodeOrSeason Struct</a></td></tr>
-<tr class=b>
+<tr>
 <td>SeasonIdentifier</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>SeasonName</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>SeasonNumber</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>Series</td>
 <td class=c>struct</td>
 <td>--&gt; <a href='XMP.html#Series'>Series Struct</a></td></tr>
-<tr class=b>
+<tr>
 <td>SeriesIdentifier</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>SeriesName</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>Snapshot</td>
 <td class=c title=' + = List'>struct+</td>
 <td>--&gt; <a href='XMP.html#LinkedImage'>LinkedImage Struct</a>
   <br><span class='n s'>(called SnapshotLink by the spec)</span></td></tr>
-<tr>
+<tr class=b>
 <td>SnapshotFormat</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(SnapshotLinkFormat)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>SnapshotHeightPixels</td>
 <td class=c title=' _ = Flattened
  + = List'>integer_+</td>
 <td><span class=s><span class=n>(SnapshotLinkHeightPixels)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>SnapshotImageRole</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(SnapshotLinkImageRole)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>SnapshotLink</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(SnapshotLinkLink)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>SnapshotLinkQualifier</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(SnapshotLinkLinkQualifier)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>SnapshotUsedVideoFrame</td>
 <td class=c title=' _ = Flattened
  + = List'>struct_+</td>
 <td>--&gt; <a href='XMP.html#Timecode'>Timecode Struct</a>
   <br><span class='n s'>(SnapshotLinkUsedVideoFrame)</span></td></tr>
-<tr>
+<tr class=b>
 <td>SnapshotUsedVideoFrameTimeFormat</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
@@ -14162,137 +15930,137 @@ the family 1 group name. (see
   <br>&#39;5994NonDropTimecode&#39; = 59.94 fps (non-drop)
   <br>&#39;60Timecode&#39; = 60 fps</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td>SnapshotUsedVideoFrameTimeValue</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(SnapshotLinkUsedVideoFrameTimeValue)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>SnapshotUsedVideoFrameValue</td>
 <td class=c title=' _ = Flattened
  + = List'>integer_+</td>
 <td><span class=s><span class=n>(SnapshotLinkUsedVideoFrameValue; only in XMP 2008 spec; an error?)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>SnapshotWidthPixels</td>
 <td class=c title=' _ = Flattened
  + = List'>integer_+</td>
 <td><span class=s><span class=n>(SnapshotLinkWidthPixels)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>StorylineIdentifier</td>
 <td class=c title=' + = List'>string+</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>StreamReady</td>
 <td class=c>string</td>
 <td><span class=s>&#39;false&#39; = False
   <br>&#39;true&#39; = True
   <br>&#39;unknown&#39; = Unknown</span></td></tr>
-<tr>
+<tr class=b>
 <td>StylePeriod</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>SupplyChainSource</td>
 <td class=c title=' + = List'>struct+</td>
 <td>--&gt; <a href='XMP.html#Entity'>Entity Struct</a></td></tr>
-<tr>
+<tr class=b>
 <td>SupplyChainSourceIdentifier</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>SupplyChainSourceName</td>
 <td class=c title=' _ = Flattened
  + = List'>lang-alt_+</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>TemporalCoverage</td>
 <td class=c>struct</td>
 <td>--&gt; <a href='XMP.html#TemporalCoverage'>TemporalCoverage Struct</a></td></tr>
-<tr class=b>
+<tr>
 <td>TemporalCoverageFrom</td>
 <td class=c title=' _ = Flattened'>date_</td>
 <td><span class=s><span class=n>(TemporalCoverageTempCoverageFrom)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>TemporalCoverageTo</td>
 <td class=c title=' _ = Flattened'>date_</td>
 <td><span class=s><span class=n>(TemporalCoverageTempCoverageTo)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>Transcript</td>
 <td class=c>lang-alt</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>TranscriptLink</td>
 <td class=c title=' + = List'>struct+</td>
 <td>--&gt; <a href='XMP.html#QualifiedLink'>QualifiedLink Struct</a></td></tr>
-<tr class=b>
+<tr>
 <td>TranscriptLinkLink</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>TranscriptLinkLinkQualifier</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>VideoBitrate</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>VideoBitrateMode</td>
 <td class=c>string</td>
 <td><span class=s>&#39;fixed&#39; = Fixed
   <br>&#39;variable&#39; = Variable</span></td></tr>
-<tr class=b>
+<tr>
 <td>VideoDisplayAspectRatio</td>
 <td class=c>rational</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>VideoEncodingProfile</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>VideoShotType</td>
 <td class=c title=' + = List'>struct+</td>
 <td>--&gt; <a href='XMP.html#Entity'>Entity Struct</a></td></tr>
-<tr>
+<tr class=b>
 <td>VideoShotTypeIdentifier</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>VideoShotTypeName</td>
 <td class=c title=' _ = Flattened
  + = List'>lang-alt_+</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>VideoStreamsCount</td>
 <td class=c>integer</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>VisualColor</td>
 <td class=c>string</td>
 <td><span class=s><span class=n>(called VisualColour by the spec)</span>
   <br>&#39;bw-monochrome&#39; = Monochrome
   <br>&#39;colour&#39; = Color</span></td></tr>
-<tr>
+<tr class=b>
 <td>WorkflowTag</td>
 <td class=c>struct</td>
 <td>--&gt; <a href='XMP.html#CVTermDetails'>CVTermDetails Struct</a></td></tr>
-<tr class=b>
+<tr>
 <td>WorkflowTagCvId</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>WorkflowTagCvTermId</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>WorkflowTagCvTermName</td>
 <td class=c title=' _ = Flattened'>lang-alt_</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>WorkflowTagCvTermRefinedAbout</td>
 <td class=c title=' _ = Flattened'>string_</td>
 <td>&nbsp;</td></tr>
@@ -14744,6 +16512,10 @@ is to write ImageRegion as a structure with these tags as new fields.</p>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td>ProductId</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td>ProductName</td>
 <td class=c>lang-alt</td>
 <td>&nbsp;</td></tr>
@@ -15027,6 +16799,33 @@ is to write ImageRegion as a structure with these tags as new fields.</p>
 <td>&nbsp;</td></tr>
 </table></td></tr></table></blockquote>
 
+<h2><a name='panorama'>XMP panorama Tags</a></h2>
+<p>Adobe Photoshop Panorama-profile tags.</p>
+
+<p>These tags belong to the ExifTool XMP-panorama family 1 group.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td>Transformation</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>VirtualFocalLength</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>VirtualImageXCenter</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>VirtualImageYCenter</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+</table></td></tr></table></blockquote>
+
 <h2><a name='pdf'>XMP pdf Tags</a></h2>
 <p>Adobe PDF namespace tags.  The official XMP specification defines only
 Keywords, PDFVersion, Producer and Trapped.  The other tags are included
@@ -15119,18 +16918,132 @@ created to enable writing of XMP-pdfx information.</p>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
+<td>CameraProfiles</td>
+<td class=c title=' + = List'>struct+</td>
+<td>--&gt; <a href='XMP.html#Camera'>Camera Struct</a></td></tr>
+<tr>
+<td>CameraProfilesApertureValue</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CameraProfilesAuthor</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>CameraProfilesAutoScale</td>
+<td class=c title=' _ = Flattened
+ + = List'>boolean_+</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CameraProfilesCameraPrettyName</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>CameraProfilesCameraRawProfile</td>
+<td class=c title=' _ = Flattened
+ + = List'>boolean_+</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CameraProfilesFocalLength</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>CameraProfilesFocusDistance</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CameraProfilesLens</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>CameraProfilesLensPrettyName</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CameraProfilesMake</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>CameraProfilesModel</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CameraProfilesPerspectiveModel</td>
+<td class=c title=' _ = Flattened
+ + = List'>struct_+</td>
+<td>--&gt; <a href='XMP.html#PerspectiveModel'>PerspectiveModel Struct</a></td></tr>
+<tr>
+<td>CameraProfilesPerspectiveModelImageXCenter</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CameraProfilesPerspectiveModelImageYCenter</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>CameraProfilesPerspectiveModelRadialDistortParam1</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CameraProfilesPerspectiveModelRadialDistortParam2</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>CameraProfilesPerspectiveModelRadialDistortParam3</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CameraProfilesPerspectiveModelScaleFactor</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>CameraProfilesPerspectiveModelVersion</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CameraProfilesProfileName</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>CameraProfilesSensorFormatFactor</td>
+<td class=c title=' _ = Flattened
+ + = List'>real_+</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CameraProfilesUniqueCameraModel</td>
+<td class=c title=' _ = Flattened
+ + = List'>string_+</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td>CaptionWriter</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>Category</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>City</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>ColorMode</td>
 <td class=c>integer</td>
 <td><table class=cols><tr>
@@ -15143,81 +17056,81 @@ created to enable writing of XMP-pdfx information.</p>
   <br>8 = Duotone
   <br>9 = Lab</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td>Country</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>Credit</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>DateCreated</td>
 <td class=c>date</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>DocumentAncestors</td>
 <td class=c title=' + = List'>string+</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>EmbeddedXMPDigest</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>Headline</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>History</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>ICCProfileName</td>
 <td class=c>string</td>
 <td><span class=s><span class=n>(called ICCProfile by the spec)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>Instructions</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>LegacyIPTCDigest</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>SidecarForExtension</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>Source</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>State</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>SupplementalCategories</td>
 <td class=c title=' + = List'>string+</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>TextLayers</td>
 <td class=c title=' + = List'>struct+</td>
 <td>--&gt; <a href='XMP.html#Layer'>Layer Struct</a></td></tr>
-<tr>
+<tr class=b>
 <td>TextLayerName</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(TextLayersLayerName)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>TextLayerText</td>
 <td class=c title=' _ = Flattened
  + = List'>string_+</td>
 <td><span class=s><span class=n>(TextLayersLayerText)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td>TransmissionReference</td>
 <td class=c>string</td>
 <td><span class=s><span class=n>(Now used as a job identifier)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td>Urgency</td>
 <td class=c>integer</td>
 <td><span class=s><span class=n>(should be in the range 1-8 to conform with the XMP spec)</span></span><table class=cols><tr>
@@ -15232,6 +17145,110 @@ created to enable writing of XMP-pdfx information.</p>
   <br>8 = 8 (least urgent)
   <br>9 = 9 (user-defined priority)</td></tr></table>
 </td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='Camera'>XMP Camera Struct</a></h2>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Field Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td>ApertureValue</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>Author</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>AutoScale</td>
+<td class=c>boolean</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CameraPrettyName</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>CameraRawProfile</td>
+<td class=c>boolean</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>FocalLength</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>FocusDistance</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>Lens</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>LensPrettyName</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>Make</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>Model</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>PerspectiveModel</td>
+<td class=c>PerspectiveModel</td>
+<td>--&gt; <a href='XMP.html#PerspectiveModel'>PerspectiveModel Struct</a></td></tr>
+<tr>
+<td>ProfileName</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>SensorFormatFactor</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>UniqueCameraModel</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='PerspectiveModel'>XMP PerspectiveModel Struct</a></h2>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Field Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td>ImageXCenter</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>ImageYCenter</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>RadialDistortParam1</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>RadialDistortParam2</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>RadialDistortParam3</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>ScaleFactor</td>
+<td class=c>real</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>Version</td>
+<td class=c>string</td>
+<td>&nbsp;</td></tr>
 </table></td></tr></table></blockquote>
 
 <h2><a name='Layer'>XMP Layer Struct</a></h2>
@@ -15448,7 +17465,8 @@ namespace URI.</p>
 
 <h2><a name='prism'>XMP prism Tags</a></h2>
 <p>Publishing Requirements for Industry Standard Metadata 3.0 namespace
-tags.  (see <a href="http://www.prismstandard.org/">http://www.prismstandard.org/</a>)</p>
+tags.  (see
+<a href="https://www.w3.org/Submission/2020/SUBM-prism-20200910/prism-basic.html/">https://www.w3.org/Submission/2020/SUBM-prism-20200910/prism-basic.html/</a>)</p>
 
 <p>These tags belong to the ExifTool XMP-prism family 1 group.</p>
 <blockquote>
@@ -16152,7 +18170,7 @@ tags.  (see <a href="http://www.prismstandard.org/">http://www.prismstandard.org
 <h2><a name='prl'>XMP prl Tags</a></h2>
 <p>PRISM Rights Language 2.1 namespace tags.  These tags have been deprecated
 since the release of the PRISM Usage Rights 3.0. (see
-<a href="http://www.prismstandard.org/">http://www.prismstandard.org/</a>)</p>
+<a href="https://www.w3.org/submissions/2020/SUBM-prism-20200910/prism-image.html">https://www.w3.org/submissions/2020/SUBM-prism-20200910/prism-image.html</a>)</p>
 
 <p>These tags belong to the ExifTool XMP-prl family 1 group.</p>
 <blockquote>
@@ -19431,7 +21449,7 @@ XMP module for convenience.  (see <a href="http://www.w3.org/TR/SVG11/">http://w
 
 <hr>
 (This document generated automatically by Image::ExifTool::BuildTagLookup)
-<br><i>Last revised Jan 12, 2022</i>
+<br><i>Last revised Jan 10, 2024</i>
 <p class=lf><a href='index.html'>&lt;-- ExifTool Tag Names</a></p>
 </body>
 </html>

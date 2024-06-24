@@ -19,19 +19,19 @@ my $testnum = 1;
 # test 2: Extract information from CRW
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/CanonRaw.crw');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
 # test 3: Extract JpgFromRaw from CRW
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     $exifTool->Options(PrintConv => 0, IgnoreMinorErrors => 1);
     my $info = $exifTool->ImageInfo('t/images/CanonRaw.crw','JpgFromRaw');
-    print 'not ' unless ${$info->{JpgFromRaw}} eq '<Dummy JpgFromRaw image data>';
+    notOK() unless ${$info->{JpgFromRaw}} eq '<Dummy JpgFromRaw image data>';
     print "ok $testnum\n";
 }
 
@@ -39,7 +39,7 @@ my $testnum = 1;
 {
     ++$testnum;
     if (eval { require Time::Local }) {
-        my $exifTool = new Image::ExifTool;
+        my $exifTool = Image::ExifTool->new;
         # set IgnoreMinorErrors option to allow invalid JpgFromRaw to be written
         $exifTool->Options(IgnoreMinorErrors => 1);
         $exifTool->SetNewValuesFromFile('t/images/Canon.jpg');
@@ -56,7 +56,7 @@ my $testnum = 1;
         if (check($exifTool, $info, $testname, $testnum)) {
             unlink $testfile;
         } else {
-            print 'not ';
+            notOK();
         }
         print "ok $testnum\n";
     } else {
@@ -67,7 +67,7 @@ my $testnum = 1;
 # test 5: Test verbose output
 {
     ++$testnum;
-    print 'not ' unless testVerbose($testname, $testnum, 't/images/CanonRaw.crw', 1);
+    notOK() unless testVerbose($testname, $testnum, 't/images/CanonRaw.crw', 1);
     print "ok $testnum\n";
 }
 
@@ -75,7 +75,7 @@ my $testnum = 1;
 {
     ++$testnum;
     if (eval { require Time::Local }) {
-        my $exifTool = new Image::ExifTool;
+        my $exifTool = Image::ExifTool->new;
         # set IgnoreMinorErrors option to allow invalid JpgFromRaw to be written
         $exifTool->SetNewValue(Keywords => 'CR2 test');
         $exifTool->SetNewValue(OwnerName => 'Phil Harvey');
@@ -107,7 +107,7 @@ my $testnum = 1;
             last;
         }
         warn "\n  Test $testnum: Error reading file suffix\n" if $success == 1;
-        print 'not ' unless $success == 2;
+        notOK() unless $success == 2;
         print "ok $testnum\n";
     } else {
         print "ok $testnum # skip Requires Time::Local\n";
@@ -118,7 +118,7 @@ my $testnum = 1;
 {
     ++$testnum;
     if (eval { require Time::Local }) {
-        my $exifTool = new Image::ExifTool;
+        my $exifTool = Image::ExifTool->new;
         $exifTool->SetNewValuesFromFile('t/images/CanonRaw.cr2');
         $testfile = "t/${testname}_${testnum}_failed.jpg";
         unlink $testfile;
@@ -128,7 +128,7 @@ my $testnum = 1;
         if (check($exifTool, $info, $testname, $testnum)) {
             unlink $testfile;
         } else {
-            print 'not ';
+            notOK();
         }
         print "ok $testnum\n";
     } else {
@@ -139,9 +139,9 @@ my $testnum = 1;
 # test 8: Extract information from a CR3 image
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/CanonRaw.cr3');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
@@ -153,12 +153,11 @@ my $testnum = 1;
             [Subject => 'CR3 test'],
             [ExposureCompensation => -1.3],
         );
-        print 'not ' unless writeCheck(\@writeInfo, $testname, $testnum, 't/images/CanonRaw.cr3');
+        notOK() unless writeCheck(\@writeInfo, $testname, $testnum, 't/images/CanonRaw.cr3');
         print "ok $testnum\n";
     } else {
         print "ok $testnum # skip Requires Time::Local\n";
     }
 }
 
-
-# end
+done(); # end

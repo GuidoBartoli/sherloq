@@ -40,7 +40,7 @@ use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 use Image::ExifTool::APP12;
 
-$VERSION = '2.78';
+$VERSION = '2.82';
 
 sub PrintLensInfo($$$);
 
@@ -115,6 +115,8 @@ my %olympusLensTypes = (
     '0 35 00' => 'Olympus Zuiko Digital 14-54mm F2.8-3.5 II', #PH
     '0 35 10' => 'Olympus M.Zuiko 100-400mm F5.0-6.3', #IB
     '0 36 10' => 'Olympus M.Zuiko Digital ED 8-25mm F4 Pro', #IB
+    '0 37 10' => 'Olympus M.Zuiko Digital ED 40-150mm F4.0 Pro', #forum3833
+    '0 39 10' => 'Olympus M.Zuiko Digital ED 90mm F3.5 Macro IS Pro', #forum3833
     # Sigma lenses
     '1 01 00' => 'Sigma 18-50mm F3.5-5.6 DC', #8
     '1 01 10' => 'Sigma 30mm F2.8 EX DN', #NJ
@@ -184,7 +186,9 @@ my %olympusLensTypes = (
     '2 36 10' => 'Leica DG Elmarit 200mm F2.8 Power OIS', #IB
     '2 37 10' => 'Leica DG Vario-Elmarit 50-200mm F2.8-4 Asph. Power OIS', #IB
     '2 38 10' => 'Leica DG Vario-Summilux 10-25mm F1.7 Asph.', #IB
+    '2 39 10' => 'Leica DG Summilux 25mm F1.4 II Asph.', #forum15345
     '2 40 10' => 'Leica DG Vario-Summilux 25-50mm F1.7 Asph.', #IB (H-X2550)
+    '2 41 10' => 'Leica DG Summilux 9mm F1.7 Asph.', #forum15345
     '3 01 00' => 'Leica D Vario Elmarit 14-50mm F2.8-3.5 Asph.', #11
     '3 02 00' => 'Leica D Summilux 25mm F1.4 Asph.', #11
     # Tamron lenses
@@ -356,6 +360,7 @@ my %olympusCameraTypes = (
     D4521 => 'SH-25MR',
     D4523 => 'SP-720UZ',
     D4529 => 'VG170',
+    D4530 => 'VH210',
     D4531 => 'XZ-2',
     D4535 => 'SP-620UZ',
     D4536 => 'TG-320',
@@ -381,9 +386,11 @@ my %olympusCameraTypes = (
     D4585 => 'SH-2 / SH-3',
     D4586 => 'TG-4',
     D4587 => 'TG-860',
+    D4590 => 'TG-TRACKER',
     D4591 => 'TG-870',
     D4593 => 'TG-5', #IB
     D4603 => 'TG-6', #IB
+    D4605 => 'TG-7',
     D4809 => 'C2500L',
     D4842 => 'E-10',
     D4856 => 'C-1',
@@ -429,10 +436,12 @@ my %olympusCameraTypes = (
     S0076 => 'E-PL9', #IB
     S0080 => 'E-M1X', #IB
     S0085 => 'E-PL10', #IB
+    S0088 => 'E-M10MarkIV',
     S0089 => 'E-M5MarkIII',
     S0092 => 'E-M1MarkIII', #IB
     S0093 => 'E-P7', #IB
     S0095 => 'OM-1', #IB
+    S0101 => 'OM-5', #IB
     SR45 => 'D220',
     SR55 => 'D320L',
     SR83 => 'D340L',
@@ -1834,7 +1843,7 @@ my %indexInfo = (
             1 => 'Sequential shooting AF',
             2 => 'Continuous AF',
             3 => 'Multi AF',
-            4 => 'Face detect', #11
+            4 => 'Face Detect', #11
             10 => 'MF',
         }, {
             0 => '(none)',
@@ -1842,7 +1851,7 @@ my %indexInfo = (
                 0 => 'S-AF',
                 2 => 'C-AF',
                 4 => 'MF',
-                5 => 'Face detect',
+                5 => 'Face Detect',
                 6 => 'Imager AF',
                 7 => 'Live View Magnification Frame',
                 8 => 'AF sensor',
@@ -1919,7 +1928,7 @@ my %indexInfo = (
         PrintConv => [{
             0 => 'Off',
             1 => 'Motorsports',
-            2 => 'Airplnes',
+            2 => 'Airplanes',
             3 => 'Trains',
             4 => 'Birds',
             5 => 'Dogs & Cats',
@@ -3162,21 +3171,38 @@ my %indexInfo = (
             PrintHex => 1,
             ValueConv => '($val & 0x1f) . " " . ($val & 0xffe0)',
             ValueConvInv => 'my @v=split(" ",$val); @v == 2 ? $v[0] + $v[1] : $val',
-            PrintConv => [
+            PrintConv => [ # herb values added:
+                           # based on code of W.P. in https://exiftool.org/forum/index.php?topic=14144.0
                 {
-                    0x00 => '(none)',
-                    0x01 => 'Center',
+                    # 0x00 => '(none)',
+                    # 0x01 => 'Center',
                     # need to fill this in...
+                    0x00 => '(none)',
+                    0x02 => 'Top-center (horizontal)',
+                    0x04 => 'Right (horizontal)',
+                    0x05 => 'Mid-right (horizontal)',
+                    0x06 => 'Center (horizontal)',
+                    0x07 => 'Mid-left (horizontal)',
+                    0x08 => 'Left (horizontal)',
+                    0x0a => 'Bottom-center (horizontal)',
+                    0x0c => 'Top-center (vertical)',
+                    0x0f => 'Right (vertical)',
+                    0x15 => 'Bottom-center (vertical)',
+                    0x10 => 'Mid-right (vertical)',
+                    0x11 => 'Center (vertical)',
+                    0x12 => 'Mid-left (vertical)',
+                    0x13 => 'Left (vertical)',
                 },
                 {
                     0x00 => 'Single Target',
                     0x40 => 'All Target', # (guess)
                 },
             ]
-        },{ #11
+        },{ #herb all camera model except E-Mxxx and OM-x
             Name => 'AFPoint',
+            Condition => '$$self{Model} !~ /^(E-M|OM-)/  ',
             Writable => 'int16u',
-            Notes => 'other models',
+            Notes => 'models other than E-Mxxx and OM-x',
             RawConv => '($val or $$self{Model} ne "E-P1") ? $val : undef',
             PrintConv => {
                 # (E-P1 always writes 0, maybe other models do too - PH)
@@ -3186,9 +3212,73 @@ my %indexInfo = (
                 3 => 'Center (vertical)', #6 (E-510)
                 255 => 'None',
             },
+        },{ #herb all newer models E-Mxxx and OM-x; we do not know details
+            Name => 'AFPoint',
+            Writable => 'int16u',
+            Notes => 'other models',
         }
     ],
     # 0x31a Continuous AF parameters?
+    0x31b => [ #herb, based on investigations of abgestumpft: https://exiftool.org/forum/index.php?topic=14527.0
+               # for newer models E-Mxxx and OM-x 
+        {
+            Name => 'AFPointDetails',
+            Condition => '$$self{Model} =~ m/^E-M|^OM-/ ',
+            Writable => 'int16u',
+            Notes => 'models E-Mxxx and OM-x',
+            PrintHex => 1,
+            ValueConv => '(($val >> 13) & 0x7) . " " . (($val >> 12) & 0x1) . " " .  (($val >> 11) & 0x1) . " " .
+            #               subject detect               face and eye                  half press
+                          (($val >> 8) & 0x3) . " " . (($val >> 7) & 0x1) . " " . (($val >> 5) & 0x1) . " " .
+            #               eye AF                      face detect                 x-AF with MF
+                          (($val >> 4) & 0x1) . " " . (($val >> 3) & 0x1) . " " . ($val & 0x7)',
+            #               release                     object found               MF...  
+            PrintConvColumns => 4,
+            PrintConv => [
+                {
+                    # should be identical to AISubjectTrackingMode
+                    0 => 'No Subject Detection',
+                    1 => 'Motorsports',
+                    2 => 'Airplanes',
+                    3 => 'Trains',
+                    4 => 'Birds',
+                    5 => 'Dogs & Cats',
+                },{
+                    0 => 'Face Priority',
+                    1 => 'Target Priority',
+                },{
+                    0 => 'Normal AF',
+                    1 => 'AF on Half Press',
+                },{
+                    0 => 'No Eye-AF',
+                    1 => 'Right Eye Priority',
+                    2 => 'Left Eye Priority',
+                    3 => 'Both Eyes Priority',
+                },{
+                    0 => 'No Face Detection',
+                    1 => 'Face Detection',
+                },{
+                    0 => 'No MF',
+                    1 => 'With MF',
+                },{
+                    0 => 'AF Priority',
+                    1 => 'Release Priority',
+                },{
+                    0 => 'No Object found',
+                    1 => 'Object found',
+                },{
+                    0 => 'MF',
+                    1 => 'S-AF',
+                    2 => 'C-AF',
+                    6 => 'C-AF + TR',
+                },
+            ],
+        },{ # for older models
+            Name => 'AFPointDetails',
+            Writable => 'int16u',
+            Notes => 'other models',
+        }
+    ],
     0x328 => { #PH
         Name => 'AFInfo',
         SubDirectory => { TagTable => 'Image::ExifTool::Olympus::AFInfo' },
@@ -4091,7 +4181,7 @@ Olympus or Epson maker notes in EXIF information.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

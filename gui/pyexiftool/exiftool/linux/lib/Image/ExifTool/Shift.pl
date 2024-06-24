@@ -361,7 +361,7 @@ sub ShiftTime($;$$$)
                 };
                 # not a problem if we failed here since we'll just try again next time,
                 # so don't return error message
-                unless (@$) {
+                unless ($@) {
                     my $mode;
                     if (defined $time[0]) {
                         $mode = defined $time[3] ? 'DateTime' : 'Date';
@@ -403,7 +403,6 @@ sub ShiftTime($;$$$)
             };
             $@ and return CleanWarning($@);
             $tm += $$shiftOffset{$mode};    # apply the shift
-            $tm < 0 and return 'Shift results in negative time';
             # save fractional seconds in shifted time
             $frac = $tm - int($tm);
             if ($frac) {
@@ -632,7 +631,7 @@ limited to the range 1970 to 2038 on 32-bit systems.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

@@ -538,10 +538,11 @@ my %sImageRegion = ( # new in 1.5
     NAMESPACE   => 'Iptc4xmpExt',
     TABLE_DESC => 'XMP IPTC Extension',
     NOTES => q{
-        This table contains tags defined by the IPTC Extension schema version 1.6. 
-        The actual namespace prefix is "Iptc4xmpExt", but ExifTool shortens this for
-        the family 1 group name. (see
-        L<http://www.iptc.org/standards/photo-metadata/iptc-standard/>)
+        This table contains tags defined by the IPTC Extension schema version 1.7
+        and IPTC Video Metadata version 1.3. The actual namespace prefix is
+        "Iptc4xmpExt", but ExifTool shortens this for the family 1 group name. (See
+        L<http://www.iptc.org/standards/photo-metadata/iptc-standard/> and
+        L<https://iptc.org/standards/video-metadata-hub/>.)
     },
     AboutCvTerm => {
         Struct => \%sCVTermDetails,
@@ -682,6 +683,7 @@ my %sImageRegion = ( # new in 1.5
             ProductName => { Writable => 'lang-alt' },
             ProductGTIN => { },
             ProductDescription => { Writable => 'lang-alt' },
+            ProductId => { }, # added in version 2022.1
         },
         List => 'Bag',
     },
@@ -796,6 +798,12 @@ my %sImageRegion = ( # new in 1.5
     },
     PlanningRef         => { List => 'Bag', Struct => \%sEntityWithRole },
     audioBitsPerSample  => { Groups => { 2 => 'Audio' }, Writable => 'integer' },
+    # new IPTC video metadata 1.3 properties
+    # (ref https://iptc.org/std/videometadatahub/recommendation/IPTC-VideoMetadataHub-props-Rec_1.3.html)
+    metadataLastEdited => { Groups => { 2 => 'Time' }, %dateTimeInfo },
+    metadataLastEditor => { Struct => \%sEntity },
+    metadataAuthority  => { Struct => \%sEntity },
+    parentId           => { Name => 'ParentID' },
     # new IPTC Extension schema 1.5 property
     ImageRegion => { Groups => { 2 => 'Image' }, List => 'Bag', Struct => \%sImageRegion },
     # new Extension 1.6 property
@@ -835,7 +843,8 @@ my %prismPublicationDate = (
     AVOID => 1,
     NOTES => q{
         Publishing Requirements for Industry Standard Metadata 3.0 namespace
-        tags.  (see L<http://www.prismstandard.org/>)
+        tags.  (see
+        L<https://www.w3.org/Submission/2020/SUBM-prism-20200910/prism-basic.html/>)
     },
     academicField   => { }, # (3.0)
     aggregateIssueNumber => { Writable => 'integer' }, # (3.0)
@@ -1054,7 +1063,7 @@ my %prismPublicationDate = (
     NOTES => q{
         PRISM Rights Language 2.1 namespace tags.  These tags have been deprecated
         since the release of the PRISM Usage Rights 3.0. (see
-        L<http://www.prismstandard.org/>)
+        L<https://www.w3.org/submissions/2020/SUBM-prism-20200910/prism-image.html>)
     },
     geography       => { List => 'Bag' },
     industry        => { List => 'Bag' },
@@ -1379,6 +1388,17 @@ my %sSubVersion = (
     ReuseAllowed    => { Writable => 'boolean' },
 );
 
+%Image::ExifTool::XMP::panorama = (
+    %xmpTableDefaults,
+    GROUPS => { 1 => 'XMP-panorama', 2 => 'Image' },
+    NAMESPACE => 'panorama',
+    NOTES => 'Adobe Photoshop Panorama-profile tags.',
+    Transformation      => { },
+    VirtualFocalLength  => { Writable => 'real' },
+    VirtualImageXCenter => { Writable => 'real' },
+    VirtualImageYCenter => { Writable => 'real' },
+);
+
 # Creative Commons namespace properties (cc) (ref 5)
 %Image::ExifTool::XMP::cc = (
     %xmpTableDefaults,
@@ -1518,6 +1538,7 @@ my %sSubVersion = (
     ImageHistory           => { Avoid => 1, Notes => 'different format from EXIF:ImageHistory' },
     LensCorrectionSettings => { },
     ImageUniqueID          => { Avoid => 1 },
+    picasawebGPhotoId      => { }, #forum14108
 );
 
 # SWF namespace tags (ref PH)
@@ -1847,6 +1868,15 @@ my %sSubVersion = (
     MicroVideoVersion   => { Writable => 'integer' },
     MicroVideoOffset    => { Writable => 'integer' },
     MicroVideoPresentationTimestampUs => { Writable => 'integer' },
+    shot_log_data => { #forum14108
+        Name => 'ShotLogData',
+        ValueConv => 'Image::ExifTool::XMP::DecodeBase64($val)',
+        ValueConvInv => 'Image::ExifTool::XMP::EncodeBase64($val)',
+    },
+    HdrPlusMakernote => {
+        ValueConv => 'Image::ExifTool::XMP::DecodeBase64($val)',
+        ValueConvInv => 'Image::ExifTool::XMP::EncodeBase64($val)',
+    },
 );
 
 # Google creations namespace (ref PH)
@@ -1856,6 +1886,7 @@ my %sSubVersion = (
     NAMESPACE => 'GCreations',
     NOTES => 'Google creations tags.',
     CameraBurstID  => { },
+    Type => { Avoid => 1 },
 );
 
 # Google depth-map Device namespace (ref 13)
@@ -2010,6 +2041,37 @@ my %sSubVersion = (
     },
 );
 
+# Google container tags (ref https://developer.android.com/guide/topics/media/platform/hdr-image-format)
+# NOTE: Not included because these namespace prefixes conflict with Google's depth-map Device tags!
+# (see ../pics/GooglePixel8Pro.jpg sample image)
+# %Image::ExifTool::XMP::Container = (
+#     %xmpTableDefaults,
+#     GROUPS => { 1 => 'XMP-Container', 2 => 'Image' },
+#     NAMESPACE => 'Container',
+#     NOTES => 'Google Container namespace.',
+#     Directory => {
+#         Name => 'ContainerDirectory',
+#         FlatName => 'Directory',
+#         List => 'Seq',
+#         Struct => {
+#             STRUCT_NAME => 'Directory',
+#             Item => {
+#                 Namespace => 'Container',
+#                 Struct => {
+#                     STRUCT_NAME => 'Item',
+#                     NAMESPACE => { Item => 'http://ns.google.com/photos/1.0/container/item/'},
+#                     Mime     => { },
+#                     Semantic => { },
+#                     Length   => { Writable => 'integer' },
+#                     Label    => { },
+#                     Padding  => { Writable => 'integer' },
+#                     URI      => { },
+#                 },
+#             },
+#         },
+#     },
+# );
+
 # Getty Images namespace (ref PH)
 %Image::ExifTool::XMP::GettyImages = (
     %xmpTableDefaults,
@@ -2059,6 +2121,46 @@ my %sSubVersion = (
     },
 );
 
+# hdr metadata namespace used by ACR 15.1
+%Image::ExifTool::XMP::hdr = (
+    %xmpTableDefaults,
+    GROUPS => { 1 => 'XMP-hdr', 2 => 'Image' },
+    NAMESPACE   => 'hdr_metadata',
+    TABLE_DESC => 'XMP HDR Metadata',
+    NOTES => q{
+        HDR metadata namespace tags written by ACR 15.1.  The actual namespace
+        prefix is "hdr_metadata", which is the prefix recorded in the file, but
+        ExifTool shortens this for the family 1 group name.
+    },
+    ccv_primaries_xy        => { Name => 'CCVPrimariesXY' }, # (comma-separated string of 6 reals)
+    ccv_white_xy            => { Name => 'CCVWhiteXY' }, # (comma-separated string of 2 reals)
+    ccv_min_luminance_nits  => { Name => 'CCVMinLuminanceNits', Writable => 'real' },
+    ccv_max_luminance_nits  => { Name => 'CCVMaxLuminanceNits', Writable => 'real' },
+    ccv_avg_luminance_nits  => { Name => 'CCVAvgLuminanceNits', Writable => 'real' },
+    scene_referred          => { Name => 'SceneReferred', Writable => 'boolean' },
+);
+
+# HDR Gain Map metadata namespace
+%Image::ExifTool::XMP::hdrgm = (
+    %xmpTableDefaults,
+    GROUPS => { 1 => 'XMP-hdrgm', 2 => 'Image' },
+    NAMESPACE   => 'hdrgm',
+    TABLE_DESC => 'XMP HDR Gain Map Metadata',
+    NOTES => 'Tags used in Adobe gain map images.',
+    Version             => { Avoid => 1 },
+    BaseRenditionIsHDR  => { Writable => 'boolean' },
+    # this is a pain in the ass: List items below may or may not be lists
+    # according to the Adobe specification -- I don't know how to handle tags
+    # with a variable format like this, so just make them lists here for now
+    OffsetSDR           => { Writable => 'real', List => 'Seq' },
+    OffsetHDR           => { Writable => 'real', List => 'Seq' },
+    HDRCapacityMin      => { Writable => 'real' },
+    HDRCapacityMax      => { Writable => 'real' },
+    GainMapMin          => { Writable => 'real', List => 'Seq' },
+    GainMapMax          => { Writable => 'real', List => 'Seq' },
+    Gamma               => { Writable => 'real', List => 'Seq', Avoid => 1 },
+);
+
 # SVG namespace properties (ref 9)
 %Image::ExifTool::XMP::SVG = (
     GROUPS => { 0 => 'SVG', 1 => 'SVG', 2 => 'Image' },
@@ -2089,6 +2191,15 @@ my %sSubVersion = (
     GROUPS => { 0 => 'SVG', 2 => 'Unknown' },
     LANG_INFO => \&GetLangInfo,
     NAMESPACE => undef, # variable namespace
+    'c2pa:manifest' => {
+        Name => 'JUMBF',
+        Groups => { 0 => 'JUMBF' },
+        RawConv => 'Image::ExifTool::XMP::DecodeBase64($val)',
+        SubDirectory => {
+            TagTable => 'Image::ExifTool::Jpeg2000::Main',
+            ByteOrder => 'BigEndian',
+        },
+    },
 );
 
 #------------------------------------------------------------------------------
@@ -2126,7 +2237,7 @@ This file contains definitions for less common XMP namespaces.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

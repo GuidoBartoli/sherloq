@@ -19,10 +19,10 @@ my $testnum = 1;
 # test 2: Extract information from GPS.jpg with specified coordinate format
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     $exifTool->Options(CoordFormat => '%d degrees %.2f minutes');
     my $info = $exifTool->ImageInfo('t/images/GPS.jpg');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
@@ -36,12 +36,11 @@ my $testnum = 1;
             ['GPSTimeStamp' => '2007:03:02 18:46:10.55-05:30' ],
             ['GPSDateStamp' => '2007:03:02 18:46:10.55-05:30' ],
         );
-        print 'not ' unless writeCheck(\@writeInfo, $testname, $testnum);
+        notOK() unless writeCheck(\@writeInfo, $testname, $testnum);
         print "ok $testnum\n";
     } else {
         print "ok $testnum # skip Requires Time::Local\n";
     }
 }
 
-
-# end
+done(); # end

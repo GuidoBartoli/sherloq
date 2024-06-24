@@ -24,7 +24,7 @@ use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 use Image::ExifTool::GPS;
 
-$VERSION = '1.20';
+$VERSION = '1.23';
 
 sub ProcessFLIR($$;$);
 sub ProcessFLIRText($$$);
@@ -99,7 +99,8 @@ my %float8g = ( Format => 'float', PrintConv => 'sprintf("%.8g",$val)' );
     NOTES => q{
         Information extracted from FLIR FFF images and the APP1 FLIR segment of JPEG
         images.  These tags may also be extracted from the first frame of an FLIR
-        SEQ file, or all frames if the ExtractEmbedded option is used.
+        SEQ file, or all frames if the ExtractEmbedded option is used.  Setting
+        ExtractEmbedded to 2 also the raw thermal data from all frames.
     },
     "_header" => {
         Name => 'FFFHeader',
@@ -240,7 +241,8 @@ my %float8g = ( Format => 'float', PrintConv => 'sprintf("%.8g",$val)' );
     16.1 => {
         Name => 'RawThermalImage',
         Groups => { 2 => 'Preview' },
-        RawConv => '\$$self{RawThermalImage}',
+        # make a copy in case we want to extract more of them with -ee2
+        RawConv => 'my $copy = $$self{RawThermalImage}; \$copy',
     },
 );
 
@@ -271,7 +273,7 @@ my %float8g = ( Format => 'float', PrintConv => 'sprintf("%.8g",$val)' );
     },
     16.1 => {
         Name => 'GainDeadMapImage',
-        RawConv => '\$$self{GainDeadMapImage}',
+        RawConv => 'my $copy = \$$self{GainDeadMapImage}; \$copy',
     },
 );
 
@@ -302,7 +304,7 @@ my %float8g = ( Format => 'float', PrintConv => 'sprintf("%.8g",$val)' );
     },
     16.1 => {
         Name => 'CoarseMapImage',
-        RawConv => '\$$self{CoarseMapImage}',
+        RawConv => 'my $copy = \$$self{CoarseMapImage}; \$copy',
     },
 );
 
@@ -333,7 +335,7 @@ my %float8g = ( Format => 'float', PrintConv => 'sprintf("%.8g",$val)' );
     },
     20.1 => {
         Name => 'PaintImage',
-        RawConv => '\$$self{PaintImage}',
+        RawConv => 'my $copy = \$$self{PaintImage}; \$copy',
     },
 );
 
@@ -1466,7 +1468,7 @@ sub ProcessMeasInfo($$$)
 sub ProcessFLIR($$;$)
 {
     my ($et, $dirInfo, $tagTablePtr) = @_;
-    my $raf = $$dirInfo{RAF} || new File::RandomAccess($$dirInfo{DataPt});
+    my $raf = $$dirInfo{RAF} || File::RandomAccess->new($$dirInfo{DataPt});
     my $verbose = $et->Options('Verbose');
     my $out = $et->Options('TextOut');
     my $base = $raf->Tell();
@@ -1551,7 +1553,7 @@ sub ProcessFLIR($$;$)
                                  $$et{INDENT}, $i, $recType, $recPos, $recLen;
 
         # skip RawData records for embedded documents
-        if ($recType == 1 and $$et{DOC_NUM}) {
+        if ($recType == 1 and $$et{DOC_NUM} and $et->Options('ExtractEmbedded') < 2) {
             $raf->Seek($base+$recPos+$recLen) or $success = 0, last;
             next;
         }
@@ -1631,7 +1633,7 @@ Systems Inc. thermal image files (FFF, FPF and JPEG format).
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

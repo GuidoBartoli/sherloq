@@ -19,23 +19,23 @@ my $testnum = 1;
 # test 2: Extract information from IPTC.jpg
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/IPTC.jpg', {Duplicates => 1});
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
 # test 3: Test GetValue() in list context
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     $exifTool->ExtractInfo('t/images/IPTC.jpg', {JoinLists => 0});
     my @values = $exifTool->GetValue('Keywords','ValueConv');
     my $values = join '-', @values;
     my $expected = 'ExifTool-Test-IPTC';
     unless ($values eq $expected) {
         warn "\n  Test $testnum differs with \"$values\"\n";
-        print 'not ';
+        notOK();
     }
     print "ok $testnum\n";
 }
@@ -43,7 +43,7 @@ my $testnum = 1;
 # test 4: Test rewriting everything with slightly different values
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     $exifTool->Options(Duplicates => 1, Binary => 1, ListJoin => undef);
     my $info = $exifTool->ImageInfo('t/images/IPTC.jpg');
     my $tag;
@@ -74,7 +74,7 @@ my $testnum = 1;
     # this is effectively what the RHEL 3 UTF8 LANG problem does:
     # $image = pack("U*", unpack("C*", $image));
 
-    my $exifTool2 = new Image::ExifTool;
+    my $exifTool2 = Image::ExifTool->new;
     $exifTool2->Options(Duplicates => 1);
     $info = $exifTool2->ImageInfo(\$image);
     my $testfile = "t/${testname}_${testnum}_failed.jpg";
@@ -86,7 +86,7 @@ my $testnum = 1;
         binmode(TESTFILE);
         print TESTFILE $image;
         close(TESTFILE);
-        print 'not ';
+        notOK();
     }
     print "ok $testnum\n";
 }
@@ -102,14 +102,14 @@ my $testnum = 1;
         # (dcollins is the only tester with this problem)
         ['IPTC:CopyrightNotice' => "\xc2\xa9 2008 Phil Harvey"],
     );
-    print 'not ' unless writeCheck(\@writeInfo, $testname, $testnum, 't/images/Writer.jpg', 1);
+    notOK() unless writeCheck(\@writeInfo, $testname, $testnum, 't/images/Writer.jpg', 1);
     print "ok $testnum\n";
 }
 
 # test 6: Write and read using different default IPTC encoding
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $testfile = "t/${testname}_${testnum}_failed.jpg";
     unlink $testfile;
     $exifTool->Options(Charset => 'Cyrillic');
@@ -121,7 +121,7 @@ my $testnum = 1;
     if (check($exifTool, $info, $testname, $testnum) and $ok) {
         unlink $testfile;
     } else {
-        print 'not ';
+        notOK();
     }
     print "ok $testnum\n";
 }
@@ -134,14 +134,14 @@ my $testnum = 1;
         ['IPTC:Keywords' => 'One'],
         ['IPTC:Keywords' => 'Two'],
     );
-    print 'not ' unless writeCheck(\@writeInfo, $testname, $testnum, 't/images/IPTC.jpg', 1);
+    notOK() unless writeCheck(\@writeInfo, $testname, $testnum, 't/images/IPTC.jpg', 1);
     print "ok $testnum\n";
 }
 
 # test 8: Write IPTC as a block
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $testfile = "t/${testname}_${testnum}_failed.jpg";
     unlink $testfile;
     $exifTool->SetNewValuesFromFile('t/images/IPTC.jpg', 'IPTC');
@@ -150,9 +150,9 @@ my $testnum = 1;
     if (check($exifTool, $info, $testname, $testnum) and $ok) {
         unlink $testfile;
     } else {
-        print 'not ';
+        notOK();
     }
     print "ok $testnum\n";
 }
 
-# end
+done(); # end

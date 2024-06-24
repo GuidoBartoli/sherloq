@@ -18,12 +18,11 @@ my $testnum = 1;
 
 # test 2: Extract information from LNK file
 {
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     ++$testnum;
     my $info = $exifTool->ImageInfo('t/images/LNK.lnk');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
-
-# end
+done(); # end

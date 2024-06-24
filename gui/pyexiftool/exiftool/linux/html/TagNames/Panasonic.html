@@ -687,10 +687,9 @@ L10 and LC80)</span></span><table class=cols><tr>
   <br>4 = Extended</span></td></tr>
 <tr class=b>
 <td title='0x0076 = 118'>0x0076</td>
-<td>HDRShot</td>
+<td>MergedImages</td>
 <td class=c>int16u</td>
-<td><span class=s>0 = Off
-  <br>3 = On</span></td></tr>
+<td><span class=s><span class=n>(number of images in HDR or Live View Composite picture)</span></span></td></tr>
 <tr>
 <td title='0x0077 = 119'>0x0077</td>
 <td>BurstSpeed</td>
@@ -730,12 +729,15 @@ L10 and LC80)</span></span><table class=cols><tr>
   <br>2 = Vivid
   <br>3 = Natural
   <br>4 = Monochrome
-  <br>5 = Scenery</td><td>&nbsp;&nbsp;</td>
-  <td>6 = Portrait
-  <br>8 = Cinelike D
+  <br>5 = Scenery
+  <br>6 = Portrait</td><td>&nbsp;&nbsp;</td>
+  <td>8 = Cinelike D
   <br>9 = Cinelike V
   <br>11 = L. Monochrome
-  <br>15 = L. Monochrome D</td></tr></table>
+  <br>12 = Like709
+  <br>15 = L. Monochrome D
+  <br>17 = V-Log
+  <br>18 = Cinelike D2</td></tr></table>
 </td></tr>
 <tr>
 <td title='0x008a = 138'>0x008a</td>
@@ -842,7 +844,8 @@ L10 and LC80)</span></span><table class=cols><tr>
 <td>FilterEffect</td>
 <td class=c>rational64u[0.5]</td>
 <td><table class=cols><tr>
-  <td>&#39;0 0&#39; = Expressive
+  <td>&#39;0 0&#39; = Off
+  <br>&#39;0 1&#39; = Expressive
   <br>&#39;0 2&#39; = Retro
   <br>&#39;0 4&#39; = High Key
   <br>&#39;0 8&#39; = Sepia
@@ -1005,6 +1008,17 @@ camera contrast)</span></span></td></tr>
 <td class=c>int16u</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td title='0x00e8 = 232'>0x00e8</td>
+<td>MinimumISO</td>
+<td class=c>int32u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td title='0x00ee = 238'>0x00ee</td>
+<td>DynamicRangeBoost</td>
+<td class=c>int16u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr>
 <td title='0x0e00 = 3584'>0x0e00</td>
 <td>PrintIM</td>
 <td class=c>-</td>
@@ -1161,6 +1175,58 @@ camera contrast)</span></span></td></tr>
   <br>&#39;0 0&#39; = Off
   <br>&#39;1 1&#39; = Stretch Low
   <br>&#39;3 2&#39; = Stretch High</span></td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='DSA'>Panasonic DSA Tags</a></h2>
+<p>XMP Digital Shift Assistant tags written by some Leica cameras.</p>
+
+<p>These tags belong to the ExifTool XMP-xmpDSA family 1 group.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td>ApplyAutomatically</td>
+<td class=c title=' / = Avoid'>boolean/</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>CorrectionAlreadyApplied</td>
+<td class=c title=' / = Avoid'>boolean/</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>FocalLength35mm</td>
+<td class=c title=' / = Avoid'>real/</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>NormalizedCropCorners</td>
+<td class=c title=' / = Avoid
+ + = List'>real/+</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>PitchAngle</td>
+<td class=c title=' / = Avoid'>real/</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>RollAngle</td>
+<td class=c title=' / = Avoid'>real/</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>ScalingFactorHeight</td>
+<td class=c title=' / = Avoid'>real/</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>TargetAspectRatio</td>
+<td class=c title=' / = Avoid'>real/</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td>ValidCropCorners</td>
+<td class=c title=' / = Avoid'>boolean/</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td>Version</td>
+<td class=c title=' / = Avoid'>string/</td>
+<td>&nbsp;</td></tr>
 </table></td></tr></table></blockquote>
 
 <h2><a name='FaceDetInfo'>Panasonic FaceDetInfo Tags</a></h2>
@@ -1759,6 +1825,11 @@ on the M9, or the focal length of some multi-focal lenses.</p>
 <td>InternalSerialNumber</td>
 <td class=c>undef</td>
 <td>&nbsp;</td></tr>
+<tr>
+<td title='0x05ff = 1535'>0x05ff</td>
+<td>CameraIFD</td>
+<td class=c>-</td>
+<td>--&gt; <a href='PanasonicRaw.html#CameraIFD'>PanasonicRaw CameraIFD Tags</a></td></tr>
 </table></td></tr></table></blockquote>
 
 <h2><a name='FocusInfo'>Panasonic FocusInfo Tags</a></h2>
@@ -1893,6 +1964,11 @@ images.</p>
 <td title='0x035d = 861'>0x035d</td>
 <td>WhitePoint</td>
 <td class=c>rational64u[2]</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td title='0x0370 = 880'>0x0370</td>
+<td>LensProfileName</td>
+<td class=c>string</td>
 <td>&nbsp;</td></tr>
 </table></td></tr></table></blockquote>
 
@@ -2115,7 +2191,7 @@ various Panasonic and Leica models.</p>
 
 <hr>
 (This document generated automatically by Image::ExifTool::BuildTagLookup)
-<br><i>Last revised Jun 1, 2022</i>
+<br><i>Last revised Jan 10, 2024</i>
 <p class=lf><a href='index.html'>&lt;-- ExifTool Tag Names</a></p>
 </body>
 </html>

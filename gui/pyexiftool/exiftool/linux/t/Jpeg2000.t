@@ -19,9 +19,9 @@ my $testnum = 1;
 # test 2: Extract information from Jpeg2000.jp2
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/Jpeg2000.jp2');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
@@ -36,26 +36,26 @@ my $testnum = 1;
         ['Jpeg2000:ColorSpace' => 'Grayscale', Protected => 1 ],
         ['ColorSpecPrecedence' => 1, Protected => 1 ],
     );
-    print 'not ' unless writeCheck(\@writeInfo, $testname, $testnum, 't/images/Jpeg2000.jp2');
+    notOK() unless writeCheck(\@writeInfo, $testname, $testnum, 't/images/Jpeg2000.jp2');
     print "ok $testnum\n";
 }
 
 # test 4: Extract information from Jpeg2000.j2c
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/Jpeg2000.j2c');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
 # test 5: Extract XML as a block from JP2 image
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/Jpeg2000.jp2','xml');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
-# end
+done(); # end

@@ -21,7 +21,7 @@ use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 use Image::ExifTool::Canon;
 
-$VERSION = '1.58';
+$VERSION = '1.61';
 
 sub WriteCRW($$);
 sub ProcessCanonRaw($$$);
@@ -625,6 +625,13 @@ sub ProcessCanonRaw($$$)
     $raf->Seek($blockStart+$blockSize-4, 0) or return 0;
     $raf->Read($buff, 4) == 4 or return 0;
     my $dirOffset = Get32u(\$buff,0) + $blockStart;
+    # avoid infinite recursion
+    $$et{ProcessedCanonRaw} or $$et{ProcessedCanonRaw} = { };
+    if ($$et{ProcessedCanonRaw}{$dirOffset}) {
+        $et->Warn("Not processing double-referenced $$dirInfo{DirName} directory");
+        return 0;
+    }
+    $$et{ProcessedCanonRaw}{$dirOffset} = 1;
     $raf->Seek($dirOffset, 0) or return 0;
     $raf->Read($buff, 2) == 2 or return 0;
     my $entries = Get16u(\$buff,0);         # get number of entries in directory
@@ -691,6 +698,10 @@ sub ProcessCanonRaw($$$)
                           $format ne 'string' and not $subdir;
         } else {
             $valueDataPos = $ptr;
+            # do hash of image data if requested
+            if ($$et{ImageDataHash} and $tagID == 0x2005) {
+                $raf->Seek($ptr, 0) and $et->ImageDataHash($raf, $size, 'raw');
+            }
             if ($size <= 512 or ($verbose > 2 and $size <= 65536)
                 or ($tagInfo and ($$tagInfo{SubDirectory}
                 or grep(/^$$tagInfo{Name}$/i, $et->GetRequestedTags()) )))
@@ -877,7 +888,7 @@ tags.)
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

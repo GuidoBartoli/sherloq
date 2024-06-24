@@ -14,7 +14,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.08';
+$VERSION = '1.09';
 
 sub ProcessBitStream($$$);
 
@@ -29,7 +29,19 @@ sub ProcessBitStream($$$);
         SubDirectory => { TagTable => 'Image::ExifTool::FLAC::StreamInfo' },
     },
     1 => { Name => 'Padding',     Binary => 1, Unknown => 1 },
-    2 => { Name => 'Application', Binary => 1, Unknown => 1 },
+    2 => [{ # (see forum14064)
+        Name => 'Application_riff',
+        Condition => '$$valPt =~ /^riff(?!RIFF)/', # (all "riff" blocks but header)
+        SubDirectory => {
+            TagTable => 'Image::ExifTool::RIFF::Main',
+            ByteOrder => 'LittleEndian',
+            Start => 4,
+        },
+    },{
+        Name => 'ApplicationUnknown',
+        Binary => 1,
+        Unknown => 1,
+    }],
     3 => { Name => 'SeekTable',   Binary => 1, Unknown => 1 },
     4 => {
         Name => 'VorbisComment',
@@ -255,9 +267,11 @@ sub ProcessFLAC($$)
             print $out "FLAC metadata block, type $tag:\n";
             $et->VerboseDump(\$buff, DataPos => $raf->Tell() - $size);
         }
-        $et->HandleTag($tagTablePtr, $tag, undef,
+        $et->HandleTag($tagTablePtr, $tag, $buff,
             DataPt  => \$buff,
             DataPos => $raf->Tell() - $size,
+            Start   => 0,
+            Size    => $size,
         );
         last if $last;   # all done if  is set
     }
@@ -284,7 +298,7 @@ information from Free Lossless Audio Codec (FLAC) audio files.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

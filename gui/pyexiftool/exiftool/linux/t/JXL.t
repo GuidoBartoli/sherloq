@@ -2,7 +2,7 @@
 # After "make install" it should work as "perl t/Jpeg2000.t".
 
 BEGIN {
-    $| = 1; print "1..3\n"; $Image::ExifTool::configFile = '';
+    $| = 1; print "1..4\n"; $Image::ExifTool::configFile = '';
     require './t/TestLib.pm'; t::TestLib->import();
 }
 END {print "not ok 1\n" unless $loaded;}
@@ -19,16 +19,16 @@ my $testnum = 1;
 # test 2: Extract information from JXL.jxl
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/JXL.jxl', '-system:all');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
 # test 3: Write some new information
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $testfile = "t/${testname}_${testnum}_failed.jxl";
     unlink $testfile;
     my @writeInfo = (
@@ -42,9 +42,28 @@ my $testnum = 1;
     if (check($exifTool, $info, $testname, $testnum) and $ok) {
         unlink $testfile;
     } else {
-        print 'not ';
+        notOK();
     }
     print "ok $testnum\n";
 }
 
-# end
+# test 4: Read compressed metadata and ImageSize from partial JXL codestream
+{
+    ++$testnum;
+    my $skip = '';
+    # (this test fails for IO::Uncompress::Brotli 0.002001, and
+    #  I don't know about 0.003, so require 0.004 or higher to be safe)
+    if (eval { require IO::Uncompress::Brotli and $IO::Uncompress::Brotli::VERSION >= 0.004 }) {
+        my $exifTool = Image::ExifTool->new;
+        my $info = $exifTool->ImageInfo('t/images/JXL2.jxl', 'imagesize', 'exif:all', 'xmp:all');
+        unless (check($exifTool, $info, $testname, $testnum)) {
+            notOK();
+            warn "\n  (IO::Uncompress::Brotli is version $IO::Uncompress::Brotli::VERSION)\n";
+        }
+    } else {
+        $skip = ' # skip Requires IO::Uncompress::Brotli version 0.004 or later';
+    }
+    print "ok $testnum$skip\n";
+}
+
+done(); # end

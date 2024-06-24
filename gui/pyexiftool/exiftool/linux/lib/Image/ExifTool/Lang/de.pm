@@ -4149,7 +4149,7 @@ $VERSION = '1.36';
         'Auto' => 'Automatisch',
         'Continuous' => 'Serienaufnahme',
         'Custom' => 'Benutzerdefiniert',
-        'Face detect' => 'Gesichtserkennung AF',
+        'Face Detect' => 'Gesichtserkennung AF',
         'Infinity' => 'Unendlich',
         'Macro' => 'Makro',
         'Macro (1)' => 'Makro (1)',
@@ -8702,7 +8702,7 @@ and values.
 
 =head1 AUTHOR
 
-Copyright 2003-2022, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

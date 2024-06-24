@@ -19,9 +19,9 @@ my $testnum = 1;
 # test 2: Extract information from FujiFilm.jpg
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my $info = $exifTool->ImageInfo('t/images/FujiFilm.jpg');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
@@ -32,32 +32,32 @@ my $testnum = 1;
         ['CreateDate','2005:01:06 11:51:09'],
         ['WhiteBalance', 'day white', 'Group', 'MakerNotes'],
     );
-    print 'not ' unless writeCheck(\@writeInfo, $testname, $testnum);
+    notOK() unless writeCheck(\@writeInfo, $testname, $testnum);
     print "ok $testnum\n";
 }
 
 # test 4: Extract information from FujiFilm.raf
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     my @tags = qw(-filename -directory -filemodifydate -fileaccessdate
                   -filecreatedate -fileinodechangedate -filepermissions);
     my $info = $exifTool->ImageInfo('t/images/FujiFilm.raf', @tags, {Duplicates=>1});
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 }
 
 # tests 5-6: Write writing a RAF and changing it back again in memory
 {
     ++$testnum;
-    my $exifTool = new Image::ExifTool;
+    my $exifTool = Image::ExifTool->new;
     # set IgnoreMinorErrors option to allow invalid JpgFromRaw to be written
     $exifTool->SetNewValue(UserComment => 'test comment');
     my $testfile = "t/${testname}_${testnum}_failed.raf";
     unlink $testfile;
     $exifTool->WriteInfo('t/images/FujiFilm.raf', $testfile);
     my $info = $exifTool->ImageInfo($testfile, 'UserComment');
-    print 'not ' unless check($exifTool, $info, $testname, $testnum);
+    notOK() unless check($exifTool, $info, $testname, $testnum);
     print "ok $testnum\n";
 
     ++$testnum;
@@ -69,11 +69,10 @@ my $testnum = 1;
     if (check($exifTool, $info, $testname, $testnum, 4)) {
         unlink $testfile;
     } else {
-        print 'not ';
+        notOK();
     }
     print "ok $testnum\n";
 }
 
 
-
-# end
+done(); # end
