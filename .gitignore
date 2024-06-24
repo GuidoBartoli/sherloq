@@ -1,0 +1,8 @@
+# macOS
+.DS_Store
+
+# virtualenv
+.venv/
+
+# byte-compiled/optimized/DLL files
+__pycache__/
