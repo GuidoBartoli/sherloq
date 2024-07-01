@@ -222,7 +222,6 @@ def load_image(parent, filename=None):
             image = cv.cvtColor(
                 raw.postprocess(
                     no_auto_bright=True,
-                    no_auto_scale=True,
                     use_camera_wb=True,
                 ),
                 cv.COLOR_RGB2BGR,
