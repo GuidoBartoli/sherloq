@@ -159,6 +159,7 @@ class ToolTree(QTreeWidget):
                 self.tr("Signal Separation"),
                 self.tr("Min/Max Deviation"),
                 self.tr("Bit Plane Values"),
+                self.tr("Wavelet Blocking"),
                 self.tr("PRNU Identification"),
             ]
         )
@@ -173,10 +174,11 @@ class ToolTree(QTreeWidget):
                 self.tr(
                     "Show individual bit planes to find inconsistent noise patterns"
                 ),
+                self.tr("Noise estimation based on high pass wavelet coefficients & grid blocking"),
                 self.tr("Exploit sensor pattern noise introduced by different cameras"),
             ]
         )
-        tool_progress.extend([3, 3, 3, 0])
+        tool_progress.extend([3, 3, 3, 2, 0])
 
         # [6]
         group_names.append(self.tr("[JPEG]"))
