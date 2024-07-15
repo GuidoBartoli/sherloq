@@ -47,7 +47,7 @@ from utility import modify_font, load_image
 from wavelets import WaveletWidget
 from ghostmmaps import GhostmapWidget
 from resampling import ResamplingWidget
-
+from noise_estimmation import NoiseWaveletBlockingWidget
 
 class MainWindow(QMainWindow):
     max_recent = 5
@@ -393,6 +393,8 @@ class MainWindow(QMainWindow):
                 tool_widget = MinMaxWidget(self.image)
             elif tool == 2:
                 tool_widget = PlanesWidget(self.image)
+            elif tool == 3:
+                tool_widget = NoiseWaveletBlockingWidget(self.filename, self.image)
             else:
                 return
         elif group == 6:
