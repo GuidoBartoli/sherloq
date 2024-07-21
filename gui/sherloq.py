@@ -467,7 +467,11 @@ class MainWindow(QMainWindow):
         self.statusBar().showMessage(message, 10000)
 
 
-if __name__ == "__main__":
+def main():
     application = QApplication(sys.argv)
     mainwindow = MainWindow()
     sys.exit(application.exec())
+
+
+if __name__ == "__main__":
+    main()
