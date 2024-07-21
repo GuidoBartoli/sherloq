@@ -6,3 +6,8 @@
 
 # byte-compiled/optimized/DLL files
 __pycache__/
+
+# build outputs
+build
+dist
+Sherloq.egg-info
