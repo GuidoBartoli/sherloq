@@ -206,6 +206,14 @@ pip install -r requirements.txt
 python sherloq.py
 ```
 
+NOTE for Linux users: if this error is displayed:
+```
+qt.qpa.plugin: From 6.5.0, xcb-cursor0 or libxcb-cursor0 is needed to load the Qt xcb platform plugin.
+qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in "" even though it was found.
+This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
+```
+Run this command from the terminal: `sudo apt install -y libxcb-cursor-dev` 
+
 # Updates
 When a new version is released, update the local working copy using Git, SVN or manually downloading from this repository and (if necessary) update the packages in the virtual environment following [this guide](https://www.activestate.com/resources/quick-reads/how-to-update-all-python-packages/).
 
