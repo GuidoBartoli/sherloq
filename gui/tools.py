@@ -228,7 +228,24 @@ class ToolTree(QTreeWidget):
         )
         tool_progress.extend([3, 2, 3, 2])
 
+
         # [8]
+        group_names.append(self.tr("[AI Solutions]"))
+        tool_names.append(
+            [
+                self.tr("TruFor"),
+            ]
+        )
+        tool_infos.append(
+            [
+                self.tr("TruFor: Leveraging all-round clues for trustworthy image forgery detection and localization"),
+                
+            ]
+        )
+        tool_progress.extend([2])
+
+
+        # [9]
         group_names.append(self.tr("[Various]"))
         tool_names.append(
             [
