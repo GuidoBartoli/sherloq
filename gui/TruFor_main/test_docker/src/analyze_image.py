@@ -94,7 +94,6 @@ def process_image(input_path, gpu):
     checkpoint = torch.load(model_state_file, map_location=torch.device(device))
 
     if config.MODEL.NAME == 'detconfcmx':
-        print(os.getcwd())
         from models.cmx.builder_np_conf import myEncoderDecoder as confcmx
         model = confcmx(cfg=config)
     else:
@@ -119,7 +118,7 @@ def process_image(input_path, gpu):
                 pred = torch.squeeze(pred, 0)
                 pred = F.softmax(pred, dim=0)[1]
                 pred = pred.cpu().numpy()
-
+                torch.cuda.empty_cache()#manage CUDA memory usage by freeing GPU memory after use 
                 # Return the prediction map
                 return pred, det_score
 
