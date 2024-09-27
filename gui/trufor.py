@@ -107,8 +107,13 @@ class TruForWidget(ToolWidget):
             # Try to process the image using TruFor, handle any errors
             try:
                 prediction, det_score = process_image(self.filename, gpu)
+                try: 
+                    prob_score = det_score*100
+                except Exception as e:
+                    prob_score = 0
+                    print(f"Error det_score: {e}")
 
-                self.output_label.setText(self.tr("Manipulation probability according to TruFor: " + str(det_score*100) + ' %'))
+                self.output_label.setText(self.tr("Manipulation probability according to TruFor: " + str(prob_score*100) + ' %'))
                 # Save prediction temporarily and convert to BGR format for sherloq viewer
                 temp_filename = "temp_mask.png"
                 plt.imsave(temp_filename, prediction, cmap='RdBu_r', vmin=0, vmax=1)
