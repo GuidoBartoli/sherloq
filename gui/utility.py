@@ -200,7 +200,7 @@ def load_image(parent, filename=None):
         mime_db.mimeTypeForName(mime).globPatterns() for mime in mime_filters
     ]
     all_formats = f"Supported formats ({' '.join([item for sub in mime_patterns for item in sub])})"
-    raw_exts = [p[0][-3:] for p in mime_patterns][-12:]
+    raw_exts = [p[-3:] for p in mime_patterns][-12:]
     if filename is None:
         dialog = QFileDialog(
             parent, parent.tr("Load image"), settings.value("load_folder")
