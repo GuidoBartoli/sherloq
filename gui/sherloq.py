@@ -48,6 +48,7 @@ from wavelets import WaveletWidget
 from ghostmmaps import GhostmapWidget
 from resampling import ResamplingWidget
 from noise_estimmation import NoiseWaveletBlockingWidget
+from trufor import TruForWidget
 
 class MainWindow(QMainWindow):
     max_recent = 5
@@ -420,6 +421,11 @@ class MainWindow(QMainWindow):
             else:
                 return
         elif group == 8:
+            if tool == 0:
+                tool_widget = TruForWidget(self.filename, self.image)
+            else:
+                return
+        elif group == 9:
             if tool == 0:
                 tool_widget = MedianWidget(self.image)
             elif tool == 3:
