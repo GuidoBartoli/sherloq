@@ -1,0 +1,21 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "Sherloq"
+description = "An open-source digital image forensic toolset"
+version = "0.91"
+readme = "README.md"
+license = {file = "LICENSE"}
+requires-python = ">=3.11, <3.12" # 3.11.x
+dynamic = ["dependencies"]
+scripts = {sherloq = "gui.sherloq:main"}
+
+[tool.setuptools.dynamic]
+dependencies = {file = ["gui/requirements.txt"]}
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["*"]
+
