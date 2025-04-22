@@ -198,6 +198,7 @@ $ mkvirtualenv sq -p python3
 ## [3/4] Install dependencies
 
 ```console
+cd gui
 pip install -r requirements.txt
 ```
 
