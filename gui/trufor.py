@@ -46,7 +46,7 @@ class TruForWidget(ToolWidget):
         if os.path.exists(weights_path):
             # Construct main layout
             main_layout = QVBoxLayout()
-            main_layout.addWidget(QLabel(self.tr("If you have multiple GPU's you can select the one you want here: (default = 0, which is the first avalable GPU)")))
+            main_layout.addWidget(QLabel(self.tr("If you have multiple GPU's you can select the one you want here: (default = 0, which is the first available GPU)")))
 
             # GPU layout
             self.gpu_port = QSpinBox()
@@ -79,7 +79,7 @@ class TruForWidget(ToolWidget):
         else:
             main_layout = QVBoxLayout()
             main_layout.addWidget(QLabel(self.tr("To use TruFor within Sherloq, follow these steps: "
-                                                 "\n1. Install addional dependencies: pip install -r requirements_AI_solutions.txt (file located in Sherloq gui map)"
+                                                 "\n1. Install additional dependencies: pip install -r requirements_AI_solutions.txt (file located in Sherloq gui map)"
                                                  "\n2. Download the TruFor project from https://github.com/grip-unina/TruFor."
                                                  "\n3. Rename the project folder to 'TruFor_main' (instead of 'TruFor-main')."
                                                  "\n4. Download the model weights and place them in the 'test_docker' directory."
@@ -128,7 +128,7 @@ class TruForWidget(ToolWidget):
 
             except Exception as e:
                 print(f"Error during process_image: {e}")
-                self.output_label.setText(self.tr("Error occured:\n" + str(e)))
+                self.output_label.setText(self.tr("Error occurred:\n" + str(e)))
 
 
         finally:

@@ -142,7 +142,7 @@ class ExifTool(object):
        options will be silently ignored by exiftool, so there's not
        much that can be done in that regard.  You should avoid passing
        non-existent files to any of the methods, since this will lead
-       to undefied behaviour.
+       to undefined behaviour.
 
     .. py:attribute:: running
 

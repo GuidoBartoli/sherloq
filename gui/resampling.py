@@ -21,13 +21,13 @@ from PySide6.QtCore import Qt
 from tools import ToolWidget
 from viewer import ImageViewer
 
-# resampling nessecary imports
+# resampling necessary imports
 import numpy as np
 import cv2
 import random
 import matplotlib.pyplot as plt
 
-plt.rcParams["savefig.dpi"] = 200  # increase deafault save resolution
+plt.rcParams["savefig.dpi"] = 200  # increase default save resolution
 from matplotlib.backends.backend_qt5agg import (
     FigureCanvasQTAgg as FigureCanvas,
     NavigationToolbar2QT as NavigationToolbar,
@@ -105,7 +105,7 @@ class ResamplingWidget(ToolWidget):
                     + "high resoluion image (1280x720 pixels), it can take a few minutes to process.\n"
                     + "It is more efficient and more effective to calculate the probability map for only the suspected area.\n"
                     + "This is because a small resampled area is more readily "
-                    + "detected when the larger image is not considered by the algoritm."
+                    + "detected when the larger image is not considered by the algorithm."
                 )
             ),
             0,
@@ -128,7 +128,7 @@ class ResamplingWidget(ToolWidget):
             QLabel(
                 self.tr(
                     "If no area of interest is chosen for probability, the probability map for the entire image will be calculated.\n"
-                    + "Fourier maps will automatically be calculated for each area of interest by the probability map + for smaller sub windows applied when 'Fourier Windows' is cheched.\n"
+                    + "Fourier maps will automatically be calculated for each area of interest by the probability map + for smaller sub windows applied when 'Fourier Windows' is checked.\n"
                     "Please make sure areas do not overlap for probability maps!"
                 )
             ),
@@ -147,7 +147,7 @@ class ResamplingWidget(ToolWidget):
         top_layout.addWidget(self.calculate_probability_button, 2, 1)
         top_layout.addWidget(self.calculate_fourier_button, 2, 2)
 
-        # fourier maps contruction parameters
+        # fourier maps construction parameters
         four_parameters_layout = QGridLayout()
         # pre-processing option: hanning or rotationally invariant window?
         self.hanning_check = QCheckBox(self.tr("Hanning"))
@@ -291,7 +291,7 @@ class ResamplingWidget(ToolWidget):
 
     def calculate_probability_maps(self):
         # to do, if probability maps already calculated, do not calculate again;
-        # untill then, make fourier maps empty before calculating again:
+        # until then, make fourier maps empty before calculating again:
         self.probability_maps = []
         self.imagegray_copy_for_probabilitymaps = self.imagegray_nomalized_copy.copy()
         self.calculate_probability_button.setEnabled(False)  # wait for processing
@@ -410,7 +410,7 @@ class ResamplingWidget(ToolWidget):
 
     def calculate_fourier_maps(self):
         # to do, if fouriermap already calculated, do not calculate again
-        # untill then, make fourier maps empty before calculating again:
+        # until then, make fourier maps empty before calculating again:
         self.fourier_maps = []
         self.calculate_fourier_button.setEnabled(False)  # wait for processing
 

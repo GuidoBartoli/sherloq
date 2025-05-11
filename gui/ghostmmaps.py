@@ -143,7 +143,7 @@ class GhostmapWidget(ToolWidget):
             self.yoffset_spin.setValue(y_offset)
             self.processGhostmaps()
 
-    # calculate ghost maps fuction:
+    # calculate ghost maps function:
     def processGhostmaps(self):
         self.process_button.setEnabled(False)  # wait for processing
         self.plt.clf()
@@ -193,7 +193,7 @@ class GhostmapWidget(ToolWidget):
         for quality in range(Qmin, Qmax + 1, Qstep):
             # Shift the image because:
             # misalignment of JPEG block lattice may destroy the JPEG ghost since new spatial frequencies will be introduced
-            # by shifting we can search for the correct allignment, if there is one
+            # by shifting we can search for the correct alignment, if there is one
             shifted_original = np.roll(original, shift_x, axis=1)
             shifted_original = np.roll(shifted_original, shift_y, axis=0)
             # compute difference original and re-compressed versions of original
