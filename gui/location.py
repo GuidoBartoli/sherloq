@@ -1,5 +1,3 @@
-import os
-
 from PySide6.QtCore import QUrl, QTemporaryDir, Qt
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QVBoxLayout, QLabel

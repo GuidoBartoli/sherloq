@@ -7,24 +7,19 @@ from PySide6.QtWidgets import (
     QDoubleSpinBox,
     QVBoxLayout,
     QSlider,
-    QHBoxLayout,
     QLabel,
-    QSpinBox,
     QCheckBox,
     QPushButton,
     QGridLayout,
     QSizePolicy,
     QScrollArea,
 )
-from PySide6.QtGui import QTransform
 from PySide6.QtCore import Qt
 from tools import ToolWidget
-from viewer import ImageViewer
 
 # resampling nessecary imports
 import numpy as np
 import cv2
-import random
 import matplotlib.pyplot as plt
 
 plt.rcParams["savefig.dpi"] = 200  # increase deafault save resolution

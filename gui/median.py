@@ -13,7 +13,6 @@ from PySide6.QtWidgets import (
     QProgressDialog,
     QCheckBox,
 )
-from joblib import load
 
 from tools import ToolWidget
 from utility import modify_font, pad_image

@@ -18,7 +18,7 @@ from PySide6.QtWidgets import (
 from matplotlib.backends.backend_qt5agg import FigureCanvas
 from matplotlib.figure import Figure
 
-from jpeg import TABLE_SIZE, ZIG_ZAG, DCT_SIZE, get_tables, loss_curve, compress_jpg
+from jpeg import TABLE_SIZE, ZIG_ZAG, DCT_SIZE, get_tables, loss_curve
 from tools import ToolWidget
 from utility import modify_font, exiftool_exe, clip_value
 
