@@ -73,14 +73,14 @@ class TableWidget(QWidget):
         prev_button.setIcon(QIcon("icons/up.svg"))
         prev_button.setShortcut(QKeySequence.FindPrevious)
         prev_button.clicked.connect(self.previous)
-        prev_button.setToolTip(self.tr("Previous occurence"))
+        prev_button.setToolTip(self.tr("Previous occurrence"))
         search_layout.addWidget(prev_button)
 
         next_button = QToolButton()
         next_button.setIcon(QIcon("icons/down.svg"))
         next_button.setShortcut(QKeySequence.FindNext)
         next_button.clicked.connect(self.next)
-        next_button.setToolTip(self.tr("Next occurence"))
+        next_button.setToolTip(self.tr("Next occurrence"))
         search_layout.addWidget(next_button)
 
         self.case_button = QToolButton()

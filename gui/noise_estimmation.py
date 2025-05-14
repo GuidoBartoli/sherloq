@@ -1,18 +1,18 @@
 """ 
-This code implements local noise estimation based on on high pass wavelet coeffiecients and subsequent grid blocking (median based).
+This code implements local noise estimation based on on high pass wavelet coefficients and subsequent grid blocking (median based).
 The technique is explain in the following paper:
 "Using noise inconsistencies for blind image forensics" by Babak Mahdian & Stanislav Saic
 A block merging step has not been included because all attempts yielded unsastifactory results and made analysis more difficult.
 
 In the paper the merging step appears highly effective, but this could be because of the isolated test conditions where the only obserable
-noise in the image was the one added by the researchers for testing puposes.
+noise in the image was the one added by the researchers for testing purposes.
 """
 
 from PySide6.QtWidgets import QVBoxLayout, QHBoxLayout, QLabel, QSpinBox, QPushButton
 from tools import ToolWidget
 from viewer import ImageViewer
 
-#algorithm nessessary imports
+#algorithm necessary imports
 import numpy as np
 import pywt
 import cv2
@@ -63,12 +63,12 @@ class NoiseWaveletBlockingWidget(ToolWidget):
         y = np.double(im)
         #3.1 wavelet transform
         cA1, (cH, cV, cD) = pywt.dwt2(y, 'db8')
-        
+
         cD = cD[:cD.shape[0] // blocksize * blocksize, :cD.shape[1] // blocksize * blocksize]
-        
+
         #3.2 non overlapping blocks
         block = np.zeros((cD.shape[0] // blocksize, cD.shape[1] // blocksize, blocksize ** 2))
-        
+
         for ii in range(0, cD.shape[0] - blocksize + 1, blocksize):
             for jj in range(0, cD.shape[1] - blocksize + 1, blocksize):
                 block_elements = cD[ii:ii+blocksize, jj:jj+blocksize]
@@ -83,7 +83,7 @@ class NoiseWaveletBlockingWidget(ToolWidget):
         noise_map_8u = cv2.normalize(noise_map, None, 0, 255, cv2.NORM_MINMAX, dtype=cv2.CV_8U)
         resized_noise_map = cv2.resize(noise_map_8u, (self.image.shape[1], self.image.shape[0]), interpolation=cv2.INTER_NEAREST )
         noise_map_BGR = cv2.cvtColor(resized_noise_map, cv2.COLOR_GRAY2BGR)
-        
+
         self.viewer.update_processed(noise_map_BGR)
 
         self.process_button.setEnabled(True) #allow new process to start
