@@ -28,7 +28,7 @@ class TestExifTool(unittest.TestCase):
             self.assertTrue(self.et.canceled)
             with warnings.catch_warnings(record=True) as w:
                 self.et.start()
-                self.assertEquals(len(w), 1)
+                self.assertEqual(len(w), 1)
                 self.assertTrue(issubclass(w[0].category, UserWarning))
             self.process = self.et._process
             self.assertEqual(self.process.poll(), None)
