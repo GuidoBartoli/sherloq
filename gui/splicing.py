@@ -13,7 +13,7 @@ from noiseprint.noiseprint import genNoiseprint
 from noiseprint.noiseprint_blind import genMappUint8
 from noiseprint.noiseprint_blind import noiseprint_blind_post
 from tools import ToolWidget
-from utility import modify_font, norm_mat, gray_to_bgr
+from utility import modify_font, norm_mat
 from viewer import ImageViewer
 
 
