@@ -27,7 +27,7 @@ class ToolTree(QTreeWidget):
                 self.tr("Original Image"),
                 self.tr("File Digest"),
                 self.tr("Hex Editor"),
-                self.tr("Similar Search"),
+                self.tr("Similarity Search"),
             ]
         )
         tool_infos.append(
