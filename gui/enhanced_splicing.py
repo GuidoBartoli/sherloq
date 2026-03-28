@@ -12,8 +12,7 @@ from utility import modify_font
 
 # --- 1. THE MATH WORKER THREAD ---
 class ConsensusWorker(QThread):
-    # Only sending back 4 things now: SLIC, and the 3 RAW normalized lenses
-    finished = Signal(object, object, object, object)  
+    finished = Signal(object, object, object, object, object, object)
     error = Signal(str)
 
     def __init__(self, image_array):
@@ -25,9 +24,17 @@ class ConsensusWorker(QThread):
             img_bgr = self.image_array
             img_rgb = cv.cvtColor(img_bgr, cv.COLOR_BGR2RGB)
             img_gray = cv.cvtColor(img_bgr, cv.COLOR_BGR2GRAY).astype(np.float64)
-
+            
+            # --- NEW: Convert to YCbCr to isolate pure color! ---
+            img_ycbcr = cv.cvtColor(img_bgr, cv.COLOR_BGR2YCrCb)
+            # Split out the Cr (Red-difference) and Cb (Blue-difference) channels
+            _, cr_channel, cb_channel = cv.split(img_ycbcr)
+            
+            # Create a combined color variance map
+            color_variance_map = np.abs(cr_channel.astype(np.float64) - cb_channel.astype(np.float64))
+            
             # 1. SLIC Segmentation
-            segments = slic(img_rgb, n_segments=400, compactness=10, sigma=1, start_label=1)
+            segments = slic(img_rgb, n_segments=999, compactness=10, sigma=1, start_label=1)
             segment_ids = np.unique(segments)
 
             # 2. Pre-computing Global Math
@@ -40,16 +47,28 @@ class ConsensusWorker(QThread):
                 grid_map[i, :] += diff_v[i, :]
             for j in range(7, img_gray.shape[1] - 1, 8):
                 grid_map[:, j] += diff_h[:, j]
-
+                
+            # Compress the image in RAM at 90% quality
+            _, encoded_img = cv.imencode('.jpg', img_bgr, [int(cv.IMWRITE_JPEG_QUALITY), 90])
+            compressed_img = cv.imdecode(encoded_img, 1)
+            
+            # Calculate the absolute difference and convert to grayscale
+            ela_diff = cv.absdiff(img_bgr, compressed_img)
+            ela_gray = cv.cvtColor(ela_diff, cv.COLOR_BGR2GRAY).astype(np.float64)
+            
             # 3. Extracting Features
             noise_heatmap = np.zeros_like(img_gray)
             dct_heatmap = np.zeros_like(img_gray)
             freq_heatmap = np.zeros_like(img_gray)
+            ela_heatmap = np.zeros_like(img_gray)
+            color_heatmap = np.zeros_like(img_gray)
             
             for seg_id in segment_ids:
                 mask = (segments == seg_id)
                 noise_heatmap[mask] = np.var(noise_matrix[mask])
                 dct_heatmap[mask] = np.mean(grid_map[mask])
+                ela_heatmap[mask] = np.mean(ela_gray[mask])
+                color_heatmap[mask] = np.var(color_variance_map[mask])
                 
                 y, x = np.where(mask)
                 if len(y) > 0 and len(x) > 0:
@@ -69,12 +88,14 @@ class ConsensusWorker(QThread):
             norm_noise = normalize_heatmap(noise_heatmap)
             norm_dct = normalize_heatmap(dct_heatmap)
             norm_freq = normalize_heatmap(freq_heatmap)
+            norm_ela = normalize_heatmap(ela_heatmap)
+            norm_color = normalize_heatmap(color_heatmap) 
             
             slic_overlay_rgb = mark_boundaries(img_rgb, segments, color=(1, 0, 0))
             slic_overlay_bgr = cv.cvtColor((slic_overlay_rgb * 255).astype(np.uint8), cv.COLOR_RGB2BGR)
 
             # Send raw arrays to UI for real-time slider manipulation
-            self.finished.emit(slic_overlay_bgr, norm_noise, norm_dct, norm_freq)
+            self.finished.emit(slic_overlay_bgr, norm_noise, norm_dct, norm_freq, norm_ela, norm_color)
             
         except Exception as e:
             self.error.emit(str(e))
@@ -103,11 +124,15 @@ class EnhancedSplicingWidget(ToolWidget):
         self.noise_viewer = ImageViewer(self.image, gray_placeholder, "High-Frequency Noise", export=True)
         self.dct_viewer = ImageViewer(self.image, gray_placeholder, "DCT Grid", export=True)
         self.freq_viewer = ImageViewer(self.image, gray_placeholder, "Resampling Frequency", export=True)
-
+        self.ela_viewer = ImageViewer(self.image, gray_placeholder, "Error Level Analysis", export=True)
+        self.color_viewer = ImageViewer(self.image, gray_placeholder, "Color Variance", export=True)
+        
         self.tabs.addTab(self.slic_viewer, "SLIC")
         self.tabs.addTab(self.noise_viewer, "Noise")
         self.tabs.addTab(self.dct_viewer, "DCT")
         self.tabs.addTab(self.freq_viewer, "Frequency")
+        self.tabs.addTab(self.ela_viewer, "ELA")
+        self.tabs.addTab(self.color_viewer, "Color") 
 
         # --- RIGHT SIDE: The Main Heatmap ---
         self.heatmap_viewer = ImageViewer(self.image, gray_placeholder, "Final Consensus Heatmap", export=True)
@@ -117,11 +142,15 @@ class EnhancedSplicingWidget(ToolWidget):
         self.heatmap_viewer.viewChanged.connect(self.noise_viewer.changeView)
         self.heatmap_viewer.viewChanged.connect(self.dct_viewer.changeView)
         self.heatmap_viewer.viewChanged.connect(self.freq_viewer.changeView)
+        self.heatmap_viewer.viewChanged.connect(self.ela_viewer.changeView)
+        self.heatmap_viewer.viewChanged.connect(self.color_viewer.changeView)
         
         self.slic_viewer.viewChanged.connect(self.heatmap_viewer.changeView)
         self.noise_viewer.viewChanged.connect(self.heatmap_viewer.changeView)
         self.dct_viewer.viewChanged.connect(self.heatmap_viewer.changeView)
         self.freq_viewer.viewChanged.connect(self.heatmap_viewer.changeView)
+        self.ela_viewer.viewChanged.connect(self.heatmap_viewer.changeView)
+        self.color_viewer.viewChanged.connect(self.heatmap_viewer.changeView)
 
         # --- SLIDER CONTROL PANEL ---
         controls_layout = QHBoxLayout()
@@ -144,14 +173,18 @@ class EnhancedSplicingWidget(ToolWidget):
             layout.addWidget(slider)
             return slider, layout
 
-        self.sld_noise, l_noise = create_slider("Noise Weight", 40)
-        self.sld_dct, l_dct = create_slider("DCT Weight", 30)
-        self.sld_freq, l_freq = create_slider("Freq Weight", 30)
-        self.sld_thresh, l_thresh = create_slider("Detection Threshold", 60) # Default OPCS 0.60
+        self.sld_noise, l_noise = create_slider("Noise Weight", 25)
+        self.sld_dct, l_dct = create_slider("DCT Weight", 25)
+        self.sld_freq, l_freq = create_slider("Freq Weight", 25)
+        self.sld_ela, l_ela = create_slider("ELA Weight", 25)
+        self.sld_color, l_color = create_slider("Color Weight", 25)
+        self.sld_thresh, l_thresh = create_slider("Threshold", 60)
         
         controls_layout.addLayout(l_noise)
         controls_layout.addLayout(l_dct)
         controls_layout.addLayout(l_freq)
+        controls_layout.addLayout(l_ela)
+        controls_layout.addLayout(l_color)
         controls_layout.addLayout(l_thresh)
 
         # Build Main Layout
@@ -184,25 +217,31 @@ class EnhancedSplicingWidget(ToolWidget):
             return np.zeros_like(hm)
         return (hm - hm_min) / (hm_max - hm_min)
 
-    def on_finished(self, slic_img, noise_mat, dct_mat, freq_mat):
+    def on_finished(self, slic_img, noise_mat, dct_mat, freq_mat, ela_mat, color_mat):
         try:
             # Store raw math in memory
             self.raw_noise = noise_mat
             self.raw_dct = dct_mat
             self.raw_freq = freq_mat
-
+            self.raw_ela = ela_mat 
+            self.raw_color = color_mat
+            
             # Enable sliders
             self.sld_noise.setEnabled(True)
             self.sld_dct.setEnabled(True)
             self.sld_freq.setEnabled(True)
             self.sld_thresh.setEnabled(True)
+            self.sld_ela.setEnabled(True)
+            self.sld_color.setEnabled(True)
 
             # Update Left Tabs
             self.slic_viewer.update_processed(slic_img)
             self.noise_viewer.update_processed(self.apply_colormap(noise_mat, cv.COLORMAP_VIRIDIS))
             self.dct_viewer.update_processed(self.apply_colormap(dct_mat, cv.COLORMAP_VIRIDIS))
             self.freq_viewer.update_processed(self.apply_colormap(freq_mat, cv.COLORMAP_VIRIDIS))
-            
+            self.ela_viewer.update_processed(self.apply_colormap(ela_mat, cv.COLORMAP_VIRIDIS))
+            self.color_viewer.update_processed(self.apply_colormap(color_mat, cv.COLORMAP_VIRIDIS))
+
             # Trigger the first fusion instantly
             self.update_fusion()
             
@@ -230,9 +269,11 @@ class EnhancedSplicingWidget(ToolWidget):
             w_d = self.sld_dct.value() / 100.0
             w_f = self.sld_freq.value() / 100.0
             thresh = self.sld_thresh.value() / 100.0
+            w_e = self.sld_ela.value() / 100.0
+            w_c = self.sld_color.value() / 100.0
 
             # 2. Fuse the stored arrays together
-            consensus = (self.raw_noise * w_n) + (self.raw_dct * w_d) + (self.raw_freq * w_f)
+            consensus = (self.raw_noise * w_n) + (self.raw_dct * w_d) + (self.raw_freq * w_f) + (self.raw_ela * w_e) + (self.raw_color * w_c)
             final_consensus = self.normalize_heatmap(consensus)
             
             # 3. Apply the threshold from the slider
@@ -246,11 +287,27 @@ class EnhancedSplicingWidget(ToolWidget):
             # 5. Draw the Base Heatmap
             heatmap_colored = self.apply_colormap(final_consensus, cv.COLORMAP_JET)
 
-            # 6. Find ALL contours, and draw a box around any that are big enough!
+            # 6. Find ALL contours, and apply the SMART SHAPE FILTER!
             contours, _ = cv.findContours(cleaned_map, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
             for c in contours:
-                if cv.contourArea(c) > 100: # Ignore tiny 10x10 pixel false positives
+                area = cv.contourArea(c)
+                if area > 150: # Ignore tiny 10x10 pixel dust specks
                     x, y, w, h = cv.boundingRect(c)
+                    
+                    # --- THE SMART SHAPE FILTER ---
+                    # 1. Aspect Ratio: Is it extremely long and thin? (Like a blade of grass)
+                    aspect_ratio = float(w) / float(h)
+                    
+                    # 2. Extent: Is it a hollow, stringy shape? (Area compared to its bounding box)
+                    rect_area = w * h
+                    extent = float(area) / float(rect_area)
+                    
+                    # Rule: If it is super stringy (ratio > 4 or < 0.25) OR mostly empty space (extent < 0.25)...
+                    if (aspect_ratio > 4.0 or aspect_ratio < 0.25) or (extent < 0.25):
+                        continue # ...IGNORE IT! (It's probably grass or background noise)
+                    # ------------------------------
+                    
+                    # If it survives the filter, draw the box on heatmap_colored!
                     cv.rectangle(heatmap_colored, (int(x), int(y)), (int(x + w), int(y + h)), (0, 255, 0), 3) 
                     cv.putText(heatmap_colored, "SPLICING DETECTED", (int(x), int(y) - 10), 
                                cv.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
