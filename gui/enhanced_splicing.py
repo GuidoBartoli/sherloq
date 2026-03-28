@@ -69,7 +69,7 @@ class ConsensusWorker(QThread):
                 dct_heatmap[mask] = np.mean(grid_map[mask])
                 ela_heatmap[mask] = np.mean(ela_gray[mask])
                 color_heatmap[mask] = np.var(color_variance_map[mask])
-                
+                 
                 y, x = np.where(mask)
                 if len(y) > 0 and len(x) > 0:
                     roi = img_gray[np.min(y):np.max(y)+1, np.min(x):np.max(x)+1]
