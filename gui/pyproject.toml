@@ -1,0 +1,29 @@
+[project]
+name = "gui"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+dependencies = [
+    "astor==0.8.*",
+    "concurrent-iterator==0.2.*",
+    "keras-applications==1.0.*",
+    "lxml==4.9.*",
+    "matplotlib==3.8.*",
+    "opencv-contrib-python-headless==4.*",
+    "pandas==1.5.*",
+    "pyside6==6.7.*",
+    "python-magic==0.4.*",
+    "rawpy==0.19.*",
+    "scikit-learn==1.5.*",
+    "sewar==0.4.*",
+    "tensorflow==2.16.*",
+    "xgboost==1.6.*",
+    "pillow==10.3.*",
+    "pywavelets==1.5.*",
+    "pip>=26.0.1",
+    "setuptools<82",
+]
+
+[tool.uv.extra-build-dependencies]
+pandas = ["setuptools"]
