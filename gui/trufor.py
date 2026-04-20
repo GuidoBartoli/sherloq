@@ -113,7 +113,7 @@ class TruForWidget(ToolWidget):
                     prob_score = 0
                     print(f"Error det_score: {e}")
 
-                self.output_label.setText(self.tr("Manipulation probability according to TruFor: " + str(prob_score*100) + ' %'))
+                self.output_label.setText(self.tr("Manipulation probability according to TruFor: " + str(prob_score) + ' %'))
                 # Save prediction temporarily and convert to BGR format for sherloq viewer
                 temp_filename = "temp_mask.png"
                 plt.imsave(temp_filename, prediction, cmap='RdBu_r', vmin=0, vmax=1)
