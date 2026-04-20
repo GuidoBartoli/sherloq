@@ -242,8 +242,9 @@ class EnhancedSplicingWidget(ToolWidget):
             self.ela_viewer.update_processed(self.apply_colormap(ela_mat, cv.COLORMAP_VIRIDIS))
             self.color_viewer.update_processed(self.apply_colormap(color_mat, cv.COLORMAP_VIRIDIS))
 
-            # Trigger the first fusion instantly
-            self.update_fusion()
+            # --- THE MAGIC TRIGGER ---
+            # Instead of manually drawing it, let PCA and K-Means take the wheel!
+            self.auto_optimize_all()
             
             elapsed = time() - self.start_time
             self.run_button.setText(f"Analysis Complete ({elapsed:.1f} s)")
@@ -275,6 +276,15 @@ class EnhancedSplicingWidget(ToolWidget):
             # 2. Fuse the stored arrays together
             consensus = (self.raw_noise * w_n) + (self.raw_dct * w_d) + (self.raw_freq * w_f) + (self.raw_ela * w_e) + (self.raw_color * w_c)
             final_consensus = self.normalize_heatmap(consensus)
+            
+            # --- NEW: THE LUMINANCE MASK ---
+            # 1. Convert original image to grayscale to check brightness
+            img_gray = cv.cvtColor(self.image, cv.COLOR_BGR2GRAY)
+            # 2. Create a mask where pixels darker than 240 are 1.0, and blown-out bright pixels are 0.0
+            luminance_mask = (img_gray < 240).astype(np.float32)
+            # 3. Multiply the consensus map by the mask to instantly erase false bright spots!
+            final_consensus = final_consensus * luminance_mask
+            # -------------------------------
             
             # 3. Apply the threshold from the slider
             binary_map = (final_consensus > thresh).astype(np.uint8) * 255
@@ -316,9 +326,66 @@ class EnhancedSplicingWidget(ToolWidget):
             
         except Exception as e:
             print(f"Slider Update Error: {e}")
-
+    
     def on_error(self, err):
         QMessageBox.critical(self, "Error", f"Analysis failed: {err}")
         self.run_button.setText("Compute Splicing Analysis")
         modify_font(self.run_button, bold=True, italic=False)
         self.run_button.setEnabled(True)
+        
+    def auto_optimize_all(self):
+        """Unsupervised ML: Uses PCA for Weights and K-Means for the Threshold"""
+        if self.raw_noise is None: return
+
+        try:
+            # --- PART 1: PCA FOR DYNAMIC LENS WEIGHTING ---
+            # 1. Flatten all 5 heatmaps into 1D arrays
+            n, d, f = self.raw_noise.flatten(), self.raw_dct.flatten(), self.raw_freq.flatten()
+            e, c = self.raw_ela.flatten(), self.raw_color.flatten()
+            
+            # 2. Stack them into a matrix and Standardize (Crucial for PCA)
+            X = np.column_stack([n, d, f, e, c])
+            X_norm = (X - np.mean(X, axis=0)) / (np.std(X, axis=0) + 1e-8)
+            
+            # 3. Calculate Covariance and Eigenvectors (The PCA Math)
+            cov_mat = np.cov(X_norm, rowvar=False)
+            _, eigen_vecs = np.linalg.eigh(cov_mat)
+            
+            # 4. Extract Principal Component 1 (The axis of maximum variance)
+            pc1 = eigen_vecs[:, -1] 
+            
+            # 5. Convert PC1 into percentages for our 5 sliders
+            weights_pct = (np.abs(pc1) / np.sum(np.abs(pc1))) * 100.0
+
+            # 6. Snap the UI sliders! (Block signals to prevent UI stuttering)
+            sliders = [self.sld_noise, self.sld_dct, self.sld_freq, self.sld_ela, self.sld_color]
+            for sld in sliders: sld.blockSignals(True)
+
+            self.sld_noise.setValue(int(weights_pct[0]))
+            self.sld_dct.setValue(int(weights_pct[1]))
+            self.sld_freq.setValue(int(weights_pct[2]))
+            self.sld_ela.setValue(int(weights_pct[3]))
+            self.sld_color.setValue(int(weights_pct[4]))
+
+            for sld in sliders:
+                sld.blockSignals(False)
+                sld.valueChanged.emit(sld.value()) # Update the UI text labels
+
+            # --- PART 2: BUILD CONSENSUS WITH NEW AI WEIGHTS ---
+            w_n, w_d, w_f, w_e, w_c = weights_pct / 100.0
+            consensus = (self.raw_noise * w_n) + (self.raw_dct * w_d) + (self.raw_freq * w_f) + (self.raw_ela * w_e) + (self.raw_color * w_c)
+            final_consensus = self.normalize_heatmap(consensus)
+
+            # --- PART 3: K-MEANS FOR AUTO-THRESHOLD ---
+            pixel_values = final_consensus.reshape((-1, 1)).astype(np.float32)
+            criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
+            _, _, centers = cv.kmeans(pixel_values, 2, None, criteria, 10, cv.KMEANS_PP_CENTERS)
+            
+            optimal_thresh = float((centers[0][0] + centers[1][0]) / 2.0)
+            
+            # 4. Snap the threshold slider!
+            # Note: setting this automatically triggers update_fusion() to draw the final box!
+            self.sld_thresh.setValue(int(optimal_thresh * 100))
+
+        except Exception as err:
+            print(f"Auto-Optimization Error: {err}")
