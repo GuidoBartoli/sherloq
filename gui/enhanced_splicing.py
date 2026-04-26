@@ -105,6 +105,18 @@ class EnhancedSplicingWidget(ToolWidget):
     def __init__(self, image, parent=None):
         super().__init__(parent)
         self.image = image
+        
+        # --- SMART FORENSIC DOWNSCALING ---
+        max_dimension = 1080
+        h, w = self.image.shape[:2]
+        
+        if max(h, w) > max_dimension:
+            scale = max_dimension / float(max(h, w))
+            new_w, new_h = int(w * scale), int(h * scale)
+            # Resize the master image immediately using INTER_AREA
+            self.image = cv.resize(self.image, (new_w, new_h), interpolation=cv.INTER_AREA)
+        # ----------------------------------
+        
         self.worker = None
         
         # Memory to store the raw math so sliders are instant
@@ -277,12 +289,12 @@ class EnhancedSplicingWidget(ToolWidget):
             consensus = (self.raw_noise * w_n) + (self.raw_dct * w_d) + (self.raw_freq * w_f) + (self.raw_ela * w_e) + (self.raw_color * w_c)
             final_consensus = self.normalize_heatmap(consensus)
             
-            # --- NEW: THE LUMINANCE MASK ---
+            # --- THE LUMINANCE MASK ---
             # 1. Convert original image to grayscale to check brightness
             img_gray = cv.cvtColor(self.image, cv.COLOR_BGR2GRAY)
             # 2. Create a mask where pixels darker than 240 are 1.0, and blown-out bright pixels are 0.0
             luminance_mask = (img_gray < 240).astype(np.float32)
-            # 3. Multiply the consensus map by the mask to instantly erase false bright spots!
+            # 3 . Multiply the consensus map by the mask to instantly erase false bright spots!
             final_consensus = final_consensus * luminance_mask
             # -------------------------------
             
