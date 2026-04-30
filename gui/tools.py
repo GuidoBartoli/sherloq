@@ -234,15 +234,16 @@ class ToolTree(QTreeWidget):
         tool_names.append(
             [
                 self.tr("TruFor"),
+                self.tr("Deepfake Frequency Analysis"),
             ]
         )
         tool_infos.append(
             [
                 self.tr("TruFor: Leveraging all-round clues for trustworthy image forgery detection and localization"),
-                
+                self.tr("Deepfake Frequency Analysis: Detecting inconsistencies in frequency domain for deepfake image identification"),
             ]
         )
-        tool_progress.extend([2])
+        tool_progress.extend([2, 2])
 
 
         # [9]

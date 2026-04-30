@@ -50,6 +50,7 @@ from ghostmmaps import GhostmapWidget
 from resampling import ResamplingWidget
 from noise_estimmation import NoiseWaveletBlockingWidget
 from trufor import TruForWidget
+from dct import DCTWidget
 
 class MainWindow(QMainWindow):
     max_recent = 5
@@ -426,6 +427,8 @@ class MainWindow(QMainWindow):
         elif group == 8:
             if tool == 0:
                 tool_widget = TruForWidget(self.filename, self.image)
+            elif tool == 1:
+                tool_widget = DCTWidget(self.filename, self.image)
             else:
                 return
         elif group == 9:

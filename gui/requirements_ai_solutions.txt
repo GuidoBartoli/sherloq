@@ -1,5 +1,7 @@
 argparse
-timm==1.0.*
-torch==2.3.*
+timm==0.9.12
+torch==2.2.2
 tqdm
 yacs>=0.1.8
+scipy
+scikit-image
