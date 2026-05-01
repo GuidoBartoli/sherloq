@@ -174,7 +174,9 @@ class ToolTree(QTreeWidget):
                 self.tr(
                     "Show individual bit planes to find inconsistent noise patterns"
                 ),
-                self.tr("Noise estimation based on high pass wavelet coefficients & grid blocking"),
+                self.tr(
+                    "Noise estimation based on high pass wavelet coefficients & grid blocking"
+                ),
                 self.tr("Exploit sensor pattern noise introduced by different cameras"),
             ]
         )
@@ -212,6 +214,7 @@ class ToolTree(QTreeWidget):
             [
                 self.tr("Contrast Enhancement"),
                 self.tr("Copy-Move Forgery"),
+                self.tr("Second Point Matching Copy-Move Forgery"),
                 self.tr("Composite Splicing"),
                 self.tr("Image Resampling"),
                 self.tr("Enhanced Splicing"),
@@ -221,13 +224,17 @@ class ToolTree(QTreeWidget):
             [
                 self.tr("Analyze color distributions to detect contrast enhancements"),
                 self.tr("Use invariant feature descriptors to detect cloned regions"),
+                self.tr(
+                    "Use invariant feature descriptors, second point matching and double filtering to detect cloned regions"
+                ),
                 self.tr("Exploit DCT statistics for automatic splicing zone detection"),
-                self.tr("Estimate 2D pixel interpolation for detecting resampling traces"),
+                self.tr(
+                    "Estimate 2D pixel interpolation for detecting resampling traces"
+                ),
                 self.tr("Detect tampering using multi-modal SLIC, NLF, and DCT fusion"),
             ]
         )
-        tool_progress.extend([3, 2, 3, 2, 1])
-
+        tool_progress.extend([3, 2, 2, 3, 2, 1])
 
         # [8]
         group_names.append(self.tr("[AI Solutions]"))
@@ -239,12 +246,15 @@ class ToolTree(QTreeWidget):
         )
         tool_infos.append(
             [
-                self.tr("TruFor: Leveraging all-round clues for trustworthy image forgery detection and localization"),
-                self.tr("Deepfake Frequency Analysis: Detecting inconsistencies in frequency domain for deepfake image identification"),
+                self.tr(
+                    "TruFor: Leveraging all-round clues for trustworthy image forgery detection and localization"
+                ),
+                self.tr(
+                    "Deepfake Frequency Analysis: Detecting inconsistencies in frequency domain for deepfake image identification"
+                ),
             ]
         )
         tool_progress.extend([2, 2])
-
 
         # [9]
         group_names.append(self.tr("[Various]"))

@@ -14,6 +14,7 @@ from PySide6.QtWidgets import (
 
 from adjust import AdjustWidget
 from cloning import CloningWidget
+from copy_move import CopyMoveWidget
 from comparison import ComparisonWidget
 from contrast import ContrastWidget
 from digest import DigestWidget
@@ -51,6 +52,7 @@ from resampling import ResamplingWidget
 from noise_estimmation import NoiseWaveletBlockingWidget
 from trufor import TruForWidget
 from dct import DCTWidget
+
 
 class MainWindow(QMainWindow):
     max_recent = 5
@@ -417,10 +419,12 @@ class MainWindow(QMainWindow):
             elif tool == 1:
                 tool_widget = CloningWidget(self.image)
             elif tool == 2:
-                tool_widget = SplicingWidget(self.image)
+                tool_widget = CopyMoveWidget(self.imame)
             elif tool == 3:
-                tool_widget = ResamplingWidget(self.filename, self.image)
+                tool_widget = SplicingWidget(self.image)
             elif tool == 4:
+                tool_widget = ResamplingWidget(self.filename, self.image)
+            elif tool == 5:
                 tool_widget = EnhancedSplicingWidget(self.image)
             else:
                 return
