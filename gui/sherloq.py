@@ -419,7 +419,7 @@ class MainWindow(QMainWindow):
             elif tool == 1:
                 tool_widget = CloningWidget(self.image)
             elif tool == 2:
-                tool_widget = CopyMoveWidget(self.imame)
+                tool_widget = CopyMoveWidget(self.image)
             elif tool == 3:
                 tool_widget = SplicingWidget(self.image)
             elif tool == 4:

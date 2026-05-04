@@ -14,3 +14,4 @@ tensorflow==2.16.*
 xgboost==1.6.*
 pillow==10.3.*
 PyWavelets==1.5.*
+kneed== 0.8.*
