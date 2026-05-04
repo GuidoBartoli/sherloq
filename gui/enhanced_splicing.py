@@ -10,7 +10,6 @@ from tools import ToolWidget
 from viewer import ImageViewer
 from utility import modify_font
 
-# --- 1. THE MATH WORKER THREAD ---
 class ConsensusWorker(QThread):
     finished = Signal(object, object, object, object, object, object)
     error = Signal(str)
@@ -25,7 +24,7 @@ class ConsensusWorker(QThread):
             img_rgb = cv.cvtColor(img_bgr, cv.COLOR_BGR2RGB)
             img_gray = cv.cvtColor(img_bgr, cv.COLOR_BGR2GRAY).astype(np.float64)
             
-            # --- NEW: Convert to YCbCr to isolate pure color! ---
+            # Convert to YCbCr to isolate pure color!
             img_ycbcr = cv.cvtColor(img_bgr, cv.COLOR_BGR2YCrCb)
             # Split out the Cr (Red-difference) and Cb (Blue-difference) channels
             _, cr_channel, cb_channel = cv.split(img_ycbcr)
@@ -33,11 +32,11 @@ class ConsensusWorker(QThread):
             # Create a combined color variance map
             color_variance_map = np.abs(cr_channel.astype(np.float64) - cb_channel.astype(np.float64))
             
-            # 1. SLIC Segmentation
+            # SLIC Segmentation
             segments = slic(img_rgb, n_segments=999, compactness=10, sigma=1, start_label=1)
             segment_ids = np.unique(segments)
 
-            # 2. Pre-computing Global Math
+            # Pre-computing Global Math
             noise_matrix = cv.Laplacian(img_gray, cv.CV_64F)
             
             diff_h = np.abs(img_gray[:, :-1] - img_gray[:, 1:])
@@ -56,7 +55,7 @@ class ConsensusWorker(QThread):
             ela_diff = cv.absdiff(img_bgr, compressed_img)
             ela_gray = cv.cvtColor(ela_diff, cv.COLOR_BGR2GRAY).astype(np.float64)
             
-            # 3. Extracting Features
+            # Extracting Features
             noise_heatmap = np.zeros_like(img_gray)
             dct_heatmap = np.zeros_like(img_gray)
             freq_heatmap = np.zeros_like(img_gray)
@@ -84,7 +83,7 @@ class ConsensusWorker(QThread):
                     return np.zeros_like(hm)
                 return (hm - hm_min) / (hm_max - hm_min)
 
-            # 4. Normalize raw lenses and prepare outputs
+            # Normalize raw lenses and prepare outputs
             norm_noise = normalize_heatmap(noise_heatmap)
             norm_dct = normalize_heatmap(dct_heatmap)
             norm_freq = normalize_heatmap(freq_heatmap)
@@ -100,13 +99,13 @@ class ConsensusWorker(QThread):
         except Exception as e:
             self.error.emit(str(e))
 
-# --- 2. THE UI WIDGET ---
+# THE UI WIDGET
 class EnhancedSplicingWidget(ToolWidget):
     def __init__(self, image, parent=None):
         super().__init__(parent)
         self.image = image
         
-        # --- SMART FORENSIC DOWNSCALING ---
+        # Downscaling
         max_dimension = 1080
         h, w = self.image.shape[:2]
         
@@ -115,7 +114,6 @@ class EnhancedSplicingWidget(ToolWidget):
             new_w, new_h = int(w * scale), int(h * scale)
             # Resize the master image immediately using INTER_AREA
             self.image = cv.resize(self.image, (new_w, new_h), interpolation=cv.INTER_AREA)
-        # ----------------------------------
         
         self.worker = None
         
@@ -130,7 +128,7 @@ class EnhancedSplicingWidget(ToolWidget):
 
         gray_placeholder = np.full_like(self.image, 127)
         
-        # --- LEFT SIDE: The Tabbed Viewers ---
+        # LEFT SIDE: The Tabbed Viewers
         self.tabs = QTabWidget()
         self.slic_viewer = ImageViewer(self.image, gray_placeholder, "SLIC Superpixels", export=True)
         self.noise_viewer = ImageViewer(self.image, gray_placeholder, "High-Frequency Noise", export=True)
@@ -146,7 +144,7 @@ class EnhancedSplicingWidget(ToolWidget):
         self.tabs.addTab(self.ela_viewer, "ELA")
         self.tabs.addTab(self.color_viewer, "Color") 
 
-        # --- RIGHT SIDE: The Main Heatmap ---
+        # RIGHT SIDE: The Main Heatmap
         self.heatmap_viewer = ImageViewer(self.image, gray_placeholder, "Final Consensus Heatmap", export=True)
 
         # Sync Pan/Zoom
@@ -164,7 +162,7 @@ class EnhancedSplicingWidget(ToolWidget):
         self.ela_viewer.viewChanged.connect(self.heatmap_viewer.changeView)
         self.color_viewer.viewChanged.connect(self.heatmap_viewer.changeView)
 
-        # --- SLIDER CONTROL PANEL ---
+        # SLIDER CONTROL PANEL
         controls_layout = QHBoxLayout()
         
         # Helper to create a slider + label
@@ -254,7 +252,6 @@ class EnhancedSplicingWidget(ToolWidget):
             self.ela_viewer.update_processed(self.apply_colormap(ela_mat, cv.COLORMAP_VIRIDIS))
             self.color_viewer.update_processed(self.apply_colormap(color_mat, cv.COLORMAP_VIRIDIS))
 
-            # --- THE MAGIC TRIGGER ---
             # Instead of manually drawing it, let PCA and K-Means take the wheel!
             self.auto_optimize_all()
             
@@ -271,13 +268,13 @@ class EnhancedSplicingWidget(ToolWidget):
             QMessageBox.critical(self, "Hidden Error Caught!", f"The UI crashed at:\n{traceback.format_exc()}")
             self.run_button.setEnabled(True)
 
-    # --- THE REAL-TIME FUSION ENGINE ---
-    # This runs instantly every time you drag a slider!
+    # REAL-TIME FUSION ENGINE
+    # Runs instantly every time someone drag a slider!
     def update_fusion(self):
         if self.raw_noise is None: return # Prevent running before math is done
         
         try:
-            # 1. Grab values from sliders
+            # Grab values from sliders
             w_n = self.sld_noise.value() / 100.0
             w_d = self.sld_dct.value() / 100.0
             w_f = self.sld_freq.value() / 100.0
@@ -285,49 +282,47 @@ class EnhancedSplicingWidget(ToolWidget):
             w_e = self.sld_ela.value() / 100.0
             w_c = self.sld_color.value() / 100.0
 
-            # 2. Fuse the stored arrays together
+            # Fuse the stored arrays together
             consensus = (self.raw_noise * w_n) + (self.raw_dct * w_d) + (self.raw_freq * w_f) + (self.raw_ela * w_e) + (self.raw_color * w_c)
             final_consensus = self.normalize_heatmap(consensus)
             
-            # --- THE LUMINANCE MASK ---
-            # 1. Convert original image to grayscale to check brightness
+            # Luminance Mask
+            # Convert original image to grayscale to check brightness
             img_gray = cv.cvtColor(self.image, cv.COLOR_BGR2GRAY)
-            # 2. Create a mask where pixels darker than 240 are 1.0, and blown-out bright pixels are 0.0
+            # Create a mask where pixels darker than 240 are 1.0, and blown-out bright pixels are 0.0
             luminance_mask = (img_gray < 240).astype(np.float32)
-            # 3 . Multiply the consensus map by the mask to instantly erase false bright spots!
+            # Multiply the consensus map by the mask to instantly erase false bright spots!
             final_consensus = final_consensus * luminance_mask
-            # -------------------------------
             
-            # 3. Apply the threshold from the slider
+            # Apply the threshold from the slider
             binary_map = (final_consensus > thresh).astype(np.uint8) * 255
             
-            # 4. Morphological Cleanup
+            # Morphological Cleanup
             kernel = np.ones((5, 5), np.uint8)
             cleaned_map = cv.morphologyEx(binary_map, cv.MORPH_OPEN, kernel)
             cleaned_map = cv.dilate(cleaned_map, kernel, iterations=2)
             
-            # 5. Draw the Base Heatmap
+            # Draw the Base Heatmap
             heatmap_colored = self.apply_colormap(final_consensus, cv.COLORMAP_JET)
 
-            # 6. Find ALL contours, and apply the SMART SHAPE FILTER!
+            # Find ALL contours, and apply the SMART SHAPE FILTER!
             contours, _ = cv.findContours(cleaned_map, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
             for c in contours:
                 area = cv.contourArea(c)
                 if area > 150: # Ignore tiny 10x10 pixel dust specks
                     x, y, w, h = cv.boundingRect(c)
                     
-                    # --- THE SMART SHAPE FILTER ---
-                    # 1. Aspect Ratio: Is it extremely long and thin? (Like a blade of grass)
+                    # THE SMART SHAPE FILTER
+                    # Aspect Ratio: Is it extremely long and thin? (Like a blade of grass)
                     aspect_ratio = float(w) / float(h)
                     
-                    # 2. Extent: Is it a hollow, stringy shape? (Area compared to its bounding box)
+                    # Extent: Is it a hollow, stringy shape? (Area compared to its bounding box)
                     rect_area = w * h
                     extent = float(area) / float(rect_area)
                     
                     # Rule: If it is super stringy (ratio > 4 or < 0.25) OR mostly empty space (extent < 0.25)...
                     if (aspect_ratio > 4.0 or aspect_ratio < 0.25) or (extent < 0.25):
                         continue # ...IGNORE IT! (It's probably grass or background noise)
-                    # ------------------------------
                     
                     # If it survives the filter, draw the box on heatmap_colored!
                     cv.rectangle(heatmap_colored, (int(x), int(y)), (int(x + w), int(y + h)), (0, 255, 0), 3) 
@@ -350,7 +345,7 @@ class EnhancedSplicingWidget(ToolWidget):
         if self.raw_noise is None: return
 
         try:
-            # --- PART 1: PCA FOR DYNAMIC LENS WEIGHTING ---
+            # PCA FOR DYNAMIC LENS WEIGHTING
             # 1. Flatten all 5 heatmaps into 1D arrays
             n, d, f = self.raw_noise.flatten(), self.raw_dct.flatten(), self.raw_freq.flatten()
             e, c = self.raw_ela.flatten(), self.raw_color.flatten()
@@ -383,19 +378,19 @@ class EnhancedSplicingWidget(ToolWidget):
                 sld.blockSignals(False)
                 sld.valueChanged.emit(sld.value()) # Update the UI text labels
 
-            # --- PART 2: BUILD CONSENSUS WITH NEW AI WEIGHTS ---
+            # BUILD CONSENSUS WITH NEW AI WEIGHTS
             w_n, w_d, w_f, w_e, w_c = weights_pct / 100.0
             consensus = (self.raw_noise * w_n) + (self.raw_dct * w_d) + (self.raw_freq * w_f) + (self.raw_ela * w_e) + (self.raw_color * w_c)
             final_consensus = self.normalize_heatmap(consensus)
 
-            # --- PART 3: K-MEANS FOR AUTO-THRESHOLD ---
+            # K-MEANS FOR AUTO-THRESHOLD
             pixel_values = final_consensus.reshape((-1, 1)).astype(np.float32)
             criteria = (cv.TERM_CRITERIA_EPS + cv.TERM_CRITERIA_MAX_ITER, 10, 1.0)
             _, _, centers = cv.kmeans(pixel_values, 2, None, criteria, 10, cv.KMEANS_PP_CENTERS)
             
             optimal_thresh = float((centers[0][0] + centers[1][0]) / 2.0)
             
-            # 4. Snap the threshold slider!
+            # Snap the threshold slider
             # Note: setting this automatically triggers update_fusion() to draw the final box!
             self.sld_thresh.setValue(int(optimal_thresh * 100))
 
