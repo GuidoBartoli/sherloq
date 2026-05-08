@@ -200,6 +200,7 @@ class CopyMoveWidget(ToolWidget):
 
     def load_mask(self):
         filename, basename, mask = load_image(self)
+        mask = self.resize_image(mask)  # resize mask
         if filename is None:
             return
         if self.image.shape[:-1] != mask.shape[:-1]:
