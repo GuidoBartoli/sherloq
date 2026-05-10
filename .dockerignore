@@ -1,0 +1,12 @@
+# Ignore all virtual environments! (CRITICAL)
+.venv*
+
+# Ignore GitHub and IDE files
+.git/
+.gitignore
+.vscode/
+
+# Ignore media and cache
+screenshots/
+__pycache__/
+*.pyc
