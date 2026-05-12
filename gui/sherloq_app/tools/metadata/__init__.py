@@ -1,0 +1,1 @@
+"""Metadata analysis tool widgets."""

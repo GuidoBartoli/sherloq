@@ -1,0 +1,1 @@
+"""JPEG analysis tool widgets."""
