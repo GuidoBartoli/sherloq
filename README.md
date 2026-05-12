@@ -16,6 +16,7 @@ I strongly believe that *security-by-obscurity* is the wrong way to offer any 
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Installation](#installation)
+- [Project Structure](#project-structure)
 - [Updates](#updates)
 - [Bibliography](#bibliography)
 
@@ -171,22 +172,26 @@ $ uv pip install -r gui/requirements_ai_solutions.txt
 
 ## [4/4] Launch program
 
-Sherloq currently expects to be launched from the `gui` directory because icons, models and bundled tools are loaded using relative paths.
+Sherloq can be launched from the repository root. The application package resolves icons, models and bundled tools through centralized project paths.
 
 #### Linux/macOS
 
 ```console
 $ source .venv/bin/activate
-$ cd gui
-$ python sherloq.py
+$ python -m gui.sherloq_app
 ```
 
 #### Windows PowerShell
 
 ```console
 > .venv\Scripts\Activate.ps1
-> cd gui
-> python sherloq.py
+> python -m gui.sherloq_app
+```
+
+You can also use the repository-root compatibility launcher:
+
+```console
+$ python sherloq.py
 ```
 
 NOTE for Linux users: if this error is displayed:
@@ -196,6 +201,20 @@ qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in "" even though it 
 This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
 ```
 Run this command from the terminal: `sudo apt install -y libxcb-cursor-dev` 
+
+# Project Structure
+
+The Python Qt application now lives in the importable `gui/sherloq_app` package:
+
+- `main.py`: Qt application entry point and main window.
+- `core/`: shared image-processing helpers such as JPEG utilities and file loading.
+- `ui/`: reusable Qt widgets, viewers, tables and the tool tree.
+- `tools/`: analysis widgets grouped by toolbox category (`general`, `metadata`, `inspection`, `detail`, `colors`, `noise`, `jpeg`, `tampering`, `various`).
+- `paths.py`: centralized access to icons, models and bundled native helpers so code no longer depends on launching from `gui`.
+
+Large bundled assets and third-party research components remain under `gui/icons`, `gui/models`, `gui/noiseprint`, `gui/pyexiftool`, `gui/butteraugli`, `gui/ssimulacra` and optional `gui/TruFor_main`.
+
+See [docs/project-structure.md](docs/project-structure.md) for a contributor-oriented map.
 
 # Updates
 When a new version is released, update the local working copy with Git or by downloading the latest source, then refresh the environment from the Sherloq root folder:

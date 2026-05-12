@@ -1,0 +1,1 @@
+"""Tampering detection tool widgets."""

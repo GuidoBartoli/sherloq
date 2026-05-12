@@ -1,0 +1,1 @@
+"""Noise analysis tool widgets."""

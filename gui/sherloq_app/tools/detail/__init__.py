@@ -1,0 +1,1 @@
+"""Detail analysis tool widgets."""

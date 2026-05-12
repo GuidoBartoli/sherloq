@@ -1,0 +1,1 @@
+"""Visual inspection tool widgets."""
