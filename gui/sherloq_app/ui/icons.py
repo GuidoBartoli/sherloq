@@ -4,7 +4,7 @@ from pathlib import Path
 from tempfile import gettempdir
 
 from PySide6.QtWidgets import QApplication
-from PySide6.QtGui import QIcon, QPalette
+from PySide6.QtGui import QColor, QIcon, QImage, QPalette, QPixmap
 
 from gui.sherloq_app.paths import icon_path
 
@@ -46,8 +46,28 @@ def _themed_svg_path(source):
     return str(cache_path)
 
 
+def _mask_icon(source):
+    image = QImage(source).convertToFormat(QImage.Format_ARGB32)
+    if image.isNull():
+        return QIcon(source)
+
+    color = QColor("#ffffff" if is_dark_theme() else "#000000")
+    for y in range(image.height()):
+        for x in range(image.width()):
+            pixel = image.pixelColor(x, y)
+            if pixel.alpha() == 0:
+                continue
+            pixel.setRed(color.red())
+            pixel.setGreen(color.green())
+            pixel.setBlue(color.blue())
+            image.setPixelColor(x, y, pixel)
+    return QIcon(QPixmap.fromImage(image))
+
+
 def themed_icon(name):
     source = icon_path(name)
     if name.lower().endswith(".svg"):
         source = _themed_svg_path(source)
+    if name == "sherloq_alpha.png":
+        return _mask_icon(source)
     return QIcon(source)
