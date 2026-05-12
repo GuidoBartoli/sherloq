@@ -1,7 +1,7 @@
 astor==0.8.*
 concurrent-iterator==0.2.*
 keras-applications==1.0.*
-lxml==4.9.*
+lxml==6.1.*
 matplotlib==3.8.*
 opencv-contrib-python-headless==4.*
 pandas==1.5.*
@@ -12,5 +12,5 @@ scikit-learn==1.5.*
 sewar==0.4.*
 tensorflow==2.16.*
 xgboost==1.6.*
-pillow==10.3.*
+pillow==12.2.*
 PyWavelets==1.5.*
