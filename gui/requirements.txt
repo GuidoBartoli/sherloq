@@ -11,6 +11,6 @@ rawpy==0.19.*
 scikit-learn==1.5.*
 sewar==0.4.*
 tensorflow==2.16.*
-xgboost==1.6.*
+xgboost==2.0.*
 pillow==12.2.*
 PyWavelets==1.5.*
