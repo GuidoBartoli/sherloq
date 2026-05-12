@@ -1,9 +1,8 @@
 from PySide6.QtCore import Qt, Signal
-from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import QTreeWidget, QTreeWidgetItem, QWidget
 
 from gui.sherloq_app.core.utility import modify_font
-from gui.sherloq_app.paths import icon_path
+from gui.sherloq_app.ui.icons import themed_icon
 
 
 class ToolWidget(QWidget):
@@ -280,7 +279,7 @@ class ToolTree(QTreeWidget):
             font.setBold(True)
             group_item.setFont(0, font)
             group_item.setData(0, Qt.UserRole, False)
-            group_item.setIcon(0, QIcon(icon_path(f"{i}.svg")))
+            group_item.setIcon(0, themed_icon(f"{i}.svg"))
             for j, tool in enumerate(tool_names[i]):
                 tool_item = QTreeWidgetItem(group_item)
                 tool_item.setText(0, tool)

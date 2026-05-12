@@ -2,7 +2,7 @@ import os
 import sys
 
 from PySide6.QtCore import Qt, QSettings
-from PySide6.QtGui import QKeySequence, QIcon, QAction
+from PySide6.QtGui import QKeySequence, QAction
 from PySide6.QtWidgets import (
     QApplication,
     QMainWindow,
@@ -12,7 +12,6 @@ from PySide6.QtWidgets import (
     QMessageBox,
 )
 
-from gui.sherloq_app.paths import icon_path
 from gui.sherloq_app.tools.colors.pca import PcaWidget
 from gui.sherloq_app.tools.colors.plots import PlotsWidget
 from gui.sherloq_app.tools.colors.space import SpaceWidget
@@ -48,6 +47,7 @@ from gui.sherloq_app.tools.tampering.splicing import SplicingWidget
 from gui.sherloq_app.tools.various.median import MedianWidget
 from gui.sherloq_app.tools.various.stereogram import StereoWidget
 from gui.sherloq_app.tools.various.trufor import TruForWidget
+from gui.sherloq_app.ui.icons import themed_icon
 from gui.sherloq_app.ui.tools import ToolTree
 from gui.sherloq_app.core.utility import modify_font, load_image
 
@@ -60,7 +60,7 @@ class MainWindow(QMainWindow):
         QApplication.setOrganizationName("Guido Bartoli")
         QApplication.setOrganizationDomain("http://www.guidobartoli.com")
         QApplication.setApplicationVersion(ToolTree().version)
-        QApplication.setWindowIcon(QIcon(icon_path("sherloq_white.png")))
+        QApplication.setWindowIcon(themed_icon("sherloq_white.png"))
         self.setWindowTitle(
             f"{QApplication.applicationName()} {QApplication.applicationVersion()}"
         )
@@ -84,13 +84,13 @@ class MainWindow(QMainWindow):
         tools_action.setToolTip(self.tr("Toggle toolset visibility"))
         tools_action.setShortcut(QKeySequence(Qt.Key_Tab))
         tools_action.setObjectName("tools_action")
-        tools_action.setIcon(QIcon(icon_path("tools.svg")))
+        tools_action.setIcon(themed_icon("tools.svg"))
 
         help_action = QAction(self.tr("Show help"), self)
         help_action.setToolTip(self.tr("Toggle online help"))
         help_action.setShortcut(QKeySequence.HelpContents)
         help_action.setObjectName("help_action")
-        help_action.setIcon(QIcon(icon_path("help.svg")))
+        help_action.setIcon(themed_icon("help.svg"))
         help_action.setCheckable(True)
         help_action.setEnabled(False)
 
@@ -99,14 +99,14 @@ class MainWindow(QMainWindow):
         load_action.setShortcut(QKeySequence.Open)
         load_action.triggered.connect(self.load_file)
         load_action.setObjectName("load_action")
-        load_action.setIcon(QIcon(icon_path("load.svg")))
+        load_action.setIcon(themed_icon("load.svg"))
 
         quit_action = QAction(self.tr("&Quit"), self)
         quit_action.setToolTip(self.tr("Exit from Sherloq"))
         quit_action.setShortcut(QKeySequence.Quit)
         quit_action.triggered.connect(self.close)
         quit_action.setObjectName("quit_action")
-        quit_action.setIcon(QIcon(icon_path("quit.svg")))
+        quit_action.setIcon(themed_icon("quit.svg"))
 
         tabbed_action = QAction(self.tr("&Tabbed"), self)
         tabbed_action.setToolTip(self.tr("Toggle tabbed view for window area"))
@@ -114,67 +114,67 @@ class MainWindow(QMainWindow):
         tabbed_action.setCheckable(True)
         tabbed_action.triggered.connect(self.toggle_view)
         tabbed_action.setObjectName("tabbed_action")
-        tabbed_action.setIcon(QIcon(icon_path("tabbed.svg")))
+        tabbed_action.setIcon(themed_icon("tabbed.svg"))
 
         prev_action = QAction(self.tr("&Previous"), self)
         prev_action.setToolTip(self.tr("Select the previous tool window"))
         prev_action.setShortcut(QKeySequence.PreviousChild)
         prev_action.triggered.connect(self.mdi_area.activatePreviousSubWindow)
         prev_action.setObjectName("prev_action")
-        prev_action.setIcon(QIcon(icon_path("previous.svg")))
+        prev_action.setIcon(themed_icon("previous.svg"))
 
         next_action = QAction(self.tr("&Next"), self)
         next_action.setToolTip(self.tr("Select the next tool window"))
         next_action.setShortcut(QKeySequence.NextChild)
         next_action.triggered.connect(self.mdi_area.activateNextSubWindow)
         next_action.setObjectName("next_action")
-        next_action.setIcon(QIcon(icon_path("next.svg")))
+        next_action.setIcon(themed_icon("next.svg"))
 
         tile_action = QAction(self.tr("&Tile"), self)
         tile_action.setToolTip(self.tr("Arrange windows into non-overlapping views"))
         tile_action.setShortcut(QKeySequence(Qt.Key_F11))
         tile_action.triggered.connect(self.mdi_area.tileSubWindows)
         tile_action.setObjectName("tile_action")
-        tile_action.setIcon(QIcon(icon_path("tile.svg")))
+        tile_action.setIcon(themed_icon("tile.svg"))
 
         cascade_action = QAction(self.tr("&Cascade"), self)
         cascade_action.setToolTip(self.tr("Arrange windows into overlapping views"))
         cascade_action.setShortcut(QKeySequence(Qt.Key_F12))
         cascade_action.triggered.connect(self.mdi_area.cascadeSubWindows)
         cascade_action.setObjectName("cascade_action")
-        cascade_action.setIcon(QIcon(icon_path("cascade.svg")))
+        cascade_action.setIcon(themed_icon("cascade.svg"))
 
         close_action = QAction(self.tr("Close &All"), self)
         close_action.setToolTip(self.tr("Close all open tool windows"))
         close_action.setShortcut(QKeySequence(Qt.CTRL | Qt.SHIFT | Qt.Key_W))
         close_action.triggered.connect(self.mdi_area.closeAllSubWindows)
         close_action.setObjectName("close_action")
-        close_action.setIcon(QIcon(icon_path("close.svg")))
+        close_action.setIcon(themed_icon("close.svg"))
 
         self.full_action = QAction(self.tr("Full screen"), self)
         self.full_action.setToolTip(self.tr("Switch to full screen mode"))
         self.full_action.setShortcut(QKeySequence.FullScreen)
         self.full_action.triggered.connect(self.change_view)
         self.full_action.setObjectName("full_action")
-        self.full_action.setIcon(QIcon(icon_path("full.svg")))
+        self.full_action.setIcon(themed_icon("full.svg"))
 
         self.normal_action = QAction(self.tr("Normal view"), self)
         self.normal_action.setToolTip(self.tr("Back to normal view mode"))
         self.normal_action.setShortcut(QKeySequence(Qt.CTRL | Qt.Key_F12))
         self.normal_action.triggered.connect(self.change_view)
         self.normal_action.setObjectName("normal_action")
-        self.normal_action.setIcon(QIcon(icon_path("normal.svg")))
+        self.normal_action.setIcon(themed_icon("normal.svg"))
 
         about_action = QAction(self.tr("&About..."), self)
         about_action.setToolTip(self.tr("Information about this program"))
         about_action.triggered.connect(self.show_about)
         about_action.setObjectName("about_action")
-        about_action.setIcon(QIcon(icon_path("sherloq_alpha.png")))
+        about_action.setIcon(themed_icon("sherloq_alpha.png"))
 
         about_qt_action = QAction(self.tr("About &Qt"), self)
         about_qt_action.setToolTip(self.tr("Information about the Qt Framework"))
         about_qt_action.triggered.connect(QApplication.aboutQt)
-        about_qt_action.setIcon(QIcon(icon_path("Qt.svg")))
+        about_qt_action.setIcon(themed_icon("Qt.svg"))
 
         file_menu = self.menuBar().addMenu(self.tr("&File"))
         file_menu.addAction(load_action)
@@ -442,7 +442,7 @@ class MainWindow(QMainWindow):
         sub_window.setWindowTitle(item.text(0))
         sub_window.setObjectName(item.text(0))
         sub_window.setAttribute(Qt.WA_DeleteOnClose)
-        sub_window.setWindowIcon(QIcon(icon_path(f"{group}.svg")))
+        sub_window.setWindowIcon(themed_icon(f"{group}.svg"))
         self.mdi_area.addSubWindow(sub_window)
         sub_window.show()
         sub_window.destroyed.connect(self.disable_bold)

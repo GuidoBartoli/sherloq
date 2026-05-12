@@ -6,7 +6,6 @@ import cv2 as cv
 import numpy as np
 import sewar
 from PySide6.QtCore import QTemporaryDir, Qt
-from PySide6.QtGui import QIcon
 from PySide6.QtWidgets import (
     QAbstractItemView,
     QTableWidgetItem,
@@ -21,7 +20,7 @@ from PySide6.QtWidgets import (
     QProgressDialog,
 )
 
-from gui.sherloq_app.paths import icon_path
+from gui.sherloq_app.ui.icons import themed_icon
 from gui.sherloq_app.ui.tools import ToolWidget
 from gui.sherloq_app.core.utility import (
     norm_mat,
@@ -73,7 +72,7 @@ class ComparisonWidget(ToolWidget):
             [self.tr("Metric"), self.tr("Value"), self.tr("Best")]
         )
         self.table_widget.setItem(0, 0, QTableWidgetItem(self.tr("RMSE")))
-        self.table_widget.setItem(0, 2, QTableWidgetItem(QIcon(icon_path("low.svg")), "(0)"))
+        self.table_widget.setItem(0, 2, QTableWidgetItem(themed_icon("low.svg"), "(0)"))
         self.table_widget.item(0, 0).setToolTip(
             self.tr(
                 "Root Mean Square Error (RMSE) is commonly used to compare \n"
@@ -85,7 +84,7 @@ class ComparisonWidget(ToolWidget):
             )
         )
         self.table_widget.setItem(1, 0, QTableWidgetItem(self.tr("SAM")))
-        self.table_widget.setItem(1, 2, QTableWidgetItem(QIcon(icon_path("low.svg")), "(0)"))
+        self.table_widget.setItem(1, 2, QTableWidgetItem(themed_icon("low.svg"), "(0)"))
         self.table_widget.item(1, 0).setToolTip(
             self.tr(
                 "It computes the spectral angle between the pixel, vector of the \n"
@@ -95,7 +94,7 @@ class ComparisonWidget(ToolWidget):
             )
         )
         self.table_widget.setItem(2, 0, QTableWidgetItem(self.tr("ERGAS")))
-        self.table_widget.setItem(2, 2, QTableWidgetItem(QIcon(icon_path("low.svg")), "(0)"))
+        self.table_widget.setItem(2, 2, QTableWidgetItem(themed_icon("low.svg"), "(0)"))
         self.table_widget.item(2, 0).setToolTip(
             self.tr(
                 "It is used to compute the quality of reference image in terms \n"
@@ -106,7 +105,7 @@ class ComparisonWidget(ToolWidget):
             )
         )
         self.table_widget.setItem(3, 0, QTableWidgetItem(self.tr("MB")))
-        self.table_widget.setItem(3, 2, QTableWidgetItem(QIcon(icon_path("low.svg")), "(0)"))
+        self.table_widget.setItem(3, 2, QTableWidgetItem(themed_icon("low.svg"), "(0)"))
         self.table_widget.item(3, 0).setToolTip(
             self.tr(
                 "Mean Bias is the difference between the mean of the evidence \n"
@@ -116,7 +115,7 @@ class ComparisonWidget(ToolWidget):
             )
         )
         self.table_widget.setItem(4, 0, QTableWidgetItem(self.tr("PFE")))
-        self.table_widget.setItem(4, 2, QTableWidgetItem(QIcon(icon_path("low.svg")), "(0)"))
+        self.table_widget.setItem(4, 2, QTableWidgetItem(themed_icon("low.svg"), "(0)"))
         self.table_widget.item(4, 0).setToolTip(
             self.tr(
                 "It computes the norm of the difference between the corresponding \n"
@@ -128,7 +127,7 @@ class ComparisonWidget(ToolWidget):
         )
         self.table_widget.setItem(5, 0, QTableWidgetItem(self.tr("PSNR")))
         self.table_widget.setItem(
-            5, 2, QTableWidgetItem(QIcon(icon_path("high.svg")), "(+" + "\u221e" + ")")
+            5, 2, QTableWidgetItem(themed_icon("high.svg"), "(+" + "\u221e" + ")")
         )
         self.table_widget.item(5, 0).setToolTip(
             self.tr(
@@ -142,7 +141,7 @@ class ComparisonWidget(ToolWidget):
         # self.table_widget.item(6, 0).setToolTip(self.tr('PSNR with Blocking Effect Factor.'))
         self.table_widget.setItem(6, 0, QTableWidgetItem(self.tr("SSIM")))
         self.table_widget.setItem(
-            6, 2, QTableWidgetItem(QIcon(icon_path("high.svg")), "(1)")
+            6, 2, QTableWidgetItem(themed_icon("high.svg"), "(1)")
         )
         self.table_widget.item(6, 0).setToolTip(
             self.tr(
@@ -153,38 +152,38 @@ class ComparisonWidget(ToolWidget):
         )
         self.table_widget.setItem(7, 0, QTableWidgetItem(self.tr("MS-SSIM")))
         self.table_widget.setItem(
-            7, 2, QTableWidgetItem(QIcon(icon_path("high.svg")), "(1)")
+            7, 2, QTableWidgetItem(themed_icon("high.svg"), "(1)")
         )
         self.table_widget.item(7, 0).setToolTip(self.tr("Multiscale version of SSIM."))
         self.table_widget.setItem(8, 0, QTableWidgetItem(self.tr("RASE")))
-        self.table_widget.setItem(8, 2, QTableWidgetItem(QIcon(icon_path("low.svg")), "(0)"))
+        self.table_widget.setItem(8, 2, QTableWidgetItem(themed_icon("low.svg"), "(0)"))
         self.table_widget.item(8, 0).setToolTip(
             self.tr("Relative average spectral error")
         )
         self.table_widget.setItem(9, 0, QTableWidgetItem(self.tr("SCC")))
         self.table_widget.setItem(
-            9, 2, QTableWidgetItem(QIcon(icon_path("high.svg")), "(1)")
+            9, 2, QTableWidgetItem(themed_icon("high.svg"), "(1)")
         )
         self.table_widget.item(9, 0).setToolTip(
             self.tr("Spatial Correlation Coefficient")
         )
         self.table_widget.setItem(10, 0, QTableWidgetItem(self.tr("UQI")))
         self.table_widget.setItem(
-            10, 2, QTableWidgetItem(QIcon(icon_path("high.svg")), "(1)")
+            10, 2, QTableWidgetItem(themed_icon("high.svg"), "(1)")
         )
         self.table_widget.item(10, 0).setToolTip(
             self.tr("Universal Image Quality Index")
         )
         self.table_widget.setItem(11, 0, QTableWidgetItem(self.tr("VIF-P")))
         self.table_widget.setItem(
-            11, 2, QTableWidgetItem(QIcon(icon_path("high.svg")), "(1)")
+            11, 2, QTableWidgetItem(themed_icon("high.svg"), "(1)")
         )
         self.table_widget.item(11, 0).setToolTip(
             self.tr("Pixel-based Visual Information Fidelity")
         )
         self.table_widget.setItem(12, 0, QTableWidgetItem(self.tr("SSIMulacra")))
         self.table_widget.setItem(
-            12, 2, QTableWidgetItem(QIcon(icon_path("low.svg")), "(0)")
+            12, 2, QTableWidgetItem(themed_icon("low.svg"), "(0)")
         )
         self.table_widget.item(12, 0).setToolTip(
             self.tr(
@@ -193,39 +192,39 @@ class ComparisonWidget(ToolWidget):
         )
         self.table_widget.setItem(13, 0, QTableWidgetItem(self.tr("Butteraugli")))
         self.table_widget.setItem(
-            13, 2, QTableWidgetItem(QIcon(icon_path("low.svg")), "(0)")
+            13, 2, QTableWidgetItem(themed_icon("low.svg"), "(0)")
         )
         self.table_widget.item(13, 0).setToolTip(self.tr("Estimate psychovisual error"))
         self.table_widget.setItem(14, 0, QTableWidgetItem(self.tr("Correlation")))
         self.table_widget.setItem(
-            14, 2, QTableWidgetItem(QIcon(icon_path("high.svg")), "(1)")
+            14, 2, QTableWidgetItem(themed_icon("high.svg"), "(1)")
         )
         self.table_widget.item(14, 0).setToolTip(self.tr("Histogram correlation"))
         self.table_widget.setItem(15, 0, QTableWidgetItem(self.tr("Chi-Square")))
         self.table_widget.setItem(
-            15, 2, QTableWidgetItem(QIcon(icon_path("low.svg")), "(0)")
+            15, 2, QTableWidgetItem(themed_icon("low.svg"), "(0)")
         )
         self.table_widget.item(15, 0).setToolTip(self.tr("Histogram Chi-Square"))
         self.table_widget.setItem(16, 0, QTableWidgetItem(self.tr("Chi-Square 2")))
         self.table_widget.setItem(
-            16, 2, QTableWidgetItem(QIcon(icon_path("low.svg")), "(0)")
+            16, 2, QTableWidgetItem(themed_icon("low.svg"), "(0)")
         )
         self.table_widget.item(16, 0).setToolTip(self.tr("Alternative Chi-Square"))
         self.table_widget.setItem(17, 0, QTableWidgetItem(self.tr("Intersection")))
         self.table_widget.setItem(
-            17, 2, QTableWidgetItem(QIcon(icon_path("high.svg")), "(+" + "\u221e" + ")")
+            17, 2, QTableWidgetItem(themed_icon("high.svg"), "(+" + "\u221e" + ")")
         )
         self.table_widget.item(17, 0).setToolTip(self.tr("Histogram intersection"))
         self.table_widget.setItem(18, 0, QTableWidgetItem(self.tr("Hellinger")))
         self.table_widget.setItem(
-            18, 2, QTableWidgetItem(QIcon(icon_path("low.svg")), "(0)")
+            18, 2, QTableWidgetItem(themed_icon("low.svg"), "(0)")
         )
         self.table_widget.item(18, 0).setToolTip(
             self.tr("Histogram Hellinger distance")
         )
         self.table_widget.setItem(19, 0, QTableWidgetItem(self.tr("Divergence")))
         self.table_widget.setItem(
-            19, 2, QTableWidgetItem(QIcon(icon_path("low.svg")), "(0)")
+            19, 2, QTableWidgetItem(themed_icon("low.svg"), "(0)")
         )
         self.table_widget.item(19, 0).setToolTip(self.tr("Kullback-Leibler divergence"))
 
