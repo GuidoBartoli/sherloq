@@ -145,66 +145,48 @@ This list contains the functions that the toolkit will (hopefully) provide once 
 
 Clone the current repository into a local folder and change current directory to it.
 
-## [2/4] Virtual environment
+## [2/4] Create virtual environment
 
-For more information about Python Virtual Environments, you can read [here](https://realpython.com/python-virtual-environments-a-primer/) or [here](https://chriswarrick.com/blog/2018/09/04/python-virtual-environments/).
-Choose one of the following method to create a new virtual environment with Python 3.11 for Sherloq.
+Sherloq uses Python 3.11. The recommended setup uses [uv](https://docs.astral.sh/uv/) because it provides the same workflow on Linux, macOS and Windows, can install Python when needed, and keeps the project environment in the local `.venv` folder.
 
-### [Built-in Virtual Environment](https://docs.python.org/3/library/venv.html)
-Change current directory to Sherloq root, then initialize virtual environment folder:
+Install `uv` following the [official installation guide](https://docs.astral.sh/uv/getting-started/installation/), then create the environment from the Sherloq root folder:
+
 ```console
-$ python -m venv .venv
-```
-Then activate it:
-#### Linux
-```console
-$ source .venv/bin/activate
+$ uv venv --python 3.11
 ```
 
-#### Windows
-```console
-C:\> .venv\Scripts\activate.bat
-```
-
-### [VirtualEnvWrapper](https://virtualenvwrapper.readthedocs.io/en/latest/)
-
-#### Linux
-```console
-$ sudo apt install python3-distutils python3-dev python3-testresources subversion
-$ wget https://bootstrap.pypa.io/get-pip.py
-$ sudo python3 get-pip.py
-$ rm get-pip.py
-$ sudo pip install virtualenv virtualenvwrapper
-$ echo -e "\n# Python Virtual Environments" >> ~/.bashrc
-$ echo "export WORKON_HOME=$HOME/.virtualenvs" >> ~/.bashrc
-$ echo "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python3" >> ~/.bashrc
-$ echo "source /usr/local/bin/virtualenvwrapper.sh" >> ~/.bashrc
-$ source ~/.bashrc
-$ mkvirtualenv sq -p python3
-```
-#### Windows
-1. Download *Python 3.11* setup package from [official site](https://www.python.org/downloads/)
-2. Install ensuring that "Add Python to PATH" and "PIP installation" are enabled
-3. Open *Command Prompt* and enter the following commands:
-```console
-> pip install virtualenv virtualenvwrapper-win
-> mkvirtualenv sq
-```
-### [Conda environment](https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html)
-1. Install latest **Miniconda** following instructions from the [official site](https://docs.conda.io/projects/miniconda/en/latest/miniconda-install.html)
-2. Create a new **virtual environment**: `conda create --name sq python=3.11 -y`
-3. **Activate** the `sq` environment: `conda activate sq`
+The repository also includes a `.python-version` file, so future `uv` commands use Python 3.11 by default.
 
 ## [3/4] Install dependencies
 
 ```console
-cd gui
-pip install -r requirements.txt
+$ uv pip install -r gui/requirements.txt
+```
+
+Some experimental AI-backed tools need additional packages. Install them only if you plan to use those tools:
+
+```console
+$ uv pip install -r gui/requirements_ai_solutions.txt
 ```
 
 ## [4/4] Launch program
+
+Sherloq currently expects to be launched from the `gui` directory because icons, models and bundled tools are loaded using relative paths.
+
+#### Linux/macOS
+
 ```console
-python sherloq.py
+$ source .venv/bin/activate
+$ cd gui
+$ python sherloq.py
+```
+
+#### Windows PowerShell
+
+```console
+> .venv\Scripts\Activate.ps1
+> cd gui
+> python sherloq.py
 ```
 
 NOTE for Linux users: if this error is displayed:
@@ -216,7 +198,17 @@ This application failed to start because no Qt platform plugin could be initiali
 Run this command from the terminal: `sudo apt install -y libxcb-cursor-dev` 
 
 # Updates
-When a new version is released, update the local working copy using Git, SVN or manually downloading from this repository and (if necessary) update the packages in the virtual environment following [this guide](https://www.activestate.com/resources/quick-reads/how-to-update-all-python-packages/).
+When a new version is released, update the local working copy with Git or by downloading the latest source, then refresh the environment from the Sherloq root folder:
+
+```console
+$ uv pip install --upgrade -r gui/requirements.txt
+```
+
+If you installed the optional AI dependencies, refresh them too:
+
+```console
+$ uv pip install --upgrade -r gui/requirements_ai_solutions.txt
+```
 
 # Recommended Resources for Getting Started
 - Paper with practical examples and thoughtful analysis for techniques that have since been implemented in Sherloq: "A Picture's Worth: Digital Image Analysis and Forensics" ([Neal Krawetz](https://www.hackerfactor.com/)) [[paper](http://blackhat.com/presentations/bh-dc-08/Krawetz/Whitepaper/bh-dc-08-krawetz-WP.pdf)]

@@ -79,7 +79,7 @@ class TruForWidget(ToolWidget):
         else:
             main_layout = QVBoxLayout()
             main_layout.addWidget(QLabel(self.tr("To use TruFor within Sherloq, follow these steps: "
-                                                 "\n1. Install additional dependencies: pip install -r requirements_AI_solutions.txt (file located in Sherloq gui map)"
+                                                 "\n1. Install additional dependencies: uv pip install -r gui/requirements_ai_solutions.txt (run from the Sherloq root folder)"
                                                  "\n2. Download the TruFor project from https://github.com/grip-unina/TruFor."
                                                  "\n3. Rename the project folder to 'TruFor_main' (instead of 'TruFor-main')."
                                                  "\n4. Download the model weights and place them in the 'test_docker' directory."
@@ -134,4 +134,3 @@ class TruForWidget(ToolWidget):
         finally:
             # Always change back to the original working directory
             os.chdir(original_cwd)
-
