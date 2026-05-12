@@ -1,7 +1,7 @@
 import csv
 
 from PySide6.QtCore import Qt, QRect, QRegularExpression, QSettings, QFileInfo
-from PySide6.QtGui import QIcon, QKeySequence, QCursor
+from PySide6.QtGui import QKeySequence, QCursor
 from PySide6.QtWidgets import (
     QToolTip,
     QApplication,
@@ -18,7 +18,7 @@ from PySide6.QtWidgets import (
 )
 
 from gui.sherloq_app.core.utility import modify_font
-from gui.sherloq_app.paths import icon_path
+from gui.sherloq_app.ui.icons import themed_icon
 
 
 class TableWidget(QWidget):
@@ -64,21 +64,21 @@ class TableWidget(QWidget):
         search_layout.addWidget(self.search_edit)
 
         clear_button = QToolButton()
-        clear_button.setIcon(QIcon(icon_path("clear.svg")))
+        clear_button.setIcon(themed_icon("clear.svg"))
         clear_button.setShortcut(QKeySequence.DeleteCompleteLine)
         clear_button.setToolTip(self.tr("Clear pattern"))
         clear_button.clicked.connect(self.search_edit.clear)
         search_layout.addWidget(clear_button)
 
         prev_button = QToolButton()
-        prev_button.setIcon(QIcon(icon_path("up.svg")))
+        prev_button.setIcon(themed_icon("up.svg"))
         prev_button.setShortcut(QKeySequence.FindPrevious)
         prev_button.clicked.connect(self.previous)
         prev_button.setToolTip(self.tr("Previous occurrence"))
         search_layout.addWidget(prev_button)
 
         next_button = QToolButton()
-        next_button.setIcon(QIcon(icon_path("down.svg")))
+        next_button.setIcon(themed_icon("down.svg"))
         next_button.setShortcut(QKeySequence.FindNext)
         next_button.clicked.connect(self.next)
         next_button.setToolTip(self.tr("Next occurrence"))

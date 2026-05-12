@@ -1,9 +1,8 @@
 from PySide6.QtCore import QUrl
-from PySide6.QtGui import QIcon
 from PySide6.QtWebEngineWidgets import QWebEngineView
 from PySide6.QtWidgets import QLabel, QVBoxLayout, QRadioButton, QHBoxLayout
 
-from gui.sherloq_app.paths import icon_path
+from gui.sherloq_app.ui.icons import themed_icon
 from gui.sherloq_app.ui.tools import ToolWidget
 
 
@@ -12,15 +11,15 @@ class ReverseWidget(ToolWidget):
         super(ReverseWidget, self).__init__(parent)
 
         self.tineye_radio = QRadioButton(self.tr("TinEye"))
-        self.tineye_radio.setIcon(QIcon(icon_path("tineye.png")))
+        self.tineye_radio.setIcon(themed_icon("tineye.png"))
         self.google_radio = QRadioButton(self.tr("Google"))
-        self.google_radio.setIcon(QIcon(icon_path("google.svg")))
+        self.google_radio.setIcon(themed_icon("google.svg"))
         self.bing_radio = QRadioButton(self.tr("Bing"))
-        self.bing_radio.setIcon(QIcon(icon_path("bing.svg")))
+        self.bing_radio.setIcon(themed_icon("bing.svg"))
         self.root_radio = QRadioButton(self.tr("RootAbout"))
-        self.root_radio.setIcon(QIcon(icon_path("rootabout.png")))
+        self.root_radio.setIcon(themed_icon("rootabout.png"))
         self.karma_radio = QRadioButton(self.tr("KarmaDecay"))
-        self.karma_radio.setIcon(QIcon(icon_path("karmadecay.jpg")))
+        self.karma_radio.setIcon(themed_icon("karmadecay.jpg"))
         self.tineye_radio.setChecked(True)
         self.last_radio = self.tineye_radio
         self.web_view = QWebEngineView()

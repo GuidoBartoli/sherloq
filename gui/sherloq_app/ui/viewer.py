@@ -4,7 +4,7 @@ import os
 import cv2 as cv
 import numpy as np
 from PySide6.QtCore import QSettings, Qt, Signal, QRect, QRectF
-from PySide6.QtGui import QIcon, QPainter, QTransform, QPixmap, QImage
+from PySide6.QtGui import QPainter, QTransform, QPixmap, QImage
 from PySide6.QtWidgets import (
     QLabel,
     QRadioButton,
@@ -18,7 +18,7 @@ from PySide6.QtWidgets import (
 )
 
 from gui.sherloq_app.core.utility import mat2img, modify_font
-from gui.sherloq_app.paths import icon_path
+from gui.sherloq_app.ui.icons import themed_icon
 
 
 class DynamicView(QGraphicsView):
@@ -200,7 +200,7 @@ class ImageViewer(QWidget):
         export_button = QToolButton()
         export_button.setToolTip(self.tr("Export processed image"))
         # export_button.setText(self.tr('Export...'))
-        export_button.setIcon(QIcon(icon_path("export.svg")))
+        export_button.setIcon(themed_icon("export.svg"))
 
         tool_layout = QHBoxLayout()
         tool_layout.addWidget(QLabel(self.tr("Zoom:")))
