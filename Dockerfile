@@ -52,7 +52,8 @@ COPY gui/requirements.txt gui/requirements_ai_solutions.txt ./
 
 # Install setuptools, standard requirements, AI requirements, and force-upgrade XGBoost
 RUN pip install --no-cache-dir setuptools && \
-    pip install --no-cache-dir -r requirements.txt -r requirements_ai_solutions.txt && \
+    pip install --no-cache-dir -r requirements.txt -r requirements_ai_solutions.txt \
+    --extra-index-url https://download.pytorch.org/whl/cpu && \
     pip install --no-cache-dir --upgrade xgboost
 
 # Copy everything else (your code) into /app
