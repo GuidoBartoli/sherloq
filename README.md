@@ -16,6 +16,7 @@ I strongly believe that *security-by-obscurity* is the wrong way to offer any 
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Installation](#installation)
+- [Running with Docker](#running-with-docker)
 - [Adding a New Module](#adding-a-new-module)
 - [Updates](#updates)
 - [Bibliography](#bibliography)
@@ -215,6 +216,60 @@ qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in "" even though it 
 This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
 ```
 Run this command from the terminal: `sudo apt install -y libxcb-cursor-dev` 
+
+# Running with Docker
+
+Docker lets you run Sherloq without setting up a Python environment locally. Because Sherloq has a GUI, you need an X server on your host to forward the display.
+
+## Prerequisites
+
+- [Docker](https://docs.docker.com/get-docker/) installed and running
+- [VcXsrv / XLaunch](https://sourceforge.net/projects/vcxsrv/) (Windows) or an X server of your choice
+
+## [1/4] Start XLaunch
+
+Launch **XLaunch** and click **Next** through the wizard until you reach the **Extra Settings** page. Check **"Disable access control"**, then finish the wizard.
+
+## [2/4] Build the image
+
+From the repository root (where the `Dockerfile` lives), run:
+
+```console
+docker build -t sherloq-app .
+```
+
+## [3/4] Run the container
+
+Replace `path\to\test-pictures` with the folder on your machine that contains the images you want to analyze:
+
+```console
+docker run -it --rm \
+  -e DISPLAY=host.docker.internal:0.0 \
+  -v "path\to\test-pictures:/dataset" \
+  sherloq-app
+```
+
+> **Windows CMD / PowerShell note:** use a single line without the backslash continuation:
+> ```console
+> docker run -it --rm -e DISPLAY=host.docker.internal:0.0 -v "path\to\test-pictures:/dataset" sherloq-app
+> ```
+
+## [4/4] Use Sherloq
+
+Sherloq will open in a window forwarded through XLaunch. Images mounted under `/dataset` inside the container are accessible via **File → Load image**.
+
+## Troubleshooting: `host.docker.internal` not working
+
+On some Windows setups `host.docker.internal` does not resolve correctly inside the container. Use your machine's local IPv4 address instead.
+
+1. Open **CMD** and run `ipconfig`. Look for the **IPv4 Address** under your active network adapter (e.g., `192.168.67.67`).
+2. Re-run the container substituting that address for the `DISPLAY` value:
+
+```console
+docker run -it --rm -e DISPLAY=192.168.67.67:0.0 -v "C:\path\to\test-pictures:/dataset" sherloq-app
+```
+
+Make sure XLaunch is still running with **"Disable access control"** checked, otherwise the container will be blocked from connecting to the X server.
 
 # Adding a New Module
 
