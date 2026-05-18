@@ -1,4 +1,4 @@
-# Ignore all virtual environments! (CRITICAL)
+# Ignore all virtual environments
 .venv*
 
 # Ignore GitHub and IDE files
