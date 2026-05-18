@@ -16,6 +16,7 @@ I strongly believe that *security-by-obscurity* is the wrong way to offer any 
 - [Features](#features)
 - [Screenshots](#screenshots)
 - [Installation](#installation)
+- [Adding a New Module](#adding-a-new-module)
 - [Updates](#updates)
 - [Bibliography](#bibliography)
 
@@ -214,6 +215,101 @@ qt.qpa.plugin: Could not load the Qt platform plugin "xcb" in "" even though it 
 This application failed to start because no Qt platform plugin could be initialized. Reinstalling the application may fix this problem.
 ```
 Run this command from the terminal: `sudo apt install -y libxcb-cursor-dev` 
+
+# Adding a New Module
+
+All analysis tools follow the same three-step integration pattern: create a widget file, register it in the tool tree, then wire it up in the main window.
+
+## Step 1 Create the widget file
+
+Create a new Python file in `gui/` (e.g., `gui/mymodule.py`). Your main class must extend `ToolWidget` from `tools.py`, which provides the `info_message` signal used to send status text to the status bar.
+
+```python
+# gui/mymodule.py
+import cv2 as cv
+from PySide6.QtWidgets import QVBoxLayout, QLabel
+from tools import ToolWidget
+
+class MyModuleWidget(ToolWidget):
+    def __init__(self, image, parent=None):
+        super().__init__(parent)
+        # store the image and build your UI here
+        self.image = image
+        layout = QVBoxLayout()
+        layout.addWidget(QLabel("My analysis result"))
+        self.setLayout(layout)
+        self.info_message.emit("My Module loaded")
+```
+
+`ToolWidget` already declares `info_message = Signal(str)`, so emit it whenever you want text shown in the status bar. If your tool also needs the file path (e.g., to read metadata), accept it as an extra argument like most modules in `gui/` do (e.g., `DigestWidget(self.filename, self.image)`).
+
+## Step 2 Register the tool in `tools.py`
+
+Open `gui/tools.py`. Tools are organized into numbered groups (`[0]` General, `[1]` Metadata, `[2]` Inspection, etc.). Find the group that fits your tool, or append a new group at the end.
+
+Inside the chosen group block, add your tool's **name**, **description**, and **progress** value:
+
+| Progress value | Meaning |
+|---|---|
+| `0` | Not yet implemented (shown in *italic* in the tree) |
+| `1` | In debug |
+| `2` | Working but incomplete |
+| `3` | Complete |
+
+```python
+# Example: adding to group [9] Various
+group_names.append(self.tr("[Various]"))
+tool_names.append([
+    self.tr("Median Filtering"),
+    self.tr("Illuminant Map"),
+    self.tr("Dead/Hot Pixels"),
+    self.tr("Stereogram Decoder"),
+    self.tr("My Module"),          # <-- add here
+])
+tool_infos.append([
+    self.tr("Detect nonlinear processing traces left by median filtering"),
+    self.tr("Estimate scene local light direction on estimated 3D surfaces"),
+    self.tr("Detect and fix dead/hot pixels caused by sensor imperfections"),
+    self.tr("Decode 3D images concealed inside crossed-eye autostereograms"),
+    self.tr("Short description of what My Module does"),  # <-- and here
+])
+tool_progress.extend([2, 0, 0, 3, 2])  # <-- append progress for your tool
+```
+
+The position of your entry in the list determines its **tool index** (`j`) — the index used in Step 3.
+
+## Step 3 Wire up the widget in `sherloq.py`
+
+Open `gui/sherloq.py` and make two changes.
+
+**3a. Import your widget** at the top alongside the other imports:
+
+```python
+from mymodule import MyModuleWidget
+```
+
+**3b. Add a branch in `open_tool()`** inside the `elif group == N:` block that corresponds to the group number you chose in Step 2. Use the tool's list index (`j`) as the condition:
+
+```python
+elif group == 9:
+    if tool == 0:
+        tool_widget = MedianWidget(self.image)
+    elif tool == 3:
+        tool_widget = StereoWidget(self.image)
+    elif tool == 4:                                     # <-- new branch
+        tool_widget = MyModuleWidget(self.image)        #     (index matches position in tools.py)
+    else:
+        return
+```
+
+If you added a **new group** instead of extending an existing one, add a matching `elif group == N:` block after the last existing group block.
+
+After these three changes, rebuild and run, your tool will appear in the sidebar tree and open as an MDI sub-window when double-clicked.
+
+```console
+cd gui
+python sherloq.py
+```
 
 # Updates
 When a new version is released, update the local working copy using Git, SVN or manually downloading from this repository and (if necessary) update the packages in the virtual environment following [this guide](https://www.activestate.com/resources/quick-reads/how-to-update-all-python-packages/).
