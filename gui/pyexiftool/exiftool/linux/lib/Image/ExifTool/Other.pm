@@ -20,7 +20,7 @@ $VERSION = '1.00';
 # Other info
 %Image::ExifTool::Other::PFM = (
     GROUPS => { 0 => 'File', 1 => 'File', 2 => 'Image' },
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => q{
         Tags extracted from Portable FloatMap images. See
         L<http://www.pauldebevec.com/Research/HDR/PFM/> for the specification.
@@ -71,7 +71,7 @@ information from Portable FloatMap (PFM) images.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

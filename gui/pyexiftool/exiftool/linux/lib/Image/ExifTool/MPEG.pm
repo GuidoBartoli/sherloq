@@ -322,7 +322,7 @@ $VERSION = '1.17';
 
 %Image::ExifTool::MPEG::Xing = (
     GROUPS => { 2 => 'Audio' },
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => 'These tags are extracted from the Xing/Info frame.',
     1 => { Name => 'VBRFrames' },
     2 => { Name => 'VBRBytes' },
@@ -704,7 +704,7 @@ based on unofficial sources which may be incomplete, inaccurate or outdated.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

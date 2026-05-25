@@ -217,7 +217,7 @@ sub ProcessAPE($$)
             $val = \$buf2;
             # extract cover art description separately (hackitty hack)
             if ($tag =~ /^Cover Art/) {
-                $buf2 =~ s/^([\x20-\x7f]*)\0//;
+                $buf2 =~ s/^([\x20-\x7e]*)\0//;
                 if ($1) {
                     my $t = "$tag Desc";
                     my $v = $1;
@@ -263,7 +263,7 @@ Currently doesn't parse MAC header unless it is at the start of the file.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

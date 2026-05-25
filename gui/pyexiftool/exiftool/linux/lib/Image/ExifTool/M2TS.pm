@@ -32,7 +32,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.24';
+$VERSION = '1.33';
 
 # program map table "stream_type" lookup (ref 6/1/9)
 my %streamType = (
@@ -82,7 +82,7 @@ my %streamType = (
     0x86 => 'DTS-HD Audio',
     0x87 => 'E-AC-3 Audio',
     0x8a => 'DTS Audio',
-    0x90 => 'PGS Audio', #https://www.avsforum.com/threads/bass-eq-for-filtered-movies.2995212/page-399
+    0x90 => 'Presentation Graphic Stream (subtitle)', #https://en.wikipedia.org/wiki/Program-specific_information
     0x91 => 'A52b/AC-3 Audio',
     0x92 => 'DVD_SPU vls Subtitle',
     0x94 => 'SDDS Audio',
@@ -132,7 +132,7 @@ my $knotsToKph = 1.852;     # knots --> km/h
 # information extracted from the MPEG-2 transport stream
 %Image::ExifTool::M2TS::Main = (
     GROUPS => { 2 => 'Video' },
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => q{
         The MPEG-2 transport stream is used as a container for many different
         audio/video formats (including AVCHD).  This table lists information
@@ -165,7 +165,7 @@ my $knotsToKph = 1.852;     # knots --> km/h
 # information extracted from AC-3 audio streams
 %Image::ExifTool::M2TS::AC3 = (
     GROUPS => { 1 => 'AC3', 2 => 'Audio' },
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => 'Tags extracted from AC-3 audio streams.',
     AudioSampleRate => {
         PrintConv => {
@@ -305,6 +305,17 @@ sub ParsePID($$$$$)
         # MPEG-1/MPEG-2 Audio
         require Image::ExifTool::MPEG;
         Image::ExifTool::MPEG::ParseMPEGAudio($et, $dataPt);
+    } elsif ($type == 6 and $pid == 0x0300) {
+        # LIGOGPSINFO
+        # unknown dashcam (../testpics/gps_video/Wrong Way pass.ts, 160 bytes, not fuzzed)
+        # Pruveeo D90 dashcam (../testpics/gps_video/20260216_101326F.ts, 200 bytes, fuzzed)
+        if ($$dataPt =~ /^LIGOGPSINFO/s) {
+            my $tbl = GetTagTable('Image::ExifTool::QuickTime::Stream');
+            my %dirInfo = ( DataPt => $dataPt, DirName => 'Ligo0x0300' );
+            Image::ExifTool::LigoGPS::ProcessLigoGPS($et, \%dirInfo, $tbl, length($$dataPt)!=200);
+            $$et{FoundGoodGPS} = 1;
+            $more = 1;
+        }
     } elsif ($type == 0x1b) {
         # H.264 Video
         require Image::ExifTool::H264;
@@ -313,7 +324,7 @@ sub ParsePID($$$$$)
         if ($$et{OPTIONS}{ExtractEmbedded}) {
             $more = 1;
         } elsif (not $$et{OPTIONS}{Validate}) {
-            $et->WarnOnce('The ExtractEmbedded option may find more tags in the video data',3);
+            $et->Warn('The ExtractEmbedded option may find more tags in the video data',7);
         }
     } elsif ($type == 0x81 or $type == 0x87 or $type == 0x91) {
         # AC-3 audio
@@ -328,6 +339,14 @@ sub ParsePID($$$$$)
                 $more = 1;  # read past unknown 0x15 packets if ExtractEmbedded > 2
             }
         }
+# still have a lot of questions about how to decode this...
+# (see https://exiftool.org/forum/index.php?topic=16486 and ../testpics/gps_video/forum16486.ts)
+#    } elsif ($type == 6) {
+#        my @a = unpack('x17x2NNx2nx2nx2nx2Cx2a4x2a5x2Nx2Nx2nx2Nx2Nx2Nx2nx2nx2Nx2nx2n', $$dataPt . "        ");
+#        my $hi = shift @a;
+#        $a[0] = Image::ExifTool::ConvertUnixTime(($a[0] + $hi * 4294967296) * 1e-6, undef, 6);
+#        print "@a\n";
+#        $more = 1;
     } elsif ($type < 0) {
         if ($$dataPt =~ /^(.{164})?(.{24})A[NS][EW]/s) {
             # (Blueskysea B4K, Novatek NT96670)
@@ -379,7 +398,7 @@ sub ParsePID($$$$$)
                 $et->HandleTag($tagTbl, Accelerometer => "@acc");
             }
             SetByteOrder('MM');
-            $$et{HasINNOV} = 1; # (necessary to skip over empty/unknown INNOV records)
+            $$et{FoundGoodGPS} = 1; # (necessary to skip over empty/unknown INNOV records)
             $more = 1;
         } elsif ($$dataPt =~ /^\$(GPSINFO|GSNRINFO),/) {
             # $GPSINFO,0x0004,2021.08.09 13:27:36,2341.54561,12031.70135,8.0,51,153,0,0,\x0d
@@ -420,13 +439,16 @@ sub ParsePID($$$$$)
             $more = 1;
         } elsif ($$dataPt =~ /\$GPRMC,/) {
             # Jomise T860S-GM dashcam
-            # $GPRMC,hhmmss.ss,A,ddmm.mmmmm,N,dddmm.mmmmm,W,spd-kts,dir-dg,DDMMYY,,*cs
-            # $GPRMC,172255.00,A,:985.95194,N,17170.14674,W,029.678,170.68,240822,,,D*7B
-            # $GPRMC,172355.00,A,:984.76779,N,17170.00473,W,032.219,172.04,240822,,,D*7B
-            # ddmm.mmmm: from    4742.2568    12209.2028 (should be)
-            # to                 4741.7696    12209.1056
-            # stamped on video:  47.70428N, 122.15338W, 35mph (dd.ddddd)
-            # to                 47.69616N, 122.15176W, 37mph
+            # $GPRMC,hhmmss.ss,A,ddmm.mmmmm,N,dddmm.mmmmm,W,spd-kts,dir-dg,DDMMYY,,M*cs - lat,lon,spd from video
+            # $GPRMC,172255.00,A,:985.95194,N,17170.14674,W,029.678,170.68,240822,,,D*7B - N47.70428,W122.15338,35mph
+            # $GPRMC,192643.00,A,:987.94979,N,17171.07268,W,010.059,079.61,111122,,,A*73 - N47.71862,W122.16437,12mph
+            # $GPRMC,192743.00,A,:988.72110,N,17171.04873,W,017.477,001.03,111122,,,A*78 - N47.72421,W122.16408,20mph
+            # $GPRMC,192844.00,A,:989.43771,N,17171.03538,W,016.889,001.20,111122,,,A*7B - N47.72932,W122.16393,19mph
+            # $GPRMC,005241.00,A,:987.70873,N,17171.81293,W,000.284,354.78,141122,,,A*7F - N47.71687,W122.17318,0mph
+            # $GPRMC,005341.00,A,:987.90851,N,17171.85380,W,000.080,349.36,141122,,,A*7C - N47.71832,W122.17367,0mph
+            # $GPRMC,005441.00,A,:987.94538,N,17171.21783,W,029.686,091.09,141122,,,A*7A - N47.71859,W122.16630,35mph
+            # $GPRMC,002816.00,A,6820.67273,N,13424.26599,W,000.045,000.00,261122,,,A*79 - N29.52096,W95.55953,0mph (seattle)
+            # $GPRMC,035136.00,A,:981.47322,N,17170.14105,W,024.594,180.50,291122,,,D*79 - N47.67180,W122.15328,28mph
             my $tagTbl = GetTagTable('Image::ExifTool::QuickTime::Stream');
             while ($$dataPt =~ /\$[A-Z]{2}RMC,(\d{2})(\d{2})(\d+(\.\d*)?),A?,(.{2})(\d{2}\.\d+),([NS]),(.{3})(\d{2}\.\d+),([EW]),(\d*\.?\d*),(\d*\.?\d*),(\d{2})(\d{2})(\d+)/g and
                 # do some basic sanity checks on the date
@@ -451,15 +473,20 @@ sub ParsePID($$$$$)
                     $bad = 1 if $_ < 0x30 or $_ > 0x39;
                 }
                 if ($bad) {
-                    $et->WarnOnce('Error decrypting GPS degrees');
+                    $et->Warn('Error decrypting GPS degrees');
                 } else {
                     my $la = pack('C*', @chars[0,1]);
                     my $lo = pack('C*', @chars[2,3,4]);
-                    $et->WarnOnce('Decryption of this GPS is highly experimental. More testing samples are required');
+                    $et->Warn('Decryption of this GPS is highly experimental. More testing samples are required');
                     $et->HandleTag($tagTbl, GPSLatitude  => (($la || 0) + (($6-85.95194)/2.43051724137931+42.2568)/60) * ($7 eq 'N' ? 1 : -1));
                     $et->HandleTag($tagTbl, GPSLongitude => (($lo || 0) + (($9-70.14674)/1.460987654320988+9.2028)/60) * ($10 eq 'E' ? 1 : -1));
                 }
             }
+        } elsif ($$dataPt =~ /\$GSENSORD,\s*(\d+),\s*(\d+),\s*(\d+),/) {
+            # Jomise T860S-GM dashcam
+            my $tagTbl = GetTagTable('Image::ExifTool::QuickTime::Stream');
+            $$et{DOC_NUM} = $$et{DOC_COUNT};
+            $et->HandleTag($tagTbl, Accelerometer => "$1 $2 $3"); # (NC - values range from 0 to 6)
         } elsif ($$dataPt =~ /^.{44}A\0{3}.{4}([NS])\0{3}.{4}([EW])\0{3}/s and length($$dataPt) >= 84) {
             #forum11320
             SetByteOrder('II');
@@ -468,7 +495,7 @@ sub ParsePID($$$$$)
             my $lon = abs(GetFloat($dataPt, 56)); # (abs just to be safe)
             my $spd = GetFloat($dataPt, 64);
             my $trk = GetFloat($dataPt, 68);
-            $et->WarnOnce('GPSLatitude/Longitude encryption is not yet known, so these will be wrong');
+            $et->Warn('GPSLatitude/Longitude encryption is not yet known, so these will be wrong');
             $$et{DOC_NUM} = ++$$et{DOC_COUNT};
             my @date = unpack('x32V3x28V3', $$dataPt);
             $date[3] += 2000;
@@ -481,7 +508,42 @@ sub ParsePID($$$$$)
             $et->HandleTag($tagTbl, GPSTrackRef  => 'T');
             SetByteOrder('MM');
             $more = 1;
-        } elsif ($$et{HasINNOV}) {
+        } elsif (length($$dataPt) >= 64 and substr($$dataPt, 32, 2) eq '$S') {
+            # DOD_LS600W.TS
+            my $tagTbl = GetTagTable('Image::ExifTool::QuickTime::Stream');
+            # find the earliest sample time in the cyclical list
+            my ($n, $last) = (32, "\0");
+            for (my $i=32; $i<length($$dataPt)-32; $i+=32) {
+                last unless substr($$dataPt, $n, 2) eq '$S';
+                my $dateTime = substr($$dataPt, $i+6, 8);
+                $last gt $dateTime and $n = $i, last;  # earliest sample if time goes backwards
+                $last = $dateTime;
+            }
+            for (my $i=32; $i<length($$dataPt)-32; $i+=32, $n+=32) {
+                $n = 32 if $n > length($$dataPt)-32;
+                last unless substr($$dataPt, $n, 2) eq '$S';
+                my @a = unpack("x${n}nnnnCCCCnCNNC", $$dataPt);
+                $a[8] /= 10;    # 1/10 sec
+                $a[2] += (36000 - 65536) if $a[2] & 0x8000; # convert signed integer into range 0-36000
+                $$et{DOC_NUM} = ++$$et{DOC_COUNT};
+                $et->HandleTag($tagTbl, GPSDateTime  => sprintf('%.4d:%.2d:%.2d %.2d:%.2d:%04.1fZ', @a[3..8]));
+                $et->HandleTag($tagTbl, GPSLatitude  => $a[10] * 1e-7);
+                $et->HandleTag($tagTbl, GPSLongitude => $a[11] * 1e-7);
+                $et->HandleTag($tagTbl, GPSSpeed     => $a[1] * 0.036); # convert from metres per 100 s
+                $et->HandleTag($tagTbl, GPSTrack     => $a[2] / 100);
+            }
+            # Note: 10 bytes after last GPS record look like a single 3-axis accelerometer reading:
+            # eg. fd ff 00 00 ff ff 00 00 01 00
+            $$et{FoundGoodGPS} = 1; # so we skip over unrecognized packets
+            $more = 1;
+        } elsif ($$dataPt =~ /^skip.{4}LIGOGPSINFO\0/s) {
+            # (this record contains 2 copies of the same 'skip' atom in my sample --
+            #  only extract data from the first one)
+            my $tbl = GetTagTable('Image::ExifTool::QuickTime::Stream');
+            my %dirInfo = ( DataPt => $dataPt, DirStart => 8, DirName => sprintf('Ligo0x%.4x',$pid));
+            Image::ExifTool::LigoGPS::ProcessLigoGPS($et, \%dirInfo, $tbl, 1);
+            $$et{FoundGoodGPS} = 1;
+        } elsif ($$et{FoundGoodGPS}) {
             $more = 1;
         }
         delete $$et{DOC_NUM};
@@ -497,33 +559,40 @@ sub ProcessM2TS($$)
 {
     my ($et, $dirInfo) = @_;
     my $raf = $$dirInfo{RAF};
-    my ($buff, $pLen, $upkPrefix, $j, $fileType, $eof);
+    my ($buff, $j, $eof, $pLen, $readSize);
     my (%pmt, %pidType, %data, %sectLen, %packLen, %fromStart);
     my ($startTime, $endTime, $fwdTime, $backScan, $maxBack);
     my $verbose = $et->Options('Verbose');
     my $out = $et->Options('TextOut');
 
-    # read first packet
-    return 0 unless $raf->Read($buff, 8) == 8;
+    # read enough to guarantee 2 sync bytes
+    return 0 unless $raf->Read($buff, 383) == 383;
     # test for magic number (sync byte is the only thing we can safely check)
-    return 0 unless $buff =~ /^(....)?\x47/s;
-    unless ($1) {
-        $pLen = 188;        # no timecode
-        $fileType = 'M2T';  # (just as a way to tell there is no timecode)
-        $upkPrefix = 'N';
-    } else {
-        $pLen = 192; # 188-byte transport packet + leading 4-byte timecode (ref 4)
-        $upkPrefix = 'x4N';
+    return 0 unless $buff =~ /^(.{0,190}?)\x47(.{187}|.{191})\x47/s;
+    my $tcLen = length($2) - 187; # (length of timecode = 0 or 4 bytes)
+    my $start = length($1) - $tcLen;
+    # we may need to try the validation twice to handle the edge case
+    # where the first byte of a timecode is 0x47 and we were fooled
+    # into thinking there was no timecode
+Try: for (;;) {
+        $start += 192 if $start < 0; # (if all or part of first timecode was missing)
+        $pLen = 188 + $tcLen;
+        $readSize = 64 * $pLen;      # size of our read buffer
+        $raf->Seek($start, 0);       # rewind to start
+        $raf->Read($buff, $readSize) >= $pLen * 4 or return 0;  # require at least 4 packets
+        # validate the sync byte in the next 3 packets
+        for ($j=1; $j<4; ++$j) {
+            next if substr($buff, $tcLen + $pLen * $j, 1) eq 'G'; # (0x47)
+            return 0 if $tcLen;
+            $tcLen = 4;
+            $start -= 4;
+            next Try;
+        }
+        last;   # success!
     }
-    my $prePos = $pLen - 188;       # byte position of packet prefix
-    my $readSize = 64 * $pLen;      # size of our read buffer
-    $raf->Seek(0,0);                # rewind to start
-    $raf->Read($buff, $readSize) >= $pLen * 4 or return 0;  # require at least 4 packets
-    # validate the sync byte in the next 3 packets
-    for ($j=1; $j<4; ++$j) {
-        return 0 unless substr($buff, $prePos + $pLen * $j, 1) eq 'G'; # (0x47)
-    }
-    $et->SetFileType($fileType);
+    # (use M2T instead of M2TS just as an indicator that there is no timecode)
+    $et->SetFileType($tcLen ? 'M2TS' : 'M2T');
+    $et->Warn("File doesn't begin with the start of a packet") if $start;
     SetByteOrder('MM');
     my $tagTablePtr = GetTagTable('Image::ExifTool::M2TS::Main');
 
@@ -538,9 +607,10 @@ sub ProcessM2TS($$)
     my %needPID = ( 0 => 1 );       # lookup for stream PID's that we still need to parse
     # PID's that may contain GPS info
     my %gpsPID = (
-        0x0300 => 1,    # Novatek INNOVV
+        0x0300 => 1,    # Novatek INNOVV, DOD_LS600W
         0x01e4 => 1,    # vsys a6l dashcam
-        0x0e1b => 1,    # Jomise T860S-GM dashcam
+        0x0e1b => 1,    # Jomise T860S-GM dashcam GPS
+        0x0e1a => 1,    # Jomise T860S-GM dashcam accelerometer
     );
     my $pEnd = 0;
 
@@ -608,7 +678,7 @@ sub ProcessM2TS($$)
         }
         $pEnd += $pLen;
         # decode the packet prefix
-        $pos += $prePos;
+        $pos += $tcLen;
         my $prefix = unpack("x${pos}N", $buff); # (use unpack instead of Get32u for speed)
         # validate sync byte
         unless (($prefix & 0xff000000) == 0x47000000) {
@@ -626,9 +696,9 @@ sub ProcessM2TS($$)
         if ($verbose > 1) {
             my $i = ($raf->Tell() - length($buff) + $pEnd) / $pLen - 1;
             print  $out "Transport packet $i:\n";
-            $et->VerboseDump(\$buff, Len => $pLen, Addr => $i * $pLen, Start => $pos - $prePos);
+            $et->VerboseDump(\$buff, Len => $pLen, Addr => $i * $pLen, Start => $pos - $tcLen);
             my $str = $pidName{$pid} ? " ($pidName{$pid})" : ' <not in Program Map Table!>';
-            printf $out "  Timecode:   0x%.4x\n", Get32u(\$buff, $pos - $prePos) if $pLen == 192;
+            printf $out "  Timecode:   0x%.4x\n", Get32u(\$buff, $pos - $tcLen) if $pLen == 192;
             printf $out "  Packet ID:  0x%.4x$str\n", $pid;
             printf $out "  Start Flag: %s\n", $payload_unit_start_indicator ? 'Yes' : 'No';
         }
@@ -658,7 +728,7 @@ sub ProcessM2TS($$)
         # or if we are just looking for the last timestamp
         next unless $payload_data_exists and not defined $backScan;
 
-        # decode payload data
+       # decode payload data
         if ($pid == 0 or            # program association table
             defined $pmt{$pid})     # program map table(s)
         {
@@ -751,7 +821,7 @@ sub ProcessM2TS($$)
                     last if $j + $descriptor_length > $program_info_length;
                     my $desc = substr($buf2, $pos+$j, $descriptor_length);
                     $j += $descriptor_length;
-                    $desc =~ s/([\x00-\x1f\x80-\xff])/sprintf("\\x%.2x",ord $1)/eg;
+                    $desc =~ s/([\x00-\x1f\x7f-\xff])/sprintf("\\x%.2x",ord $1)/eg;
                     printf $out "    Program Descriptor: Type=0x%.2x \"$desc\"\n", $descriptor_tag;
                 }}
                 $pos += $program_info_length; # skip descriptors (for now)
@@ -786,7 +856,7 @@ sub ProcessM2TS($$)
                         $j += $descriptor_length;
                         if ($verbose > 1) {
                             my $dstr = $desc;
-                            $dstr =~ s/([\x00-\x1f\x80-\xff])/sprintf("\\x%.2x",ord $1)/eg;
+                            $dstr =~ s/([\x00-\x1f\x7f-\xff])/sprintf("\\x%.2x",ord $1)/eg;
                             printf $out "    ES Descriptor: Type=0x%.2x \"$dstr\"\n", $descriptor_tag;
                         }
                         # parse type-specific descriptor information (once)
@@ -918,6 +988,20 @@ sub ProcessM2TS($$)
         ParsePID($et, $pid, $pidType{$pid}, $pidName{$pid}, \$data{$pid});
         delete $data{$pid};
     }
+
+    # look for LIGOGPSINFO trailer
+    if ($et->Options('ExtractEmbedded') and
+        $raf->Seek(-8, 2) and $raf->Read($buff, 8) == 8 and
+        $buff =~ /^&&&&/)
+    {
+        my $len = unpack('x4N', $buff);
+        if ($len < $raf->Tell() and $raf->Seek(-$len, 2) and $raf->Read($buff,$len) == $len) {
+            my $tbl = GetTagTable('Image::ExifTool::QuickTime::Stream');
+            my %dirInfo = ( DataPt => \$buff, DirStart => 8, DirName => 'LigoTrailer' );
+            Image::ExifTool::LigoGPS::ProcessLigoGPS($et, \%dirInfo, $tbl);
+        }
+    }
+
     return 1;
 }
 
@@ -941,7 +1025,7 @@ video.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

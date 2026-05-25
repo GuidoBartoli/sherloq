@@ -12,6 +12,7 @@
 #               5) http://www.color.org/icc_specs2.xalter (approved revisions, 2010-07-16)
 #               6) Eef Vreeland private communication
 #               7) https://color.org/specification/ICC.2-2019.pdf
+#               8) https://www.color.org/specification/ICC.1-2022-05.pdf
 #
 # Notes:        The ICC profile information is different: the format of each
 #               tag is embedded in the information instead of in the directory
@@ -25,7 +26,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.40';
+$VERSION = '1.42';
 
 sub ProcessICC($$);
 sub ProcessICC_Profile($$$);
@@ -329,12 +330,14 @@ my %manuSig = ( #6
     'WTG2' => 'Ware To Go',
     'WYSE' => 'WYSE Technology',
     'XERX' => 'Xerox Corporation',
+    'XM  ' => 'Xiaomi',
     'XRIT' => 'X-Rite',
     'yxym' => 'YxyMaster GmbH',
     'Z123' => "Lavanya's test Company",
     'Zebr' => 'Zebra Technologies Inc',
     'ZRAN' => 'Zoran Corporation',
     # also seen: "    ",ACMS,KCMS,UCCM,etc2,SCTX
+    # registry: https://www.color.org/signatureRegistry/index.xalter
 );
 
 # ICC_Profile tag table
@@ -493,6 +496,10 @@ my %manuSig = ( #6
         },
     },
     ciis => 'ColorimetricIntentImageState', #5
+    cicp => { #8 (Coding-independent Code Points)
+        Name => 'ColorRepresentation',
+        SubDirectory => { TagTable => 'Image::ExifTool::ICC_Profile::ColorRep' },
+    },
     scoe => 'SceneColorimetryEstimates', #5
     sape => 'SceneAppearanceEstimates', #5
     fpce => 'FocalPlaneColorimetryEstimates', #5
@@ -628,6 +635,7 @@ my %manuSig = ( #6
     s2cp => 'StandardToCustomPcc',
     smap => 'SurfaceMap',
     # smwp ? (seen in some v5 samples [was a mistake in sample production])
+    hdgm => { Name => 'HDGainMapInfo', Binary => 1 }, #PH
 
     # the following entry represents the ICC profile header, and doesn't
     # exist as a tag in the directory.  It is only in this table to provide
@@ -744,6 +752,78 @@ my %manuSig = ( #6
         Name => 'ProfileID',
         Format => 'int8u[16]',
         PrintConv => 'Image::ExifTool::ICC_Profile::HexID($val)',
+    },
+);
+
+# Coding-independent code points (cicp) definition
+# (NOTE: conversions are the same as Image::ExifTool::QuickTime::ColorRep tags)
+%Image::ExifTool::ICC_Profile::ColorRep = (
+    PROCESS_PROC => \&Image::ExifTool::ProcessBinaryData,
+    GROUPS => { 0 => 'ICC_Profile', 1 => 'ICC-cicp', 2 => 'Image' },
+    8 => {
+        Name => 'ColorPrimaries',
+        PrintConv => {
+            1 => 'BT.709',
+            2 => 'Unspecified',
+            4 => 'BT.470 System M (historical)',
+            5 => 'BT.470 System B, G (historical)',
+            6 => 'BT.601',
+            7 => 'SMPTE 240',
+            8 => 'Generic film (color filters using illuminant C)',
+            9 => 'BT.2020, BT.2100',
+            10 => 'SMPTE 428 (CIE 1931 XYZ)', #forum14766
+            11 => 'SMPTE RP 431-2',
+            12 => 'SMPTE EG 432-1',
+            22 => 'EBU Tech. 3213-E',
+        },
+    },
+    9 => {
+        Name => 'TransferCharacteristics',
+        PrintConv => {
+            0 => 'For future use (0)',
+            1 => 'BT.709',
+            2 => 'Unspecified',
+            3 => 'For future use (3)',
+            4 => 'BT.470 System M (historical)',    # Gamma 2.2? (ref forum14960)
+            5 => 'BT.470 System B, G (historical)', # Gamma 2.8? (ref forum14960)
+            6 => 'BT.601',
+            7 => 'SMPTE 240 M',
+            8 => 'Linear',
+            9 => 'Logarithmic (100 : 1 range)',
+            10 => 'Logarithmic (100 * Sqrt(10) : 1 range)',
+            11 => 'IEC 61966-2-4',
+            12 => 'BT.1361',
+            13 => 'sRGB or sYCC',
+            14 => 'BT.2020 10-bit systems',
+            15 => 'BT.2020 12-bit systems',
+            16 => 'SMPTE ST 2084, ITU BT.2100 PQ',
+            17 => 'SMPTE ST 428',
+            18 => 'BT.2100 HLG, ARIB STD-B67',
+        },
+    },
+    10 => {
+        Name => 'MatrixCoefficients',
+        PrintConv => {
+            0 => 'Identity matrix',
+            1 => 'BT.709',
+            2 => 'Unspecified',
+            3 => 'For future use (3)',
+            4 => 'US FCC 73.628',
+            5 => 'BT.470 System B, G (historical)',
+            6 => 'BT.601',
+            7 => 'SMPTE 240 M',
+            8 => 'YCgCo',
+            9 => 'BT.2020 non-constant luminance, BT.2100 YCbCr',
+            10 => 'BT.2020 constant luminance',
+            11 => 'SMPTE ST 2085 YDzDx',
+            12 => 'Chromaticity-derived non-constant luminance',
+            13 => 'Chromaticity-derived constant luminance',
+            14 => 'BT.2100 ICtCp',
+        },
+    },
+    11 => {
+        Name => 'VideoFullRangeFlag',
+        PrintConv => { 0 => 'Limited', 1 => 'Full' },
     },
 );
 
@@ -884,7 +964,7 @@ my %manuSig = ( #6
 %Image::ExifTool::ICC_Profile::Metadata = (
     PROCESS_PROC => \&ProcessMetadata,
     GROUPS => { 0 => 'ICC_Profile', 1 => 'ICC-meta', 2 => 'Image' },
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => q{
         Only these few tags have been pre-defined, but ExifTool will extract any
         Metadata tags that exist.
@@ -1357,7 +1437,7 @@ data created on one device into another device's native color space.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

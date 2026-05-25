@@ -22,7 +22,7 @@ my $implementedRawzorVersion = 199; # (up to version 1.99)
 # Rawzor-specific tags
 %Image::ExifTool::Rawzor::Main = (
     GROUPS => { 2 => 'Other' },
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => q{
         Rawzor files store compressed images of other formats. As well as the
         information listed below, exiftool uncompresses and extracts the meta
@@ -168,7 +168,7 @@ information from Rawzor compressed images.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

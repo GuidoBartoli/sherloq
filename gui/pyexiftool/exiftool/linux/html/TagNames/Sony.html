@@ -373,7 +373,8 @@ toward magenta)</span></span></td></tr>
   <br>4 = Flexible Spot (LA-EA4)
   <br>9 = Center (LA-EA4)
   <br>11 = Zone
-  <br>12 = Expanded Flexible Spot</td></tr></table>
+  <br>12 = Expanded Flexible Spot
+  <br>13 = Custom AF Area</td></tr></table>
 <span class=s><span class=n>(ILCA models)</span>
   <br>0 = Wide
   <br>4 = Flexible Spot
@@ -750,6 +751,7 @@ toward magenta)</span></span></td></tr>
 <td><span class=s>0 = Compressed RAW
   <br>1 = Uncompressed RAW
   <br>2 = Lossless Compressed RAW
+  <br>3 = Compressed RAW 2
   <br>65535 = n/a</span></td></tr>
 <tr>
 <td title='0x202a = 8234'>0x202a</td>
@@ -796,9 +798,25 @@ toward magenta)</span></span></td></tr>
   <br>&#39;1 3&#39; = RAW + Extra Fine
   <br>&#39;1 4&#39; = RAW + Light
   <br>&#39;2 0&#39; = S-size RAW
+  <br>&#39;2 1&#39; = S-size RAW + Standard
+  <br>&#39;2 2&#39; = S-size RAW + Fine
+  <br>&#39;2 3&#39; = S-size RAW + Extra Fine
+  <br>&#39;2 4&#39; = S-size RAW + Light
   <br>&#39;3 0&#39; = M-size RAW
+  <br>&#39;3 1&#39; = M-size RAW + Standard
   <br>&#39;3 2&#39; = M-size RAW + Fine
-  <br>&#39;3 3&#39; = M-size RAW + Extra Fine</td></tr></table>
+  <br>&#39;3 3&#39; = M-size RAW + Extra Fine
+  <br>&#39;3 4&#39; = M-size RAW + Light
+  <br>&#39;4 0&#39; = Compressed RAW
+  <br>&#39;4 1&#39; = Compressed RAW + Standard
+  <br>&#39;4 2&#39; = Compressed RAW + Fine
+  <br>&#39;4 3&#39; = Compressed RAW + Extra Fine
+  <br>&#39;4 4&#39; = Compressed RAW + Light
+  <br>&#39;5 0&#39; = Compressed (HQ) RAW
+  <br>&#39;5 1&#39; = Compressed (HQ) RAW + Standard
+  <br>&#39;5 2&#39; = Compressed (HQ) RAW + Fine
+  <br>&#39;5 3&#39; = Compressed (HQ) RAW + Extra Fine
+  <br>&#39;5 4&#39; = Compressed (HQ) RAW + Light</td></tr></table>
 </td></tr>
 <tr class=b>
 <td title='0x202f = 8239'>0x202f</td>
@@ -858,16 +876,23 @@ toward magenta)</span></span></td></tr>
 <td class=c>int16u[4]</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td title='0x205c = 8284'>0x205c</td>
+<td>StepCropShooting</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = 35mm (Off)
+  <br>1 = 50mm
+  <br>2 = 70mm</span></td></tr>
+<tr class=b>
 <td title='0x3000 = 12288'>0x3000</td>
 <td>ShotInfo</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ShotInfo'>Sony ShotInfo Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0x900b = 36875'>0x900b</td>
 <td>Tag900b</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag900b'>Sony Tag900b Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td title='0x9050 = 36944'>0x9050</td>
 <td>Tag9050a
   <br>Tag9050b
@@ -878,7 +903,7 @@ toward magenta)</span></span></td></tr>
   <br>--&gt; <a href='Sony.html#Tag9050b'>Sony Tag9050b Tags</a>
   <br>--&gt; <a href='Sony.html#Tag9050c'>Sony Tag9050c Tags</a>
   <br>--&gt; <a href='Sony.html#Tag9050d'>Sony Tag9050d Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0x9400 = 37888'>0x9400</td>
 <td>Tag9400a
   <br>Tag9400b
@@ -887,22 +912,22 @@ toward magenta)</span></span></td></tr>
 <td>--&gt; <a href='Sony.html#Tag9400a'>Sony Tag9400a Tags</a>
   <br>--&gt; <a href='Sony.html#Tag9400b'>Sony Tag9400b Tags</a>
   <br>--&gt; <a href='Sony.html#Tag9400c'>Sony Tag9400c Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td title='0x9401 = 37889'>0x9401</td>
 <td>Tag9401</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag9401'>Sony Tag9401 Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0x9402 = 37890'>0x9402</td>
 <td>Tag9402</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag9402'>Sony Tag9402 Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td title='0x9403 = 37891'>0x9403</td>
 <td>Tag9403</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag9403'>Sony Tag9403 Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0x9404 = 37892'>0x9404</td>
 <td>Tag9404a
   <br>Tag9404b
@@ -911,43 +936,43 @@ toward magenta)</span></span></td></tr>
 <td>--&gt; <a href='Sony.html#Tag9404a'>Sony Tag9404a Tags</a>
   <br>--&gt; <a href='Sony.html#Tag9404b'>Sony Tag9404b Tags</a>
   <br>--&gt; <a href='Sony.html#Tag9404c'>Sony Tag9404c Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td title='0x9405 = 37893'>0x9405</td>
 <td>Tag9405a
   <br>Tag9405b</td>
 <td class=c>-<br>-</td>
 <td>--&gt; <a href='Sony.html#Tag9405a'>Sony Tag9405a Tags</a>
   <br>--&gt; <a href='Sony.html#Tag9405b'>Sony Tag9405b Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0x9406 = 37894'>0x9406</td>
 <td>Tag9406
   <br>Tag9406b</td>
 <td class=c>-<br>-</td>
 <td>--&gt; <a href='Sony.html#Tag9406'>Sony Tag9406 Tags</a>
   <br>--&gt; <a href='Sony.html#Tag9406b'>Sony Tag9406b Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td title='0x940a = 37898'>0x940a</td>
 <td>Tag940a</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag940a'>Sony Tag940a Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0x940c = 37900'>0x940c</td>
 <td>Tag940c</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag940c'>Sony Tag940c Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td title='0x940e = 37902'>0x940e</td>
 <td>AFInfo
   <br>Tag940e</td>
 <td class=c>-<br>-</td>
 <td>--&gt; <a href='Sony.html#AFInfo'>Sony AFInfo Tags</a>
   <br>--&gt; <a href='Sony.html#Tag940e'>Sony Tag940e Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0x9416 = 37910'>0x9416</td>
 <td>Sony_0x9416</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#Tag9416'>Sony Tag9416 Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td title='0xb000 = 45056'>0xb000</td>
 <td>FileFormat</td>
 <td class=c>int8u[4]</td>
@@ -958,16 +983,18 @@ toward magenta)</span></span></td></tr>
   <br>&#39;3 0 0 0&#39; = ARW 2.0
   <br>&#39;3 1 0 0&#39; = ARW 2.1
   <br>&#39;3 2 0 0&#39; = ARW 2.2
-  <br>&#39;3 3 0 0&#39; = ARW 2.3</td><td>&nbsp;&nbsp;</td>
-  <td>&#39;3 3 1 0&#39; = ARW 2.3.1
-  <br>&#39;3 3 2 0&#39; = ARW 2.3.2
+  <br>&#39;3 3 0 0&#39; = ARW 2.3
+  <br>&#39;3 3 1 0&#39; = ARW 2.3.1</td><td>&nbsp;&nbsp;</td>
+  <td>&#39;3 3 2 0&#39; = ARW 2.3.2
   <br>&#39;3 3 3 0&#39; = ARW 2.3.3
   <br>&#39;3 3 5 0&#39; = ARW 2.3.5
   <br>&#39;4 0 0 0&#39; = ARW 4.0
   <br>&#39;4 0 1 0&#39; = ARW 4.0.1
-  <br>&#39;5 0 0 0&#39; = ARW 5.0</td></tr></table>
+  <br>&#39;5 0 0 0&#39; = ARW 5.0
+  <br>&#39;5 0 1 0&#39; = ARW 5.0.1
+  <br>&#39;6 0 0 0&#39; = ARW 6.0</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0xb001 = 45057'>0xb001</td>
 <td>SonyModelID</td>
 <td class=c>int16u</td>
@@ -1022,13 +1049,13 @@ toward magenta)</span></span></td></tr>
   <br>310 = DSC-RX1R
   <br>311 = ILCE-7R
   <br>312 = ILCE-6000
-  <br>313 = ILCE-5000</td><td>&nbsp;&nbsp;</td>
-  <td>317 = DSC-RX100M3
+  <br>313 = ILCE-5000
+  <br>317 = DSC-RX100M3
   <br>318 = ILCE-7S
   <br>319 = ILCA-77M2
   <br>339 = ILCE-5100
-  <br>340 = ILCE-7M2
-  <br>341 = DSC-RX100M4
+  <br>340 = ILCE-7M2</td><td>&nbsp;&nbsp;</td>
+  <td>341 = DSC-RX100M4
   <br>342 = DSC-RX10M2
   <br>344 = DSC-RX1RM2
   <br>346 = ILCE-QX1
@@ -1073,9 +1100,19 @@ toward magenta)</span></span></td></tr>
   <br>394 = ILCE-6700
   <br>395 = ZV-1M2
   <br>396 = ILCE-7CR
-  <br>397 = ILCE-7CM2</td></tr></table>
+  <br>397 = ILCE-7CM2
+  <br>398 = ILX-LR1
+  <br>399 = ZV-E10M2
+  <br>400 = ILCE-1M2
+  <br>401 = DSC-RX1RM3
+  <br>402 = ILCE-6400A
+  <br>403 = ILCE-6100A
+  <br>404 = DSC-RX100M7A
+  <br>406 = ILME-FX2
+  <br>407 = ILCE-7M5
+  <br>408 = ZV-1A</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0xb020 = 45088'>0xb020</td>
 <td>CreativeStyle</td>
 <td class=c>string</td>
@@ -1101,17 +1138,17 @@ toward magenta)</span></span></td></tr>
   <br>&#39;VV2&#39; = Vivid 2
   <br>&#39;Vivid&#39; = Vivid</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0xb021 = 45089'>0xb021</td>
 <td>ColorTemperature</td>
 <td class=c>int32u</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td title='0xb022 = 45090'>0xb022</td>
 <td>ColorCompensationFilter</td>
 <td class=c>int32u</td>
 <td><span class=s><span class=n>(negative is green, positive is magenta)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td title='0xb023 = 45091'>0xb023</td>
 <td>SceneMode</td>
 <td class=c>int32u</td>
@@ -1142,14 +1179,14 @@ toward magenta)</span></span></td></tr>
   <br>33 = HDR
   <br>65535 = n/a</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0xb024 = 45092'>0xb024</td>
 <td>ZoneMatching</td>
 <td class=c>int32u</td>
 <td><span class=s>0 = ISO Setting Used
   <br>1 = High Key
   <br>2 = Low Key</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0xb025 = 45093'>0xb025</td>
 <td>DynamicRangeOptimizer</td>
 <td class=c>int32u</td>
@@ -1169,24 +1206,24 @@ toward magenta)</span></span></td></tr>
   <br>19 = Lv4
   <br>20 = Lv5</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0xb026 = 45094'>0xb026</td>
 <td>ImageStabilization</td>
 <td class=c>int32u</td>
 <td><span class=s>0 = Off
   <br>1 = On
   <br>4294967295 = n/a</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0xb027 = 45095'>0xb027</td>
 <td>LensType</td>
 <td class=c>int32u</td>
 <td>--&gt; <a href='Sony.html#LensType'>Sony LensType Values</a></td></tr>
-<tr>
+<tr class=b>
 <td title='0xb028 = 45096'>0xb028</td>
 <td>MinoltaMakerNote</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Minolta.html'>Minolta Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td title='0xb029 = 45097'>0xb029</td>
 <td>ColorMode</td>
 <td class=c>int32u</td>
@@ -1203,12 +1240,14 @@ toward magenta)</span></span></td></tr>
   <br>13 = Clear
   <br>14 = Deep
   <br>15 = Light
-  <br>16 = Autumn Leaves</td><td>&nbsp;&nbsp;</td>
-  <td>17 = Sepia
-  <br>18 = FL
+  <br>16 = Autumn Leaves
+  <br>17 = Sepia</td><td>&nbsp;&nbsp;</td>
+  <td>18 = FL
   <br>19 = Vivid 2
   <br>20 = IN
   <br>21 = SH
+  <br>22 = FL2
+  <br>23 = FL3
   <br>100 = Neutral
   <br>101 = Clear
   <br>102 = Deep
@@ -1218,23 +1257,23 @@ toward magenta)</span></span></td></tr>
   <br>255 = Off
   <br>4294967295 = n/a</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0xb02a = 45098'>0xb02a</td>
 <td>LensSpec</td>
 <td class=c>int8u[8]</td>
 <td><span class=s><span class=n>(like LensInfo, but also specifies lens features: DT, E, ZA, G, SSM, SAM,
 OSS, STF, Reflex, Macro and Fisheye)</span></span></td></tr>
-<tr class=b>
+<tr>
 <td title='0xb02b = 45099'>0xb02b</td>
 <td>FullImageSize</td>
 <td class=c>int32u[2]</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td title='0xb02c = 45100'>0xb02c</td>
 <td>PreviewImageSize</td>
 <td class=c>int32u[2]</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td title='0xb040 = 45120'>0xb040</td>
 <td>Macro</td>
 <td class=c>int16u</td>
@@ -1242,7 +1281,7 @@ OSS, STF, Reflex, Macro and Fisheye)</span></span></td></tr>
   <br>1 = On
   <br>2 = Close Focus
   <br>65535 = n/a</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0xb041 = 45121'>0xb041</td>
 <td>ExposureMode</td>
 <td class=c>int16u</td>
@@ -1279,7 +1318,7 @@ OSS, STF, Reflex, Macro and Fisheye)</span></span></td></tr>
   <br>42 = 3D Image
   <br>65535 = n/a</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0xb042 = 45122'>0xb042</td>
 <td>FocusMode</td>
 <td class=c>int16u</td>
@@ -1288,7 +1327,7 @@ OSS, STF, Reflex, Macro and Fisheye)</span></span></td></tr>
   <br>2 = AF-C
   <br>4 = Permanent-AF
   <br>65535 = n/a</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0xb043 = 45123'>0xb043</td>
 <td>AFAreaMode</td>
 <td class=c>int16u</td>
@@ -1312,14 +1351,14 @@ OSS, STF, Reflex, Macro and Fisheye)</span></span></td></tr>
   <br>15 = Face Tracking
   <br>255 = Manual</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0xb044 = 45124'>0xb044</td>
 <td>AFIlluminator</td>
 <td class=c>int16u</td>
 <td><span class=s>0 = Off
   <br>1 = Auto
   <br>65535 = n/a</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0xb047 = 45127'>0xb047</td>
 <td>JPEGQuality</td>
 <td class=c>int16u</td>
@@ -1327,7 +1366,7 @@ OSS, STF, Reflex, Macro and Fisheye)</span></span></td></tr>
   <br>1 = Fine
   <br>2 = Extra Fine
   <br>65535 = n/a</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0xb048 = 45128'>0xb048</td>
 <td>FlashLevel</td>
 <td class=c>int16s</td>
@@ -1353,7 +1392,7 @@ OSS, STF, Reflex, Macro and Fisheye)</span></span></td></tr>
   <br>128 = n/a
   <br>32767 = High</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td title='0xb049 = 45129'>0xb049</td>
 <td>ReleaseMode</td>
 <td class=c>int16u</td>
@@ -1365,14 +1404,14 @@ OSS, STF, Reflex, Macro and Fisheye)</span></span></td></tr>
   <br>8 = DRO Bracketing
   <br>65535 = n/a</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td title='0xb04a = 45130'>0xb04a</td>
 <td>SequenceNumber</td>
 <td class=c>int16u</td>
 <td><span class=s><span class=n>(shot number in continuous burst)</span>
   <br>0 = Single
   <br>65535 = n/a</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0xb04b = 45131'>0xb04b</td>
 <td>Anti-Blur</td>
 <td class=c>int16u</td>
@@ -1380,7 +1419,7 @@ OSS, STF, Reflex, Macro and Fisheye)</span></span></td></tr>
   <br>1 = On (Continuous)
   <br>2 = On (Shooting)
   <br>65535 = n/a</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0xb04e = 45134'>0xb04e</td>
 <td>FocusMode</td>
 <td class=c>int16u</td>
@@ -1390,14 +1429,14 @@ OSS, STF, Reflex, Macro and Fisheye)</span></span></td></tr>
   <br>3 = AF-C
   <br>5 = Semi-manual
   <br>6 = DMF</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0xb04f = 45135'>0xb04f</td>
 <td>DynamicRangeOptimizer</td>
 <td class=c>int16u</td>
 <td><span class=s>0 = Off
   <br>1 = Standard
   <br>2 = Plus</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0xb050 = 45136'>0xb050</td>
 <td>HighISONoiseReduction2</td>
 <td class=c>int16u</td>
@@ -1407,14 +1446,14 @@ OSS, STF, Reflex, Macro and Fisheye)</span></span></td></tr>
   <br>2 = Low
   <br>3 = Off
   <br>65535 = n/a</span></td></tr>
-<tr>
+<tr class=b>
 <td title='0xb052 = 45138'>0xb052</td>
 <td>IntelligentAuto</td>
 <td class=c>int16u</td>
 <td><span class=s>0 = Off
   <br>1 = On
   <br>2 = Advanced</span></td></tr>
-<tr class=b>
+<tr>
 <td title='0xb054 = 45140'>0xb054</td>
 <td>WhiteBalance</td>
 <td class=c>int16u</td>
@@ -4836,6 +4875,12 @@ multi-frame noise reduction)</span></span></td></tr>
 </tr><tr><td>6</td><td>= Sony LA-EA4 Adapter</td>
 </tr><tr><td>7</td><td>= Sony LA-EA5 Adapter</td>
 </tr><tr><td>13</td><td>= Samyang AF 35-150mm F2-2.8</td>
+</tr><tr><td>17</td><td>= Samyang RS 21mm F3.5</td>
+</tr><tr><td>18</td><td>= Samyang RS 28mm F3.5</td>
+</tr><tr><td>19</td><td>= Samyang RS 32mm F2.8</td>
+</tr><tr><td>20</td><td>= Samyang AF 35mm F1.4 P FE</td>
+</tr><tr><td>21</td><td>= Samyang AF 14-24mm F2.8</td>
+</tr><tr><td>22</td><td>= Samyang AF 24-60mm F2.8</td>
 </tr><tr><td>44</td><td>= Metabones Canon EF Smart Adapter</td>
 </tr><tr><td>78</td><td>= Metabones Canon EF Smart Adapter Mark III or Other Adapter</td>
 </tr><tr><td>184</td><td>= Metabones Canon EF Speed Booster Ultra</td>
@@ -4918,9 +4963,18 @@ multi-frame noise reduction)</span></span></td></tr>
 </tr><tr><td>32877</td><td>= Sony E 15mm F1.4 G</td>
 </tr><tr><td>32878</td><td>= Sony FE 20-70mm F4 G</td>
 </tr><tr><td>32879</td><td>= Sony FE 50mm F1.4 GM</td>
+</tr><tr><td>32880</td><td>= Sony FE 16mm F1.8 G</td>
+</tr><tr><td>32881</td><td>= Sony FE 24-50mm F2.8 G</td>
+</tr><tr><td>32882</td><td>= Sony FE 16-25mm F2.8 G</td>
 </tr><tr><td>32884</td><td>= Sony FE 70-200mm F4 Macro G OSS II</td>
 </tr><tr><td>32885</td><td>= Sony FE 16-35mm F2.8 GM II</td>
-</tr><tr><td>32886</td><td>= Sony FE 300mm F2.8 OSS</td>
+</tr><tr><td>32886</td><td>= Sony FE 300mm F2.8 GM OSS</td>
+</tr><tr><td>32887</td><td>= Sony E PZ 16-50mm F3.5-5.6 OSS II</td>
+</tr><tr><td>32888</td><td>= Sony FE 85mm F1.4 GM II</td>
+</tr><tr><td>32889</td><td>= Sony FE 28-70mm F2 GM</td>
+</tr><tr><td>32890</td><td>= Sony FE 400-800mm F6.3-8 G OSS</td>
+</tr><tr><td>32891</td><td>= Sony FE 50-150mm F2 GM</td>
+</tr><tr><td>32893</td><td>= Sony FE 100mm F2.8 Macro GM OSS</td>
 </tr><tr><td>33072</td><td>= Sony FE 70-200mm F2.8 GM OSS + 1.4X Teleconverter</td>
 </tr><tr><td>33073</td><td>= Sony FE 70-200mm F2.8 GM OSS + 2X Teleconverter</td>
 </tr><tr><td>33076</td><td>= Sony FE 100mm F2.8 STF GM OSS (macro mode)</td>
@@ -4936,7 +4990,15 @@ multi-frame noise reduction)</span></span></td></tr>
 </tr><tr><td>33086</td><td>= Sony FE 70-200mm F2.8 GM OSS II + 2X Teleconverter</td>
 </tr><tr><td>33087</td><td>= Sony FE 70-200mm F4 Macro G OSS II + 1.4X Teleconverter</td>
 </tr><tr><td>33088</td><td>= Sony FE 70-200mm F4 Macro G OSS II + 2X Teleconverter</td>
-</tr><tr><td>49201</td><td>= Zeiss Touit 12mm F2.8</td>
+</tr><tr><td>33089</td><td>= Sony FE 300mm F2.8 GM OSS + 1.4X Teleconverter</td>
+</tr><tr><td>33090</td><td>= Sony FE 300mm F2.8 GM OSS + 2X Teleconverter</td>
+</tr><tr><td>33091</td><td>= Sony FE 400-800mm F6.3-8 G OSS + 1.4X Teleconverter</td>
+</tr><tr><td>33092</td><td>= Sony FE 400-800mm F6.3-8 G OSS + 2X Teleconverter</td>
+</tr><tr><td>33093</td><td>= Sony FE 100mm F2.8 Macro GM OSS + 1.4X Teleconverter</td>
+</tr><tr><td>33094</td><td>= Sony FE 100mm F2.8 Macro GM OSS + 2X Teleconverter</td>
+</tr><tr><td>49201</td><td>= Zeiss Touit 12mm F2.8 or other Touit lens</td>
+</tr><tr><td>49201</td><td>= Zeiss Touit 32mm F1.8</td>
+</tr><tr><td>49201</td><td>= Zeiss Touit 50mm F2.8</td>
 </tr><tr><td>49202</td><td>= Zeiss Touit 32mm F1.8</td>
 </tr><tr><td>49203</td><td>= Zeiss Touit 50mm F2.8 Macro</td>
 </tr><tr><td>49216</td><td>= Zeiss Batis 25mm F2</td>
@@ -4981,6 +5043,14 @@ multi-frame noise reduction)</span></span></td></tr>
 </tr><tr><td>49474</td><td>= Viltrox 35mm F1.8 FE</td>
 </tr><tr><td>49474</td><td>= Viltrox 50mm F1.8 FE</td>
 </tr><tr><td>49474</td><td>= Viltrox 75mm F1.2 E</td>
+</tr><tr><td>49474</td><td>= Viltrox 20mm F2.8 FE</td>
+</tr><tr><td>49474</td><td>= Viltrox AF 135/1.8 LAB FE</td>
+</tr><tr><td>49475</td><td>= Tamron 50-300mm F4.5-6.3 Di III VC VXD</td>
+</tr><tr><td>49476</td><td>= Tamron 28-300mm F4-7.1 Di III VC VXD</td>
+</tr><tr><td>49477</td><td>= Tamron 90mm F2.8 Di III Macro VXD</td>
+</tr><tr><td>49478</td><td>= Tamron 16-30mm F2.8 Di III VXD G2</td>
+</tr><tr><td>49479</td><td>= Tamron 25-200mm F2.8-5.6 Di III VXD G2</td>
+</tr><tr><td>49480</td><td>= Tamron 35-100mm F2.8 Di III VXD</td>
 </tr><tr><td>49712</td><td>= Tokina FiRIN 20mm F2 FE AF</td>
 </tr><tr><td>49713</td><td>= Tokina FiRIN 100mm F2.8 FE MACRO</td>
 </tr><tr><td>49714</td><td>= Tokina atx-m 11-18mm F2.8 E</td>
@@ -5032,7 +5102,21 @@ multi-frame noise reduction)</span></span></td></tr>
 </tr><tr><td>50540</td><td>= Sigma 14mm F1.4 DG DN | A</td>
 </tr><tr><td>50543</td><td>= Sigma 70-200mm F2.8 DG DN OS | S</td>
 </tr><tr><td>50544</td><td>= Sigma 23mm F1.4 DC DN | C</td>
+</tr><tr><td>50545</td><td>= Sigma 24-70mm F2.8 DG DN II | A</td>
+</tr><tr><td>50546</td><td>= Sigma 500mm F5.6 DG DN OS | S</td>
 </tr><tr><td>50547</td><td>= Sigma 10-18mm F2.8 DC DN | C</td>
+</tr><tr><td>50548</td><td>= Sigma 15mm F1.4 DG DN DIAGONAL FISHEYE | A</td>
+</tr><tr><td>50549</td><td>= Sigma 50mm F1.2 DG DN | A</td>
+</tr><tr><td>50550</td><td>= Sigma 28-105mm F2.8 DG DN | A</td>
+</tr><tr><td>50551</td><td>= Sigma 28-45mm F1.8 DG DN | A</td>
+</tr><tr><td>50552</td><td>= Sigma 35mm F1.2 DG II | A</td>
+</tr><tr><td>50553</td><td>= Sigma 300-600mm F4 DG OS | S</td>
+</tr><tr><td>50554</td><td>= Sigma 16-300mm F3.5-6.7 DC OS | C</td>
+</tr><tr><td>50555</td><td>= Sigma 12mm F1.4 DC | C</td>
+</tr><tr><td>50556</td><td>= Sigma 17-40mm F1.8 DC | A</td>
+</tr><tr><td>50557</td><td>= Sigma 200mm F2 DG OS | S</td>
+</tr><tr><td>50558</td><td>= Sigma 20-200mm F3.5-6.3 DG | C</td>
+</tr><tr><td>50559</td><td>= Sigma 135mm F1.4 DG | A</td>
 </tr><tr><td>50992</td><td>= Voigtlander SUPER WIDE-HELIAR 15mm F4.5 III</td>
 </tr><tr><td>50993</td><td>= Voigtlander HELIAR-HYPER WIDE 10mm F5.6</td>
 </tr><tr><td>50994</td><td>= Voigtlander ULTRA WIDE-HELIAR 12mm F5.6 III</td>
@@ -5046,6 +5130,11 @@ multi-frame noise reduction)</span></span></td></tr>
 </tr><tr><td>51002</td><td>= Voigtlander APO-LANTHAR 50mm F2 Aspherical</td>
 </tr><tr><td>51003</td><td>= Voigtlander NOKTON 35mm F1.2 Aspherical SE</td>
 </tr><tr><td>51006</td><td>= Voigtlander APO-LANTHAR 35mm F2 Aspherical</td>
+</tr><tr><td>51007</td><td>= Voigtlander NOKTON 50mm F1 Aspherical</td>
+</tr><tr><td>51008</td><td>= Voigtlander NOKTON 75mm F1.5 Aspherical</td>
+</tr><tr><td>51009</td><td>= Voigtlander NOKTON 28mm F1.5 Aspherical</td>
+</tr><tr><td>51072</td><td>= ZEISS Otus ML 50mm F1.4</td>
+</tr><tr><td>51073</td><td>= ZEISS Otus ML 85mm F1.4</td>
 </tr><tr><td>51504</td><td>= Samyang AF 50mm F1.4</td>
 </tr><tr><td>51505</td><td>= Samyang AF 14mm F2.8 or Samyang AF 35mm F2.8</td>
 </tr><tr><td>51505</td><td>= Samyang AF 35mm F2.8</td>
@@ -5060,6 +5149,15 @@ multi-frame noise reduction)</span></span></td></tr>
 </tr><tr><td>51516</td><td>= Samyang AF 24-70mm F2.8</td>
 </tr><tr><td>51517</td><td>= Samyang AF 50mm F1.4 II</td>
 </tr><tr><td>51518</td><td>= Samyang AF 135mm F1.8</td>
+</tr><tr><td>61569</td><td>= LAOWA FFII 10mm F2.8 C&amp;D Dreamer</td>
+</tr><tr><td>61572</td><td>= LAOWA FFII 12mm F2.8 C&amp;D Dreamer</td>
+</tr><tr><td>61760</td><td>= Viltrox 135mm F1.8 FE LAB</td>
+</tr><tr><td>61761</td><td>= Viltrox 28mm F4.5 FE</td>
+</tr><tr><td>61762</td><td>= Viltrox 35mm F1.2 FE LAB</td>
+</tr><tr><td>61763</td><td>= Viltrox 85mm F1.4 FE PRO</td>
+</tr><tr><td>61767</td><td>= Viltrox 50mm F2.0 FE AIR</td>
+</tr><tr><td>61776</td><td>= Viltrox 50mm F1.4 FE PRO</td>
+</tr><tr><td>61780</td><td>= Viltrox 85mm F2.0 FE EVO</td>
 </tr></table></td></tr></table></blockquote>
 
 <h2><a name='CameraSettingsUnknown'>Sony CameraSettingsUnknown Tags</a></h2>
@@ -5418,7 +5516,9 @@ rotation -- the width is always the longer dimension.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='4447 = 0x115f'>4447</td>
@@ -5449,7 +5549,9 @@ rotation -- the width is always the longer dimension.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='4451 = 0x1163'>4451</td>
@@ -5822,7 +5924,9 @@ option is used.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='4451 = 0x1163'>4451</td>
@@ -5853,7 +5957,9 @@ option is used.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='4455 = 0x1167'>4455</td>
@@ -6058,7 +6164,9 @@ option is used.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='4415 = 0x113f'>4415</td>
@@ -6089,7 +6197,9 @@ option is used.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='4419 = 0x1143'>4419</td>
@@ -6280,7 +6390,9 @@ not valid for panorama images.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='4539 = 0x11bb'>4539</td>
@@ -6311,7 +6423,9 @@ not valid for panorama images.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='4543 = 0x11bf'>4543</td>
@@ -6506,7 +6620,9 @@ WX300, but not for panorama images.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='4503 = 0x1197'>4503</td>
@@ -6537,7 +6653,9 @@ WX300, but not for panorama images.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='4507 = 0x119b'>4507</td>
@@ -6801,7 +6919,9 @@ WX300, but not for panorama images.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='4175 = 0x104f'>4175</td>
@@ -6832,7 +6952,9 @@ WX300, but not for panorama images.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='4179 = 0x1053'>4179</td>
@@ -7032,7 +7154,9 @@ ILCE-7/7R/7S/7M2/5000/5100/6000/QX1, ILCA-68/77M2.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='583 = 0x247'>583</td>
@@ -7063,7 +7187,9 @@ ILCE-7/7R/7S/7M2/5000/5100/6000/QX1, ILCA-68/77M2.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='587 = 0x24b'>587</td>
@@ -7309,7 +7435,9 @@ ILCE-6300/6500/7RM2/7SM2, ILCA-99M2.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='583 = 0x247'>583</td>
@@ -7340,7 +7468,9 @@ ILCE-6300/6500/7RM2/7SM2, ILCA-99M2.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='587 = 0x24b'>587</td>
@@ -7591,7 +7721,9 @@ RX100M5A/RX100M7/HX99.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='568 = 0x238'>568</td>
@@ -7622,7 +7754,9 @@ RX100M5A/RX100M7/HX99.</p>
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='572 = 0x23c'>572</td>
@@ -8482,7 +8616,7 @@ models)</span></span></td></tr>
 <tr>
 <td class=r title='58 = 0x3a'>58</td>
 <td>ShutterCount</td>
-<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td class=c>int32u</td>
 <td><span class=s><span class=n>(total number of image exposures made by the camera)</span></span></td></tr>
 <tr class=b>
 <td class=r title='70 = 0x46'>70</td>
@@ -8532,7 +8666,8 @@ models)</span></span></td></tr>
 </table></td></tr></table></blockquote>
 
 <h2><a name='Tag9050d'>Sony Tag9050d Tags</a></h2>
-<p>Valid for ILCE-6700/7CM2/7CR/ZV-E1.</p>
+<p>Valid for ILCE-6700/7CM2/7CR/ZV-E1. Also for ILCE-1M2/7M5 when using mechanical
+shutter.</p>
 <blockquote>
 <table class=frame><tr><td>
 <table class=inner cellspacing=1>
@@ -8542,7 +8677,7 @@ models)</span></span></td></tr>
 <td class=r title='10 = 0xa'>10</td>
 <td>ShutterCount</td>
 <td class=c>int32u</td>
-<td><span class=s><span class=n>(total number of image exposures made by the camera)</span></span></td></tr>
+<td><span class=s><span class=n>(total number of mechanical shutter actuations)</span></span></td></tr>
 <tr class=b>
 <td class=r title='26 = 0x1a'>26</td>
 <td>SonyExposureTime</td>
@@ -8774,7 +8909,7 @@ WX350/WX500, ILCE-1/7/7C/7R/7S/7M2/7M3/7RM2/7RM3/7RM4/7SM2/7SM3/9/9M2/5000/
 <td class=r title='30 = 0x1e'>30</td>
 <td>SequenceLength</td>
 <td class=c>int8u</td>
-<td><table class=cols><tr>
+<td><span class=s><span class=n>(offsets after this are shifted by -1 for the ILCE-7M5)</span></span><table class=cols><tr>
   <td>0 = Continuous
   <br>1 = 1 file
   <br>2 = 2 files
@@ -8852,12 +8987,22 @@ WX350/WX500, ILCE-1/7/7C/7R/7S/7M2/7M3/7RM2/7RM3/7RM4/7SM2/7SM3/9/9M2/5000/
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
 <tr class=b>
-<td class=r title='1176 = 0x498'>1176</td>
+<td class=r title='1107 = 0x453'>1107</td>
 <td>ISOInfo</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
 <tr>
+<td class=r title='1176 = 0x498'>1176</td>
+<td>ISOInfo</td>
+<td class=c>-</td>
+<td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
+<tr class=b>
 <td class=r title='1181 = 0x49d'>1181</td>
+<td>ISOInfo</td>
+<td class=c>-</td>
+<td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
+<tr>
+<td class=r title='1182 = 0x49e'>1182</td>
 <td>ISOInfo</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Sony.html#ISOInfo'>Sony ISOInfo Tags</a></td></tr>
@@ -8979,6 +9124,7 @@ WX350/WX500, ILCE-1/7/7C/7R/7S/7M2/7M3/7RM2/7RM3/7RM4/7SM2/7SM3/9/9M2/5000/
   <br>10 = Selective (for Miniature effect)
   <br>11 = Zone
   <br>12 = Expanded Flexible Spot
+  <br>13 = Custom AF Area
   <br>14 = Tracking
   <br>15 = Face Tracking
   <br>20 = Animal Eye Tracking
@@ -11220,67 +11366,64 @@ ILCE-7/7M2/7M3/7R/7RM2/7RM3/7RM4/7S/7SM2/9/9M2/5000/5100/6000/6100/6300/
 </table></td></tr></table></blockquote>
 
 <h2><a name='Tag9416'>Sony Tag9416 Tags</a></h2>
-<p>Valid for the ILCE-1/6700/7CM2/7CR/7M4/7RM5/7SM3/9M3, ILME-FX3/FX30, ZV-E1.</p>
+<p>Valid for the ILCE-1/6700/7CM2/7CR/7M4/7M5/7RM5/7SM3/9M3, ILME-FX2/FX3/FX30,
+ZV-E1/E10M2, but ILCE-7M5 has different offsets.</p>
 <blockquote>
 <table class=frame><tr><td>
 <table class=inner cellspacing=1>
 <tr class=h><th>Index1</th><th>Tag Name</th>
 <th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
 <tr>
-<td class=r title='0 = 0x0'>0</td>
-<td>Tag9416_0000</td>
-<td class=c>no</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
 <td class=r title='4 = 0x4'>4</td>
 <td>SonyISO</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='6 = 0x6'>6</td>
 <td>StopsAboveBaseISO</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='10 = 0xa'>10</td>
 <td>SonyExposureTime2</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='12 = 0xc'>12</td>
 <td>ExposureTime</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='16 = 0x10'>16</td>
 <td>SonyFNumber2</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='18 = 0x12'>18</td>
 <td>SonyMaxApertureValue</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='29 = 0x1d'>29</td>
 <td>SequenceImageNumber</td>
 <td class=c>no</td>
 <td><span class=s><span class=n>(number of images captured in burst sequence)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='43 = 0x2b'>43</td>
 <td>ReleaseMode2</td>
 <td class=c>no</td>
-<td>--&gt; <a href='Sony.html#ReleaseMode2'>Sony ReleaseMode2 Values</a></td></tr>
-<tr class=b>
+<td>--&gt; <a href='Sony.html#ReleaseMode2'>Sony ReleaseMode2 Values</a>
+  <br><span class='n s'>(offsets after this are shifted by -2 for the ILCE-7M5)</span></td></tr>
+<tr>
 <td class=r title='53 = 0x35'>53</td>
 <td>ExposureProgram</td>
 <td class=c>no</td>
 <td>--&gt; <a href='Sony.html#ExposureProgram3'>Sony ExposureProgram3 Values</a></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='55 = 0x37'>55</td>
 <td>CreativeStyle</td>
 <td class=c>no</td>
-<td><table class=cols><tr>
+<td><span class=s><span class=n>(offsets after this are shifted by 1 for the ILME-FX2 and ILCE-7M5)</span></span><table class=cols><tr>
   <td>0 = Standard
   <br>1 = Vivid
   <br>2 = Neutral
@@ -11298,9 +11441,11 @@ ILCE-7/7M2/7M3/7R/7RM2/7RM3/7RM4/7S/7SM2/9/9M2/5000/5100/6000/6100/6300/
   <br>16 = VV2
   <br>17 = IN
   <br>18 = SH
+  <br>19 = FL2
+  <br>20 = FL3
   <br>255 = Off</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td class=r title='72 = 0x48'>72</td>
 <td>LensMount</td>
 <td class=c>no</td>
@@ -11308,36 +11453,36 @@ ILCE-7/7M2/7M3/7R/7RM2/7RM3/7RM4/7S/7SM2/9/9M2/5000/5100/6000/6100/6300/
   <br>1 = A-mount
   <br>2 = E-mount
   <br>3 = A-mount (3)</span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='73 = 0x49'>73</td>
 <td>LensFormat</td>
 <td class=c>no</td>
 <td><span class=s>0 = Unknown
   <br>1 = APS-C
   <br>2 = Full-frame</span></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='74 = 0x4a'>74</td>
 <td>LensMount</td>
 <td class=c>no</td>
 <td><span class=s>0 = Unknown
   <br>1 = A-mount
   <br>2 = E-mount</span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='75 = 0x4b'>75</td>
 <td>LensType2</td>
 <td class=c>no</td>
 <td>--&gt; <a href='Sony.html#LensType2'>Sony LensType2 Values</a></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='77 = 0x4d'>77</td>
 <td>LensType</td>
 <td class=c>no</td>
 <td>--&gt; <a href='Sony.html#LensType'>Sony LensType Values</a></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='79 = 0x4f'>79</td>
 <td>DistortionCorrParams</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='112 = 0x70'>112</td>
 <td>PictureProfile</td>
 <td class=c>no</td>
@@ -11366,21 +11511,39 @@ ILCE-7/7M2/7M3/7R/7RM2/7RM3/7RM4/7S/7SM2/9/9M2/5000/5100/6000/6100/6300/
   <br>37 = FL
   <br>38 = VV2
   <br>39 = IN
-  <br>40 = SH</td></tr></table>
+  <br>40 = SH
+  <br>48 = FL2
+  <br>49 = FL3</td></tr></table>
 </td></tr>
-<tr>
+<tr class=b>
 <td class=r title='113 = 0x71'>113</td>
 <td>FocalLength</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='115 = 0x73'>115</td>
 <td>MinFocalLength</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='117 = 0x75'>117</td>
 <td>MaxFocalLength</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1794 = 0x702'>1794</td>
+<td>VignettingCorrParams</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1866 = 0x74a'>1866</td>
+<td>APS-CSizeCapture</td>
+<td class=c>no</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr>
+<td class=r title='2107 = 0x83b'>2107</td>
+<td>ChromaticAberrationCorrParams</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
@@ -11547,6 +11710,47 @@ written by the Sony DSC-F828 and DSC-V3.</p>
 <td><span class=s><span class=n>(key to decrypt the rest of the file from the end of the maker notes)</span></span></td></tr>
 </table></td></tr></table></blockquote>
 
+<h2><a name='SR2Private'>Sony SR2Private Tags</a></h2>
+<p>The SR2 format uses the DNGPrivateData tag to reference a private IFD
+containing these tags.  SR2 images are written by the Sony DSC-R1, but
+this information is also written to ARW images by other models.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Tag&nbsp;ID</th><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td title='0x7200 = 29184'>0x7200</td>
+<td>SR2SubIFDOffset</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td title='0x7201 = 29185'>0x7201</td>
+<td>SR2SubIFDLength</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td title='0x7221 = 29217'>0x7221</td>
+<td>SR2SubIFDKey</td>
+<td class=c>no</td>
+<td><span class=s><span class=n>(key to decrypt SR2SubIFD)</span></span></td></tr>
+<tr class=b>
+<td title='0x7240 = 29248'>0x7240</td>
+<td>IDC_IFD</td>
+<td class=c>-</td>
+<td>--&gt; <a href='SonyIDC.html'>SonyIDC Tags</a></td></tr>
+<tr>
+<td title='0x7241 = 29249'>0x7241</td>
+<td>IDC2_IFD</td>
+<td class=c>-</td>
+<td>--&gt; <a href='SonyIDC.html'>SonyIDC Tags</a></td></tr>
+<tr class=b>
+<td title='0x7250 = 29264'>0x7250</td>
+<td>MRWInfo</td>
+<td class=c>-</td>
+<td>--&gt; <a href='MinoltaRaw.html'>MinoltaRaw Tags</a></td></tr>
+</table></td></tr></table></blockquote>
+
 <h2><a name='SRF2'>Sony SRF2 Tags</a></h2>
 <p>These tags are found in the SRF2 through SRF5 IFD&#39;s.</p>
 <blockquote>
@@ -11684,47 +11888,6 @@ written by the Sony DSC-F828 and DSC-V3.</p>
 <td>WBBlueAsShot</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-</table></td></tr></table></blockquote>
-
-<h2><a name='SR2Private'>Sony SR2Private Tags</a></h2>
-<p>The SR2 format uses the DNGPrivateData tag to reference a private IFD
-containing these tags.  SR2 images are written by the Sony DSC-R1, but
-this information is also written to ARW images by other models.</p>
-<blockquote>
-<table class=frame><tr><td>
-<table class=inner cellspacing=1>
-<tr class=h><th>Tag&nbsp;ID</th><th>Tag Name</th>
-<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
-<tr>
-<td title='0x7200 = 29184'>0x7200</td>
-<td>SR2SubIFDOffset</td>
-<td class=c>no</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td title='0x7201 = 29185'>0x7201</td>
-<td>SR2SubIFDLength</td>
-<td class=c>no</td>
-<td>&nbsp;</td></tr>
-<tr>
-<td title='0x7221 = 29217'>0x7221</td>
-<td>SR2SubIFDKey</td>
-<td class=c>no</td>
-<td><span class=s><span class=n>(key to decrypt SR2SubIFD)</span></span></td></tr>
-<tr class=b>
-<td title='0x7240 = 29248'>0x7240</td>
-<td>IDC_IFD</td>
-<td class=c>-</td>
-<td>--&gt; <a href='SonyIDC.html'>SonyIDC Tags</a></td></tr>
-<tr>
-<td title='0x7241 = 29249'>0x7241</td>
-<td>IDC2_IFD</td>
-<td class=c>-</td>
-<td>--&gt; <a href='SonyIDC.html'>SonyIDC Tags</a></td></tr>
-<tr class=b>
-<td title='0x7250 = 29264'>0x7250</td>
-<td>MRWInfo</td>
-<td class=c>-</td>
-<td>--&gt; <a href='MinoltaRaw.html'>MinoltaRaw Tags</a></td></tr>
 </table></td></tr></table></blockquote>
 
 <h2><a name='SR2SubIFD'>Sony SR2SubIFD Tags</a></h2>
@@ -12030,23 +12193,33 @@ some models when the <a href="../ExifTool.html#ExtractEmbedded">ExtractEmbedded<
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
+<td title='0x8106 = 33030'>0x8106</td>
+<td>FrameRate</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td title='0x8109 = 33033'>0x8109</td>
 <td>ExposureTime</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td title='0x810a = 33034'>0x810a</td>
 <td>MasterGainAdjustment</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td title='0x810b = 33035'>0x810b</td>
 <td>ISO</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td title='0x810c = 33036'>0x810c</td>
 <td>ElectricalExtenderMagnification</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td title='0x8114 = 33044'>0x8114</td>
+<td>SerialNumber</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
@@ -12134,7 +12307,7 @@ some models when the <a href="../ExifTool.html#ExtractEmbedded">ExtractEmbedded<
 
 <hr>
 (This document generated automatically by Image::ExifTool::BuildTagLookup)
-<br><i>Last revised Dec 29, 2023</i>
+<br><i>Last revised Mar 16, 2026</i>
 <p class=lf><a href='index.html'>&lt;-- ExifTool Tag Names</a></p>
 </body>
 </html>

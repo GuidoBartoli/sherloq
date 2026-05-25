@@ -22,7 +22,7 @@ $VERSION = '1.00';
 
 my %bool = (
     Format => 'int8u',
-    PrintConv => { 0 => 'No', 1 => 'Yes' } 
+    PrintConv => { 0 => 'No', 1 => 'Yes' }
 );
 
 %Image::ExifTool::MRC::Main = (
@@ -31,7 +31,7 @@ my %bool = (
     VARS => { NO_LOOKUP => 1 }, # omit tags from lookup
     FORMAT => 'int32u',
     NOTES => q{
-        Tags extracted from Medical Research Council (MRC) format imaging files. 
+        Tags extracted from Medical Research Council (MRC) format imaging files.
         See L<https://www.ccpem.ac.uk/mrc_format/mrc2014.php> for the specification.
     },
     0 => 'ImageWidth',
@@ -104,7 +104,7 @@ my %bool = (
     },
     12 => {
         Name => 'TimeStamp',
-        Format => 'double', 
+        Format => 'double',
         Condition => '$$self{BitM} & 0x01',
         Groups => { 2 => 'Time'},
         # shift from days since Dec 30, 1899 to Unix epoch of Jan 1, 1970
@@ -269,7 +269,7 @@ sub ProcessMRC($$)
     # (I don't have any samples with extended headers for testing, so these are not yet decoded)
     if ($$et{ExtendedHeaderSize} and $$et{ExtendedHeaderType} =~ /^FEI[12]/) {
         unless ($raf->Read($buff,4)==4 and $raf->Seek(-4,1)) { # read metadata size
-            $et->Warn('Error reading extended header'); 
+            $et->Warn('Error reading extended header');
             return 1;
         }
         my $size = Get32u(\$buff, 0);
@@ -315,7 +315,7 @@ metadata from Medical Research Council (MRC) images.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

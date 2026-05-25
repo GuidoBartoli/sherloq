@@ -14,7 +14,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.00';
+$VERSION = '1.01';
 
 %Image::ExifTool::ICO::Main = (
     PROCESS_PROC => \&Image::ExifTool::ProcessBinaryData,
@@ -95,7 +95,7 @@ sub ProcessICO($$$)
     $et->HandleTag($tagTbl, 4, $num);
     for ($i=0; $i<$num; ++$i) {
         $raf->Read($buff, 16) == 16 or $et->Warn('Truncated file'), last;
-        $$et{DOC_NUM} = ++$$et{DOC_COUNT} if $i;
+        $$et{DOC_NUM} = ++$$et{DOC_COUNT};
         $et->HandleTag($tagTbl, 6, $buff);
     }
     delete $$et{DOC_NUM};
@@ -121,7 +121,7 @@ information from Windows ICO (icon) and CUR (cursor) files.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

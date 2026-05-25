@@ -15,7 +15,7 @@ use vars qw($VERSION @ISA $makeMissing);
 use Image::ExifTool qw(:Utils :Vars);
 use Image::ExifTool::XMP;
 
-$VERSION = '1.36';
+$VERSION = '1.38';
 @ISA = qw(Exporter);
 
 # set this to a language code to generate Lang module with 'MISSING' entries
@@ -126,6 +126,7 @@ PTILoop:    for ($index=0; $index<@infoArray; ++$index) {
                 my $tagInfo = $infoArray[$index];
                 # don't list subdirectories unless they are writable
                 next unless $$tagInfo{Writable} or not $$tagInfo{SubDirectory};
+                next if $$tagInfo{Hidden};
                 if (@groups) {
                     my @tg = $et->GetGroup($tagInfo);
                     foreach $group (@groups) {
@@ -158,6 +159,7 @@ PTILoop:    for ($index=0; $index<@infoArray; ++$index) {
                 my $writable = $format ? 'true' : 'false';
                 # check our conversions to make sure we can really write this tag
                 if ($writable eq 'true') {
+                    $writable = 'false' if defined $$tagInfo{Writable} and not $$tagInfo{Writable};
                     foreach ('PrintConv','ValueConv') {
                         next unless $$tagInfo{$_};
                         next if $$tagInfo{$_ . 'Inv'};
@@ -167,7 +169,7 @@ PTILoop:    for ($index=0; $index<@infoArray; ++$index) {
                         last;
                     }
                 }
-                $format = $$tagInfo{Format} || $$table{FORMAT} if not defined $format or $format eq '1';
+                $format = $$tagInfo{Format} || $$table{FORMAT} if not $format or $format eq '1';
                 $format = 'struct' if $$tagInfo{Struct};
                 if (defined $format) {
                     $format =~ s/\[.*\$.*\]//;   # remove expressions from format
@@ -241,6 +243,8 @@ PTILoop:    for ($index=0; $index<@infoArray; ++$index) {
                 print $fp "$altDescr\n";
                 for (my $i=0; ; ++$i) {
                     my $conv = $$tagInfo{PrintConv};
+                    # (hidden = '' disables PrintConv in -listx output)
+                    last if defined $$tagInfo{Hidden} and $$tagInfo{Hidden} eq '';
                     my $idx = '';
                     if (ref $conv eq 'ARRAY') {
                         last unless $i < @$conv;
@@ -258,7 +262,7 @@ PTILoop:    for ($index=0; $index<@infoArray; ++$index) {
                     # add bitmask values to main lookup
                     if ($$conv{BITMASK}) {
                         foreach $key (keys %{$$conv{BITMASK}}) {
-                            my $mask = 0x01 << $key;
+                            my $mask = "Bit$key";
                             next if not $mask or $$conv{$mask};
                             $$conv{$mask} = $$conv{BITMASK}{$key};
                         }
@@ -375,9 +379,10 @@ sub BuildLangModules($;$)
                 $id = Image::ExifTool::XMP::FullUnescapeXML($1);
                 $name = $2;
                 $index = $4;
-                # convert hex ID's unless HEX_ID is 0 (for string ID's that look like hex)
+                # convert hex ID's unless ID_FMT is something other than 'hex'
+                # (for string ID's that look like hex)
                 if ($id =~ /^0x[\da-fA-F]+$/ and (not defined $$table{VARS} or
-                    not defined $$table{VARS}{HEX_ID} or $$table{VARS}{HEX_ID}))
+                    not defined $$table{VARS}{ID_FMT} or $$table{VARS}{ID_FMT} eq 'hex'))
                 {
                     $id = hex($id);
                 }
@@ -650,7 +655,7 @@ and values.
 
 ~head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
@@ -834,7 +839,7 @@ Number of modules updated, or negative on error.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

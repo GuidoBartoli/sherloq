@@ -203,13 +203,13 @@ sub WriteMRW($$;$);
             Name => 'ColorMode',
             Condition => '$$self{Make} !~ /^SONY/',
             Priority => 0,
-            Writable => 'int32u',
+            Writable => 1,
             PrintConv => \%Image::ExifTool::Minolta::minoltaColorMode,
         },
         { #3
             Name => 'ColorMode',
             Condition => '$$self{Model} eq "DSLR-A100"',
-            Writable => 'int32u',
+            Writable => 1,
             Notes => 'Sony A100',
             Priority => 0,
             PrintHex => 1,
@@ -513,7 +513,7 @@ write Konica-Minolta RAW (MRW) images.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

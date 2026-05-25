@@ -15,7 +15,7 @@ use strict;
 use vars qw($VERSION $AUTOLOAD %iptcCharset);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.58';
+$VERSION = '1.59';
 
 %iptcCharset = (
     "\x1b%G"  => 'UTF8',
@@ -1025,7 +1025,7 @@ sub TranslateCodedString($$$$)
         $$valPtr = $et->Decode($$valPtr, $$xlatPtr);
     } else {
         # don't yet support reading ISO 2022 shifted character sets
-        $et->WarnOnce('Some IPTC characters not converted (ISO 2022 shifting not supported)');
+        $et->Warn('Some IPTC characters not converted (ISO 2022 shifting not supported)');
     }
 }
 
@@ -1057,7 +1057,7 @@ sub ProcessIPTC($$$)
     my $verbose = $et->Options('Verbose');
     my $validate = $et->Options('Validate');
     my $success = 0;
-    my ($lastRec, $recordPtr, $recordName);
+    my ($lastRec, $recordPtr, $recordName, %seen);
 
     $verbose and $dirInfo and $et->VerboseDir('IPTC', 0, $$dirInfo{DirLen});
 
@@ -1083,7 +1083,7 @@ sub ProcessIPTC($$$)
                 $et->FoundTag('CurrentIPTCDigest', $md5);
             }
         } else {
-            if (($Image::ExifTool::MWG::strict or $et->Options('Validate')) and
+            if (($Image::ExifTool::MWG::strict or $validate) and
                 $$et{FILE_TYPE} =~ /^(JPEG|TIFF|PSD)$/)
             {
                 if ($Image::ExifTool::MWG::strict) {
@@ -1164,7 +1164,7 @@ sub ProcessIPTC($$$)
             }
             my $tableInfo = $tagTablePtr->{$rec};
             unless ($tableInfo) {
-                $et->WarnOnce("Unrecognized IPTC record $rec (ignored)");
+                $et->Warn("Unrecognized IPTC record $rec (ignored)");
                 $pos += $len;
                 next;   # ignore this entry
             }
@@ -1186,8 +1186,11 @@ sub ProcessIPTC($$$)
             # - no Name so name is generated automatically with decimal tag number
             AddTagToTable($recordPtr, $tag, { Unknown => 1 });
         }
-
         my $tagInfo = $et->GetTagInfo($recordPtr, $tag);
+        if ($validate and not $$tagInfo{List} and not $$tagInfo{Unknown}) {
+            $et->Warn("Multiple IPTC $$tagInfo{Name} tags") if $seen{$tagInfo};
+            $seen{$tagInfo} = 1;
+        }
         my $format;
         # (could use $$recordPtr{FORMAT} if no Format below, but don't do this to
         #  be backward compatible with improperly written PhotoMechanic tags)
@@ -1284,7 +1287,7 @@ image files.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

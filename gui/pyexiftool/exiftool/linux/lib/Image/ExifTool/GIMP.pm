@@ -270,7 +270,7 @@ GIMP software.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
@@ -279,7 +279,7 @@ under the same terms as Perl itself.
 
 =over 4
 
-=item L<GIMP source code>
+=item L<https://developer.gimp.org/core/setup/git/>
 
 =item L<http://svn.gnome.org/viewvc/gimp/trunk/devel-docs/xcf.txt?view=markup>
 

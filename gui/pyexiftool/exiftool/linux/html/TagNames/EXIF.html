@@ -26,11 +26,11 @@ tags remain.</p>
 
 <p>The table below lists all EXIF tags.  Also listed are TIFF, DNG, HDP and
 other tags which are not part of the EXIF specification, but may co-exist
-with EXIF tags in some images.  Tags which are part of the EXIF 2.32
+with EXIF tags in some images.  Tags which are part of the EXIF 3.0
 specification have an underlined <b>Tag Name</b> in the HTML version of this
 documentation.  See
-<a href="https://web.archive.org/web/20190624045241if_/http://www.cipa.jp:80/std/documents/e/DC-008-Translation-2019-E.pdf">https://web.archive.org/web/20190624045241if_/http://www.cipa.jp:80/std/documents/e/DC-008-Translation-2019-E.pdf</a>
-for the official EXIF 2.32 specification.
+<a href="https://www.cipa.jp/std/documents/download_e.html?CIPA_DC-008-2024-E">https://www.cipa.jp/std/documents/download_e.html?CIPA_DC-008-2024-E</a>
+for the official EXIF 3.0 specification.
 </p>
 <blockquote>
 <table class=frame><tr><td>
@@ -196,12 +196,13 @@ for the official EXIF 2.32 specification.
 <td title='0x0111 = 273'>0x0111</td>
 <td><u>StripOffsets</u>
   <br>OtherImageStart
+  <br>PreviewJXLStart
   <br>StripOffsets
   <br>PreviewImageStart
   <br>PreviewImageStart
   <br>JpgFromRawStart</td>
-<td class=c title=' * = Protected'>no<br>no<br>no<br>int32u*<br>int32u*<br>int32u*</td>
-<td class=c>-<br>-<br>-<br>IFD0<br>All<br>SubIFD2</td>
+<td class=c title=' * = Protected'>no<br>no<br>no<br>no<br>int32u*<br>int32u*<br>int32u*</td>
+<td class=c>-<br>-<br>-<br>-<br>IFD0<br>All<br>SubIFD2</td>
 <td><span class=s><span class=n>(called StripOffsets in most locations, but it is PreviewImageStart in IFD0
 of CR2 images and various IFD&#39;s of DNG images except for SubIFD2 where it is
 JpgFromRawStart)</span></span></td></tr>
@@ -236,12 +237,13 @@ JpgFromRawStart)</span></span></td></tr>
 <td title='0x0117 = 279'>0x0117</td>
 <td><u>StripByteCounts</u>
   <br>OtherImageLength
+  <br>PreviewJXLLength
   <br>StripByteCounts
   <br>PreviewImageLength
   <br>PreviewImageLength
   <br>JpgFromRawLength</td>
-<td class=c title=' * = Protected'>no<br>no<br>no<br>int32u*<br>int32u*<br>int32u*</td>
-<td class=c>-<br>-<br>-<br>IFD0<br>All<br>SubIFD2</td>
+<td class=c title=' * = Protected'>no<br>no<br>no<br>no<br>int32u*<br>int32u*<br>int32u*</td>
+<td class=c>-<br>-<br>-<br>-<br>IFD0<br>All<br>SubIFD2</td>
 <td><span class=s><span class=n>(called StripByteCounts in most locations, but it is PreviewImageLength in
 IFD0 of CR2 images and various IFD&#39;s of DNG images except for SubIFD2 where
 it is JpgFromRawLength)</span></span></td></tr>
@@ -1252,11 +1254,14 @@ OtherImageLength in everything else)</span></span></td></tr>
 <td>SonyRawFileType</td>
 <td class=c>no</td>
 <td class=c>-</td>
-<td><span class=s>0 = Sony Uncompressed 14-bit RAW
+<td><table class=cols><tr>
+  <td>0 = Sony Uncompressed 14-bit RAW
   <br>1 = Sony Uncompressed 12-bit RAW
   <br>2 = Sony Compressed RAW
   <br>3 = Sony Lossless Compressed RAW
-  <br>4 = Sony Lossless Compressed RAW 2</span></td></tr>
+  <br>4 = Sony Lossless Compressed RAW 2
+  <br>6 = Sony Compressed RAW 2</td></tr></table>
+</td></tr>
 <tr class=b>
 <td title='0x7010 = 28688'>0x7010</td>
 <td>SonyToneCurve</td>
@@ -1885,7 +1890,7 @@ automatically when copying between TIFF images with different byte order)</span>
 <td><u>ExposureProgram</u></td>
 <td class=c>int16u</td>
 <td class=c>ExifIFD</td>
-<td><span class=s><span class=n>(the value of 9 is not standard EXIF, but is used by the Canon EOS 7D)</span></span><table class=cols><tr>
+<td><span class=s><span class=n>(the value of 9 is not standard EXIF, but is used by some Canon models)</span></span><table class=cols><tr>
   <td>0 = Not Defined
   <br>1 = Manual
   <br>2 = Program AE
@@ -1914,8 +1919,16 @@ automatically when copying between TIFF images with different byte order)</span>
 <td><u>ISO</u></td>
 <td class=c>int16u[n]</td>
 <td class=c>ExifIFD</td>
-<td><span class=s><span class=n>(called ISOSpeedRatings by EXIF 2.2, then PhotographicSensitivity by the EXIF
-2.3 spec.)</span></span></td></tr>
+<td><span class=s><span class=n>(called ISOSpeedRatings by EXIF 2.2, then PhotographicSensitivity by EXIF
+2.3.  This tag has a maximum value of 65535 because the brain-dead EXIF
+specification limits it to a short integer, and while they can change the
+name of the tag in an updated EXIF specification, they can&#39;t allow a larger
+storage format for some reason.  For higher ISO settings, see the other
+ISO-related tags StandardOutputSensitivity, RecommendedExposureIndex,
+ISOSpeed, ISOSpeedLatitudeyyy and ISOSpeedLatitudezzz.  But the meanings of
+these new tags are anyone&#39;s guess since the defining specification, ISO
+12232, is imprisoned by the ISO organization who extort a ransom for the
+release of this information)</span></span></td></tr>
 <tr>
 <td title='0x8828 = 34856'>0x8828</td>
 <td><u>Opto-ElectricConvFactor</u></td>
@@ -2279,6 +2292,7 @@ hours, 2. If present, the time zone offset of ModifyDate)</span></span></td></tr
   <br>MakerNoteFujiFilm
   <br>MakerNoteGE
   <br>MakerNoteGE2
+  <br>MakerNoteGoogle
   <br>MakerNoteHasselblad
   <br>MakerNoteHP
   <br>MakerNoteHP2
@@ -2335,9 +2349,11 @@ hours, 2. If present, the time zone offset of ModifyDate)</span></span></td></tr
   <br>MakerNotePentax5
   <br>MakerNotePentax6
   <br>MakerNotePhaseOne
-  <br>MakerNoteReconyx
-  <br>MakerNoteReconyx2
-  <br>MakerNoteReconyx3
+  <br>MakerNoteReconyxHyperFire
+  <br>MakerNoteReconyxUltraFire
+  <br>MakerNoteReconyxHyperFire2
+  <br>MakerNoteReconyxMicroFire
+  <br>MakerNoteReconyxHyperFire4K
   <br>MakerNoteRicohPentax
   <br>MakerNoteRicoh
   <br>MakerNoteRicoh2
@@ -2359,8 +2375,8 @@ hours, 2. If present, the time zone offset of ModifyDate)</span></span></td></tr
   <br>MakerNoteUnknownText
   <br>MakerNoteUnknownBinary
   <br><u>MakerNoteUnknown</u></td>
-<td class=c>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef</td>
-<td class=c>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD</td>
+<td class=c>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef<br>undef</td>
+<td class=c>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD<br>ExifIFD</td>
 <td>--&gt; <a href='Apple.html'>Apple Tags</a>
   <br>--&gt; <a href='Nikon.html'>Nikon Tags</a>
   <br>--&gt; <a href='Canon.html'>Canon Tags</a>
@@ -2372,6 +2388,7 @@ hours, 2. If present, the time zone offset of ModifyDate)</span></span></td></tr
   <br>--&gt; <a href='FujiFilm.html'>FujiFilm Tags</a>
   <br>--&gt; <a href='GE.html'>GE Tags</a>
   <br>--&gt; <a href='FujiFilm.html'>FujiFilm Tags</a>
+  <br>--&gt; <a href='Google.html#HDRPlusMakerNote'>Google HDRPlusMakerNote Tags</a>
   <br>--&gt; <a href='Unknown.html'>Unknown Tags</a>
   <br>--&gt; <a href='HP.html'>HP Tags</a>
   <br>--&gt; <a href='HP.html#Type2'>HP Type2 Tags</a>
@@ -2428,9 +2445,11 @@ hours, 2. If present, the time zone offset of ModifyDate)</span></span></td></tr
   <br>--&gt; <a href='Pentax.html'>Pentax Tags</a>
   <br>--&gt; <a href='Pentax.html#S1'>Pentax S1 Tags</a>
   <br>--&gt; <a href='PhaseOne.html'>PhaseOne Tags</a>
-  <br>--&gt; <a href='Reconyx.html'>Reconyx Tags</a>
-  <br>--&gt; <a href='Reconyx.html#Type2'>Reconyx Type2 Tags</a>
-  <br>--&gt; <a href='Reconyx.html#Type3'>Reconyx Type3 Tags</a>
+  <br>--&gt; <a href='Reconyx.html#HyperFire'>Reconyx HyperFire Tags</a>
+  <br>--&gt; <a href='Reconyx.html#UltraFire'>Reconyx UltraFire Tags</a>
+  <br>--&gt; <a href='Reconyx.html#HyperFire2'>Reconyx HyperFire2 Tags</a>
+  <br>--&gt; <a href='Reconyx.html#MicroFire'>Reconyx MicroFire Tags</a>
+  <br>--&gt; <a href='Reconyx.html#HyperFire4K'>Reconyx HyperFire4K Tags</a>
   <br>--&gt; <a href='Pentax.html'>Pentax Tags</a>
   <br>--&gt; <a href='Ricoh.html'>Ricoh Tags</a>
   <br>--&gt; <a href='Ricoh.html#Type2'>Ricoh Type2 Tags</a>
@@ -2908,8 +2927,8 @@ by the EXIF spec.)</span></span></td></tr>
 <td>&nbsp;</td></tr>
 <tr>
 <td title='0xa436 = 42038'>0xa436</td>
-<td><u>Title</u></td>
-<td class=c title=' / = Avoid'>string/</td>
+<td><u>ImageTitle</u></td>
+<td class=c>string</td>
 <td class=c>ExifIFD</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
@@ -3956,6 +3975,18 @@ one; 2. Pixel width of segments except last; 3. Pixel width of last segment)</sp
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#NEFInfo'>Nikon NEFInfo Tags</a></td></tr>
 <tr>
+<td title='0xc7d7 = 51159'>0xc7d7</td>
+<td>ZIFMetadata</td>
+<td class=c>no</td>
+<td class=c>-</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td title='0xc7d8 = 51160'>0xc7d8</td>
+<td>ZIFAnnotations</td>
+<td class=c>no</td>
+<td class=c>-</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td title='0xc7e9 = 51177'>0xc7e9</td>
 <td>DepthFormat</td>
 <td class=c title=' ! = Unsafe'>int16u!</td>
@@ -4076,7 +4107,7 @@ one; 2. Pixel width of segments except last; 3. Pixel width of last segment)</sp
 <td class=c>IFD0</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
-<td title='0xcd3b = 52539'>0xcd3b</td>
+<td title='0xcd3f = 52543'>0xcd3f</td>
 <td>RGBTables</td>
 <td class=c title=' ! = Unsafe'>undef!</td>
 <td class=c>IFD0</td>
@@ -4123,6 +4154,30 @@ one; 2. Pixel width of segments except last; 3. Pixel width of last segment)</sp
 <td class=c title=' ! = Unsafe'>string!</td>
 <td class=c>IFD0</td>
 <td>&nbsp;</td></tr>
+<tr class=b>
+<td title='0xcd49 = 52553'>0xcd49</td>
+<td>JXLDistance</td>
+<td class=c>float</td>
+<td class=c>IFD0</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td title='0xcd4a = 52554'>0xcd4a</td>
+<td>JXLEffort</td>
+<td class=c>int32u</td>
+<td class=c>IFD0</td>
+<td><span class=s><span class=n>(values range from 1=low to 9=high)</span></span></td></tr>
+<tr class=b>
+<td title='0xcd4b = 52555'>0xcd4b</td>
+<td>JXLDecodeSpeed</td>
+<td class=c>int32u</td>
+<td class=c>IFD0</td>
+<td><span class=s><span class=n>(values range from 1=slow to 4=fast)</span></span></td></tr>
+<tr>
+<td title='0xcea1 = 52897'>0xcea1</td>
+<td>SEAL</td>
+<td class=c>string</td>
+<td class=c>IFD0</td>
+<td>--&gt; <a href='XMP.html#SEAL'>XMP SEAL Tags</a></td></tr>
 <tr class=b>
 <td title='0xea1c = 59932'>0xea1c</td>
 <td>Padding</td>
@@ -4247,7 +4302,7 @@ these unless they already exist in the file)</span></span></td></tr>
 </tr><tr><td class=r>10</td><td>= JBIG Color</td>
 </tr><tr><td class=r>99</td><td>= JPEG</td>
 </tr><tr><td class=r>262</td><td>= Kodak 262</td>
-</tr><tr><td class=r>32766</td><td>= Next</td>
+</tr><tr><td class=r>32766</td><td>= NeXt or Sony ARW Compressed 2</td>
 </tr><tr><td class=r>32767</td><td>= Sony ARW Compressed</td>
 </tr><tr><td class=r>32769</td><td>= Packed RAW</td>
 </tr><tr><td class=r>32770</td><td>= Samsung SRW Compressed</td>
@@ -4278,10 +4333,13 @@ these unless they already exist in the file)</span></span></td></tr>
 </tr><tr><td class=r>34887</td><td>= ESRI Lerc</td>
 </tr><tr><td class=r>34892</td><td>= Lossy JPEG</td>
 </tr><tr><td class=r>34925</td><td>= LZMA2</td>
-</tr><tr><td class=r>34926</td><td>= Zstd</td>
-</tr><tr><td class=r>34927</td><td>= WebP</td>
+</tr><tr><td class=r>34926</td><td>= Zstd (old)</td>
+</tr><tr><td class=r>34927</td><td>= WebP (old)</td>
 </tr><tr><td class=r>34933</td><td>= PNG</td>
 </tr><tr><td class=r>34934</td><td>= JPEG XR</td>
+</tr><tr><td class=r>50000</td><td>= Zstd</td>
+</tr><tr><td class=r>50001</td><td>= WebP</td>
+</tr><tr><td class=r>50002</td><td>= JPEG XL (old)</td>
 </tr><tr><td class=r>52546</td><td>= JPEG XL</td>
 </tr><tr><td class=r>65000</td><td>= Kodak DCR Compressed</td>
 </tr><tr><td class=r>65535</td><td>= Pentax PEF Compressed</td>
@@ -4354,7 +4412,7 @@ these unless they already exist in the file)</span></span></td></tr>
 
 <hr>
 (This document generated automatically by Image::ExifTool::BuildTagLookup)
-<br><i>Last revised Dec 29, 2023</i>
+<br><i>Last revised Feb 6, 2026</i>
 <p class=lf><a href='index.html'>&lt;-- ExifTool Tag Names</a></p>
 </body>
 </html>

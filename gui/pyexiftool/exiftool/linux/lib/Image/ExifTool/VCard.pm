@@ -325,7 +325,7 @@ sub ProcessVCard($$)
             $$et{DOC_NUM} = ++$$et{DOC_COUNT};  # read next card as a new document
         }
         unless ($val =~ s/^([-A-Za-z0-9.]+)//) {
-            $et->WarnOnce("Unrecognized line in $lbl file");
+            $et->Warn("Unrecognized line in $lbl file");
             next;
         }
         my $tag = $1;
@@ -379,7 +379,7 @@ sub ProcessVCard($$)
                 $param{$p} = '';
             }
         }
-        $val =~ s/^:// or $et->WarnOnce("Invalid line in $lbl file"), next;
+        $val =~ s/^:// or $et->Warn("Invalid line in $lbl file"), next;
         # add 'Type' parameter to id and name if it exists
         $param{Type} and $tag .= $param{Type}, $name .= $param{Type};
         # convert base64-encoded data
@@ -430,7 +430,7 @@ information from vCard VCF and iCalendar ICS files.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

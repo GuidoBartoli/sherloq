@@ -17,7 +17,7 @@ package Image::ExifTool::Validate;
 use strict;
 use vars qw($VERSION %exifSpec);
 
-$VERSION = '1.23';
+$VERSION = '1.26';
 
 use Image::ExifTool qw(:Utils);
 use Image::ExifTool::Exif;
@@ -144,9 +144,9 @@ my %stdFormat = (
         0x830e => 'double',     0x8482 => 'double',     0x87af => 'int16u',     0x87b1 => 'string',
         0x8480 => 'double',     0x85d8 => 'double',     0x87b0 => 'double',
         # DNG tags: (use '' for non-DNG tags in the range 0xc612-0xcd48)
-        0xc615 => '(string|int8u)',              0xc6f4 => '(string|int8u)',
-        0xc61a => '(int16u|int32u|rational64u)', 0xc6f6 => '(string|int8u)',
-        0xc61d => 'int(16|32)u',                 0xc6f8 => '(string|int8u)',
+        0xc615 => '(string|int8u)',              0xc6f4 => '(string|int8u)',    0xcd49 => 'float',
+        0xc61a => '(int16u|int32u|rational64u)', 0xc6f6 => '(string|int8u)',    0xcd4a => 'int32u',
+        0xc61d => 'int(16|32)u',                 0xc6f8 => '(string|int8u)',    0xcd4b => 'int32u',
         0xc61f => '(int16u|int32u|rational64u)', 0xc6fe => '(string|int8u)',
         0xc620 => '(int16u|int32u|rational64u)', 0xc716 => '(string|int8u)',
         0xc628 => '(int16u|rational64u)',        0xc717 => '(string|int8u)',
@@ -188,10 +188,10 @@ my %validValue = (
             0x115 => undef,     # SamplesPerPixel
             0x116 => undef,     # RowsPerStrip
             0x117 => undef,     # StripByteCounts
-            0x11a => 'defined $val',        # XResolution
-            0x11b => 'defined $val',        # YResolution
+            # (optional as of 3.0) 0x11a => 'defined $val',        # XResolution
+            # (optional as of 3.0) 0x11b => 'defined $val',        # YResolution
             0x11c => undef,     # PlanarConfiguration
-            0x128 => '$val =~ /^[123]$/',   # ResolutionUnit
+            # (optional as of 3.0) 0x128 => '$val =~ /^[123]$/',   # ResolutionUnit
             0x201 => undef,     # JPEGInterchangeFormat
             0x202 => undef,     # JPEGInterchangeFormatLength
             0x212 => undef,     # YCbCrSubSampling
@@ -218,7 +218,7 @@ my %validValue = (
         ExifIFD => {
             0x9000 => 'defined $val and $val =~ /^\d{4}$/', # ExifVersion
             0x9101 => 'defined $val',       # ComponentsConfiguration
-            0xa000 => 'defined $val',       # FlashpixVersion
+            # (optional as of 3.0) 0xa000 => 'defined $val',       # FlashpixVersion
             0xa001 => '$val == 1 or $val == 0xffff',    # ColorSpace
             0xa002 => 'defined $val',       # PixelXDimension
             0xa003 => 'defined $val',       # PixelYDimension
@@ -320,6 +320,7 @@ my %validateInfo = (
             return join(' and ', @rtn);
         },
     },
+    Hidden => 0,
 );
 
 # add "Validate" tag to Extra table
@@ -421,7 +422,7 @@ sub ValidateExif($$$$$$$$)
 {
     my ($et, $tagTablePtr, $tag, $tagInfo, $lastTag, $ifd, $count, $formatStr) = @_;
 
-    $et->WarnOnce("Entries in $ifd are out of order") if $tag <= $lastTag;
+    $et->Warn("Entries in $ifd are out of order") if $tag <= $lastTag;
 
     # (get tagInfo for unknown tags if Unknown option not used)
     if (not defined $tagInfo and $$tagTablePtr{$tag} and ref $$tagTablePtr{$tag} eq 'HASH') {
@@ -532,8 +533,8 @@ sub ValidateOffsetInfo($$$;$)
         while (@offsets) {
             my $start = pop @offsets;
             my $end = $start + pop @sizes;
-            $et->WarnOnce("$dirName:$$offsets[0]{Name} is zero", $minor) if $start == 0;
-            $et->WarnOnce("$dirName:$$sizes[0]{Name} is zero", $minor) if $start == $end;
+            $et->Warn("$dirName:$$offsets[0]{Name} is zero", $minor) if $start == 0;
+            $et->Warn("$dirName:$$sizes[0]{Name} is zero", $minor) if $start == $end;
             next unless $end > $fileSize;
             if ($start >= $fileSize) {
                 if ($start == 0xffffffff) {
@@ -575,7 +576,7 @@ sub FinishValidate($$)
             # get all tags in this group
             foreach $key (sort keys %{$$et{VALUE}}) {
                 next unless $et->GetGroup($key, 1) eq $grp;
-                next if $$et{TAG_EXTRA}{$key} and $$et{TAG_EXTRA}{$key}{G3}; # ignore sub-documents
+                next if $$et{TAG_EXTRA}{$key}{G3}; # ignore sub-documents
                 # fill in %val lookup with values based on tag ID
                 my $tag = $$et{TAG_INFO}{$key}{TagID};
                 $val{$tag} = $$et{VALUE}{$key};
@@ -678,7 +679,7 @@ ExifTool Validate option is enabled.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

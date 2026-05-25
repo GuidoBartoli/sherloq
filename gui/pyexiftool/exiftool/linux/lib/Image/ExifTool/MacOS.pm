@@ -12,7 +12,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.12';
+$VERSION = '1.15';
 
 sub MDItemLocalTime($);
 sub ProcessATTR($$$);
@@ -20,6 +20,11 @@ sub ProcessATTR($$$);
 my %mdDateInfo = (
     ValueConv => \&MDItemLocalTime,
     PrintConv => '$self->ConvertDateTime($val)',
+);
+
+my %delXAttr = (
+    XAttrQuarantine => 'com.apple.quarantine',
+    XAttrMDItemWhereFroms => 'com.apple.metadata:kMDItemWhereFroms',
 );
 
 # Information decoded from Mac OS sidecar files
@@ -47,7 +52,7 @@ my %mdDateInfo = (
 # "mdls" tags (ref PH)
 %Image::ExifTool::MacOS::MDItem = (
     WRITE_PROC => \&Image::ExifTool::DummyWriteProc,
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     GROUPS => { 0 => 'File', 1 => 'MacOS', 2 => 'Other' },
     NOTES => q{
         MDItem tags are extracted using the "mdls" utility.  They are extracted if
@@ -240,7 +245,7 @@ my %mdDateInfo = (
 %Image::ExifTool::MacOS::XAttr = (
     WRITE_PROC => \&Image::ExifTool::DummyWriteProc,
     GROUPS => { 0 => 'File', 1 => 'MacOS', 2 => 'Other' },
-    VARS => { NO_ID => 1 }, # (id's are too long)
+    VARS => { ID_FMT => 'none' }, # (id's are too long)
     NOTES => q{
         XAttr tags are extracted using the "xattr" utility.  They are extracted if
         any "XAttr*" tag or the MacOS group is specifically requested, or by setting
@@ -320,7 +325,17 @@ my %mdDateInfo = (
         Groups => { 2 => 'Time' },
     },
     'com.apple.metadata:kMDItemFinderComment'  => { Name => 'XAttrMDItemFinderComment' },
-    'com.apple.metadata:kMDItemWhereFroms'     => { Name => 'XAttrMDItemWhereFroms' },
+    'com.apple.metadata:kMDItemWhereFroms' => {
+        Name => 'XAttrMDItemWhereFroms',
+        Writable => 1,
+        WritePseudo => 1,
+        WriteCheck => '"May only delete this tag"',
+        Protected => 1,
+        Notes => q{
+            information about where the file came from.  May only be deleted when
+            writing
+        },
+    },
     'com.apple.metadata:kMDLabel'              => { Name => 'XAttrMDLabel', Binary => 1 },
     'com.apple.ResourceFork'                   => { Name => 'XAttrResourceFork', Binary => 1 },
     'com.apple.lastuseddate#PS'                => {
@@ -350,6 +365,23 @@ sub MDItemLocalTime($)
 }
 
 #------------------------------------------------------------------------------
+# Call system command, redirecting all I/O to /dev/null
+# Inputs: system arguments
+# Returns: system return code
+sub System
+{
+    my ($oldout, $olderr);
+    open($oldout, ">&STDOUT");
+    open($olderr, ">&STDERR");
+    open(STDOUT, '>', '/dev/null');
+    open(STDERR, '>', '/dev/null');
+    my $result = system(@_);
+    open(STDOUT, ">&", $oldout);
+    open(STDERR, ">&", $olderr);
+    return $result;
+}
+
+#------------------------------------------------------------------------------
 # Set MacOS MDItem and XAttr tags from new tag values
 # Inputs: 0) ExifTool ref, 1) file name, 2) list of tags to set
 # Returns: 1=something was set OK, 0=didn't try, -1=error (and warning set)
@@ -361,7 +393,7 @@ sub SetMacOSTags($$$)
     my $tag;
 
     foreach $tag (@$setTags) {
-        my ($nvHash, $f, $v, $attr, $cmd, $err, $silentErr);
+        my ($nvHash, $attr, @cmd, $err, $silentErr);
         my $val = $et->GetNewValue($tag, \$nvHash);
         next unless $nvHash;
         my $overwrite = $et->IsOverwriting($nvHash);
@@ -374,24 +406,22 @@ sub SetMacOSTags($$$)
             }
         }
         if ($tag eq 'MDItemFSCreationDate' or $tag eq 'FileCreateDate') {
-            ($f = $file) =~ s/'/'\\''/g;
             # convert to local time if value has a time zone
             if ($val =~ /[-+Z]/) {
                 my $time = Image::ExifTool::GetUnixTime($val, 1);
                 $val = Image::ExifTool::ConvertUnixTime($time, 1) if $time;
+                $val =~ s/[-+].*//; # remove time zone
             }
             $val =~ s{(\d{4}):(\d{2}):(\d{2})}{$2/$3/$1};   # reformat for setfile
-            $cmd = "/usr/bin/setfile -d '${val}' '${f}'";
+            push @cmd, '/usr/bin/setfile', '-d', $val, $file;
         } elsif ($tag eq 'MDItemUserTags') {
             # (tested with "tag" version 0.9.0)
-            ($f = $file) =~ s/'/'\\''/g;
             my @vals = $et->GetNewValue($nvHash);
             if ($overwrite < 0 and @{$$nvHash{DelValue}}) {
                 # delete specified tags
                 my @dels = @{$$nvHash{DelValue}};
-                s/'/'\\''/g foreach @dels;
                 my $del = join ',', @dels;
-                $err = system "/usr/local/bin/tag -r '${del}' '${f}'>/dev/null 2>&1";
+                $err = System('/usr/local/bin/tag', '-r', $del, $file);
                 unless ($err) {
                     $et->VerboseValue("- $tag", $del);
                     $result = 1;
@@ -400,43 +430,39 @@ sub SetMacOSTags($$$)
             }
             unless (defined $err) {
                 # add new tags, or overwrite or delete existing tags
-                s/'/'\\''/g foreach @vals;
                 my $opt = $overwrite > 0 ? '-s' : '-a';
                 $val = @vals ? join(',', @vals) : '';
-                $cmd = "/usr/local/bin/tag $opt '${val}' '${f}'";
+                push @cmd, '/usr/local/bin/tag', $opt, $val, $file;
                 $et->VPrint(1,"    - $tag = (all)\n") if $overwrite > 0;
                 undef $val if $val eq '';
             }
-        } elsif ($tag eq 'XAttrQuarantine') {
-            ($f = $file) =~ s/'/'\\''/g;
-            $cmd = "/usr/bin/xattr -d com.apple.quarantine '${f}'";
+        } elsif ($delXAttr{$tag}) {
+            push @cmd, '/usr/bin/xattr', '-d', $delXAttr{$tag}, $file;
             $silentErr = 256;   # (will get this error if attribute doesn't exist)
         } else {
-            ($f = $file) =~ s/(["\\])/\\$1/g;   # escape necessary characters for script
-            $f =~ s/'/'"'"'/g;
+            my ($f, $v);
+            ($f = $file) =~ s/([\\"])/\\$1/g;   # escape backslashes and quotes for AppleScript
             if ($tag eq 'MDItemFinderComment') {
                 # (write finder comment using osascript instead of xattr
                 # because it is more work to construct the necessary bplist)
                 $val = '' unless defined $val;  # set to empty string instead of deleting
                 $v = $et->Encode($val, 'UTF8');
-                $v =~ s/(["\\])/\\$1/g;
-                $v =~ s/'/'"'"'/g;
+                $v =~ s/([\\"])/\\$1/g;
                 $attr = 'comment';
             } else { # $tag eq 'MDItemFSLabel'
                 $v = $val ? 8 - $val : 0;       # convert from label to label index (0 for no label)
                 $attr = 'label index';
             }
-            $cmd = qq(/usr/bin/osascript -e 'set fp to POSIX file "$f" as alias' -e \\
-                'tell application "Finder" to set $attr of file fp to "$v"');
+            push @cmd, '/usr/bin/osascript', '-e', qq(set fp to POSIX file "$f" as alias),
+                '-e', qq(tell application "Finder" to set $attr of file fp to "$v");
         }
-        if (defined $cmd) {
-            $err = system $cmd . '>/dev/null 2>&1'; # (pipe all output to /dev/null)
-        }
+        $err = System(@cmd) if @cmd;
         if (not $err) {
             $et->VerboseValue("+ $tag", $val) if defined $val;
             $result = 1;
         } elsif (not $silentErr or $err != $silentErr) {
-            $cmd =~ s/ .*//s;
+            my $cmd = $cmd[0] || 'tag';
+            $cmd =~ s(.*/)();
             $et->Warn(qq{Error $err running "$cmd" to set $tag});
             $result = -1 unless $result;
         }
@@ -482,6 +508,7 @@ sub ExtractMDItemTags($$)
             $_ = '' if $_ eq '(null)';
             s/^"// and s/"$//;  # remove quotes if they exist
             s/\\"/"/g;          # un-escape quotes
+            s/\\\\/\\/g;        # un-escape backslashes
             $_ = $et->Decode($_, 'UTF8');
             push @$val, $_;
             next;
@@ -512,7 +539,6 @@ sub ExtractMDItemTags($$)
     $$et{INDENT} =~ s/\| $//;
 }
 
-        
 #------------------------------------------------------------------------------
 # Read MacOS XAttr value
 # Inputs: 0) ExifTool object ref, 1) file name
@@ -716,12 +742,12 @@ This module is used by Image::ExifTool
 This module contains definitions required by Image::ExifTool to extract
 MDItem* and XAttr* tags on MacOS systems using the "mdls" and "xattr"
 utilities respectively.  It also reads metadata directly from the MacOS "_."
-sidecar files that are used on some filesystems to store file attributes. 
+sidecar files that are used on some filesystems to store file attributes.
 Writable tags use "xattr", "setfile" or "osascript" for writing.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

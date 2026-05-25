@@ -21,8 +21,9 @@ use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 use Image::ExifTool::ASF;   # for GetGUID()
+use Image::ExifTool::Microsoft; # for %codePage
 
-$VERSION = '1.48';
+$VERSION = '1.52';
 
 sub ProcessFPX($$);
 sub ProcessFPXR($$$);
@@ -122,163 +123,6 @@ my %oleFormatSize = (
 
 # names for each type of directory entry
 my @dirEntryType = qw(INVALID STORAGE STREAM LOCKBYTES PROPERTY ROOT);
-
-# list of code pages used by Microsoft
-# (ref http://msdn.microsoft.com/en-us/library/dd317756(VS.85).aspx)
-my %codePage = (
-     37 => 'IBM EBCDIC US-Canada',
-    437 => 'DOS United States',
-    500 => 'IBM EBCDIC International',
-    708 => 'Arabic (ASMO 708)',
-    709 => 'Arabic (ASMO-449+, BCON V4)',
-    710 => 'Arabic - Transparent Arabic',
-    720 => 'DOS Arabic (Transparent ASMO)',
-    737 => 'DOS Greek (formerly 437G)',
-    775 => 'DOS Baltic',
-    850 => 'DOS Latin 1 (Western European)',
-    852 => 'DOS Latin 2 (Central European)',
-    855 => 'DOS Cyrillic (primarily Russian)',
-    857 => 'DOS Turkish',
-    858 => 'DOS Multilingual Latin 1 with Euro',
-    860 => 'DOS Portuguese',
-    861 => 'DOS Icelandic',
-    862 => 'DOS Hebrew',
-    863 => 'DOS French Canadian',
-    864 => 'DOS Arabic',
-    865 => 'DOS Nordic',
-    866 => 'DOS Russian (Cyrillic)',
-    869 => 'DOS Modern Greek',
-    870 => 'IBM EBCDIC Multilingual/ROECE (Latin 2)',
-    874 => 'Windows Thai (same as 28605, ISO 8859-15)',
-    875 => 'IBM EBCDIC Greek Modern',
-    932 => 'Windows Japanese (Shift-JIS)',
-    936 => 'Windows Simplified Chinese (PRC, Singapore)',
-    949 => 'Windows Korean (Unified Hangul Code)',
-    950 => 'Windows Traditional Chinese (Taiwan)',
-    1026 => 'IBM EBCDIC Turkish (Latin 5)',
-    1047 => 'IBM EBCDIC Latin 1/Open System',
-    1140 => 'IBM EBCDIC US-Canada with Euro',
-    1141 => 'IBM EBCDIC Germany with Euro',
-    1142 => 'IBM EBCDIC Denmark-Norway with Euro',
-    1143 => 'IBM EBCDIC Finland-Sweden with Euro',
-    1144 => 'IBM EBCDIC Italy with Euro',
-    1145 => 'IBM EBCDIC Latin America-Spain with Euro',
-    1146 => 'IBM EBCDIC United Kingdom with Euro',
-    1147 => 'IBM EBCDIC France with Euro',
-    1148 => 'IBM EBCDIC International with Euro',
-    1149 => 'IBM EBCDIC Icelandic with Euro',
-    1200 => 'Unicode UTF-16, little endian',
-    1201 => 'Unicode UTF-16, big endian',
-    1250 => 'Windows Latin 2 (Central European)',
-    1251 => 'Windows Cyrillic',
-    1252 => 'Windows Latin 1 (Western European)',
-    1253 => 'Windows Greek',
-    1254 => 'Windows Turkish',
-    1255 => 'Windows Hebrew',
-    1256 => 'Windows Arabic',
-    1257 => 'Windows Baltic',
-    1258 => 'Windows Vietnamese',
-    1361 => 'Korean (Johab)',
-    10000 => 'Mac Roman (Western European)',
-    10001 => 'Mac Japanese',
-    10002 => 'Mac Traditional Chinese',
-    10003 => 'Mac Korean',
-    10004 => 'Mac Arabic',
-    10005 => 'Mac Hebrew',
-    10006 => 'Mac Greek',
-    10007 => 'Mac Cyrillic',
-    10008 => 'Mac Simplified Chinese',
-    10010 => 'Mac Romanian',
-    10017 => 'Mac Ukrainian',
-    10021 => 'Mac Thai',
-    10029 => 'Mac Latin 2 (Central European)',
-    10079 => 'Mac Icelandic',
-    10081 => 'Mac Turkish',
-    10082 => 'Mac Croatian',
-    12000 => 'Unicode UTF-32, little endian',
-    12001 => 'Unicode UTF-32, big endian',
-    20000 => 'CNS Taiwan',
-    20001 => 'TCA Taiwan',
-    20002 => 'Eten Taiwan',
-    20003 => 'IBM5550 Taiwan',
-    20004 => 'TeleText Taiwan',
-    20005 => 'Wang Taiwan',
-    20105 => 'IA5 (IRV International Alphabet No. 5, 7-bit)',
-    20106 => 'IA5 German (7-bit)',
-    20107 => 'IA5 Swedish (7-bit)',
-    20108 => 'IA5 Norwegian (7-bit)',
-    20127 => 'US-ASCII (7-bit)',
-    20261 => 'T.61',
-    20269 => 'ISO 6937 Non-Spacing Accent',
-    20273 => 'IBM EBCDIC Germany',
-    20277 => 'IBM EBCDIC Denmark-Norway',
-    20278 => 'IBM EBCDIC Finland-Sweden',
-    20280 => 'IBM EBCDIC Italy',
-    20284 => 'IBM EBCDIC Latin America-Spain',
-    20285 => 'IBM EBCDIC United Kingdom',
-    20290 => 'IBM EBCDIC Japanese Katakana Extended',
-    20297 => 'IBM EBCDIC France',
-    20420 => 'IBM EBCDIC Arabic',
-    20423 => 'IBM EBCDIC Greek',
-    20424 => 'IBM EBCDIC Hebrew',
-    20833 => 'IBM EBCDIC Korean Extended',
-    20838 => 'IBM EBCDIC Thai',
-    20866 => 'Russian/Cyrillic (KOI8-R)',
-    20871 => 'IBM EBCDIC Icelandic',
-    20880 => 'IBM EBCDIC Cyrillic Russian',
-    20905 => 'IBM EBCDIC Turkish',
-    20924 => 'IBM EBCDIC Latin 1/Open System with Euro',
-    20932 => 'Japanese (JIS 0208-1990 and 0121-1990)',
-    20936 => 'Simplified Chinese (GB2312)',
-    20949 => 'Korean Wansung',
-    21025 => 'IBM EBCDIC Cyrillic Serbian-Bulgarian',
-    21027 => 'Extended Alpha Lowercase (deprecated)',
-    21866 => 'Ukrainian/Cyrillic (KOI8-U)',
-    28591 => 'ISO 8859-1 Latin 1 (Western European)',
-    28592 => 'ISO 8859-2 (Central European)',
-    28593 => 'ISO 8859-3 Latin 3',
-    28594 => 'ISO 8859-4 Baltic',
-    28595 => 'ISO 8859-5 Cyrillic',
-    28596 => 'ISO 8859-6 Arabic',
-    28597 => 'ISO 8859-7 Greek',
-    28598 => 'ISO 8859-8 Hebrew (Visual)',
-    28599 => 'ISO 8859-9 Turkish',
-    28603 => 'ISO 8859-13 Estonian',
-    28605 => 'ISO 8859-15 Latin 9',
-    29001 => 'Europa 3',
-    38598 => 'ISO 8859-8 Hebrew (Logical)',
-    50220 => 'ISO 2022 Japanese with no halfwidth Katakana (JIS)',
-    50221 => 'ISO 2022 Japanese with halfwidth Katakana (JIS-Allow 1 byte Kana)',
-    50222 => 'ISO 2022 Japanese JIS X 0201-1989 (JIS-Allow 1 byte Kana - SO/SI)',
-    50225 => 'ISO 2022 Korean',
-    50227 => 'ISO 2022 Simplified Chinese',
-    50229 => 'ISO 2022 Traditional Chinese',
-    50930 => 'EBCDIC Japanese (Katakana) Extended',
-    50931 => 'EBCDIC US-Canada and Japanese',
-    50933 => 'EBCDIC Korean Extended and Korean',
-    50935 => 'EBCDIC Simplified Chinese Extended and Simplified Chinese',
-    50936 => 'EBCDIC Simplified Chinese',
-    50937 => 'EBCDIC US-Canada and Traditional Chinese',
-    50939 => 'EBCDIC Japanese (Latin) Extended and Japanese',
-    51932 => 'EUC Japanese',
-    51936 => 'EUC Simplified Chinese',
-    51949 => 'EUC Korean',
-    51950 => 'EUC Traditional Chinese',
-    52936 => 'HZ-GB2312 Simplified Chinese',
-    54936 => 'Windows XP and later: GB18030 Simplified Chinese (4 byte)',
-    57002 => 'ISCII Devanagari',
-    57003 => 'ISCII Bengali',
-    57004 => 'ISCII Tamil',
-    57005 => 'ISCII Telugu',
-    57006 => 'ISCII Assamese',
-    57007 => 'ISCII Oriya',
-    57008 => 'ISCII Kannada',
-    57009 => 'ISCII Malayalam',
-    57010 => 'ISCII Gujarati',
-    57011 => 'ISCII Punjabi',
-    65000 => 'Unicode (UTF-7)',
-    65001 => 'Unicode (UTF-8)',
-);
 
 # test for file extensions which may be variants of the FPX format
 # (have seen one password-protected DOCX file that is FPX-like, so assume
@@ -446,12 +290,12 @@ my %fpxFileType = (
     # save these tables until after the WordDocument was processed
     '0Table' => {
         Name => 'Table0',
-        Hidden => 1, # (used only as temporary storage until table is processed)
+        Hidden => 2, # (used only as temporary storage until table is processed)
         Binary => 1,
     },
     '1Table' => {
         Name => 'Table1',
-        Hidden => 1, # (used only as temporary storage until table is processed)
+        Hidden => 2, # (used only as temporary storage until table is processed)
         Binary => 1,
     },
     Preview => {
@@ -550,7 +394,8 @@ my %fpxFileType = (
     0x01 => {
         Name => 'CodePage',
         Groups => { 2 => 'Other' },
-        PrintConv => \%codePage,
+        SeparateTable => 'Microsoft CodePage',
+        PrintConv => \%Image::ExifTool::Microsoft::codePage,
     },
     0x02 => 'Title',
     0x03 => 'Subject',
@@ -675,7 +520,7 @@ my %fpxFileType = (
   # 0x22 ? seen 0
    '_PID_LINKBASE' => {
         Name => 'HyperlinkBase',
-        ValueConv => '$self->Decode($val, "UCS2","II")',
+        ValueConv => '$self->Decode($val, "UTF16","II")',
     },
    '_PID_HLINKS' => {
         Name => 'Hyperlinks',
@@ -1248,7 +1093,7 @@ my %fpxFileType = (
 %Image::ExifTool::FlashPix::DocTable = (
     GROUPS => { 1 => 'MS-DOC', 2 => 'Document' },
     NOTES => 'Tags extracted from the Microsoft Word document table.',
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     CommentBy => {
         Groups => { 2 => 'Author' },
         Notes => 'enable L<Duplicates|../ExifTool.html#Duplicates> option to extract all entries',
@@ -1272,20 +1117,20 @@ my %fpxFileType = (
 #
 # tags below are used internally in intermediate steps to extract the tags above
 #
-    TableOffsets => { Hidden => 1 }, # stores offsets to extract data from document table
+    TableOffsets => { Hidden => 2 }, # stores offsets to extract data from document table
     CommentByBlock => {   # entire block of CommentBy entries
         SubDirectory => {
             TagTable => 'Image::ExifTool::FlashPix::DocTable',
             ProcessProc => \&ProcessCommentBy,
         },
-        Hidden => 1,
+        Hidden => 2,
     },
     LastSavedByBlock => {   # entire block of LastSavedBy entries
         SubDirectory => {
             TagTable => 'Image::ExifTool::FlashPix::DocTable',
             ProcessProc => \&ProcessLastSavedBy,
         },
-        Hidden => 1,
+        Hidden => 2,
     },
 );
 
@@ -1449,7 +1294,7 @@ sub ReadFPXValue($$$$$;$$)
                 $noPad = 1;     # values sometimes aren't padded inside vectors!!
                 my $size = $oleFormatSize{VT_VECTOR};
                 if ($valPos + $size > $dirEnd) {
-                    $et->WarnOnce('Incorrect FPX VT_VECTOR size');
+                    $et->Warn('Incorrect FPX VT_VECTOR size');
                     last;
                 }
                 $count = Get32u($dataPt, $valPos);
@@ -1457,14 +1302,14 @@ sub ReadFPXValue($$$$$;$$)
                 $valPos += 4;
             } else {
                 # can't yet handle this property flag
-                $et->WarnOnce('Unknown FPX property');
+                $et->Warn('Unknown FPX property');
                 last;
             }
         }
         unless ($format =~ /^VT_/) {
             my $size = Image::ExifTool::FormatSize($format) * $count;
             if ($valPos + $size > $dirEnd) {
-                $et->WarnOnce("Incorrect FPX $format size");
+                $et->Warn("Incorrect FPX $format size");
                 last;
             }
             @vals = ReadValue($dataPt, $valPos, $format, $count, $size);
@@ -1476,7 +1321,7 @@ sub ReadFPXValue($$$$$;$$)
         my ($item, $val, $len);
         for ($item=0; $item<$count; ++$item) {
             if ($valPos + $size > $dirEnd) {
-                $et->WarnOnce("Truncated FPX $format value");
+                $et->Warn("Truncated FPX $format value");
                 last;
             }
             # sometimes VT_VECTOR items are padded to even 4-byte boundaries, and sometimes they aren't
@@ -1528,19 +1373,19 @@ sub ReadFPXValue($$$$$;$$)
                 $len = Get32u($dataPt, $valPos);
                 $len *= 2 if $format eq 'VT_LPWSTR';    # convert to byte count
                 if ($valPos + $len + 4 > $dirEnd) {
-                    $et->WarnOnce("Truncated $format value");
+                    $et->Warn("Truncated $format value");
                     last;
                 }
                 $val = substr($$dataPt, $valPos + 4, $len);
                 if ($format eq 'VT_LPWSTR') {
                     # convert wide string from Unicode
-                    $val = $et->Decode($val, 'UCS2');
+                    $val = $et->Decode($val, 'UTF16');
                 } elsif ($codePage) {
                     my $charset = $Image::ExifTool::charsetName{"cp$codePage"};
                     if ($charset) {
                         $val = $et->Decode($val, $charset);
                     } elsif ($codePage == 1200) {   # UTF-16, little endian
-                        $val = $et->Decode($val, 'UCS2', 'II');
+                        $val = $et->Decode($val, 'UTF16', 'II');
                     }
                 }
                 $val =~ s/\0.*//s;  # truncate at null terminator
@@ -1551,7 +1396,7 @@ sub ReadFPXValue($$$$$;$$)
             } elsif ($format eq 'VT_BLOB' or $format eq 'VT_CF') {
                 my $len = Get32u($dataPt, $valPos); # (use local $len because we always expect padding)
                 if ($valPos + $len + 4 > $dirEnd) {
-                    $et->WarnOnce("Truncated $format value");
+                    $et->Warn("Truncated $format value");
                     last;
                 }
                 $val = substr($$dataPt, $valPos + 4, $len);
@@ -1609,7 +1454,7 @@ sub ProcessContents($$$)
         my ($w, $h) = unpack('V2',$2);
         $et->FoundTag(ImageWidth => $w);
         $et->FoundTag(ImageHeight => $h);
-        $et->HandleTag($tagTablePtr, OriginalFileName => $name);        
+        $et->HandleTag($tagTablePtr, OriginalFileName => $name);
         if ($$dataPt =~ /\G\x01\0{4}(.{12})/sg) {
             # (first 4 bytes seem to be number of objects, next 4 bytes are zero, then ICC size)
             my $size = unpack('x8V', $1);
@@ -1627,7 +1472,7 @@ sub ProcessContents($$$)
             while ($$dataPt =~ /\x0bTargetRole1(?:.\x80|\xff\xff.\0.\0Vn(\w+))\0\0\x01.{4}(.{24})/sg) {
                 my ($index, @coords) = unpack('Vx4V4', $2);
                 next if $index == 0xffffffff;
-                $$et{IeImg_lkup}{$index} and $et->WarnOnce('Duplicate image index');
+                $$et{IeImg_lkup}{$index} and $et->Warn('Duplicate image index');
                 $$et{IeImg_lkup}{$index} = "@coords";
                 $$et{IeImg_class}{$index} = $1 if $1;
             }
@@ -1661,7 +1506,7 @@ sub ProcessWordDocument($$$)
     my $dirLen = length $$dataPt;
     # validate the FIB signature
     unless ($dirLen > 2 and Get16u($dataPt,0) == 0xa5ec) {
-        $et->WarnOnce('Invalid FIB signature', 1);
+        $et->Warn('Invalid FIB signature', 1);
         return 0;
     }
     $et->ProcessBinaryData($dirInfo, $tagTablePtr); # process FIB
@@ -1717,16 +1562,14 @@ sub ProcessDocumentTable($)
         my $offsets = $$value{$key};
         last unless defined $offsets;
         my $doc;
-        $doc = $$extra{$key}{G3} if $$extra{$key};
-        $doc = '' unless $doc;
+        $doc = $$extra{$key}{G3} || '';
         # get DocFlags for this sub-document
         my ($docFlags, $docTable);
         for ($j=0; ; ++$j) {
             my $key = 'DocFlags' . ($j ? " ($j)" : '');
             last unless defined $$value{$key};
             my $tmp;
-            $tmp = $$extra{$key}{G3} if $$extra{$key};
-            $tmp = '' unless $tmp;
+            $tmp = $$extra{$key}{G3} || '';
             if ($tmp eq $doc) {
                 $docFlags = $$value{$key};
                 last;
@@ -1739,8 +1582,7 @@ sub ProcessDocumentTable($)
             my $key = $tag . ($j ? " ($j)" : '');
             last unless defined $$value{$key};
             my $tmp;
-            $tmp = $$extra{$key}{G3} if $$extra{$key};
-            $tmp = '' unless $tmp;
+            $tmp = $$extra{$key}{G3} || '';
             if ($tmp eq $doc) {
                 $docTable = \$$value{$key};
                 last;
@@ -1788,7 +1630,7 @@ sub ProcessCommentBy($$$)
         my $len = Get16u($dataPt, $pos);
         $pos += 2;
         last if $pos + $len * 2 > $end;
-        my $author = $et->Decode(substr($$dataPt, $pos, $len*2), 'UCS2');
+        my $author = $et->Decode(substr($$dataPt, $pos, $len*2), 'UTF16');
         $pos += $len * 2;
         $et->HandleTag($tagTablePtr, CommentBy => $author);
     }
@@ -1814,13 +1656,13 @@ sub ProcessLastSavedBy($$$)
         my $len = Get16u($dataPt, $pos);
         $pos += 2;
         last if $pos + $len * 2 > $end;
-        my $author = $et->Decode(substr($$dataPt, $pos, $len*2), 'UCS2');
+        my $author = $et->Decode(substr($$dataPt, $pos, $len*2), 'UTF16');
         $pos += $len * 2;
         last if $pos + 2 > $end;
         $len = Get16u($dataPt, $pos);
         $pos += 2;
         last if $pos + $len * 2 > $end;
-        my $path = $et->Decode(substr($$dataPt, $pos, $len*2), 'UCS2');
+        my $path = $et->Decode(substr($$dataPt, $pos, $len*2), 'UTF16');
         $pos += $len * 2;
         $et->HandleTag($tagTablePtr, LastSavedBy => "$author ($path)");
         $num -= 2;
@@ -2044,7 +1886,7 @@ sub ProcessFPXR($$$)
                 return 0;
             }
             # convert stream pathname to ascii
-            my $name = Image::ExifTool::Decode(undef, $1, 'UCS2', 'II', 'Latin');
+            my $name = Image::ExifTool::Decode(undef, $1, 'UTF16', 'II', 'Latin');
             if ($verbose) {
                 my $psize = ($size == 0xffffffff) ? 'storage' : "$size bytes";
                 $et->VPrint(0,"  |  $entry) Name: '${name}' [$psize]\n");
@@ -2101,7 +1943,7 @@ sub ProcessFPXR($$$)
                 my $overlap = length($$obj{Stream}) - $offset;
                 my $start = $dirStart + 13;
                 if ($overlap < 0 or $dirLen - $overlap < 13) {
-                    $et->WarnOnce("Bad FPXR stream $index offset",1);
+                    $et->Warn("Bad FPXR stream $index offset",1);
                 } else {
                     # ignore any overlapping data in this segment
                     # (this seems to be the convention)
@@ -2337,11 +2179,11 @@ sub ProcessFPX($$)
         # be very tolerant of this count -- it's null terminated anyway)
         my $len = Get16u(\$dir, $pos + 0x40);
         $len > 32 and $len = 32;
-        $tag = Image::ExifTool::Decode(undef, substr($dir,$pos,$len*2), 'UCS2', 'II', 'Latin');
+        $tag = Image::ExifTool::Decode(undef, substr($dir,$pos,$len*2), 'UTF16', 'II', 'Latin');
         $tag =~ s/\0.*//s;  # truncate at null (in case length was wrong)
 
         if ($tag eq '0' and not defined $ee) {
-            $et->WarnOnce('Use the ExtractEmbedded option to extract embedded information', 3);
+            $et->Warn('Use the ExtractEmbedded option to extract embedded information', 3);
         }
         my $sect = Get32u(\$dir, $pos + 0x74);  # start sector number
         my $size = Get32u(\$dir, $pos + 0x78);  # stream length
@@ -2444,7 +2286,7 @@ sub ProcessFPX($$)
                 my $subTablePtr = GetTagTable($$subdir{TagTable});
                 $et->ProcessDirectory(\%dirInfo, $subTablePtr,  $$subdir{ProcessProc});
             } elsif (defined $size and $size > length($buff)) {
-                $et->WarnOnce('Truncated object');
+                $et->Warn('Truncated object');
             } else {
                 $buff = substr($buff, 0, $size) if defined $size and $size < length($buff);
                 if ($tag =~ /^IeImg_0*(\d+)$/) {
@@ -2505,8 +2347,7 @@ sub ProcessFPX($$)
             for ($copy=1; ;++$copy) {
                 my $key = "$tag ($copy)";
                 last unless defined $$et{VALUE}{$key};
-                my $extra = $$et{TAG_EXTRA}{$key};
-                next if $extra and $$extra{G3}; # not Main if family 3 group is set
+                next if $$et{TAG_EXTRA}{$key}{G3}; # not Main if family 3 group is set
                 foreach $member ('PRIORITY','VALUE','FILE_ORDER','TAG_INFO','TAG_EXTRA') {
                     my $pHash = $$et{$member};
                     my $t = $$pHash{$tag};
@@ -2561,7 +2402,7 @@ JPEG images.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

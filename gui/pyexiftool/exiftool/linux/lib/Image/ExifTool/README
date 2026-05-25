@@ -176,11 +176,12 @@ key:
   where tags have variable namespaces (in this case each tag must have a
   Namespace entry).
 
-  PREFERRED : Set to true if the tags in this table should always be added when
-  writing information.  Overrides the order specified by SetNewGroups().  When
-  this feature is used, it may also be desirable to specify a preferred group
-  when calling InitWriteDirs() to write these tags; this avoids creating other
-  directories for tags which are already being creating in the preferred group.
+  PREFERRED : Set if the tags in this table should always be added when writing
+  information.  Higher number are higher precedence.  Overrides the order
+  specified by SetNewGroups().  When this feature is used, it may also be
+  desirable to specify a preferred group when calling InitWriteDirs() to write
+  these tags -- this avoids creating other directories for tags which are
+  already being creating in the preferred group.
 
   PERMANENT : Tags in this table are Permanent, and can't be deleted.  Maker
   notes tags are Permanent by default, without the need to set this property.
@@ -208,14 +209,15 @@ key:
                   name documentation.  When this is set, numerical TagID's are
                   not converted to hexadecimal notation.  Unless otherwise set,
                   an ID_LABEL of "Index" is assumed for tables which use
-                  ProcessBinaryData.
+                  ProcessBinaryData or set the IS_BINARY flag.
 
-    NO_ID         Avoid printing "Tag ID" column in tag name documentation.
-
-    HEX_ID        Print tag ID in hexadecimal (with 4 hex digits or more).  Set
-                  to 0 for string ID's that look like hex numbers to prevent
-                  them from being converted when importing an XML file for
-                  language translations in BuildLangModules().
+    ID_FMT        Format for tag ID's in the documentation.  Setting is 'hex' to
+                  print tag ID in hexadecimal (with 4 hex digits or more), 'dec'
+                  to leave as decimal, 'str' to use a quoted string, or 'none'
+                  to drop the "Tag ID" column entirely.  Any setting other than
+                  'hex' prevents hex-looking strings from being converted when
+                  importing an XML file for language translations in
+                  BuildLangModules().
 
     NO_LOOKUP     Do not add tags to TagLookup.pm lookup tables.
 
@@ -255,6 +257,9 @@ key:
 
     ALLOW_REPROCESS Flag to allow reprocessing of another directory at this
                   same location in the file, bypassing recursion avoidance test.
+
+    IS_BINARY     Set if this is a binary table and should show an Index in the
+                  first column instead of a Tag ID.
 
   DATAMEMBER : BinaryData tables only.  A reference to a list of sorted tag ID's
   which must be extracted as data members when writing.  Must also list "var_"
@@ -308,15 +313,16 @@ numerical, and generated automatically otherwise.
                   table entries through a %val hash (read-only tags), the data
                   size via $size, or the ExifTool object via $self.  For
                   example, 'string[$val{3}]' defines a string with length given
-                  by the table entry with tag index '3'.  An initial "var_" may
-                  be added to the Format name of any BinaryData tag with a size
-                  in brackets.  In this case, subsequent offsets are adjusted by
-                  the value length minus the size of the default table FORMAT
-                  (eg. "var_int16u[10]" causes subsequent offsets to be
-                  incremented by sizeof(int16u) * 10 - sizeof(int8u) if the
-                  default table FORMAT is "int8u").  Note that all "var_" Format
-                  tags (as well as tags with values used within "var_" Format
-                  expressions) must have corresponding DATAMEMBER entries.
+                  by the table entry with tag index '3' (which may be a Hidden
+                  tag). An initial "var_" may be added to the Format name of any
+                  BinaryData tag with a size in brackets.  In this case,
+                  subsequent offsets are adjusted by the value length minus the
+                  size of the default table FORMAT (eg. "var_int16u[10]" causes
+                  subsequent offsets to be incremented by sizeof(int16u) * 10 -
+                  sizeof(int8u) if the default table FORMAT is "int8u").  Note
+                  that all "var_" Format tags (as well as tags with values used
+                  within "var_" Format expressions) must have corresponding
+                  DATAMEMBER entries.
 
   Count         : Used when writing EXIF information to specify the number
                   values to write, or the number of characters in a fixed-length
@@ -343,7 +349,7 @@ numerical, and generated automatically otherwise.
                   but applied automatically to individual tags.  Value specifies
                   pattern for split, or 1 for default pattern ',?\\s+'.
 
-                  'Avoid' - avoid creating this tag when writing if possible. 
+                  'Avoid' - avoid creating this tag when writing if possible.
                   This is only effective if another tag exists with the same
                   name.  Setting this flag also sets the default Priority to 0
                   for this tag.
@@ -405,10 +411,16 @@ numerical, and generated automatically otherwise.
                   flattened tag.  The result is that the flattened tag will not
                   be accessible.
 
-                  'Hidden' - set to hide tag from the TagName documentation.
-                  Also suppresses verbose output of a BinaryData tag.  The
-                  RawConv of a Hidden tag should return undef so the tag value
-                  is not seen by the user.
+                  'Hidden' - set to hide tag from the TagName documentation and
+                  -list* command output. Also suppresses verbose output of a
+                  BinaryData tag.  A Hidden tag should also be marked as Unknown
+                  or the RawConv should return undef so the tag is not normally
+                  seen by the user. Set to 2 to bypass BuildTagLookup() warning
+                  about violating these guidelines, or 0 to avoid being hidden
+                  automaticallly when added at runtime with AddTagToTable(). 
+                  Finally, setting to '' disables inclusion of the PrintConv
+                  lookup in the documentation (for dynamically-added lookups,
+                  eg. DICOM).
 
                   'IsComposite' - flag set for Composite tags
 
@@ -438,6 +450,10 @@ numerical, and generated automatically otherwise.
                   ExifTool an XMP lang-alt tag (Writable="lang-alt") is NOT a
                   list-type tag (unless it is a list of lang-alt lists, which is
                   uncommon).
+
+                  'IsList' - Flag to mark tag as List-type in the documentation
+                  without accumulating entries from subsequent tags.  Used when
+                  the value for a single tag is a complete list.
 
                   'MakerNotes' - set if this tag is maker note data.
 
@@ -623,7 +639,7 @@ numerical, and generated automatically otherwise.
                   value, and $tag is the tag key.  The subroutine takes 2
                   arguments: the Raw value and a reference to the current
                   ExifTool object.  The advanced formatting expression (if any)
-                  may be accessed via the ExifTool "FMT_EXPR" member variable. 
+                  may be accessed via the ExifTool "FMT_EXPR" member variable.
                   The expression or subroutine is evaluated if and when the tag
                   value is requested (ie. only after all extraction is
                   complete), so if necessary at this time the values of all
@@ -641,7 +657,7 @@ numerical, and generated automatically otherwise.
                   enabled.  If this isn't possible (as with Composite tags where
                   the converted values of the source tags are needed), set the
                   Priority to 0 to avoid taking priority over a valid tag. If
-                  ValueConv is not specified, the Raw value is not converted. 
+                  ValueConv is not specified, the Raw value is not converted.
                   Composite tags which Require or Desire other tags may access
                   the ValueConv, PrintConv and Raw values of these tags through
                   the elements of the @val, @prt and @raw lists respectively
@@ -738,17 +754,19 @@ numerical, and generated automatically otherwise.
                   valid.  If used in a list of alternate tag definitions, the
                   first list entry with a true condition is taken.  If no
                   condition exists, then a 'true' condition is assumed.  The
-                  expression may use $self to access the ExifTool object.  The
-                  first 128 bytes of the raw data value are accessible through
-                  the reference $valPt for EXIF, Jpeg2000, QuickTime, FLAC and
-                  BinaryData tags only (note that for BinaryData tags, the raw
-                  data of $$valPt is always 'undef' type, and may not be used
-                  when writing except for SubDirectory tags).  EXIF tags (and
-                  maybe some other types) may also reference the format string
-                  and value count through $format and $count.  Note that if the
-                  value is writable and $valPt is used, the tag must have a
-                  Format (unless 'undef' or 'string'), and a Count (unless 1 or
-                  length of the 'undef' or 'string'), so the raw data may be
+                  expression may use $self to access the ExifTool object. The
+                  first 128 bytes of the binary data value are accessible
+                  through the reference $valPt for EXIF, Jpeg2000, QuickTime,
+                  FLAC and BinaryData tags only. (Note that for BinaryData tags,
+                  the binary data of $$valPt is always 'undef' type and consists
+                  of the bytes from the start of the value to the end of the
+                  BinaryData block.  Also, it may not be used when writing
+                  except for SubDirectory tags.)  EXIF tags (and maybe some
+                  other types) may also reference the format string and value
+                  count through $format and $count.  Note that if the value is
+                  writable and $valPt is used, the tag must have a Format
+                  (unless 'undef' or 'string'), and a Count (unless 1 or length
+                  of the 'undef' or 'string'), so the binary data may be
                   generated for evaluating the Condition.  When writing, $valPt,
                   $format and $count refer to the new value, except for
                   MakerNotes tags where $format and $count refer to the old tag
@@ -794,7 +812,8 @@ numerical, and generated automatically otherwise.
   Shift         : [Writable tags only] Specifies type of shift to apply if this
                   value may be shifted.  Set to 'Time' for shifting date/time
                   tags, or '0' to prevent tag from being shifted or
-                  conditionally deleted.
+                  conditionally deleted.  May not be used for Writable Composite
+                  tags.
 
   Writable      : Indicates this tag can be written (or not written if Writable
                   is set to zero), and for EXIF and QuickTime tables gives
@@ -812,7 +831,7 @@ numerical, and generated automatically otherwise.
                   SubDirectory is writable as a block, or if the SubDirectory
                   can not be edited (in which case Writable is set to 0).  If
                   non-zero, the SubDirectory is also extracted as a block, so
-                  the Binary and Protected flags should usually set as well. 
+                  the Binary and Protected flags should usually set as well.
                   There is currently no way to specify a write format for a
                   SubDirectory that is not writable as a block (the default is
                   'int32u' for IFD-type SubDirectories, and 'undef' for all
@@ -897,7 +916,10 @@ numerical, and generated automatically otherwise.
   Deletable     : [Writable SubDirectory's only] Overrides internal test for
                   metadata types with permanent directories (currently QuickTime
                   and Jpeg2000), allowing the tag containing these directories
-                  to be deleted
+                  to be deleted.  Note that either the tag's SubDirectory
+                  DirName (which defaults to the TagName if not specified) or
+                  the family 0 group name of the SubDirectory TagTable must
+                  match a deletable group name.
 
   OffsetPair    : Used in EXIF table to specify the tagID for the corresponding
                   offset or length tag.
@@ -957,7 +979,7 @@ numerical, and generated automatically otherwise.
                   data record), $dataPt (reference to the data block), and $pos
                   (position of this tag in the data block), and assign a new
                   value to $format to dynamically set the tag format, and/or
-                  increment $varSize to add a byte offset to subsequent tags. 
+                  increment $varSize to add a byte offset to subsequent tags.
                   $varSize may be set to a large number to effectively abort
                   processing of the directory after this tag.  Must have
                   corresponding DATAMEMBER entry in writable tables.  Must not
@@ -970,6 +992,16 @@ numerical, and generated automatically otherwise.
   SetBase       : [QuickTime and BinaryData tags only] Sets ExifTool BASE offset
                   for use when ExtractInfo is called with the ReEntry flag from
                   inside the RawConv of a tag.
+
+  ByteOrder     : [Non-writable tags extracted with HandleTag and writable EXIF
+                  offset-pair tags only] Specifies byte order if tag value is
+                  stored with a constant byte order that is different from that
+                  of the parent directory.
+
+  DontRead      : [QuickTime tags with compatible SubDirectory entries only]
+                  Avoid reading subdirectory data from file.  Instead, pass RAF
+                  reference (with current position at start of directory) and
+                  DirEnd.
 
   TagID         : [reserved] Used internally to save the table key for this tag.
                   Note: For XMP tables this corresponds to the XMP property
@@ -1060,8 +1092,8 @@ numerical, and generated automatically otherwise.
      ByteOrder  : Specifies byte ordering if different than than the rest of the
                   file.  Must be either BigEndian, LittleEndian or Unknown.  If
                   Unknown is specified, the byte order will be determined from
-                  the directory count (however, this can not be done if OffsetPt
-                  is specified).
+                  the directory count for EXIF (however, this can not be done if
+                  OffsetPt is specified).
 
      Validate   : If given, specifies Perl expression which is used to validate
                   the subdirectory data (regardless of Validate option setting).
@@ -1130,6 +1162,8 @@ keys in structure hashes are:
 
   GROUPS      : Same as in tag table, but only the family 2 group name is used,
                 as the default for the flattened tags.
+
+  SORT_ORDER  : Order for sorting fields in documentation.
 
 The contained structure field information hashes are similar to tag information
 hashes, except that only the following elements are used:

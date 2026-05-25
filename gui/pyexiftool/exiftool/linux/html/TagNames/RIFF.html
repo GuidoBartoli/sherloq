@@ -66,11 +66,16 @@ metadata to WEBP images, but can&#39;t yet write to other RIFF-based formats.</p
 <td>--&gt; <a href='ICC_Profile.html'>ICC_Profile Tags</a>
   <br><span class='n s'>(WebP files)</span></td></tr>
 <tr class=b>
+<td>'ID3 '</td>
+<td>ID3-2</td>
+<td class=c>-</td>
+<td>--&gt; <a href='ID3.html'>ID3 Tags</a></td></tr>
+<tr>
 <td>'IDIT'</td>
 <td>DateTimeOriginal</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>'JUNK'</td>
 <td>OlympusJunk
   <br>CasioJunk
@@ -86,56 +91,61 @@ metadata to WEBP images, but can&#39;t yet write to other RIFF-based formats.</p
   <br>--&gt; <a href='Pentax.html#Junk'>Pentax Junk Tags</a>
   <br>--&gt; <a href='Pentax.html#Junk2'>Pentax Junk2 Tags</a>
   <br>--&gt; <a href='QuickTime.html#Stream'>QuickTime Stream Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>'JUNQ'</td>
 <td>OldXMP</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>'LIST_INF0'</td>
 <td>Info</td>
 <td class=c>-</td>
 <td>--&gt; <a href='RIFF.html#Info'>RIFF Info Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>'LIST_INFO'</td>
 <td>Info</td>
 <td class=c>-</td>
 <td>--&gt; <a href='RIFF.html#Info'>RIFF Info Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>'LIST_Tdat'</td>
 <td>Tdat</td>
 <td class=c>-</td>
 <td>--&gt; <a href='RIFF.html#Tdat'>RIFF Tdat Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>'LIST_adtl'</td>
 <td>AssociatedDataList</td>
 <td class=c>-</td>
 <td>--&gt; <a href='RIFF.html'>RIFF Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>'LIST_exif'</td>
 <td>Exif</td>
 <td class=c>-</td>
 <td>--&gt; <a href='RIFF.html#Exif'>RIFF Exif Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>'LIST_hdrl'</td>
 <td>Hdrl</td>
 <td class=c>-</td>
 <td>--&gt; <a href='RIFF.html#Hdrl'>RIFF Hdrl Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>'LIST_hydt'</td>
 <td>PentaxData</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Pentax.html#AVI'>Pentax AVI Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td>'LIST_ncdt'</td>
 <td>NikonData</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#AVI'>Nikon AVI Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td>'LIST_pntx'</td>
 <td>PentaxData2</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Pentax.html#AVI'>Pentax AVI Tags</a></td></tr>
+<tr>
+<td>'SEAL'</td>
+<td>SEAL</td>
+<td class=c>-</td>
+<td>--&gt; <a href='XMP.html#SEAL'>XMP SEAL Tags</a></td></tr>
 <tr class=b>
 <td>'SGLT'</td>
 <td>BikeBroAccel</td>
@@ -1439,6 +1449,13 @@ container specification.</p>
 <td>ImageHeight</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
+<tr>
+<td class=r title='4 = 0x4'>4</td>
+<td>AlphaIsUsed</td>
+<td class=c>no</td>
+<td><span class=s>[val &gt;&gt; 4 &amp; 0x1]
+  <br>0 = No
+  <br>1 = Yes</span></td></tr>
 </table></td></tr></table></blockquote>
 
 <h2><a name='VP8X'>RIFF VP8X Tags</a></h2>
@@ -1754,7 +1771,7 @@ Extracted only if the ExtractEmbedded option is used.</p>
 
 <hr>
 (This document generated automatically by Image::ExifTool::BuildTagLookup)
-<br><i>Last revised Nov 19, 2023</i>
+<br><i>Last revised Jun 27, 2025</i>
 <p class=lf><a href='index.html'>&lt;-- ExifTool Tag Names</a></p>
 </body>
 </html>

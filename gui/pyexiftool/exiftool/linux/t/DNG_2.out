@@ -1,15 +1,16 @@
-[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 12.42
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 13.51
 [File, System, Other] FileName - File Name: DNG.dng
 [File, System, Other] Directory - Directory: t/images
 [File, System, Other] FileSize - File Size: 14 kB
 [File, System, Time] FileModifyDate - File Modification Date/Time: 2006:02:26 09:30:53-05:00
-[File, System, Time] FileAccessDate - File Access Date/Time: 2022:06:01 14:16:34-04:00
-[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2021:10:31 20:34:50-04:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2026:02:07 13:45:03-05:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2026:02:07 13:43:05-05:00
 [File, System, Other] FilePermissions - File Permissions: -rw-r--r--
 [File, File, Other] FileType - File Type: DNG
 [File, File, Other] FileTypeExtension - File Type Extension: dng
 [File, File, Other] MIMEType - MIME Type: image/x-adobe-dng
 [File, File, Image] ExifByteOrder - Exif Byte Order: Big-endian (Motorola, MM)
+[File, File, Image] MakerNoteByteOrder - Maker Note Byte Order: Little-endian (Intel, II)
 [EXIF, IFD0, Image] 254 - Subfile Type: Reduced-resolution image
 [EXIF, IFD0, Image] 256 - Image Width: 8
 [EXIF, IFD0, Image] 257 - Image Height: 8
@@ -189,7 +190,7 @@
 [MakerNotes, Canon, Camera] 25 - Focal Units: 1/mm
 [MakerNotes, Canon, Camera] 26 - Max Aperture: 4
 [MakerNotes, Canon, Camera] 27 - Min Aperture: 27
-[MakerNotes, Canon, Camera] 28 - Flash Activity: 0
+[MakerNotes, Canon, Camera] 28 - Flash Model: n/a
 [MakerNotes, Canon, Camera] 29 - Flash Bits: (none)
 [MakerNotes, Canon, Camera] 32 - Focus Continuous: Single
 [MakerNotes, Canon, Camera] 36 - Zoom Source Width: 0
@@ -324,6 +325,6 @@
 [Composite, Composite, Camera] Canon-Lens35efl - Lens: 18.0 - 55.0 mm (35 mm equivalent: 29.2 - 89.2 mm)
 [Composite, Composite, Camera] Exif-CircleOfConfusion - Circle Of Confusion: 0.019 mm
 [Composite, Composite, Image] Exif-FOV - Field Of View: 22.8 deg
-[Composite, Composite, Camera] Exif-FocalLength35efl - Focal Length: 55.0 mm (35 mm equivalent: 89.2 mm)
+[Composite, Composite, Camera] Exif-FocalLength35efl - Focal Length 35mm Equiv: 55.0 mm (35 mm equivalent: 89.2 mm)
 [Composite, Composite, Camera] Exif-HyperfocalDistance - Hyperfocal Distance: 20.42 m
 [Composite, Composite, Image] Exif-LightValue - Light Value: 7.9

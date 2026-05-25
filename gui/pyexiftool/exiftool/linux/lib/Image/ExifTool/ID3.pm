@@ -18,7 +18,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.61';
+$VERSION = '1.65';
 
 sub ProcessID3v2($$$);
 sub ProcessPrivate($$$);
@@ -68,18 +68,24 @@ my %dateTimeConv = (
     PrintConv => '$self->ConvertDateTime($val)',
 );
 
+# patch for names of user-defined tags which don't automatically generate very well
+my %userTagName = (
+    ALBUMARTISTSORT => 'AlbumArtistSort',
+    ASIN => 'ASIN',
+);
+
 # This table is just for documentation purposes
 %Image::ExifTool::ID3::Main = (
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     PROCESS_PROC => \&ProcessID3Dir, # (used to process 'id3 ' chunk in WAV files)
     NOTES => q{
-        ExifTool extracts ID3 and Lyrics3 information from MP3, MPEG, WAV, AIFF,
-        OGG, FLAC, APE, MPC and RealAudio files.  ID3v2 tags which support multiple
-        languages (eg. Comment and Lyrics) are extracted by specifying the tag name,
-        followed by a dash ('-'), then a 3-character ISO 639-2 language code (eg.
-        "Comment-spa"). See L<https://id3.org/> for the official ID3 specification
-        and L<http://www.loc.gov/standards/iso639-2/php/code_list.php> for a list of
-        ISO 639-2 language codes.
+        ExifTool extracts ID3 and Lyrics3 information from MP3, MPEG, WAV, WV, AIFF,
+        OGG, FLAC, APE, DSF, MPC and RealAudio files.  ID3v2 tags which support
+        multiple languages (eg. Comment and Lyrics) are extracted by specifying the
+        tag name, followed by a dash ('-'), then a 3-character ISO 639-2 language
+        code (eg. "Comment-spa"). See L<https://id3.org/> for the official ID3
+        specification and L<http://www.loc.gov/standards/iso639-2/php/code_list.php>
+        for a list of ISO 639-2 language codes.
     },
     ID3v1 => {
         Name => 'ID3v1',
@@ -714,7 +720,7 @@ my %id3v2_common = (
 # Synchronized lyrics/text
 %Image::ExifTool::ID3::SynLyrics = (
     GROUPS => { 1 => 'ID3', 2 => 'Audio' },
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     PROCESS_PROC => \&ProcessSynText,
     NOTES => 'The following tags are extracted from synchronized lyrics/text frames.',
     desc => { Name => 'SynchronizedLyricsDescription' },
@@ -748,7 +754,7 @@ my %id3v2_common = (
 %Image::ExifTool::ID3::Private = (
     PROCESS_PROC => \&Image::ExifTool::ID3::ProcessPrivate,
     GROUPS => { 1 => 'ID3', 2 => 'Audio' },
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => q{
         ID3 private (PRIV) tags.  ExifTool will decode any private tags found, even
         if they do not appear in this table.
@@ -785,7 +791,7 @@ my %id3v2_common = (
         ValueConv => 'require Image::ExifTool::ASF; Image::ExifTool::ASF::GetGUID($val)',
     },
     WM_Provider => {
-        ValueConv => '$self->Decode($val,"UCS2","II")', #PH (NC)
+        ValueConv => '$self->Decode($val,"UTF16","II")', #PH (NC)
     },
     # there are lots more WM tags that could be decoded if I had samples or documentation - PH
     # WM/AlbumArtist
@@ -869,6 +875,19 @@ Image::ExifTool::AddCompositeTags('Image::ExifTool::ID3');
         $tagInfo{Groups} = { %$groups } if $groups;
         $Image::ExifTool::ID3::v2_4{$tag} = \%tagInfo;
     }
+}
+
+#------------------------------------------------------------------------------
+# Make tag name for user-defined tag
+# Inputs: 0) User defined tag description
+# Returns: Tag name
+sub MakeTagName($)
+{
+    my $name = shift;
+    return $userTagName{$name} if $userTagName{$name};
+    $name = ucfirst(lc $name) unless $name =~ /[a-z]/;  # convert all uppercase to mixed case
+    $name =~ s/([a-z])[_ ]([a-z])/$1\U$2/g;
+    return Image::ExifTool::MakeTagName($name);
 }
 
 #------------------------------------------------------------------------------
@@ -1062,7 +1081,7 @@ sub DecodeString($$;$)
                 $val = '';
             }
             $bom = $1 if $v =~ s/^(\xfe\xff|\xff\xfe)//;
-            push @vals, $et->Decode($v, 'UCS2', $order{$bom});
+            push @vals, $et->Decode($v, 'UTF16', $order{$bom});
         }
     } else {
         $val =~ s/\0+$//;
@@ -1150,7 +1169,7 @@ sub ProcessID3v2($$$)
             }
             $tagInfo = $et->GetTagInfo($otherTable, $id) if $otherTable;
             if ($tagInfo) {
-                $et->WarnOnce("Frame '${id}' is not valid for this ID3 version", 1);
+                $et->Warn("Frame '${id}' is not valid for this ID3 version", 1);
             } else {
                 next unless $verbose or $et->Options('Unknown');
                 $id =~ tr/-A-Za-z0-9_//dc;
@@ -1179,7 +1198,7 @@ sub ProcessID3v2($$$)
             }
         }
         if ($flags{Encrypt}) {
-            $et->WarnOnce('Encrypted frames currently not supported');
+            $et->Warn('Encrypted frames currently not supported');
             next;
         }
         # extract the value
@@ -1213,7 +1232,7 @@ sub ProcessID3v2($$$)
                     next;
                 }
             } else {
-                $et->WarnOnce('Install Compress::Zlib to decode compressed frames');
+                $et->Warn('Install Compress::Zlib to decode compressed frames');
                 next;
             }
         }
@@ -1247,25 +1266,34 @@ sub ProcessID3v2($$$)
             # two encoded strings separated by a null
             my @vals = DecodeString($et, $val);
             foreach (0..1) { $vals[$_] = '' unless defined $vals[$_]; }
-            ($val = "($vals[0]) $vals[1]") =~ s/^\(\) //;
+            if (length $vals[0]) {
+                $id .= "_$vals[0]";
+                $tagInfo = $$tagTablePtr{$id} || AddTagToTable($tagTablePtr, $id, MakeTagName($vals[0]));
+            }
+            $val = $vals[1];
         } elsif ($id =~ /^T/ or $id =~ /^(IPL|IPLS|GP1|MVI|MVN)$/) {
             $val = DecodeString($et, $val);
         } elsif ($id =~ /^(WXX|WXXX)$/) {
             # one encoded string and one Latin string separated by a null
             my $enc = unpack('C', $val);
-            my $url;
+            my ($tag, $url);
             if ($enc == 1 or $enc == 2) {
-                ($val, $url) = ($val =~ /^(.(?:..)*?)\0\0(.*)/s);
+                ($tag, $url) = ($val =~ /^(.(?:..)*?)\0\0(.*)/s);
             } else {
-                ($val, $url) = ($val =~ /^(..*?)\0(.*)/s);
+                ($tag, $url) = ($val =~ /^(..*?)\0(.*)/s);
             }
-            unless (defined $val and defined $url) {
+            unless (defined $tag and defined $url) {
                 $et->Warn("Invalid $id frame value");
                 next;
             }
-            $val = DecodeString($et, $val);
+            $tag = DecodeString($et, $tag);
+            if (length $tag) {
+                $id .= "_$tag";
+                $tag .= '_URL' unless $tag =~ /url/i;
+                $tagInfo = $$tagTablePtr{$id} || AddTagToTable($tagTablePtr, $id, MakeTagName($tag));
+            }
             $url =~ s/\0.*//s;
-            $val = length($val) ? "($val) $url" : $url;
+            $val = $et->Decode($url, 'Latin');
         } elsif ($id =~ /^W/) {
             $val =~ s/\0.*//s;  # truncate at null
         } elsif ($id =~ /^(COM|COMM|ULT|USLT)$/) {
@@ -1409,6 +1437,7 @@ sub ProcessID3($$)
 
     # allow this to be called with either RAF or DataPt
     my $raf = $$dirInfo{RAF} || File::RandomAccess->new($$dirInfo{DataPt});
+    my $dataPos = $$dirInfo{DataPos} || 0;
     my ($buff, %id3Header, %id3Trailer, $hBuff, $tBuff, $eBuff, $tagTablePtr);
     my $rtnVal = 0;
     my $hdrEnd = 0;
@@ -1458,7 +1487,7 @@ sub ProcessID3($$)
         }
         %id3Header = (
             DataPt   => \$hBuff,
-            DataPos  => $pos,
+            DataPos  => $dataPos + $pos,
             DirStart => 0,
             DirLen   => length($hBuff),
             Version  => $vers,
@@ -1483,7 +1512,7 @@ sub ProcessID3($$)
         $trailSize = 128;
         %id3Trailer = (
             DataPt   => \$tBuff,
-            DataPos  => $raf->Tell() - 128,
+            DataPos  => $dataPos + $raf->Tell() - 128,
             DirStart => 0,
             DirLen   => length($tBuff),
         );
@@ -1718,7 +1747,7 @@ other types of audio files.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

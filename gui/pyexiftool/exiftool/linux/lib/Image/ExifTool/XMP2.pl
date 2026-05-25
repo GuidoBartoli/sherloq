@@ -25,6 +25,7 @@ use strict;
 use Image::ExifTool qw(:Utils);
 use Image::ExifTool::XMP;
 
+sub ProcessSEAL($$;$);
 sub Init_crd($);
 
 #------------------------------------------------------------------------------
@@ -78,65 +79,6 @@ my %sTimecode = (
     timeValue   => { },
     value       => { Writable => 'integer', Notes => 'only in XMP 2008 spec; an error?' },
 );
-my %sPose = (
-    STRUCT_NAME => 'Pose',
-    NAMESPACE => { Pose => 'http://ns.google.com/photos/dd/1.0/pose/' },
-    PositionX => { Writable => 'real', Groups => { 2 => 'Location' } },
-    PositionY => { Writable => 'real', Groups => { 2 => 'Location' } },
-    PositionZ => { Writable => 'real', Groups => { 2 => 'Location' } },
-    RotationX => { Writable => 'real', Groups => { 2 => 'Location' } },
-    RotationY => { Writable => 'real', Groups => { 2 => 'Location' } },
-    RotationZ => { Writable => 'real', Groups => { 2 => 'Location' } },
-    RotationW => { Writable => 'real', Groups => { 2 => 'Location' } },
-    Timestamp => {
-        Writable => 'integer',
-        Shift => 'Time',
-        Groups => { 2 => 'Time' },
-        ValueConv => 'ConvertUnixTime($val / 1000, 1, 3)',
-        ValueConvInv => 'int(GetUnixTime($val, 1) * 1000)',
-        PrintConv => '$self->ConvertDateTime($val)',
-        PrintConvInv => '$self->InverseDateTime($val,undef,1)',
-    },
-);
-my %sEarthPose = (
-    STRUCT_NAME => 'EarthPose',
-    NAMESPACE => { EarthPose => 'http://ns.google.com/photos/dd/1.0/earthpose/' },
-    Latitude  => { Writable => 'real', Groups => { 2 => 'Location' }, %latConv },
-    Longitude => { Writable => 'real', Groups => { 2 => 'Location' }, %longConv },
-    Altitude  => {
-        Writable => 'real',
-        Groups => { 2 => 'Location' },
-        PrintConv => '"$val m"',
-        PrintConvInv => '$val=~s/\s*m$//;$val',
-    },
-    RotationX => { Writable => 'real', Groups => { 2 => 'Location' } },
-    RotationY => { Writable => 'real', Groups => { 2 => 'Location' } },
-    RotationZ => { Writable => 'real', Groups => { 2 => 'Location' } },
-    RotationW => { Writable => 'real', Groups => { 2 => 'Location' } },
-    Timestamp => {
-        Writable => 'integer',
-        Shift => 'Time',
-        Groups => { 2 => 'Time' },
-        ValueConv => 'ConvertUnixTime($val / 1000, 1, 3)',
-        ValueConvInv => 'int(GetUnixTime($val, 1) * 1000)',
-        PrintConv => '$self->ConvertDateTime($val)',
-        PrintConvInv => '$self->InverseDateTime($val,undef,1)',
-    },
-);
-my %sVendorInfo = (
-    STRUCT_NAME => 'VendorInfo',
-    NAMESPACE   => { VendorInfo => 'http://ns.google.com/photos/dd/1.0/vendorinfo/' },
-    Model => { },
-    Manufacturer => { },
-    Notes => { },
-);
-my %sAppInfo = (
-    STRUCT_NAME => 'AppInfo',
-    NAMESPACE   => { AppInfo => 'http://ns.google.com/photos/dd/1.0/appinfo/' },
-    Application => { },
-    Version => { },
-    ItemURI => { },
-);
 
 # camera-raw defaults
 %Image::ExifTool::XMP::crd = (
@@ -155,7 +97,11 @@ my %sAppInfo = (
     %xmpTableDefaults,
     GROUPS => { 1 => 'XMP-xmpDM', 2 => 'Image' },
     NAMESPACE => 'xmpDM',
-    NOTES => 'XMP Dynamic Media namespace tags.',
+    NOTES => q{
+        XMP Dynamic Media namespace tags.  See
+        L<https://developer.adobe.com/xmp/docs/XMPNamespaces/xmpDM/> for the
+        specification.
+    },
     absPeakAudioFilePath=> { },
     album               => { },
     altTapeName         => { },
@@ -224,6 +170,7 @@ my %sAppInfo = (
     fileDataRate    => { Writable => 'rational' },
     genre           => { },
     good            => { Writable => 'boolean' },
+    pick            => { Writable => 'integer' }, #forum15815
     instrument      => { },
     introTime       => { Struct => \%sTime },
     key => {
@@ -386,6 +333,7 @@ my %sLocationDetails = (
     STRUCT_NAME => 'LocationDetails',
     NAMESPACE   => 'Iptc4xmpExt',
     GROUPS      => { 2 => 'Location' },
+    NOTES => 'Note that the GPS elements of this structure are in the "exif" namespace.',
     Identifier  => { List => 'Bag', Namespace => 'xmp' },
     City        => { },
     CountryCode => { },
@@ -402,6 +350,19 @@ my %sLocationDetails = (
         Writable => 'rational',
         PrintConv => '$val =~ /^(inf|undef)$/ ? $val : "$val m"',
         PrintConvInv => '$val=~s/\s*m$//;$val',
+    },
+    GPSAltitudeRef  => {
+        Namespace => 'exif',
+        Writable => 'integer',
+        PrintConv => {
+            OTHER => sub {
+                my ($val, $inv) = @_;
+                return undef unless $inv and $val =~ /^([-+0-9])/;
+                return($1 eq '-' ? 1 : 0);
+            },
+            0 => 'Above Sea Level',
+            1 => 'Below Sea Level',
+        },
     },
 );
 my %sCVTermDetails = (
@@ -538,11 +499,12 @@ my %sImageRegion = ( # new in 1.5
     NAMESPACE   => 'Iptc4xmpExt',
     TABLE_DESC => 'XMP IPTC Extension',
     NOTES => q{
-        This table contains tags defined by the IPTC Extension schema version 1.7
-        and IPTC Video Metadata version 1.3. The actual namespace prefix is
-        "Iptc4xmpExt", but ExifTool shortens this for the family 1 group name. (See
-        L<http://www.iptc.org/standards/photo-metadata/iptc-standard/> and
-        L<https://iptc.org/standards/video-metadata-hub/>.)
+This table contains tags defined by the IPTC Extension schema version 1.7
+and IPTC Video Metadata version 1.3, plus the AI additions.  The actual
+namespace prefix is "Iptc4xmpExt", but ExifTool shortens this for the family
+1 group name. (See
+L<http://www.iptc.org/standards/photo-metadata/iptc-standard/> and
+L<https://iptc.org/standards/video-metadata-hub/>.)
     },
     AboutCvTerm => {
         Struct => \%sCVTermDetails,
@@ -808,6 +770,11 @@ my %sImageRegion = ( # new in 1.5
     ImageRegion => { Groups => { 2 => 'Image' }, List => 'Bag', Struct => \%sImageRegion },
     # new Extension 1.6 property
     EventId     => { Name => 'EventID', List => 'Bag' },
+    # new AI tags
+    AISystemUsed        => { },
+    AISystemVersionUsed => { },
+    AIPromptInformation => { },
+    AIPromptWriterName  => { },
 );
 
 #------------------------------------------------------------------------------
@@ -844,7 +811,7 @@ my %prismPublicationDate = (
     NOTES => q{
         Publishing Requirements for Industry Standard Metadata 3.0 namespace
         tags.  (see
-        L<https://www.w3.org/Submission/2020/SUBM-prism-20200910/prism-basic.html/>)
+        L<https://www.w3.org/Submission/2020/SUBM-prism-20200910/prism-basic.html>)
     },
     academicField   => { }, # (3.0)
     aggregateIssueNumber => { Writable => 'integer' }, # (3.0)
@@ -1373,6 +1340,57 @@ my %sSubVersion = (
     Snapshots           => { List => 'Bag', Binary => 1 },
 );
 
+# ACDSee region tags (ref BKW)
+my %sACDSeeDimensions = (
+    STRUCT_NAME => 'ACDSeeDimensions',
+    NAMESPACE   => {'acdsee-stDim' => 'http://ns.acdsee.com/sType/Dimensions#'},
+    'w'         => { Writable => 'real' },
+    'h'         => { Writable => 'real' },
+    'unit'      => { },
+);
+my %sACDSeeArea = (
+    STRUCT_NAME => 'ACDSeeArea',
+    NAMESPACE => { 'acdsee-stArea' => 'http://ns.acdsee.com/sType/Area#' },
+    'x'     => { Writable => 'real' },
+    'y'     => { Writable => 'real' },
+    w       => { Writable => 'real' },
+    h       => { Writable => 'real' },
+);
+my %sACDSeeRegionStruct = (
+    STRUCT_NAME     => 'ACDSeeRegion',
+    NAMESPACE       => 'acdsee-rs',
+    ALGArea         => { Struct => \%sACDSeeArea },
+    DLYArea         => { Struct => \%sACDSeeArea },
+    Name            => { },
+    NameAssignType  => { },
+    Type            => { },
+);
+%Image::ExifTool::XMP::ACDSeeRegions = (
+    GROUPS => { 0 => 'XMP', 1 => 'XMP-acdsee-rs', 2 => 'Image' },
+    NAMESPACE => 'acdsee-rs',
+    WRITABLE => 'string',
+    AVOID => 1,
+    Regions => {
+        Name => 'RegionInfoACDSee',
+        FlatName => 'ACDSee',
+        # the "Struct" entry defines the structure fields
+        Struct => {
+            # optional structure name (used for warning messages only)
+            STRUCT_NAME => 'ACDSeeRegionInfo',
+            NAMESPACE   => 'acdsee-rs',
+            RegionList => {
+                FlatName => 'Region',
+                Struct => \%sACDSeeRegionStruct,
+                List => 'Bag',
+            },
+            AppliedToDimensions => {
+                FlatName => 'RegionAppliedToDimensions',
+                Struct => \%sACDSeeDimensions,
+            },
+        },
+    },
+);
+
 # Picture Licensing Universal System namespace properties (xmpPLUS)
 %Image::ExifTool::XMP::xmpPLUS = (
     %xmpTableDefaults,
@@ -1675,403 +1693,6 @@ my %sSubVersion = (
     ConfidenceLevel => { Writable => 'integer' },
 );
 
-# Google audio namespace
-%Image::ExifTool::XMP::GAudio = (
-    %xmpTableDefaults,
-    GROUPS => { 1 => 'XMP-GAudio', 2 => 'Audio' },
-    NAMESPACE => 'GAudio',
-    Data => {
-        Name => 'AudioData',
-        ValueConv => 'Image::ExifTool::XMP::DecodeBase64($val)',
-        ValueConvInv => 'Image::ExifTool::XMP::EncodeBase64($val)',
-    },
-    Mime => { Name => 'AudioMimeType' },
-);
-
-# Google image namespace
-%Image::ExifTool::XMP::GImage = (
-    %xmpTableDefaults,
-    GROUPS => { 1 => 'XMP-GImage', 2 => 'Image' },
-    NAMESPACE => 'GImage',
-    Data => {
-        Name => 'ImageData',
-        ValueConv => 'Image::ExifTool::XMP::DecodeBase64($val)',
-        ValueConvInv => 'Image::ExifTool::XMP::EncodeBase64($val)',
-    },
-    Mime => { Name => 'ImageMimeType' },
-);
-
-# Google panorama namespace properties
-# (ref https://exiftool.org/forum/index.php/topic,4569.0.html)
-%Image::ExifTool::XMP::GPano = (
-    %xmpTableDefaults,
-    GROUPS => { 1 => 'XMP-GPano', 2 => 'Image' },
-    NAMESPACE => 'GPano',
-    NOTES => q{
-        Panorama tags written by Google Photosphere. See
-        L<https://developers.google.com/panorama/metadata/> for the specification.
-    },
-    UsePanoramaViewer               => { Writable => 'boolean' },
-    CaptureSoftware                 => { },
-    StitchingSoftware               => { },
-    ProjectionType                  => { },
-    PoseHeadingDegrees              => { Writable => 'real' },
-    PosePitchDegrees                => { Writable => 'real' },
-    PoseRollDegrees                 => { Writable => 'real' },
-    InitialViewHeadingDegrees       => { Writable => 'real' },
-    InitialViewPitchDegrees         => { Writable => 'real' },
-    InitialViewRollDegrees          => { Writable => 'real' },
-    InitialHorizontalFOVDegrees     => { Writable => 'real' },
-    InitialVerticalFOVDegrees       => { Writable => 'real' },
-    FirstPhotoDate                  => { %dateTimeInfo, Groups => { 2 => 'Time' } },
-    LastPhotoDate                   => { %dateTimeInfo, Groups => { 2 => 'Time' } },
-    SourcePhotosCount               => { Writable => 'integer' },
-    ExposureLockUsed                => { Writable => 'boolean' },
-    CroppedAreaImageWidthPixels     => { Writable => 'real' },
-    CroppedAreaImageHeightPixels    => { Writable => 'real' },
-    FullPanoWidthPixels             => { Writable => 'real' },
-    FullPanoHeightPixels            => { Writable => 'real' },
-    CroppedAreaLeftPixels           => { Writable => 'real' },
-    CroppedAreaTopPixels            => { Writable => 'real' },
-    InitialCameraDolly              => { Writable => 'real' },
-    # (the following have been observed, but are not in the specification)
-    LargestValidInteriorRectLeft    => { Writable => 'real' },
-    LargestValidInteriorRectTop     => { Writable => 'real' },
-    LargestValidInteriorRectWidth   => { Writable => 'real' },
-    LargestValidInteriorRectHeight  => { Writable => 'real' },
-);
-
-# Google Spherical Images namespace (ref https://github.com/google/spatial-media/blob/master/docs/spherical-video-rfc.md)
-%Image::ExifTool::XMP::GSpherical = (
-    %xmpTableDefaults,
-    GROUPS => { 1 => 'XMP-GSpherical', 2 => 'Image' },
-    WRITE_GROUP => 'GSpherical', # write in special location for video files
-    NAMESPACE => 'GSpherical',
-    AVOID => 1,
-    NOTES => q{
-        Not actually XMP.  These RDF/XML tags are used in Google spherical MP4
-        videos.  These tags are written into the video track of MOV/MP4 files, and
-        not at the top level like other XMP tags.  See
-        L<https://github.com/google/spatial-media/blob/master/docs/spherical-video-rfc.md>
-        for the specification.
-    },
-    # (avoid due to conflicts with XMP-GPano tags)
-    Spherical                   => { Writable => 'boolean' },
-    Stitched                    => { Writable => 'boolean' },
-    StitchingSoftware           => { },
-    ProjectionType              => { },
-    StereoMode                  => { },
-    SourceCount                 => { Writable => 'integer' },
-    InitialViewHeadingDegrees   => { Writable => 'real' },
-    InitialViewPitchDegrees     => { Writable => 'real' },
-    InitialViewRollDegrees      => { Writable => 'real' },
-    Timestamp                   => {
-        Name => 'TimeStamp',
-        Groups => { 2 => 'Time' },
-        Writable => 'integer',
-        Shift => 'Time',
-        ValueConv => 'ConvertUnixTime($val)', #(NC)
-        ValueConvInv => 'GetUnixTime($val)',
-        PrintConv => '$self->ConvertDateTime($val)',
-        PrintConvInv => '$self->InverseDateTime($val)',
-    },
-    FullPanoWidthPixels         => { Writable => 'integer' },
-    FullPanoHeightPixels        => { Writable => 'integer' },
-    CroppedAreaImageWidthPixels => { Writable => 'integer' },
-    CroppedAreaImageHeightPixels=> { Writable => 'integer' },
-    CroppedAreaLeftPixels       => { Writable => 'integer' },
-    CroppedAreaTopPixels        => { Writable => 'integer' },
-);
-
-# Google depthmap information (ref https://developers.google.com/depthmap-metadata/reference)
-%Image::ExifTool::XMP::GDepth = (
-    GROUPS      => { 0 => 'XMP', 1 => 'XMP-GDepth', 2 => 'Image' },
-    NAMESPACE   => 'GDepth',
-    AVOID       => 1, # (too many potential tag name conflicts)
-    NOTES       => q{
-        Google depthmap information. See
-        L<https://developers.google.com/depthmap-metadata/> for the specification.
-    },
-    WRITABLE    => 'string', # (default to string-type tags)
-    PRIORITY    => 0,
-    Format => {
-        PrintConv => {
-            RangeInverse => 'RangeInverse',
-            RangeLinear  => 'RangeLinear',
-        },
-    },
-    Near        => { Writable => 'real' },
-    Far         => { Writable => 'real' },
-    Mime        => { },
-    Data => {
-        Name => 'DepthImage',
-        ValueConv => 'Image::ExifTool::XMP::DecodeBase64($val)',
-        ValueConvInv => 'Image::ExifTool::XMP::EncodeBase64($val)',
-    },
-    Units       => { },
-    MeasureType => {
-        PrintConv => {
-            OpticalAxis => 'OpticalAxis',
-            OpticalRay  => 'OpticalRay',
-        },
-    },
-    ConfidenceMime  => { },
-    Confidence => {
-        ValueConv => 'Image::ExifTool::XMP::DecodeBase64($val)',
-        ValueConvInv => 'Image::ExifTool::XMP::EncodeBase64($val)',
-    },
-    Manufacturer=> { },
-    Model       => { },
-    Software    => { },
-    ImageWidth  => { Writable => 'real' },
-    ImageHeight => { Writable => 'real' },
-);
-
-# Google focus namespace
-%Image::ExifTool::XMP::GFocus = (
-    %xmpTableDefaults,
-    GROUPS => { 1 => 'XMP-GFocus', 2 => 'Image' },
-    NAMESPACE => 'GFocus',
-    NOTES => 'Focus information found in Google depthmap images.',
-    BlurAtInfinity  => { Writable => 'real' },
-    FocalDistance   => { Writable => 'real' },
-    FocalPointX     => { Writable => 'real' },
-    FocalPointY     => { Writable => 'real' },
-);
-
-# Google camera namespace (ref PH)
-%Image::ExifTool::XMP::GCamera = (
-    %xmpTableDefaults,
-    GROUPS => { 1 => 'XMP-GCamera', 2 => 'Camera' },
-    NAMESPACE => 'GCamera',
-    NOTES => 'Camera information found in Google panorama images.',
-    BurstID         => { },
-    BurstPrimary    => { },
-    PortraitNote    => { },
-    PortraitRequest => {
-        Notes => 'High Definition Render Pipeline (HDRP) data', #PH (guess)
-        ValueConv => 'Image::ExifTool::XMP::DecodeBase64($val)',
-        ValueConvInv => 'Image::ExifTool::XMP::EncodeBase64($val)',
-    },
-    PortraitVersion => { },
-    SpecialTypeID   => { List => 'Bag' },
-    PortraitNote    => { },
-    DisableAutoCreation => { List => 'Bag' },
-    hdrp_makernote => {
-        Name => 'HDRPMakerNote',
-        # decoded data starts with the following bytes, but nothing yet is known about its contents:
-        # 48 44 52 50 02 ef 64 35 6d 5e 70 1e 2c ea e3 4c [HDRP..d5m^p.,..L]
-        ValueConv => 'Image::ExifTool::XMP::DecodeBase64($val)',
-        ValueConvInv => 'Image::ExifTool::XMP::EncodeBase64($val)',
-    },
-    MicroVideo          => { Writable => 'integer' },
-    MicroVideoVersion   => { Writable => 'integer' },
-    MicroVideoOffset    => { Writable => 'integer' },
-    MicroVideoPresentationTimestampUs => { Writable => 'integer' },
-    shot_log_data => { #forum14108
-        Name => 'ShotLogData',
-        ValueConv => 'Image::ExifTool::XMP::DecodeBase64($val)',
-        ValueConvInv => 'Image::ExifTool::XMP::EncodeBase64($val)',
-    },
-    HdrPlusMakernote => {
-        ValueConv => 'Image::ExifTool::XMP::DecodeBase64($val)',
-        ValueConvInv => 'Image::ExifTool::XMP::EncodeBase64($val)',
-    },
-);
-
-# Google creations namespace (ref PH)
-%Image::ExifTool::XMP::GCreations = (
-    %xmpTableDefaults,
-    GROUPS => { 1 => 'XMP-GCreations', 2 => 'Camera' },
-    NAMESPACE => 'GCreations',
-    NOTES => 'Google creations tags.',
-    CameraBurstID  => { },
-    Type => { Avoid => 1 },
-);
-
-# Google depth-map Device namespace (ref 13)
-%Image::ExifTool::XMP::Device = (
-    %xmpTableDefaults,
-    GROUPS => { 1 => 'XMP-Device', 2 => 'Camera' },
-    NAMESPACE => { Device => 'http://ns.google.com/photos/dd/1.0/device/' },
-    NOTES => q{
-        Google depth-map Device tags.  See
-        L<https://developer.android.com/training/camera2/Dynamic-depth-v1.0.pdf> for
-        the specification.
-    },
-    Container => {
-        Struct => {
-            STRUCT_NAME => 'DeviceContainer',
-            NAMESPACE   => { Container => 'http://ns.google.com/photos/dd/1.0/container/' },
-            Directory => {
-                List => 'Seq',
-                Struct => {
-                    STRUCT_NAME => 'DeviceDirectory',
-                    NAMESPACE   => { Container => 'http://ns.google.com/photos/dd/1.0/container/' },
-                    Item => {
-                        Struct => {
-                            STRUCT_NAME => 'DeviceItem',
-                            NAMESPACE => { Item => 'http://ns.google.com/photos/dd/1.0/item/' },
-                            Mime    => { },
-                            Length  => { Writable => 'integer' },
-                            Padding => { Writable => 'integer' },
-                            DataURI => { },
-                        },
-                    },
-                },
-            }
-        },
-    },
-    Profiles => {
-        List => 'Seq',
-        FlatName => '',
-        Struct => {
-            STRUCT_NAME => 'DeviceProfiles',
-            NAMESPACE => { Device => 'http://ns.google.com/photos/dd/1.0/device/' },
-            Profile => {
-                Struct => {
-                    STRUCT_NAME => 'DeviceProfile',
-                    NAMESPACE => { Profile => 'http://ns.google.com/photos/dd/1.0/profile/' },
-                    CameraIndices => { List => 'Seq', Writable => 'integer' },
-                    Type => { },
-                },
-            },
-        },
-    },
-    Cameras => {
-        List => 'Seq',
-        FlatName => '',
-        Struct => {
-            STRUCT_NAME => 'DeviceCameras',
-            NAMESPACE => { Device => 'http://ns.google.com/photos/dd/1.0/device/' },
-            Camera => {
-                Struct => {
-                    STRUCT_NAME => 'DeviceCamera',
-                    NAMESPACE => { Camera => 'http://ns.google.com/photos/dd/1.0/camera/' },
-                    DepthMap => {
-                        Struct => {
-                            STRUCT_NAME => 'DeviceDepthMap',
-                            NAMESPACE => { DepthMap => 'http://ns.google.com/photos/dd/1.0/depthmap/' },
-                            ConfidenceURI => { },
-                            DepthURI    => { },
-                            Far         => { Writable => 'real' },
-                            Format      => { },
-                            ItemSemantic=> { },
-                            MeasureType => { },
-                            Near        => { Writable => 'real' },
-                            Units       => { },
-                            Software    => { },
-                            FocalTableEntryCount => { Writable => 'integer' },
-                            FocalTable  => { }, # (base64)
-                        },
-                    },
-                    Image => {
-                        Struct => {
-                            STRUCT_NAME => 'DeviceImage',
-                            NAMESPACE => { Image => 'http://ns.google.com/photos/dd/1.0/image/' },
-                            ItemSemantic=> { },
-                            ItemURI     => { },
-                        },
-                    },
-                    ImagingModel => {
-                        Struct => {
-                            STRUCT_NAME => 'DeviceImagingModel',
-                            NAMESPACE => { ImagingModel => 'http://ns.google.com/photos/dd/1.0/imagingmodel/' },
-                            Distortion      => { }, # (base64)
-                            DistortionCount => { Writable => 'integer' },
-                            FocalLengthX    => { Writable => 'real' },
-                            FocalLengthY    => { Writable => 'real' },
-                            ImageHeight     => { Writable => 'integer' },
-                            ImageWidth      => { Writable => 'integer' },
-                            PixelAspectRatio=> { Writable => 'real' },
-                            PrincipalPointX => { Writable => 'real' },
-                            PrincipalPointY => { Writable => 'real' },
-                            Skew            => { Writable => 'real' },
-                        },
-                    },
-                    PointCloud => {
-                        Struct => {
-                            STRUCT_NAME => 'DevicePointCloud',
-                            NAMESPACE => { PointCloud => 'http://ns.google.com/photos/dd/1.0/pointcloud/' },
-                            PointCloud  => { Writable => 'integer' },
-                            Points      => { },
-                            Metric      => { Writable => 'boolean' },
-                        },
-                    },
-                    Pose => { Struct => \%sPose },
-                    LightEstimate => {
-                        Struct => {
-                            STRUCT_NAME => 'DeviceLightEstimate',
-                            NAMESPACE => { LightEstimate => 'http://ns.google.com/photos/dd/1.0/lightestimate/' },
-                            ColorCorrectionR => { Writable => 'real' },
-                            ColorCorrectionG => { Writable => 'real' },
-                            ColorCorrectionB => { Writable => 'real' },
-                            PixelIntensity   => { Writable => 'real' },
-                        },
-                    },
-                    VendorInfo => { Struct => \%sVendorInfo },
-                    AppInfo    => { Struct => \%sAppInfo },
-                    Trait => { },
-                },
-            },
-        },
-    },
-    VendorInfo  => { Struct => \%sVendorInfo },
-    AppInfo     => { Struct => \%sAppInfo },
-    EarthPos    => { Struct => \%sEarthPose },
-    Pose        => { Struct => \%sPose },
-    Planes => {
-        List => 'Seq',
-        FlatName => '',
-        Struct => {
-            STRUCT_NAME => 'DevicePlanes',
-            NAMESPACE => { Device => 'http://ns.google.com/photos/dd/1.0/device/' },
-            Plane => {
-                Struct => {
-                    STRUCT_NAME => 'DevicePlane',
-                    NAMESPACE => { Plane => 'http://ns.google.com/photos/dd/1.0/plane/' },
-                    Pose    => { Struct => \%sPose },
-                    ExtentX => { Writable => 'real' },
-                    ExtentZ => { Writable => 'real' },
-                    BoundaryVertexCount => { Writable => 'integer' },
-                    Boundary => { },
-                },
-            },
-        },
-    },
-);
-
-# Google container tags (ref https://developer.android.com/guide/topics/media/platform/hdr-image-format)
-# NOTE: Not included because these namespace prefixes conflict with Google's depth-map Device tags!
-# (see ../pics/GooglePixel8Pro.jpg sample image)
-# %Image::ExifTool::XMP::Container = (
-#     %xmpTableDefaults,
-#     GROUPS => { 1 => 'XMP-Container', 2 => 'Image' },
-#     NAMESPACE => 'Container',
-#     NOTES => 'Google Container namespace.',
-#     Directory => {
-#         Name => 'ContainerDirectory',
-#         FlatName => 'Directory',
-#         List => 'Seq',
-#         Struct => {
-#             STRUCT_NAME => 'Directory',
-#             Item => {
-#                 Namespace => 'Container',
-#                 Struct => {
-#                     STRUCT_NAME => 'Item',
-#                     NAMESPACE => { Item => 'http://ns.google.com/photos/1.0/container/item/'},
-#                     Mime     => { },
-#                     Semantic => { },
-#                     Length   => { Writable => 'integer' },
-#                     Label    => { },
-#                     Padding  => { Writable => 'integer' },
-#                     URI      => { },
-#                 },
-#             },
-#         },
-#     },
-# );
-
 # Getty Images namespace (ref PH)
 %Image::ExifTool::XMP::GettyImages = (
     %xmpTableDefaults,
@@ -2161,6 +1782,44 @@ my %sSubVersion = (
     Gamma               => { Writable => 'real', List => 'Seq', Avoid => 1 },
 );
 
+%Image::ExifTool::XMP::HDRGainMap = (
+    %xmpTableDefaults,
+    GROUPS => { 1 => 'XMP-HDRGainMap', 2 => 'Unknown' },
+    NAMESPACE   => 'HDRGainMap',
+    NOTES => 'Used in Apple HDR GainMap images.',
+    HDRGainMapVersion => {
+        PrintConv => 'IsInt($val) ? join(".",unpack("C*", pack "N", $val)) : $val',
+        PrintConvInv => q{
+            return $val unless $val =~ /^\d+\.\d+\.\d+\.\d+$/;
+            return unpack('N', pack('C*', split /\./, $val));
+        },
+    },
+);
+
+%Image::ExifTool::XMP::apdi = (
+    %xmpTableDefaults,
+    GROUPS => { 1 => 'XMP-apdi', 2 => 'Image' },
+    NAMESPACE   => 'apdi',
+    NOTES => 'Used in Apple HDR GainMap images.',
+    NativeFormat => {
+        PrintConv => q{
+            return $val unless IsInt($val);
+            my $tmp = pack("N", $val);
+            $tmp =~ /^\w{4}$/ ? $tmp : $val;
+        },
+        PrintConvInv => '$val =~ /^\w{4}$/ ? unpack("N", $val) : $val',
+    },
+    AuxiliaryImageType => { },
+    StoredFormat => {
+        PrintConv => q{
+            return $val unless IsInt($val);
+            my $tmp = pack("N", $val);
+            $tmp =~ /^\w{4}$/ ? $tmp : $val;
+        },
+        PrintConvInv => '$val =~ /^\w{4}$/ ? unpack("N", $val) : $val',
+    },
+);
+
 # SVG namespace properties (ref 9)
 %Image::ExifTool::XMP::SVG = (
     GROUPS => { 0 => 'SVG', 1 => 'SVG', 2 => 'Image' },
@@ -2202,6 +1861,69 @@ my %sSubVersion = (
     },
 );
 
+%Image::ExifTool::XMP::seal = (
+    GROUPS => { 0 => 'XMP', 1 => 'XMP-seal', 2 => 'Image' },
+    NAMESPACE => 'seal',
+    WRITABLE => 'string',
+    NOTES => 'SEAL embedded in XMP.',
+    seal => {
+        Name => 'Seal',
+        Binary => 1,
+        SubDirectory => { TagTable => 'Image::ExifTool::XMP::SEAL' },
+    },
+);
+
+%Image::ExifTool::XMP::SEAL = (
+    GROUPS => { 0 => 'XML', 1 => 'SEAL', 2 => 'Document' },
+    PROCESS_PROC => \&ProcessSEAL,
+    NOTES => q{
+        These tags are used in SEAL (Secure Evidence Attribution Label) content
+        authentification, which is actually XML format, not XMP.  ExifTool has
+        read/delete support for SEAL information in JPG, TIFF, XMP, PNG, WEBP, HEIC,
+        PPM, MOV and MP4 files, and read-only support in PDF, MKV and WAV.  Use
+        C<-seal:all=> on the command line to delete SEAL information in supported
+        formats.  See L<https://github.com/hackerfactor/SEAL> for the specification.
+    },
+    seal=> 'SEALVersion',
+    ka  => 'KeyAlgorithm',
+    kv  => 'KeyVersion',
+    da  => 'DigestAlgorithm',
+    b   => 'ByteRange',
+    d   => 'Domain',
+    uid => 'UniqueIdentifier',
+    id  => 'Identifier',
+    sf  => 'SignatureFormat',
+    sl  => 'SignatureLength',
+   's'  => 'Signature',
+    info=> 'SEALComment',
+    copyright => { Name => 'Copyright', Groups => { 2 => 'Author' } },
+);
+
+#------------------------------------------------------------------------------
+# We found a SEAL property name/value
+# Inputs: 0) ExifTool ref, 1) tag table ref, 2) xmp property list ref
+#         3) property value, 4) attribute hash ref
+# Returns: 1 if valid tag was found
+sub FoundSEAL($$$$;$)
+{
+    my ($et, $tagTablePtr, $props, $val, $attrs) = @_;
+    # remove 'seal' container property from name
+    my @sealProps = @$props;
+    shift @sealProps if @sealProps and $sealProps[0] eq 'seal';
+    return FoundXMP($et, $tagTablePtr, \@sealProps, $val, $attrs);
+}
+
+#------------------------------------------------------------------------------
+# Process SEAL XML
+# Inputs: 0) ExifTool ref, 1) dirInfo ref, 2) tag table ref
+# Returns: 1 on success
+sub ProcessSEAL($$;$)
+{
+    my ($et, $dirInfo, $tagTablePtr) = @_;
+    $$dirInfo{XMPParseOpts}{FoundProc} = \&FoundSEAL;
+    return ProcessXMP($et, $dirInfo, $tagTablePtr);
+}
+
 #------------------------------------------------------------------------------
 # Generate crd tags
 # Inputs: 0) tag table ref
@@ -2217,7 +1939,6 @@ sub Init_crd($)
         $$tagInfo{Groups} = { 0 => 'XMP', 1 => 'XMP-crd' , 2 => $$crsInfo{Groups}{2} } if $$crsInfo{Groups};
     }
 }
-
 
 1;  #end
 
@@ -2237,7 +1958,7 @@ This file contains definitions for less common XMP namespaces.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

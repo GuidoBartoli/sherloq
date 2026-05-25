@@ -182,7 +182,7 @@ sub UnescapeRTF($$$)
                 $skip = $2;
             } elsif ($1 eq 'u') {   # \uN
                 if ($2 < 0) {
-                    $et->WarnOnce('Invalid Unicode character(s) in text');
+                    $et->Warn('Invalid Unicode character(s) in text');
                     $rtnVal .= '?';
                 } else {
                     require Image::ExifTool::Charset;
@@ -366,7 +366,7 @@ information from RTF (Rich Text Format) documents.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

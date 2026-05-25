@@ -61,7 +61,7 @@ sub ProcessFITS($$)
         my $key = substr($buff, 0, 8);
         $key =~ s/ +$//;    # remove trailing space from key
         if ($key eq 'CONTINUE') {
-            defined $continue or $et->WarnOnce('Unexpected FITS CONTINUE keyword'), next;
+            defined $continue or $et->Warn('Unexpected FITS CONTINUE keyword'), next;
         } else {
             if (defined $continue) {
                 # the previous value wasn't continued, so store with the trailing '&'
@@ -104,7 +104,7 @@ sub ProcessFITS($$)
             # check for possible continuation, removing trailing '&'
             $val =~ s/\&$// and $continue = $val, next;
         } elsif (defined $continue) {
-            $et->WarnOnce('Invalid FITS CONTINUE value');
+            $et->Warn('Invalid FITS CONTINUE value');
             next;
         } else {
             $val =~ s/ *(\/.*)?$//;     # remove trailing spaces and comment
@@ -137,7 +137,7 @@ information from FITS (Flexible Image Transport System) images.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

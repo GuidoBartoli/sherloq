@@ -21,7 +21,7 @@ use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 use Image::ExifTool::Canon;
 
-$VERSION = '1.61';
+$VERSION = '1.62';
 
 sub WriteCRW($$);
 sub ProcessCanonRaw($$$);
@@ -562,7 +562,7 @@ sub BuildMakerNotes($$$$$$);
     3 => {
         Name => 'Rotation',
         Format => 'int32s',
-        Writable => 'int32s',
+        Writable => 1,
     },
     4 => 'ComponentBitDepth', #3
     5 => 'ColorBitDepth', #3
@@ -595,7 +595,9 @@ sub BuildMakerNotes($$$$$$);
     3 => 'WhiteSampleLeftBorder',
     4 => 'WhiteSampleTopBorder',
     5 => 'WhiteSampleBits',
-    # this is followed by the encrypted white sample values (ref 1)
+    # (followed by the encrypted white sample values, ref 1)
+    # BlackLevels seem valid for D30 and D60, but not sure about PowerShot models
+    0x37 => { Name => 'BlackLevels', Format => 'int16u[4]' }, #github387
 );
 
 #------------------------------------------------------------------------------
@@ -854,7 +856,7 @@ sub ProcessCRW($$)
 
     # process trailers if they exist in CRW file (not in CIFF information!)
     if ($$et{FILE_TYPE} eq 'CRW') {
-        my $trailInfo = Image::ExifTool::IdentifyTrailer($raf);
+        my $trailInfo = $et->IdentifyTrailer($raf);
         $et->ProcessTrailers($trailInfo) if $trailInfo;
     }
 
@@ -888,7 +890,7 @@ tags.)
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

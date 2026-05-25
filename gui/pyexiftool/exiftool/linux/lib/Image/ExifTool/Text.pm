@@ -15,15 +15,15 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.04';
+$VERSION = '1.05';
 
 # Text tags
 %Image::ExifTool::Text::Main = (
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     GROUPS => { 0 => 'File', 1 => 'File', 2 => 'Document' },
     NOTES => q{
         Although basic text files contain no metadata, the following tags are
-        determined from a simple analysis of the data in TXT and CSV files. 
+        determined from a simple analysis of the data in TXT and CSV files.
         Statistics are generated only for 8-bit encodings, but the L<FastScan|../ExifTool.html#FastScan> (-fast)
         option may be used to limit processing to the first 64 KiB in which case
         some tags are not produced.  To avoid long processing delays, ExifTool will
@@ -191,7 +191,8 @@ sub ProcessTXT($$)
             $enc = 'unknown-8bit';
         }
     }
-    if ($$et{VALUE}{MIMEEncoding} ne $enc) {
+    # ($$et{VALUE}{MIMEEncoding} may be undef if it was ignored)
+    if (defined $$et{VALUE}{MIMEEncoding} and $$et{VALUE}{MIMEEncoding} ne $enc) {
         $$et{VALUE}{MIMEEncoding} = $enc;
         $et->VPrint(0,"  MIMEEncoding [override] = $enc\n");
     }
@@ -221,7 +222,7 @@ characteristics of TXT and CSV files.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

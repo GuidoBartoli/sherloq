@@ -14,7 +14,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.13';
+$VERSION = '1.15';
 
 sub ProcessAPP12($$$);
 sub ProcessDucky($$$);
@@ -72,7 +72,7 @@ sub WriteDucky($$$);
     StrobeTime  => { },
     Resolution  => { },
     Protect     => { },
-    ConTake     => { },
+    ContTake    => { },
     ImageSize   => { PrintConv => '$val=~tr/-/x/;$val' },
     ColorMode   => { },
     Zoom        => { },
@@ -114,8 +114,8 @@ sub WriteDucky($$$);
         Priority => 0,
         Avoid => 1,
         # (ignore 4-byte character count at start of value)
-        ValueConv => '$self->Decode(substr($val,4),"UCS2","MM")',
-        ValueConvInv => 'pack("N",length $val) . $self->Encode($val,"UCS2","MM")',
+        ValueConv => '$self->Decode(substr($val,4),"UTF16","MM")',
+        ValueConvInv => 'pack("N",length $val) . $self->Encode($val,"UTF16","MM")',
     },
     3 => { #PH
         Name => 'Copyright',
@@ -123,8 +123,8 @@ sub WriteDucky($$$);
         Avoid => 1,
         Groups => { 2 => 'Author' },
         # (ignore 4-byte character count at start of value)
-        ValueConv => '$self->Decode(substr($val,4),"UCS2","MM")',
-        ValueConvInv => 'pack("N",length $val) . $self->Encode($val,"UCS2","MM")',
+        ValueConv => '$self->Decode(substr($val,4),"UTF16","MM")',
+        ValueConvInv => 'pack("N",length $val) . $self->Encode($val,"UTF16","MM")',
     },
 );
 
@@ -278,6 +278,7 @@ sub ProcessAPP12($$$)
             $tagInfo = { Name => ucfirst $tag };
             # put in Camera group if information in "Camera" section
             $$tagInfo{Groups} = { 2 => 'Camera' } if $section =~ /camera/i;
+            $et->VPrint(0, $$et{INDENT}, "[adding APP12:$$tagInfo{Name}]\n");
             AddTagToTable($tagTablePtr, $tag, $tagInfo);
         }
         $et->FoundTag($tagInfo, $val);
@@ -305,7 +306,7 @@ APP12 meta information.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

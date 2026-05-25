@@ -1,11 +1,11 @@
-[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 12.46
+[ExifTool, ExifTool, ExifTool] ExifToolVersion - ExifTool Version Number: 13.46
 [ExifTool, ExifTool, ExifTool] Warning - Warning: IPTCDigest is not current. XMP may be out of sync
 [File, System, Other] FileName - File Name: ExifTool.jpg
 [File, System, Other] Directory - Directory: t/images
 [File, System, Other] FileSize - File Size: 26 kB
-[File, System, Time] FileModifyDate - File Modification Date/Time: 2021:03:19 14:14:12-04:00
-[File, System, Time] FileAccessDate - File Access Date/Time: 2022:09:19 14:15:32-04:00
-[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2022:09:18 10:49:22-04:00
+[File, System, Time] FileModifyDate - File Modification Date/Time: 2025:01:26 12:47:08-05:00
+[File, System, Time] FileAccessDate - File Access Date/Time: 2026:01:17 06:56:19-05:00
+[File, System, Time] FileInodeChangeDate - File Inode Change Date/Time: 2025:12:26 20:35:31-05:00
 [File, System, Other] FilePermissions - File Permissions: -rw-r--r--
 [File, File, Other] FileType - File Type: JPEG
 [File, File, Other] FileTypeExtension - File Type Extension: jpg
@@ -192,7 +192,7 @@
 [FlashPix, FlashPix, Other] 6 - Creating Application: Digita
 [FlashPix, FlashPix, Other] 7 - Extension Description: Presized image for LCD display
 [FlashPix, FlashPix, Other] 4096 - Storage-Stream Pathname: /.Screen Nail_bd0100609719a180
-[FlashPix, FlashPix, Other] Screen Nail - Screen Nail: (Binary data 5917 bytes)
+[FlashPix, FlashPix, Other] \x05Screen Nail - Screen Nail: (Binary data 5917 bytes)
 [FlashPix, FlashPix, Preview] FlashPix-PreviewImage - Preview Image: (Binary data 5777 bytes)
 [MPF, MPF0, Image] 45056 - MPF Version: 0100
 [MPF, MPF0, Image] 45057 - Number Of Images: 2
@@ -368,6 +368,7 @@
 [APP14, Adobe, Image] 2 - APP14 Flags 1: (none)
 [APP14, Adobe, Image] 3 - Color Transform: YCbCr
 [APP15, GraphConv, Image] Q - Quality: 70
+[Trailer, Vivo, Image] JSONInfo - JSON Info: {"com.android.camera.joint.fullview.orientation":0,"com.android.camera.hdr":20737,"com.android.camera.fisheye":-1,"com.android.camera.joint.conshoot":0,"com.android.camera.moduleid":"photo","com.android.camera.joint.motioncapture":0,"version":1000,"com.android.camera.joint.fullview":false}
 [MIE, MIE-Doc, Author] Copyright - Copyright: © 2006 Phil Harvey
 [MIE, MIE-Main, Other] zmie - Trailer Signature: 
 [PhotoMechanic, PhotoMechanic, Image] 221 - Tagged: Yes
@@ -438,5 +439,5 @@
 [Composite, Composite, Camera] Exif-ScaleFactor35efl - Scale Factor To 35 mm Equivalent: 6.9
 [Composite, Composite, Camera] Exif-CircleOfConfusion - Circle Of Confusion: 0.004 mm
 [Composite, Composite, Image] Exif-FOV - Field Of View: 47.0 deg
-[Composite, Composite, Camera] Exif-FocalLength35efl - Focal Length: 6.0 mm (35 mm equivalent: 41.4 mm)
+[Composite, Composite, Camera] Exif-FocalLength35efl - Focal Length 35mm Equiv: 6.0 mm (35 mm equivalent: 41.4 mm)
 [Composite, Composite, Camera] Exif-HyperfocalDistance - Hyperfocal Distance: 2.36 m

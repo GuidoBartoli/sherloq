@@ -25,7 +25,7 @@ require Exporter;
 use Image::ExifTool qw(ImageInfo);
 
 use vars qw($VERSION @ISA @EXPORT);
-$VERSION = '1.23';
+$VERSION = '1.25';
 @ISA = qw(Exporter);
 @EXPORT = qw(check writeCheck writeInfo testCompare binaryCompare testVerbose notOK done);
 
@@ -81,13 +81,13 @@ sub testCompare($$$;$)
             $success = 1;
             my ($line1, $line2);
             my $linenum = 0;
-            my $skip = 0;
+            my $retry = 0;
             for (;;) {
-                $line1 = <FILE1> unless $skip == 1;
+                $line1 = <FILE1> unless $retry == 1;
                 last unless defined $line1;
                 ++$linenum;
-                $line2 = <FILE2> unless $skip == 2;
-                $skip = 0;
+                $line2 = <FILE2> unless $retry == 2;
+                $retry = 0;
                 if (defined $line2) {
                     next if $line1 eq $line2;
                     next if nearEnough($line1, $line2);
@@ -95,13 +95,19 @@ sub testCompare($$$;$)
                     if ($line1 =~ /Warning: IPTCDigest is not current/ and
                         not eval 'require Digest::MD5')
                     {
-                        $skip = 2; 
+                        $retry = 2; 
                         next;
                     } elsif ($line2 =~ /Warning: IPTCDigest is not current/ and
                         not eval 'require Digest::MD5')
                     {
-                        $skip = 1;
+                        $retry = 1;
                         next;
+                    }
+                    # FileCreateDate may be extracted on Linux if File::StatX is available
+                    if ($line1 =~ /File\s?Creat.*Date/) {
+                        $line2 =~ /File\s?Creat.*Date/ or $retry = 2, next;
+                    } elsif ($line2 =~ /File\s?Creat.*Date/) {
+                        $retry = 1, next;
                     }
                 }
                 $success = 0;
@@ -148,9 +154,11 @@ sub nearEnough($$)
                ($line2 eq "$1$Image::ExifTool::VERSION$Image::ExifTool::RELEASE$2" or
                 $line2 eq "$1$Image::ExifTool::VERSION$2");
 
-    # allow different FileModifyDate, FileAccessDate, FileCreateDate/FileInodeChangeDate and FilePermissions
+    # allow different FileModifyDate, FileAccessDate, FileCreateDate/FileInodeChangeDate
+    # and FilePermissions (note that FileInodeChangeDate is FileCreateDate on Windows,
+    # and FileCreateDate may or may not be extracted on Linux)
     return 1 if $line1 =~ /(File\s?(Modif.*Date|Access\s?Date|Inode\s?Change\s?Date|Permissions))/ and
-               ($line2 =~ /$1/ or $line2 =~ /File\s?Creat.*Date/);
+               ($line2 =~ /$1/ or $line2 =~ /File\s?Creat.*Date/ and $^O ne 'linux');
 
     # allow CurrentIPTCDigest to be zero if Digest::MD5 isn't installed
     return 1 if $line1 =~ /Current IPTC Digest/ and
@@ -183,11 +191,11 @@ sub nearEnough($$)
             }
             next;   # ignore times if Time::Local not available
         # account for different timezones
-        } elsif ($tok1 =~ /^(\d{2}:\d{2}:\d{2})(Z|[-+]\d{2}:\d{2})$/i) {
+        } elsif ($tok1 =~ /^(\d{2}:\d{2}:\d{2}(?:\.\d+)?)(Z|[-+]\d{2}:\d{2})$/i) {
             my $time = $1;  # remove timezone
             # timezone may be wrong if writing date/time value in a different timezone
-            next if $tok2 =~ /^(\d{2}:\d{2}:\d{2})(Z|[-+]\d{2}:\d{2})$/i and $time eq $1;
-            # date/time may be wrong to if converting GMT value to local time
+            next if $tok2 =~ /^(\d{2}:\d{2}:\d{2}(?:\.\d+)?)(Z|[-+]\d{2}:\d{2})$/i and $time eq $1;
+            # date/time may be wrong too if converting GMT value to local time
             last unless $i and $toks1[$i-1] =~ /^\d{4}:\d{2}:\d{2}$/ and
                                $toks2[$i-1] =~ /^\d{4}:\d{2}:\d{2}$/;
             $tok1 = $toks1[$i-1] . ' ' . $tok1; # add date to give date/time value
@@ -196,8 +204,8 @@ sub nearEnough($$)
         # date may be different if timezone shifted into next day
         } elsif ($tok1 =~ /^\d{4}:\d{2}:\d{2}$/ and $tok2 =~ /^\d{4}:\d{2}:\d{2}$/ and
                  defined $toks1[$i+1] and defined $toks2[$i+1] and
-                 $toks1[$i+1] =~ /^(\d{2}:\d{2}:\d{2})(Z|[-+]\d{2}:\d{2})$/i and
-                 $toks2[$i+1] =~ /^(\d{2}:\d{2}:\d{2})(Z|[-+]\d{2}:\d{2})$/i)
+                 $toks1[$i+1] =~ /^(\d{2}:\d{2}:\d{2}(?:\.\d+)?)(Z|[-+]\d{2}:\d{2})$/i and
+                 $toks2[$i+1] =~ /^(\d{2}:\d{2}:\d{2}(?:\.\d+)?)(Z|[-+]\d{2}:\d{2})$/i)
         {
             ++$i;
             $tok1 .= ' ' . $toks1[$i];      # add time to give date/time value
@@ -254,7 +262,7 @@ sub nearTime($$$$)
     my $t1 = Image::ExifTool::GetUnixTime($tok1, 'local') or return 0;
     my $t2 = Image::ExifTool::GetUnixTime($tok2, 'local') or return 0;
     my $td = $t2 - $t1;
-    if ($td) {
+    if (abs($td) > 0.0001) { # (allow for round-off errors in fractional seconds)
         # patch for the MirBSD leap-second unconformity
         # (120 leap seconds should cover us until _well_ into the future)
         return 0 unless $^O eq 'mirbsd' and $td < 0 and $td > -120;
@@ -288,7 +296,7 @@ sub formatValue($)
         $str = '[' . join(',', @a) . ']';
     } elsif (ref $val eq 'HASH') {
         my $key;
-        foreach $key (sort keys %$val) {
+        foreach $key (Image::ExifTool::OrderedKeys($val)) {
             push @a, $key . '=' . formatValue($$val{$key});
         }
         $str = '{' . join(',', @a) . '}';
@@ -349,6 +357,7 @@ sub check($$$;$$$)
             my @groups = $exifTool->GetGroup($_);
             my $groups = join ', ', @groups[0..($topGroup||2)];
             my $tagID = $exifTool->GetTagID($_);
+            $tagID =~ s/([\0-\x1f\x7f-\xff])/sprintf('\\x%.2x',ord $1)/eg;
             my $desc = $exifTool->GetDescription($_);
             print FILE "[$groups] $tagID - $desc: $val";
         } else {

@@ -13,15 +13,172 @@
 package Image::ExifTool::Microsoft;
 
 use strict;
-use vars qw($VERSION);
+use vars qw($VERSION %codePage);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::XMP;
 
-$VERSION = '1.23';
+$VERSION = '1.24';
 
 sub ProcessXtra($$$);
 sub WriteXtra($$$);
 sub CheckXtra($$$);
+
+# list of code pages used by Microsoft
+# (ref http://msdn.microsoft.com/en-us/library/dd317756(VS.85).aspx)
+%codePage = (
+     37 => 'IBM EBCDIC US-Canada',
+    437 => 'DOS United States',
+    500 => 'IBM EBCDIC International',
+    708 => 'Arabic (ASMO 708)',
+    709 => 'Arabic (ASMO-449+, BCON V4)',
+    710 => 'Arabic - Transparent Arabic',
+    720 => 'DOS Arabic (Transparent ASMO)',
+    737 => 'DOS Greek (formerly 437G)',
+    775 => 'DOS Baltic',
+    850 => 'DOS Latin 1 (Western European)',
+    852 => 'DOS Latin 2 (Central European)',
+    855 => 'DOS Cyrillic (primarily Russian)',
+    857 => 'DOS Turkish',
+    858 => 'DOS Multilingual Latin 1 with Euro',
+    860 => 'DOS Portuguese',
+    861 => 'DOS Icelandic',
+    862 => 'DOS Hebrew',
+    863 => 'DOS French Canadian',
+    864 => 'DOS Arabic',
+    865 => 'DOS Nordic',
+    866 => 'DOS Russian (Cyrillic)',
+    869 => 'DOS Modern Greek',
+    870 => 'IBM EBCDIC Multilingual/ROECE (Latin 2)',
+    874 => 'Windows Thai (same as 28605, ISO 8859-15)',
+    875 => 'IBM EBCDIC Greek Modern',
+    932 => 'Windows Japanese (Shift-JIS)',
+    936 => 'Windows Simplified Chinese (PRC, Singapore)',
+    949 => 'Windows Korean (Unified Hangul Code)',
+    950 => 'Windows Traditional Chinese (Taiwan)',
+    1026 => 'IBM EBCDIC Turkish (Latin 5)',
+    1047 => 'IBM EBCDIC Latin 1/Open System',
+    1140 => 'IBM EBCDIC US-Canada with Euro',
+    1141 => 'IBM EBCDIC Germany with Euro',
+    1142 => 'IBM EBCDIC Denmark-Norway with Euro',
+    1143 => 'IBM EBCDIC Finland-Sweden with Euro',
+    1144 => 'IBM EBCDIC Italy with Euro',
+    1145 => 'IBM EBCDIC Latin America-Spain with Euro',
+    1146 => 'IBM EBCDIC United Kingdom with Euro',
+    1147 => 'IBM EBCDIC France with Euro',
+    1148 => 'IBM EBCDIC International with Euro',
+    1149 => 'IBM EBCDIC Icelandic with Euro',
+    1200 => 'Unicode UTF-16, little endian',
+    1201 => 'Unicode UTF-16, big endian',
+    1250 => 'Windows Latin 2 (Central European)',
+    1251 => 'Windows Cyrillic',
+    1252 => 'Windows Latin 1 (Western European)',
+    1253 => 'Windows Greek',
+    1254 => 'Windows Turkish',
+    1255 => 'Windows Hebrew',
+    1256 => 'Windows Arabic',
+    1257 => 'Windows Baltic',
+    1258 => 'Windows Vietnamese',
+    1361 => 'Korean (Johab)',
+    10000 => 'Mac Roman (Western European)',
+    10001 => 'Mac Japanese',
+    10002 => 'Mac Traditional Chinese',
+    10003 => 'Mac Korean',
+    10004 => 'Mac Arabic',
+    10005 => 'Mac Hebrew',
+    10006 => 'Mac Greek',
+    10007 => 'Mac Cyrillic',
+    10008 => 'Mac Simplified Chinese',
+    10010 => 'Mac Romanian',
+    10017 => 'Mac Ukrainian',
+    10021 => 'Mac Thai',
+    10029 => 'Mac Latin 2 (Central European)',
+    10079 => 'Mac Icelandic',
+    10081 => 'Mac Turkish',
+    10082 => 'Mac Croatian',
+    12000 => 'Unicode UTF-32, little endian',
+    12001 => 'Unicode UTF-32, big endian',
+    20000 => 'CNS Taiwan',
+    20001 => 'TCA Taiwan',
+    20002 => 'Eten Taiwan',
+    20003 => 'IBM5550 Taiwan',
+    20004 => 'TeleText Taiwan',
+    20005 => 'Wang Taiwan',
+    20105 => 'IA5 (IRV International Alphabet No. 5, 7-bit)',
+    20106 => 'IA5 German (7-bit)',
+    20107 => 'IA5 Swedish (7-bit)',
+    20108 => 'IA5 Norwegian (7-bit)',
+    20127 => 'US-ASCII (7-bit)',
+    20261 => 'T.61',
+    20269 => 'ISO 6937 Non-Spacing Accent',
+    20273 => 'IBM EBCDIC Germany',
+    20277 => 'IBM EBCDIC Denmark-Norway',
+    20278 => 'IBM EBCDIC Finland-Sweden',
+    20280 => 'IBM EBCDIC Italy',
+    20284 => 'IBM EBCDIC Latin America-Spain',
+    20285 => 'IBM EBCDIC United Kingdom',
+    20290 => 'IBM EBCDIC Japanese Katakana Extended',
+    20297 => 'IBM EBCDIC France',
+    20420 => 'IBM EBCDIC Arabic',
+    20423 => 'IBM EBCDIC Greek',
+    20424 => 'IBM EBCDIC Hebrew',
+    20833 => 'IBM EBCDIC Korean Extended',
+    20838 => 'IBM EBCDIC Thai',
+    20866 => 'Russian/Cyrillic (KOI8-R)',
+    20871 => 'IBM EBCDIC Icelandic',
+    20880 => 'IBM EBCDIC Cyrillic Russian',
+    20905 => 'IBM EBCDIC Turkish',
+    20924 => 'IBM EBCDIC Latin 1/Open System with Euro',
+    20932 => 'Japanese (JIS 0208-1990 and 0121-1990)',
+    20936 => 'Simplified Chinese (GB2312)',
+    20949 => 'Korean Wansung',
+    21025 => 'IBM EBCDIC Cyrillic Serbian-Bulgarian',
+    21027 => 'Extended Alpha Lowercase (deprecated)',
+    21866 => 'Ukrainian/Cyrillic (KOI8-U)',
+    28591 => 'ISO 8859-1 Latin 1 (Western European)',
+    28592 => 'ISO 8859-2 (Central European)',
+    28593 => 'ISO 8859-3 Latin 3',
+    28594 => 'ISO 8859-4 Baltic',
+    28595 => 'ISO 8859-5 Cyrillic',
+    28596 => 'ISO 8859-6 Arabic',
+    28597 => 'ISO 8859-7 Greek',
+    28598 => 'ISO 8859-8 Hebrew (Visual)',
+    28599 => 'ISO 8859-9 Turkish',
+    28603 => 'ISO 8859-13 Estonian',
+    28605 => 'ISO 8859-15 Latin 9',
+    29001 => 'Europa 3',
+    38598 => 'ISO 8859-8 Hebrew (Logical)',
+    50220 => 'ISO 2022 Japanese with no halfwidth Katakana (JIS)',
+    50221 => 'ISO 2022 Japanese with halfwidth Katakana (JIS-Allow 1 byte Kana)',
+    50222 => 'ISO 2022 Japanese JIS X 0201-1989 (JIS-Allow 1 byte Kana - SO/SI)',
+    50225 => 'ISO 2022 Korean',
+    50227 => 'ISO 2022 Simplified Chinese',
+    50229 => 'ISO 2022 Traditional Chinese',
+    50930 => 'EBCDIC Japanese (Katakana) Extended',
+    50931 => 'EBCDIC US-Canada and Japanese',
+    50933 => 'EBCDIC Korean Extended and Korean',
+    50935 => 'EBCDIC Simplified Chinese Extended and Simplified Chinese',
+    50936 => 'EBCDIC Simplified Chinese',
+    50937 => 'EBCDIC US-Canada and Traditional Chinese',
+    50939 => 'EBCDIC Japanese (Latin) Extended and Japanese',
+    51932 => 'EUC Japanese',
+    51936 => 'EUC Simplified Chinese',
+    51949 => 'EUC Korean',
+    51950 => 'EUC Traditional Chinese',
+    52936 => 'HZ-GB2312 Simplified Chinese',
+    54936 => 'Windows XP and later: GB18030 Simplified Chinese (4 byte)',
+    57002 => 'ISCII Devanagari',
+    57003 => 'ISCII Bengali',
+    57004 => 'ISCII Tamil',
+    57005 => 'ISCII Telugu',
+    57006 => 'ISCII Assamese',
+    57007 => 'ISCII Oriya',
+    57008 => 'ISCII Kannada',
+    57009 => 'ISCII Malayalam',
+    57010 => 'ISCII Gujarati',
+    57011 => 'ISCII Punjabi',
+    65000 => 'Unicode (UTF-7)',
+    65001 => 'Unicode (UTF-8)',
+);
 
 # tags written by Microsoft HDView (ref 1)
 %Image::ExifTool::Microsoft::Stitch = (
@@ -73,7 +230,7 @@ sub CheckXtra($$$);
     GROUPS => { 0 => 'XMP', 1 => 'XMP-microsoft', 2 => 'Image' },
     NAMESPACE => 'MicrosoftPhoto',
     TABLE_DESC => 'XMP Microsoft',
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => q{
         Microsoft Photo 1.0 schema XMP tags.  This is likely not a complete list,
         but represents tags which have been observed in sample images.  The actual
@@ -106,7 +263,7 @@ sub CheckXtra($$$);
     GROUPS => { 0 => 'XMP', 1 => 'XMP-MP1', 2 => 'Image' },
     NAMESPACE => 'MP1',
     TABLE_DESC => 'XMP Microsoft Photo',
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => q{
         Microsoft Photo 1.1 schema XMP tags which have been observed.
     },
@@ -163,7 +320,7 @@ my %sRegions = (
     GROUPS => { 0 => 'XMP', 1 => 'XMP-MP', 2 => 'Image' },
     NAMESPACE => 'MP',
     TABLE_DESC => 'XMP Microsoft Photo',
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => q{
         Microsoft Photo 1.2 schema XMP tags which have been observed.
     },
@@ -204,7 +361,7 @@ my %sRegions = (
     WRITE_GROUP => 'Microsoft',
     AVOID => 1,
     GROUPS => { 0 => 'QuickTime', 2 => 'Video' },
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => q{
         Tags found in the Microsoft "Xtra" atom of QuickTime videos.  Tag ID's are
         not shown because some are unruly GUID's.  Currently most of these tags are
@@ -245,7 +402,7 @@ my %sRegions = (
     Copyright                   => { Groups => { 2 => 'Author' } },
     Count                       => { },
     CurrentBitrate              => { },
-    Description                 => { },
+    Description                 => { Writable => 'Unicode', Avoid => 1 },
     DisplayArtist               => { },
     DLNAServerUDN               => { },
     DLNASourceURI               => { },
@@ -813,7 +970,7 @@ sub ReadXtraValue($$)
 {
     my ($et, $data) = @_;
     my ($format, $i, @vals);
-    
+
     return undef if length($data) < 10;
 
     # (version flags according to the reference, but looks more like a count - PH)
@@ -830,7 +987,7 @@ sub ReadXtraValue($$)
         SetByteOrder('II');
         if ($valType == 8) {
             $format = 'Unicode';
-            $val = $et->Decode($val, 'UCS2');
+            $val = $et->Decode($val, 'UTF16');
         } elsif ($valType == 19 and $valLen == 8) {
             $format = 'int64u';
             $val = Get64u(\$val, 0);
@@ -879,7 +1036,7 @@ sub WriteXtraValue($$$)
         SetByteOrder('II');
         my ($type, $dat);
         if ($format eq 'Unicode') {
-            $dat = $et->Encode($val,'UCS2','II') . "\0\0";  # (must be null terminated)
+            $dat = $et->Encode($val,'UTF16','II') . "\0\0";  # (must be null terminated)
             $type = 8;
         } elsif ($format eq 'int64u') {
             if (Image::ExifTool::IsInt($val)) {
@@ -907,7 +1064,7 @@ sub WriteXtraValue($$$)
                 $type = 72;
             }
         } else {
-            $et->WarnOnce("Error converting value for Microsoft:$$tagInfo{Name}");
+            $et->Warn("Error converting value for Microsoft:$$tagInfo{Name}");
         }
         SetByteOrder('MM');
         if (defined $type) {
@@ -1100,7 +1257,7 @@ Xtra tags in videos.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

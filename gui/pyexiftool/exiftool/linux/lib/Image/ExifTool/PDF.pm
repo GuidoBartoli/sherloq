@@ -21,7 +21,7 @@ use vars qw($VERSION $AUTOLOAD $lastFetched);
 use Image::ExifTool qw(:DataAccess :Utils);
 require Exporter;
 
-$VERSION = '1.58';
+$VERSION = '1.62';
 
 sub FetchObject($$$$);
 sub ExtractObject($$;$$);
@@ -114,11 +114,11 @@ my %supportedFilter = (
         Notes => q{
             stored as a string but treated as a comma- or semicolon-separated list of
             items when reading if the string contains commas or semicolons, whichever is
-            more numerous, otherwise it is treated a space-separated list of items.
-            Written as a comma-separated list.  The list behaviour may be defeated by
-            setting the API NoPDFList option.  Note that the corresponding
-            XMP-pdf:Keywords tag is not treated as a list, so the NoPDFList option
-            should be used when copying between these two.
+            more numerous, otherwise it is treated a space-separated list of items.  The
+            list behaviour may be defeated by setting the API NoPDFList option.  Written
+            as a comma-separated string.  Note that the corresponding XMP-pdf:Keywords
+            tag is not treated as a list, so the NoPDFList option should be used when
+            copying between these two.
         },
     },
     Creator     => { },
@@ -136,6 +136,15 @@ my %supportedFilter = (
         Name => 'ModifyDate',
         Writable => 'date',
         PDF2 => 1,  # not deprecated in PDF 2.0
+        Groups => { 2 => 'Time' },
+        Shift => 'Time',
+        PrintConv => '$self->ConvertDateTime($val)',
+        PrintConvInv => '$self->InverseDateTime($val)',
+    },
+    SourceModified => {
+        Name => 'SourceModified',
+        Writable => 'date',
+        PDF2 => 1,
         Groups => { 2 => 'Time' },
         Shift => 'Time',
         PrintConv => '$self->ConvertDateTime($val)',
@@ -225,6 +234,7 @@ my %supportedFilter = (
     Kids => {
         SubDirectory => { TagTable => 'Image::ExifTool::PDF::Kids' },
     },
+    MediaBox => { Name => 'MediaBox', List => 1 },
 );
 
 # tags in PDF Perms dictionary
@@ -349,6 +359,7 @@ my %supportedFilter = (
 # tags in PDF ICCBased, Cs1 and CS0 dictionaries
 %Image::ExifTool::PDF::ICCBased = (
     _stream => {
+        Name => 'ICC_Profile',
         SubDirectory => { TagTable => 'Image::ExifTool::ICC_Profile::Main' },
     },
 );
@@ -470,6 +481,7 @@ my %supportedFilter = (
 # tags in PDF AIMetaData dictionary
 %Image::ExifTool::PDF::AIMetaData = (
     _stream => {
+        Name => 'AIStream',
         SubDirectory => { TagTable => 'Image::ExifTool::PostScript::Main' },
     },
 );
@@ -477,6 +489,7 @@ my %supportedFilter = (
 # tags in PDF ImageResources dictionary
 %Image::ExifTool::PDF::ImageResources = (
     _stream => {
+        Name => 'PhotoshopStream',
         SubDirectory => { TagTable => 'Image::ExifTool::Photoshop::Main' },
     },
 );
@@ -1212,7 +1225,7 @@ sub DecodeStream($$)
     # be sure we can process all the filters before we take the time to do the decryption
     foreach $filter (@filters) {
         next if $supportedFilter{$filter};
-        $et->WarnOnce("Unsupported Filter $filter");
+        $et->Warn("Unsupported Filter $filter");
         return 0;
     }
     # apply decryption first if required (and if the default encryption
@@ -1241,7 +1254,7 @@ sub DecodeStream($$)
             if (ref $decodeParms eq 'HASH') {
                 $pre = $$decodeParms{Predictor};
                 if ($pre and $pre ne '1' and $pre ne '12') {
-                    $et->WarnOnce("FlateDecode Predictor $pre currently not supported");
+                    $et->Warn("FlateDecode Predictor $pre currently not supported");
                     return 0;
                 }
             }
@@ -1256,7 +1269,7 @@ sub DecodeStream($$)
                     return 0;
                 }
             } else {
-                $et->WarnOnce('Install Compress::Zlib to process filtered streams');
+                $et->Warn('Install Compress::Zlib to process filtered streams');
                 return 0;
             }
             next unless $pre and $pre eq '12';  # 12 = 'up' prediction
@@ -1265,7 +1278,7 @@ sub DecodeStream($$)
             my $cols = $$decodeParms{Columns};
             unless ($cols) {
                 # currently only support 'up' prediction
-                $et->WarnOnce('No Columns for decoding stream');
+                $et->Warn('No Columns for decoding stream');
                 return 0;
             }
             my @bytes = unpack('C*', $$dict{_stream});
@@ -1273,7 +1286,7 @@ sub DecodeStream($$)
             my $buff = '';
             while (@bytes > $cols) {
                 unless (($_ = shift @bytes) == 2) {
-                    $et->WarnOnce("Unsupported PNG filter $_"); # (yes, PNG)
+                    $et->Warn("Unsupported PNG filter $_"); # (yes, PNG)
                     return 0;
                 }
                 foreach (@pre) {
@@ -1293,11 +1306,11 @@ sub DecodeStream($$)
             my $name = $$decodeParms{Name};
             next unless defined $name or $name eq 'Identity';
             if ($name ne 'StdCF') {
-                $et->WarnOnce("Unsupported Crypt Filter $name");
+                $et->Warn("Unsupported Crypt Filter $name");
                 return 0;
             }
             unless ($cryptInfo) {
-                $et->WarnOnce('Missing Encrypt StdCF entry');
+                $et->Warn('Missing Encrypt StdCF entry');
                 return 0;
             }
             # decrypt the stream manually because we want to:
@@ -1315,15 +1328,15 @@ sub DecodeStream($$)
             # make sure we don't have any unsupported decoding parameters
             if (ref $decodeParms eq 'HASH') {
                 if ($$decodeParms{Predictor}) {
-                    $et->WarnOnce("LZWDecode Predictor $$decodeParms{Predictor} currently not supported");
+                    $et->Warn("LZWDecode Predictor $$decodeParms{Predictor} currently not supported");
                     return 0;
                 } elsif ($$decodeParms{EarlyChange}) {
-                    $et->WarnOnce("LZWDecode EarlyChange currently not supported");
+                    $et->Warn("LZWDecode EarlyChange currently not supported");
                     return 0;
                 }
             }
             unless (DecodeLZW(\$$dict{_stream})) {
-                $et->WarnOnce('LZW decompress error');
+                $et->Warn('LZW decompress error');
                 return 0;
             }
 
@@ -1359,7 +1372,7 @@ sub DecodeStream($$)
                 last if $_ eq '~';
                 # (both $n and $val are zero again now)
             }
-            $err and $et->WarnOnce("ASCII85Decode error $err");
+            $err and $et->Warn("ASCII85Decode error $err");
             $$dict{_stream} = pack('C*', @out);
         }
     }
@@ -1595,9 +1608,13 @@ sub DecryptInit($$$)
             $password = $et->Options('Password');
             return 'Document is password protected (use Password option)' unless defined $password;
             # make sure there is no UTF-8 flag on the password
-            if ($] >= 5.006 and (eval { require Encode; Encode::is_utf8($password) } or $@)) {
+            if ($] >= 5.006 and ($$et{OPTIONS}{EncodeHangs} or
+                eval { require Encode; Encode::is_utf8($password) } or $@))
+            {
+                local $SIG{'__WARN__'} = sub { };
                 # repack by hand if Encode isn't available
-                $password = $@ ? pack('C*',unpack($] < 5.010000 ? 'U0C*' : 'C0C*',$password)) : Encode::encode('utf8',$password);
+                $password = ($$et{OPTIONS}{EncodeHangs} or $@) ? pack('C*', unpack($] < 5.010000 ?
+                            'U0C*' : 'C0C*', $password)) : Encode::encode('utf8', $password);
             }
         } else {
             return 'Incorrect password';
@@ -1823,7 +1840,7 @@ sub ProcessDict($$$$;$$)
 
     $nesting = ($nesting || 0) + 1;
     if ($nesting > 50) {
-        $et->WarnOnce('Nesting too deep (directory ignored)');
+        $et->Warn('Nesting too deep (directory ignored)');
         return;
     }
     # save entire dictionary for rewriting if specified
@@ -1983,7 +2000,7 @@ sub ProcessDict($$$$;$$)
                     if ($$tagInfo{IgnoreDuplicates}) {
                         my $flag = "ProcessedPDF_$tag";
                         if ($$et{$flag}) {
-                            next if $et->WarnOnce("Ignored duplicate $tag dictionary", 2);
+                            next if $et->Warn("Ignored duplicate $tag dictionary", 2);
                         } else {
                             $$et{$flag} = 1;
                         }
@@ -2073,7 +2090,7 @@ sub ProcessDict($$$$;$$)
                 if (not $$tagInfo{Binary} and $val =~ /[\x18-\x1f\x80-\xff]/) {
                     # text string is already in Unicode if it starts with "\xfe\xff",
                     # otherwise we must first convert from PDFDocEncoding
-                    $val = $et->Decode($val, ($val=~s/^\xfe\xff// ? 'UCS2' : 'PDFDoc'), 'MM');
+                    $val = $et->Decode($val, ($val=~s/^\xfe\xff// ? 'UTF16' : 'PDFDoc'), 'MM');
                 }
                 if ($$tagInfo{List} and not $$et{OPTIONS}{NoPDFList}) {
                     # separate tokens in comma or whitespace delimited lists
@@ -2157,6 +2174,20 @@ sub ProcessDict($$$$;$$)
             last;
         }
         # decode stream if necessary
+        if ($cryptInfo and ($$cryptInfo{_aesv2} or $$cryptInfo{_aesv3} and
+            $$dict{Length} and $$dict{Length} > 10000) and not $$dict{_decrypted} and
+            not $$et{PDF_CAPTURE}) # (capturing PDF for writing?)
+        {
+            my $type = $$dict{Type} || '';
+            if ($type ne '/Metadata' or $$dict{Length} > 100000) {
+                if ($$et{OPTIONS}{IgnoreMinorErrors}) {
+                    $et->Warn("Decrypting large $$tagInfo{Name} (will be slow)");
+                } else {
+                    $et->Warn("Skipping large AES-encrypted $$tagInfo{Name}", 2);
+                    last;
+                }
+            }
+        }
         DecodeStream($et, $dict) or last;
         if ($verbose > 2) {
             $et->VPrint(2,"$$et{INDENT}$$et{DIR_NAME} stream data\n");
@@ -2233,7 +2264,17 @@ sub ReadPDF($$)
     $raf->Read($buff, $len) == $len or return -3;
     # find the LAST xref table in the file (may be multiple %%EOF marks,
     # and comments between "startxref" and "%%EOF")
-    $buff =~ /^.*startxref(\s+)(\d+)(\s+)(%[^\x0d\x0a]*\s+)*%%EOF/s or return -4;
+    $buff =~ /^.*startxref(\s+)(\d+)(\s+)((%[^\x0d\x0a]*\s+)*)%%EOF/s or return -4;
+    # parse comments to read SEAL information
+    if ($4) {
+        my @com = split /[\x0d\x0d]+/, $4;
+        foreach (@com) {
+            /^(%+\s*)<seal seal=/ or next;
+            my $dat = substr $_, length($1);
+            my $tbl = GetTagTable('Image::ExifTool::XMP::SEAL');
+            $et->ProcessDirectory({ DataPt => \$dat }, $tbl);
+        }
+    }
     my $ws = $1 . $3;
     my $xr = $2;
     push @xrefOffsets, $xr, 'Main';
@@ -2466,7 +2507,7 @@ and AESV3 (AES-256).
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

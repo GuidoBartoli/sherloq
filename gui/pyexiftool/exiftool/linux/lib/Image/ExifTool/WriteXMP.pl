@@ -112,7 +112,7 @@ sub ValidateProperty($$;$)
                             my $valLang = $$et{XmpValidateLangAlt} || ($$et{XmpValidateLangAlt} = { });
                             $$valLang{$langPath} or $$valLang{$langPath} = { };
                             if ($$valLang{$langPath}{$lang}) {
-                                $et->WarnOnce("Duplicate language ($lang) in lang-alt list: $langPath");
+                                $et->Warn("Duplicate language ($lang) in lang-alt list: $langPath");
                             } else {
                                 $$valLang{$langPath}{$lang} = 1;
                             }
@@ -236,7 +236,7 @@ sub CheckXMP($$$;$)
             return 'Not a floating point number';
         }
         if ($format eq 'rational') {
-            $$valPtr = join('/', Image::ExifTool::Rationalize($$valPtr));
+            $$valPtr = join('/', Image::ExifTool::Rationalize($$valPtr,0xffffffff));
         }
     } elsif ($format eq 'integer') {
         # make sure the value is integer
@@ -925,19 +925,31 @@ sub WriteXMP($$;$)
     # get hash of all information we want to change
     # (sorted by tag name so alternate languages come last, but with structures
     # first so flattened tags may be used to override individual structure elements)
-    my (@tagInfoList, $delLangPath, %delLangPaths, %delAllLang, $firstNewPath);
+    my (@tagInfoList, @structList, $delLangPath, %delLangPaths, %delAllLang, $firstNewPath, @langTags);
     my $writeGroup = $$dirInfo{WriteGroup};
     foreach $tagInfo (sort ByTagName $et->GetNewTagInfoList()) {
         next unless $et->GetGroup($tagInfo, 0) eq 'XMP';
         next if $$tagInfo{Name} eq 'XMP'; # (ignore full XMP block if we didn't write it already)
         next if $writeGroup and $writeGroup ne $$et{NEW_VALUE}{$tagInfo}{WriteGroup};
-        if ($$tagInfo{Struct}) {
-            unshift @tagInfoList, $tagInfo;
+        if ($$tagInfo{LangCode}) {
+            push @langTags, $tagInfo
+        } elsif ($$tagInfo{Struct}) {
+            push @structList, $tagInfo;
         } else {
             push @tagInfoList, $tagInfo;
         }
     }
-    foreach $tagInfo (@tagInfoList) {
+    if (@langTags) {
+        # keep original order in which lang-alt entries were added
+        foreach $tagInfo (sort { $$et{NEW_VALUE}{$a}{Order} <=> $$et{NEW_VALUE}{$b}{Order} } @langTags) {
+            if ($$tagInfo{Struct}) {
+                push @structList, $tagInfo;
+            } else {
+                push @tagInfoList, $tagInfo;
+            }
+        }
+    }
+    foreach $tagInfo (@structList, @tagInfoList) {
         my @delPaths;   # list of deleted paths
         my $tag = $$tagInfo{TagID};
         my $path = GetPropertyPath($tagInfo);
@@ -972,7 +984,7 @@ sub WriteXMP($$;$)
                         (not @fixInfo or $fixInfo[0] ne $info);
                     pop @props;
                 }
-                $et->WarnOnce("Error finding parent structure for $$tagInfo{Name}") unless @fixInfo;
+                $et->Warn("Error finding parent structure for $$tagInfo{Name}") unless @fixInfo;
             }
             # fix property path for this tag (last in the @fixInfo list)
             push @fixInfo, $tagInfo unless @fixInfo and $isStruct;
@@ -1639,7 +1651,7 @@ This file contains routines to write XMP metadata.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

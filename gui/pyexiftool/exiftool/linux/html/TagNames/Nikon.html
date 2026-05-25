@@ -149,14 +149,15 @@ flash bracketing.)</span></span></td></tr>
   <br>4 = 3:2 Crop
   <br>6 = 16:9 Crop
   <br>8 = 2.7x Crop
-  <br>9 = DX Movie Crop</td><td>&nbsp;&nbsp;</td>
+  <br>9 = DX Movie 16:9 Crop</td><td>&nbsp;&nbsp;</td>
   <td>10 = 1.3x Movie Crop
   <br>11 = FX Uncropped
   <br>12 = DX Uncropped
   <br>13 = 2.8x Movie Crop
   <br>14 = 1.4x Movie Crop
   <br>15 = 1.5x Movie Crop
-  <br>17 = 1:1 Crop</td></tr></table>
+  <br>17 = FX 1:1 Crop
+  <br>18 = DX 1:1 Crop</td></tr></table>
 </td></tr>
 <tr class=b>
 <td title='0x001c = 28'>0x001c</td>
@@ -320,6 +321,18 @@ causes the other information to be re-encrypted with the new key)</span></span><
 <td class=c>int16u</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td title='0x0051 = 81'>0x0051</td>
+<td>MakerNotes0x51</td>
+<td class=c title=' ! = Unsafe
+ ^ = Deletable'>undef!^</td>
+<td>--&gt; <a href='Nikon.html#MakerNotes0x51'>Nikon MakerNotes0x51 Tags</a></td></tr>
+<tr class=b>
+<td title='0x0056 = 86'>0x0056</td>
+<td>MakerNotes0x56</td>
+<td class=c title=' ! = Unsafe
+ ^ = Deletable'>undef!^</td>
+<td>--&gt; <a href='Nikon.html#MakerNotes0x56'>Nikon MakerNotes0x56 Tags</a></td></tr>
+<tr>
 <td title='0x0080 = 128'>0x0080</td>
 <td>ImageAdjustment</td>
 <td class=c>string</td>
@@ -447,12 +460,13 @@ causes the other information to be re-encrypted with the new key)</span></span><
   <br>ShotInfoD500
   <br>ShotInfoD6
   <br>ShotInfoD610
+  <br>ShotInfoZ6III
   <br>ShotInfoZ7II
   <br>ShotInfoZ8
   <br>ShotInfoZ9
   <br>ShotInfo02xx
   <br>ShotInfoUnknown</td>
-<td class=c>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-</td>
+<td class=c>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-<br>-</td>
 <td>--&gt; <a href='Nikon.html#ShotInfoD40'>Nikon ShotInfoD40 Tags</a>
   <br>--&gt; <a href='Nikon.html#ShotInfoD80'>Nikon ShotInfoD80 Tags</a>
   <br>--&gt; <a href='Nikon.html#ShotInfoD90'>Nikon ShotInfoD90 Tags</a>
@@ -478,6 +492,7 @@ causes the other information to be re-encrypted with the new key)</span></span><
   <br>--&gt; <a href='Nikon.html#ShotInfoD500'>Nikon ShotInfoD500 Tags</a>
   <br>--&gt; <a href='Nikon.html#ShotInfoD6'>Nikon ShotInfoD6 Tags</a>
   <br>--&gt; <a href='Nikon.html#ShotInfoD610'>Nikon ShotInfoD610 Tags</a>
+  <br>--&gt; <a href='Nikon.html#ShotInfoZ6III'>Nikon ShotInfoZ6III Tags</a>
   <br>--&gt; <a href='Nikon.html#ShotInfoZ7II'>Nikon ShotInfoZ7II Tags</a>
   <br>--&gt; <a href='Nikon.html#ShotInfoZ8'>Nikon ShotInfoZ8 Tags</a>
   <br>--&gt; <a href='Nikon.html#ShotInfoZ9'>Nikon ShotInfoZ9 Tags</a>
@@ -736,8 +751,11 @@ new key)</span></span></td></tr>
 <td title='0x00b7 = 183'>0x00b7</td>
 <td>AFInfo2</td>
 <td class=c>-</td>
-<td>--&gt; <a href='Nikon.html#AFInfo2V0400'>Nikon AFInfo2V0400 Tags</a>
-  <br>--&gt; <a href='Nikon.html#AFInfo2'>Nikon AFInfo2 Tags</a></td></tr>
+<td>--&gt; <a href='Nikon.html#AFInfo2V0100'>Nikon AFInfo2V0100 Tags</a>
+  <br>--&gt; <a href='Nikon.html#AFInfo2V0101'>Nikon AFInfo2V0101 Tags</a>
+  <br>--&gt; <a href='Nikon.html#AFInfo2V0200'>Nikon AFInfo2V0200 Tags</a>
+  <br>--&gt; <a href='Nikon.html#AFInfo2V0300'>Nikon AFInfo2V0300 Tags</a>
+  <br>--&gt; <a href='Nikon.html#AFInfo2V0400'>Nikon AFInfo2V0400 Tags</a></td></tr>
 <tr>
 <td title='0x00b8 = 184'>0x00b8</td>
 <td>FileInfo</td>
@@ -1267,7 +1285,7 @@ edit versions, otherwise this is extracted as a binary data block)</span>
 <td class=r title='6 = 0x6'>6</td>
 <td>VRMode</td>
 <td class=c>int8u</td>
-<td><span class=s><span class=n>(Z Series cameras thru October 2023)</span>
+<td><span class=s><span class=n>(Z Series cameras thru July 2025)</span>
   <br>0 = Off
   <br>1 = Normal
   <br>3 = Sport
@@ -1943,7 +1961,7 @@ FaceDetectFrameSize)</span></span></td></tr>
 <tr class=b>
 <td class=r title='10 = 0xa'>10</td>
 <td>NEFCompression</td>
-<td class=c>int16u[0.5]</td>
+<td class=c>int16u</td>
 <td>--&gt; <a href='Nikon.html#NEFCompression'>Nikon NEFCompression Values</a></td></tr>
 </table></td></tr></table></blockquote>
 
@@ -1955,14 +1973,48 @@ FaceDetectFrameSize)</span></span></td></tr>
 <th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
 <tr>
 <td class=r title='0 = 0x0'>0</td>
-<td>FirmwareVersion</td>
+<td>FirmwareVersion56</td>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
-<td class=r title='4 = 0x4'>4</td>
-<td>BurstGroupID</td>
-<td class=c>int16u</td>
+<td class=r title='4 = 0x4'>4.1</td>
+<td>BurstStartSlotNumber</td>
+<td class=c>int32u</td>
+<td><span class=s>[val &gt;&gt; 29 &amp; 0x1]</span></td></tr>
+<tr>
+<td class=r title='4 = 0x4'>4.2</td>
+<td>BurstStartFolderNumber</td>
+<td class=c>int32u</td>
+<td><span class=s>[val &gt;&gt; 19 &amp; 0x3ff]</span></td></tr>
+<tr class=b>
+<td class=r title='4 = 0x4'>4.3</td>
+<td>BurstStartImageNumber</td>
+<td class=c>int32u</td>
+<td><span class=s>[val &gt;&gt; 5 &amp; 0x3fff]</span></td></tr>
+<tr>
+<td class=r title='4 = 0x4'>4.4</td>
+<td>BurstStartImageType</td>
+<td class=c>int32u</td>
+<td><span class=s>[val &amp; 0x1f]</span><table class=cols><tr>
+  <td>0 = JPG
+  <br>2 = NEF
+  <br>3 = TIF
+  <br>4 = NDF</td><td>&nbsp;&nbsp;</td>
+  <td>5 = MOV
+  <br>6 = NEV
+  <br>7 = MP4</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='8 = 0x8'>8</td>
+<td>BurstShotNumber</td>
+<td class=c>int32u</td>
 <td>&nbsp;</td></tr>
+<tr>
+<td class=r title='12 = 0xc'>12</td>
+<td>PixelShiftActive</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = No
+  <br>1 = Yes</span></td></tr>
 </table></td></tr></table></blockquote>
 
 <h2><a name='AFInfo'>Nikon AFInfo Tags</a></h2>
@@ -3917,16 +3969,21 @@ firmware 1.01b.</p>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td class=r title='36 = 0x24'>36</td>
+<td>NumberOffsets</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td class=r title='48 = 0x30'>48</td>
 <td>SequenceOffset</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#SeqInfoD6'>Nikon SeqInfoD6 Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='156 = 0x9c'>156</td>
 <td>OrientationOffset</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#OrientationInfo'>Nikon OrientationInfo Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='164 = 0xa4'>164</td>
 <td>IntervalOffset</td>
 <td class=c>-</td>
@@ -3945,6 +4002,11 @@ firmware 1.01b.</p>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
+<td class=r title='40 = 0x28'>40</td>
+<td>IntervalFrame</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td class=r title='43 = 0x2b'>43</td>
 <td>ImageArea</td>
 <td class=c>int8u</td>
@@ -4134,6 +4196,628 @@ firmware 1.01b.</p>
 <td>--&gt; <a href='NikonCustom.html#SettingsD610'>NikonCustom SettingsD610 Tags</a></td></tr>
 </table></td></tr></table></blockquote>
 
+<h2><a name='ShotInfoZ6III'>Nikon ShotInfoZ6III Tags</a></h2>
+<p>These tags are extracted from encrypted data in images from the Z6III.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Index</th><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td class=r title='0 = 0x0'>0</td>
+<td>ShotInfoVersion</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='4 = 0x4'>4</td>
+<td>FirmwareVersion</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='14 = 0xe'>14</td>
+<td>FirmwareVersion2</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='24 = 0x18'>24</td>
+<td>FirmwareVersion3</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='36 = 0x24'>36</td>
+<td>NumberOffsets</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='136 = 0x88'>136</td>
+<td>OrientationOffset</td>
+<td class=c>-</td>
+<td>--&gt; <a href='Nikon.html#OrientationInfo'>Nikon OrientationInfo Tags</a></td></tr>
+<tr>
+<td class=r title='144 = 0x90'>144</td>
+<td>MenuOffset</td>
+<td class=c>-</td>
+<td>--&gt; <a href='Nikon.html#MenuSettingsZ6III'>Nikon MenuSettingsZ6III Tags</a></td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='MenuSettingsZ6III'>Nikon MenuSettingsZ6III Tags</a></h2>
+<p>These tags are used by the Z6III.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Index1</th><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td class=r title='360 = 0x168'>360</td>
+<td>SingleFrame</td>
+<td class=c>int8u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='364 = 0x16c'>364</td>
+<td>HighFrameRate</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = Off
+  <br>1 = CH
+  <br>2 = CH*
+  <br>3 = C30</td><td>&nbsp;&nbsp;</td>
+  <td>4 = C120
+  <br>5 = C60
+  <br>6 = C15</td></tr></table>
+</td></tr>
+<tr>
+<td class=r title='444 = 0x1bc'>444</td>
+<td>MultipleExposureMode</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On
+  <br>2 = On (Series)</span></td></tr>
+<tr class=b>
+<td class=r title='446 = 0x1be'>446</td>
+<td>MultiExposureShots</td>
+<td class=c>int8u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='476 = 0x1dc'>476</td>
+<td>IntervalDurationHours</td>
+<td class=c>int32u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='480 = 0x1e0'>480</td>
+<td>IntervalDurationMinutes</td>
+<td class=c>int32u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='484 = 0x1e4'>484</td>
+<td>IntervalDurationSeconds</td>
+<td class=c>int32u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='492 = 0x1ec'>492</td>
+<td>Intervals</td>
+<td class=c>int32u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='496 = 0x1f0'>496</td>
+<td>ShotsPerInterval</td>
+<td class=c>int32u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='500 = 0x1f4'>500</td>
+<td>IntervalExposureSmoothing</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr>
+<td class=r title='502 = 0x1f6'>502</td>
+<td>IntervalPriority</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr class=b>
+<td class=r title='536 = 0x218'>536</td>
+<td>FocusShiftNumberShots</td>
+<td class=c>int8u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='540 = 0x21c'>540</td>
+<td>FocusShiftStepWidth</td>
+<td class=c>int8u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='544 = 0x220'>544</td>
+<td>FocusShiftInterval</td>
+<td class=c title=' ~ = Writable only with -n'>int8u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='548 = 0x224'>548</td>
+<td>FocusShiftExposureLock</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr class=b>
+<td class=r title='648 = 0x288'>648</td>
+<td>AutoISO</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr>
+<td class=r title='650 = 0x28a'>650</td>
+<td>ISOAutoHiLimit?</td>
+<td class=c>int16u</td>
+<td><table class=cols><tr>
+  <td>5 = ISO 200
+  <br>6 = ISO 250
+  <br>7 = ISO 320
+  <br>8 = ISO 400
+  <br>9 = ISO 500
+  <br>10 = ISO 640
+  <br>11 = ISO 800
+  <br>12 = ISO 1000
+  <br>13 = ISO 1250
+  <br>14 = ISO 1600
+  <br>15 = ISO 2000
+  <br>16 = ISO 2500
+  <br>17 = ISO 3200
+  <br>18 = ISO 4000
+  <br>19 = ISO 5000</td><td>&nbsp;&nbsp;</td>
+  <td>20 = ISO 6400
+  <br>21 = ISO 8000
+  <br>22 = ISO 10000
+  <br>23 = ISO 12800
+  <br>24 = ISO 16000
+  <br>25 = ISO 20000
+  <br>26 = ISO 25600
+  <br>27 = ISO 32000
+  <br>28 = ISO 40000
+  <br>29 = ISO 51200
+  <br>30 = ISO 64000
+  <br>31 = ISO Hi 0.3
+  <br>32 = ISO Hi 0.7
+  <br>33 = ISO Hi 1.0
+  <br>35 = ISO Hi 1.7</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='718 = 0x2ce'>718</td>
+<td>DiffractionCompensation</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr>
+<td class=r title='719 = 0x2cf'>719</td>
+<td>AutoDistortionControl</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr class=b>
+<td class=r title='720 = 0x2d0'>720</td>
+<td>FlickerReductionShooting</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr>
+<td class=r title='722 = 0x2d2'>722</td>
+<td>NikonMeteringMode</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Matrix
+  <br>1 = Center
+  <br>2 = Spot
+  <br>3 = Highlight</span></td></tr>
+<tr class=b>
+<td class=r title='724 = 0x2d4'>724</td>
+<td>FlashControlMode</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = TTL
+  <br>1 = Auto External Flash
+  <br>2 = GN (distance priority)
+  <br>3 = Manual
+  <br>4 = Repeating Flash</span></td></tr>
+<tr>
+<td class=r title='730 = 0x2da'>730</td>
+<td>FlashGNDistance?</td>
+<td class=c>no</td>
+<td><table class=cols><tr>
+  <td>0 = 0
+  <br>1 = 0.1 m
+  <br>2 = 0.2 m
+  <br>3 = 0.3 m
+  <br>4 = 0.4 m
+  <br>5 = 0.5 m
+  <br>6 = 0.6 m
+  <br>7 = 0.7 m
+  <br>8 = 0.8 m
+  <br>9 = 0.9 m
+  <br>10 = 1.0 m
+  <br>11 = 1.1 m
+  <br>12 = 1.3 m</td><td>&nbsp;&nbsp;</td>
+  <td>13 = 1.4 m
+  <br>14 = 1.6 m
+  <br>15 = 1.8 m
+  <br>16 = 2.0 m
+  <br>17 = 2.2 m
+  <br>18 = 2.5 m
+  <br>19 = 2.8 m
+  <br>20 = 3.2 m
+  <br>21 = 3.6 m
+  <br>22 = 4.0 m
+  <br>23 = 4.5 m
+  <br>24 = 5.0 m
+  <br>25 = 5.6 m</td><td>&nbsp;&nbsp;</td>
+  <td>26 = 6.3 m
+  <br>27 = 7.1 m
+  <br>28 = 8.0 m
+  <br>29 = 9.0 m
+  <br>30 = 10.0 m
+  <br>31 = 11.0 m
+  <br>32 = 13.0 m
+  <br>33 = 14.0 m
+  <br>34 = 16.0 m
+  <br>35 = 18.0 m
+  <br>36 = 20.0 m
+  <br>255 = n/a</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='734 = 0x2de'>734</td>
+<td>FlashOutput?</td>
+<td class=c>int8u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='742 = 0x2e6'>742</td>
+<td>FlashWirelessOption?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = Optical AWL
+  <br>2 = Optical/Radio AWL
+  <br>3 = Radio AWL</span></td></tr>
+<tr class=b>
+<td class=r title='744 = 0x2e8'>744</td>
+<td>FlashRemoteControl?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Group
+  <br>1 = Quick Wireless
+  <br>2 = Remote Repeating</span></td></tr>
+<tr>
+<td class=r title='748 = 0x2ec'>748</td>
+<td>FlashMasterControlMode</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = TTL
+  <br>1 = Manual
+  <br>2 = Auto
+  <br>3 = Off</span></td></tr>
+<tr class=b>
+<td class=r title='750 = 0x2ee'>750</td>
+<td>FlashMasterCompensation?</td>
+<td class=c>int8s</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='754 = 0x2f2'>754</td>
+<td>FlashMasterOutput?</td>
+<td class=c>int8u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='832 = 0x340'>832</td>
+<td>AFAreaMode</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = Pinpoint
+  <br>1 = Single
+  <br>2 = Dynamic
+  <br>3 = Wide (S)
+  <br>4 = Wide (L)</td><td>&nbsp;&nbsp;</td>
+  <td>5 = 3D
+  <br>6 = Auto
+  <br>11 = Subject Tracking
+  <br>12 = Wide (C1)
+  <br>13 = Wide (C2)</td></tr></table>
+</td></tr>
+<tr>
+<td class=r title='834 = 0x342'>834</td>
+<td>VRMode</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = Normal
+  <br>2 = Sport</span></td></tr>
+<tr class=b>
+<td class=r title='838 = 0x346'>838</td>
+<td>BracketSet</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = AE/Flash
+  <br>1 = AE
+  <br>2 = Flash
+  <br>3 = White Balance
+  <br>4 = Active-D Lighting</span></td></tr>
+<tr>
+<td class=r title='840 = 0x348'>840</td>
+<td>BracketProgram</td>
+<td class=c>int8u</td>
+<td><span class=s><span class=n>(AE and/or Flash Bracketing)</span></span><table class=cols><tr>
+  <td>0 = Disabled
+  <br>2 = 2F
+  <br>3 = 3F
+  <br>4 = 4F</td><td>&nbsp;&nbsp;</td>
+  <td>5 = 5F
+  <br>7 = 7F
+  <br>9 = 9F</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='842 = 0x34a'>842</td>
+<td>BracketIncrement</td>
+<td class=c>int8u</td>
+<td><span class=s><span class=n>(AE and/or Flash Bracketing)</span></span><table class=cols><tr>
+  <td>0 = 0.3
+  <br>1 = 0.5
+  <br>2 = 0.7</td><td>&nbsp;&nbsp;</td>
+  <td>3 = 1.0
+  <br>4 = 2.0
+  <br>5 = 3.0</td><td>&nbsp;&nbsp;</td>
+  <td>6 = 1.3
+  <br>7 = 1.5
+  <br>8 = 1.7</td><td>&nbsp;&nbsp;</td>
+  <td>9 = 2.3
+  <br>10 = 2.5
+  <br>11 = 2.7</td></tr></table>
+</td></tr>
+<tr>
+<td class=r title='852 = 0x354'>852</td>
+<td>HDR</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On
+  <br>2 = On (Series)</span></td></tr>
+<tr class=b>
+<td class=r title='858 = 0x35a'>858</td>
+<td>SecondarySlotFunction</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Overflow
+  <br>1 = Backup
+  <br>2 = NEF Primary + JPG Secondary
+  <br>3 = JPG Primary + JPG Secondary</span></td></tr>
+<tr>
+<td class=r title='864 = 0x360'>864</td>
+<td>HDRLevel</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Auto
+  <br>1 = Extra High
+  <br>2 = High
+  <br>3 = Normal
+  <br>4 = Low</span></td></tr>
+<tr class=b>
+<td class=r title='868 = 0x364'>868</td>
+<td>Slot2JpgSize?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Large (6048x4032)
+  <br>1 = Medium (4528x3024)
+  <br>2 = Small (3024x2016)</span></td></tr>
+<tr>
+<td class=r title='878 = 0x36e'>878</td>
+<td>SubjectDetection</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = Off
+  <br>1 = Auto
+  <br>2 = People
+  <br>3 = Animals</td><td>&nbsp;&nbsp;</td>
+  <td>4 = Vehicles
+  <br>5 = Birds
+  <br>6 = Airplanes
+  <br>7 = Faces</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='880 = 0x370'>880</td>
+<td>DynamicAFAreaSize</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Small
+  <br>1 = Medium
+  <br>2 = Large</span></td></tr>
+<tr>
+<td class=r title='884 = 0x374'>884</td>
+<td>ToneMap?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = SDR
+  <br>1 = HLG</span></td></tr>
+<tr class=b>
+<td class=r title='888 = 0x378'>888</td>
+<td>PortraitImpressionBalance</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = Mode 1
+  <br>2 = Mode 2
+  <br>3 = Mode 3</span></td></tr>
+<tr>
+<td class=r title='902 = 0x386'>902</td>
+<td>HighFrequencyFlickerReduction?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr class=b>
+<td class=r title='904 = 0x388'>904</td>
+<td>PixelShiftShooting</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On
+  <br>2 = On (Series)</span></td></tr>
+<tr>
+<td class=r title='906 = 0x38a'>906</td>
+<td>PixelShiftNumberShots</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = 4
+  <br>1 = 8
+  <br>2 = 16
+  <br>3 = 32</span></td></tr>
+<tr class=b>
+<td class=r title='908 = 0x38c'>908</td>
+<td>PixelShiftDelay</td>
+<td class=c title=' ~ = Writable only with -n'>int8u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='910 = 0x38e'>910</td>
+<td>PixelShiftInterval</td>
+<td class=c title=' ~ = Writable only with -n'>int8u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1002 = 0x3ea'>1002</td>
+<td>SubjectDetectionAreaMF</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = All
+  <br>2 = Wide (L)
+  <br>3 = Wide (S)</span></td></tr>
+<tr>
+<td class=r title='1004 = 0x3ec'>1004</td>
+<td>LinkVRToFocusPoint?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr class=b>
+<td class=r title='1046 = 0x416'>1046</td>
+<td>MovieSlowMotion?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On (4x)
+  <br>2 = On (5x)</span></td></tr>
+<tr>
+<td class=r title='1050 = 0x41a'>1050</td>
+<td>MovieType</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>1 = H.264 8-bit (MP4)
+  <br>2 = H.265 8-bit (MOV)
+  <br>3 = H.265 10-bit (MOV)
+  <br>4 = ProRes 422 HQ 10-bit (MOV)
+  <br>5 = ProRes RAW HQ 12-bit (MOV)
+  <br>6 = NRAW 12-bit (NEV)</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='1162 = 0x48a'>1162</td>
+<td>MovieFrameSize?</td>
+<td class=c>int8u</td>
+<td><span class=s>1 = 1920x1080
+  <br>2 = 3840x2160
+  <br>3 = 7680x4320
+  <br>7 = 5376x3024</span></td></tr>
+<tr>
+<td class=r title='1164 = 0x48c'>1164</td>
+<td>MovieFrameRate?</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = 240p
+  <br>1 = 200p
+  <br>2 = 120p</td><td>&nbsp;&nbsp;</td>
+  <td>3 = 100p
+  <br>4 = 60p
+  <br>5 = 50p</td><td>&nbsp;&nbsp;</td>
+  <td>6 = 30p
+  <br>7 = 25p
+  <br>8 = 24p</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='1255 = 0x4e7'>1255</td>
+<td>CustomSettingsZ6III</td>
+<td class=c>-</td>
+<td>--&gt; <a href='NikonCustom.html#SettingsZ6III'>NikonCustom SettingsZ6III Tags</a></td></tr>
+<tr>
+<td class=r title='2300 = 0x8fc'>2300</td>
+<td>Language?</td>
+<td class=c>int8u</td>
+<td><span class=s>4 = English
+  <br>5 = Spanish
+  <br>7 = French
+  <br>15 = Portuguese</span></td></tr>
+<tr class=b>
+<td class=r title='2302 = 0x8fe'>2302</td>
+<td>TimeZone</td>
+<td class=c>int8u</td>
+<td>--&gt; <a href='Nikon.html#TimeZone'>Nikon TimeZone Values</a></td></tr>
+<tr>
+<td class=r title='2308 = 0x904'>2308</td>
+<td>MonitorBrightness?</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = -5
+  <br>1 = -4
+  <br>2 = -3</td><td>&nbsp;&nbsp;</td>
+  <td>3 = -2
+  <br>4 = -1
+  <br>5 = 0</td><td>&nbsp;&nbsp;</td>
+  <td>6 = 1
+  <br>7 = 2
+  <br>8 = 3</td><td>&nbsp;&nbsp;</td>
+  <td>9 = 4
+  <br>10 = 5
+  <br>14 = Hi1</td><td>&nbsp;&nbsp;</td>
+  <td>15 = Hi2
+  <br>16 = Lo2
+  <br>17 = Lo1</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='2444 = 0x98c'>2444</td>
+<td>EmptySlotRelease?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Disable Release
+  <br>1 = Enable Release</span></td></tr>
+<tr>
+<td class=r title='2450 = 0x992'>2450</td>
+<td>EnergySavingMode?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr class=b>
+<td class=r title='2476 = 0x9ac'>2476</td>
+<td>USBPowerDelivery?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr>
+<td class=r title='2480 = 0x9b0'>2480</td>
+<td>SaveFocusPosition?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr class=b>
+<td class=r title='2487 = 0x9b7'>2487</td>
+<td>SilentPhotography?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr>
+<td class=r title='2496 = 0x9c0'>2496</td>
+<td>AirplaneMode?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='TimeZone'>Nikon TimeZone Values</a></h2>
+<blockquote>
+<table class=frame><tr><td>
+<table class='inner sep' cellspacing=1>
+<tr class=h><th>Value</th><th>TimeZone</th><th>Value</th><th>TimeZone</th></tr>
+<tr><td class=r>3</td><td>= +10:00 (Sydney)</td>
+<td class='r b'>19</td><td class=b>= +00:00 (London)</td>
+</tr><tr><td class=r>5</td><td>= +09:00 (Tokyo)</td>
+<td class='r b'>20</td><td class=b>= -01:00 (Azores)</td>
+</tr><tr><td class=r>6</td><td>= +08:00 (Beijing, Honk Kong, Sinapore)</td>
+<td class='r b'>21</td><td class=b>= -02:00 (Fernando de Noronha)</td>
+</tr><tr><td class=r>10</td><td>= +05:45 (Kathmandu)</td>
+<td class='r b'>22</td><td class=b>= -03:00 (Buenos Aires, Sao Paulo)</td>
+</tr><tr><td class=r>11</td><td>= +05:30 (New Dehli)</td>
+<td class='r b'>23</td><td class=b>= -03:30 (Newfoundland)</td>
+</tr><tr><td class=r>12</td><td>= +05:00 (Islamabad)</td>
+<td class='r b'>24</td><td class=b>= -04:00 (Manaus, Caracas)</td>
+</tr><tr><td class=r>13</td><td>= +04:30 (Kabul)</td>
+<td class='r b'>25</td><td class=b>= -05:00 (New York, Toronto, Lima)</td>
+</tr><tr><td class=r>14</td><td>= +04:00 (Abu Dhabi)</td>
+<td class='r b'>26</td><td class=b>= -06:00 (Chicago, Mexico City)</td>
+</tr><tr><td class=r>15</td><td>= +03:30 (Tehran)</td>
+<td class='r b'>27</td><td class=b>= -07:00 (Denver)</td>
+</tr><tr><td class=r>16</td><td>= +03:00 (Moscow, Nairobi)</td>
+<td class='r b'>28</td><td class=b>= -08:00 (Los Angeles, Vancouver)</td>
+</tr><tr><td class=r>17</td><td>= +02:00 (Athens, Helsinki)</td>
+<td class='r b'>29</td><td class=b>= -09:00 (Anchorage)</td>
+</tr><tr><td class=r>18</td><td>= +01:00 (Madrid, Paris, Berlin)</td>
+<td class='r b'>30</td><td class=b>= -10:00 (Hawaii)</td>
+</tr></table></td></tr></table></blockquote>
+
 <h2><a name='ShotInfoZ7II'>Nikon ShotInfoZ7II Tags</a></h2>
 <p>These tags are extracted from encrypted data in images from the Z7II.</p>
 <blockquote>
@@ -4152,26 +4836,41 @@ firmware 1.01b.</p>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td class=r title='14 = 0xe'>14</td>
+<td>FirmwareVersion2</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='24 = 0x18'>24</td>
+<td>FirmwareVersion3</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='36 = 0x24'>36</td>
+<td>NumberOffsets</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td class=r title='48 = 0x30'>48</td>
 <td>IntervalOffset</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#IntervalInfoZ7II'>Nikon IntervalInfoZ7II Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='56 = 0x38'>56</td>
 <td>PortraitOffset</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#PortraitInfoZ7II'>Nikon PortraitInfoZ7II Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='136 = 0x88'>136</td>
 <td>OrientationOffset</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#OrientationInfo'>Nikon OrientationInfo Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='152 = 0x98'>152</td>
 <td>OrientationOffset</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#OrientationInfo'>Nikon OrientationInfo Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='160 = 0xa0'>160</td>
 <td>MenuOffset</td>
 <td class=c>-</td>
@@ -4190,6 +4889,11 @@ firmware 1.01b.</p>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
+<td class=r title='40 = 0x28'>40</td>
+<td>IntervalFrame</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td class=r title='43 = 0x2b'>43</td>
 <td>ImageArea</td>
 <td class=c>int8u</td>
@@ -4237,6 +4941,11 @@ firmware 1.01b.</p>
 <tr class=h><th>Index1</th><th>Tag Name</th>
 <th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
 <tr>
+<td class=r title='90 = 0x5a'>90</td>
+<td>SingleFrame</td>
+<td class=c>int8u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td class=r title='92 = 0x5c'>92</td>
 <td>ReleaseMode</td>
 <td class=c>no</td>
@@ -4245,77 +4954,77 @@ firmware 1.01b.</p>
   <br>2 = Continuous High (Extended)
   <br>4 = Timer
   <br>5 = Single Frame</span></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='160 = 0xa0'>160</td>
 <td>IntervalDurationHours</td>
 <td class=c>int32u</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='164 = 0xa4'>164</td>
 <td>IntervalDurationMinutes</td>
 <td class=c>int32u</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='168 = 0xa8'>168</td>
 <td>IntervalDurationSeconds</td>
 <td class=c>int32u</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='176 = 0xb0'>176</td>
 <td>Intervals</td>
 <td class=c>int32u</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='180 = 0xb4'>180</td>
 <td>ShotsPerInterval</td>
 <td class=c>int32u</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='184 = 0xb8'>184</td>
 <td>IntervalExposureSmoothing</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='186 = 0xba'>186</td>
 <td>IntervalPriority</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='220 = 0xdc'>220</td>
 <td>FocusShiftNumberShots</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='224 = 0xe0'>224</td>
 <td>FocusShiftStepWidth</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='228 = 0xe4'>228</td>
 <td>FocusShiftInterval</td>
 <td class=c title=' ~ = Writable only with -n'>int8u~</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='232 = 0xe8'>232</td>
 <td>FocusShiftExposureLock</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='322 = 0x142'>322</td>
 <td>DiffractionCompensation</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='323 = 0x143'>323</td>
 <td>AutoDistortionControl</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='326 = 0x146'>326</td>
 <td>NikonMeteringMode</td>
 <td class=c>int8u</td>
@@ -4323,7 +5032,7 @@ firmware 1.01b.</p>
   <br>1 = Center
   <br>2 = Spot
   <br>3 = Highlight</span></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='328 = 0x148'>328</td>
 <td>FlashControlMode</td>
 <td class=c>int8u</td>
@@ -4332,7 +5041,7 @@ firmware 1.01b.</p>
   <br>2 = GN (distance priority)
   <br>3 = Manual
   <br>4 = Repeating Flash</span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='334 = 0x14e'>334</td>
 <td>FlashGNDistance?</td>
 <td class=c>no</td>
@@ -4376,12 +5085,12 @@ firmware 1.01b.</p>
   <br>36 = 20.0 m
   <br>255 = n/a</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td class=r title='338 = 0x152'>338</td>
 <td>FlashOutput?</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='346 = 0x15a'>346</td>
 <td>FlashWirelessOption?</td>
 <td class=c>int8u</td>
@@ -4389,14 +5098,14 @@ firmware 1.01b.</p>
   <br>1 = Optical AWL
   <br>2 = Optical/Radio AWL
   <br>3 = Radio AWL</span></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='348 = 0x15c'>348</td>
 <td>FlashRemoteControl?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Group
   <br>1 = Quick Wireless
   <br>2 = Remote Repeating</span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='352 = 0x160'>352</td>
 <td>FlashMasterControlMode</td>
 <td class=c>int8u</td>
@@ -4404,24 +5113,25 @@ firmware 1.01b.</p>
   <br>1 = Manual
   <br>2 = Auto
   <br>3 = Off</span></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='354 = 0x162'>354</td>
 <td>FlashMasterCompensation?</td>
 <td class=c>int8s</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='358 = 0x166'>358</td>
 <td>FlashMasterOutput?</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='502 = 0x1f6'>502</td>
 <td>MovieFrameSize?</td>
 <td class=c>int8u</td>
 <td><span class=s>1 = 1920x1080
   <br>2 = 3840x2160
-  <br>3 = 7680x4320</span></td></tr>
-<tr>
+  <br>3 = 7680x4320
+  <br>7 = 5376x3024</span></td></tr>
+<tr class=b>
 <td class=r title='504 = 0x1f8'>504</td>
 <td>MovieFrameRate?</td>
 <td class=c>int8u</td>
@@ -4434,57 +5144,25 @@ firmware 1.01b.</p>
   <br>5 = 25p
   <br>6 = 24p</td></tr></table>
 </td></tr>
-<tr class=b>
+<tr>
 <td class=r title='506 = 0x1fa'>506</td>
 <td>MovieSlowMotion?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On (4x)
   <br>2 = On (5x)</span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='510 = 0x1fe'>510</td>
 <td>MovieType?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = MOV
   <br>1 = MP4</span></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='516 = 0x204'>516</td>
 <td>MovieISOAutoManualMode?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
-<tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
+<tr class=b>
 <td class=r title='568 = 0x238'>568</td>
 <td>MovieActiveD-Lighting?</td>
 <td class=c>int8u</td>
@@ -4493,7 +5171,7 @@ firmware 1.01b.</p>
   <br>3 = Normal
   <br>4 = High
   <br>5 = Extra High</span></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='572 = 0x23c'>572</td>
 <td>MovieHighISONoiseReduction?</td>
 <td class=c>int8u</td>
@@ -4501,7 +5179,7 @@ firmware 1.01b.</p>
   <br>1 = Low
   <br>2 = Normal
   <br>3 = High</span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='574 = 0x23e'>574</td>
 <td>MovieVignetteControl?</td>
 <td class=c>int8u</td>
@@ -4509,25 +5187,25 @@ firmware 1.01b.</p>
   <br>1 = Low
   <br>2 = Normal
   <br>3 = High</span></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='576 = 0x240'>576</td>
 <td>MovieVignetteControlSameAsPhoto?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = No
   <br>1 = Yes</span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='577 = 0x241'>577</td>
 <td>MovieDiffractionCompensation?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='578 = 0x242'>578</td>
 <td>MovieAutoDistortionControl?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='584 = 0x248'>584</td>
 <td>MovieFocusMode?</td>
 <td class=c>int8u</td>
@@ -4535,26 +5213,66 @@ firmware 1.01b.</p>
   <br>1 = AF-S
   <br>2 = AF-C
   <br>4 = AF-F</span></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='590 = 0x24e'>590</td>
 <td>MovieVibrationReduction?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On (Normal)
   <br>2 = On (Sport)</span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='591 = 0x24f'>591</td>
 <td>MovieVibrationReductionSameAsPhoto?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = No
   <br>1 = Yes</span></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='858 = 0x35a'>858</td>
 <td>HDMIOutputN-Log?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
 </table></td></tr></table></blockquote>
+
+<h2><a name='ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></h2>
+<blockquote>
+<table class=frame><tr><td>
+<table class='inner sep' cellspacing=1>
+<tr class=h><th>Value</th><th>ISOAutoHiLimitZ7</th><th>Value</th><th>ISOAutoHiLimitZ7</th><th>Value</th><th>ISOAutoHiLimitZ7</th></tr>
+<tr><td class=r>0</td><td>= ISO 64</td>
+<td class='r b'>11</td><td class=b>= ISO 800</td>
+<td class=r>22</td><td>= ISO 10000</td>
+</tr><tr><td class=r>1</td><td>= ISO 80</td>
+<td class='r b'>12</td><td class=b>= ISO 1000</td>
+<td class=r>23</td><td>= ISO 12800</td>
+</tr><tr><td class=r>2</td><td>= ISO 100</td>
+<td class='r b'>13</td><td class=b>= ISO 1250</td>
+<td class=r>24</td><td>= ISO 16000</td>
+</tr><tr><td class=r>3</td><td>= ISO 125</td>
+<td class='r b'>14</td><td class=b>= ISO 1600</td>
+<td class=r>25</td><td>= ISO 20000</td>
+</tr><tr><td class=r>4</td><td>= ISO 160</td>
+<td class='r b'>15</td><td class=b>= ISO 2000</td>
+<td class=r>26</td><td>= ISO 25600</td>
+</tr><tr><td class=r>5</td><td>= ISO 200</td>
+<td class='r b'>16</td><td class=b>= ISO 2500</td>
+<td class=r>27</td><td>= ISO Hi 0.3</td>
+</tr><tr><td class=r>6</td><td>= ISO 250</td>
+<td class='r b'>17</td><td class=b>= ISO 3200</td>
+<td class=r>28</td><td>= ISO Hi 0.7</td>
+</tr><tr><td class=r>7</td><td>= ISO 320</td>
+<td class='r b'>18</td><td class=b>= ISO 4000</td>
+<td class=r>29</td><td>= ISO Hi 1.0</td>
+</tr><tr><td class=r>8</td><td>= ISO 400</td>
+<td class='r b'>19</td><td class=b>= ISO 5000</td>
+<td class=r>32</td><td>= ISO Hi 2.0</td>
+</tr><tr><td class=r>9</td><td>= ISO 500</td>
+<td class='r b'>20</td><td class=b>= ISO 6400</td>
+<td class=r>&nbsp;</td><td>&nbsp;</td>
+</tr><tr><td class=r>10</td><td>= ISO 640</td>
+<td class='r b'>21</td><td class=b>= ISO 8000</td>
+<td class=r>&nbsp;</td><td>&nbsp;</td>
+</tr></table></td></tr></table></blockquote>
 
 <h2><a name='ShotInfoZ8'>Nikon ShotInfoZ8 Tags</a></h2>
 <p>These tags are extracted from encrypted data in images from the Z8.</p>
@@ -4574,10 +5292,30 @@ firmware 1.01b.</p>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td class=r title='14 = 0xe'>14</td>
+<td>FirmwareVersion2</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='24 = 0x18'>24</td>
+<td>FirmwareVersion3</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='36 = 0x24'>36</td>
+<td>NumberOffsets</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td class=r title='48 = 0x30'>48</td>
 <td>SequenceOffset</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#SeqInfoZ9'>Nikon SeqInfoZ9 Tags</a></td></tr>
+<tr>
+<td class=r title='128 = 0x80'>128</td>
+<td>AutoCaptureOffset</td>
+<td class=c>-</td>
+<td>--&gt; <a href='Nikon.html#AutoCaptureInfo'>Nikon AutoCaptureInfo Tags</a></td></tr>
 <tr class=b>
 <td class=r title='132 = 0x84'>132</td>
 <td>OrientOffset</td>
@@ -4606,6 +5344,121 @@ firmware 1.01b.</p>
 <td>IntervalShooting</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
+<tr>
+<td class=r title='42 = 0x2a'>42</td>
+<td>IntervalFrame</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='AutoCaptureInfo'>Nikon AutoCaptureInfo Tags</a></h2>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Index1</th><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td class=r title='0 = 0x0'>0</td>
+<td>AutoCapturedFrame</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = No
+  <br>5 = Yes</span></td></tr>
+<tr class=b>
+<td class=r title='1 = 0x1'>1</td>
+<td>AutoCaptureCriteria</td>
+<td class=c title=' ~ = Writable only with -n'>int8u~</td>
+<td><span class=s>Bit 0 = Distance
+  <br>Bit 1 = Motion
+  <br>Bit 2 = Subject Detection</span></td></tr>
+<tr>
+<td class=r title='55 = 0x37'>55</td>
+<td>AutoCaptureRecordingTime</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = 1 Sec
+  <br>1 = 3 Sec
+  <br>2 = 5 Sec
+  <br>4 = 30 Sec
+  <br>5 = No Limit</td><td>&nbsp;&nbsp;</td>
+  <td>6 = 2 Sec
+  <br>7 = 10 Sec
+  <br>8 = 20 Sec
+  <br>9 = 1 Min
+  <br>10 = 3 Min</td><td>&nbsp;&nbsp;</td>
+  <td>11 = 5 Min
+  <br>12 = 10 Min
+  <br>13 = 30 Min</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='56 = 0x38'>56</td>
+<td>AutoCaptureWaitTime</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = No Wait
+  <br>1 = 10 Sec
+  <br>2 = 30 Sec
+  <br>3 = 1 Min
+  <br>4 = 5 Min</td><td>&nbsp;&nbsp;</td>
+  <td>5 = 10 Min
+  <br>6 = 30 Min
+  <br>7 = 1 Sec
+  <br>8 = 2 Sec
+  <br>9 = 3 Sec</td><td>&nbsp;&nbsp;</td>
+  <td>10 = 5 Sec
+  <br>11 = 20 Sec
+  <br>12 = 3 Min</td></tr></table>
+</td></tr>
+<tr>
+<td class=r title='74 = 0x4a'>74</td>
+<td>AutoCaptureDistanceFar</td>
+<td class=c title=' ~ = Writable only with -n'>int8u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='78 = 0x4e'>78</td>
+<td>AutoCaptureDistanceNear</td>
+<td class=c title=' ~ = Writable only with -n'>int8u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='95 = 0x5f'>95</td>
+<td>AutoCaptureCriteriaMotionDirection</td>
+<td class=c title=' ~ = Writable only with -n'>int8u~</td>
+<td><span class=s>Bit 0 = Top Left
+  <br>Bit 1 = Top Right
+  <br>Bit 2 = Bottom Left
+  <br>Bit 3 = Bottom Right
+  <br>Bit 4 = Left
+  <br>Bit 5 = Right
+  <br>Bit 6 = Top Center
+  <br>Bit 7 = Bottom Center</span></td></tr>
+<tr class=b>
+<td class=r title='99 = 0x63'>99</td>
+<td>AutoCaptureCriteriaMotionSpeed</td>
+<td class=c>int8u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='100 = 0x64'>100</td>
+<td>AutoCaptureCriteriaMotionSize</td>
+<td class=c>int8u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='105 = 0x69'>105</td>
+<td>AutoCaptureCriteriaSubjectSize</td>
+<td class=c>int8u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='106 = 0x6a'>106</td>
+<td>AutoCaptureCriteriaSubjectType</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = Off
+  <br>1 = Auto
+  <br>2 = People
+  <br>3 = Animals</td><td>&nbsp;&nbsp;</td>
+  <td>4 = Vehicles
+  <br>5 = Birds
+  <br>6 = Airplanes
+  <br>7 = Faces</td></tr></table>
+</td></tr>
 </table></td></tr></table></blockquote>
 
 <h2><a name='MenuInfoZ8'>Nikon MenuInfoZ8 Tags</a></h2>
@@ -4616,14 +5469,349 @@ firmware 1.01b.</p>
 <th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
 <tr>
 <td class=r title='16 = 0x10'>16</td>
-<td>MenuSettingsOffsetZ8</td>
-<td class=c>-</td>
-<td>--&gt; <a href='Nikon.html#MenuSettingsZ8'>Nikon MenuSettingsZ8 Tags</a>
-  <br><span class='n s'>(Firmware versions 1.0.0)</span></td></tr>
+<td>MenuSettingsOffsetZ8v1
+  <br>MenuSettingsOffsetZ8v2</td>
+<td class=c>-<br>-</td>
+<td><span class=n>(Firmware versions 1.00 and 1.10)</span>
+  <br>--&gt; <a href='Nikon.html#MenuSettingsZ8v1'>Nikon MenuSettingsZ8v1 Tags</a>
+  <br><span class=n>(Firmware version 2.00 and 2.10)</span>
+  <br>--&gt; <a href='Nikon.html#MenuSettingsZ8v2'>Nikon MenuSettingsZ8v2 Tags</a></td></tr>
 </table></td></tr></table></blockquote>
 
+<h2><a name='MenuSettingsZ8v1'>Nikon MenuSettingsZ8v1 Tags</a></h2>
+<p>These tags are used by the Z8 firmware 1.00 and 1.10.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Index1</th><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td class=r title='0 = 0x0'>0</td>
+<td>MenuSettingsZ8</td>
+<td class=c>-</td>
+<td>--&gt; <a href='Nikon.html#MenuSettingsZ8'>Nikon MenuSettingsZ8 Tags</a></td></tr>
+<tr class=b>
+<td class=r title='943 = 0x3af'>943</td>
+<td>CustomSettingsZ8</td>
+<td class=c>-</td>
+<td>--&gt; <a href='NikonCustom.html#SettingsZ8'>NikonCustom SettingsZ8 Tags</a></td></tr>
+<tr>
+<td class=r title='1684 = 0x694'>1684</td>
+<td>TimeZone</td>
+<td class=c>int8u</td>
+<td>--&gt; <a href='Nikon.html#TimeZone'>Nikon TimeZone Values</a></td></tr>
+<tr class=b>
+<td class=r title='1690 = 0x69a'>1690</td>
+<td>MonitorBrightness?</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = -5
+  <br>1 = -4
+  <br>2 = -3</td><td>&nbsp;&nbsp;</td>
+  <td>3 = -2
+  <br>4 = -1
+  <br>5 = 0</td><td>&nbsp;&nbsp;</td>
+  <td>6 = 1
+  <br>7 = 2
+  <br>8 = 3</td><td>&nbsp;&nbsp;</td>
+  <td>9 = 4
+  <br>10 = 5
+  <br>14 = Hi1</td><td>&nbsp;&nbsp;</td>
+  <td>15 = Hi2
+  <br>16 = Lo2
+  <br>17 = Lo1</td></tr></table>
+</td></tr>
+<tr>
+<td class=r title='1698 = 0x6a2'>1698</td>
+<td>Language?</td>
+<td class=c>int8u</td>
+<td><span class=s>4 = English
+  <br>5 = Spanish
+  <br>7 = French
+  <br>15 = Portuguese</span></td></tr>
+<tr class=b>
+<td class=r title='1712 = 0x6b0'>1712</td>
+<td>AFFineTune?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr>
+<td class=r title='1716 = 0x6b4'>1716</td>
+<td>NonCPULens1FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1718 = 0x6b6'>1718</td>
+<td>NonCPULens2FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1720 = 0x6b8'>1720</td>
+<td>NonCPULens3FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1722 = 0x6ba'>1722</td>
+<td>NonCPULens4FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1724 = 0x6bc'>1724</td>
+<td>NonCPULens5FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1726 = 0x6be'>1726</td>
+<td>NonCPULens6FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1728 = 0x6c0'>1728</td>
+<td>NonCPULens7FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1730 = 0x6c2'>1730</td>
+<td>NonCPULens8FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1732 = 0x6c4'>1732</td>
+<td>NonCPULens9FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1734 = 0x6c6'>1734</td>
+<td>NonCPULens10FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1736 = 0x6c8'>1736</td>
+<td>NonCPULens11FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1738 = 0x6ca'>1738</td>
+<td>NonCPULens12FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1740 = 0x6cc'>1740</td>
+<td>NonCPULens13FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1742 = 0x6ce'>1742</td>
+<td>NonCPULens14FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1744 = 0x6d0'>1744</td>
+<td>NonCPULens15FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1746 = 0x6d2'>1746</td>
+<td>NonCPULens16FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1748 = 0x6d4'>1748</td>
+<td>NonCPULens17FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1750 = 0x6d6'>1750</td>
+<td>NonCPULens18FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1752 = 0x6d8'>1752</td>
+<td>NonCPULens19FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1754 = 0x6da'>1754</td>
+<td>NonCPULens20FocalLength?</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1756 = 0x6dc'>1756</td>
+<td>NonCPULens1MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr class=b>
+<td class=r title='1758 = 0x6de'>1758</td>
+<td>NonCPULens2MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr>
+<td class=r title='1760 = 0x6e0'>1760</td>
+<td>NonCPULens3MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr class=b>
+<td class=r title='1762 = 0x6e2'>1762</td>
+<td>NonCPULens4MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr>
+<td class=r title='1764 = 0x6e4'>1764</td>
+<td>NonCPULens5MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr class=b>
+<td class=r title='1766 = 0x6e6'>1766</td>
+<td>NonCPULens6MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr>
+<td class=r title='1768 = 0x6e8'>1768</td>
+<td>NonCPULens7MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr class=b>
+<td class=r title='1770 = 0x6ea'>1770</td>
+<td>NonCPULens8MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr>
+<td class=r title='1772 = 0x6ec'>1772</td>
+<td>NonCPULens9MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr class=b>
+<td class=r title='1774 = 0x6ee'>1774</td>
+<td>NonCPULens10MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr>
+<td class=r title='1776 = 0x6f0'>1776</td>
+<td>NonCPULens11MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr class=b>
+<td class=r title='1778 = 0x6f2'>1778</td>
+<td>NonCPULens12MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr>
+<td class=r title='1780 = 0x6f4'>1780</td>
+<td>NonCPULens13MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr class=b>
+<td class=r title='1782 = 0x6f6'>1782</td>
+<td>NonCPULens14MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr>
+<td class=r title='1784 = 0x6f8'>1784</td>
+<td>NonCPULens15MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr class=b>
+<td class=r title='1786 = 0x6fa'>1786</td>
+<td>NonCPULens16MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr>
+<td class=r title='1788 = 0x6fc'>1788</td>
+<td>NonCPULens17MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr class=b>
+<td class=r title='1790 = 0x6fe'>1790</td>
+<td>NonCPULens18MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr>
+<td class=r title='1792 = 0x700'>1792</td>
+<td>NonCPULens19MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr class=b>
+<td class=r title='1794 = 0x702'>1794</td>
+<td>NonCPULens20MaxAperture?</td>
+<td class=c>int16u</td>
+<td>--&gt; <a href='Nikon.html#NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></td></tr>
+<tr>
+<td class=r title='1808 = 0x710'>1808</td>
+<td>HDMIOutputResolution</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = Auto
+  <br>1 = 4320p
+  <br>2 = 2160p</td><td>&nbsp;&nbsp;</td>
+  <td>3 = 1080p
+  <br>4 = 1080i
+  <br>5 = 720p</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='1826 = 0x722'>1826</td>
+<td>AirplaneMode?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr>
+<td class=r title='1827 = 0x723'>1827</td>
+<td>EmptySlotRelease?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Disable Release
+  <br>1 = Enable Release</span></td></tr>
+<tr class=b>
+<td class=r title='1862 = 0x746'>1862</td>
+<td>EnergySavingMode?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr>
+<td class=r title='1890 = 0x762'>1890</td>
+<td>USBPowerDelivery?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr class=b>
+<td class=r title='1899 = 0x76b'>1899</td>
+<td>SensorShield?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Stays Open
+  <br>1 = Closes</span></td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='NonCPULensApertureZ8'>Nikon NonCPULensApertureZ8 Values</a></h2>
+<blockquote>
+<table class=frame><tr><td>
+<table class='inner sep' cellspacing=1>
+<tr class=h><th>Value</th><th>NonCPULensApertureZ8</th><th>Value</th><th>NonCPULensApertureZ8</th></tr>
+<tr><td class=r>12</td><td>= f/1.2</td>
+<td class='r b'>128</td><td class=b>= f/6.3</td>
+</tr><tr><td class=r>24</td><td>= f/1.4</td>
+<td class='r b'>136</td><td class=b>= f/7.1</td>
+</tr><tr><td class=r>40</td><td>= f/1.8</td>
+<td class='r b'>144</td><td class=b>= f/8</td>
+</tr><tr><td class=r>48</td><td>= f/2.0</td>
+<td class='r b'>156</td><td class=b>= f/9.5</td>
+</tr><tr><td class=r>64</td><td>= f/2.5</td>
+<td class='r b'>168</td><td class=b>= f/11</td>
+</tr><tr><td class=r>72</td><td>= f/2.8</td>
+<td class='r b'>180</td><td class=b>= f/13</td>
+</tr><tr><td class=r>84</td><td>= f/3.3</td>
+<td class='r b'>188</td><td class=b>= f/15</td>
+</tr><tr><td class=r>88</td><td>= f/3.5</td>
+<td class='r b'>192</td><td class=b>= f/16</td>
+</tr><tr><td class=r>96</td><td>= f/4.0</td>
+<td class='r b'>204</td><td class=b>= f/19</td>
+</tr><tr><td class=r>104</td><td>= f/4.5</td>
+<td class='r b'>216</td><td class=b>= f/22</td>
+</tr><tr><td class=r>112</td><td>= f/5.0</td>
+<td class='r b'>313</td><td class=b>= N/A</td>
+</tr><tr><td class=r>120</td><td>= f/5.6</td>
+<td class='r b'>&nbsp;</td><td class=b>&nbsp;</td>
+</tr></table></td></tr></table></blockquote>
+
 <h2><a name='MenuSettingsZ8'>Nikon MenuSettingsZ8 Tags</a></h2>
-<p>These tags are used by the Z8 firmware 1.00.</p>
+<p>These tags are common to all Z8 firmware versions.</p>
 <blockquote>
 <table class=frame><tr><td>
 <table class=inner cellspacing=1>
@@ -4633,11 +5821,15 @@ firmware 1.01b.</p>
 <td class=r title='72 = 0x48'>72</td>
 <td>HighFrameRate</td>
 <td class=c>int8u</td>
-<td><span class=s>0 = Off
+<td><table class=cols><tr>
+  <td>0 = Off
   <br>1 = CH
-  <br>3 = C30
-  <br>4 = C120
-  <br>5 = C60</span></td></tr>
+  <br>2 = CH*
+  <br>3 = C30</td><td>&nbsp;&nbsp;</td>
+  <td>4 = C120
+  <br>5 = C60
+  <br>6 = C15</td></tr></table>
+</td></tr>
 <tr class=b>
 <td class=r title='152 = 0x98'>152</td>
 <td>MultipleExposureMode</td>
@@ -4740,76 +5932,12 @@ firmware 1.01b.</p>
 <td class=r title='340 = 0x154'>340</td>
 <td>ISOAutoHiLimit?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr class=b>
 <td class=r title='342 = 0x156'>342</td>
 <td>ISOAutoFlashLimit?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr>
 <td class=r title='350 = 0x15e'>350</td>
 <td>ISOAutoShutterTime</td>
@@ -5006,7 +6134,8 @@ firmware 1.01b.</p>
   <br>3 = Animals</td><td>&nbsp;&nbsp;</td>
   <td>4 = Vehicles
   <br>5 = Birds
-  <br>6 = Airplanes</td></tr></table>
+  <br>6 = Airplanes
+  <br>7 = Faces</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='596 = 0x254'>596</td>
@@ -5031,7 +6160,7 @@ firmware 1.01b.</p>
   <br>3 = Mode 3</span></td></tr>
 <tr class=b>
 <td class=r title='636 = 0x27c'>636</td>
-<td>HighFrequencyFlickerReductionShooting?</td>
+<td>HighFrequencyFlickerReduction</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
@@ -5047,7 +6176,7 @@ firmware 1.01b.</p>
 <td>MovieType?</td>
 <td class=c>int8u</td>
 <td><table class=cols><tr>
-  <td>1 = H.265 8-bit (MP4)
+  <td>1 = H.264 8-bit (MP4)
   <br>2 = H.265 8-bit (MOV)
   <br>3 = H.265 10-bit (MOV)
   <br>4 = ProRes 422 HQ 10-bit (MOV)
@@ -5058,39 +6187,7 @@ firmware 1.01b.</p>
 <td class=r title='742 = 0x2e6'>742</td>
 <td>MovieISOAutoHiLimit?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr class=b>
 <td class=r title='744 = 0x2e8'>744</td>
 <td>MovieISOAutoControlManualMode?</td>
@@ -5101,39 +6198,7 @@ firmware 1.01b.</p>
 <td class=r title='746 = 0x2ea'>746</td>
 <td>MovieISOAutoManualMode?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr class=b>
 <td class=r title='820 = 0x334'>820</td>
 <td>MovieActiveD-Lighting?</td>
@@ -5239,7 +6304,8 @@ firmware 1.01b.</p>
 <td class=c>int8u</td>
 <td><span class=s>1 = 1920x1080
   <br>2 = 3840x2160
-  <br>3 = 7680x4320</span></td></tr>
+  <br>3 = 7680x4320
+  <br>7 = 5376x3024</span></td></tr>
 <tr class=b>
 <td class=r title='884 = 0x374'>884</td>
 <td>MovieFrameRate?</td>
@@ -5276,7 +6342,8 @@ firmware 1.01b.</p>
   <br>3 = Animals</td><td>&nbsp;&nbsp;</td>
   <td>4 = Vehicles
   <br>5 = Birds
-  <br>6 = Airplanes</td></tr></table>
+  <br>6 = Airplanes
+  <br>7 = Faces</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='896 = 0x380'>896</td>
@@ -5284,51 +6351,40 @@ firmware 1.01b.</p>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='MenuSettingsZ8v2'>Nikon MenuSettingsZ8v2 Tags</a></h2>
+<p>These tags are used by the Z8 firmware 2.00 and 2.10.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Index1</th><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
 <tr>
+<td class=r title='0 = 0x0'>0</td>
+<td>MenuSettingsZ8</td>
+<td class=c>-</td>
+<td>--&gt; <a href='Nikon.html#MenuSettingsZ8'>Nikon MenuSettingsZ8 Tags</a></td></tr>
+<tr class=b>
 <td class=r title='943 = 0x3af'>943</td>
 <td>CustomSettingsZ8</td>
 <td class=c>-</td>
 <td>--&gt; <a href='NikonCustom.html#SettingsZ8'>NikonCustom SettingsZ8 Tags</a></td></tr>
-<tr class=b>
-<td class=r title='1682 = 0x692'>1682</td>
+<tr>
+<td class=r title='1698 = 0x6a2'>1698</td>
 <td>Language?</td>
 <td class=c>int8u</td>
 <td><span class=s>4 = English
   <br>5 = Spanish
   <br>7 = French
   <br>15 = Portuguese</span></td></tr>
-<tr>
-<td class=r title='1684 = 0x694'>1684</td>
+<tr class=b>
+<td class=r title='1700 = 0x6a4'>1700</td>
 <td>TimeZone</td>
 <td class=c>int8u</td>
-<td><table class=cols><tr>
-  <td>3 = +10:00 (Sydney)
-  <br>5 = +09:00 (Tokyo)
-  <br>6 = +08:00 (Beijing, Honk Kong, Sinapore)
-  <br>10 = +05:45 (Kathmandu)
-  <br>11 = +05:30 (New Dehli)
-  <br>12 = +05:00 (Islamabad)
-  <br>13 = +04:30 (Kabul)
-  <br>14 = +04:00 (Abu Dhabi)
-  <br>15 = +03:30 (Tehran)
-  <br>16 = +03:00 (Moscow, Nairobi)
-  <br>17 = +02:00 (Athens, Helsinki)
-  <br>18 = +01:00 (Madrid, Paris, Berlin)
-  <br>19 = +00:00 (London)
-  <br>20 = -01:00 (Azores)
-  <br>21 = -02:00 (Fernando de Noronha)
-  <br>22 = -03:00 (Buenos Aires, Sao Paulo)
-  <br>23 = -03:30 (Newfoundland)
-  <br>24 = -04:00 (Manaus, Caracas)
-  <br>25 = -05:00 (New York, Toronto, Lima)
-  <br>26 = -06:00 (Chicago, Mexico City)
-  <br>27 = -07:00 (Denver)
-  <br>28 = -08:00 (Los Angeles, Vancouver)
-  <br>29 = -09:00 (Anchorage)
-  <br>30 = -10:00 (Hawaii)</td></tr></table>
-</td></tr>
-<tr class=b>
-<td class=r title='1690 = 0x69a'>1690</td>
+<td>--&gt; <a href='Nikon.html#TimeZone'>Nikon TimeZone Values</a></td></tr>
+<tr>
+<td class=r title='1706 = 0x6aa'>1706</td>
 <td>MonitorBrightness?</td>
 <td class=c>int8u</td>
 <td><table class=cols><tr>
@@ -5348,732 +6404,448 @@ firmware 1.01b.</p>
   <br>16 = Lo2
   <br>17 = Lo1</td></tr></table>
 </td></tr>
-<tr>
-<td class=r title='1712 = 0x6b0'>1712</td>
+<tr class=b>
+<td class=r title='1728 = 0x6c0'>1728</td>
 <td>AFFineTune?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
-<tr class=b>
-<td class=r title='1716 = 0x6b4'>1716</td>
+<tr>
+<td class=r title='1732 = 0x6c4'>1732</td>
 <td>NonCPULens1FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr>
-<td class=r title='1718 = 0x6b6'>1718</td>
+<tr class=b>
+<td class=r title='1734 = 0x6c6'>1734</td>
 <td>NonCPULens2FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='1720 = 0x6b8'>1720</td>
+<tr>
+<td class=r title='1736 = 0x6c8'>1736</td>
 <td>NonCPULens3FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr>
-<td class=r title='1722 = 0x6ba'>1722</td>
+<tr class=b>
+<td class=r title='1738 = 0x6ca'>1738</td>
 <td>NonCPULens4FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='1724 = 0x6bc'>1724</td>
+<tr>
+<td class=r title='1740 = 0x6cc'>1740</td>
 <td>NonCPULens5FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr>
-<td class=r title='1726 = 0x6be'>1726</td>
+<tr class=b>
+<td class=r title='1742 = 0x6ce'>1742</td>
 <td>NonCPULens6FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='1728 = 0x6c0'>1728</td>
+<tr>
+<td class=r title='1744 = 0x6d0'>1744</td>
 <td>NonCPULens7FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr>
-<td class=r title='1730 = 0x6c2'>1730</td>
+<tr class=b>
+<td class=r title='1746 = 0x6d2'>1746</td>
 <td>NonCPULens8FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='1732 = 0x6c4'>1732</td>
+<tr>
+<td class=r title='1748 = 0x6d4'>1748</td>
 <td>NonCPULens9FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr>
-<td class=r title='1734 = 0x6c6'>1734</td>
+<tr class=b>
+<td class=r title='1750 = 0x6d6'>1750</td>
 <td>NonCPULens10FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='1736 = 0x6c8'>1736</td>
+<tr>
+<td class=r title='1752 = 0x6d8'>1752</td>
 <td>NonCPULens11FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr>
-<td class=r title='1738 = 0x6ca'>1738</td>
+<tr class=b>
+<td class=r title='1754 = 0x6da'>1754</td>
 <td>NonCPULens12FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='1740 = 0x6cc'>1740</td>
+<tr>
+<td class=r title='1756 = 0x6dc'>1756</td>
 <td>NonCPULens13FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr>
-<td class=r title='1742 = 0x6ce'>1742</td>
+<tr class=b>
+<td class=r title='1758 = 0x6de'>1758</td>
 <td>NonCPULens14FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='1744 = 0x6d0'>1744</td>
+<tr>
+<td class=r title='1760 = 0x6e0'>1760</td>
 <td>NonCPULens15FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr>
-<td class=r title='1746 = 0x6d2'>1746</td>
+<tr class=b>
+<td class=r title='1762 = 0x6e2'>1762</td>
 <td>NonCPULens16FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='1748 = 0x6d4'>1748</td>
+<tr>
+<td class=r title='1764 = 0x6e4'>1764</td>
 <td>NonCPULens17FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr>
-<td class=r title='1750 = 0x6d6'>1750</td>
+<tr class=b>
+<td class=r title='1766 = 0x6e6'>1766</td>
 <td>NonCPULens18FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='1752 = 0x6d8'>1752</td>
+<tr>
+<td class=r title='1768 = 0x6e8'>1768</td>
 <td>NonCPULens19FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr>
-<td class=r title='1754 = 0x6da'>1754</td>
+<tr class=b>
+<td class=r title='1770 = 0x6ea'>1770</td>
 <td>NonCPULens20FocalLength?</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='1756 = 0x6dc'>1756</td>
+<tr>
+<td class=r title='1812 = 0x714'>1812</td>
 <td>NonCPULens1MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr>
-<td class=r title='1758 = 0x6de'>1758</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1816 = 0x718'>1816</td>
 <td>NonCPULens2MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr class=b>
-<td class=r title='1760 = 0x6e0'>1760</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1820 = 0x71c'>1820</td>
 <td>NonCPULens3MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr>
-<td class=r title='1762 = 0x6e2'>1762</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1824 = 0x720'>1824</td>
 <td>NonCPULens4MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr class=b>
-<td class=r title='1764 = 0x6e4'>1764</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1828 = 0x724'>1828</td>
 <td>NonCPULens5MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr>
-<td class=r title='1766 = 0x6e6'>1766</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1832 = 0x728'>1832</td>
 <td>NonCPULens6MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr class=b>
-<td class=r title='1768 = 0x6e8'>1768</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1836 = 0x72c'>1836</td>
 <td>NonCPULens7MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr>
-<td class=r title='1770 = 0x6ea'>1770</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1840 = 0x730'>1840</td>
 <td>NonCPULens8MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr class=b>
-<td class=r title='1772 = 0x6ec'>1772</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1844 = 0x734'>1844</td>
 <td>NonCPULens9MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr>
-<td class=r title='1774 = 0x6ee'>1774</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1848 = 0x738'>1848</td>
 <td>NonCPULens10MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr class=b>
-<td class=r title='1776 = 0x6f0'>1776</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1852 = 0x73c'>1852</td>
 <td>NonCPULens11MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr>
-<td class=r title='1778 = 0x6f2'>1778</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1856 = 0x740'>1856</td>
 <td>NonCPULens12MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr class=b>
-<td class=r title='1780 = 0x6f4'>1780</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1860 = 0x744'>1860</td>
 <td>NonCPULens13MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr>
-<td class=r title='1782 = 0x6f6'>1782</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1864 = 0x748'>1864</td>
 <td>NonCPULens14MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr class=b>
-<td class=r title='1784 = 0x6f8'>1784</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1868 = 0x74c'>1868</td>
 <td>NonCPULens15MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr>
-<td class=r title='1786 = 0x6fa'>1786</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1872 = 0x750'>1872</td>
 <td>NonCPULens16MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr class=b>
-<td class=r title='1788 = 0x6fc'>1788</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1876 = 0x754'>1876</td>
 <td>NonCPULens17MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr>
-<td class=r title='1790 = 0x6fe'>1790</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='1880 = 0x758'>1880</td>
 <td>NonCPULens18MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
-<tr class=b>
-<td class=r title='1792 = 0x700'>1792</td>
-<td>NonCPULens19MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
 <tr>
-<td class=r title='1794 = 0x702'>1794</td>
-<td>NonCPULens20MaxAperture?</td>
-<td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>12 = f/1.2
-  <br>24 = f/1.4
-  <br>40 = f/1.8
-  <br>48 = f/2.0
-  <br>64 = f/2.5
-  <br>72 = f/2.8
-  <br>84 = f/3.3
-  <br>88 = f/3.5</td><td>&nbsp;&nbsp;</td>
-  <td>96 = f/4.0
-  <br>104 = f/4.5
-  <br>112 = f/5.0
-  <br>120 = f/5.6
-  <br>128 = f/6.3
-  <br>136 = f/7.1
-  <br>144 = f/8
-  <br>156 = f/9.5</td><td>&nbsp;&nbsp;</td>
-  <td>168 = f/11
-  <br>180 = f/13
-  <br>188 = f/15
-  <br>192 = f/16
-  <br>204 = f/19
-  <br>216 = f/22
-  <br>313 = N/A</td></tr></table>
-</td></tr>
+<td class=r title='1884 = 0x75c'>1884</td>
+<td>NonCPULens19MaxAperture?</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
 <tr class=b>
-<td class=r title='1808 = 0x710'>1808</td>
+<td class=r title='1888 = 0x760'>1888</td>
+<td>NonCPULens20MaxAperture?</td>
+<td class=c title=' ~ = Writable only with -n'>int32u~</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='1904 = 0x770'>1904</td>
 <td>HDMIOutputResolution</td>
 <td class=c>int8u</td>
-<td><span class=s>0 = Auto
+<td><table class=cols><tr>
+  <td>0 = Auto
   <br>1 = 4320p
-  <br>2 = 2160p
-  <br>3 = 1080p
-  <br>5 = 720p</span></td></tr>
-<tr>
-<td class=r title='1826 = 0x722'>1826</td>
+  <br>2 = 2160p</td><td>&nbsp;&nbsp;</td>
+  <td>3 = 1080p
+  <br>4 = 1080i
+  <br>5 = 720p</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='1922 = 0x782'>1922</td>
 <td>AirplaneMode?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
-<tr class=b>
-<td class=r title='1827 = 0x723'>1827</td>
+<tr>
+<td class=r title='1923 = 0x783'>1923</td>
 <td>EmptySlotRelease?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Disable Release
   <br>1 = Enable Release</span></td></tr>
-<tr>
-<td class=r title='1862 = 0x746'>1862</td>
+<tr class=b>
+<td class=r title='1958 = 0x7a6'>1958</td>
 <td>EnergySavingMode?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
-<tr class=b>
-<td class=r title='1890 = 0x762'>1890</td>
+<tr>
+<td class=r title='1986 = 0x7c2'>1986</td>
 <td>USBPowerDelivery?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
-<tr>
-<td class=r title='1899 = 0x76b'>1899</td>
+<tr class=b>
+<td class=r title='1995 = 0x7cb'>1995</td>
 <td>SensorShield?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Stays Open
   <br>1 = Closes</span></td></tr>
+<tr>
+<td class=r title='2046 = 0x7fe'>2046</td>
+<td>PixelShiftShooting</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On
+  <br>2 = On (Series)</span></td></tr>
+<tr class=b>
+<td class=r title='2048 = 0x800'>2048</td>
+<td>PixelShiftNumberShots</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = 4
+  <br>1 = 8
+  <br>2 = 16
+  <br>3 = 32</span></td></tr>
+<tr>
+<td class=r title='2050 = 0x802'>2050</td>
+<td>PixelShiftDelay</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = Off
+  <br>1 = 1 s
+  <br>2 = 2 s</td><td>&nbsp;&nbsp;</td>
+  <td>3 = 3 s
+  <br>4 = 5 s
+  <br>5 = 10 s</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='2052 = 0x804'>2052</td>
+<td>PlaybackButton</td>
+<td class=c>int8u</td>
+<td>--&gt; <a href='Nikon.html#ButtonsZ8'>Nikon ButtonsZ8 Values</a></td></tr>
+<tr>
+<td class=r title='2054 = 0x806'>2054</td>
+<td>WBButton</td>
+<td class=c>int8u</td>
+<td>--&gt; <a href='Nikon.html#ButtonsZ8'>Nikon ButtonsZ8 Values</a></td></tr>
+<tr class=b>
+<td class=r title='2056 = 0x808'>2056</td>
+<td>BracketButton</td>
+<td class=c>int8u</td>
+<td>--&gt; <a href='Nikon.html#ButtonsZ8'>Nikon ButtonsZ8 Values</a></td></tr>
+<tr>
+<td class=r title='2058 = 0x80a'>2058</td>
+<td>LensFunc1ButtonPlaybackMode</td>
+<td class=c>int8u</td>
+<td>--&gt; <a href='Nikon.html#ButtonsZ8'>Nikon ButtonsZ8 Values</a></td></tr>
+<tr class=b>
+<td class=r title='2060 = 0x80c'>2060</td>
+<td>LensFunc2ButtonPlaybackMode</td>
+<td class=c>int8u</td>
+<td>--&gt; <a href='Nikon.html#ButtonsZ8'>Nikon ButtonsZ8 Values</a></td></tr>
+<tr>
+<td class=r title='2062 = 0x80e'>2062</td>
+<td>PlaybackButtonPlaybackMode</td>
+<td class=c>int8u</td>
+<td>--&gt; <a href='Nikon.html#ButtonsZ8'>Nikon ButtonsZ8 Values</a></td></tr>
+<tr class=b>
+<td class=r title='2064 = 0x810'>2064</td>
+<td>BracketButtonPlaybackMode</td>
+<td class=c>int8u</td>
+<td>--&gt; <a href='Nikon.html#ButtonsZ8'>Nikon ButtonsZ8 Values</a></td></tr>
+<tr>
+<td class=r title='2206 = 0x89e'>2206</td>
+<td>MaximumApertureLV?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = On</span></td></tr>
+<tr class=b>
+<td class=r title='2208 = 0x8a0'>2208</td>
+<td>ReleaseModeButton</td>
+<td class=c>int8u</td>
+<td>--&gt; <a href='Nikon.html#ButtonsZ8'>Nikon ButtonsZ8 Values</a></td></tr>
+<tr>
+<td class=r title='2216 = 0x8a8'>2216</td>
+<td>ReleaseModeButtonPlaybackMode</td>
+<td class=c>int8u</td>
+<td>--&gt; <a href='Nikon.html#ButtonsZ8'>Nikon ButtonsZ8 Values</a></td></tr>
 </table></td></tr></table></blockquote>
+
+<h2><a name='ButtonsZ8'>Nikon ButtonsZ8 Values</a></h2>
+<blockquote>
+<table class=frame><tr><td>
+<table class='inner sep' cellspacing=1>
+<tr class=h><th>Value</th><th>ButtonsZ8</th><th>Value</th><th>ButtonsZ8</th></tr>
+<tr><td class=r>0</td><td>= None</td>
+<td class='r b'>72</td><td class=b>= Shooting Mode</td>
+</tr><tr><td class=r>1</td><td>= Preview</td>
+<td class='r b'>73</td><td class=b>= Exposure Compensation</td>
+</tr><tr><td class=r>3</td><td>= FV Lock</td>
+<td class='r b'>76</td><td class=b>= Silent Mode</td>
+</tr><tr><td class=r>4</td><td>= AE/AF Lock</td>
+<td class='r b'>78</td><td class=b>= LiveView Information</td>
+</tr><tr><td class=r>5</td><td>= AE Lock Only</td>
+<td class='r b'>79</td><td class=b>= AWB Lock (hold)</td>
+</tr><tr><td class=r>6</td><td>= AE Lock (reset on release)</td>
+<td class='r b'>80</td><td class=b>= Grid Display</td>
+</tr><tr><td class=r>7</td><td>= AE Lock (hold)</td>
+<td class='r b'>81</td><td class=b>= Starlight View</td>
+</tr><tr><td class=r>8</td><td>= AF Lock Only</td>
+<td class='r b'>82</td><td class=b>= Select To Send (PC)</td>
+</tr><tr><td class=r>9</td><td>= AF-On</td>
+<td class='r b'>83</td><td class=b>= Select To Send (FTP)</td>
+</tr><tr><td class=r>10</td><td>= Flash Disable/Enable</td>
+<td class='r b'>84</td><td class=b>= Pattern Tone Range</td>
+</tr><tr><td class=r>11</td><td>= Bracketing Burst</td>
+<td class='r b'>85</td><td class=b>= Control Lock</td>
+</tr><tr><td class=r>12</td><td>= +NEF(RAW)</td>
+<td class='r b'>86</td><td class=b>= Save Focus Position</td>
+</tr><tr><td class=r>18</td><td>= Virtual Horizon</td>
+<td class='r b'>87</td><td class=b>= Recall Focus Position</td>
+</tr><tr><td class=r>19</td><td>= Synchronized Release</td>
+<td class='r b'>88</td><td class=b>= Recall Shooting Functions (Hold)</td>
+</tr><tr><td class=r>20</td><td>= My Menu</td>
+<td class='r b'>89</td><td class=b>= Set Picture Control (HLG)</td>
+</tr><tr><td class=r>21</td><td>= My Menu Top Item</td>
+<td class='r b'>90</td><td class=b>= Skin Softening</td>
+</tr><tr><td class=r>22</td><td>= Playback</td>
+<td class='r b'>91</td><td class=b>= Portrait Impression Balance</td>
+</tr><tr><td class=r>23</td><td>= Rating</td>
+<td class='r b'>92</td><td class=b>= Fast AF-On</td>
+</tr><tr><td class=r>24</td><td>= Protect</td>
+<td class='r b'>97</td><td class=b>= High Frequency Flicker Reduction</td>
+</tr><tr><td class=r>25</td><td>= Zoom</td>
+<td class='r b'>98</td><td class=b>= Switch FX/DX</td>
+</tr><tr><td class=r>26</td><td>= Focus Peaking</td>
+<td class='r b'>99</td><td class=b>= View Mode (Photo LV)</td>
+</tr><tr><td class=r>27</td><td>= Flash Mode/Compensation</td>
+<td class='r b'>100</td><td class=b>= Photo Flicker Reduction</td>
+</tr><tr><td class=r>28</td><td>= Image Area</td>
+<td class='r b'>101</td><td class=b>= Filtered Playback (Select Criteria)</td>
+</tr><tr><td class=r>30</td><td>= Non-CPU Lens</td>
+<td class='r b'>103</td><td class=b>= Start Series Playback</td>
+</tr><tr><td class=r>31</td><td>= Active-D Lighting</td>
+<td class='r b'>104</td><td class=b>= View Assist</td>
+</tr><tr><td class=r>32</td><td>= Exposure Delay Mode</td>
+<td class='r b'>105</td><td class=b>= Hi-Res Zoom+</td>
+</tr><tr><td class=r>33</td><td>= 1 Stop Speed/Aperture</td>
+<td class='r b'>106</td><td class=b>= Hi-Res Zoom-</td>
+</tr><tr><td class=r>34</td><td>= White Balance</td>
+<td class='r b'>108</td><td class=b>= Override Other Cameras</td>
+</tr><tr><td class=r>35</td><td>= Metering</td>
+<td class='r b'>109</td><td class=b>= DISP - Cycle Information Display (shooting)</td>
+</tr><tr><td class=r>36</td><td>= Auto Bracketing</td>
+<td class='r b'>110</td><td class=b>= DISP - Cycle Information Display (playback)</td>
+</tr><tr><td class=r>37</td><td>= Multiple Exposure</td>
+<td class='r b'>111</td><td class=b>= Resume Shooting</td>
+</tr><tr><td class=r>38</td><td>= HDR Overlay</td>
+<td class='r b'>112</td><td class=b>= Switch Eyes</td>
+</tr><tr><td class=r>39</td><td>= Picture Control</td>
+<td class='r b'>113</td><td class=b>= Power Zoom +</td>
+</tr><tr><td class=r>40</td><td>= Quality</td>
+<td class='r b'>114</td><td class=b>= Power Zoom -</td>
+</tr><tr><td class=r>41</td><td>= Focus Mode/AF AreaMode</td>
+<td class='r b'>115</td><td class=b>= Delete</td>
+</tr><tr><td class=r>42</td><td>= Select Center Focus Point</td>
+<td class='r b'>116</td><td class=b>= Pixel Shift Shooting</td>
+</tr><tr><td class=r>44</td><td>= Record Movie</td>
+<td class='r b'>117</td><td class=b>= Cycle AF-area Mode</td>
+</tr><tr><td class=r>45</td><td>= Thumbnail On/Off</td>
+<td class='r b'>119</td><td class=b>= Focus Limiter</td>
+</tr><tr><td class=r>46</td><td>= View Histograms</td>
+<td class='r b'>120</td><td class=b>= Jump to Source Image</td>
+</tr><tr><td class=r>47</td><td>= Choose Folder</td>
+<td class='r b'>121</td><td class=b>= Raw Processing (Current)</td>
+</tr><tr><td class=r>48</td><td>= Power Aperture (Open)</td>
+<td class='r b'>122</td><td class=b>= Raw Processing (Multiple)</td>
+</tr><tr><td class=r>49</td><td>= Power Aperture (Close)</td>
+<td class='r b'>123</td><td class=b>= Trim</td>
+</tr><tr><td class=r>52</td><td>= Microphone Sensitivity</td>
+<td class='r b'>124</td><td class=b>= Resize (Current)</td>
+</tr><tr><td class=r>53</td><td>= Release Mode</td>
+<td class='r b'>125</td><td class=b>= Resize (Multiple)</td>
+</tr><tr><td class=r>57</td><td>= Preset Focus Point</td>
+<td class='r b'>126</td><td class=b>= D-Lighting</td>
+</tr><tr><td class=r>58</td><td>= AE/AWB Lock (hold)</td>
+<td class='r b'>127</td><td class=b>= Straighten</td>
+</tr><tr><td class=r>59</td><td>= AF-AreaMode</td>
+<td class='r b'>128</td><td class=b>= Distortion Control</td>
+</tr><tr><td class=r>60</td><td>= AF-AreaMode + AF-On</td>
+<td class='r b'>129</td><td class=b>= Perspective Control</td>
+</tr><tr><td class=r>61</td><td>= Recall Shooting Functions</td>
+<td class='r b'>130</td><td class=b>= Monochrome</td>
+</tr><tr><td class=r>64</td><td>= Filtered Playback</td>
+<td class='r b'>131</td><td class=b>= Overlay (Add)</td>
+</tr><tr><td class=r>65</td><td>= Same as AF-On</td>
+<td class='r b'>132</td><td class=b>= Lighten</td>
+</tr><tr><td class=r>66</td><td>= Voice Memo</td>
+<td class='r b'>133</td><td class=b>= Darken</td>
+</tr><tr><td class=r>70</td><td>= Photo Shooting Bank</td>
+<td class='r b'>134</td><td class=b>= Motion Blend</td>
+</tr><tr><td class=r>71</td><td>= ISO</td>
+<td class='r b'>135</td><td class=b>= Cycle Monitor Mode</td>
+</tr></table></td></tr></table></blockquote>
 
 <h2><a name='ShotInfoZ9'>Nikon ShotInfoZ9 Tags</a></h2>
 <p>These tags are extracted from encrypted data in images from the Z9.</p>
@@ -6093,26 +6865,41 @@ firmware 1.01b.</p>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td class=r title='14 = 0xe'>14</td>
+<td>FirmwareVersion2</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='24 = 0x18'>24</td>
+<td>FirmwareVersion3</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='36 = 0x24'>36</td>
+<td>NumberOffsets</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td class=r title='48 = 0x30'>48</td>
 <td>SequenceOffset</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#SeqInfoZ9'>Nikon SeqInfoZ9 Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='88 = 0x58'>88</td>
 <td>Offset13</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#Offset13InfoZ9'>Nikon Offset13InfoZ9 Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='128 = 0x80'>128</td>
 <td>AutoCaptureOffset</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#AutoCaptureInfo'>Nikon AutoCaptureInfo Tags</a></td></tr>
-<tr class=b>
+<tr>
 <td class=r title='132 = 0x84'>132</td>
 <td>OrientOffset</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Nikon.html#OrientationInfo'>Nikon OrientationInfo Tags</a></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='140 = 0x8c'>140</td>
 <td>MenuOffset</td>
 <td class=c>-</td>
@@ -6147,110 +6934,6 @@ firmware 1.01b.</p>
 <td>&nbsp;</td></tr>
 </table></td></tr></table></blockquote>
 
-<h2><a name='AutoCaptureInfo'>Nikon AutoCaptureInfo Tags</a></h2>
-<blockquote>
-<table class=frame><tr><td>
-<table class=inner cellspacing=1>
-<tr class=h><th>Index1</th><th>Tag Name</th>
-<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
-<tr>
-<td class=r title='0 = 0x0'>0</td>
-<td>AutoCapturedFrame</td>
-<td class=c>int8u</td>
-<td><span class=s>0 = No
-  <br>5 = Yes</span></td></tr>
-<tr class=b>
-<td class=r title='1 = 0x1'>1</td>
-<td>AutoCaptureCriteria</td>
-<td class=c title=' ~ = Writable only with -n'>int8u~</td>
-<td><span class=s>Bit 0 = Distance
-  <br>Bit 1 = Motion
-  <br>Bit 2 = Subject Detection</span></td></tr>
-<tr>
-<td class=r title='55 = 0x37'>55</td>
-<td>AutoCaptureRecordingTime</td>
-<td class=c>int8u</td>
-<td><table class=cols><tr>
-  <td>0 = 1 Sec
-  <br>1 = 3 Sec
-  <br>2 = 5 Sec
-  <br>4 = 30 Sec
-  <br>5 = No Limit</td><td>&nbsp;&nbsp;</td>
-  <td>6 = 2 Sec
-  <br>7 = 10 Sec
-  <br>8 = 20 Sec
-  <br>9 = 1 Min
-  <br>10 = 3 Min</td><td>&nbsp;&nbsp;</td>
-  <td>11 = 5 Min
-  <br>12 = 10 Min
-  <br>13 = 30 Min</td></tr></table>
-</td></tr>
-<tr class=b>
-<td class=r title='56 = 0x38'>56</td>
-<td>AutoCaptureWaitTime</td>
-<td class=c>int8u</td>
-<td><table class=cols><tr>
-  <td>0 = No Wait
-  <br>1 = 10 Sec
-  <br>2 = 30 Sec
-  <br>3 = 1 Min
-  <br>4 = 5 Min</td><td>&nbsp;&nbsp;</td>
-  <td>5 = 10 Min
-  <br>6 = 30 Min
-  <br>7 = 1 Sec
-  <br>8 = 2 Sec
-  <br>9 = 3 Sec</td><td>&nbsp;&nbsp;</td>
-  <td>10 = 5 Sec
-  <br>11 = 20 Sec
-  <br>12 = 3 Min</td></tr></table>
-</td></tr>
-<tr>
-<td class=r title='74 = 0x4a'>74</td>
-<td>AutoCaptureDistanceFar</td>
-<td class=c title=' ~ = Writable only with -n'>int8u~</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='78 = 0x4e'>78</td>
-<td>AutoCaptureDistanceNear</td>
-<td class=c title=' ~ = Writable only with -n'>int8u~</td>
-<td>&nbsp;</td></tr>
-<tr>
-<td class=r title='95 = 0x5f'>95</td>
-<td>AutoCaptureCriteriaMotionDirection</td>
-<td class=c title=' ~ = Writable only with -n'>int8u~</td>
-<td><span class=s>Bit 0 = Top Left
-  <br>Bit 1 = Top Right
-  <br>Bit 2 = Bottom Left
-  <br>Bit 3 = Bottom Right
-  <br>Bit 4 = Left
-  <br>Bit 5 = Right
-  <br>Bit 6 = Top Center
-  <br>Bit 7 = Bottom Center</span></td></tr>
-<tr class=b>
-<td class=r title='99 = 0x63'>99</td>
-<td>AutoCaptureCriteriaMotionSpeed</td>
-<td class=c>int8u</td>
-<td>&nbsp;</td></tr>
-<tr>
-<td class=r title='100 = 0x64'>100</td>
-<td>AutoCaptureCriteriaMotionSize</td>
-<td class=c>int8u</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='105 = 0x69'>105</td>
-<td>AutoCaptureCriteriaSubjectSize</td>
-<td class=c>int8u</td>
-<td>&nbsp;</td></tr>
-<tr>
-<td class=r title='106 = 0x6a'>106</td>
-<td>AutoCaptureCriteriaSubjectType</td>
-<td class=c>int8u</td>
-<td><span class=s>0 = Auto (all)
-  <br>1 = People
-  <br>2 = Animals
-  <br>3 = Vehicle</span></td></tr>
-</table></td></tr></table></blockquote>
-
 <h2><a name='MenuInfoZ9'>Nikon MenuInfoZ9 Tags</a></h2>
 <blockquote>
 <table class=frame><tr><td>
@@ -6265,9 +6948,9 @@ firmware 1.01b.</p>
 <td class=c>-<br>-<br>-</td>
 <td><span class=n>(Firmware versions 2.11 and earlier)</span>
   <br>--&gt; <a href='Nikon.html#MenuSettingsZ9'>Nikon MenuSettingsZ9 Tags</a>
-  <br><span class=n>(Firmware versions 3.0 and v3.10)</span>
+  <br><span class=n>(Firmware versions 3.00 and v3.10)</span>
   <br>--&gt; <a href='Nikon.html#MenuSettingsZ9v3'>Nikon MenuSettingsZ9v3 Tags</a>
-  <br><span class=n>(Firmware versions 4.0 and later)</span>
+  <br><span class=n>(Firmware versions 4.00 and higher)</span>
   <br>--&gt; <a href='Nikon.html#MenuSettingsZ9v4'>Nikon MenuSettingsZ9v4 Tags</a></td></tr>
 </table></td></tr></table></blockquote>
 
@@ -6353,76 +7036,12 @@ firmware 1.01b.</p>
 <td class=r title='324 = 0x144'>324</td>
 <td>ISOAutoHiLimit?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr class=b>
 <td class=r title='326 = 0x146'>326</td>
 <td>ISOAutoFlashLimit?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr>
 <td class=r title='334 = 0x14e'>334</td>
 <td>ISOAutoShutterTime</td>
@@ -6665,7 +7284,8 @@ firmware 1.01b.</p>
   <br>3 = Animals</td><td>&nbsp;&nbsp;</td>
   <td>4 = Vehicles
   <br>5 = Birds
-  <br>6 = Airplanes</td></tr></table>
+  <br>6 = Airplanes
+  <br>7 = Faces</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='576 = 0x240'>576</td>
@@ -6686,7 +7306,7 @@ firmware 1.01b.</p>
 <td>MovieType?</td>
 <td class=c>int8u</td>
 <td><table class=cols><tr>
-  <td>1 = H.265 8-bit (MP4)
+  <td>1 = H.264 8-bit (MP4)
   <br>2 = H.265 8-bit (MOV)
   <br>3 = H.265 10-bit (MOV)
   <br>4 = ProRes 422 HQ 10-bit (MOV)
@@ -6697,39 +7317,7 @@ firmware 1.01b.</p>
 <td class=r title='616 = 0x268'>616</td>
 <td>MovieISOAutoHiLimit?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr>
 <td class=r title='618 = 0x26a'>618</td>
 <td>MovieISOAutoControlManualMode?</td>
@@ -6740,39 +7328,7 @@ firmware 1.01b.</p>
 <td class=r title='620 = 0x26c'>620</td>
 <td>MovieISOAutoManualMode?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr>
 <td class=r title='696 = 0x2b8'>696</td>
 <td>MovieActiveD-Lighting?</td>
@@ -6885,7 +7441,8 @@ firmware 1.01b.</p>
 <td class=c>int8u</td>
 <td><span class=s>1 = 1920x1080
   <br>2 = 3840x2160
-  <br>3 = 7680x4320</span></td></tr>
+  <br>3 = 7680x4320
+  <br>7 = 5376x3024</span></td></tr>
 <tr class=b>
 <td class=r title='756 = 0x2f4'>756</td>
 <td>MovieFrameRate?</td>
@@ -6922,7 +7479,8 @@ firmware 1.01b.</p>
   <br>3 = Animals</td><td>&nbsp;&nbsp;</td>
   <td>4 = Vehicles
   <br>5 = Birds
-  <br>6 = Airplanes</td></tr></table>
+  <br>6 = Airplanes
+  <br>7 = Faces</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='799 = 0x31f'>799</td>
@@ -6941,32 +7499,7 @@ firmware 1.01b.</p>
 <td class=r title='1428 = 0x594'>1428</td>
 <td>TimeZone</td>
 <td class=c>int8u</td>
-<td><table class=cols><tr>
-  <td>3 = +10:00 (Sydney)
-  <br>5 = +09:00 (Tokyo)
-  <br>6 = +08:00 (Beijing, Honk Kong, Sinapore)
-  <br>10 = +05:45 (Kathmandu)
-  <br>11 = +05:30 (New Dehli)
-  <br>12 = +05:00 (Islamabad)
-  <br>13 = +04:30 (Kabul)
-  <br>14 = +04:00 (Abu Dhabi)
-  <br>15 = +03:30 (Tehran)
-  <br>16 = +03:00 (Moscow, Nairobi)
-  <br>17 = +02:00 (Athens, Helsinki)
-  <br>18 = +01:00 (Madrid, Paris, Berlin)
-  <br>19 = +00:00 (London)
-  <br>20 = -01:00 (Azores)
-  <br>21 = -02:00 (Fernando de Noronha)
-  <br>22 = -03:00 (Buenos Aires, Sao Paulo)
-  <br>23 = -03:30 (Newfoundland)
-  <br>24 = -04:00 (Manaus, Caracas)
-  <br>25 = -05:00 (New York, Toronto, Lima)
-  <br>26 = -06:00 (Chicago, Mexico City)
-  <br>27 = -07:00 (Denver)
-  <br>28 = -08:00 (Los Angeles, Vancouver)
-  <br>29 = -09:00 (Anchorage)
-  <br>30 = -10:00 (Hawaii)</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#TimeZone'>Nikon TimeZone Values</a></td></tr>
 <tr>
 <td class=r title='1434 = 0x59a'>1434</td>
 <td>MonitorBrightness?</td>
@@ -6982,11 +7515,14 @@ firmware 1.01b.</p>
 <td class=r title='1552 = 0x610'>1552</td>
 <td>HDMIOutputResolution</td>
 <td class=c>int8u</td>
-<td><span class=s>0 = Auto
+<td><table class=cols><tr>
+  <td>0 = Auto
   <br>1 = 4320p
-  <br>2 = 2160p
-  <br>3 = 1080p
-  <br>5 = 720p</span></td></tr>
+  <br>2 = 2160p</td><td>&nbsp;&nbsp;</td>
+  <td>3 = 1080p
+  <br>4 = 1080i
+  <br>5 = 720p</td></tr></table>
+</td></tr>
 <tr class=b>
 <td class=r title='1565 = 0x61d'>1565</td>
 <td>SetClockFromLocationData?</td>
@@ -7042,11 +7578,15 @@ firmware 1.01b.</p>
 <td class=r title='72 = 0x48'>72</td>
 <td>HighFrameRate</td>
 <td class=c>int8u</td>
-<td><span class=s>0 = Off
+<td><table class=cols><tr>
+  <td>0 = Off
   <br>1 = CH
-  <br>3 = C30
-  <br>4 = C120
-  <br>5 = C60</span></td></tr>
+  <br>2 = CH*
+  <br>3 = C30</td><td>&nbsp;&nbsp;</td>
+  <td>4 = C120
+  <br>5 = C60
+  <br>6 = C15</td></tr></table>
+</td></tr>
 <tr class=b>
 <td class=r title='154 = 0x9a'>154</td>
 <td>MultipleExposureMode</td>
@@ -7122,76 +7662,12 @@ firmware 1.01b.</p>
 <td class=r title='344 = 0x158'>344</td>
 <td>ISOAutoHiLimit?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr>
 <td class=r title='346 = 0x15a'>346</td>
 <td>ISOAutoFlashLimit?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr class=b>
 <td class=r title='354 = 0x162'>354</td>
 <td>ISOAutoShutterTime</td>
@@ -7419,7 +7895,8 @@ firmware 1.01b.</p>
   <br>3 = Animals</td><td>&nbsp;&nbsp;</td>
   <td>4 = Vehicles
   <br>5 = Birds
-  <br>6 = Airplanes</td></tr></table>
+  <br>6 = Airplanes
+  <br>7 = Faces</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='596 = 0x254'>596</td>
@@ -7430,7 +7907,7 @@ firmware 1.01b.</p>
   <br>2 = Large</span></td></tr>
 <tr>
 <td class=r title='636 = 0x27c'>636</td>
-<td>HighFrequencyFlickerReductionShooting?</td>
+<td>HighFrequencyFlickerReduction?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
@@ -7446,7 +7923,7 @@ firmware 1.01b.</p>
 <td>MovieType?</td>
 <td class=c>int8u</td>
 <td><table class=cols><tr>
-  <td>1 = H.265 8-bit (MP4)
+  <td>1 = H.264 8-bit (MP4)
   <br>2 = H.265 8-bit (MOV)
   <br>3 = H.265 10-bit (MOV)
   <br>4 = ProRes 422 HQ 10-bit (MOV)
@@ -7457,39 +7934,7 @@ firmware 1.01b.</p>
 <td class=r title='658 = 0x292'>658</td>
 <td>MovieISOAutoHiLimit?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr>
 <td class=r title='660 = 0x294'>660</td>
 <td>MovieISOAutoControlManualMode?</td>
@@ -7500,39 +7945,7 @@ firmware 1.01b.</p>
 <td class=r title='662 = 0x296'>662</td>
 <td>MovieISOAutoManualMode?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr>
 <td class=r title='736 = 0x2e0'>736</td>
 <td>MovieActiveD-Lighting?</td>
@@ -7645,7 +8058,8 @@ firmware 1.01b.</p>
 <td class=c>int8u</td>
 <td><span class=s>1 = 1920x1080
   <br>2 = 3840x2160
-  <br>3 = 7680x4320</span></td></tr>
+  <br>3 = 7680x4320
+  <br>7 = 5376x3024</span></td></tr>
 <tr class=b>
 <td class=r title='796 = 0x31c'>796</td>
 <td>MovieFrameRate?</td>
@@ -7682,7 +8096,8 @@ firmware 1.01b.</p>
   <br>3 = Animals</td><td>&nbsp;&nbsp;</td>
   <td>4 = Vehicles
   <br>5 = Birds
-  <br>6 = Airplanes</td></tr></table>
+  <br>6 = Airplanes
+  <br>7 = Faces</td></tr></table>
 </td></tr>
 <tr class=b>
 <td class=r title='812 = 0x32c'>812</td>
@@ -7707,32 +8122,7 @@ firmware 1.01b.</p>
 <td class=r title='1476 = 0x5c4'>1476</td>
 <td>TimeZone</td>
 <td class=c>int8u</td>
-<td><table class=cols><tr>
-  <td>3 = +10:00 (Sydney)
-  <br>5 = +09:00 (Tokyo)
-  <br>6 = +08:00 (Beijing, Honk Kong, Sinapore)
-  <br>10 = +05:45 (Kathmandu)
-  <br>11 = +05:30 (New Dehli)
-  <br>12 = +05:00 (Islamabad)
-  <br>13 = +04:30 (Kabul)
-  <br>14 = +04:00 (Abu Dhabi)
-  <br>15 = +03:30 (Tehran)
-  <br>16 = +03:00 (Moscow, Nairobi)
-  <br>17 = +02:00 (Athens, Helsinki)
-  <br>18 = +01:00 (Madrid, Paris, Berlin)
-  <br>19 = +00:00 (London)
-  <br>20 = -01:00 (Azores)
-  <br>21 = -02:00 (Fernando de Noronha)
-  <br>22 = -03:00 (Buenos Aires, Sao Paulo)
-  <br>23 = -03:30 (Newfoundland)
-  <br>24 = -04:00 (Manaus, Caracas)
-  <br>25 = -05:00 (New York, Toronto, Lima)
-  <br>26 = -06:00 (Chicago, Mexico City)
-  <br>27 = -07:00 (Denver)
-  <br>28 = -08:00 (Los Angeles, Vancouver)
-  <br>29 = -09:00 (Anchorage)
-  <br>30 = -10:00 (Hawaii)</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#TimeZone'>Nikon TimeZone Values</a></td></tr>
 <tr class=b>
 <td class=r title='1482 = 0x5ca'>1482</td>
 <td>MonitorBrightness?</td>
@@ -7764,11 +8154,14 @@ firmware 1.01b.</p>
 <td class=r title='1600 = 0x640'>1600</td>
 <td>HDMIOutputResolution</td>
 <td class=c>int8u</td>
-<td><span class=s>0 = Auto
+<td><table class=cols><tr>
+  <td>0 = Auto
   <br>1 = 4320p
-  <br>2 = 2160p
-  <br>3 = 1080p
-  <br>5 = 720p</span></td></tr>
+  <br>2 = 2160p</td><td>&nbsp;&nbsp;</td>
+  <td>3 = 1080p
+  <br>4 = 1080i
+  <br>5 = 720p</td></tr></table>
+</td></tr>
 <tr>
 <td class=r title='1613 = 0x64d'>1613</td>
 <td>SetClockFromLocationData?</td>
@@ -7836,7 +8229,7 @@ firmware 1.01b.</p>
 </table></td></tr></table></blockquote>
 
 <h2><a name='MenuSettingsZ9v4'>Nikon MenuSettingsZ9v4 Tags</a></h2>
-<p>These tags are used by the Z9 firmware 3.00.</p>
+<p>These tags are used by the Z9 firmware 4.00, 4.10, 5.00 and 5.10.</p>
 <blockquote>
 <table class=frame><tr><td>
 <table class=inner cellspacing=1>
@@ -7846,11 +8239,15 @@ firmware 1.01b.</p>
 <td class=r title='72 = 0x48'>72</td>
 <td>HighFrameRate</td>
 <td class=c>int8u</td>
-<td><span class=s>0 = Off
+<td><table class=cols><tr>
+  <td>0 = Off
   <br>1 = CH
-  <br>3 = C30
-  <br>4 = C120
-  <br>5 = C60</span></td></tr>
+  <br>2 = CH*
+  <br>3 = C30</td><td>&nbsp;&nbsp;</td>
+  <td>4 = C120
+  <br>5 = C60
+  <br>6 = C15</td></tr></table>
+</td></tr>
 <tr class=b>
 <td class=r title='154 = 0x9a'>154</td>
 <td>MultipleExposureMode</td>
@@ -7926,76 +8323,12 @@ firmware 1.01b.</p>
 <td class=r title='344 = 0x158'>344</td>
 <td>ISOAutoHiLimit?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr>
 <td class=r title='346 = 0x15a'>346</td>
 <td>ISOAutoFlashLimit?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr class=b>
 <td class=r title='354 = 0x162'>354</td>
 <td>ISOAutoShutterTime</td>
@@ -8246,7 +8579,8 @@ firmware 1.01b.</p>
   <br>3 = Animals</td><td>&nbsp;&nbsp;</td>
   <td>4 = Vehicles
   <br>5 = Birds
-  <br>6 = Airplanes</td></tr></table>
+  <br>6 = Airplanes
+  <br>7 = Faces</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='596 = 0x254'>596</td>
@@ -8257,7 +8591,7 @@ firmware 1.01b.</p>
   <br>2 = Large</span></td></tr>
 <tr class=b>
 <td class=r title='636 = 0x27c'>636</td>
-<td>HighFrequencyFlickerReductionShooting?</td>
+<td>HighFrequencyFlickerReduction?</td>
 <td class=c>int8u</td>
 <td><span class=s>0 = Off
   <br>1 = On</span></td></tr>
@@ -8273,7 +8607,7 @@ firmware 1.01b.</p>
 <td>MovieType?</td>
 <td class=c>int8u</td>
 <td><table class=cols><tr>
-  <td>1 = H.265 8-bit (MP4)
+  <td>1 = H.264 8-bit (MP4)
   <br>2 = H.265 8-bit (MOV)
   <br>3 = H.265 10-bit (MOV)
   <br>4 = ProRes 422 HQ 10-bit (MOV)
@@ -8284,39 +8618,7 @@ firmware 1.01b.</p>
 <td class=r title='658 = 0x292'>658</td>
 <td>MovieISOAutoHiLimit?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr class=b>
 <td class=r title='660 = 0x294'>660</td>
 <td>MovieISOAutoControlManualMode?</td>
@@ -8327,39 +8629,7 @@ firmware 1.01b.</p>
 <td class=r title='662 = 0x296'>662</td>
 <td>MovieISOAutoManualMode?</td>
 <td class=c>int16u</td>
-<td><table class=cols><tr>
-  <td>0 = ISO 64
-  <br>1 = ISO 80
-  <br>2 = ISO 100
-  <br>3 = ISO 125
-  <br>4 = ISO 160
-  <br>5 = ISO 200
-  <br>6 = ISO 250
-  <br>7 = ISO 320
-  <br>8 = ISO 400
-  <br>9 = ISO 500
-  <br>10 = ISO 640
-  <br>11 = ISO 800
-  <br>12 = ISO 1000
-  <br>13 = ISO 1250
-  <br>14 = ISO 1600
-  <br>15 = ISO 2000</td><td>&nbsp;&nbsp;</td>
-  <td>16 = ISO 2500
-  <br>17 = ISO 3200
-  <br>18 = ISO 4000
-  <br>19 = ISO 5000
-  <br>20 = ISO 6400
-  <br>21 = ISO 8000
-  <br>22 = ISO 10000
-  <br>23 = ISO 12800
-  <br>24 = ISO 16000
-  <br>25 = ISO 20000
-  <br>26 = ISO 25600
-  <br>27 = ISO Hi 0.3
-  <br>28 = ISO Hi 0.7
-  <br>29 = ISO Hi 1.0
-  <br>32 = ISO Hi 2.0</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#ISOAutoHiLimitZ7'>Nikon ISOAutoHiLimitZ7 Values</a></td></tr>
 <tr class=b>
 <td class=r title='736 = 0x2e0'>736</td>
 <td>MovieActiveD-Lighting?</td>
@@ -8472,7 +8742,8 @@ firmware 1.01b.</p>
 <td class=c>int8u</td>
 <td><span class=s>1 = 1920x1080
   <br>2 = 3840x2160
-  <br>3 = 7680x4320</span></td></tr>
+  <br>3 = 7680x4320
+  <br>7 = 5376x3024</span></td></tr>
 <tr>
 <td class=r title='796 = 0x31c'>796</td>
 <td>MovieFrameRate?</td>
@@ -8509,7 +8780,8 @@ firmware 1.01b.</p>
   <br>3 = Animals</td><td>&nbsp;&nbsp;</td>
   <td>4 = Vehicles
   <br>5 = Birds
-  <br>6 = Airplanes</td></tr></table>
+  <br>6 = Airplanes
+  <br>7 = Faces</td></tr></table>
 </td></tr>
 <tr>
 <td class=r title='812 = 0x32c'>812</td>
@@ -8534,32 +8806,7 @@ firmware 1.01b.</p>
 <td class=r title='1500 = 0x5dc'>1500</td>
 <td>TimeZone</td>
 <td class=c>int8u</td>
-<td><table class=cols><tr>
-  <td>3 = +10:00 (Sydney)
-  <br>5 = +09:00 (Tokyo)
-  <br>6 = +08:00 (Beijing, Honk Kong, Sinapore)
-  <br>10 = +05:45 (Kathmandu)
-  <br>11 = +05:30 (New Dehli)
-  <br>12 = +05:00 (Islamabad)
-  <br>13 = +04:30 (Kabul)
-  <br>14 = +04:00 (Abu Dhabi)
-  <br>15 = +03:30 (Tehran)
-  <br>16 = +03:00 (Moscow, Nairobi)
-  <br>17 = +02:00 (Athens, Helsinki)
-  <br>18 = +01:00 (Madrid, Paris, Berlin)
-  <br>19 = +00:00 (London)
-  <br>20 = -01:00 (Azores)
-  <br>21 = -02:00 (Fernando de Noronha)
-  <br>22 = -03:00 (Buenos Aires, Sao Paulo)
-  <br>23 = -03:30 (Newfoundland)
-  <br>24 = -04:00 (Manaus, Caracas)
-  <br>25 = -05:00 (New York, Toronto, Lima)
-  <br>26 = -06:00 (Chicago, Mexico City)
-  <br>27 = -07:00 (Denver)
-  <br>28 = -08:00 (Los Angeles, Vancouver)
-  <br>29 = -09:00 (Anchorage)
-  <br>30 = -10:00 (Hawaii)</td></tr></table>
-</td></tr>
+<td>--&gt; <a href='Nikon.html#TimeZone'>Nikon TimeZone Values</a></td></tr>
 <tr>
 <td class=r title='1506 = 0x5e2'>1506</td>
 <td>MonitorBrightness?</td>
@@ -8791,11 +9038,14 @@ firmware 1.01b.</p>
 <td class=r title='1704 = 0x6a8'>1704</td>
 <td>HDMIOutputResolution</td>
 <td class=c>int8u</td>
-<td><span class=s>0 = Auto
+<td><table class=cols><tr>
+  <td>0 = Auto
   <br>1 = 4320p
-  <br>2 = 2160p
-  <br>3 = 1080p
-  <br>5 = 720p</span></td></tr>
+  <br>2 = 2160p</td><td>&nbsp;&nbsp;</td>
+  <td>3 = 1080p
+  <br>4 = 1080i
+  <br>5 = 720p</td></tr></table>
+</td></tr>
 <tr class=b>
 <td class=r title='1717 = 0x6b5'>1717</td>
 <td>SetClockFromLocationData?</td>
@@ -8901,6 +9151,20 @@ firmware 1.01b.</p>
 <td class=c title=' ~ = Writable only with -n'>fixed32u~</td>
 <td>&nbsp;</td></tr>
 <tr>
+<td class=r title='2052 = 0x804'>2052</td>
+<td>CommandDialFrameAdvanceZoom?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Hold
+  <br>1 = Focus Point
+  <br>2 = Face Priority</span></td></tr>
+<tr class=b>
+<td class=r title='2054 = 0x806'>2054</td>
+<td>SubCommandDialFrameAdvanceZoom?</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Hold
+  <br>1 = Focus Point
+  <br>2 = Face Priority</span></td></tr>
+<tr>
 <td class=r title='2056 = 0x808'>2056</td>
 <td>PlaybackButton</td>
 <td class=c>int8u</td>
@@ -8953,87 +9217,113 @@ firmware 1.01b.</p>
 <table class='inner sep' cellspacing=1>
 <tr class=h><th>Value</th><th>ButtonsZ9</th><th>Value</th><th>ButtonsZ9</th></tr>
 <tr><td class=r>0</td><td>= None</td>
-<td class='r b'>49</td><td class=b>= Power Aperture (Close)</td>
+<td class='r b'>72</td><td class=b>= Shooting Mode</td>
 </tr><tr><td class=r>1</td><td>= Preview</td>
-<td class='r b'>52</td><td class=b>= Microphone Sensitivity</td>
-</tr><tr><td class=r>3</td><td>= FV Lock</td>
-<td class='r b'>53</td><td class=b>= Release Mode</td>
-</tr><tr><td class=r>4</td><td>= AE/AF Lock</td>
-<td class='r b'>57</td><td class=b>= Preset Focus Point</td>
-</tr><tr><td class=r>5</td><td>= AE Lock Only</td>
-<td class='r b'>58</td><td class=b>= AE/AWB Lock (hold)</td>
-</tr><tr><td class=r>6</td><td>= AE Lock (reset on release)</td>
-<td class='r b'>59</td><td class=b>= AF-AreaMode</td>
-</tr><tr><td class=r>7</td><td>= AE Lock (hold)</td>
-<td class='r b'>60</td><td class=b>= AF-AreaMode + AF-On</td>
-</tr><tr><td class=r>8</td><td>= AF Lock Only</td>
-<td class='r b'>61</td><td class=b>= Recall Shooting Functions</td>
-</tr><tr><td class=r>9</td><td>= AF-On</td>
-<td class='r b'>64</td><td class=b>= Filtered Playback</td>
-</tr><tr><td class=r>10</td><td>= Flash Disable/Enable</td>
-<td class='r b'>65</td><td class=b>= Same as AF-On</td>
-</tr><tr><td class=r>11</td><td>= Bracketing Burst</td>
-<td class='r b'>66</td><td class=b>= Voice Memo</td>
-</tr><tr><td class=r>12</td><td>= +NEF(RAW)</td>
-<td class='r b'>70</td><td class=b>= Photo Shooting Bank</td>
-</tr><tr><td class=r>18</td><td>= Virtual Horizon</td>
-<td class='r b'>71</td><td class=b>= ISO</td>
-</tr><tr><td class=r>19</td><td>= Synchronized Release</td>
 <td class='r b'>73</td><td class=b>= Exposure Compensation</td>
-</tr><tr><td class=r>20</td><td>= My Menu</td>
+</tr><tr><td class=r>3</td><td>= FV Lock</td>
 <td class='r b'>76</td><td class=b>= Silent Mode</td>
-</tr><tr><td class=r>21</td><td>= My Menu Top Item</td>
+</tr><tr><td class=r>4</td><td>= AE/AF Lock</td>
 <td class='r b'>78</td><td class=b>= LiveView Information</td>
-</tr><tr><td class=r>22</td><td>= Playback</td>
+</tr><tr><td class=r>5</td><td>= AE Lock Only</td>
 <td class='r b'>79</td><td class=b>= AWB Lock (hold)</td>
-</tr><tr><td class=r>23</td><td>= Rating</td>
+</tr><tr><td class=r>6</td><td>= AE Lock (reset on release)</td>
 <td class='r b'>80</td><td class=b>= Grid Display</td>
-</tr><tr><td class=r>24</td><td>= Protect</td>
+</tr><tr><td class=r>7</td><td>= AE Lock (hold)</td>
 <td class='r b'>81</td><td class=b>= Starlight View</td>
-</tr><tr><td class=r>25</td><td>= Zoom</td>
+</tr><tr><td class=r>8</td><td>= AF Lock Only</td>
 <td class='r b'>82</td><td class=b>= Select To Send (PC)</td>
-</tr><tr><td class=r>26</td><td>= Focus Peaking</td>
+</tr><tr><td class=r>9</td><td>= AF-On</td>
 <td class='r b'>83</td><td class=b>= Select To Send (FTP)</td>
-</tr><tr><td class=r>27</td><td>= Flash Mode/Compensation</td>
+</tr><tr><td class=r>10</td><td>= Flash Disable/Enable</td>
 <td class='r b'>84</td><td class=b>= Pattern Tone Range</td>
-</tr><tr><td class=r>28</td><td>= Image Area</td>
+</tr><tr><td class=r>11</td><td>= Bracketing Burst</td>
 <td class='r b'>85</td><td class=b>= Control Lock</td>
-</tr><tr><td class=r>30</td><td>= Non-CPU Lens</td>
+</tr><tr><td class=r>12</td><td>= +NEF(RAW)</td>
 <td class='r b'>86</td><td class=b>= Save Focus Position</td>
-</tr><tr><td class=r>31</td><td>= Active-D Lighting</td>
+</tr><tr><td class=r>18</td><td>= Virtual Horizon</td>
 <td class='r b'>87</td><td class=b>= Recall Focus Position</td>
-</tr><tr><td class=r>32</td><td>= Exposure Delay Mode</td>
+</tr><tr><td class=r>19</td><td>= Synchronized Release</td>
 <td class='r b'>88</td><td class=b>= Recall Shooting Functions (Hold)</td>
-</tr><tr><td class=r>33</td><td>= 1 Stop Speed/Aperture</td>
+</tr><tr><td class=r>20</td><td>= My Menu</td>
+<td class='r b'>89</td><td class=b>= Set Picture Control (HLG)</td>
+</tr><tr><td class=r>21</td><td>= My Menu Top Item</td>
+<td class='r b'>90</td><td class=b>= Skin Softening</td>
+</tr><tr><td class=r>22</td><td>= Playback</td>
+<td class='r b'>91</td><td class=b>= Portrait Impression Balance</td>
+</tr><tr><td class=r>23</td><td>= Rating</td>
+<td class='r b'>92</td><td class=b>= Fast AF-On</td>
+</tr><tr><td class=r>24</td><td>= Protect</td>
 <td class='r b'>97</td><td class=b>= High Frequency Flicker Reduction</td>
-</tr><tr><td class=r>34</td><td>= White Balance</td>
+</tr><tr><td class=r>25</td><td>= Zoom</td>
 <td class='r b'>98</td><td class=b>= Switch FX/DX</td>
-</tr><tr><td class=r>35</td><td>= Metering</td>
+</tr><tr><td class=r>26</td><td>= Focus Peaking</td>
 <td class='r b'>99</td><td class=b>= View Mode (Photo LV)</td>
-</tr><tr><td class=r>36</td><td>= Auto Bracketing</td>
+</tr><tr><td class=r>27</td><td>= Flash Mode/Compensation</td>
 <td class='r b'>100</td><td class=b>= Photo Flicker Reduction</td>
-</tr><tr><td class=r>37</td><td>= Multiple Exposure</td>
+</tr><tr><td class=r>28</td><td>= Image Area</td>
 <td class='r b'>101</td><td class=b>= Filtered Playback (Select Criteria)</td>
-</tr><tr><td class=r>38</td><td>= HDR Overlay</td>
+</tr><tr><td class=r>30</td><td>= Non-CPU Lens</td>
 <td class='r b'>103</td><td class=b>= Start Series Playback</td>
-</tr><tr><td class=r>39</td><td>= Picture Control</td>
+</tr><tr><td class=r>31</td><td>= Active-D Lighting</td>
 <td class='r b'>104</td><td class=b>= View Assist</td>
-</tr><tr><td class=r>40</td><td>= Quality</td>
+</tr><tr><td class=r>32</td><td>= Exposure Delay Mode</td>
 <td class='r b'>105</td><td class=b>= Hi-Res Zoom+</td>
-</tr><tr><td class=r>41</td><td>= Focus Mode/AF AreaMode</td>
+</tr><tr><td class=r>33</td><td>= 1 Stop Speed/Aperture</td>
 <td class='r b'>106</td><td class=b>= Hi-Res Zoom-</td>
-</tr><tr><td class=r>42</td><td>= Select Center Focus Point</td>
+</tr><tr><td class=r>34</td><td>= White Balance</td>
 <td class='r b'>108</td><td class=b>= Override Other Cameras</td>
-</tr><tr><td class=r>44</td><td>= Record Movie</td>
+</tr><tr><td class=r>35</td><td>= Metering</td>
 <td class='r b'>109</td><td class=b>= DISP - Cycle Information Display (shooting)</td>
-</tr><tr><td class=r>45</td><td>= Thumbnail On/Off</td>
+</tr><tr><td class=r>36</td><td>= Auto Bracketing</td>
 <td class='r b'>110</td><td class=b>= DISP - Cycle Information Display (playback)</td>
-</tr><tr><td class=r>46</td><td>= View Histograms</td>
+</tr><tr><td class=r>37</td><td>= Multiple Exposure</td>
 <td class='r b'>111</td><td class=b>= Resume Shooting</td>
-</tr><tr><td class=r>47</td><td>= Choose Folder</td>
+</tr><tr><td class=r>38</td><td>= HDR Overlay</td>
 <td class='r b'>112</td><td class=b>= Switch Eyes</td>
-</tr><tr><td class=r>48</td><td>= Power Aperture (Open)</td>
+</tr><tr><td class=r>39</td><td>= Picture Control</td>
+<td class='r b'>113</td><td class=b>= Power Zoom +</td>
+</tr><tr><td class=r>40</td><td>= Quality</td>
+<td class='r b'>114</td><td class=b>= Power Zoom -</td>
+</tr><tr><td class=r>41</td><td>= Focus Mode/AF AreaMode</td>
 <td class='r b'>115</td><td class=b>= Delete</td>
+</tr><tr><td class=r>42</td><td>= Select Center Focus Point</td>
+<td class='r b'>116</td><td class=b>= Save and Load Power Zoom Position</td>
+</tr><tr><td class=r>44</td><td>= Record Movie</td>
+<td class='r b'>117</td><td class=b>= Cycle AF-area Mode</td>
+</tr><tr><td class=r>45</td><td>= Thumbnail On/Off</td>
+<td class='r b'>118</td><td class=b>= Raw Processing (Current)</td>
+</tr><tr><td class=r>46</td><td>= View Histograms</td>
+<td class='r b'>119</td><td class=b>= Raw Processing (Multiple)</td>
+</tr><tr><td class=r>47</td><td>= Choose Folder</td>
+<td class='r b'>120</td><td class=b>= Trim</td>
+</tr><tr><td class=r>48</td><td>= Power Aperture (Open)</td>
+<td class='r b'>121</td><td class=b>= Resize (Current)</td>
+</tr><tr><td class=r>49</td><td>= Power Aperture (Close)</td>
+<td class='r b'>122</td><td class=b>= Resize (Multiple)</td>
+</tr><tr><td class=r>52</td><td>= Microphone Sensitivity</td>
+<td class='r b'>123</td><td class=b>= D-Lighting</td>
+</tr><tr><td class=r>53</td><td>= Release Mode</td>
+<td class='r b'>124</td><td class=b>= Straighten</td>
+</tr><tr><td class=r>57</td><td>= Preset Focus Point</td>
+<td class='r b'>125</td><td class=b>= Distortion Control</td>
+</tr><tr><td class=r>58</td><td>= AE/AWB Lock (hold)</td>
+<td class='r b'>126</td><td class=b>= Perspective Control</td>
+</tr><tr><td class=r>59</td><td>= AF-AreaMode</td>
+<td class='r b'>127</td><td class=b>= Monochrome</td>
+</tr><tr><td class=r>60</td><td>= AF-AreaMode + AF-On</td>
+<td class='r b'>128</td><td class=b>= Overlay (Add)</td>
+</tr><tr><td class=r>61</td><td>= Recall Shooting Functions</td>
+<td class='r b'>129</td><td class=b>= Lighten</td>
+</tr><tr><td class=r>64</td><td>= Filtered Playback</td>
+<td class='r b'>130</td><td class=b>= Darken</td>
+</tr><tr><td class=r>65</td><td>= Same as AF-On</td>
+<td class='r b'>131</td><td class=b>= Motion Blend</td>
+</tr><tr><td class=r>66</td><td>= Voice Memo</td>
+<td class='r b'>133</td><td class=b>= Focus Limiter</td>
+</tr><tr><td class=r>70</td><td>= Photo Shooting Bank</td>
+<td class='r b'>134</td><td class=b>= Cycle Subject Detection Options</td>
+</tr><tr><td class=r>71</td><td>= ISO</td>
+<td class='r b'>135</td><td class=b>= Jump To Source Image</td>
 </tr></table></td></tr></table></blockquote>
 
 <h2><a name='ShotInfo'>Nikon ShotInfo Tags</a></h2>
@@ -9475,71 +9765,76 @@ extracted.</p>
 <td class=c>no</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
+<td class=r title='3 = 0x3'>3</td>
+<td>OldLensData</td>
+<td class=c>undef[17]</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td class=r title='4 = 0x4'>4</td>
 <td>ExitPupilPosition</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='5 = 0x5'>5</td>
 <td>AFAperture</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='11 = 0xb'>11</td>
 <td>FocusDistance</td>
 <td class=c>int8u</td>
 <td><span class=s><span class=n>(this focus distance is approximate, and not very accurate for some lenses)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='12 = 0xc'>12</td>
 <td>FocalLength</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='13 = 0xd'>13</td>
 <td>LensIDNumber</td>
 <td class=c>int8u</td>
 <td><span class=s><span class=n>(see LensID values below)</span></span></td></tr>
-<tr>
+<tr class=b>
 <td class=r title='14 = 0xe'>14</td>
 <td>LensFStops</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='15 = 0xf'>15</td>
 <td>MinFocalLength</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='16 = 0x10'>16</td>
 <td>MaxFocalLength</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='17 = 0x11'>17</td>
 <td>MaxApertureAtMinFocal</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='18 = 0x12'>18</td>
 <td>MaxApertureAtMaxFocal</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='19 = 0x13'>19</td>
 <td>MCUVersion</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='20 = 0x14'>20</td>
 <td>EffectiveMaxAperture</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='47 = 0x2f'>47</td>
 <td>NewLensData</td>
 <td class=c>undef[17]</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='48 = 0x30'>48</td>
 <td>LensID</td>
 <td class=c>int16u</td>
@@ -9567,69 +9862,81 @@ extracted.</p>
   <br>28 = Nikkor Z 100-400mm f/4.5-5.6 VR S
   <br>29 = Nikkor Z 28mm f/2.8
   <br>30 = Nikkor Z 400mm f/2.8 TC VR S
-  <br>31 = Nikkor Z 24-120 f/4
+  <br>31 = Nikkor Z 24-120mm f/4 S
   <br>32 = Nikkor Z 800mm f/6.3 VR S
   <br>35 = Nikkor Z 28-75mm f/2.8
   <br>36 = Nikkor Z 400mm f/4.5 VR S
   <br>37 = Nikkor Z 600mm f/4 TC VR S
   <br>38 = Nikkor Z 85mm f/1.2 S
   <br>39 = Nikkor Z 17-28mm f/2.8
-  <br>40 = NIKKOR Z 26mm f/2.8
-  <br>41 = NIKKOR Z DX 12-28mm f/3.5-5.6 PZ VR
+  <br>40 = Nikkor Z 26mm f/2.8
+  <br>41 = Nikkor Z DX 12-28mm f/3.5-5.6 PZ VR
   <br>42 = Nikkor Z 180-600mm f/5.6-6.3 VR
-  <br>43 = NIKKOR Z DX 24mm f/1.7
-  <br>44 = NIKKOR Z 70-180mm f/2.8
-  <br>45 = NIKKOR Z 600mm f/6.3 VR S
+  <br>43 = Nikkor Z DX 24mm f/1.7
+  <br>44 = Nikkor Z 70-180mm f/2.8
+  <br>45 = Nikkor Z 600mm f/6.3 VR S
   <br>46 = Nikkor Z 135mm f/1.8 S Plena
+  <br>47 = Nikkor Z 35mm f/1.2 S
+  <br>48 = Nikkor Z 28-400mm f/4-8 VR
+  <br>49 = Nikkor Z 28-135mm f/4 PZ
+  <br>51 = Nikkor Z 35mm f/1.4
+  <br>52 = Nikkor Z 50mm f/1.4
+  <br>2305 = Laowa FFII 10mm F2.8 C&amp;D Dreamer
   <br>32768 = Nikkor Z 400mm f/2.8 TC VR S TC-1.4x
   <br>32769 = Nikkor Z 600mm f/4 TC VR S TC-1.4x</td></tr></table>
 </td></tr>
-<tr class=b>
-<td class=r title='53 = 0x35'>53</td>
-<td>LensMountType</td>
-<td class=c>int8u</td>
-<td><span class=s>0 = F-mount Lens
-  <br>1 = Z-mount Lens</span></td></tr>
 <tr>
+<td class=r title='52 = 0x34'>52</td>
+<td>LensFirmwareVersion</td>
+<td class=c title=' ~ = Writable only with -n'>int16u~</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
 <td class=r title='54 = 0x36'>54</td>
 <td>MaxAperture</td>
 <td class=c>int16u</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='56 = 0x38'>56</td>
 <td>FNumber</td>
 <td class=c>int16u</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='60 = 0x3c'>60</td>
 <td>FocalLength</td>
 <td class=c>int16u</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='76 = 0x4c'>76</td>
 <td>FocusDistanceRangeWidth?</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='78 = 0x4e'>78</td>
 <td>FocusDistance</td>
 <td class=c title=' ~ = Writable only with -n'>int16u~</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='86 = 0x56'>86</td>
 <td>LensDriveEnd?</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td class=r title='88 = 0x58'>88</td>
 <td>FocusStepsFromInfinity?</td>
 <td class=c>int8u</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td class=r title='90 = 0x5a'>90</td>
 <td>LensPositionAbsolute</td>
 <td class=c>int32s</td>
 <td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='95 = 0x5f'>95</td>
+<td>LensMountType</td>
+<td class=c>int8u</td>
+<td><span class=s>[val &amp; 0x1]
+  <br>0 = Z-mount
+  <br>1 = F-mount</span></td></tr>
 </table></td></tr></table></blockquote>
 
 <h2><a name='LensDataUnknown'>Nikon LensDataUnknown Tags</a></h2>
@@ -10528,90 +10835,10 @@ D5200, D7000.</p>
   <br>3 = Dark</span></td></tr>
 </table></td></tr></table></blockquote>
 
-<h2><a name='AFInfo2V0400'>Nikon AFInfo2V0400 Tags</a></h2>
-<blockquote>
-<table class=frame><tr><td>
-<table class=inner cellspacing=1>
-<tr class=h><th>Index1</th><th>Tag Name</th>
-<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
-<tr>
-<td class=r title='0 = 0x0'>0</td>
-<td>AFInfo2Version</td>
-<td class=c>no</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='5 = 0x5'>5</td>
-<td>AFAreaMode</td>
-<td class=c>int8u</td>
-<td><table class=cols><tr>
-  <td>192 = Pinpoint
-  <br>193 = Single
-  <br>195 = Wide (S)
-  <br>196 = Wide (L)
-  <br>197 = Auto</td><td>&nbsp;&nbsp;</td>
-  <td>204 = Dynamic Area (S)
-  <br>205 = Dynamic Area (M)
-  <br>206 = Dynamic Area (L)
-  <br>207 = 3D-tracking
-  <br>208 = Wide (C1/C2)</td></tr></table>
-</td></tr>
-<tr>
-<td class=r title='10 = 0xa'>10</td>
-<td>AFPointsUsed</td>
-<td class=c>undef[51]</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='62 = 0x3e'>62</td>
-<td>AFImageWidth</td>
-<td class=c>int16u</td>
-<td>&nbsp;</td></tr>
-<tr>
-<td class=r title='64 = 0x40'>64</td>
-<td>AFImageHeight</td>
-<td class=c>int16u</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='66 = 0x42'>66</td>
-<td>AFAreaXPosition</td>
-<td class=c>int16u</td>
-<td>&nbsp;</td></tr>
-<tr>
-<td class=r title='67 = 0x43'>67</td>
-<td>FocusPositionHorizontal</td>
-<td class=c title=' ~ = Writable only with -n'>int8u~</td>
-<td><span class=s><span class=n>(the focus points form a 29x17 grid, but the X,Y coordinate values run from 1,1
-to 30,19.  The horizontal coordinate 11R (5) and the vertical coordinates 6U
-(4) and 2D (12) are not used for some reason)</span></span></td></tr>
-<tr class=b>
-<td class=r title='68 = 0x44'>68</td>
-<td>AFAreaYPosition</td>
-<td class=c>int16u</td>
-<td>&nbsp;</td></tr>
-<tr>
-<td class=r title='69 = 0x45'>69</td>
-<td>FocusPositionVertical</td>
-<td class=c title=' ~ = Writable only with -n'>int8u~</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='70 = 0x46'>70</td>
-<td>AFAreaWidth</td>
-<td class=c>int16u</td>
-<td><span class=s><span class=n>(size of AF area in AFImage pixels)</span></span></td></tr>
-<tr>
-<td class=r title='72 = 0x48'>72</td>
-<td>AFAreaHeight</td>
-<td class=c>int16u</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='74 = 0x4a'>74</td>
-<td>FocusResult</td>
-<td class=c>int8u</td>
-<td><span class=s>0 = Out of Focus
-  <br>1 = Focus</span></td></tr>
-</table></td></tr></table></blockquote>
-
-<h2><a name='AFInfo2'>Nikon AFInfo2 Tags</a></h2>
-<p>These tags are written by Nikon DSLR&#39;s which have the live view feature.</p>
+<h2><a name='AFInfo2V0100'>Nikon AFInfo2V0100 Tags</a></h2>
+<p>AF information for Nikon cameras with LiveView that were introduced 2007
+thru 2015 (and the D5600 in 2016), including D3, D4, D3000, D3100-D3300,
+D5000-D5600, D6x0, D700, D7000, D7100, D810</p>
 <blockquote>
 <table class=frame><tr><td>
 <table class=inner cellspacing=1>
@@ -10624,17 +10851,16 @@ to 30,19.  The horizontal coordinate 11R (5) and the vertical coordinates 6U
 <td>&nbsp;</td></tr>
 <tr class=b>
 <td class=r title='4 = 0x4'>4</td>
-<td>ContrastDetectAF</td>
+<td>AFDetectionMethod</td>
 <td class=c>int8u</td>
-<td><span class=s><span class=n>(this is Off for the hybrid AF used in Nikon 1 models)</span>
-  <br>0 = Off
-  <br>1 = On
-  <br>2 = On (2)</span></td></tr>
+<td><span class=s>0 = Phase Detect
+  <br>1 = Contrast Detect
+  <br>2 = Hybrid</span></td></tr>
 <tr>
 <td class=r title='5 = 0x5'>5</td>
 <td>AFAreaMode</td>
 <td class=c>int8u</td>
-<td><span class=s><span class=n>(ContrastDetectAF Off)</span></span><table class=cols><tr>
+<td><table class=cols><tr>
   <td>0 = Single Area
   <br>1 = Dynamic Area
   <br>2 = Dynamic Area (closest subject)
@@ -10660,10 +10886,12 @@ to 30,19.  The horizontal coordinate 11R (5) and the vertical coordinates 6U
   <br>131 = Face Priority (41 points)
   <br>192 = Pinpoint
   <br>193 = Single
+  <br>194 = Dynamic
   <br>195 = Wide (S)
   <br>196 = Wide (L)
-  <br>197 = Auto</td></tr></table>
-<span class=s><span class=n>(ContrastDetectAF On)</span></span><table class=cols><tr>
+  <br>197 = Auto
+  <br>199 = Auto</td></tr></table>
+<table class=cols><tr>
   <td>0 = Contrast-detect
   <br>1 = Contrast-detect (normal area)
   <br>2 = Contrast-detect (wide area)
@@ -10693,26 +10921,18 @@ to 30,19.  The horizontal coordinate 11R (5) and the vertical coordinates 6U
 </td></tr>
 <tr class=b>
 <td class=r title='6 = 0x6'>6</td>
-<td>PhaseDetectAF</td>
+<td>FocusPointSchema</td>
 <td class=c>int8u</td>
-<td><span class=s><span class=n>(PrimaryAFPoint and AFPointsUsed below are only valid when this is On)</span></span><table class=cols><tr>
-  <td>0 = Off
-  <br>1 = On (51-point)
-  <br>2 = On (11-point)
-  <br>3 = On (39-point)
-  <br>4 = On (73-point)</td><td>&nbsp;&nbsp;</td>
-  <td>5 = On (5)
-  <br>6 = On (105-point)
-  <br>7 = On (153-point)
-  <br>8 = On (81-point)
-  <br>9 = On (105-point)</td></tr></table>
-</td></tr>
+<td><span class=s>0 = Off
+  <br>1 = 51-point
+  <br>2 = 11-point
+  <br>3 = 39-point</span></td></tr>
 <tr>
 <td class=r title='7 = 0x7'>7</td>
 <td>PrimaryAFPoint</td>
 <td class=c>int8u</td>
 <td><span class=s><span class=n>(models with 51-point AF -- 5 rows (A-E) and 11 columns (1-11): D3, D3S, D3X,
-D4, D4S, D300, D300S, D700, D800, D800e and D810)</span></span><table class=cols><tr>
+D4, D4S, D300, D300S, D700, D750, D800, D800E, D810, D7100 and D7200)</span></span><table class=cols><tr>
   <td>0 = (none)
   <br>1 = C6 (Center)
   <br>2 = B6
@@ -10765,7 +10985,7 @@ D4, D4S, D300, D300S, D700, D800, D800e and D810)</span></span><table class=cols
   <br>49 = C1
   <br>50 = B1
   <br>51 = D1</td></tr></table>
-<span class=s><span class=n>(models with 11-point AF: D90, D3000, D3100, D5000 and D5100)</span></span><table class=cols><tr>
+<span class=s><span class=n>(models with 11-point AF: D90, D3000-D3300, D5000 and D5100)</span></span><table class=cols><tr>
   <td>0 = (none)
   <br>1 = Center
   <br>2 = Top
@@ -10778,7 +10998,7 @@ D4, D4S, D300, D300S, D700, D800, D800e and D810)</span></span><table class=cols
   <br>9 = Upper-right
   <br>10 = Lower-right
   <br>11 = Far Right</td></tr></table>
-<span class=s><span class=n>(models with 39-point AF: D600 and D7000)</span></span><table class=cols><tr>
+<span class=s><span class=n>(models with 39-point AF: D600, D610, D5200-D5600, D7000 and Df)</span></span><table class=cols><tr>
   <td>0 = (none)
   <br>1 = C6 (Center)
   <br>2 = B6
@@ -10819,154 +11039,273 @@ D4, D4S, D300, D300S, D700, D800, D800e and D810)</span></span><table class=cols
   <br>37 = C1
   <br>38 = B1
   <br>39 = D1</td></tr></table>
-<span class=s><span class=n>(Nikon 1 models with older 135-point AF and 73-point phase-detect AF)</span></span><table class=cols><tr>
+<span class=s>0 = (none)</span></td></tr>
+<tr class=b>
+<td class=r title='8 = 0x8'>8</td>
+<td>AFPointsUsed
+  <br>AFPointsUsed
+  <br>AFPointsUsed
+  <br>AFPointsUsed</td>
+<td class=c>undef[7]<br>undef[2]<br>undef[5]<br>int8u</td>
+<td><span class=s><span class=n>(models with 51-point AF -- 5 rows: A1-9, B1-11, C1-11, D1-11, E1-9.  Center
+point is C6)</span>
+  <br><span class=n>(models with 11-point AF)</span></span><table class=cols><tr>
+  <td>0x0 = (none)
+  <br>0x7ff = All 11 Points
+  <br>Bit 0 = Center
+  <br>Bit 1 = Top
+  <br>Bit 2 = Bottom
+  <br>Bit 3 = Mid-left
+  <br>Bit 4 = Upper-left</td><td>&nbsp;&nbsp;</td>
+  <td>Bit 5 = Lower-left
+  <br>Bit 6 = Far Left
+  <br>Bit 7 = Mid-right
+  <br>Bit 8 = Upper-right
+  <br>Bit 9 = Lower-right
+  <br>Bit 10 = Far Right</td></tr></table>
+<span class=s><span class=n>(models with 39-point AF -- 5 rows: A1-3, B1-11, C1-11, D1-11, E1-3.  Center
+point is C6)</span>
+  <br>0 = (none)</span></td></tr>
+<tr>
+<td class=r title='16 = 0x10'>16</td>
+<td>AFImageWidth</td>
+<td class=c>int16u</td>
+<td><span class=s><span class=n>(this and the following tags are valid only for contrast-detect AF)</span></span></td></tr>
+<tr class=b>
+<td class=r title='18 = 0x12'>18</td>
+<td>AFImageHeight</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='20 = 0x14'>20</td>
+<td>AFAreaXPosition</td>
+<td class=c>int16u</td>
+<td><span class=s><span class=n>(center of AF area in AFImage coordinates)</span></span></td></tr>
+<tr class=b>
+<td class=r title='22 = 0x16'>22</td>
+<td>AFAreaYPosition</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='24 = 0x18'>24</td>
+<td>AFAreaWidth</td>
+<td class=c>int16u</td>
+<td><span class=s><span class=n>(size of AF area in AFImage coordinates)</span></span></td></tr>
+<tr class=b>
+<td class=r title='26 = 0x1a'>26</td>
+<td>AFAreaHeight</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='28 = 0x1c'>28</td>
+<td>ContrastDetectAFInFocus
+  <br>AFPointsSelected</td>
+<td class=c>int8u<br>undef[20]</td>
+<td><span class=s>0 = No
+  <br>1 = Yes</span></td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='AFInfo2V0101'>Nikon AFInfo2V0101 Tags</a></h2>
+<p>AF information for Nikon cameras D5, D500, D850, D3400, D3500 and D7500</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Index1</th><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td class=r title='0 = 0x0'>0</td>
+<td>AFInfo2Version</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='4 = 0x4'>4</td>
+<td>AFDetectionMethod</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Phase Detect
+  <br>1 = Contrast Detect
+  <br>2 = Hybrid</span></td></tr>
+<tr>
+<td class=r title='5 = 0x5'>5</td>
+<td>AFAreaMode</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = Single Area
+  <br>1 = Dynamic Area
+  <br>2 = Dynamic Area (closest subject)
+  <br>3 = Group Dynamic
+  <br>4 = Dynamic Area (9 points)
+  <br>5 = Dynamic Area (21 points)
+  <br>6 = Dynamic Area (51 points)
+  <br>7 = Dynamic Area (51 points, 3D-tracking)
+  <br>8 = Auto-area
+  <br>9 = Dynamic Area (3D-tracking)
+  <br>10 = Single Area (wide)
+  <br>11 = Dynamic Area (wide)
+  <br>12 = Dynamic Area (wide, 3D-tracking)
+  <br>13 = Group Area
+  <br>14 = Dynamic Area (25 points)
+  <br>15 = Dynamic Area (72 points)
+  <br>16 = Group Area (HL)
+  <br>17 = Group Area (VL)
+  <br>18 = Dynamic Area (49 points)
+  <br>128 = Single
+  <br>129 = Auto (41 points)
+  <br>130 = Subject Tracking (41 points)
+  <br>131 = Face Priority (41 points)
+  <br>192 = Pinpoint
+  <br>193 = Single
+  <br>194 = Dynamic
+  <br>195 = Wide (S)
+  <br>196 = Wide (L)
+  <br>197 = Auto
+  <br>199 = Auto</td></tr></table>
+<table class=cols><tr>
+  <td>0 = Contrast-detect
+  <br>1 = Contrast-detect (normal area)
+  <br>2 = Contrast-detect (wide area)
+  <br>3 = Contrast-detect (face priority)
+  <br>4 = Contrast-detect (subject tracking)
+  <br>128 = Single
+  <br>129 = Auto (41 points)
+  <br>130 = Subject Tracking (41 points)
+  <br>131 = Face Priority (41 points)
+  <br>192 = Pinpoint
+  <br>193 = Single
+  <br>194 = Dynamic
+  <br>195 = Wide (S)
+  <br>196 = Wide (L)
+  <br>197 = Auto
+  <br>198 = Auto (People)
+  <br>199 = Auto (Animal)
+  <br>200 = Normal-area AF
+  <br>201 = Wide-area AF
+  <br>202 = Face-priority AF
+  <br>203 = Subject-tracking AF
+  <br>204 = Dynamic Area (S)
+  <br>205 = Dynamic Area (M)
+  <br>206 = Dynamic Area (L)
+  <br>207 = 3D-tracking
+  <br>208 = Wide-Area (C1/C2)</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='6 = 0x6'>6</td>
+<td>FocusPointSchema</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = 51-point
+  <br>2 = 11-point
+  <br>7 = 153-point</span></td></tr>
+<tr>
+<td class=r title='8 = 0x8'>8</td>
+<td>AFPointsUsed
+  <br>AFPointsUsed
+  <br>AFPointsUsed
+  <br>AFPointsUsed</td>
+<td class=c>undef[7]<br>undef[2]<br>undef[20]<br>int8u</td>
+<td><span class=s><span class=n>(models with 51-point AF -- 5 rows: A1-9, B1-11, C1-11, D1-11, E1-9.  Center
+point is C6)</span>
+  <br><span class=n>(models with 11-point AF)</span></span><table class=cols><tr>
+  <td>0x0 = (none)
+  <br>0x7ff = All 11 Points
+  <br>Bit 0 = Center
+  <br>Bit 1 = Top
+  <br>Bit 2 = Bottom
+  <br>Bit 3 = Mid-left
+  <br>Bit 4 = Upper-left</td><td>&nbsp;&nbsp;</td>
+  <td>Bit 5 = Lower-left
+  <br>Bit 6 = Far Left
+  <br>Bit 7 = Mid-right
+  <br>Bit 8 = Upper-right
+  <br>Bit 9 = Lower-right
+  <br>Bit 10 = Far Right</td></tr></table>
+<span class=s><span class=n>(models with 153-point AF -- 9 rows (A-I) and 17 columns (1-17). Center
+point is E9)</span>
+  <br>0 = (none)</span></td></tr>
+<tr class=b>
+<td class=r title='28 = 0x1c'>28</td>
+<td>ContrastDetectAFInFocus
+  <br>AFPointsUsed
+  <br>AFPointsSelected</td>
+<td class=c>int8u<br>undef[7]<br>undef[20]</td>
+<td><span class=s>0 = No
+  <br>1 = Yes</span></td></tr>
+<tr>
+<td class=r title='48 = 0x30'>48</td>
+<td>AFPointsInFocus
+  <br>AFPointsInFocus</td>
+<td class=c>undef[7]<br>undef[20]</td>
+<td><span class=s><span class=n>(AF points in focus at the time time image was captured)</span></span></td></tr>
+<tr class=b>
+<td class=r title='68 = 0x44'>68</td>
+<td>PrimaryAFPoint</td>
+<td class=c>int8u</td>
+<td><span class=s><span class=n>(models with 51-point AF -- 5 rows (A-E) and 11 columns (1-11): D7500)</span></span><table class=cols><tr>
   <td>0 = (none)
-  <br>1 = E8 (Center)
-  <br>2 = D8
-  <br>3 = C8
-  <br>4 = B8
-  <br>5 = A8
-  <br>6 = F8
-  <br>7 = G8
-  <br>8 = H8
-  <br>9 = I8
-  <br>10 = E9
-  <br>11 = D9
-  <br>12 = C9
-  <br>13 = B9
-  <br>14 = A9
-  <br>15 = F9
-  <br>16 = G9
-  <br>17 = H9
-  <br>18 = I9
-  <br>19 = E7
-  <br>20 = D7
-  <br>21 = C7
-  <br>22 = B7
-  <br>23 = A7
-  <br>24 = F7
-  <br>25 = G7
-  <br>26 = H7
-  <br>27 = I7</td><td>&nbsp;&nbsp;</td>
-  <td>28 = E10
+  <br>1 = C6 (Center)
+  <br>2 = B6
+  <br>3 = A5
+  <br>4 = D6
+  <br>5 = E5
+  <br>6 = C7
+  <br>7 = B7
+  <br>8 = A6
+  <br>9 = D7
+  <br>10 = E6</td><td>&nbsp;&nbsp;</td>
+  <td>11 = C5
+  <br>12 = B5
+  <br>13 = A4
+  <br>14 = D5
+  <br>15 = E4
+  <br>16 = C8
+  <br>17 = B8
+  <br>18 = A7
+  <br>19 = D8
+  <br>20 = E7
+  <br>21 = C9</td><td>&nbsp;&nbsp;</td>
+  <td>22 = B9
+  <br>23 = A8
+  <br>24 = D9
+  <br>25 = E8
+  <br>26 = C10
+  <br>27 = B10
+  <br>28 = A9
   <br>29 = D10
-  <br>30 = C10
-  <br>31 = B10
-  <br>32 = A10
-  <br>33 = F10
-  <br>34 = G10
-  <br>35 = H10
-  <br>36 = I10
-  <br>37 = E11
-  <br>38 = D11
-  <br>39 = C11
-  <br>40 = B11
-  <br>41 = A11
-  <br>42 = F11
-  <br>43 = G11
-  <br>44 = H11
-  <br>45 = I11
-  <br>46 = E12
-  <br>47 = D12
-  <br>48 = C12
-  <br>49 = B12
-  <br>50 = A12
-  <br>51 = F12
-  <br>52 = G12
-  <br>53 = H12
-  <br>54 = I12
-  <br>55 = E13</td><td>&nbsp;&nbsp;</td>
-  <td>56 = D13
-  <br>57 = C13
-  <br>58 = B13
-  <br>59 = A13
-  <br>60 = F13
-  <br>61 = G13
-  <br>62 = H13
-  <br>63 = I13
-  <br>64 = E14
-  <br>65 = D14
-  <br>66 = C14
-  <br>67 = B14
-  <br>68 = A14
-  <br>69 = F14
-  <br>70 = G14
-  <br>71 = H14
-  <br>72 = I14
-  <br>73 = E15
-  <br>74 = D15
-  <br>75 = C15
-  <br>76 = B15
-  <br>77 = A15
-  <br>78 = F15
-  <br>79 = G15
-  <br>80 = H15
-  <br>81 = I15
-  <br>82 = E6
-  <br>83 = D6</td><td>&nbsp;&nbsp;</td>
-  <td>84 = C6
-  <br>85 = B6
-  <br>86 = A6
-  <br>87 = F6
-  <br>88 = G6
-  <br>89 = H6
-  <br>90 = I6
-  <br>91 = E5
-  <br>92 = D5
-  <br>93 = C5
-  <br>94 = B5
-  <br>95 = A5
-  <br>96 = F5
-  <br>97 = G5
-  <br>98 = H5
-  <br>99 = I5
-  <br>100 = E4
-  <br>101 = D4
-  <br>102 = C4
-  <br>103 = B4
-  <br>104 = A4
-  <br>105 = F4
-  <br>106 = G4
-  <br>107 = H4
-  <br>108 = I4
-  <br>109 = E3
-  <br>110 = D3
-  <br>111 = C3</td><td>&nbsp;&nbsp;</td>
-  <td>112 = B3
-  <br>113 = A3
-  <br>114 = F3
-  <br>115 = G3
-  <br>116 = H3
-  <br>117 = I3
-  <br>118 = E2
-  <br>119 = D2
-  <br>120 = C2
-  <br>121 = B2
-  <br>122 = A2
-  <br>123 = F2
-  <br>124 = G2
-  <br>125 = H2
-  <br>126 = I2
-  <br>127 = E1
-  <br>128 = D1
-  <br>129 = C1
-  <br>130 = B1
-  <br>131 = A1
-  <br>132 = F1
-  <br>133 = G1
-  <br>134 = H1
-  <br>135 = I1</td></tr></table>
-<span class=s><span class=n>(Nikon 1 models with newer 135-point AF and 73-point phase-detect AF -- 9
-rows (B-J) and 15 columns (1-15), inside a grid of 11 rows by 15 columns.
-The points are numbered sequentially, with F8 at the center)</span>
-  <br>0 = (none)
-  <br>82 = F8 (Center)
-  <br><span class=n>(Nikon 1 models with 171-point AF and 105-point phase-detect AF -- 9 rows
-(B-J) and 19 columns (2-20), inside a grid of 11 rows by 21 columns.  The
-points are numbered sequentially, with F11 at the center)</span>
-  <br>0 = (none)
-  <br>115 = F11 (Center)
-  <br><span class=n>(Nikon models with 153-point AF -- 9 rows (A-I) and 17 columns (1-17): D5,
+  <br>30 = E9
+  <br>31 = C11
+  <br>32 = B11</td><td>&nbsp;&nbsp;</td>
+  <td>33 = D11
+  <br>34 = C4
+  <br>35 = B4
+  <br>36 = A3
+  <br>37 = D4
+  <br>38 = E3
+  <br>39 = C3
+  <br>40 = B3
+  <br>41 = A2
+  <br>42 = D3
+  <br>43 = E2</td><td>&nbsp;&nbsp;</td>
+  <td>44 = C2
+  <br>45 = B2
+  <br>46 = A1
+  <br>47 = D2
+  <br>48 = E1
+  <br>49 = C1
+  <br>50 = B1
+  <br>51 = D1</td></tr></table>
+<span class=s><span class=n>(models with 11-point AF: D3400, D3500)</span></span><table class=cols><tr>
+  <td>0 = (none)
+  <br>1 = Center
+  <br>2 = Top
+  <br>3 = Bottom
+  <br>4 = Mid-left
+  <br>5 = Upper-left</td><td>&nbsp;&nbsp;</td>
+  <td>6 = Lower-left
+  <br>7 = Far Left
+  <br>8 = Mid-right
+  <br>9 = Upper-right
+  <br>10 = Lower-right
+  <br>11 = Far Right</td></tr></table>
+<span class=s><span class=n>(Nikon models with 153-point AF -- 9 rows (A-I) and 17 columns (1-17): D5,
 D500 and D850)</span></span><table class=cols><tr>
   <td>0 = (none)
   <br>1 = E9 (Center)
@@ -11122,49 +11461,392 @@ D500 and D850)</span></span><table class=cols><tr>
   <br>151 = G1
   <br>152 = H1
   <br>153 = I1</td></tr></table>
-<span class=s><span class=n>(future models?...)</span>
-  <br>0 = (none)
-  <br>1 = Center</span></td></tr>
+<span class=s>0 = (none)</span></td></tr>
+<tr>
+<td class=r title='70 = 0x46'>70</td>
+<td>AFImageWidth</td>
+<td class=c>int16u</td>
+<td><span class=s><span class=n>(this and the following tags are valid only for contrast-detect AF)</span></span></td></tr>
 <tr class=b>
+<td class=r title='72 = 0x48'>72</td>
+<td>AFImageHeight</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='74 = 0x4a'>74</td>
+<td>AFAreaXPosition</td>
+<td class=c>int16u</td>
+<td><span class=s><span class=n>(center of AF area in AFImage coordinates)</span></span></td></tr>
+<tr class=b>
+<td class=r title='76 = 0x4c'>76</td>
+<td>AFAreaYPosition</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='78 = 0x4e'>78</td>
+<td>AFAreaWidth</td>
+<td class=c>int16u</td>
+<td><span class=s><span class=n>(size of AF area in AFImage coordinates)</span></span></td></tr>
+<tr class=b>
+<td class=r title='80 = 0x50'>80</td>
+<td>AFAreaHeight</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='82 = 0x52'>82</td>
+<td>ContrastDetectAFInFocus</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = No
+  <br>1 = Yes</span></td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='AFInfo2V0200'>Nikon AFInfo2V0200 Tags</a></h2>
+<p>AF information for Nikon 1 series cameras: Nikon 1 V1, V2, V3, J1, J2, J3,
+S1, S2 AW1.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Index1</th><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td class=r title='0 = 0x0'>0</td>
+<td>AFInfo2Version</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='5 = 0x5'>5</td>
+<td>AFAreaMode</td>
+<td class=c>int8u</td>
+<td><span class=s>128 = Single
+  <br>129 = Auto (41 points)
+  <br>130 = Subject Tracking (41 points)
+  <br>131 = Face Priority (41 points)</span></td></tr>
+<tr>
+<td class=r title='6 = 0x6'>6</td>
+<td>PhaseDetectAF</td>
+<td class=c>int8u</td>
+<td><span class=s><span class=n>(PrimaryAFPoint and AFPointsUsed below are only valid when this is On)</span>
+  <br>4 = On (73-point)
+  <br>5 = On (5)
+  <br>6 = On (105-point)</span></td></tr>
+<tr class=b>
+<td class=r title='7 = 0x7'>7</td>
+<td>PrimaryAFPoint</td>
+<td class=c>int8u</td>
+<td><span class=s><span class=n>(Nikon 1 models with older 135-point AF and 73-point phase-detect AF)</span></span><table class=cols><tr>
+  <td>0 = (none)
+  <br>1 = E8 (Center)
+  <br>2 = D8
+  <br>3 = C8
+  <br>4 = B8
+  <br>5 = A8
+  <br>6 = F8
+  <br>7 = G8
+  <br>8 = H8
+  <br>9 = I8
+  <br>10 = E9
+  <br>11 = D9
+  <br>12 = C9
+  <br>13 = B9
+  <br>14 = A9
+  <br>15 = F9
+  <br>16 = G9
+  <br>17 = H9
+  <br>18 = I9
+  <br>19 = E7
+  <br>20 = D7
+  <br>21 = C7
+  <br>22 = B7
+  <br>23 = A7
+  <br>24 = F7
+  <br>25 = G7
+  <br>26 = H7
+  <br>27 = I7</td><td>&nbsp;&nbsp;</td>
+  <td>28 = E10
+  <br>29 = D10
+  <br>30 = C10
+  <br>31 = B10
+  <br>32 = A10
+  <br>33 = F10
+  <br>34 = G10
+  <br>35 = H10
+  <br>36 = I10
+  <br>37 = E11
+  <br>38 = D11
+  <br>39 = C11
+  <br>40 = B11
+  <br>41 = A11
+  <br>42 = F11
+  <br>43 = G11
+  <br>44 = H11
+  <br>45 = I11
+  <br>46 = E12
+  <br>47 = D12
+  <br>48 = C12
+  <br>49 = B12
+  <br>50 = A12
+  <br>51 = F12
+  <br>52 = G12
+  <br>53 = H12
+  <br>54 = I12
+  <br>55 = E13</td><td>&nbsp;&nbsp;</td>
+  <td>56 = D13
+  <br>57 = C13
+  <br>58 = B13
+  <br>59 = A13
+  <br>60 = F13
+  <br>61 = G13
+  <br>62 = H13
+  <br>63 = I13
+  <br>64 = E14
+  <br>65 = D14
+  <br>66 = C14
+  <br>67 = B14
+  <br>68 = A14
+  <br>69 = F14
+  <br>70 = G14
+  <br>71 = H14
+  <br>72 = I14
+  <br>73 = E15
+  <br>74 = D15
+  <br>75 = C15
+  <br>76 = B15
+  <br>77 = A15
+  <br>78 = F15
+  <br>79 = G15
+  <br>80 = H15
+  <br>81 = I15
+  <br>82 = E6
+  <br>83 = D6</td><td>&nbsp;&nbsp;</td>
+  <td>84 = C6
+  <br>85 = B6
+  <br>86 = A6
+  <br>87 = F6
+  <br>88 = G6
+  <br>89 = H6
+  <br>90 = I6
+  <br>91 = E5
+  <br>92 = D5
+  <br>93 = C5
+  <br>94 = B5
+  <br>95 = A5
+  <br>96 = F5
+  <br>97 = G5
+  <br>98 = H5
+  <br>99 = I5
+  <br>100 = E4
+  <br>101 = D4
+  <br>102 = C4
+  <br>103 = B4
+  <br>104 = A4
+  <br>105 = F4
+  <br>106 = G4
+  <br>107 = H4
+  <br>108 = I4
+  <br>109 = E3
+  <br>110 = D3
+  <br>111 = C3</td><td>&nbsp;&nbsp;</td>
+  <td>112 = B3
+  <br>113 = A3
+  <br>114 = F3
+  <br>115 = G3
+  <br>116 = H3
+  <br>117 = I3
+  <br>118 = E2
+  <br>119 = D2
+  <br>120 = C2
+  <br>121 = B2
+  <br>122 = A2
+  <br>123 = F2
+  <br>124 = G2
+  <br>125 = H2
+  <br>126 = I2
+  <br>127 = E1
+  <br>128 = D1
+  <br>129 = C1
+  <br>130 = B1
+  <br>131 = A1
+  <br>132 = F1
+  <br>133 = G1
+  <br>134 = H1
+  <br>135 = I1</td></tr></table>
+<span class=s><span class=n>(Nikon 1 models with newer 135-point AF and 73-point phase-detect AF -- 9
+rows (B-J) and 15 columns (1-15), inside a grid of 11 rows by 15 columns.
+The points are numbered sequentially, with F8 at the center)</span>
+  <br>0 = (none)
+  <br>82 = F8 (Center)
+  <br><span class=n>(Nikon 1 models with 171-point AF and 105-point phase-detect AF -- 9 rows
+(B-J) and 19 columns (2-20), inside a grid of 11 rows by 21 columns.  The
+points are numbered sequentially, with F11 at the center)</span>
+  <br>0 = (none)
+  <br>115 = F11 (Center)</span></td></tr>
+<tr>
 <td class=r title='8 = 0x8'>8</td>
 <td>AFPointsUsed
   <br>AFPointsUsed
-  <br>AFPointsUsed
-  <br>AFPointsUsed
-  <br>AFPointsUsed
-  <br>AFPointsUsed
-  <br>AFPointsUsed
-  <br>AFPointsUsed
-  <br>PrimaryAFPoint</td>
-<td class=c>undef[7]<br>undef[2]<br>undef[5]<br>undef[17]<br>undef[21]<br>undef[29]<br>undef[20]<br>undef[7]<br>int8u</td>
-<td><span class=s><span class=n>(models with 51-point AF -- 5 rows: A1-9, B1-11, C1-11, D1-11, E1-9.  Center
-point is C6)</span>
-  <br><span class=n>(models with 11-point AF)</span></span><table class=cols><tr>
-  <td>0x0 = (none)
-  <br>0x7ff = All 11 Points
-  <br>Bit 0 = Center
-  <br>Bit 1 = Top
-  <br>Bit 2 = Bottom
-  <br>Bit 3 = Mid-left
-  <br>Bit 4 = Upper-left</td><td>&nbsp;&nbsp;</td>
-  <td>Bit 5 = Lower-left
-  <br>Bit 6 = Far Left
-  <br>Bit 7 = Mid-right
-  <br>Bit 8 = Upper-right
-  <br>Bit 9 = Lower-right
-  <br>Bit 10 = Far Right</td></tr></table>
-<span class=s><span class=n>(models with 39-point AF -- 5 rows: A1-3, B1-11, C1-11, D1-11, E1-3.  Center
-point is C6)</span>
-  <br><span class=n>(older models with 135-point AF -- 9 rows (A-I) and 15 columns (1-15).
+  <br>AFPointsUsed</td>
+<td class=c>undef[17]<br>undef[21]<br>undef[29]</td>
+<td><span class=s><span class=n>(older models with 135-point AF -- 9 rows (A-I) and 15 columns (1-15).
 Center point is E8.  The odd-numbered columns, columns 2 and 14, and the
 remaining corner points are not used for 41-point AF mode)</span>
   <br><span class=n>(newer models with 135-point AF -- 9 rows (B-J) and 15 columns (1-15). Center
 point is F8)</span>
   <br><span class=n>(models with 171-point AF -- 9 rows (B-J) and 19 columns (2-20).  Center
-point is F10)</span>
-  <br><span class=n>(models with 153-point AF -- 9 rows (A-I) and 17 columns (1-17). Center
-point is E9)</span>
-  <br><span class=n>(newer models with 51-point AF)</span></span><table class=cols><tr>
+point is F10)</span></span></td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='AFInfo2V0300'>Nikon AFInfo2V0300 Tags</a></h2>
+<p>AF information for Nikon cameras with the Expeed 6 processor: D6, D780, Z5,
+Z6, Z6ii, Z7, Z7ii, Z50 and Zfc.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Index1</th><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td class=r title='0 = 0x0'>0</td>
+<td>AFInfo2Version</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='4 = 0x4'>4</td>
+<td>AFDetectionMethod</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Phase Detect
+  <br>1 = Contrast Detect
+  <br>2 = Hybrid</span></td></tr>
+<tr>
+<td class=r title='5 = 0x5'>5</td>
+<td>AFAreaMode</td>
+<td class=c>int8u</td>
+<td><table class=cols><tr>
+  <td>0 = Single Area
+  <br>1 = Dynamic Area
+  <br>2 = Dynamic Area (closest subject)
+  <br>3 = Group Dynamic
+  <br>4 = Dynamic Area (9 points)
+  <br>5 = Dynamic Area (21 points)
+  <br>6 = Dynamic Area (51 points)
+  <br>7 = Dynamic Area (51 points, 3D-tracking)
+  <br>8 = Auto-area
+  <br>9 = Dynamic Area (3D-tracking)
+  <br>10 = Single Area (wide)
+  <br>11 = Dynamic Area (wide)
+  <br>12 = Dynamic Area (wide, 3D-tracking)
+  <br>13 = Group Area
+  <br>14 = Dynamic Area (25 points)
+  <br>15 = Dynamic Area (72 points)
+  <br>16 = Group Area (HL)
+  <br>17 = Group Area (VL)
+  <br>18 = Dynamic Area (49 points)
+  <br>128 = Single
+  <br>129 = Auto (41 points)
+  <br>130 = Subject Tracking (41 points)
+  <br>131 = Face Priority (41 points)
+  <br>192 = Pinpoint
+  <br>193 = Single
+  <br>194 = Dynamic
+  <br>195 = Wide (S)
+  <br>196 = Wide (L)
+  <br>197 = Auto
+  <br>199 = Auto</td></tr></table>
+<table class=cols><tr>
+  <td>0 = Contrast-detect
+  <br>1 = Contrast-detect (normal area)
+  <br>2 = Contrast-detect (wide area)
+  <br>3 = Contrast-detect (face priority)
+  <br>4 = Contrast-detect (subject tracking)
+  <br>128 = Single
+  <br>129 = Auto (41 points)
+  <br>130 = Subject Tracking (41 points)
+  <br>131 = Face Priority (41 points)
+  <br>192 = Pinpoint
+  <br>193 = Single
+  <br>194 = Dynamic
+  <br>195 = Wide (S)
+  <br>196 = Wide (L)
+  <br>197 = Auto
+  <br>198 = Auto (People)
+  <br>199 = Auto (Animal)
+  <br>200 = Normal-area AF
+  <br>201 = Wide-area AF
+  <br>202 = Face-priority AF
+  <br>203 = Subject-tracking AF
+  <br>204 = Dynamic Area (S)
+  <br>205 = Dynamic Area (M)
+  <br>206 = Dynamic Area (L)
+  <br>207 = 3D-tracking
+  <br>208 = Wide-Area (C1/C2)</td></tr></table>
+</td></tr>
+<tr class=b>
+<td class=r title='6 = 0x6'>6</td>
+<td>FocusPointSchema</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Off
+  <br>1 = 51-point
+  <br>8 = 81-point
+  <br>9 = 105-point</span></td></tr>
+<tr>
+<td class=r title='7 = 0x7'>7</td>
+<td>AFCoordinatesAvailable</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = No
+  <br>1 = Yes</span></td></tr>
+<tr class=b>
+<td class=r title='10 = 0xa'>10</td>
+<td>AFPointsUsed
+  <br>AFPointsUsed
+  <br>AFPointsUsed</td>
+<td class=c>undef[7]<br>undef[11]<br>undef[14]</td>
+<td><span class=s><span class=n>(models with 51-point AF -- 5 rows: A1-9, B1-11, C1-11, D1-11, E1-9.  Center
+point is C6)</span>
+  <br><span class=n>(models with hybrid detect AF have 81 auto-area points -- 9 rows (A-I) and 9 columns (1-9). Center point is E5)</span></span></td></tr>
+<tr>
+<td class=r title='42 = 0x2a'>42</td>
+<td>AFImageWidth</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='44 = 0x2c'>44</td>
+<td>AFImageHeight</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='46 = 0x2e'>46</td>
+<td>AFAreaXPosition</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='47 = 0x2f'>47</td>
+<td>FocusPositionHorizontal</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='48 = 0x30'>48</td>
+<td>AFAreaYPosition</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='49 = 0x31'>49</td>
+<td>FocusPositionVertical</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='50 = 0x32'>50</td>
+<td>AFAreaWidth</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='52 = 0x34'>52</td>
+<td>AFAreaHeight</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='56 = 0x38'>56</td>
+<td>PrimaryAFPoint</td>
+<td class=c>int8u</td>
+<td><span class=s><span class=n>(models with 51-point AF -- 5 rows (A-E) and 11 columns (1-11): D3, D3S, D3X,
+D4, D4S, D300, D300S, D700, D750, D800, D800E, D810, D7100 and D7200)</span></span><table class=cols><tr>
   <td>0 = (none)
   <br>1 = C6 (Center)
   <br>2 = B6
@@ -11217,7 +11899,7 @@ point is E9)</span>
   <br>49 = C1
   <br>50 = B1
   <br>51 = D1</td></tr></table>
-<table class=cols><tr>
+<span class=s><span class=n>(models with hybrid detect AF have 81 auto-area points -- 9 rows (A-I) and 9 columns (1-9). Center point is E5)</span></span><table class=cols><tr>
   <td>0 = (none)
   <br>1 = E5 (Center)
   <br>2 = D5
@@ -11234,8 +11916,8 @@ point is E9)</span>
   <br>13 = B6
   <br>14 = A6
   <br>15 = F6
-  <br>16 = G6
-  <br>17 = H6
+  <br>16 = G6</td><td>&nbsp;&nbsp;</td>
+  <td>17 = H6
   <br>18 = I6
   <br>19 = E4
   <br>20 = D4
@@ -11251,15 +11933,15 @@ point is E9)</span>
   <br>30 = C7
   <br>31 = B7
   <br>32 = A7
-  <br>33 = F7
-  <br>34 = G7
+  <br>33 = F7</td><td>&nbsp;&nbsp;</td>
+  <td>34 = G7
   <br>35 = H7
   <br>36 = I7
   <br>37 = E3
   <br>38 = D3
   <br>39 = C3
-  <br>40 = B3</td><td>&nbsp;&nbsp;</td>
-  <td>41 = A3
+  <br>40 = B3
+  <br>41 = A3
   <br>42 = F3
   <br>43 = G3
   <br>44 = H3
@@ -11268,8 +11950,8 @@ point is E9)</span>
   <br>47 = D8
   <br>48 = C8
   <br>49 = B8
-  <br>50 = A8
-  <br>51 = F8
+  <br>50 = A8</td><td>&nbsp;&nbsp;</td>
+  <td>51 = F8
   <br>52 = G8
   <br>53 = H8
   <br>54 = I8
@@ -11285,8 +11967,8 @@ point is E9)</span>
   <br>64 = E9
   <br>65 = D9
   <br>66 = C9
-  <br>67 = B9
-  <br>68 = A9
+  <br>67 = B9</td><td>&nbsp;&nbsp;</td>
+  <td>68 = A9
   <br>69 = F9
   <br>70 = G9
   <br>71 = H9
@@ -11300,101 +11982,7 @@ point is E9)</span>
   <br>79 = G1
   <br>80 = H1
   <br>81 = I1</td></tr></table>
-</td></tr>
-<tr>
-<td class=r title='10 = 0xa'>10</td>
-<td>AFPointsUsed
-  <br>AFPointsUsed
-  <br>AFPointsUsed</td>
-<td class=c>undef[7]<br>undef[11]<br>undef[14]</td>
-<td><span class=s><span class=n>(newer models with 51-point AF)</span>
-  <br><span class=n>(models with 81-selectable point AF -- 9 rows (A-I) and 9 columns (1-9) for
-phase detect AF points. Center point is E5)</span>
-  <br><span class=n>(models with 105-point AF -- 7 rows (A-G) and 15 columns (1-15). Center
-point is D8)</span></span></td></tr>
-<tr class=b>
-<td class=r title='16 = 0x10'>16</td>
-<td>AFImageWidth</td>
-<td class=c>int16u</td>
-<td><span class=s><span class=n>(this and the following tags are valid only for contrast-detect AF)</span></span></td></tr>
-<tr>
-<td class=r title='18 = 0x12'>18</td>
-<td>AFImageHeight</td>
-<td class=c>int16u</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='20 = 0x14'>20</td>
-<td>AFAreaXPosition</td>
-<td class=c>int16u</td>
-<td><span class=s><span class=n>(center of AF area in AFImage coordinates)</span></span></td></tr>
-<tr>
-<td class=r title='22 = 0x16'>22</td>
-<td>AFAreaYPosition</td>
-<td class=c>int16u</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='24 = 0x18'>24</td>
-<td>AFAreaWidth</td>
-<td class=c>int16u</td>
-<td><span class=s><span class=n>(size of AF area in AFImage coordinates)</span></span></td></tr>
-<tr>
-<td class=r title='26 = 0x1a'>26</td>
-<td>AFAreaHeight</td>
-<td class=c>int16u</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='28 = 0x1c'>28</td>
-<td>ContrastDetectAFInFocus
-  <br>AFPointsSelected</td>
-<td class=c>int8u<br>undef[20]</td>
-<td><span class=s>0 = No
-  <br>1 = Yes</span></td></tr>
-<tr>
-<td class=r title='42 = 0x2a'>42</td>
-<td>AFImageWidth</td>
-<td class=c>int16u</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='44 = 0x2c'>44</td>
-<td>AFImageHeight</td>
-<td class=c>int16u</td>
-<td>&nbsp;</td></tr>
-<tr>
-<td class=r title='46 = 0x2e'>46</td>
-<td>AFAreaXPosition</td>
-<td class=c>int16u</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='47 = 0x2f'>47</td>
-<td>FocusPositionHorizontal</td>
-<td class=c title=' ~ = Writable only with -n'>int8u~</td>
-<td>&nbsp;</td></tr>
-<tr>
-<td class=r title='48 = 0x30'>48</td>
-<td>AFAreaYPosition
-  <br>AFPointsInFocus</td>
-<td class=c>int16u<br>undef[20]</td>
-<td><span class=s><span class=n>(AF points in focus at the time time image was captured)</span></span></td></tr>
-<tr class=b>
-<td class=r title='49 = 0x31'>49</td>
-<td>FocusPositionVertical</td>
-<td class=c title=' ~ = Writable only with -n'>int8u~</td>
-<td>&nbsp;</td></tr>
-<tr>
-<td class=r title='50 = 0x32'>50</td>
-<td>AFAreaWidth</td>
-<td class=c>int16u</td>
-<td>&nbsp;</td></tr>
-<tr class=b>
-<td class=r title='52 = 0x34'>52</td>
-<td>AFAreaHeight</td>
-<td class=c>int16u</td>
-<td>&nbsp;</td></tr>
-<tr>
-<td class=r title='56 = 0x38'>56</td>
-<td>PrimaryAFPoint</td>
-<td class=c>int8u</td>
-<td><span class=s><span class=n>(Nikon models with 105-point AF -- 7 rows (A-G) and 15 columns (1-15): D6)</span></span><table class=cols><tr>
+<span class=s><span class=n>(Nikon models with 105-point AF -- 7 rows (A-G) and 15 columns (1-15): D6)</span></span><table class=cols><tr>
   <td>0 = (none)
   <br>1 = D8 (Center)
   <br>2 = C8
@@ -11502,217 +12090,103 @@ point is D8)</span></span></td></tr>
   <br>104 = F1
   <br>105 = G1</td></tr></table>
 </td></tr>
+</table></td></tr></table></blockquote>
+
+<h2><a name='AFInfo2V0400'>Nikon AFInfo2V0400 Tags</a></h2>
+<p>AF information for Nikon cameras with the Expeed 7 processor: The Zf, Z6_3,
+Z8, Z9, Z50_2 and Z5_2.</p>
+<blockquote>
+<table class=frame><tr><td>
+<table class=inner cellspacing=1>
+<tr class=h><th>Index1</th><th>Tag Name</th>
+<th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
+<tr>
+<td class=r title='0 = 0x0'>0</td>
+<td>AFInfo2Version</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
 <tr class=b>
-<td class=r title='68 = 0x44'>68</td>
-<td>PrimaryAFPoint</td>
+<td class=r title='4 = 0x4'>4</td>
+<td>AFDetectionMethod</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = Phase Detect
+  <br>1 = Contrast Detect
+  <br>2 = Hybrid</span></td></tr>
+<tr>
+<td class=r title='5 = 0x5'>5</td>
+<td>AFAreaMode</td>
 <td class=c>int8u</td>
 <td><table class=cols><tr>
-  <td>0 = (none)
-  <br>1 = E9 (Center)
-  <br>2 = D9
-  <br>3 = C9
-  <br>4 = B9
-  <br>5 = A9
-  <br>6 = F9
-  <br>7 = G9
-  <br>8 = H9
-  <br>9 = I9
-  <br>10 = E10
-  <br>11 = D10
-  <br>12 = C10
-  <br>13 = B10
-  <br>14 = A10
-  <br>15 = F10
-  <br>16 = G10
-  <br>17 = H10
-  <br>18 = I10
-  <br>19 = E11
-  <br>20 = D11
-  <br>21 = C11
-  <br>22 = B11
-  <br>23 = A11
-  <br>24 = F11
-  <br>25 = G11
-  <br>26 = H11
-  <br>27 = I11
-  <br>28 = E8
-  <br>29 = D8
-  <br>30 = C8</td><td>&nbsp;&nbsp;</td>
-  <td>31 = B8
-  <br>32 = A8
-  <br>33 = F8
-  <br>34 = G8
-  <br>35 = H8
-  <br>36 = I8
-  <br>37 = E7
-  <br>38 = D7
-  <br>39 = C7
-  <br>40 = B7
-  <br>41 = A7
-  <br>42 = F7
-  <br>43 = G7
-  <br>44 = H7
-  <br>45 = I7
-  <br>46 = E12
-  <br>47 = D12
-  <br>48 = C12
-  <br>49 = B12
-  <br>50 = A12
-  <br>51 = F12
-  <br>52 = G12
-  <br>53 = H12
-  <br>54 = I12
-  <br>55 = E13
-  <br>56 = D13
-  <br>57 = C13
-  <br>58 = B13
-  <br>59 = A13
-  <br>60 = F13
-  <br>61 = G13</td><td>&nbsp;&nbsp;</td>
-  <td>62 = H13
-  <br>63 = I13
-  <br>64 = E14
-  <br>65 = D14
-  <br>66 = C14
-  <br>67 = B14
-  <br>68 = A14
-  <br>69 = F14
-  <br>70 = G14
-  <br>71 = H14
-  <br>72 = I14
-  <br>73 = E15
-  <br>74 = D15
-  <br>75 = C15
-  <br>76 = B15
-  <br>77 = A15
-  <br>78 = F15
-  <br>79 = G15
-  <br>80 = H15
-  <br>81 = I15
-  <br>82 = E16
-  <br>83 = D16
-  <br>84 = C16
-  <br>85 = B16
-  <br>86 = A16
-  <br>87 = F16
-  <br>88 = G16
-  <br>89 = H16
-  <br>90 = I16
-  <br>91 = E17
-  <br>92 = D17</td><td>&nbsp;&nbsp;</td>
-  <td>93 = C17
-  <br>94 = B17
-  <br>95 = A17
-  <br>96 = F17
-  <br>97 = G17
-  <br>98 = H17
-  <br>99 = I17
-  <br>100 = E6
-  <br>101 = D6
-  <br>102 = C6
-  <br>103 = B6
-  <br>104 = A6
-  <br>105 = F6
-  <br>106 = G6
-  <br>107 = H6
-  <br>108 = I6
-  <br>109 = E5
-  <br>110 = D5
-  <br>111 = C5
-  <br>112 = B5
-  <br>113 = A5
-  <br>114 = F5
-  <br>115 = G5
-  <br>116 = H5
-  <br>117 = I5
-  <br>118 = E4
-  <br>119 = D4
-  <br>120 = C4
-  <br>121 = B4
-  <br>122 = A4
-  <br>123 = F4</td><td>&nbsp;&nbsp;</td>
-  <td>124 = G4
-  <br>125 = H4
-  <br>126 = I4
-  <br>127 = E3
-  <br>128 = D3
-  <br>129 = C3
-  <br>130 = B3
-  <br>131 = A3
-  <br>132 = F3
-  <br>133 = G3
-  <br>134 = H3
-  <br>135 = I3
-  <br>136 = E2
-  <br>137 = D2
-  <br>138 = C2
-  <br>139 = B2
-  <br>140 = A2
-  <br>141 = F2
-  <br>142 = G2
-  <br>143 = H2
-  <br>144 = I2
-  <br>145 = E1
-  <br>146 = D1
-  <br>147 = C1
-  <br>148 = B1
-  <br>149 = A1
-  <br>150 = F1
-  <br>151 = G1
-  <br>152 = H1
-  <br>153 = I1</td></tr></table>
-<span class=s><span class=n>(D3500)</span></span><table class=cols><tr>
-  <td>0 = (none)
-  <br>1 = Center
-  <br>2 = Top
-  <br>3 = Bottom
-  <br>4 = Mid-left
-  <br>5 = Upper-left</td><td>&nbsp;&nbsp;</td>
-  <td>6 = Lower-left
-  <br>7 = Far Left
-  <br>8 = Mid-right
-  <br>9 = Upper-right
-  <br>10 = Lower-right
-  <br>11 = Far Right</td></tr></table>
-<span class=s><span class=n>(future models?...)</span>
-  <br>0 = (none)
-  <br>1 = Center</span></td></tr>
-<tr>
-<td class=r title='70 = 0x46'>70</td>
-<td>AFImageWidth</td>
-<td class=c>int16u</td>
-<td><span class=s><span class=n>(this and the following tags are valid only for contrast-detect AF)</span></span></td></tr>
+  <td>192 = Pinpoint
+  <br>193 = Single
+  <br>195 = Wide (S)
+  <br>196 = Wide (L)
+  <br>197 = Auto</td><td>&nbsp;&nbsp;</td>
+  <td>204 = Dynamic Area (S)
+  <br>205 = Dynamic Area (M)
+  <br>206 = Dynamic Area (L)
+  <br>207 = 3D-tracking
+  <br>208 = Wide (C1/C2)</td></tr></table>
+</td></tr>
 <tr class=b>
-<td class=r title='72 = 0x48'>72</td>
-<td>AFImageHeight</td>
+<td class=r title='7 = 0x7'>7</td>
+<td>AFCoordinatesAvailable</td>
+<td class=c>int8u</td>
+<td><span class=s>0 = No
+  <br>1 = Yes</span></td></tr>
+<tr>
+<td class=r title='10 = 0xa'>10</td>
+<td>AFPointsUsed
+  <br>AFPointsUsed
+  <br>AFPointsUsed</td>
+<td class=c>undef[51]<br>undef[38]<br>undef[29]</td>
+<td><span class=s><span class=n>(either AFPointsUsed or AFAreaX/YPosition will be set, but not both)</span></span></td></tr>
+<tr class=b>
+<td class=r title='62 = 0x3e'>62</td>
+<td>AFImageWidth</td>
 <td class=c>int16u</td>
 <td>&nbsp;</td></tr>
 <tr>
-<td class=r title='74 = 0x4a'>74</td>
+<td class=r title='64 = 0x40'>64</td>
+<td>AFImageHeight</td>
+<td class=c>int16u</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='66 = 0x42'>66</td>
 <td>AFAreaXPosition</td>
 <td class=c>int16u</td>
-<td><span class=s><span class=n>(center of AF area in AFImage coordinates)</span></span></td></tr>
+<td>&nbsp;</td></tr>
+<tr>
+<td class=r title='67 = 0x43'>67</td>
+<td>FocusPositionHorizontal</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
 <tr class=b>
-<td class=r title='76 = 0x4c'>76</td>
+<td class=r title='68 = 0x44'>68</td>
 <td>AFAreaYPosition</td>
 <td class=c>int16u</td>
 <td>&nbsp;</td></tr>
 <tr>
-<td class=r title='78 = 0x4e'>78</td>
+<td class=r title='69 = 0x45'>69</td>
+<td>FocusPositionVertical</td>
+<td class=c>no</td>
+<td>&nbsp;</td></tr>
+<tr class=b>
+<td class=r title='70 = 0x46'>70</td>
 <td>AFAreaWidth</td>
 <td class=c>int16u</td>
-<td><span class=s><span class=n>(size of AF area in AFImage coordinates)</span></span></td></tr>
-<tr class=b>
-<td class=r title='80 = 0x50'>80</td>
+<td><span class=s><span class=n>(size of AF area in AFImage pixels)</span></span></td></tr>
+<tr>
+<td class=r title='72 = 0x48'>72</td>
 <td>AFAreaHeight</td>
 <td class=c>int16u</td>
 <td>&nbsp;</td></tr>
-<tr>
-<td class=r title='82 = 0x52'>82</td>
-<td>ContrastDetectAFInFocus</td>
+<tr class=b>
+<td class=r title='74 = 0x4a'>74</td>
+<td>FocusResult</td>
 <td class=c>int8u</td>
-<td><span class=s>0 = No
-  <br>1 = Yes</span></td></tr>
+<td><span class=s>0 = Out of Focus
+  <br>1 = Focus</span></td></tr>
 </table></td></tr></table></blockquote>
 
 <h2><a name='FileInfo'>Nikon FileInfo Tags</a></h2>
@@ -12036,7 +12510,8 @@ cameras such as the Z6 and Z7, and NRW images from some Coolpix cameras.</p>
 <td class=r title='4 = 0x4'>4</td>
 <td>DistortionCorrection</td>
 <td class=c>int8u</td>
-<td><span class=s>1 = On (Optional)
+<td><span class=s>0 = No Lens Attached
+  <br>1 = On (Optional)
   <br>2 = Off
   <br>3 = On (Required)</span></td></tr>
 <tr>
@@ -12589,14 +13064,15 @@ videos from some Nikon cameras.</p>
   <br>4 = 3:2 Crop
   <br>6 = 16:9 Crop
   <br>8 = 2.7x Crop
-  <br>9 = DX Movie Crop</td><td>&nbsp;&nbsp;</td>
+  <br>9 = DX Movie 16:9 Crop</td><td>&nbsp;&nbsp;</td>
   <td>10 = 1.3x Movie Crop
   <br>11 = FX Uncropped
   <br>12 = DX Uncropped
   <br>13 = 2.8x Movie Crop
   <br>14 = 1.4x Movie Crop
   <br>15 = 1.5x Movie Crop
-  <br>17 = 1:1 Crop</td></tr></table>
+  <br>17 = FX 1:1 Crop
+  <br>18 = DX 1:1 Crop</td></tr></table>
 </td></tr>
 <tr>
 <td title='0x200001e = 33554462'>0x200001e</td>
@@ -12767,7 +13243,11 @@ videos from some Nikon cameras.</p>
 <td title='0x20000b7 = 33554615'>0x20000b7</td>
 <td>AFInfo2</td>
 <td class=c>-</td>
-<td>--&gt; <a href='Nikon.html#AFInfo2'>Nikon AFInfo2 Tags</a></td></tr>
+<td>--&gt; <a href='Nikon.html#AFInfo2V0100'>Nikon AFInfo2V0100 Tags</a>
+  <br>--&gt; <a href='Nikon.html#AFInfo2V0101'>Nikon AFInfo2V0101 Tags</a>
+  <br>--&gt; <a href='Nikon.html#AFInfo2V0200'>Nikon AFInfo2V0200 Tags</a>
+  <br>--&gt; <a href='Nikon.html#AFInfo2V0300'>Nikon AFInfo2V0300 Tags</a>
+  <br>--&gt; <a href='Nikon.html#AFInfo2V0400'>Nikon AFInfo2V0400 Tags</a></td></tr>
 <tr class=b>
 <td title='0x20000c3 = 33554627'>0x20000c3</td>
 <td>BarometerInfo</td>
@@ -13286,6 +13766,8 @@ for ExifTool to choose in these cases (see the
 </tr><tr><td>'9E 40 2D 6A 2C 3C A0 0E'</td><td>= AF-S DX VR Zoom-Nikkor 18-105mm f/3.5-5.6G ED</td>
 </tr><tr><td>'9F 37 50 A0 34 40 4B 0E'</td><td>= Sigma 50-500mm F4.5-6.3 DG OS HSM</td>
 </tr><tr><td>'9F 48 48 48 24 24 A1 06'</td><td>= Yongnuo YN40mm F2.8N</td>
+</tr><tr><td>'9F 4C 44 44 18 18 A1 06'</td><td>= Yongnuo YN35mm F2</td>
+</tr><tr><td>'9F 4D 50 50 14 14 A0 06'</td><td>= Yongnuo YN50mm F1.8N</td>
 </tr><tr><td>'9F 54 68 68 18 18 A2 06'</td><td>= Yongnuo YN100mm F2N</td>
 </tr><tr><td>'9F 58 44 44 14 14 A1 06'</td><td>= AF-S DX Nikkor 35mm f/1.8G</td>
 </tr><tr><td>'A0 37 5C 8E 34 3C A2 06'</td><td>= Sony FE 70-300mm F4.5-5.6 G OSS</td>
@@ -13371,6 +13853,7 @@ for ExifTool to choose in these cases (see the
 </tr><tr><td>'B7 44 60 98 34 3C B9 0E'</td><td>= AF-S Nikkor 80-400mm f/4.5-5.6G ED VR</td>
 </tr><tr><td>'B8 40 2D 44 2C 34 BA 06'</td><td>= AF-S Nikkor 18-35mm f/3.5-4.5G ED</td>
 </tr><tr><td>'BB 48 5C 80 24 24 4B 4E'</td><td>= Sigma 70-200mm F2.8 DG OS HSM | S</td>
+</tr><tr><td>'BC 54 3C 3C 0C 0C 4B 46'</td><td>= Sigma 28mm F1.4 DG HSM | A</td>
 </tr><tr><td>'BD 54 48 48 0C 0C 4B 46'</td><td>= Sigma 40mm F1.4 DG HSM | A</td>
 </tr><tr><td>'BE 54 6A 6A 0C 0C 4B 46'</td><td>= Sigma 105mm F1.4 DG HSM | A</td>
 </tr><tr><td>'BF 3C 1B 1B 30 30 01 04'</td><td>= Irix 11mm f/4 Firefly</td>
@@ -13390,6 +13873,7 @@ for ExifTool to choose in these cases (see the
 </tr><tr><td>'CC 44 68 98 34 41 DF 0E'</td><td>= Tamron 100-400mm f/4.5-6.3 Di VC USD</td>
 </tr><tr><td>'CC 4C 50 68 14 14 4B 06'</td><td>= Sigma 50-100mm F1.8 DC HSM | A</td>
 </tr><tr><td>'CD 3D 2D 70 2E 3C 4B 0E'</td><td>= Sigma 18-125mm F3.8-5.6 DC OS HSM</td>
+</tr><tr><td>'CE 00 37 5C 25 25 DF 4E'</td><td>= Tamron SP 24-70mm f/2.8 Di VC USD G2 (A032)</td>
 </tr><tr><td>'CE 34 76 A0 38 40 4B 0E'</td><td>= Sigma 150-500mm F5-6.3 DG OS APO HSM</td>
 </tr><tr><td>'CE 47 37 5C 25 25 DF 4E'</td><td>= Tamron SP 24-70mm f/2.8 Di VC USD G2 (A032)</td>
 </tr><tr><td>'CF 38 6E 98 34 3C 4B 0E'</td><td>= Sigma APO 120-400mm F4.5-5.6 DG OS HSM</td>
@@ -13399,7 +13883,9 @@ for ExifTool to choose in these cases (see the
 </tr><tr><td>'DC 48 19 19 24 24 4B 06'</td><td>= Sigma 10mm F2.8 EX DC HSM Fisheye</td>
 </tr><tr><td>'DE 54 50 50 0C 0C 4B 06'</td><td>= Sigma 50mm F1.4 EX DG HSM</td>
 </tr><tr><td>'E0 3C 5C 8E 30 3C 4B 06'</td><td>= Sigma 70-300mm F4-5.6 APO DG Macro HSM</td>
+</tr><tr><td>'E0 40 2D 98 2C 41 DF 0E'</td><td>= Tamron 18-400mm f/3.5-6.3 Di II VC HLD (B028)</td>
 </tr><tr><td>'E0 40 2D 98 2C 41 DF 4E'</td><td>= Tamron 18-400mm f/3.5-6.3 Di II VC HLD (B028)</td>
+</tr><tr><td>'E1 40 19 36 2C 35 DF 0E'</td><td>= Tamron 10-24mm f/3.5-4.5 Di II VC HLD (B023)</td>
 </tr><tr><td>'E1 40 19 36 2C 35 DF 4E'</td><td>= Tamron 10-24mm f/3.5-4.5 Di II VC HLD (B023)</td>
 </tr><tr><td>'E1 58 37 37 14 14 1C 02'</td><td>= Sigma 24mm F1.8 EX DG Aspherical Macro</td>
 </tr><tr><td>'E2 47 5C 80 24 24 DF 4E'</td><td>= Tamron SP 70-200mm f/2.8 Di VC USD G2 (A025)</td>
@@ -13447,7 +13933,9 @@ for ExifTool to choose in these cases (see the
 </tr><tr><td>'FB 54 2B 50 24 24 84 06'</td><td>= Tamron SP AF 17-50mm f/2.8 XR Di II LD Aspherical (IF) (A16NII)</td>
 </tr><tr><td>'FB 54 8E 8E 24 24 4B 02'</td><td>= Sigma APO 300mm F2.8 EX DG HSM</td>
 </tr><tr><td>'FC 40 2D 80 2C 40 DF 06'</td><td>= Tamron AF 18-200mm f/3.5-6.3 XR Di II LD Aspherical (IF) Macro (A14NII)</td>
+</tr><tr><td>'FD 00 3C 3C 18 18 DF 00'</td><td>= Voigtlander APO-Lanthar 28mm F2 Aspherical</td>
 </tr><tr><td>'FD 00 44 44 18 18 DF 00'</td><td>= Voigtlander APO-Lanthar 35mm F2</td>
+</tr><tr><td>'FD 00 48 48 07 07 DF 00'</td><td>= Voigtlander Nokton 40mm F1.2 Aspherical</td>
 </tr><tr><td>'FD 00 50 50 18 18 DF 00'</td><td>= Voigtlander APO-Lanthar 50mm F2 Aspherical</td>
 </tr><tr><td>'FD 00 59 59 18 18 DF 00'</td><td>= Voigtlander Macro APO-Lanthar 65mm F2</td>
 </tr><tr><td>'FD 47 50 76 24 24 4B 06'</td><td>= Sigma 50-150mm F2.8 EX APO DC HSM II</td>
@@ -13461,7 +13949,7 @@ for ExifTool to choose in these cases (see the
 
 <hr>
 (This document generated automatically by Image::ExifTool::BuildTagLookup)
-<br><i>Last revised Jan 22, 2024</i>
+<br><i>Last revised Mar 19, 2026</i>
 <p class=lf><a href='index.html'>&lt;-- ExifTool Tag Names</a></p>
 </body>
 </html>

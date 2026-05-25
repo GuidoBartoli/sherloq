@@ -234,7 +234,7 @@ my %fixed2_30 = (
 %Image::ExifTool::BMP::Extra = (
     GROUPS => { 0 => 'File', 1 => 'File', 2 => 'Image' },
     NOTES => 'Extra information extracted from some BMP images.',
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     LinkedProfileName => { },
     ICC_Profile => { SubDirectory => { TagTable => 'Image::ExifTool::ICC_Profile::Main' } },
     EmbeddedJPG => {
@@ -248,7 +248,7 @@ my %fixed2_30 = (
 );
 
 #------------------------------------------------------------------------------
-# Extract EXIF information from a BMP image
+# Extract metadata from a BMP image
 # Inputs: 0) ExifTool object reference, 1) dirInfo reference
 # Returns: 1 on success, 0 if this wasn't a valid BMP file
 sub ProcessBMP($$)
@@ -335,7 +335,7 @@ This module contains definitions required by Image::ExifTool to read BMP
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

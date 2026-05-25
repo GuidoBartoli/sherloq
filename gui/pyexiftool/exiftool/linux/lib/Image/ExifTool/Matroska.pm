@@ -15,7 +15,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.15';
+$VERSION = '1.20';
 
 sub HandleStruct($$;$$$$);
 
@@ -42,9 +42,10 @@ my %uidInfo = (
     GROUPS => { 2 => 'Video' },
     VARS => { NO_LOOKUP => 1 }, # omit tags from lookup
     NOTES => q{
-        The following tags are extracted from Matroska multimedia container files. 
-        This container format is used by file types such as MKA, MKV, MKS and WEBM. 
-        For speed, by default ExifTool extracts tags only up to the first Cluster.
+        The following tags are extracted from Matroska multimedia container files.
+        This container format is used by file types such as MKA, MKV, MKS and WEBM.
+        For speed, by default ExifTool extracts tags only up to the first Cluster
+        unless a Seek element specifies the position of a Tags element after this.
         However, the L<Verbose|../ExifTool.html#Verbose> (-v) and L<Unknown|../ExifTool.html#Unknown> = 2 (-U) options force processing of
         Cluster data, and the L<ExtractEmbedded|../ExifTool.html#ExtractEmbedded> (-ee) option skips over Clusters to
         read subsequent tags.  See
@@ -112,8 +113,25 @@ my %uidInfo = (
         Name => 'Seek',
         SubDirectory => { TagTable => 'Image::ExifTool::Matroska::Main' },
     },
-    0x13ab => { Name => 'SeekID',           Binary => 1, Unknown => 1 },
-    0x13ac => { Name => 'SeekPosition',     Format => 'unsigned', Unknown => 1 },
+    0x13ab => {
+        Name => 'SeekID',
+        Unknown => 1,
+        SeekInfo => 'ID',       # save seek ID's
+        # (note: converted from VInt internally)
+        PrintConv => q{
+            my $tagInfo = $Image::ExifTool::Matroska::Main{$val};
+            $val = sprintf('0x%x', $val);
+            $val .= " ($$tagInfo{Name})" if ref $tagInfo eq 'HASH' and $$tagInfo{Name};
+            return $val;
+        },
+    },
+    0x13ac => {
+        Name => 'SeekPosition',
+        Format => 'unsigned',
+        Unknown => 1,
+        SeekInfo => 'Position', # save seek positions
+        RawConv => '$val + $$self{SeekHeadOffset}',
+    },
 #
 # Segment Info
 #
@@ -149,7 +167,7 @@ my %uidInfo = (
     0x489 => {
         Name => 'Duration',
         Format => 'float',
-        ValueConv => '$$self{TimecodeScale} ? $val * $$self{TimecodeScale} / 1e9 : $val',
+        ValueConv => '$$self{TimecodeScale} ? $val * $$self{TimecodeScale} / 1e9 : $val / 1000',
         PrintConv => '$$self{TimecodeScale} ? ConvertDuration($val) : $val',
     },
     0x461 => {
@@ -350,8 +368,9 @@ my %uidInfo = (
         Name => 'VideoScanType',
         Format => 'unsigned',
         PrintConv => {
-            0 => 'Progressive',
+            0 => 'Undetermined',
             1 => 'Interlaced',
+            2 => 'Progressive',
         },
     },
     0x13b8 => {
@@ -642,7 +661,19 @@ my %uidInfo = (
         SubDirectory => { TagTable => 'Image::ExifTool::Matroska::Main' },
     },
         # Targets elements
-        0x28ca => { Name => 'TargetTypeValue',  Format => 'unsigned' },
+        0x28ca => {
+            Name => 'TargetTypeValue',
+            Format => 'unsigned',
+            PrintConv => {
+                10 => 'Shot',
+                20 => 'Scene/Subtrack',
+                30 => 'Chapter/Track',
+                40 => 'Session',
+                50 => 'Movie/Album',
+                60 => 'Season/Edition',
+                70 => 'Collection',
+            },
+        },
         0x23ca => { Name => 'TargetType',       Format => 'string' },
         0x23c5 => { Name => 'TagTrackUID',      %uidInfo },
         0x23c9 => { Name => 'TagEditionUID',    %uidInfo },
@@ -665,6 +696,14 @@ my %uidInfo = (
     0x7670 => {
         Name => 'Projection',
         SubDirectory => { TagTable => 'Image::ExifTool::Matroska::Projection' },
+    },
+#
+# other
+#
+    0x5345414c => { # ('SEAL' in hex)
+        Name => 'SEAL',
+        NotEBML => 1,   # don't process SubDirectory as EBML elements
+        SubDirectory => { TagTable => 'Image::ExifTool::XMP::SEAL' },
     },
 );
 
@@ -710,7 +749,8 @@ my %uidInfo = (
 # standardized tag names (ref 2)
 %Image::ExifTool::Matroska::StdTag = (
     GROUPS => { 2 => 'Video' },
-    VARS => { LONG_TAGS => 1 },
+    PRIORITY => 0, # (don't want named tags to override numbered tags, eg. "DURATION")
+    VARS => { LONG_TAGS => 3 },
     NOTES => q{
         Standardized Matroska tags, stored in a SimpleTag structure (see
         L<https://www.matroska.org/technical/tagging.html>).
@@ -725,7 +765,11 @@ my %uidInfo = (
     SUBTITLE    => 'Subtitle',
     URL         => 'URL',       # nested
     SORT_WITH   => 'SortWith',  # nested
-    INSTRUMENTS => 'Instruments', # nested
+    INSTRUMENTS => {            # nested
+        Name => 'Instruments',
+        IsList => 1,
+        ValueConv => 'my @a = split /,\s?/, $val; \@a',
+    },
     EMAIL       => 'Email',     # nested
     ADDRESS     => 'Address',   # nested
     FAX         => 'FAX',       # nested
@@ -769,7 +813,11 @@ my %uidInfo = (
     CONTENT_TYPE => 'ContentType',
     SUBJECT     => 'Subject',
     DESCRIPTION => 'Description',
-    KEYWORDS    => 'Keywords',
+    KEYWORDS    => {
+        Name => 'Keywords',
+        IsList => 1,
+        ValueConv => 'my @a = split /,\s?/, $val; \@a',
+    },
     SUMMARY     => 'Summary',
     SYNOPSIS    => 'Synopsis',
     INITIAL_KEY => 'InitialKey',
@@ -831,6 +879,15 @@ my %uidInfo = (
             ProcessProc => 'Image::ExifTool::XMP::ProcessGSpherical',
         },
     },
+#
+# other tags seen
+#
+    _STATISTICS_WRITING_DATE_UTC => { Name => 'StatisticsWritingDateUTC', %dateInfo },
+    _STATISTICS_WRITING_APP => 'StatisticsWritingApp',
+    _STATISTICS_TAGS => 'StatisticsTags',
+    DURATION => 'Duration',
+    NUMBER_OF_FRAMES => 'NumberOfFrames',
+    NUMBER_OF_BYTES => 'NumberOfBytes',
 );
 
 #------------------------------------------------------------------------------
@@ -850,6 +907,7 @@ sub HandleStruct($$;$$$$)
         $name =~ tr/0-9a-zA-Z_//dc;
         $name =~ s/_([a-z])/\U$1/g;
         $name = "Tag_$name" if length $name < 2;
+        $et->VPrint(0, "  [adding $tag = $name]\n");
         $tagInfo = AddTagToTable($tagTbl, $tag, { Name => $name });
     }
     my ($id, $nm);
@@ -859,6 +917,7 @@ sub HandleStruct($$;$$$$)
         unless ($$tagTbl{$id}) {
             my %copy = %$tagInfo;
             $copy{Name} = $nm;
+            $et->VPrint(0, "  [adding $id = $nm]\n");
             $tagInfo = AddTagToTable($tagTbl, $id, \%copy);
         }
     } else {
@@ -893,6 +952,7 @@ sub HandleStruct($$;$$$$)
 # Inputs: 0) data buffer, 1) position in data
 # Returns: integer value and updates position, -1 for unknown/reserved value,
 #          or undef if no data left
+# Notes: Increments position pointer
 sub GetVInt($$)
 {
     return undef if $_[1] >= length $_[0];
@@ -929,7 +989,8 @@ sub ProcessMKV($$)
 {
     my ($et, $dirInfo) = @_;
     my $raf = $$dirInfo{RAF};
-    my ($buff, $buf2, @dirEnd, $trackIndent, %trackTypes, $struct);
+    my ($buff, $buf2, @dirEnd, $trackIndent, %trackTypes, %trackNum,
+        $struct, %seekInfo, %seek);
 
     $raf->Read($buff, 4) == 4 or return 0;
     return 0 unless $buff =~ /^\x1a\x45\xdf\xa3/;
@@ -952,6 +1013,7 @@ sub ProcessMKV($$)
     my $processAll = ($verbose or $et->Options('Unknown') > 1) ? 2 : 0;
     ++$processAll if $et->Options('ExtractEmbedded');
     $$et{TrackTypes} = \%trackTypes;  # store Track types reference
+    $$et{SeekHeadOffset} = 0;
     my $oldIndent = $$et{INDENT};
     my $chapterNum = 0;
     my $dirName = 'MKV';
@@ -960,6 +1022,16 @@ sub ProcessMKV($$)
     for (;;) {
         while (@dirEnd) {
             if ($pos + $dataPos >= $dirEnd[-1][0]) {
+                if ($dirEnd[-1][1] eq 'Seek') {
+                    # save seek info
+                    if (defined $seekInfo{ID} and defined $seekInfo{Position}) {
+                        my $seekTag = $$tagTablePtr{$seekInfo{ID}};
+                        if (ref $seekTag eq 'HASH' and $$seekTag{Name}) {
+                            $seek{$$seekTag{Name}} = $seekInfo{Position} + $$et{SeekHeadOffset};
+                        }
+                    }
+                    undef %seekInfo;
+                }
                 pop @dirEnd;
                 if ($struct) {
                     if (@dirEnd and $dirEnd[-1][2]) {
@@ -977,6 +1049,7 @@ sub ProcessMKV($$)
                 # use INDENT to decide whether or not we are done this Track element
                 delete $$et{SET_GROUP1} if $trackIndent and $trackIndent eq $$et{INDENT};
                 $$et{INDENT} = substr($$et{INDENT}, 0, -2);
+                pop @{$$et{PATH}};
             } else {
                 $dirName = $dirEnd[-1][1];
                 last;
@@ -993,9 +1066,10 @@ sub ProcessMKV($$)
         }
         my $tag = GetVInt($buff, $pos);
         last unless defined $tag and $tag >= 0;
+        $$et{SeekHeadOffset} = $pos if $tag == 0x14d9b74;   # save offset of seek head
         my $size = GetVInt($buff, $pos);
         last unless defined $size;
-        my $unknownSize;
+        my ($unknownSize, $seekInfoOnly, $tagName);
         $size < 0 and $unknownSize = 1, $size = 1e20;
         if (@dirEnd and $pos + $dataPos + $size > $dirEnd[-1][0]) {
             $et->Warn("Invalid or corrupted $dirEnd[-1][1] master element");
@@ -1010,21 +1084,41 @@ sub ProcessMKV($$)
             next;
         }
         my $tagInfo = $et->GetTagInfo($tagTablePtr, $tag);
-        # just fall through into the contained EBML elements
+        if (not $tagInfo and ref $$tagTablePtr{$tag} eq 'HASH' and $$tagTablePtr{$tag}{SeekInfo}) {
+            $tagInfo = $$tagTablePtr{$tag};
+            $seekInfoOnly = 1;
+        }
         if ($tagInfo) {
-            if ($$tagInfo{SubDirectory}) {
+            $tagName = $$tagInfo{Name};
+            if ($$tagInfo{SubDirectory} and not $$tagInfo{NotEBML}) {
                 # stop processing at first cluster unless we are using -v -U or -ee
-                if ($$tagInfo{Name} eq 'Cluster' and $processAll < 2) {
-                    last unless $processAll;
+                # or there are Tags after this
+                if ($tagName eq 'Cluster' and $processAll < 2) {
+                    # jump to Tags if possible
+                    unless ($processAll) {
+                        if ($seek{Tags} and $seek{Tags} > $pos + $dataPos and $raf->Seek($seek{Tags},0)) {
+                            $buff = '';
+                            $dataPos = $seek{Tags};
+                            $pos = $dataLen = 0;
+                            next;
+                        }
+                        last;
+                    }
                     undef $tagInfo; # just skip the Cluster when -ee is used
                 } else {
+                    # just fall through into the contained EBML elements
                     $$et{INDENT} .= '| ';
-                    $et->VerboseDir($$tagTablePtr{$tag}{Name}, undef, $size);
-                    $dirName = $$tagInfo{Name};
+                    $dirName = $tagName;
+                    $et->VerboseDir($dirName, undef, $size);
+                    push @{$$et{PATH}}, $dirName;
                     push @dirEnd, [ $pos + $dataPos + $size, $dirName, $struct ];
                     $struct = { } if $dirName eq 'SimpleTag';   # keep track of SimpleTag elements
-                    if ($$tagInfo{Name} eq 'ChapterAtom') {
+                    # set Chapter# and Info family 1 group names
+                    if ($tagName eq 'ChapterAtom') {
                         $$et{SET_GROUP1} = 'Chapter' . (++$chapterNum);
+                        $trackIndent = $$et{INDENT};
+                    } elsif ($tagName eq 'Info' and not $$et{SET_GROUP1}) {
+                        $$et{SET_GROUP1} = 'Info';
                         $trackIndent = $$et{INDENT};
                     }
                     next;
@@ -1040,7 +1134,12 @@ sub ProcessMKV($$)
             # just skip unknown and large data blocks
             if (not $tagInfo or $more > 10000000) {
                 # don't try to skip very large blocks unless LargeFileSupport is enabled
-                last if $more >= 0x80000000 and not $et->Options('LargeFileSupport');
+                if ($more >= 0x80000000) {
+                    last unless $et->Options('LargeFileSupport');
+                    if ($et->Options('LargeFileSupport') eq '2') {
+                        $et->Warn('Processing large block (LargeFileSupport is 2)');
+                    }
+                }
                 $raf->Seek($more, 1) or last;
                 $buff = '';
                 $dataPos += $dataLen + $more;
@@ -1093,20 +1192,27 @@ sub ProcessMKV($$)
                     # convert dates (nanoseconds since 2001:01:01)
                     if ($fmt eq 'date') {
                         my $t = $val / 1e9;
-                        my $f = $t - int($t);   # fractional seconds
-                        $f =~ s/^\d+//;         # remove leading zero
                         # (8 leap days between 1970 and 2001)
                         $t += (((2001-1970)*365+8)*24*3600);
-                        $val = Image::ExifTool::ConvertUnixTime($t) . $f . 'Z';
+                        $val = Image::ExifTool::ConvertUnixTime($t, undef, -9) . 'Z';
                     }
                 } else { # must be unsigned
                     $val = $val * 256 + $_ foreach @vals;
                 }
             }
-            # set group1 to Track/Chapter number
-            if ($$tagInfo{Name} eq 'TrackNumber') {
+            if ($tagName eq 'TrackNumber') {
+                # set Track# family 1 group name for tags directly in the track
                 $$et{SET_GROUP1} = 'Track' . $val;
                 $trackIndent = $$et{INDENT};
+            } elsif ($tagName eq 'TrackUID' and $$et{SET_GROUP1}) {
+                # save the Track# group associated with this TrackUID
+                $trackNum{$val} = $$et{SET_GROUP1};
+            } elsif ($tagName eq 'TagTrackUID' and $trackNum{$val}) {
+                # set Track# group for associated SimpleTags tags
+                $$et{SET_GROUP1} = $trackNum{$val};
+                # we're already one deeper than the level where we want to
+                # reset the group name, so trigger at one indent level higher
+                $trackIndent = substr($$et{INDENT}, 0, -2);
             }
         }
         my %parms = (
@@ -1117,7 +1223,12 @@ sub ProcessMKV($$)
         );
         if ($$tagInfo{NoSave} or $struct) {
             $et->VerboseInfo($tag, $tagInfo, Value => $val, %parms) if $verbose;
-            $$struct{$$tagInfo{Name}} = $val if $struct;
+            $$struct{$tagName} = $val if $struct;
+        } elsif ($$tagInfo{SeekInfo}) {
+            my $p = $pos;
+            $val = GetVInt($buff, $p) unless defined $val;
+            $seekInfo{$$tagInfo{SeekInfo}} = $val;
+            $et->HandleTag($tagTablePtr, $tag, $val, %parms) unless $seekInfoOnly;
         } else {
             $et->HandleTag($tagTablePtr, $tag, $val, %parms);
         }
@@ -1155,7 +1266,7 @@ information from Matroska multimedia files (MKA, MKV, MKS and WEBM).
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

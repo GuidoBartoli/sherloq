@@ -17,7 +17,7 @@ use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 use Image::ExifTool::RIFF;
 
-$VERSION = '1.25';
+$VERSION = '1.27';
 
 sub ProcessASF($$;$);
 sub ProcessContentDescription($$$);
@@ -549,7 +549,7 @@ sub ProcessContentDescription($$$)
         my $len = shift @len;
         next unless $len;
         return 0 if $pos + $len > $dirLen;
-        my $val = $et->Decode(substr($$dataPt,$pos,$len),'UCS2','II');
+        my $val = $et->Decode(substr($$dataPt,$pos,$len),'UTF16','II');
         $et->HandleTag($tagTablePtr, $tag, $val);
         $pos += $len;
     }
@@ -594,7 +594,7 @@ sub ReadASF($$$$$)
     my ($et, $dataPt, $pos, $format, $size) = @_;
     my @vals;
     if ($format == 0) { # unicode string
-        $vals[0] = $et->Decode(substr($$dataPt,$pos,$size),'UCS2','II');
+        $vals[0] = $et->Decode(substr($$dataPt,$pos,$size),'UTF16','II');
     } elsif ($format == 2) { # 4-byte boolean
         @vals = ReadValue($dataPt, $pos, 'int32u', undef, $size);
         foreach (@vals) {
@@ -631,7 +631,7 @@ sub ProcessExtendedContentDescription($$$)
         my $nameLen = unpack("x${pos}v", $$dataPt);
         $pos += 2;
         return 0 if $pos + $nameLen + 4 > $dirLen;
-        my $tag = Image::ExifTool::Decode(undef,substr($$dataPt,$pos,$nameLen),'UCS2','II','Latin');
+        my $tag = Image::ExifTool::Decode(undef,substr($$dataPt,$pos,$nameLen),'UTF16','II','Latin');
         $tag =~ s/^WM\///; # remove leading "WM/"
         $pos += $nameLen;
         my ($dType, $dLen) = unpack("x${pos}v2", $$dataPt);
@@ -667,7 +667,7 @@ sub ProcessMetadata($$$)
         my ($index, $stream, $nameLen, $dType, $dLen) = unpack("x${pos}v4V", $$dataPt);
         $pos += 12;
         return 0 if $pos + $nameLen + $dLen > $dirLen;
-        my $tag = Image::ExifTool::Decode(undef,substr($$dataPt,$pos,$nameLen),'UCS2','II','Latin');
+        my $tag = Image::ExifTool::Decode(undef,substr($$dataPt,$pos,$nameLen),'UTF16','II','Latin');
         $tag =~ s/^WM\///; # remove leading "WM/"
         $pos += $nameLen;
         my $val = ReadASF($et,$dataPt,$pos,$dType,$dLen);
@@ -702,8 +702,8 @@ sub ProcessPicture($$$)
     my $str = substr($$dataPt, $dirStart+5, $n);
     if ($str =~ /^((?:..)*?)\0\0((?:..)*?)\0\0/s) {
         my ($mime, $desc) = ($1, $2);
-        $et->HandleTag($tagTablePtr, 1, $et->Decode($mime,'UCS2','II'));
-        $et->HandleTag($tagTablePtr, 2, $et->Decode($desc,'UCS2','II')) if length $desc;
+        $et->HandleTag($tagTablePtr, 1, $et->Decode($mime,'UTF16','II'));
+        $et->HandleTag($tagTablePtr, 2, $et->Decode($desc,'UTF16','II')) if length $desc;
     }
     $et->HandleTag($tagTablePtr, 3, substr($$dataPt, $dirStart+5+$n, $picLen));
     return 1;
@@ -731,12 +731,12 @@ sub ProcessCodecList($$$)
         my $nameLen = Get16u($dataPt, $pos + 2) * 2;
         $pos += 4;
         return 0 if $pos + $nameLen + 2 > $dirLen;
-        my $name = $et->Decode(substr($$dataPt,$pos,$nameLen),'UCS2','II');
+        my $name = $et->Decode(substr($$dataPt,$pos,$nameLen),'UTF16','II');
         $et->HandleTag($tagTablePtr, "${type}Name", $name);
         my $descLen = Get16u($dataPt, $pos + $nameLen) * 2;
         $pos += $nameLen + 2;
         return 0 if $pos + $descLen + 2 > $dirLen;
-        my $desc = $et->Decode(substr($$dataPt,$pos,$descLen),'UCS2','II');
+        my $desc = $et->Decode(substr($$dataPt,$pos,$descLen),'UTF16','II');
         $et->HandleTag($tagTablePtr, "${type}Description", $desc);
         my $infoLen = Get16u($dataPt, $pos + $descLen);
         $pos += $descLen + 2 + $infoLen;
@@ -780,6 +780,9 @@ sub ProcessASF($$;$)
             if ($size > 0x7fffffff * 4294967296) {
                 $err = 'Invalid ASF object size';
             } elsif ($et->Options('LargeFileSupport')) {
+                if ($et->Options('LargeFileSupport') eq '2') {
+                    $et->Warn('Skipping large ASF object (LargeFileSupport is 2)');
+                }
                 if ($raf->Seek($size, 1)) {
                     $et->VPrint(0, "  Skipped large ASF object ($size bytes)\n");
                     $pos += $size;
@@ -876,7 +879,7 @@ Windows Media Audio (WMA) and Windows Media Video (WMV) files.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

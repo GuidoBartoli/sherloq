@@ -23,7 +23,7 @@ use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Canon;
 
-$VERSION = '1.37';
+$VERSION = '1.41';
 
 sub ProcessCanonVRD($$;$);
 sub WriteCanonVRD($$;$);
@@ -51,6 +51,7 @@ my %vrdFormat = (
     8 => 'int32u',
     9 => 'int32s',
     13 => 'double',
+    24 => 'int32s', # (rectangle coordinates)
     33 => 'int32u', # (array)
     38 => 'double', # (array)
     # 254 => 'undef', ?
@@ -1003,7 +1004,7 @@ my $blankFooter = "CANON OPTIONAL DATA\0" . ("\0" x 42) . "\xff\xd9";
     WRITABLE => 1,
     PERMANENT => 1, # (can't add/delete these individually)
     GROUPS => { 1 => 'CanonDR4', 2 => 'Image' },
-    VARS => { HEX_ID => 1, SORT_PROC => \&SortDR4 },
+    VARS => { ID_FMT => 'hex', SORT_PROC => \&SortDR4 },
     NOTES => q{
         Tags written by Canon DPP version 4 in CanonVRD trailers and DR4 files. Each
         tag has three associated flag words which are stored with the directory
@@ -1019,6 +1020,18 @@ my $blankFooter = "CANON OPTIONAL DATA\0" . ("\0" x 42) . "\xff\xd9";
     # 0x10018 - fmt=8: 0
     # 0x10020 - fmt=2: ''
     0x10021 => 'CustomPictureStyle', # (string)
+    0x10100 => { #forum15965
+        Name => 'Rating',
+        PrintConv => {
+            0 => 'Unrated',
+            1 => 1,
+            2 => 2,
+            3 => 3,
+            4 => 4,
+            5 => 5,
+            4294967295 => 'Rejected',
+        },
+    },
     0x10101 => {
         Name => 'CheckMark',
         PrintConv => {
@@ -1199,9 +1212,9 @@ my $blankFooter = "CANON OPTIONAL DATA\0" . ("\0" x 42) . "\xff\xd9";
             4 => 'Emphasize Center',
         },
     },
+    0x2070b => { Name => 'DiffractionCorrectionOn', %noYes },
     # 0x20800 - fmt=1: 0
     # 0x20801 - fmt=1: 0
-    0x2070b => { Name => 'DiffractionCorrectionOn', %noYes },
     0x20900 => 'ColorHue',
     0x20901 => 'SaturationAdj',
     0x20910 => 'RedHSL',
@@ -1226,6 +1239,11 @@ my $blankFooter = "CANON OPTIONAL DATA\0" . ("\0" x 42) . "\xff\xd9";
     # 0x20a08 - (unknown picture style settings)
     # 0x20a09 - Custom picture style settings
     # 0x20a20 - Fine Detail picture style settings
+    0x20b10 => 'DPRAWMicroadjustBackFront', #forum15660
+    0x20b12 => 'DPRAWMicroadjustStrength', #forum15660
+    0x20b20 => 'DPRAWBokehShift', #forum15660
+    0x20b21 => 'DPRAWBokehShiftArea', #PH
+    0x20b30 => 'DPRAWGhostingReductionArea', #forum15660
     0x30101 => {
         Name => 'CropAspectRatio',
         PrintConv => {
@@ -1264,6 +1282,9 @@ my $blankFooter = "CANON OPTIONAL DATA\0" . ("\0" x 42) . "\xff\xd9";
     # 0xf0521 - DLO data
     # 0xf0520 - DLO data
     # 0xf0530 - created when dust delete data applied (4 bytes, all zero)
+    # 0xf0561 - 1932 bytes, related to Partial Adjustment Tool Palette (ref forum15660)
+    # 0xf0562 - 1596 bytes, related to Partial Adjustment Tool Palette (ref forum15660)
+    # 0xf0566 - 1520 bytes, related to Partial Adjustment Tool Palette (ref forum15660)
     # 0xf0600 - fmt=253 (2308 bytes, JPG images)
     # 0xf0601 - fmt=253 (2308 bytes, JPG images)
     # 0x1ff52c - values: 129,130,132 (related to custom picture style somehow)
@@ -1285,7 +1306,7 @@ my $blankFooter = "CANON OPTIONAL DATA\0" . ("\0" x 42) . "\xff\xd9";
     # 2 - value: 6
     3 => {
         Name => 'DR4CameraModel',
-        Writable => 'int32u',
+        Format => 'int32u',
         PrintHex => 1,
         SeparateTable => 'Canon CanonModelID',
         PrintConv => \%Image::ExifTool::Canon::canonModelID,
@@ -1421,15 +1442,16 @@ my $blankFooter = "CANON OPTIONAL DATA\0" . ("\0" x 42) . "\xff\xd9";
     4 => 'CropY',
     5 => 'CropWidth',
     6 => 'CropHeight',
+    7 => 'CropRotation',
     8 => {
-        Name => 'CropRotation',
+        Name => 'CropAngle',
         Format => 'double',
         PrintConv => 'sprintf("%.7g",$val)',
         PrintConvInv => '$val',
     },
-    0x0a => 'CropOriginalWidth',
-    0x0b => 'CropOriginalHeight',
-    # 0x0c double - value: 100
+    10 => 'CropOriginalWidth',
+    11 => 'CropOriginalHeight',
+    # 12 double - value: 100
 );
 
 # DR4 Stamp Tool tags (ref PH)
@@ -1752,7 +1774,7 @@ sub ProcessDR4($$;$)
     } else {
         # load DR4 file into memory
         my $buff;
-        $raf->Read($buff, 8) == 8 and $buff eq "IIII\x04\0\x04\0" or return 0;
+        $raf->Read($buff, 8) == 8 and $buff =~ /^IIII[\x04|\x05]\0\x04\0/ or return 0;
         $et->SetFileType();
         $raf->Seek(0, 2) or return $err = 1;
         $dirLen = $raf->Tell();
@@ -2266,7 +2288,7 @@ files, and as a trailer in JPEG, CRW, CR2 and TIFF images.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

@@ -955,7 +955,6 @@ $VERSION = '1.12';
       Description => 'Obrót',
       PrintConv => {
         'Horizontal' => '0° (góra/lewo)',
-        'Horizontal (Normal)' => '0° (góra/lewo)',
         'Horizontal (normal)' => '0° (góra/lewo)',
         'Rotate 180' => '180° (dół/prawo)',
         'Rotate 270 CW' => '90° CW (lewo/dół)',
@@ -1258,7 +1257,7 @@ and values.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

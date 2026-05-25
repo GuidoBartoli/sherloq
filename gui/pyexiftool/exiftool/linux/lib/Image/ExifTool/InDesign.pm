@@ -14,7 +14,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.06';
+$VERSION = '1.09';
 
 # map for writing metadata to InDesign files (currently only write XMP)
 my %indMap = (
@@ -73,9 +73,13 @@ sub ProcessIND($$)
     my $pages = Get32u($curPage, 280);
     $pages < 2 and $err = 'Invalid page count', goto DONE;
     my $pos = $pages * 4096;
-    if ($pos > 0x7fffffff and not $et->Options('LargeFileSupport')) {
-        $err = 'InDesign files larger than 2 GB not supported (LargeFileSupport not set)';
-        goto DONE;
+    if ($pos > 0x7fffffff) {
+        if (not $et->Options('LargeFileSupport')) {
+            $err = 'InDesign files larger than 2 GB not supported (LargeFileSupport not set)';
+            goto DONE;
+        } elsif ($et->Options('LargeFileSupport') eq '2') {
+            $et->Warn('Processing large file (LargeFileSupport is 2)');
+        }
     }
     if ($outfile) {
         # make XMP the preferred group for writing
@@ -97,8 +101,23 @@ sub ProcessIND($$)
     for (;;) {
         $raf->Read($hdr, 32) or last;
         unless (length($hdr) == 32 and $hdr =~ /^\Q$objectHeaderGUID/) {
-            # this must be null padding or we have an error
-            $hdr =~ /^\0+$/ or $err = 'Corrupt file or unsupported InDesign version';
+            # this must be null padding or we have a possible error
+            last if $hdr =~ /^\0+$/;
+            # (could be up to 4095 bytes of non-null garbage plus 4095 null bytes from ExifTool)
+            $raf->Read($buff, 8192) and $hdr .= $buff;
+            my $n = length $hdr;
+            $hdr =~ s/\0+$//;   # remove trailing nulls
+            if ($n > 8190 or length($hdr) > 4095) {
+                $err = 'Corrupt file or unsupported InDesign version';
+                last;
+            }
+            my $non = 'Non-null padding at end of file';
+            if (not $outfile) {
+                $et->Warn($non, 1);
+            } elsif (not $et->Error($non, 1)) {
+                Write($outfile, $hdr) or $err = 1;
+                $writeLen += length $hdr;
+            }
             last;
         }
         my $len = Get32u(\$hdr, 24);
@@ -258,7 +277,7 @@ them and the LargeFileSupport option is enabled.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

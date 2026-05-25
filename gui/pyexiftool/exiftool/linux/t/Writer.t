@@ -2,7 +2,7 @@
 # After "make install" it should work as "perl t/Writer.t".
 
 BEGIN {
-    $| = 1; print "1..60\n"; $Image::ExifTool::configFile = '';
+    $| = 1; print "1..61\n"; $Image::ExifTool::configFile = '';
     require './t/TestLib.pm'; t::TestLib->import();
 }
 END {print "not ok 1\n" unless $loaded;}
@@ -1109,6 +1109,35 @@ my $testOK;
         notOK();
     }
     print "ok $testnum\n";
+}
+
+# test 61: Test the %f and %z date/time format codes for writing
+{
+    ++$testnum;
+    my $skip = '';
+    if (eval { require POSIX::strptime } or eval { require Time::Piece }) {
+        my $exifTool = Image::ExifTool->new;
+        $exifTool->Options(DateFormat => '%H:%M:%S%f%:z %m-%d-%Y');
+        $exifTool->SetNewValue('XMP:CreateDate' => '09:11:12.345-07:00 01-02-2024');
+        $testfile = "t/${testname}_${testnum}_failed.xmp";
+        unlink $testfile;
+        my $success = writeInfo($exifTool, undef, $testfile);
+        if ($success) {
+            $exifTool->Options(DateFormat => undef);
+            my $info = $exifTool->ImageInfo($testfile, '-system:all');
+            $success = check($exifTool, $info, $testname, $testnum);
+        }
+        if ($success) {
+            unlink $testfile;
+        } else {
+            notOK();
+        }
+    } else {
+        warn "\n  POSIX::strptime or Time::Piece not installed, so you won't\n";
+        warn "  have the abilty use the DateFormat feature when writing.\n";
+        $skip = ' # POSIX::strptime or Time::Piece not installed';
+    }
+    print "ok $testnum$skip\n";
 }
 
 done(); # end

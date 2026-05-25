@@ -38,7 +38,7 @@ use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::GPS;
 
-$VERSION = '1.08';
+$VERSION = '1.09';
 
 sub ProcessPrimer($$$);
 sub ProcessLocalSet($$$);
@@ -116,7 +116,7 @@ my %componentDataDef = (
 # Note: The Binary flag is automatically set for all Unknown tags with unknown Type
 %Image::ExifTool::MXF::Main = (
     GROUPS => { 2 => 'Video' },
-    VARS => { NO_LOOKUP => 1, NO_ID => 1 }, # tag ID's are too bulky
+    VARS => { NO_LOOKUP => 1, ID_FMT => 'none' }, # tag ID's are too bulky
     NOTES => q{
         Tags extracted from Material Exchange Format files.  Tag ID's are not listed
         because they are bulky 16-byte binary values.
@@ -2481,7 +2481,7 @@ sub ReadMXFValue($$$)
     local $_;
 
     if ($type eq 'UTF-16') {
-        $val = $et->Decode($val, 'UCS2'); # (until we handle UTF-16 properly)
+        $val = $et->Decode($val, 'UTF16');
     } elsif ($type eq 'ProductVersion') {
         my @a = unpack('n*', $val);
         push @a, 0 while @a < 5;
@@ -2525,7 +2525,7 @@ sub ReadMXFValue($$$)
     } elsif ($type =~ /(Array|Batch)/ and $len > 16) {
         my ($count, $size) = unpack('NN', $val);
         # validate data length
-        $len == 8 + $count * $size or $et->WarnOnce("Bad array or batch size");
+        $len == 8 + $count * $size or $et->Warn("Bad array or batch size");
         my ($i, @a);
         for ($i=0; $i<$count; ++$i) {
             my $pos = 8 + $i * $size;
@@ -2626,7 +2626,7 @@ sub ProcessLocalSet($$$)
             $extra = sprintf(', Local 0x%.4x', $loc);
         } else {
             $tag = $loc;
-          # $et->WarnOnce('Missing local key for at least one tag');
+          # $et->Warn('Missing local key for at least one tag');
             $extra = ', NOT IN PRIMER!';
         }
         my $tagInfo = $$tagTablePtr{$tag};
@@ -2987,7 +2987,7 @@ information from MXF (Material Exchange Format) files.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

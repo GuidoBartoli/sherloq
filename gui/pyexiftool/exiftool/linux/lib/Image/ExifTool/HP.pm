@@ -225,7 +225,7 @@ sub ProcessHP($$$)
     # scan for other tag ID's
     foreach $tagID (sort(TagTableKeys($tagTablePtr))) {
         next if $tagID eq 'PreviewImage';
-        next unless $$dataPt =~ /$tagID:\s*([\x20-\x7f]+)/i;
+        next unless $$dataPt =~ /$tagID:\s*([\x20-\x7e]+)/i;
         $et->HandleTag($tagTablePtr, $tagID, $1);
     }
     return 1;
@@ -250,7 +250,7 @@ Hewlett-Packard maker notes.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

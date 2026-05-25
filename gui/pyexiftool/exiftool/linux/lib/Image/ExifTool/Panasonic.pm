@@ -37,7 +37,7 @@ use vars qw($VERSION %leicaLensTypes);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 
-$VERSION = '2.22';
+$VERSION = '2.29';
 
 sub ProcessLeicaLEIC($$$);
 sub WhiteBalanceConv($;$$);
@@ -360,12 +360,17 @@ my %shootingMode = (
                 '16'    => 'Normal?', # (only mode for DMC-LC20)
                 '16 0'  => '1-area', # (FZ8)
                 '16 16' => '1-area (high speed)', # (FZ8)
+                '16 32' => '1-area +', #forum16903 (G9M2)
+                '17 0'  => 'Full Area', #forum16903 (G9M2)
                 # '32 0' is Face Detect for FS7, and Face Detect or Focus Tracking
                 # for the DMC-FZ200 (ref 17), and Auto is DMC-L1 guess,
                 '32 0'  => 'Tracking',
                 '32 1'  => '3-area (left)?', # (DMC-L1 guess)
                 '32 2'  => '3-area (center)?', # (DMC-L1 guess)
                 '32 3'  => '3-area (right)?', # (DMC-L1 guess)
+                '32 16' => 'Zone', #forum16903 (G9M2)
+                '32 18' => 'Zone (horizontal/vertical)', #forum16903 (G9M2)
+                # '32 16' ? (DC-GH6)
                 '64 0'  => 'Face Detect',
                 '64 1' => 'Face Detect (animal detect on)', #forum11194
                 '64 2' => 'Face Detect (animal detect off)', #forum11194
@@ -911,13 +916,21 @@ my %shootingMode = (
         Name => 'AFPointPosition',
         Writable => 'rational64u',
         Count => 2,
-        Notes => 'X Y coordinates of primary AF area center, in the range 0.0 to 1.0',
+        Notes => q{
+            X Y coordinates of primary AF area center, in the range 0.0 to 1.0, or
+            "n/a" or "none" for invalid values
+        },
         PrintConv => q{
             return 'none' if $val eq '16777216 16777216';
+            return 'n/a' if $val =~ /^4194303\.9/;
             my @a = split ' ', $val;
             sprintf("%.2g %.2g",@a);
         },
-        PrintConvInv => '$val eq "none" ? "16777216 16777216" : $val',
+        PrintConvInv => q{
+            return '16777216 16777216' if $val eq 'none';
+            return '4294967295/1024 4294967295/1024' if $val eq 'n/a';
+            return $val;
+        },
     },
     0x4e => { #PH
         Name => 'FaceDetInfo',
@@ -1369,10 +1382,10 @@ my %shootingMode = (
         Writable => 'int16u',
         Format => 'int16s',
     },
-    0xbe => { #forum11194
+    0xbe => { #forum11194/17508
         Name => 'LongExposureNRUsed',
         Writable => 'int16u',
-        PrintConv => { 0 => 'No', 1 => 'Yes' },
+        PrintConv => { 1 => 'No', 2 => 'Yes' },
     },
     0xbf => { #forum11194
         Name => 'PostFocusMerging',
@@ -1427,9 +1440,22 @@ my %shootingMode = (
             3 => 'High',
         },
     },
+    0xd4 => { #forum17795
+        Name => 'HybridLogGamma',
+        Writable => 'int16u',
+        PrintConv => { 0 => 'Off', 1 => 'On' },
+    },
     0xd6 => { #PH (DC-S1)
         Name => 'NoiseReductionStrength',
         Writable => 'rational64s',
+    },
+    0xde => { #forum17299
+        Name => 'AFAreaSize',
+        Writable => 'rational64u',
+        Notes => 'relative to size of image.  "n/a" for manual focus',
+        Count => 2,
+        PrintConv => '$val =~ /^4194303\.9/ ? "n/a" : $val',
+        PrintConvInv => '$val eq "n/a" ? "4294967295/1024 4294967295/1024" : $val',
     },
     0xe4 => { #IB
         Name => 'LensTypeModel',
@@ -1447,10 +1473,46 @@ my %shootingMode = (
         Name => 'MinimumISO',
         Writable => 'int32u',
     },
+    0xe9 => { #forum16903 (DC-G9M2)
+        Name => 'AFSubjectDetection',
+        Writable => 'int16u',
+        PrintConv => {
+            0 => 'n/a',
+            1 => 'Human Eye/Face/Body',
+            2 => 'Animal', #PH (NC) (DC-S5 and DC-S5M2)
+            3 => 'Human Eye/Face',
+            4 => 'Animal Body',
+            5 => 'Animal Eye/Body',
+            6 => 'Car',
+            7 => 'Motorcycle',
+            8 => 'Car (main part priority)',
+            9 => 'Motorcycle (helmet priority)',
+            10 => 'Train',
+            11 => 'Train (main part priority)',
+            12 => 'Airplane',
+            13 => 'Airplane (nose priority)',
+        }
+    },
     0xee => { #PH (DC-GH6)
         Name => 'DynamicRangeBoost',
         Writable => 'int16u',
         PrintConv => { 0 => 'Off', 1 => 'On' },
+    },
+    0xf1 => { #github365
+        Name => 'LUT1Name',
+        Writable => 'string',
+    },
+    0xf3 => { #github365
+        Name => 'LUT1Opacity',
+        Writable => 'int8u',    # (percent)
+    },
+    0xf4 => { #github365
+        Name => 'LUT2Name',
+        Writable => 'string',
+    },
+    0xf5 => { #github365
+        Name => 'LUT2Opacity',
+        Writable => 'int8u',    # (percent)
     },
     0x0e00 => {
         Name => 'PrintIM',
@@ -2238,7 +2300,7 @@ my %shootingMode = (
         Format => 'int16u[4]',
         RawConv => '$$self{NumFacePositions} < 1 ? undef : $val',
         Notes => q{
-            4 numbers: X/Y coordinates of the face center and width/height of face. 
+            4 numbers: X/Y coordinates of the face center and width/height of face.
             Coordinates are relative to an image twice the size of the thumbnail, or 320
             pixels wide
         },
@@ -2520,7 +2582,7 @@ my %shootingMode = (
     NAMESPACE => 'xmpDSA',
     WRITABLE => 'string',
     AVOID => 1,
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => 'XMP Digital Shift Assistant tags written by some Leica cameras.',
     Version             => { }, # eg. "1.0.0"
     CorrectionAlreadyApplied => { Writable => 'boolean' },
@@ -2801,7 +2863,7 @@ sub ProcessLeicaTrailer($;$)
                 }
             } else { # M (Type 240)
                 # scan for the lens type (M writes 114 bytes of garbage first)
-                if ($buff =~ /\G.{114}([\x20-\x7f]*\0*)/sg and length($1) >= 50) {
+                if ($buff =~ /\G.{114}([\x20-\x7e]*\0*)/sg and length($1) >= 50) {
                     $expect = 114;
                 }
             }
@@ -2901,7 +2963,7 @@ Panasonic and Leica maker notes in EXIF information.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

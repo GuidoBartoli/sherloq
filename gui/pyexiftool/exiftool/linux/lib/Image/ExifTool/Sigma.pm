@@ -19,7 +19,7 @@ use strict;
 use vars qw($VERSION %sigmaLensTypes);
 use Image::ExifTool::Exif;
 
-$VERSION = '1.34';
+$VERSION = '1.36';
 
 # sigma LensType lookup (ref IB)
 %sigmaLensTypes = (
@@ -412,7 +412,12 @@ $VERSION = '1.34';
         Name => 'Software',
         Priority => 0,
     },
-    0x0019 => 'AutoBracket',
+    0x0019 => {
+        Name => 'AutoBracket',
+        # (some models don't have spaces around "of")
+        PrintConv => '$val =~ s/(\d)of(\d)/$1 of $2/; $val',
+        PrintConvInv => '$val',
+    },
     0x001a => [ #PH
         {
             Name => 'PreviewImageStart',
@@ -641,8 +646,11 @@ $VERSION = '1.34';
     },
     0x0033 => { #PH
         Name => 'ExposureTime2',
-        Condition => '$$self{Model} !~ / (SD1|SD9|SD15|Merrill|Quattro|fp)$/',
-        Notes => 'models other than the SD1, SD9, SD15 and Merrill/Quattro models',
+        Condition => q{
+            $$self{Model} !~ / (SD1|SD9|SD15|Merrill|Quattro|fp)$/ and
+            $$self{MakerNoteSigmaVer} < 4
+        },
+        Notes => 'only valid for some models',
         ValueConv => '$val * 1e-6',
         ValueConvInv => 'int($val * 1e6 + 0.5)',
         PrintConv => 'Image::ExifTool::Exif::PrintExposureTime($val)',
@@ -695,6 +703,12 @@ $VERSION = '1.34';
     0x003d => { #PH (new for SD15 and SD1)
         Name => 'PictureMode',
         Notes => 'same as ColorMode, but "Standard" when ColorMode is Sepia or B&W',
+    },
+    0x0047 => { #forum17338
+        Name => 'ExposureCompensation',
+        Writable => 'rational64s',
+        PrintConv => '$val and $val =~ s/^(\d)/\+$1/; $val',
+        PrintConvInv => '$val',
     },
     0x0048 => { #PH
         Name => 'LensApertureRange',
@@ -789,6 +803,10 @@ $VERSION = '1.34';
     0x0087 => 'ResolutionMode', #PH (Quattro models)
     0x0088 => 'WhiteBalance', #PH (Quattro models)
     0x008c => 'Firmware', #PH (Quattro models)
+    0x0113 => { #forum17338
+        Name => 'PictureModeStrength',
+        Writable => 'int32s',
+    },
     0x011f => { #IB (FP DNG images)
         Name => 'CameraCalibration',
         Writable => 'float',
@@ -801,6 +819,14 @@ $VERSION = '1.34';
     0x0121 => { #IB (FP DNG images)
         Name => 'WBSettings2',
         SubDirectory => { TagTable => 'Image::ExifTool::Sigma::WBSettings2' },
+    },
+    0x0138 => { #forum17338
+        Name => 'Fade',
+        Writable => 'rational64u',
+    },
+    0x0139 => { #forum17338
+        Name => 'Vignette',
+        Writable => 'rational64u',
     },
 );
 
@@ -864,7 +890,7 @@ Sigma and Foveon maker notes in EXIF information.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

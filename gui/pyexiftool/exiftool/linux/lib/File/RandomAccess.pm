@@ -29,7 +29,7 @@
 #               Sets internal ERROR member from $! if there is an error reading
 #               the file.
 #
-# Legal:        Copyright (c) 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+# Legal:        Copyright (c) 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 #               This library is free software; you can redistribute it and/or
 #               modify it under the same terms as Perl itself.
 #------------------------------------------------------------------------------
@@ -41,7 +41,7 @@ require 5.002;
 require Exporter;
 
 use vars qw($VERSION @ISA @EXPORT_OK);
-$VERSION = '1.12';
+$VERSION = '1.13';
 @ISA = qw(Exporter);
 
 sub Read($$$);
@@ -158,7 +158,10 @@ sub Seek($$;$)
             $self->Slurp();                 # read whole file into buffer
             $newPos = $num + $self->{LEN};  # relative to end of file
         }
-        if ($newPos >= 0) {
+        if ($newPos >= 0 and
+            # can't go backwards in unbuffered non-seekable file
+            (not $self->{NoBuffer} or $newPos >= $self->{POS}))
+        {
             $self->{POS} = $newPos;
             $rtnVal = 1;
         }

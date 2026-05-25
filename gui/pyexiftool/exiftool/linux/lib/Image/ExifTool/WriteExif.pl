@@ -25,9 +25,9 @@ my %crossDelete = (
 # mandatory tag default values
 my %mandatory = (
     IFD0 => {
-        0x011a => 72,       # XResolution
-        0x011b => 72,       # YResolution
-        0x0128 => 2,        # ResolutionUnit (inches)
+      # (optional as of 3.0)  0x011a => 72,       # XResolution
+      # (optional as of 3.0)  0x011b => 72,       # YResolution
+      # (optional as of 3.0)  0x0128 => 2,        # ResolutionUnit (inches)
         0x0213 => 1,        # YCbCrPositioning (centered)
       # 0x8769 => ????,     # ExifOffset
     },
@@ -40,7 +40,7 @@ my %mandatory = (
     ExifIFD => {
         0x9000 => '0232',   # ExifVersion
         0x9101 => "1 2 3 0",# ComponentsConfiguration
-        0xa000 => '0100',   # FlashpixVersion
+      # (optional as of 3.0)  0xa000 => '0100',   # FlashpixVersion
         0xa001 => 0xffff,   # ColorSpace (uncalibrated)
       # 0xa002 => ????,     # ExifImageWidth
       # 0xa003 => ????,     # ExifImageHeight
@@ -49,7 +49,7 @@ my %mandatory = (
         0x0000 => '2 3 0 0',# GPSVersionID
     },
     InteropIFD => {
-        0x0002 => '0100',   # InteropVersion
+        0x0002 => '0100',   # InteropVersion (from the DCF spec, not the EXIF spec)
     },
 );
 
@@ -387,8 +387,8 @@ sub ValidateImageData($$$;$)
             }
             push @bitsPerSample, $bitsPerSample[0] while @bitsPerSample < $samplesPerPix;
             foreach (@bitsPerSample) {
-                $et->WarnOnce("$dirName BitsPerSample values are different", $minor) if $_ ne $bitsPerSample[0];
-                $et->WarnOnce("Invalid $dirName BitsPerSample value", $minor) if $_ < 1 or $_ > 32;
+                $et->Warn("$dirName BitsPerSample values are different", $minor) if $_ ne $bitsPerSample[0];
+                $et->Warn("Invalid $dirName BitsPerSample value", $minor) if $_ < 1 or $_ > 32;
             }
         }
         my $bitsPerPixel = 0;
@@ -2269,6 +2269,11 @@ NoOverwrite:            next if $isNew > 0;
             # build list of offsets to process
             my @offsetList;
             if ($ifd >= 0) {
+                $dirName = $$dirInfo{DirName} || 'unknown';
+                if ($ifd) {
+                    $dirName =~ s/\d+$//;
+                    $dirName .= $ifd;
+                }
                 my $offsetInfo = $offsetInfo[$ifd] or next;
                 if ($$offsetInfo{0x111} and $$offsetInfo{0x144}) {
                     # SubIFD may contain double-referenced data as both strips and tiles
@@ -2429,6 +2434,8 @@ NoOverwrite:            next if $isNew > 0;
                             } else {
                                 my $fixedOffset = Get32u(\$newData, $offsets);
                                 my $padToFixedOffset = $fixedOffset - ($newOffset + $dpos);
+                                # account for blocks that come before this (Pansonic DC-S1RM2, forum17319)
+                                $padToFixedOffset -= $$_[1] + $$_[2] foreach @imageData;
                                 if ($padToFixedOffset < 0) {
                                     $et->Error('Metadata too large to fit before fixed-offset image data');
                                 } else {
@@ -2522,17 +2529,19 @@ NoOverwrite:            next if $isNew > 0;
                     }
                     if ($$tagInfo{Name} eq 'PreviewImageStart') {
                         if ($$et{FILE_TYPE} eq 'JPEG' and not $$tagInfo{MakerPreview}) {
-                            # hold onto the PreviewImage until we can determine if it fits
-                            $$et{PREVIEW_INFO} or $$et{PREVIEW_INFO} = {
-                                Data => $buff,
-                                Fixup => Image::ExifTool::Fixup->new,
-                            };
-                            if ($$tagInfo{IsOffset} and $$tagInfo{IsOffset} eq '2') {
-                                $$et{PREVIEW_INFO}{NoBaseShift} = 1;
-                            }
-                            if ($offset >= 0 and $offset+$size <= $dataLen) {
-                                # set flag indicating this preview wasn't in a trailer
-                                $$et{PREVIEW_INFO}{WasContained} = 1;
+                            if ($size) {
+                                # hold onto the PreviewImage until we can determine if it fits
+                                $$et{PREVIEW_INFO} or $$et{PREVIEW_INFO} = {
+                                    Data => $buff,
+                                    Fixup => Image::ExifTool::Fixup->new,
+                                };
+                                if ($$tagInfo{IsOffset} and $$tagInfo{IsOffset} eq '2') {
+                                    $$et{PREVIEW_INFO}{NoBaseShift} = 1;
+                                }
+                                if ($offset >= 0 and $offset+$size <= $dataLen) {
+                                    # set flag indicating this preview wasn't in a trailer
+                                    $$et{PREVIEW_INFO}{WasContained} = 1;
+                                }
                             }
                             $buff = '';
                         } elsif ($$et{TIFF_TYPE} eq 'ARW' and $$et{Model}  eq 'DSLR-A100') {
@@ -2725,7 +2734,7 @@ This file contains routines to write EXIF metadata.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

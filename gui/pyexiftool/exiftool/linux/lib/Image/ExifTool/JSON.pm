@@ -14,14 +14,14 @@ use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Import;
 
-$VERSION = '1.07';
+$VERSION = '1.11';
 
-sub ProcessJSON($$);
+sub ProcessJSON($$;$);
 sub ProcessTag($$$$%);
 
 %Image::ExifTool::JSON::Main = (
     GROUPS => { 0 => 'JSON', 1 => 'JSON', 2 => 'Other' },
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     PROCESS_PROC => \&ProcessJSON,
     NOTES => q{
         Other than a few tags in the table below, JSON tags have not been
@@ -43,6 +43,10 @@ sub ProcessTag($$$$%);
     ON1_SettingsMetadataTimestamp   => { Groups => { 2 => 'Time' } },
     ON1_SettingsMetadataUsage       => { },
     ON1_SettingsMetadataVisibleToUser=>{ },
+    adjustmentsSettingsStatisticsLightMap => { # (in JSON of AAE files)
+        Name => 'AdjustmentsSettingsStatisticsLightMap',
+        ValueConv => 'Image::ExifTool::XMP::DecodeBase64($val)',
+    },
 );
 
 #------------------------------------------------------------------------------
@@ -60,15 +64,21 @@ sub FoundTag($$$$%)
     # avoid conflict with special table entries
     $tag .= '!' if $Image::ExifTool::specialTags{$tag};
 
-    # use underline instead of colon if necessary in tag name
-    $tag =~ s/([A-Z]):([A-Z]{2})/${1}_$2/g;
-
-    AddTagToTable($tagTablePtr, $tag, {
-        Name => Image::ExifTool::MakeTagName($tag),
-        %flags,
-        Temporary => 1,
-    }) unless $$tagTablePtr{$tag};
-
+    unless ($$tagTablePtr{$tag}) {
+        my $name = $tag;
+        $name =~ tr/:/_/; # use underlines in place of colons in tag name
+        $name =~ s/^c2pa/C2PA/i;   # hack to fix "C2PA" case
+        $name = Image::ExifTool::MakeTagName($name);
+        my $desc = Image::ExifTool::MakeDescription($name);
+        $desc =~ s/^C2 PA/C2PA/;    # hack to get "C2PA" correct
+        $et->VPrint(0, $$et{INDENT}, "[adding $tag]\n");
+        AddTagToTable($tagTablePtr, $tag, {
+            Name => $name,
+            Description => $desc,
+            %flags,
+            Temporary => 1,
+        });
+    }
     $et->HandleTag($tagTablePtr, $tag, $val);
 }
 
@@ -87,8 +97,7 @@ sub ProcessTag($$$$%)
             return unless $et->Options('Struct') > 1;
         }
         # support hashes with ordered keys
-        my @keys = $$val{_ordered_keys_} ? @{$$val{_ordered_keys_}} : sort keys %$val;
-        foreach (@keys) {
+        foreach (Image::ExifTool::OrderedKeys($val)) {
             my $tg = $tag . ((/^\d/ and $tag =~ /\d$/) ? '_' : '') . ucfirst;
             $tg =~ s/([^a-zA-Z])([a-z])/$1\U$2/g;
             ProcessTag($et, $tagTablePtr, $tg, $$val{$_}, %flags, Flat => 1);
@@ -104,12 +113,12 @@ sub ProcessTag($$$$%)
 
 #------------------------------------------------------------------------------
 # Extract meta information from a JSON file
-# Inputs: 0) ExifTool object reference, 1) dirInfo reference
+# Inputs: 0) ExifTool object reference, 1) dirInfo reference, 2) tag table ref
 # Returns: 1 on success, 0 if this wasn't a recognized JSON file
-sub ProcessJSON($$)
+sub ProcessJSON($$;$)
 {
     local $_;
-    my ($et, $dirInfo) = @_;
+    my ($et, $dirInfo, $tagTablePtr) = @_;
     my $raf = $$dirInfo{RAF};
     my $structOpt = $et->Options('Struct');
     my (%database, $key, $tag, $dataPt);
@@ -141,7 +150,7 @@ sub ProcessJSON($$)
 
     $et->SetFileType() unless $dataPt;
 
-    my $tagTablePtr = GetTagTable('Image::ExifTool::JSON::Main');
+    $tagTablePtr or $tagTablePtr = GetTagTable('Image::ExifTool::JSON::Main');
 
     # remove any old tag definitions in case they change flags
     foreach $key (TagTableKeys($tagTablePtr)) {
@@ -150,7 +159,7 @@ sub ProcessJSON($$)
 
     # extract tags from JSON database
     foreach $key (sort keys %database) {
-        foreach $tag (sort keys %{$database{$key}}) {
+        foreach $tag (Image::ExifTool::OrderedKeys($database{$key})) {
             my $val = $database{$key}{$tag};
             # (ignore SourceFile if generated automatically by ReadJSON)
             next if $tag eq 'SourceFile' and defined $val and $val eq '*';
@@ -179,7 +188,7 @@ information from JSON files.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

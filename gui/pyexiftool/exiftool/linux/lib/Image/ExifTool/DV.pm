@@ -123,7 +123,7 @@ my @dvTags = (
 # DV tags
 %Image::ExifTool::DV::Main = (
     GROUPS => { 2 => 'Video' },
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => 'The following tags are extracted from DV videos.',
     DateTimeOriginal => {
         Description => 'Date/Time Original',
@@ -291,7 +291,7 @@ information from DV (raw Digital Video) files.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

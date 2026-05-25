@@ -35,7 +35,7 @@ use Image::ExifTool::Sony;
 use Image::ExifTool::Validate;
 use Image::ExifTool::MacOS;
 
-$VERSION = '3.54';
+$VERSION = '3.67';
 @ISA = qw(Exporter);
 
 sub NumbersFirst($$);
@@ -71,18 +71,26 @@ my %tweakOrder = (
     CBOR    => 'JSON',
     GeoTiff => 'GPS',
     CanonVRD=> 'CanonCustom',
+    CaptureOne => 'CanonVRD',
     DJI     => 'Casio',
     FLIR    => 'DJI',
     FujiFilm => 'FLIR',
+    Google  => 'GE',
+    GoPro   => 'Google',
     Kodak   => 'JVC',
     Leaf    => 'Kodak',
-    Minolta => 'Leaf',
+    Lytro   => 'Leaf',
+    Minolta => 'Lytro',
     Motorola => 'Minolta',
     Nikon   => 'Motorola',
-    NikonCustom => 'Nikon',
-    NikonCapture => 'NikonCustom',
-    Nintendo => 'NikonCapture',
+    NikonCapture => 'Nikon',
+    NikonCustom => 'NikonCapture',
+    NikonSettings => 'NikonCustom',
+    Nintendo => 'NikonSettings',
+    Panasonic => 'Olympus',
     Pentax  => 'Panasonic',
+    Ricoh   => 'Reconyx',
+    Samsung => 'Ricoh',
     SonyIDC => 'Sony',
     Unknown => 'SonyIDC',
     DNG     => 'Unknown',
@@ -91,20 +99,18 @@ my %tweakOrder = (
     ID3     => 'PostScript',
     MinoltaRaw => 'KyoceraRaw',
     KyoceraRaw => 'CanonRaw',
+    MinoltaRaw => 'KyoceraRaw',
+    PanasonicRaw => 'MinoltaRaw',
     SigmaRaw => 'PanasonicRaw',
-    Lytro   => 'SigmaRaw',
     PhotoMechanic => 'FotoStation',
     Microsoft     => 'PhotoMechanic',
-   'Microsoft::MP'=> 'Microsoft::MP1',
     GIMP    => 'Microsoft',
-   'Nikon::CameraSettingsD300' => 'Nikon::ShotInfoD300b',
-   'Pentax::LensData' => 'Pentax::LensInfo2',
-   'Sony::SRF2' => 'Sony::SRF',
     DarwinCore => 'AFCP',
-   'MWG::Regions' => 'MWG::Composite',
-   'MWG::Keywords' => 'MWG::Regions',
-   'MWG::Collections' => 'MWG::Keywords',
-   'GoPro::fdsc' => 'GoPro::KBAT',
+    MWG     => 'Shortcuts',
+    'FujiFilm::RAF' => 'FujiFilm::RAFHeader',
+    'FujiFilm::RAFData' => 'FujiFilm::RAF',
+    'QuickTime::AudioKeys' => 'QuickTime::Keys',
+    'QuickTime::VideoKeys' => 'QuickTime::AudioKeys',
 );
 
 # list of all recognized Format strings
@@ -267,11 +273,11 @@ tags remain.
 
 The table below lists all EXIF tags.  Also listed are TIFF, DNG, HDP and
 other tags which are not part of the EXIF specification, but may co-exist
-with EXIF tags in some images.  Tags which are part of the EXIF 2.32
+with EXIF tags in some images.  Tags which are part of the EXIF 3.0
 specification have an underlined B<Tag Name> in the HTML version of this
 documentation.  See
-L<https://web.archive.org/web/20190624045241if_/http://www.cipa.jp:80/std/documents/e/DC-008-Translation-2019-E.pdf>
-for the official EXIF 2.32 specification.
+L<https://www.cipa.jp/std/documents/download_e.html?CIPA_DC-008-2024-E>
+for the official EXIF 3.0 specification.
 },
     GPS => q{
 These GPS tags are part of the EXIF standard, and are stored in a separate
@@ -341,7 +347,7 @@ or "Rights-en-US").  (See L<http://www.ietf.org/rfc/rfc3066.txt> for the RFC
 3066 specification.)  A C<lang-alt> tag with no language code accesses the
 "x-default" language, but causes other languages for this tag to be deleted
 when writing.  The "x-default" language code may be specified when writing
-to preserve other existing languages (eg. "XMP-dc:Description-x-default"). 
+to preserve other existing languages (eg. "XMP-dc:Description-x-default").
 When reading, "x-default" is not specified.
 
 The XMP tags are organized according to schema B<Namespace> in the following
@@ -430,11 +436,11 @@ parameters, as well as proprietary information written by many camera
 models.  Tags with a question mark after their name are not extracted unless
 the L<Unknown|../ExifTool.html#Unknown> option is set.
 
-When writing, ExifTool creates both QuickTime and XMP tags by default, but
-the group may be specified to write one or the other separately.  If no
-location is specified, newly created QuickTime tags are added in the
-L<ItemList|Image::ExifTool::TagNames/QuickTime ItemList Tags> location if
-possible, otherwise in
+When writing video files, ExifTool creates both QuickTime and XMP tags by
+default, but the group may be specified to write one or the other
+separately.  If no location is specified, newly created QuickTime tags are
+added in the L<ItemList|Image::ExifTool::TagNames/QuickTime ItemList Tags>
+location if possible, otherwise in
 L<UserData|Image::ExifTool::TagNames/QuickTime UserData Tags>, and
 finally in L<Keys|Image::ExifTool::TagNames/QuickTime Keys Tags>,
 but this order may be changed by setting the PREFERRED level of the
@@ -442,15 +448,16 @@ appropriate table in the config file (see
 L<example.config|../config.html#PREF> in the full distribution for an
 example).  Note that some tags with the same name but different ID's may
 exist in the same location, but the family 7 group names may be used to
-differentiate these.  ExifTool currently writes only top-level metadata in
-QuickTime-based files; it extracts other track-specific and timed metadata,
-but can not yet edit tags in these locations (with the exception of
-track-level date/time tags).
+differentiate these.
 
-Beware that the Keys tags are actually stored inside the ItemList in the
-file, so deleting the ItemList group as a block (ie. C<-ItemList:all=>) also
-deletes Keys tags.  Instead, to preserve Keys tags the ItemList tags may be
-deleted individually with C<-QuickTime:ItemList:all=>.
+ExifTool currently writes
+L<ItemList|Image::ExifTool::TagNames/QuickTime ItemList Tags> and
+L<UserData|Image::ExifTool::TagNames/QuickTime UserData Tags> only as
+top-level metadata, but select Keys tags are may be written to the audio or
+video track.  See the
+L<AudioKeys|Image::ExifTool::TagNames/QuickTime AudioKeys Tags> and
+L<VideoKeys|Image::ExifTool::TagNames/QuickTime VideoKeys Tags> tags for
+more information.
 
 Alternate language tags may be accessed for
 L<ItemList|Image::ExifTool::TagNames/QuickTime ItemList Tags> and
@@ -462,8 +469,8 @@ L<UserData|Image::ExifTool::TagNames/QuickTime UserData Tags> tags support a
 language code, but without a country code.  If no language code is specified
 when writing, the default language is written and alternate languages for
 the tag are deleted.  Use the "und" language code to write the default
-language without deleting alternate languages.  Note that "eng" is treated
-as a default language when reading, but not when writing.
+language without deleting alternate languages.  Note that when reading,
+"eng" is also treated as the default language if there is no country code.
 
 According to the specification, integer-format QuickTime date/time tags
 should be stored as UTC.  Unfortunately, digital cameras often store local
@@ -485,7 +492,7 @@ the original size by padding with nulls if necessary.
 
 See
 L<https://developer.apple.com/library/archive/documentation/QuickTime/QTFF/>
-for the official specification.
+for the official QuickTime specification.
 },
     Photoshop => q{
 Photoshop tags are found in PSD and PSB files, as well as inside embedded
@@ -549,7 +556,7 @@ Pentax, Ricoh, Samsung, Sanyo, SeaLife, Sony, Supra and Vivitar.
 These tags are used in Panasonic/Leica cameras.
 },
     Pentax => q{
-These tags are used in Pentax/Asahi cameras.
+These tags are used in Pentax/Asahi/Ricoh cameras.
 },
     CanonRaw => q{
 These tags apply to CRW-format Canon RAW files and information in the APP0
@@ -607,7 +614,8 @@ running ExifTool the old information may be removed permanently using the
     DNG => q{
 The main DNG tags are found in the EXIF table.  The tables below define only
 information found within structures of these main DNG tag values.  See
-L<http://www.adobe.com/products/dng/> for the official DNG specification.
+L<https://helpx.adobe.com/camera-raw/digital-negative.html> for the official
+DNG specification.
 },
     MPEG => q{
 The MPEG format doesn't specify any file-level meta information.  In lieu of
@@ -622,7 +630,7 @@ and RPM).
     Extra => q{
 The extra tags provide extra features or extra information extracted or
 generated by ExifTool that is not directly associated with another tag
-group.  The B<Group> column lists the family 1 group name when reading. 
+group.  The B<Group> column lists the family 1 group name when reading.
 Tags with a "-" in this column are write-only.
 
 Tags in the family 1 "System" group are referred to as "pseudo" tags because
@@ -672,6 +680,18 @@ Tags in these tables are referred to as "pseudo" tags because their
 information is not stored in the file itself.  As such, B<Writable> tags in
 these tables may be changed without having to rewrite the file.
 },
+    GM => q{
+These tags are extracted from GM/Cosworth PDR (Performance Data Recorder)
+information found in videos from General Motors cars such as Corvette and
+Camero.
+
+Use the API L<PrintCSV|../ExifTool.html#PrintCSV> option to output all timed
+PDR data in CSV format at greatly increased speed and with much lower memory
+usage.  This option prints the numerical values for each channel in CSV
+format, suitable for import into RaceRender.  In this output, the gear
+numbers for Neutral and Reverse are changed to -1 and -100 respectively for
+compatibility with RaceRender.
+},
     PodTrailer => q{
 ~head1 NOTES
 
@@ -680,7 +700,7 @@ L<Image::ExifTool::BuildTagLookup|Image::ExifTool::BuildTagLookup>.
 
 ~head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
@@ -708,7 +728,7 @@ my %shortcutNotes = (
         color space when deleting all other metadata
     },
     CommonIFD0 => q{
-        common metadata tags found in IFD0 of TIFF-format images.  Used to simpify
+        common metadata tags found in IFD0 of TIFF-format images.  Used to simplify
         deletion of all metadata from these images.  See
         L<FAQ number 7|../faq.html#Q7> for details
     },
@@ -849,19 +869,25 @@ sub new
         $longID{$tableName} = 0;
         $longName{$tableName} = 0;
         # save all tag names
-        my ($tagID, $binaryTable, $noID, $hexID, $isIPTC, $isXMP);
+        my ($tagID, $binaryTable, $noID, $prtID, $isIPTC, $isXMP);
         $isIPTC = 1 if $writeProc and $writeProc eq \&Image::ExifTool::IPTC::WriteIPTC;
         # generate flattened tag names for structure fields if this is an XMP table
-        if ($$table{GROUPS} and $$table{GROUPS}{0} eq 'XMP') {
+        if ($$table{GROUPS} and $$table{GROUPS}{0} eq 'XMP' or $$vars{ADD_FLATTENED}) {
             Image::ExifTool::XMP::AddFlattenedTags($table);
             $isXMP = 1;
         }
-        $noID = 1 if $isXMP or $short =~ /^(Shortcuts|ASF.*)$/ or $$vars{NO_ID};
-        $hexID = $$vars{HEX_ID};
+        $prtID = $$vars{ID_FMT};
+        $noID = 1 if $isXMP or $short =~ /^(Shortcuts|ASF.*)$/ or $prtID and $prtID eq 'none';
+        if ($$table{WRITE_PROC} and $$table{WRITE_PROC} eq \&Image::ExifTool::WriteBinaryData
+            and not $$table{CHECK_PROC})
+        {
+            warn("Binary table $tableName doesn't have a CHECK_PROC\n");
+        }
         my $processBinaryData = ($$table{PROCESS_PROC} and (
             $$table{PROCESS_PROC} eq \&Image::ExifTool::ProcessBinaryData or
             $$table{PROCESS_PROC} eq \&Image::ExifTool::Nikon::ProcessNikonEncrypted or
-            $$table{PROCESS_PROC} eq \&Image::ExifTool::Sony::ProcessEnciphered));
+            $$table{PROCESS_PROC} eq \&Image::ExifTool::Sony::ProcessEnciphered) or
+            $$table{VARS} and $$table{VARS}{IS_BINARY});
         if ($$vars{ID_LABEL} or $processBinaryData) {
             my $s = $$table{FORMAT} ? Image::ExifTool::FormatSize($$table{FORMAT}) || 1 : 1;
             $binaryTable = 1;
@@ -900,6 +926,9 @@ TagID:  foreach $tagID (@keys) {
                 @infoArray = GetTagInfoList($table,$tagID);
             }
             foreach $tagInfo (@infoArray) {
+                if ($binaryTable and $$tagInfo{Writable} and $$tagInfo{Writable} ne '1') {
+                    warn("$tableName $$tagInfo{Name} Writable should be 1, not $$tagInfo{Writable}\n");
+                }
                 my $name = $$tagInfo{Name};
                 if ($$tagInfo{WritePseudo}) {
                     push @writePseudo, $name;
@@ -934,6 +963,9 @@ TagID:  foreach $tagID (@keys) {
                 if ($$tagInfo{List} and $$tagInfo{List} !~ /^(1|Alt|Bag|Seq|array|string)$/) {
                     warn "Warning: Unknown List type ($$tagInfo{List}) for $name in $tableName\n";
                 }
+                if ($$tagInfo{Hook} and $$tagInfo{Unknown}) {
+                    warn "Warning: Unknown tag with Hook - $short $name\n"
+                }
                 # accumulate information for consistency check of BinaryData tables
                 if ($processBinaryData and $$table{WRITABLE}) {
                     # can't currently write tag if Condition accesses $valPt
@@ -949,7 +981,7 @@ TagID:  foreach $tagID (@keys) {
                     if ($format and $format =~ /^var_/) {
                         $datamember{$tagID} = $name;
                         unless (defined $$tagInfo{Writable} and not $$tagInfo{Writable}) {
-                            warn "Warning: Var-format tag is writable - $short $name\n"
+                            warn "Warning: Var-format tag is writable - $short $name\n";
                         }
                         # also need DATAMEMBER for tags used in length of var-sized value
                         while ($format =~ /\$val\{(.*?)\}/g) {
@@ -968,10 +1000,15 @@ TagID:  foreach $tagID (@keys) {
                     if ($format and $format =~ /\$val\{/ and
                         ($$tagInfo{Writable} or not defined $$tagInfo{Writable}))
                     {
-                        warn "Warning: \$var{} used in Format of writable tag - $short $name\n"
+                        warn "Warning: \$val{} used in Format of writable tag - $short $name\n";
                     }
                 }
                 if ($$tagInfo{Hidden}) {
+                    if ($$tagInfo{Hidden} ne '2' and not $$tagInfo{Unknown} and
+                        (not $$tagInfo{RawConv} or $$tagInfo{RawConv} !~ /Unknown|undef/))
+                    {
+                        warn "Warning: $short $name is Hidden contrary to guidelines\n";
+                    }
                     if ($tagInfo == $infoArray[0]) {
                         next TagID; # hide all tags with this ID if first tag in list is hidden
                     } else {
@@ -983,7 +1020,7 @@ TagID:  foreach $tagID (@keys) {
                     $writable = $$tagInfo{Writable};
                     # validate Writable
                     unless ($formatOK{$writable} or  ($writable =~ /(.*)\[/ and $formatOK{$1})) {
-                        warn "Warning: Unknown Writable ($writable) - $short $name\n",
+                        warn "Warning: Unknown Writable ($writable) - $short $name\n";
                     }
                 } elsif (not $$tagInfo{SubDirectory}) {
                     $writable = $$table{WRITABLE};
@@ -992,6 +1029,9 @@ TagID:  foreach $tagID (@keys) {
                 if ($writable and not ($$table{WRITE_PROC} or $tableName =~ /Shortcuts/ or $writable eq '2')) {
                     undef $writable;
                 }
+                #if ($writable and $$tagInfo{Unknown} and $$table{GROUPS}{0} ne 'MakerNotes') {
+                #    warn "Warning: Writable Unknown tag - $short $name\n";
+                #}
                 # validate some characteristics of obvious date/time tags
                 my @g = $et->GetGroup($tagInfo);
                 if ($$tagInfo{List} and $g[2] eq 'Time' and $writable and not $$tagInfo{Protected} and
@@ -1074,7 +1114,7 @@ TagID:  foreach $tagID (@keys) {
                         $note = 'NOT a flattened tag!';
                     } else {
                         # add note about different XMP Tag ID
-                        $note = $$tagInfo{RootTagInfo} ? $tagID : "called $tagID by the spec";
+                        $note = $$tagInfo{RootTagInfo} ? $tagID : "tag ID is '${tagID}'";
                     }
                     if ($$tagInfo{Notes}) {
                         $values[-1] =~ s/^\(/($note; /;
@@ -1237,7 +1277,7 @@ TagID:  foreach $tagID (@keys) {
                                     }
                                 } elsif ($$tagInfo{PrintString} or not /^[+-]?(?=\d|\.\d)\d*(\.\d*)?$/) {
                                     # translate unprintable values
-                                    if ($index =~ s/([\x00-\x1f\x80-\xff])/sprintf("\\x%.2x",ord $1)/eg) {
+                                    if ($index =~ s/([\x00-\x1f\x7f-\xff])/sprintf("\\x%.2x",ord $1)/eg) {
                                         $index = qq{"$index"};
                                     } else {
                                         $index = qq{'${index}'};
@@ -1320,7 +1360,7 @@ TagID:  foreach $tagID (@keys) {
                         $writable = 'yes' if $tw and $writable eq '1' or $writable eq '2';
                         $writable = '-' . ($tw ? $writable : '');
                         $writable .= '!' if $tw and ($$tagInfo{Protected} || 0) & 0x01;
-                        $writable .= '+' if $$tagInfo{List};
+                        $writable .= '+' if $$tagInfo{List} or $$tagInfo{IsList};
                         if (defined $$tagInfo{Permanent}) {
                             $writable .= '^' unless $$tagInfo{Permanent};
                         } elsif (defined $$table{PERMANENT}) {
@@ -1378,7 +1418,7 @@ TagID:  foreach $tagID (@keys) {
                     }
                     $writable = "=struct" if $struct;
                     $writable .= '_' if defined $$tagInfo{Flat};
-                    $writable .= '+' if $$tagInfo{List};
+                    $writable .= '+' if $$tagInfo{List} or $$tagInfo{IsList};
                     $writable .= ':' if $$tagInfo{Mandatory};
                     if (defined $$tagInfo{Permanent}) {
                         $writable .= '^' unless $$tagInfo{Permanent};
@@ -1462,8 +1502,14 @@ TagID:  foreach $tagID (@keys) {
             if ($tagID =~ /^(-)?\d+(\.\d+)?$/) {
                 if ($1) {
                     $tagIDstr = $tagID;
-                } elsif (defined $hexID) {
-                    $tagIDstr = $hexID ? sprintf('0x%.4x',$tagID) : $tagID;
+                } elsif (defined $prtID) {
+                    if ($prtID eq 'hex') {
+                        $tagIDstr = sprintf('0x%.4x',$tagID);
+                    } elsif ($prtID eq 'str') {
+                        $tagIDstr = "'${tagID}'";
+                    } else {
+                        $tagIDstr = $tagID;
+                    }
                 } elsif (not $2 and not $binaryTable and not $isIPTC and
                          not ($short =~ /^CanonCustom/ and $tagID < 256))
                 {
@@ -1526,7 +1572,8 @@ TagID:  foreach $tagID (@keys) {
         my $fullName = ($strName =~ / / ? '' : 'XMP ') . "$strName Struct";
         my $info = $tagNameInfo{$fullName} = [ ];
         my $tag;
-        foreach $tag (sort keys %$struct) {
+        my $order = $$struct{SORT_ORDER} || [ sort keys %$struct ];
+        foreach $tag (@$order) {
             my $tagInfo = $$struct{$tag};
             next unless ref $tagInfo eq 'HASH' and $tag ne 'NAMESPACE' and $tag ne 'GROUPS';
             warn "WARNING: $strName Struct containes $tag\n" if $Image::ExifTool::specialTags{$tag};
@@ -1539,16 +1586,18 @@ TagID:  foreach $tagID (@keys) {
                     push @vals, $writable;
                     $structs{$writable} = 1;
                     $writable = "=$writable";
+                } elsif (defined $$tagInfo{Writable}) {
+                    $writable = 'no';
                 } else {
                     $writable = 'string';
                 }
             }
-            $writable .= '+' if $$tagInfo{List};
+            $writable .= '+' if $$tagInfo{List} or $$tagInfo{IsList};
             push @vals, "($$tagInfo{Notes})" if $$tagInfo{Notes};
             # handle PrintConv lookups in Structure elements
             my $printConv = $$tagInfo{PrintConv};
             if (ref $printConv eq 'HASH') {
-                foreach (sort keys %$printConv) {
+                foreach (sort { NumbersFirst($a,$b) } keys %$printConv) {
                     next if /^(OTHER|BITMASK)$/;
                     push @vals, "$_ = $$printConv{$_}";
                 }
@@ -1760,9 +1809,10 @@ sub NumbersFirst($$)
         $rtnVal = $numbersFirst;
     } else {
         my ($a2, $b2) = ($a, $b);
-        # expand numbers to 3 digits (with restrictions to avoid messing up ascii-hex tags)
-        $a2 =~ s/(\d+)/sprintf("%.3d",$1)/eg if $a2 =~ /^(APP|DMC-\w+ )?[.0-9 ]*$/ and length($a2)<16;
-        $b2 =~ s/(\d+)/sprintf("%.3d",$1)/eg if $b2 =~ /^(APP|DMC-\w+ )?[.0-9 ]*$/ and length($b2)<16;
+        # expand numbers to 3 digits (with restrictions to avoid messing up
+        # ascii-hex tags -- Nikon LensID's are 23 characters long)
+        $a2 =~ s/(\d+)/sprintf("%.3d",$1)/eg if $a2 =~ /^(APP|DMC-\w+ |dvtm_.*|(IDB|SHB)-)?[.0-9 ]*$/ and length($a2)<23;
+        $b2 =~ s/(\d+)/sprintf("%.3d",$1)/eg if $b2 =~ /^(APP|DMC-\w+ |dvtm_.*|(IDB|SHB)-)?[.0-9 ]*$/ and length($b2)<23;
         $caseInsensitive and $rtnVal = (lc($a2) cmp lc($b2));
         $rtnVal or $rtnVal = ($a2 cmp $b2);
     }
@@ -1822,24 +1872,7 @@ sub TweakOrder($$)
     local $_;
     my ($sortedTables, $tweakOrder) = @_;
     my @tweak = sort keys %$tweakOrder;
-    my (%addedMain, @sorted);
-    # flag files which have a "Main" table
-    foreach (@$sortedTables) {
-        $addedMain{$1} = 0 if /^Image::ExifTool::(\w+)::(\w+)/ and $2 eq 'Main';
-    }
-    # make sure that the main table always comes first in each file
-    foreach (@$sortedTables) {
-        if (/^Image::ExifTool::(\w+)::(\w+)/) {
-            if ($addedMain{$1}) {
-                next if $2 eq 'Main';   # don't add again
-            } elsif (defined $addedMain{$1}) {
-                push @sorted, "Image::ExifTool::${1}::Main" if $2 ne 'Main';
-                $addedMain{$1} = 1;
-            }
-        }
-        push @sorted, $_;
-    }
-    @$sortedTables = @sorted;
+    my (@sorted, %hasMain, %module, $entry);
     # apply manual tweaks
     while (@tweak) {
         my $table = shift @tweak;
@@ -1858,6 +1891,31 @@ sub TweakOrder($$)
         }
         @$sortedTables = (@notMoving, @moving, @after);
     }
+    # flag modules which have a "Main" table, and organize tables by module name
+    foreach (@$sortedTables) {
+        if (not /^Image::ExifTool::(\w+)::(\w+)/) {
+            push @sorted, $_;
+        } else {
+            $hasMain{$1} = 1 if $2 eq 'Main';
+            push @sorted, $module{$1} = [ ] unless $module{$1};
+            push @{$module{$1}}, $_;
+        }
+    }
+    # force MWG::Composite table first
+    my @mwg = ( 'Image::ExifTool::MWG::Composite' );
+    /Composite/ or push @mwg, $_ foreach @{$module{MWG}};
+    @{$module{MWG}} = @mwg;
+    # make sure that the main table always comes first in each file
+    # and that all other tables from this group follow
+    @$sortedTables = ( );
+    foreach $entry (@sorted) {
+        ref $entry or push(@$sortedTables, $entry), next;
+        $$entry[0] =~ /^Image::ExifTool::(\w+)::(\w+)/ or die 'Internal error';
+        my $main = "Image::ExifTool::$1::Main";
+        # main table must come first (even if it doesn't exist)
+        push @$sortedTables, $main if $hasMain{$1};
+        $_ eq $main or push(@$sortedTables, $_) foreach @$entry;
+    }
 }
 
 #------------------------------------------------------------------------------
@@ -1869,7 +1927,7 @@ sub SortedTagTableKeys($)
     my $table = shift;
     my $vars = $$table{VARS} || { };
     my @keys = TagTableKeys($table);
-    if ($$vars{NO_ID}) {
+    if ($$vars{ID_FMT} and $$vars{ID_FMT} eq 'none') {
         # sort by tag name if ID not shown
         my ($key, %name);
         foreach $key (@keys) {
@@ -2047,7 +2105,7 @@ sub CloseHtmlFiles($)
         if ($htmlFile =~ /index\.html$/) {
             print HTMLFILE "'../index.html'>&lt;-- Back to ExifTool home page</a></p>\n";
         } else {
-            print HTMLFILE "'index.html'>&lt;-- ExifTool Tag Names</a></p>\n"
+            print HTMLFILE "'index.html'>&lt;-- ExifTool Tag Names</a></p>\n";
         }
         print HTMLFILE "</body>\n</html>\n" or $success = 0;
         close HTMLFILE or $success = 0;
@@ -2207,22 +2265,33 @@ sub WriteTagNames($$)
                 print HTMLFILE "<table class='inner sep' cellspacing=1>\n";
                 my $align = ' class=r';
                 my $wid = 0;
-                my @keys;
+                my (@keys, @bits);
                 foreach (sort { NumbersFirst($a,$b) } keys %$printConv) {
-                    next if /^(Notes|PrintHex|PrintInt|PrintString|OTHER)$/;
+                    next if /^(Notes|PrintHex|PrintInt|PrintString|OTHER|BITMASK)$/;
                     $align = '' if $align and /[^\d]/;
                     my $w = length($_) + length($$printConv{$_});
                     $wid = $w if $wid < $w;
                     push @keys, $_;
-                    if ($$printConv{$_} =~ /[\0-\x1f\x7f-\xff]/) {
-                        warn "Warning: Special characters in $tableName PrintConv ($$printConv{$_})\n";
+                    next unless $$printConv{$_} =~ /[\0-\x1f\x7f-\xff]/;
+                    warn "Warning: Special characters in $tableName PrintConv ($$printConv{$_})\n";
+                }
+                my $bits = $$printConv{BITMASK};
+                if ($bits) {
+                    $align = '';
+                    foreach (sort { NumbersFirst($a,$b) } keys %$bits) {
+                        my $w = length($_) + length($$bits{$_}) + 4;
+                        $wid = $w if $wid < $w;
+                        push @bits, $_;
+                        next unless $$bits{$_} =~ /[\0-\x1f\x7f-\xff]/;
+                        warn "Warning: Special characters in $tableName PrintConv BITMASK ($$bits{$_})\n";
                     }
                 }
                 $wid = length($tableName)+7 if $wid < length($tableName)+7;
                 # print in multiple columns if there is room
                 my $cols = int(110 / ($wid + 4));
-                $cols = 1 if $cols < 1 or $cols > @keys or @keys < 4;
-                my $rows = int((scalar(@keys) + $cols - 1) / $cols);
+                my $items = @keys + @bits;
+                $cols = 1 if $cols < 1 or $cols > $items or $items < 4;
+                my $rows = int(($items + $cols - 1) / $cols);
                 my ($r, $c);
                 print HTMLFILE '<tr class=h>';
                 for ($c=0; $c<$cols; ++$c) {
@@ -2232,11 +2301,18 @@ sub WriteTagNames($$)
                 for ($r=0; $r<$rows; ++$r) {
                     print HTMLFILE '<tr>';
                     for ($c=0; $c<$cols; ++$c) {
-                        my $key = $keys[$r + $c*$rows];
-                        my ($index, $prt);
+                        my ($key, $val, $index, $prt);
+                        my $n = $r + $c * $rows;
+                        if ($n < @keys) {
+                            $key = $keys[$n];
+                            $val = $$printConv{$key};
+                        } elsif ($n < $items) {
+                            $key = 'Bit ' . $bits[$n - @keys];
+                            $val = $$bits{$bits[$n - @keys]};
+                        }
                         if (defined $key) {
                             $index = $key;
-                            $prt = '= ' . EscapeHTML($$printConv{$key});
+                            $prt = '= ' . EscapeHTML($val);
                             $index =~ s/\.\d+$// if $$printConv{PrintInt};
                             if ($$printConv{PrintHex}) {
                                 $index =~ s/(\.\d+)$//; # remove decimal
@@ -2296,7 +2372,8 @@ sub WriteTagNames($$)
         my ($hid, $showGrp);
         # widths of the different columns in the POD documentation
         my ($wID,$wTag,$wReq,$wGrp) = (8,36,24,10);
-        my ($composite, $derived, $notes, $longTags, $wasLong, $prefix);
+        my ($composite, $derived, $notes, $longTags, $prefix);
+        my $wasLong = 0;
         if ($short eq 'Shortcuts') {
             $derived = '<th>Refers To</th>';
             $composite = 2;
@@ -2354,7 +2431,7 @@ sub WriteTagNames($$)
                     $wID -= $longTag - $wTag;
                     $wTag = $longTag;
                 }
-                $wasLong = 1 if $wID <= $self->{LONG_ID}->{$tableName};
+                ++$wasLong if $wID <= $self->{LONG_ID}->{$tableName};
             }
         } elsif ($composite) {
             $wTag += $wID - $wReq;
@@ -2429,6 +2506,7 @@ sub WriteTagNames($$)
                     if ($over <= $wTag - length($$tagNames[0])) {
                         $wTag2 -= $over;
                         $w += $over;
+                        --$wasLong;
                     } else {
                         # put tag name on next line if ID is too long
                         $idStr = "  $tagIDstr\n   " . (' ' x $w);
@@ -2780,7 +2858,7 @@ Returned list of writable pseudo tags.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

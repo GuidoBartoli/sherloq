@@ -13,6 +13,7 @@
 #               5) http://msdn.microsoft.com/en-us/library/ms809762.aspx
 #               6) http://code.google.com/p/pefile/
 #               7) http://www.codeproject.com/KB/DLL/showver.aspx
+#               8) https://learn.microsoft.com/en-us/windows/win32/debug/pe-format
 #------------------------------------------------------------------------------
 
 package Image::ExifTool::EXE;
@@ -21,7 +22,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.19';
+$VERSION = '1.26';
 
 sub ProcessPEResources($$);
 sub ProcessPEVersion($$);
@@ -171,6 +172,13 @@ my %languageCode = (
     '100C' => 'French (Swiss)',
 );
 
+my %int32uTime = (
+    Format => 'int32u',
+    Groups => { 0 => 'EXE', 1 => 'EXE', 2 => 'Time' },
+    ValueConv => 'ConvertUnixTime($val,1)',
+    PrintConv => '$self->ConvertDateTime($val)',
+);
+
 # Information extracted from PE COFF (Windows EXE) file header
 %Image::ExifTool::EXE::Main = (
     PROCESS_PROC => \&Image::ExifTool::ProcessBinaryData,
@@ -186,6 +194,8 @@ my %languageCode = (
         Name => 'MachineType',
         PrintHex => 1,
         PrintConv => {
+            0x0 => 'Unknown',
+            0x01 => 'Target host',
             0x014c => 'Intel 386 or later, and compatibles',
             0x014d => 'Intel i860', #5
             0x0162 => 'MIPS R3000',
@@ -196,10 +206,12 @@ my %languageCode = (
             0x0184 => 'Alpha AXP',
             0x01a2 => 'Hitachi SH3',
             0x01a3 => 'Hitachi SH3 DSP',
+            0x01a4 => 'Hitachi SH3E',
             0x01a6 => 'Hitachi SH4',
             0x01a8 => 'Hitachi SH5',
             0x01c0 => 'ARM little endian',
             0x01c2 => 'Thumb',
+            0x01c4 => 'Thumb 2 little endian',
             0x01d3 => 'Matsushita AM33',
             0x01f0 => 'PowerPC little endian',
             0x01f1 => 'PowerPC with floating point support',
@@ -209,22 +221,26 @@ my %languageCode = (
             0x0284 => 'Alpha AXP 64-bit',
             0x0366 => 'MIPS with FPU',
             0x0466 => 'MIPS16 with FPU',
+            0x0520 => 'Infineon Tricore',
             0x0ebc => 'EFI Byte Code',
+            0x3a64 => 'Compiled Hybrid PE',
+            0x5032 => 'RISC-V 32-bit',
+            0x5064 => 'RISC-V 64-bit',
+            0x5128 => 'RISC-V 128-bit',
+            0x6232 => 'LoongArch 32-bit',
+            0x6264 => 'LoongArch 64-bit',
             0x8664 => 'AMD AMD64',
             0x9041 => 'Mitsubishi M32R little endian',
+            0xaa64 => 'ARM64 little endian',
             0xc0ee => 'clr pure MSIL',
+            0x0cef => 'CEF',
+            0xec20 => 'Dotnet 0xEC20'
         },
     },
-    2 => {
-        Name => 'TimeStamp',
-        Format => 'int32u',
-        Groups => { 2 => 'Time' },
-        ValueConv => 'ConvertUnixTime($val,1)',
-        PrintConv => '$self->ConvertDateTime($val)',
-    },
+    2 => { Name => 'TimeStamp', %int32uTime },
     9 => {
         Name => 'ImageFileCharacteristics',
-        # ref https://docs.microsoft.com/en-us/windows/desktop/api/winnt/ns-winnt-_image_file_header
+        # ref https://docs.microsoft.com/en-us/windows/desktop/api/winnt/ns-winnt-image_file_header
         PrintConv => { BITMASK => {
             0 => 'No relocs',
             1 => 'Executable',
@@ -243,6 +259,10 @@ my %languageCode = (
             15 => 'Bytes reversed hi',
         }},
     },
+#
+# optional header starts at index 10
+# (note: all extracted tags are the same for 32 and 64-bit versions of the optional header)
+#
     10 => {
         Name => 'PEType',
         PrintHex => 1,
@@ -306,6 +326,42 @@ my %languageCode = (
             14 => 'XBOX', #6
         },
     },
+);
+
+# information extracted from newer CodeView PDB70 ("RSDS") debug entry
+%Image::ExifTool::EXE::DebugRSDS = (
+    GROUPS => { 2 => 'Other' },
+    PROCESS_PROC => \&Image::ExifTool::ProcessBinaryData,
+    NOTES => 'CodeView RSDS debug information found in some Windows EXE files.',
+    0  => {
+        Name => 'PDBModifyDate',
+        Notes => 'Taken from debug directory entry pointing to RSDS record.',
+        %int32uTime,
+    },
+    20 => { Name => 'PDBAge',       Format => 'int32u' },
+    24 => { Name => 'PDBFileName',  Format => 'string' },
+);
+
+# information extracted from older CodeView PDB20 ("NB10") debug entry
+%Image::ExifTool::EXE::DebugNB10 = (
+    GROUPS => { 2 => 'Other' },
+    PROCESS_PROC => \&Image::ExifTool::ProcessBinaryData,
+    NOTES => 'CodeView NB10 debug information found in some Windows EXE files.',
+    0  => {
+        Name => 'PDBModifyDate',
+        Notes => 'Taken from debug directory entry pointing to NB10 record.',
+        %int32uTime,
+    },
+    8  => { Name => 'PDBCreateDate',%int32uTime },
+    12 => { Name => 'PDBAge',       Format => 'int32u' },
+    16 => { Name => 'PDBFileName',  Format => 'string' },
+);
+
+%Image::ExifTool::EXE::Misc = (
+    GROUPS => { 2 => 'Other' },
+    VARS => { ID_LABEL => 'Index1' },
+    NOTES => 'Miscellaneous CodeView debug information in Windows EXE files.',
+    12 => 'EXEFileName',
 );
 
 # PE file version information (ref 6)
@@ -394,7 +450,7 @@ my %languageCode = (
 # (see http://msdn.microsoft.com/en-us/library/aa381049.aspx)
 %Image::ExifTool::EXE::PEString = (
     GROUPS => { 2 => 'Other' },
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => q{
         Resource strings found in Windows PE files.  The B<TagID>'s are not shown
         because they are the same as the B<Tag Name>.  ExifTool will extract any
@@ -886,7 +942,7 @@ sub ReadUnicodeStr($$$;$)
     }
     $pos += 2 if $pos & 0x03;
     my $to = $et ? $et->Options('Charset') : 'UTF8';
-    return (Image::ExifTool::Decode(undef,$str,'UCS2','II',$to), $pos);
+    return (Image::ExifTool::Decode(undef,$str,'UTF16','II',$to), $pos);
 }
 
 #------------------------------------------------------------------------------
@@ -906,6 +962,7 @@ sub ProcessPEVersion($$)
         $pos = ($pos + 3) & 0xfffffffc;  # align on a 4-byte boundary
         last if $pos + 6 > $end;
         $len = Get16u($dataPt, $pos);
+        return 0 if $pos + $len > $end;
         $valLen = Get16u($dataPt, $pos + 2);
         $type = Get16u($dataPt, $pos + 4);
         return 0 unless $len or $valLen;  # prevent possible infinite loop
@@ -929,9 +986,11 @@ sub ProcessPEVersion($$)
             my $tagTablePtr = GetTagTable('Image::ExifTool::EXE::PEString');
             for ($index = 0; $pt + 6 < $pos; ++$index) {
                 $len = Get16u($dataPt, $pt);
+                $len or $et->Warn('Invalid PEString entry'), last;
                 $valLen = Get16u($dataPt, $pt + 2);
                 # $type = Get16u($dataPt, $pt + 4);
                 my $entryEnd = $pt + $len;
+                return 0 if $entryEnd > $end;
                 # get tag ID (converted to UTF8)
                 ($string, $pt) = ReadUnicodeStr($dataPt, $pt + 6, $entryEnd);
                 unless ($index) {
@@ -949,20 +1008,13 @@ sub ProcessPEVersion($$)
                     next;
                 }
                 my $tag = $string;
-                # create entry in tag table if it doesn't already exist
-                unless ($$tagTablePtr{$tag}) {
-                    my $name = $tag;
-                    $name =~ tr/-_a-zA-Z0-9//dc; # remove illegal characters
-                    next unless length $name;
-                    AddTagToTable($tagTablePtr, $tag, { Name => $name });
-                }
                 # get tag value (converted to current Charset)
                 if ($valLen) {
                     ($string, $pt) = ReadUnicodeStr($dataPt, $pt, $entryEnd, $et);
                 } else {
                     $string = '';
                 }
-                $et->HandleTag($tagTablePtr, $tag, $string);
+                $et->HandleTag($tagTablePtr, $tag, $string, MakeTagInfo => 1);
                 # step to next entry (padded to an even word)
                 $pt = ($entryEnd + 3) & 0xfffffffc;
             }
@@ -972,6 +1024,22 @@ sub ProcessPEVersion($$)
         }
     }
     return 1;
+}
+
+#------------------------------------------------------------------------------
+# Get actual file offset given a virtual address in a PE file
+# Inputs: 0) virtual address, 1) section list ref
+# Returns: absolute file offset or undef on error
+sub GetFileOffset($$)
+{
+    my ($addr, $sections) = @_;
+    my $section;
+    foreach $section (@$sections) {
+        next unless $addr >= $$section{VirtualAddress} and
+                    $addr <  $$section{VirtualAddress} + $$section{Size};
+        return $addr + $$section{Base} - $$section{VirtualAddress};
+    }
+    return undef;
 }
 
 #------------------------------------------------------------------------------
@@ -994,6 +1062,7 @@ sub ProcessPEResources($$)
     my $nameEntries = Get16u(\$buff, 12);
     my $idEntries = Get16u(\$buff, 14);
     my $count = $nameEntries + $idEntries;
+    return 0 if $count > 10000;
     $raf->Read($buff, $count * 8) == $count * 8 or return 0;
     # loop through all resource entries
     for ($item=0; $item<$count; ++$item) {
@@ -1023,18 +1092,12 @@ sub ProcessPEResources($$)
             # get position of this resource in the file
             my $buf2;
             $raf->Seek($entryPos + $base, 0) and $raf->Read($buf2, 16) == 16 or return 0;
-            my $off = Get32u(\$buf2, 0);
+            my $addr = Get32u(\$buf2, 0);
             my $len = Get32u(\$buf2, 4);
             # determine which section this is in so we can convert the virtual address
-            my ($section, $filePos);
-            foreach $section (@{$$dirInfo{Sections}}) {
-                next unless $off >= $$section{VirtualAddress} and
-                            $off <  $$section{VirtualAddress} + $$section{Size};
-                $filePos = $off + $$section{Base} - $$section{VirtualAddress};
-                last;
-            }
-            return 0 unless $filePos;
-            $raf->Seek($filePos, 0) and $raf->Read($buf2, $len) == $len or return 0;
+            my $fileOff = GetFileOffset($addr, $$dirInfo{Sections});
+            return 0 unless $fileOff;
+            $raf->Seek($fileOff, 0) and $raf->Read($buf2, $len) == $len or return 0;
             ProcessPEVersion($et, {
                 DataPt   => \$buf2,
                 DataLen  => $len,
@@ -1050,7 +1113,8 @@ sub ProcessPEResources($$)
 #------------------------------------------------------------------------------
 # Process Windows PE file data dictionary
 # Inputs: 0) ExifTool object ref, 1) dirInfo ref
-# Returns: true on success
+# Returns: true on success or if the PE resources didn't exist, or false on error
+#          processing the PE resources
 sub ProcessPEDict($$)
 {
     my ($et, $dirInfo) = @_;
@@ -1078,6 +1142,7 @@ sub ProcessPEDict($$)
             Sections => \@sections,
         );
     }
+    $$dirInfo{Sections} = \@sections;   # return section information
     # process the first resource section
     ProcessPEResources($et, \%dirInfo) or return 0 if %dirInfo;
     return 1;
@@ -1228,11 +1293,12 @@ sub ProcessEXE($$)
                     # read the rest of the optional header if necessary
                     my $optSize = Get16u(\$buff, 20);
                     my $more = $optSize + 24 - $size;
+                    my $magic = 0;
                     if ($more > 0) {
                         if ($raf->Read($buf2, $more) == $more) {
                             $buff .= $buf2;
                             $size += $more;
-                            my $magic = Get16u(\$buff, 24);
+                            $magic = Get16u(\$buff, 24);
                             # verify PE magic number
                             unless ($magic == 0x107 or $magic == 0x10b or $magic == 0x20b) {
                                 $et->Warn('Unknown PE magic number');
@@ -1246,21 +1312,54 @@ sub ProcessEXE($$)
                     # process PE COFF file header
                     $tagTablePtr = GetTagTable('Image::ExifTool::EXE::Main');
                     %dirInfo = (
-                        DataPt => \$buff,
-                        DataPos => $raf->Tell() - $size,
-                        DataLen => $size,
+                        DataPt   => \$buff,
+                        DataPos  => $raf->Tell() - $size,
+                        DataLen  => $size,
                         DirStart => 4,
-                        DirLen => $size - 4,
+                        DirLen   => $size - 4,
                     );
                     $et->ProcessDirectory(\%dirInfo, $tagTablePtr);
-                    # process data dictionary
                     my $num = Get16u(\$buff, 6);    # NumberOfSections
-                    if ($raf->Read($buff, 40 * $num) == 40 * $num) {
-                        %dirInfo = (
-                            RAF => $raf,
-                            DataPt => \$buff,
-                        );
-                        ProcessPEDict($et, \%dirInfo) or $et->Warn('Error processing PE data dictionary');
+                    # image data directory entry for debug info is index 6,
+                    # so offset is 4 bytes + 20 byte header + 96 bytes into PE32 optional
+                    # header (or 112 bytes for PE32+) + 6 * 8 bytes into data directory
+                    my $dirEntry = $magic == 0x20b ? 184 : 168;
+                    my ($addr, $len, $pos, $buf2); # virtual address/size of debug section
+                    if (length($buff) >= $dirEntry + 8) {
+                        $addr = Get32u(\$buff, $dirEntry);
+                        $len = Get32u(\$buff, $dirEntry+4);
+                    }
+                    # process data dictionary
+                    # (ref https://www.debuginfo.com/articles/debuginfomatch.html)
+                    return 1 unless $raf->Read($buff, 40 * $num) == 40 * $num;
+                    %dirInfo = ( RAF => $raf, DataPt => \$buff );
+                    ProcessPEDict($et, \%dirInfo) or $et->Warn('Error processing PE resources');
+                    # dive into debug section to extract pdb info if available
+                    return 1 unless $addr and $len < 2800 and $dirInfo{Sections} and
+                        ($magic == 0x10b or $magic == 0x20b);
+                    # get file offset for debug section
+                    my $off = GetFileOffset($addr, $dirInfo{Sections});
+                    return 1 unless $off and $raf->Seek($off,0) and
+                        $raf->Read($buff,$len) == $len;
+                    for ($pos=0; $pos+28<=$len; $pos+=28) {
+                        my $type = Get32u(\$buff,$pos+12);
+                        next unless $type == 2 or $type == 4; # (CodeView debug data)
+                        my ($n, $of) = (Get32u(\$buff,$pos+16), Get32u(\$buff,$pos+24));
+                        next unless $n < 1e4 and $raf->Seek($of,0) and $raf->Read($buf2,$n) == $n;
+                        if ($type == 2) { # CodeView debug info
+                            next unless $buf2 =~ /^(RSDS|NB10)/;
+                            $tagTablePtr = GetTagTable("Image::ExifTool::EXE::Debug$1");
+                            substr($buf2,0,4) = substr($buff,$pos+4,4); # use timestamp from debug dir
+                            %dirInfo = ( DataPt => \$buf2, DataPos => $of );
+                            $et->ProcessDirectory(\%dirInfo, $tagTablePtr);
+                        } else { # misc debug info
+                            next unless $n > 12;
+                            my $exe = substr($buf2,12);
+                            $exe = $et->Decode($exe, 'UTF16') if Get32u(\$buf2,8);
+                            $exe =~ s/\0.*//; # truncate at null
+                            $tagTablePtr = GetTagTable('Image::ExifTool::EXE::Misc');
+                            $et->HandleTag($tagTablePtr, 12, $exe, DataPt => \$buf2, DataPos => $of);
+                        }
                     }
                     return 1;
                 }
@@ -1454,7 +1553,7 @@ library files.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
@@ -1476,6 +1575,8 @@ under the same terms as Perl itself.
 =item L<http://code.google.com/p/pefile/>
 
 =item L<http://www.codeproject.com/KB/DLL/showver.aspx>
+
+=item L<https://learn.microsoft.com/en-us/windows/win32/debug/pe-format>
 
 =back
 

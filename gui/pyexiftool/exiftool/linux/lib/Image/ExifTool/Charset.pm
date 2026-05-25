@@ -77,10 +77,10 @@ my %unicode2byte = (
     PDFDoc       => 0x181,
     Unicode      => 0x200, # (UCS2)
     UCS2         => 0x200,
-    UTF16        => 0x200,
+    UTF16        => 0x200, # (UCS2 with surrogate pairs added)
     Symbol       => 0x201,
     JIS          => 0x201,
-    UCS4         => 0x400,
+    UCS4         => 0x400, # (UTF32)
     MacChineseCN => 0x803,
     MacChineseTW => 0x803,
     MacHebrew    => 0x803, # (directional characters not supported)
@@ -422,7 +422,7 @@ when decoding certain types of information.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

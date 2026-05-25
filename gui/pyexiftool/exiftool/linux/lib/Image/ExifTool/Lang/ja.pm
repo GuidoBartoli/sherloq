@@ -4475,7 +4475,6 @@ $VERSION = '1.25';
       Description => '回転',
       PrintConv => {
         'Horizontal' => '水平（標準）',
-        'Horizontal (Normal)' => '水平（標準）',
         'Horizontal (normal)' => '水平（標準）',
         'Rotate 180' => '180度回転',
         'Rotate 270 CW' => '270度回転 CW',
@@ -5841,7 +5840,7 @@ and values.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

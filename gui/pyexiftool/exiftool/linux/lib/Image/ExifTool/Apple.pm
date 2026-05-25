@@ -16,7 +16,7 @@ use vars qw($VERSION);
 use Image::ExifTool::Exif;
 use Image::ExifTool::PLIST;
 
-$VERSION = '1.11';
+$VERSION = '1.15';
 
 sub ConvertPLIST($$);
 
@@ -99,7 +99,7 @@ sub ConvertPLIST($$);
             my @a = split ' ', $val;
             sprintf('%.2f - %.2f m', $a[0] <= $a[1] ? @a : reverse @a);
         },
-        PrintConvInv => '$val =~ s/ - //; $val =~ s/ ?m$//; $val',
+        PrintConvInv => '$val =~ s/ - / /; $val =~ s/ ?m$//; $val',
     },
     # 0x000d - int32s: 0,1,6,20,24,32,40 (SphereHealthAverageCurrent, ref 2)
     # 0x000e - int32s: 0,1,4,12 (Orientation? 0=landscape? 4=portrait? ref 1) (SphereMotionDataStatus, ref 2)
@@ -116,7 +116,6 @@ sub ConvertPLIST($$);
         # - changed in 12.19 to MediaGroupUUID, NealKrawetz private communication
         # - changed back to ContentIdentifier since Apple writes this to Keys content.identifier (forum14874)
         Writable => 'string',
-        
     },
     # 0x0012 - (QRMOutputType, ref 2)
     # 0x0013 - (SphereExternalForceOffset, ref 2)
@@ -128,6 +127,8 @@ sub ConvertPLIST($$);
             1 => 'ProRAW',
             2 => 'Portrait',
             10 => 'Photo',
+            11 => 'Manual Focus', #forum16044
+            12 => 'Scene', #forum16044
         },
     },
     0x0015 => { # (ImageGroupIdentifier, ref 2)
@@ -154,12 +155,17 @@ sub ConvertPLIST($$);
     },
     # 0x001b - (PhotosRenderEffect, ref 2)
     # 0x001c - (BracketedCaptureSequenceNumber, ref 2)
+    # 0x001c - Flash,  2="On" (ref PH)
     0x001d => { #2
         Name => 'LuminanceNoiseAmplitude',
         Writable => 'rational64s',
     },
     # 0x001e - (OriginatingAppID, ref 2)
-    # 0x001f - int32s: 0,1 (PhotosAppFeatureFlags, ref 2)
+    0x001f => {
+        Name => 'PhotosAppFeatureFlags', #2
+        Notes => 'set if person or pet detected in image', #PH
+        Writable => 'int32s',
+    },
     0x0020 => { # (ImageCaptureRequestIdentifier, ref 2)
         Name => 'ImageCaptureRequestID',
         Writable => 'string',
@@ -170,6 +176,17 @@ sub ConvertPLIST($$);
         Writable => 'rational64s',
     },
     # 0x0022 - (ARKitPhoto, ref 2)
+    0x0023 => {
+        Name => 'AFPerformance', #2
+        Writable => 'int32s',
+        Count => 2,
+        Notes => q{
+            first number maybe related to focus distance, last number maybe related to
+            focus accuracy
+        },
+        PrintConv => 'my @a=split " ",$val; sprintf("%d %d %d",$a[0],$a[1]>>28,$a[1]&0xfffffff)',
+        PrintConvInv => 'my @a=split " ",$val; sprintf("%d %d",$a[0],($a[1]<<28)+$a[2])',
+    },
     # 0x0023 - int32s[2] (AFPerformance, ref 2)
     # 0x0024 - (AFExternalOffset, ref 2)
     0x0025 => { # (StillImageSceneFlags, ref 2)
@@ -196,7 +213,21 @@ sub ConvertPLIST($$);
     },
     # 0x002C - (SpatialOverCaptureImageType, ref 2)
     # 0x002D - (CCT, ref 2)
+    0x002d => { #PH
+        Name => 'ColorTemperature',
+        Writable => 'int32s',
+    },
     # 0x002E - (ApsMode, ref 2)
+    0x002e => { #PH
+        Name => 'CameraType',
+        Writable => 'int32s',
+        PrintConv => {
+            0 => 'Back Wide Angle',
+            1 => 'Back Normal',
+            6 => 'Front',
+        },
+    },
+    # 0x002e - set to 0 for 0.5x (crop?) (ref PH)
     0x002F => { #2
         Name => 'FocusPosition',
         Writable => 'int32s',
@@ -209,7 +240,9 @@ sub ConvertPLIST($$);
     # 0x0032 - (IntelligentDistortionCorrection, ref 2)
     # 0x0033 - (NRFStatus, ref 2)
     # 0x0034 - (NRFInputBracketCount, ref 2)
+    # 0x0034 - 1 for flash on, otherwise doesn't exist (ref PH)
     # 0x0035 - (NRFRegisteredBracketCount, ref 2)
+    # 0x0035 - 0 for flash on, otherwise doesn't exist (ref PH)
     # 0x0036 - (LuxLevel, ref 2)
     # 0x0037 - (LastFocusingMethod, ref 2)
     0x0038 => { # (TimeOfFlightAssistedAutoFocusEstimatorMeasuredDepth, ref 2)
@@ -219,8 +252,10 @@ sub ConvertPLIST($$);
     },
     # 0x0039 - (TimeOfFlightAssistedAutoFocusEstimatorROIType, ref 2)
     # 0x003A - (NRFSRLStatus, ref 2)
+    # 0x003a - non-zero if a person was in the image? (ref PH)
     # 0x003B - (SystemPressureLevel, ref 2)
     # 0x003C - (CameraControlsStatisticsMaster, ref 2)
+    # 0x003c - 4=rear cam, 1=front cam? (ref PH)
     0x003D => { # (TimeOfFlightAssistedAutoFocusEstimatorSensorConfidence, ref 2)
         Name => 'AFConfidence',
         Writable => 'int32s',
@@ -237,6 +272,7 @@ sub ConvertPLIST($$);
     },
     0x0040 => { #2
         Name => 'SemanticStyle',
+        Notes => '_1=Tone, _2=Warm, _3=1.Std,2.Vibrant,3.Rich Contrast,4.Warm,5.Cool', #PH
         ValueConv => \&ConvertPLIST,
     },
     0x0041 => { # (SemanticStyleKey_RenderingVersion, ref 2)
@@ -249,20 +285,38 @@ sub ConvertPLIST($$);
     },
     # 0x0043 - (SemanticStyleKey_ToneBias, ref 2)
     # 0x0044 - (SemanticStyleKey_WarmthBias, ref 2)
-    0x0045 => { # (FrontFacing, ref 2)
-        Name => 'FrontFacingCamera',
-        Writable => 'int32s',
-        PrintConv => { 0 => 'No', 1 => 'Yes' }, #PH (NC)
-    },
+    # 0x0045 - (FrontFacing, ref 2) (not for iPhone15, ref PH)
     # 0x0046 - (TimeOfFlightAssistedAutoFocusEstimatorContainsBlindSpot, ref 2)
     # 0x0047 - (LeaderFollowerAutoFocusLeaderDepth, ref 2)
     # 0x0048 - (LeaderFollowerAutoFocusLeaderFocusMethod, ref 2)
     # 0x0049 - (LeaderFollowerAutoFocusLeaderConfidence, ref 2)
-    # 0x004A - (LeaderFollowerAutoFocusLeaderROIType, ref 2)
-    # 0x004B - (ZeroShutterLagFailureReason, ref 2)
-    # 0x004C - (TimeOfFlightAssistedAutoFocusEstimatorMSPMeasuredDepth, ref 2)
-    # 0x004D - (TimeOfFlightAssistedAutoFocusEstimatorMSPSensorConfidence, ref 2)
-    # 0x004E - (Camera, ref 2)
+    # 0x004a - (LeaderFollowerAutoFocusLeaderROIType, ref 2)
+    # 0x004a - 2=back normal, 4=back wide angle, 5=front (ref PH)
+    # 0x004b - (ZeroShutterLagFailureReason, ref 2)
+    # 0x004c - (TimeOfFlightAssistedAutoFocusEstimatorMSPMeasuredDepth, ref 2)
+    # 0x004d - (TimeOfFlightAssistedAutoFocusEstimatorMSPSensorConfidence, ref 2)
+    # 0x004e - (Camera, ref 2)
+    0x004e => {
+        Name => 'Apple_0x004e',
+        Unknown => 1,
+        # first number is 0 for front cam, 1 for either back cam (ref PH)
+        ValueConv => \&ConvertPLIST,
+    },
+    0x004f => {
+        Name => 'Apple_0x004f',
+        Unknown => 1,
+        ValueConv => \&ConvertPLIST,
+    },
+    0x0054 => {
+        Name => 'Apple_0x0054',
+        Unknown => 1,
+        ValueConv => \&ConvertPLIST,
+    },
+    0x005a => {
+        Name => 'Apple_0x005a',
+        Unknown => 1,
+        ValueConv => \&ConvertPLIST,
+    },
 );
 
 # PLIST-format CMTime structure (ref PH)
@@ -313,7 +367,8 @@ Image::ExifTool::AddCompositeTags('Image::ExifTool::Apple');
 sub ConvertPLIST($$)
 {
     my ($val, $et) = @_;
-    my $dirInfo = { DataPt => \$val };
+    my $dirInfo = { DataPt => \$val, NoVerboseDir => 1 };
+    my $oldOrder = $et->GetByteOrder();
     require Image::ExifTool::PLIST;
     Image::ExifTool::PLIST::ProcessBinaryPLIST($et, $dirInfo);
     $val = $$dirInfo{Value};
@@ -321,6 +376,7 @@ sub ConvertPLIST($$)
         require 'Image/ExifTool/XMPStruct.pl';
         $val = Image::ExifTool::XMP::SerializeStruct($et, $val);
     }
+    $et->SetByteOrder($oldOrder);
     return $val;
 }
 
@@ -343,7 +399,7 @@ Apple maker notes in EXIF information.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

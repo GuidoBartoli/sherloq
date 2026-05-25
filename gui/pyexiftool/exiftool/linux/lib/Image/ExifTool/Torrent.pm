@@ -14,7 +14,7 @@ use strict;
 use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 
-$VERSION = '1.06';
+$VERSION = '1.08';
 
 sub ReadBencode($$$);
 sub ExtractTags($$$;$$@);
@@ -214,6 +214,7 @@ sub ExtractTags($$$;$$@)
                 if ($$tagInfo{JoinPath}) {
                     $val = join '/', map { ref $_ ? '(Binary data)' : $_ } @$val;
                 } else {
+                    next unless @$val;  # ignore empty arrays
                     push @more, @$val;
                     next if ref $more[0] eq 'ARRAY'; # continue expanding nested lists
                     $val = shift @more;
@@ -282,7 +283,7 @@ sub ProcessTorrent($$)
     my $dict = ReadBencode($et, $raf, \$buff);
     my $err = $$raf{BencodeError};
     $et->Warn("Bencode error: $err") if $err;
-    if (ref $dict eq 'HASH' and ($$dict{announce} or $$dict{'created by'})) {
+    if (ref $dict eq 'HASH' and ($$dict{announce} or $$dict{'created by'} or $$dict{info})) {
         $et->SetFileType();
         my $tagTablePtr = GetTagTable('Image::ExifTool::Torrent::Main');
         ExtractTags($et, $dict, $tagTablePtr) and $success = 1;
@@ -309,7 +310,7 @@ bencoded information from BitTorrent files.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

@@ -49,7 +49,7 @@ use vars qw($VERSION %minoltaLensTypes %minoltaTeleconverters %minoltaColorMode
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::Exif;
 
-$VERSION = '2.88';
+$VERSION = '2.89';
 
 # Full list of product codes for Sony-compatible Minolta lenses
 # (ref http://www.kb.sony.com/selfservice/documentLink.do?externalId=C1000570)
@@ -603,6 +603,8 @@ $VERSION = '2.88';
     19 => 'Vivid 2', #JR (7SM3)
     20 => 'IN', #JR (7SM3)
     21 => 'SH', #JR (7SM3)
+    22 => 'FL2', #JR (ILME-FX2)
+    23 => 'FL3', #JR (ILME-FX2)
     100 => 'Neutral', #JD
     101 => 'Clear', #JD
     102 => 'Deep', #JD
@@ -2411,7 +2413,7 @@ my %offOn = ( 0 => 'Off', 1 => 'On' );
     0x5a => { #15
         Name => 'Rotation',
         PrintConv => {
-            0 => 'Horizontal (Normal)',
+            0 => 'Horizontal (normal)',
             1 => 'Rotate 270 CW',
             2 => 'Rotate 90 CW',
         },
@@ -2927,7 +2929,7 @@ and write Minolta RAW (MRW) images.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

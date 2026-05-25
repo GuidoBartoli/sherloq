@@ -39,8 +39,7 @@ sub SerializeStruct($$;$)
 
     if (ref $obj eq 'HASH') {
         # support hashes with ordered keys
-        my @keys = $$obj{_ordered_keys_} ? @{$$obj{_ordered_keys_}} : sort keys %$obj;
-        foreach $key (@keys) {
+        foreach $key (Image::ExifTool::OrderedKeys($obj)) {
             my $hdr = $sfmt ? EscapeJSON($key) . ':' : $key . '=';
             push @vals, $hdr . SerializeStruct($et, $$obj{$key}, '}');
         }
@@ -87,7 +86,7 @@ sub InflateStruct($$;$)
         my %struct;
         for (;;) {
             last unless $sfmt ? $$obj =~ s/^\s*"(.*?)"\s*://s :
-                                $$obj =~ s/^\s*([-\w:]+#?)\s*=//s;
+                                $$obj =~ s/^\s*([-\w:.]+#?)\s*=//s;
             my $tag = $1;
             my ($v, $w) = InflateStruct($et, $obj, '}');
             $warn = $w if $w and not $warn;
@@ -218,7 +217,7 @@ sub DumpStruct($;$)
     $indent or $indent = '';
     if (ref $obj eq 'HASH') {
         print "{\n";
-        foreach (sort keys %$obj) {
+        foreach (Image::ExifTool::OrderedKeys($obj)) {
             print "$indent  $_ = ";
             DumpStruct($$obj{$_}, "$indent  ");
         }
@@ -253,8 +252,10 @@ sub CheckStruct($$$)
     ref $struct eq 'HASH' or return wantarray ? (undef, "Expecting $strName structure") : undef;
 
     my ($key, $err, $warn, %copy, $rtnVal, $val);
+    # copy the ordered keys if they exist
+    $copy{_ordered_keys_} = [ ] if $$struct{_ordered_keys_};
 Key:
-    foreach $key (keys %$struct) {
+    foreach $key (Image::ExifTool::OrderedKeys($struct)) {
         my $tag = $key;
         # allow trailing '#' to disable print conversion on a per-field basis
         my ($type, $fieldInfo);
@@ -377,6 +378,7 @@ Key:
             $copy{$tag} = \@copy;
         } elsif ($$fieldInfo{Struct}) {
             $warn = "Improperly formed structure in $strName $tag";
+            next;
         } else {
             $et->Sanitize(\$$struct{$key});
             ($val,$err) = $et->ConvInv($$struct{$key},$fieldInfo,$tag,$strName,$type,'');
@@ -387,6 +389,7 @@ Key:
             # turn this into a list if necessary
             $copy{$tag} = $$fieldInfo{List} ? [ $val ] : $val;
         }
+        push @{$copy{_ordered_keys_}}, $tag if $copy{_ordered_keys_}; # save ordered keys
     }
     if (%copy or not $warn) {
         $rtnVal = \%copy;
@@ -562,7 +565,7 @@ sub AddNewStruct($$$$$$)
     # after all valid structure fields, which is necessary when serializing the XMP later)
     %$struct or $$struct{'~dummy~'} = '';
 
-    foreach $tag (sort keys %$struct) {
+    foreach $tag (Image::ExifTool::OrderedKeys($struct)) {
         my $fieldInfo = $$strTable{$tag};
         unless ($fieldInfo) {
             next unless $tag eq '~dummy~'; # check for dummy field
@@ -652,7 +655,8 @@ sub ConvertStruct($$$$;$)
         my (%struct, $key);
         my $table = $$tagInfo{Table};
         $parentID = $$tagInfo{TagID} unless $parentID;
-        foreach $key (keys %$value) {
+        $struct{_ordered_keys_} = [ ] if $$value{_ordered_keys_};
+        foreach $key (Image::ExifTool::OrderedKeys($value)) {
             my $tagID = $parentID . ucfirst($key);
             my $flatInfo = $$table{$tagID};
             unless ($flatInfo) {
@@ -669,7 +673,11 @@ sub ConvertStruct($$$$;$)
             } else {
                 $v = $et->GetValue($flatInfo, $type, $v);
             }
-            $struct{$key} = $v if defined $v;  # save the converted value
+            if (defined $v) {
+                $struct{$key} = $v;  # save the converted value
+                # maintain ordered keys if necessary
+                push @{$struct{_ordered_keys_}}, $key if $struct{_ordered_keys_};
+            }
         }
         return \%struct;
     } elsif (ref $value eq 'ARRAY') {
@@ -706,7 +714,6 @@ sub RestoreStruct($;$)
     my $fileOrder = $$et{FILE_ORDER};
     my $tagExtra = $$et{TAG_EXTRA};
     foreach $key (keys %{$$et{TAG_INFO}}) {
-        $$tagExtra{$key} or next;
         my $structProps = $$tagExtra{$key}{Struct} or next;
         delete $$tagExtra{$key}{Struct};    # (don't re-use)
         my $tagInfo = $$et{TAG_INFO}{$key}; # tagInfo for flattened tag
@@ -872,7 +879,7 @@ sub RestoreStruct($;$)
             }
             # preserve original flattened tags if requested
             if ($keepFlat) {
-                my $extra = $$tagExtra{$key} or next;
+                my $extra = $$tagExtra{$key};
                 # restore list behaviour of this flattened tag
                 if ($$extra{NoList}) {
                     $$valueHash{$key} = $$extra{NoList};
@@ -937,7 +944,7 @@ information.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.

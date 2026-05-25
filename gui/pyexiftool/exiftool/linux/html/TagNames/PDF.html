@@ -134,11 +134,11 @@ when reading)</span></span></td></tr>
 <td class=c title=' + = List'>string+</td>
 <td><span class=s><span class=n>(stored as a string but treated as a comma- or semicolon-separated list of
 items when reading if the string contains commas or semicolons, whichever is
-more numerous, otherwise it is treated a space-separated list of items.
-Written as a comma-separated list.  The list behaviour may be defeated by
-setting the API NoPDFList option.  Note that the corresponding
-XMP-pdf:Keywords tag is not treated as a list, so the NoPDFList option
-should be used when copying between these two.)</span></span></td></tr>
+more numerous, otherwise it is treated a space-separated list of items.  The
+list behaviour may be defeated by setting the API NoPDFList option.  Written
+as a comma-separated string.  Note that the corresponding XMP-pdf:Keywords
+tag is not treated as a list, so the NoPDFList option should be used when
+copying between these two.)</span></span></td></tr>
 <tr class=b>
 <td>'ModDate'</td>
 <td>ModifyDate</td>
@@ -150,16 +150,21 @@ should be used when copying between these two.)</span></span></td></tr>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
 <tr class=b>
+<td>'SourceModified'</td>
+<td>SourceModified</td>
+<td class=c>date</td>
+<td>&nbsp;</td></tr>
+<tr>
 <td>'Subject'</td>
 <td>Subject</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr>
+<tr class=b>
 <td>'Title'</td>
 <td>Title</td>
 <td class=c>string</td>
 <td>&nbsp;</td></tr>
-<tr class=b>
+<tr>
 <td>'Trapped'</td>
 <td>Trapped</td>
 <td class=c title=' ! = Unsafe'>string!</td>
@@ -326,6 +331,11 @@ uses XML Forms Architecture; not a real Tag ID)</span>
 <td>Kids</td>
 <td class=c>-</td>
 <td>--&gt; <a href='PDF.html#Kids'>PDF Kids Tags</a></td></tr>
+<tr>
+<td>'MediaBox'</td>
+<td>MediaBox</td>
+<td class=c title=' + = List'>no+</td>
+<td>&nbsp;</td></tr>
 </table></td></tr></table></blockquote>
 
 <h2><a name='Kids'>PDF Kids Tags</a></h2>
@@ -408,7 +418,7 @@ uses XML Forms Architecture; not a real Tag ID)</span>
 <th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
 <tr>
 <td>'_stream'</td>
-<td>_stream</td>
+<td>PhotoshopStream</td>
 <td class=c>-</td>
 <td>--&gt; <a href='Photoshop.html'>Photoshop Tags</a></td></tr>
 </table></td></tr></table></blockquote>
@@ -474,7 +484,7 @@ PostScript documents in the AIPrivateData# and AIPDFPrivateData# streams)</span>
 <th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
 <tr>
 <td>'_stream'</td>
-<td>_stream</td>
+<td>AIStream</td>
 <td class=c>-</td>
 <td>--&gt; <a href='PostScript.html'>PostScript Tags</a></td></tr>
 </table></td></tr></table></blockquote>
@@ -551,7 +561,7 @@ PostScript documents in the AIPrivateData# and AIPDFPrivateData# streams)</span>
 <th>Writable</th><th>Values / <span class=n>Notes</span></th></tr>
 <tr>
 <td>'_stream'</td>
-<td>_stream</td>
+<td>ICC_Profile</td>
 <td class=c>-</td>
 <td>--&gt; <a href='ICC_Profile.html'>ICC_Profile Tags</a></td></tr>
 </table></td></tr></table></blockquote>
@@ -792,7 +802,7 @@ false)</span>
 
 <hr>
 (This document generated automatically by Image::ExifTool::BuildTagLookup)
-<br><i>Last revised Jan 30, 2024</i>
+<br><i>Last revised Jun 19, 2025</i>
 <p class=lf><a href='index.html'>&lt;-- ExifTool Tag Names</a></p>
 </body>
 </html>

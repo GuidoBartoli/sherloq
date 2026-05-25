@@ -13,12 +13,12 @@ use vars qw($VERSION);
 use Image::ExifTool qw(:DataAccess :Utils);
 use Image::ExifTool::XMP;
 
-$VERSION = '1.01';
+$VERSION = '1.02';
 
 %Image::ExifTool::LIF::Main = (
     GROUPS => { 0 => 'XML', 1 => 'XML', 2 => 'Image' },
     PROCESS_PROC => \&Image::ExifTool::XMP::ProcessXMP,
-    VARS => { NO_ID => 1 },
+    VARS => { ID_FMT => 'none' },
     NOTES => q{
         Tags extracted from Leica Image Format (LIF) imaging files.  As well as the
         tags listed below, all available information is extracted from the
@@ -115,8 +115,8 @@ sub ProcessLIF($$)
 
     my $tagTablePtr = GetTagTable('Image::ExifTool::LIF::Main');
 
-    # convert from UCS2 to UTF8
-    my $xml = Image::ExifTool::Decode($et, $buff, 'UCS2', 'II', 'UTF8');
+    # convert from UTF16 to UTF8
+    my $xml = Image::ExifTool::Decode($et, $buff, 'UTF16', 'II', 'UTF8');
 
     my %dirInfo = ( DataPt => \$xml );
 
@@ -147,7 +147,7 @@ metadata from Leica Image File (LIF) images.
 
 =head1 AUTHOR
 
-Copyright 2003-2024, Phil Harvey (philharvey66 at gmail.com)
+Copyright 2003-2026, Phil Harvey (philharvey66 at gmail.com)
 
 This library is free software; you can redistribute it and/or modify it
 under the same terms as Perl itself.
