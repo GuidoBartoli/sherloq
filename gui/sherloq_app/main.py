@@ -40,6 +40,7 @@ from gui.sherloq_app.tools.noise.minmax import MinMaxWidget
 from gui.sherloq_app.tools.noise.noise import NoiseWidget
 from gui.sherloq_app.tools.noise.noise_estimmation import NoiseWaveletBlockingWidget
 from gui.sherloq_app.tools.noise.planes import PlanesWidget
+from gui.sherloq_app.tools.noise.prnu import PrnuWidget
 from gui.sherloq_app.tools.tampering.cloning import CloningWidget
 from gui.sherloq_app.tools.tampering.contrast import ContrastWidget
 from gui.sherloq_app.tools.tampering.resampling import ResamplingWidget
@@ -397,6 +398,8 @@ class MainWindow(QMainWindow):
                 tool_widget = PlanesWidget(self.image)
             elif tool == 3:
                 tool_widget = NoiseWaveletBlockingWidget(self.filename, self.image)
+            elif tool == 4:
+                tool_widget = PrnuWidget(self.filename, self.image)
             else:
                 return
         elif group == 6:

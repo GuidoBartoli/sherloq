@@ -18,7 +18,7 @@ class ToolTree(QTreeWidget):
         group_names = []
         tool_names = []
         tool_infos = []
-        tool_progress = []  # 0 = da fare, 1 = debug, 2 = funzionante, 3 = completo
+        tool_progress = []  # 0 = to-do, 1 = debug, 2 = working, 3 = complete
 
         # [0]
         group_names.append(self.tr("[General]"))
@@ -178,7 +178,7 @@ class ToolTree(QTreeWidget):
                 self.tr("Exploit sensor pattern noise introduced by different cameras"),
             ]
         )
-        tool_progress.extend([3, 3, 3, 2, 0])
+        tool_progress.extend([3, 3, 3, 2, 1])
 
         # [6]
         group_names.append(self.tr("[JPEG]"))

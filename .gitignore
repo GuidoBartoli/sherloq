@@ -6,3 +6,5 @@
 
 # byte-compiled/optimized/DLL files
 __pycache__/
+
+pyrightconfig.json
