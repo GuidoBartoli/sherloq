@@ -334,8 +334,6 @@ class EnhancedSplicingWidget(ToolWidget):
                     
                     # If it survives the filter, draw the box on heatmap_colored
                     cv.rectangle(heatmap_colored, (int(x), int(y)), (int(x + w), int(y + h)), (0, 255, 0), 3) 
-                    cv.putText(heatmap_colored, "SPLICING DETECTED", (int(x), int(y) - 10), 
-                               cv.FONT_HERSHEY_SIMPLEX, 0.7, (0, 255, 0), 2)
             
             self.heatmap_viewer.update_processed(heatmap_colored)
             
