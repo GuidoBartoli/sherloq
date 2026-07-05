@@ -31,13 +31,16 @@ import cv2
 from gui.sherloq_app.ui.tools import ToolWidget
 
 WIENER_SIZE = 3
+NCC_THRESHOLD = 0.005
 
-def parse_camera_label(filename: str)-> str:
+
+def parse_camera_label(filename: str) -> str:
     stem = Path(filename).stem
     parts = stem.split("_")
     return "_".join(parts[:-1]) if len(parts) >= 3 else stem
 
-def scan_dataset(path:str)-> dict:
+
+def scan_dataset(path: str) -> dict:
     """Only cameras with at least 2 images are included in the result,
     since a single image is not enough to build a reliable PRNU fingerprint.
     """
@@ -51,18 +54,22 @@ def scan_dataset(path:str)-> dict:
                 camera_imgs[label].append(os.path.join(dirpath, f))
     return {k: v for k, v in camera_imgs.items() if len(v) >= 2}
 
-def extract_residual(image: np.ndarray) -> np.ndarray:
-    return image - wiener(image, mysize=WIENER_SIZE)
 
-def load_image_gray(path: str)-> np.ndarray:
+def extract_residual(image: np.ndarray) -> np.ndarray:
+    residual= image - wiener(image, mysize=WIENER_SIZE)
+    return np.nan_to_num(residual, nan=0.0, posinf=0.0, neginf=0.0)
+
+def load_image_gray(path: str) -> np.ndarray:
     img = cv2.imread(path, cv2.IMREAD_COLOR)
     if img is None:
         raise IOError(f"Cannot read: {path}")
     return cv2.cvtColor(img, cv2.COLOR_BGR2GRAY).astype(np.float64) / 255.0
 
+
 def get_folder_hash(paths: list) -> str:
     entries = [f"{os.path.basename(p)}:{os.path.getsize(p)}" for p in sorted(paths)]
     return hashlib.md5("\n".join(entries).encode()).hexdigest()
+
 
 def ncc(a: np.ndarray, b: np.ndarray) -> float:
     h = min(a.shape[0], b.shape[0])
@@ -73,12 +80,14 @@ def ncc(a: np.ndarray, b: np.ndarray) -> float:
     denom = np.sqrt((a**2).sum() * (b**2).sum())
     return float(np.sum(a * b) / denom) if denom > 1e-10 else 0.0
 
+
 class PrnuWorker(QThread):
     """Runs PRNU work off the UI thread."""
+
     progress = Signal(int, str)
     finished = Signal(list)
     error = Signal(str)
-    cancelled = Signal() 
+    cancelled = Signal()
 
     def __init__(
         self, image: np.ndarray, hdf5_path: str, dataset_dir: str | None = None
@@ -106,7 +115,7 @@ class PrnuWorker(QThread):
                     n = len(cams)
                     for i, cam in enumerate(cams):
                         self.progress.emit(5 + int(30 * (i + 1) / n), f"Loading: {cam}")
-                        fingerprints[cam] = f[cam]["fingerprint"][:] 
+                        fingerprints[cam] = f[cam]["fingerprint"][:]
 
             else:
                 if not self.dataset_dir:
@@ -169,7 +178,11 @@ class PrnuWorker(QThread):
                             cam_end, f"[{cam_idx+1}/{n_cams}] {cam} - saving to HDF5"
                         )
                         with h5py.File(self.hdf5_path, "a") as f:
+                            new_hash = get_folder_hash(paths)
                             if cam in f:
+                                old_hash = f[cam].attrs.get("folder_hash", "")
+                                if old_hash == new_hash:
+                                    continue
                                 del f[cam]
                             grp = f.create_group(cam)
                             grp.create_dataset(
@@ -292,7 +305,7 @@ class PrnuWidget(ToolWidget):
         dataset_layout.addWidget(browse_dataset_button)
 
         gen_fp_layout = QHBoxLayout()
-        self.gen_fp_button = QPushButton("Generate Fingerprints & Identify")
+        self.gen_fp_button = QPushButton("Generate Fingerprints And Identify")
         self.gen_fp_button.setFixedHeight(34)
         self.gen_fp_button.setEnabled(False)
         self.gen_fp_button.clicked.connect(self._identify)
@@ -360,9 +373,9 @@ class PrnuWidget(ToolWidget):
     def _browse_hdf5(self):
         path, _ = QFileDialog.getOpenFileName(
             self,
-            "Select PRNU Fingerprints File",
+            "Select Fingerprints File",
             os.path.dirname(self.hdf5_path),
-            "HDF5 files (*.h5)",
+            "HDF5 Files (*.h5)",
         )
 
         if path:
@@ -379,7 +392,7 @@ class PrnuWidget(ToolWidget):
                 self.found_label.setText(
                     f"{n} camera fingerprint(s) ready\n{self.hdf5_path}"
                 )
-            except:
+            except Exception:
                 self.found_label.setText("Fingerprints file found")
             self.stack.setCurrentIndex(0)
             self.status_label.setText("Fingerprints loaded. Press Identify to run.")
@@ -391,7 +404,11 @@ class PrnuWidget(ToolWidget):
             QMessageBox.warning(self, "No Image", "No Image loaded in Sherloq")
             return
         if not os.path.exists(self.hdf5_path) and not self.dataset_dir:
-            QMessageBox.warning(self, "Dataset required", "No fingerprints file and no dataset folder selected")
+            QMessageBox.warning(
+                self,
+                "Dataset required",
+                "No fingerprints file and no dataset folder selected",
+            )
             return
 
         self._set_busy(True)
@@ -438,8 +455,7 @@ class PrnuWidget(ToolWidget):
     def _on_finished(self, res):
         self._set_busy(False)
         self.progress.setValue(100)
-
-        if self.stack.currentIndex() == 1  and os.path.exists(self.hdf5_path):
+        if self.stack.currentIndex() == 1 and os.path.exists(self.hdf5_path):
             self._check_hdf5()
 
         if not res:
@@ -449,7 +465,6 @@ class PrnuWidget(ToolWidget):
         top = res[0][1]
         sec = res[1][1] if len(res) > 1 else 0.0
         margin = top - sec
-
 
         self.table.setRowCount(len(res))
         for row, (cam, score) in enumerate(res):
@@ -468,12 +483,11 @@ class PrnuWidget(ToolWidget):
             for col, item in enumerate(items):
                 self.table.setItem(row, col, item)
 
-        NCC_THRESHOLD = 0.005 
         if top < NCC_THRESHOLD:
-            self.verdict.setText(f"Camera is not found in database")
+            self.verdict.setText("Camera is not found in database")
             self.verdict.setStyleSheet("color: #8e44ad; font-weight: bold;")
             self.status_label.setText(
-                f"The source camera may not be in the fingerprint database."
+                "The source camera may not be in the fingerprint database."
             )
             self.info_message.emit("PRNU: camera is not in database.")
             return
@@ -482,10 +496,8 @@ class PrnuWidget(ToolWidget):
         self.verdict.setStyleSheet(
             "color: #1a7f1a;" if margin > 0.01 else "color: #c47a00;"
         )
-        self.status_label.setText(
-            f"Matched {len(res)} camera(s)"
-        )
-        self.info_message.emit(f"PRNU: predicted camera ΓåÆ {res[0][0]}")
+        self.status_label.setText(f"Matched {len(res)} camera(s)")
+        self.info_message.emit(f"PRNU: predicted camera -> {res[0][0]}")
 
     def _on_cancelled(self):
         if self.worker:
@@ -495,7 +507,7 @@ class PrnuWidget(ToolWidget):
             try:
                 os.remove(self.hdf5_path)
             except Exception:
-                self.status_label.setText(f"Could not delete partial HDF5")
+                self.status_label.setText("Could not delete partial HDF5")
                 self._set_busy(False)
                 return
 
@@ -510,7 +522,7 @@ class PrnuWidget(ToolWidget):
         self.progress.setValue(0)
         self.status_label.setText(f"Error: {msg}")
         QMessageBox.critical(self, "PRNU Error", msg)
-        self.info_message.emit(f"PRNU identification failed.")
+        self.info_message.emit("PRNU identification failed.")
 
     @staticmethod
     def hline():
