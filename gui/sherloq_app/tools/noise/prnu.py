@@ -57,7 +57,13 @@ def scan_dataset(path: str) -> dict:
 
 def extract_residual(image: np.ndarray) -> np.ndarray:
     residual= image - wiener(image, mysize=WIENER_SIZE)
-    return np.nan_to_num(residual, nan=0.0, posinf=0.0, neginf=0.0)
+    residual = np.nan_to_num(residual, nan=0.0, posinf=0.0, neginf=0.0)
+
+    # zero-pads at the border internally, which biases the local mean/variance estimate for edge pixels. Crop that border out
+    pad = (WIENER_SIZE - 1) // 2
+    if pad > 0:
+        residual = residual[pad:-pad, pad:-pad]
+    return residual
 
 def load_image_gray(path: str) -> np.ndarray:
     img = cv2.imread(path, cv2.IMREAD_COLOR)
